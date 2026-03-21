@@ -276,6 +276,22 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
 .tab-btn:hover:not(.active){color:var(--t2)}
 .tab-pane{display:none}.tab-pane.active{display:block}
 
+/* ── UPLOAD AREAS ── */
+.upload-area{
+  width:100px;height:100px;border-radius:50%;border:2px dashed rgba(255,255,255,.2);
+  background:var(--bg3);cursor:pointer;transition:var(--tr);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;
+}
+.upload-area:hover{border-color:var(--ac);background:rgba(246,128,2,.07)}
+.upload-area-wide{width:100%;height:120px;border-radius:var(--r)}
+.upload-placeholder{display:flex;flex-direction:column;align-items:center;gap:.35rem;font-family:var(--fm);font-size:.72rem;color:rgba(255,255,255,.4);text-align:center;padding:.5rem}
+.upload-preview{width:100%;height:100%;position:absolute;inset:0}
+.upload-preview-wide{border-radius:var(--r)}
+.upload-status{font-family:var(--fm);font-size:.72rem;margin-top:.4rem;min-height:1rem}
+.upload-status.uploading{color:var(--ac)}
+.upload-status.done{color:var(--green)}
+.upload-status.err{color:var(--red)}
+
 /* ── EMPTY STATE ── */
 .empty{text-align:center;padding:4rem 2rem;color:var(--t3)}
 .empty-icon{font-size:2.5rem;margin-bottom:.75rem}
@@ -414,20 +430,41 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
             </div>
             <div class="form-section">
               <div class="form-section-title">Photos & Media</div>
+
               <div class="fg">
-                <label class="fl">Profile Photo URL</label>
-                <input class="fi" id="f-photoUrl" placeholder="https://... (direct image link or Supabase Storage URL)">
-                <div class="form-help">Upload photo to Supabase Storage → copy public URL → paste here</div>
+                <label class="fl">Profile Photo</label>
+                <div class="upload-area" id="photo-upload-area" onclick="document.getElementById('photo-file-input').click()">
+                  <div class="upload-preview" id="photo-preview" style="display:none"><img id="photo-preview-img" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
+                  <div class="upload-placeholder" id="photo-placeholder">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="5" stroke="rgba(255,255,255,.4)" stroke-width="1.5" fill="none"/><path d="M4 24c0-5.5 4.5-9 10-9s10 3.5 10 9" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+                    <span>Click to upload photo</span>
+                    <span style="font-size:.7rem;opacity:.5">JPG, PNG — square recommended</span>
+                  </div>
+                </div>
+                <input type="file" id="photo-file-input" accept="image/*" style="display:none" onchange="handleImageUpload(this,'photo')">
+                <input type="hidden" id="f-photoUrl">
+                <div class="upload-status" id="photo-status"></div>
               </div>
+
               <div class="fg">
-                <label class="fl">Banner / Cover Image URL</label>
-                <input class="fi" id="f-bannerUrl" placeholder="https://... (wide banner image, 16:9 ratio recommended)">
-                <div class="form-help">Replaces the gradient cover on the profile card and modal</div>
+                <label class="fl">Banner / Cover Image</label>
+                <div class="upload-area upload-area-wide" id="banner-upload-area" onclick="document.getElementById('banner-file-input').click()">
+                  <div class="upload-preview upload-preview-wide" id="banner-preview" style="display:none"><img id="banner-preview-img" style="width:100%;height:100%;object-fit:cover"></div>
+                  <div class="upload-placeholder" id="banner-placeholder">
+                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="2" y="6" width="24" height="16" rx="3" stroke="rgba(255,255,255,.4)" stroke-width="1.5" fill="none"/><path d="M2 18l6-5 4 4 4-3 6 5" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="12" r="2" fill="rgba(255,255,255,.3)"/></svg>
+                    <span>Click to upload banner</span>
+                    <span style="font-size:.7rem;opacity:.5">Wide image — 16:9 ratio recommended</span>
+                  </div>
+                </div>
+                <input type="file" id="banner-file-input" accept="image/*" style="display:none" onchange="handleImageUpload(this,'banner')">
+                <input type="hidden" id="f-bannerUrl">
+                <div class="upload-status" id="banner-status"></div>
               </div>
+
               <div class="fg">
-                <label class="fl">YouTube Video Links (one per line, up to 4)</label>
-                <textarea class="fta" id="f-youtubeLinks" placeholder="https://www.youtube.com/watch?v=...&#10;https://youtu.be/..." style="min-height:100px"></textarea>
-                <div class="form-help">Paste YouTube video or shorts URLs. Shown as embedded videos in the profile.</div>
+                <label class="fl">YouTube / Showreel Links (one per line, up to 4)</label>
+                <textarea class="fta" id="f-youtubeLinks" placeholder="https://www.youtube.com/watch?v=...&#10;https://youtu.be/..." style="min-height:90px"></textarea>
+                <div class="form-help">Paste YouTube video URLs — shown as embedded showreel in the profile.</div>
               </div>
             </div>
 
@@ -798,6 +835,52 @@ function getCreds() {
 }
 function uid() { return 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2,6); }
 
+// ── IMAGE UPLOAD TO SUPABASE STORAGE ──
+async function handleImageUpload(input, type) {
+  const file = input.files[0];
+  if (!file) return;
+  const statusEl = document.getElementById(type === 'photo' ? 'photo-status' : 'banner-status');
+  const previewEl = document.getElementById(type === 'photo' ? 'photo-preview' : 'banner-preview');
+  const previewImg = document.getElementById(type === 'photo' ? 'photo-preview-img' : 'banner-preview-img');
+  const placeholderEl = document.getElementById(type === 'photo' ? 'photo-placeholder' : 'banner-placeholder');
+  const hiddenInput = document.getElementById(type === 'photo' ? 'f-photoUrl' : 'f-bannerUrl');
+
+  // Show local preview immediately
+  const localUrl = URL.createObjectURL(file);
+  previewImg.src = localUrl;
+  previewEl.style.display = 'block';
+  placeholderEl.style.display = 'none';
+  statusEl.textContent = 'Uploading...';
+  statusEl.className = 'upload-status uploading';
+
+  try {
+    const ext = file.name.split('.').pop();
+    const path = `${type}s/${Date.now()}_${Math.random().toString(36).substr(2,6)}.${ext}`;
+    const res = await fetch(`${SB_URL}/storage/v1/object/timeliners-media/${path}`, {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Content-Type': file.type,
+        'x-upsert': 'true'
+      },
+      body: file
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const publicUrl = `${SB_URL}/storage/v1/object/public/timeliners-media/${path}`;
+    hiddenInput.value = publicUrl;
+    statusEl.textContent = 'Uploaded successfully';
+    statusEl.className = 'upload-status done';
+    updatePreview();
+  } catch(e) {
+    console.error('Upload error:', e);
+    statusEl.textContent = 'Upload failed — check Storage bucket exists';
+    statusEl.className = 'upload-status err';
+    // Keep local preview, store blob URL as fallback
+    hiddenInput.value = localUrl;
+  }
+}
+
 // ══════════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════════
@@ -1135,6 +1218,17 @@ function resetForm() {
   if(document.getElementById('f-photoUrl')) document.getElementById('f-photoUrl').value='';
   if(document.getElementById('f-bannerUrl')) document.getElementById('f-bannerUrl').value='';
   if(document.getElementById('f-youtubeLinks')) document.getElementById('f-youtubeLinks').value='';
+  ['photo','banner'].forEach(t=>{
+    const prev=document.getElementById(t+'-preview');
+    const ph=document.getElementById(t+'-placeholder');
+    const st=document.getElementById(t+'-status');
+    if(prev)prev.style.display='none';
+    if(ph)ph.style.display='flex';
+    if(st){st.textContent='';st.className='upload-status';}
+  });
+  const pfi=document.getElementById('photo-file-input');
+  const bfi=document.getElementById('banner-file-input');
+  if(pfi)pfi.value='';if(bfi)bfi.value='';
   document.getElementById('add-form-title').textContent='Add New Profile';
   formTags=[];
   thumbSelections=[{e:'🎬',g:0},{e:'✨',g:1},{e:'🎨',g:2}];
@@ -1164,6 +1258,15 @@ function editProfile(id) {
   if(document.getElementById('f-photoUrl')) document.getElementById('f-photoUrl').value=p.photoUrl||'';
   if(document.getElementById('f-bannerUrl')) document.getElementById('f-bannerUrl').value=p.bannerUrl||'';
   if(document.getElementById('f-youtubeLinks')) document.getElementById('f-youtubeLinks').value=(p.youtubeLinks||[]).join('\n');
+  // Show existing images in preview
+  ['photo','banner'].forEach(t=>{
+    const url = t==='photo'?p.photoUrl:p.bannerUrl;
+    const prev=document.getElementById(t+'-preview');
+    const ph=document.getElementById(t+'-placeholder');
+    const img=document.getElementById(t+'-preview-img');
+    if(url&&prev&&img){img.src=url;prev.style.display='block';if(ph)ph.style.display='none';}
+    else{if(prev)prev.style.display='none';if(ph)ph.style.display='flex';}
+  });
   document.getElementById('f-featured').value=p.featured?'yes':'no';
   document.getElementById('f-edit-id').value=p.id;
   document.getElementById('add-form-title').textContent='Edit Profile — '+p.name;
