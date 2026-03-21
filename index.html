@@ -73,24 +73,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255
 @keyframes hpop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
 .cvbtn{width:100%;margin-top:.85rem;padding:.6rem;border-radius:50px;border:1.5px solid var(--ac);background:transparent;font-family:var(--fm);font-weight:600;font-size:.77rem;color:var(--ac);cursor:pointer;transition:var(--tr)}.cvbtn:hover{background:var(--ac);color:white}
 .cjbtn{width:100%;margin-top:.5rem;padding:.6rem;border-radius:50px;border:none;background:var(--ac);font-family:var(--fm);font-weight:700;font-size:.77rem;color:white;cursor:pointer;transition:var(--tr);box-shadow:0 3px 12px rgba(246,128,2,.25)}.cjbtn:hover{background:var(--acd);transform:translateY(-1px)}
-.mov{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.mov{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);align-items:flex-start;justify-content:center;padding:1.5rem;overflow-y:auto}
 .mov.open{display:flex}
-.mbox{background:white;border-radius:var(--rlg);padding:2.5rem;width:100%;max-width:960px;box-shadow:var(--slg);position:relative;animation:min .3s cubic-bezier(.4,0,.2,1);margin:auto}
+.mbox{background:white;border-radius:var(--rlg);padding:0;width:100%;max-width:780px;box-shadow:0 24px 80px rgba(0,0,0,.18);position:relative;animation:min .3s cubic-bezier(.4,0,.2,1);margin:auto;overflow:hidden}
 @keyframes min{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mclose{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;background:var(--lg);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--tr)}.mclose:hover{background:var(--ac);color:white}
-.pmhero{display:flex;align-items:flex-end;gap:1rem;padding:.5rem 0 1rem;position:relative;z-index:2}
-.pmhero-hasbanner{margin-top:-38px}
-.pmhero-nobanner{margin-top:.5rem;align-items:flex-start}
-.pmav{width:88px;height:88px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1.6rem;color:white;border:4px solid white;box-shadow:0 3px 16px rgba(0,0,0,.18);overflow:hidden;background:#eee}
-.pmbanner{width:calc(100% + 5rem);margin:-2.5rem -2.5rem 0;height:280px;overflow:hidden;flex-shrink:0;border-radius:var(--rlg) var(--rlg) 0 0;position:relative;background:#f0f0f0}
-.pmbanner-none{height:0;margin:0}
-.pmherobox{padding:1.2rem 0 0;margin-bottom:1.2rem}
-.pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.8rem}
-.pmvid{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+.mclose{position:absolute;top:1rem;right:1rem;z-index:10;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.2);backdrop-filter:blur(4px);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:white;transition:var(--tr)}.mclose:hover{background:var(--ac)}
+.pmbanner{width:100%;height:200px;overflow:hidden;position:relative;background:#eee}
+.pmbanner img{width:100%;height:100%;object-fit:cover;display:block}
+.mbox-inner{padding:0 2rem 2rem}
+.pmhero{display:flex;align-items:flex-end;gap:1rem;margin-top:-40px;margin-bottom:1rem;position:relative;z-index:2}
+.pmhero-nobanner{margin-top:1.5rem;align-items:flex-start}
+.pmav{width:80px;height:80px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1.5rem;color:white;border:4px solid white;box-shadow:0 3px 16px rgba(0,0,0,.15);overflow:hidden;background:#eee}
+.pmname{font-family:var(--fm);font-weight:800;font-size:1.35rem;margin-bottom:.2rem}
+.pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.pmvid{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;box-shadow:0 4px 16px rgba(0,0,0,.12)}
 .pmvid iframe{width:100%;height:100%;border:none}
-.pmvideos.single{grid-template-columns:1fr;max-width:640px}
+.pmvideos.single{grid-template-columns:1fr}
 @media(max-width:600px){.pmvideos{grid-template-columns:1fr}}
-.pmname{font-family:var(--fm);font-weight:800;font-size:1.45rem;margin-bottom:.25rem}
 .pmrole{font-size:.85rem;color:var(--mu);margin-bottom:.5rem}
 .pmtags{display:flex;gap:.4rem;flex-wrap:wrap}
 .pmtag{font-family:var(--fm);font-weight:600;font-size:.68rem;padding:.2rem .62rem;border-radius:50px;background:var(--acl);color:var(--ac)}
@@ -289,10 +288,10 @@ footer{background:var(--td);padding:55px 5% 28px}
 </div>
 
 <div class="mov" id="pmod">
-  <div class="mbox" style="max-width:700px">
+  <div class="mbox">
     <button class="mclose" onclick="closeProfile()">×</button>
     <div id="pmodbody"></div>
-    <div class="pmnudge"><p>Want a profile like this on Timeliners?</p><button class="btn btn-p btn-sm" onclick="showPage('join');closeProfile()"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M2 13c0-3.04 2.46-5 5.5-5s5.5 1.96 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg> Make Your Profile — Free</button></div>
+
   </div>
 </div>
 
@@ -633,29 +632,32 @@ function openProfile(id){
   const hireHtml = waNum ? `<button class="hirebtn" onclick="window.open('https://wa.me/${waNum}?text='+encodeURIComponent('Hi ${p.name}, I came across your profile on Timeliners and I would love to start a project with you. Are you available?'),'_blank')">${ICO_WA_GREEN}Hire Me</button>` : '';
   document.getElementById('pmodbody').innerHTML=`
     ${bannerHtml}
-    <div class="pmhero ${hasBanner?'pmhero-hasbanner':'pmhero-nobanner'}">
-      ${modalAvatar}
-      <div style="flex:1;min-width:0;padding-bottom:.2rem">
-        <div class="pmname">${p.name}${p.plan==='vip'?` <span style="background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.6rem;padding:.2rem .6rem;border-radius:50px;letter-spacing:.5px;vertical-align:middle">VIP Pro</span>`:''}</div>
-        <div class="pmrole">${p.role} &nbsp;·&nbsp; ${SVG_PIN} ${p.city}</div>
-        <div class="pmtags" style="margin-top:.5rem">${tags}</div>
+    <div class="mbox-inner">
+      <div class="pmhero ${hasBanner?'':'pmhero-nobanner'}">
+        ${modalAvatar}
+        <div style="flex:1;min-width:0;padding-bottom:.25rem">
+          <div class="pmname">${p.name}${p.plan==='vip'?` <span style="background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.6rem;padding:.2rem .6rem;border-radius:50px;letter-spacing:.5px;vertical-align:middle">VIP Pro</span>`:''}</div>
+          <div class="pmrole">${p.role} &nbsp;·&nbsp; ${SVG_PIN} ${p.city}</div>
+          <div class="pmtags" style="margin-top:.5rem">${tags}</div>
+        </div>
       </div>
-    </div>
-    <p class="pmbio">${p.bio||''}</p>
-    <div class="pmlrow">
-      <button class="pmlbtn${isLiked?' liked':''}" id="pml-${id}" onclick="toggleLike('${id}',this)">
-        <span class="lhrt">${isLiked?ICO_HEART_FILLED:ICO_HEART}</span>${isLiked?'Liked':'Like'}
-      </button>
-      <span style="font-size:.82rem;color:var(--mu);font-family:var(--fm);font-weight:600"><span id="pmlc-${id}">${lc}</span> likes</span>
-      ${hireHtml}
-    </div>
-    ${videosHtml}
-    <div class="pmsec">${ICO_STATS}Stats</div>
-    <div class="pmstats">
-      <div class="pmsb"><span class="pmsn">${p.views||'0'}</span><span class="pmsl">Profile Views</span></div>
-      <div class="pmsb"><span class="pmsn">${lc}</span><span class="pmsl">Likes</span></div>
-      <div class="pmsb"><span class="pmsn">${p.pc||0}</span><span class="pmsl">Projects</span></div>
-      <div class="pmsb"><span class="pmsn">${p.exp||'—'}</span><span class="pmsl">Experience</span></div>
+      <p class="pmbio">${p.bio||''}</p>
+      <div class="pmlrow">
+        <button class="pmlbtn${isLiked?' liked':''}" id="pml-${id}" onclick="toggleLike('${id}',this)">
+          <span class="lhrt">${isLiked?ICO_HEART_FILLED:ICO_HEART}</span>${isLiked?'Liked':'Like'}
+        </button>
+        <span style="font-size:.82rem;color:var(--mu);font-family:var(--fm);font-weight:600"><span id="pmlc-${id}">${lc}</span> likes</span>
+        ${hireHtml}
+      </div>
+      ${videosHtml}
+      <div class="pmsec">${ICO_STATS}Stats</div>
+      <div class="pmstats">
+        <div class="pmsb"><span class="pmsn">${p.views||'0'}</span><span class="pmsl">Profile Views</span></div>
+        <div class="pmsb"><span class="pmsn">${lc}</span><span class="pmsl">Likes</span></div>
+        <div class="pmsb"><span class="pmsn">${p.pc||0}</span><span class="pmsl">Projects</span></div>
+        <div class="pmsb"><span class="pmsn">${p.exp||'—'}</span><span class="pmsl">Experience</span></div>
+      </div>
+      <div class="pmnudge"><p>Want a profile like this on Timeliners?</p><button class="btn btn-p btn-sm" onclick="showPage('join');closeProfile()"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M2 13c0-3.04 2.46-5 5.5-5s5.5 1.96 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>Get Your Profile</button></div>
     </div>`;
   document.getElementById('pmod').classList.add('open');
   document.body.style.overflow='hidden';
