@@ -439,12 +439,14 @@ const SB_URL = 'https://xilhrpbqdqocpwxaigvy.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
 
 async function sbFetch(path, method, body) {
+  const isWrite = method && method !== 'GET';
   const opts = {
     method: method || 'GET',
     headers: {
       'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
       'Content-Type': 'application/json',
-      'Prefer': 'return=representation,resolution=merge-duplicates'
+      'Prefer': isWrite ? 'return=minimal,resolution=merge-duplicates' : 'return=representation'
     }
   };
   if (body) opts.body = JSON.stringify(body);
