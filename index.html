@@ -73,35 +73,45 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255
 @keyframes hpop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
 .cvbtn{width:100%;margin-top:.85rem;padding:.6rem;border-radius:50px;border:1.5px solid var(--ac);background:transparent;font-family:var(--fm);font-weight:600;font-size:.77rem;color:var(--ac);cursor:pointer;transition:var(--tr)}.cvbtn:hover{background:var(--ac);color:white}
 .cjbtn{width:100%;margin-top:.5rem;padding:.6rem;border-radius:50px;border:none;background:var(--ac);font-family:var(--fm);font-weight:700;font-size:.77rem;color:white;cursor:pointer;transition:var(--tr);box-shadow:0 3px 12px rgba(246,128,2,.25)}.cjbtn:hover{background:var(--acd);transform:translateY(-1px)}
-.mov{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);align-items:flex-start;justify-content:center;padding:1.5rem;overflow-y:auto}
+.mov{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.58);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1.5rem}
 .mov.open{display:flex}
-.mbox{background:white;border-radius:var(--rlg);padding:0;width:100%;max-width:780px;box-shadow:0 24px 80px rgba(0,0,0,.18);position:relative;animation:min .3s cubic-bezier(.4,0,.2,1);margin:auto;overflow:hidden}
-@keyframes min{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mclose{position:absolute;top:1rem;right:1rem;z-index:10;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.2);backdrop-filter:blur(4px);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;color:white;transition:var(--tr)}.mclose:hover{background:var(--ac)}
-.pmbanner{width:100%;height:200px;overflow:hidden;position:relative;background:#eee}
-.pmbanner img{width:100%;height:100%;object-fit:cover;display:block}
-.mbox-inner{padding:0 2rem 2rem}
-.pmhero{display:flex;align-items:flex-end;gap:1rem;margin-top:-40px;margin-bottom:1rem;position:relative;z-index:2}
-.pmhero-nobanner{margin-top:1.5rem;align-items:flex-start}
-.pmav{width:80px;height:80px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1.5rem;color:white;border:4px solid white;box-shadow:0 3px 16px rgba(0,0,0,.15);overflow:hidden;background:#eee}
-.pmname{font-family:var(--fm);font-weight:800;font-size:1.35rem;margin-bottom:.2rem}
-.pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
-.pmvid{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.mbox{background:white;border-radius:var(--rlg);width:100%;max-width:960px;max-height:92vh;box-shadow:0 24px 80px rgba(0,0,0,.22);position:relative;animation:min .3s cubic-bezier(.4,0,.2,1);margin:auto;display:flex;flex-direction:column;overflow:hidden}
+@keyframes min{from{transform:translateY(-18px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mclose{position:absolute;top:.9rem;right:.9rem;z-index:20;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.25);backdrop-filter:blur(4px);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:white;transition:var(--tr)}.mclose:hover{background:var(--ac)}
+/* Banner — flush at top, fixed height */
+.pmbanner{display:none!important}
+/* White profile info area — fixed, no scroll */
+.mbox-info{padding:0 2rem 1.2rem;flex-shrink:0}
+/* Avatar overlaps banner */
+.pmhero{display:flex;align-items:flex-end;gap:1rem;margin-top:-44px;margin-bottom:.85rem;position:relative;z-index:2}
+.pmhero-nobanner{margin-top:1.5rem;align-items:center}
+.pmav{width:80px;height:80px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1.4rem;color:white;border:4px solid white;box-shadow:0 4px 14px rgba(0,0,0,.15);overflow:hidden;background:#ddd}
+.pmname{font-family:var(--fm);font-weight:800;font-size:1.3rem;margin-bottom:.18rem}
+/* Divider between info and videos */
+.mbox-divider{height:1px;background:var(--br);margin:0 2rem;flex-shrink:0}
+/* Video section — scrollable */
+.mbox-videos{padding:1.2rem 2rem 1.5rem;overflow-y:auto;flex:1;min-height:0}
+.mbox-videos::-webkit-scrollbar{width:4px}
+.mbox-videos::-webkit-scrollbar-track{background:transparent}
+.mbox-videos::-webkit-scrollbar-thumb{background:var(--br);border-radius:4px}
+.pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0}
+.pmvid{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;box-shadow:0 4px 16px rgba(0,0,0,.1)}
 .pmvid iframe{width:100%;height:100%;border:none}
-.pmvideos.single{grid-template-columns:1fr}
-@media(max-width:600px){.pmvideos{grid-template-columns:1fr}}
-.pmrole{font-size:.85rem;color:var(--mu);margin-bottom:.5rem}
+.pmvideos.single{grid-template-columns:1fr;max-width:560px}
+.pmvideos.many{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:680px){.pmvideos,.pmvideos.many{grid-template-columns:1fr}.pmbanner{height:120px}.mbox{max-height:100vh;border-radius:var(--r)}}
+.pmrole{font-size:.82rem;color:var(--mu);margin-bottom:.4rem}
 .pmtags{display:flex;gap:.4rem;flex-wrap:wrap}
 .pmtag{font-family:var(--fm);font-weight:600;font-size:.68rem;padding:.2rem .62rem;border-radius:50px;background:var(--acl);color:var(--ac)}
-.pmbio{font-size:.88rem;color:var(--tm);line-height:1.8;margin-bottom:1.4rem}
+.pmbio{font-size:.86rem;color:var(--tm);line-height:1.75;margin-bottom:1rem}
 .pmsec{font-family:var(--fm);font-weight:700;font-size:.73rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);margin-bottom:.7rem}
-.pmlrow{display:flex;align-items:center;gap:.75rem;padding:1rem 1.2rem;background:var(--ow);border-radius:var(--r);margin-bottom:1.4rem;flex-wrap:wrap}
+.pmlrow{display:flex;align-items:center;gap:.75rem;padding:.85rem 1.1rem;background:var(--ow);border-radius:var(--r);margin-bottom:1rem;flex-wrap:wrap}
 .hirebtn{display:flex;align-items:center;gap:.45rem;font-family:var(--fm);font-weight:700;font-size:.83rem;padding:.55rem 1.3rem;border-radius:50px;border:none;background:#25D366;color:white;cursor:pointer;transition:var(--tr);margin-left:auto;box-shadow:0 3px 12px rgba(37,211,102,.3)}.hirebtn:hover{background:#1ebe5d;transform:translateY(-1px)}
 .pmlbtn{display:flex;align-items:center;gap:.5rem;font-family:var(--fm);font-weight:700;font-size:.85rem;padding:.58rem 1.4rem;border-radius:50px;border:2px solid var(--br);background:white;cursor:pointer;transition:var(--tr);color:var(--mu)}
 .pmlbtn:hover{border-color:#ef4444;color:#ef4444}.pmlbtn.liked{background:#fef2f2;border-color:#ef4444;color:#ef4444}
 .pmport{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1.4rem}
 .pmthumb{aspect-ratio:16/10;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;font-size:1.8rem;transition:var(--tr)}.pmthumb:hover{transform:scale(1.04);border-radius:var(--r)}
-.pmstats{display:flex;gap:.7rem;margin-bottom:1.4rem;flex-wrap:wrap}
+.pmstats{display:flex;gap:.6rem;margin-bottom:0;flex-wrap:wrap}
 .pmsb{flex:1;min-width:80px;background:var(--ow);border-radius:var(--rsm);padding:.9rem;text-align:center}
 .pmsn{font-family:var(--fm);font-weight:800;font-size:1.2rem;color:var(--ac);display:block}.pmsl{font-size:.68rem;color:var(--mu)}
 .pmnudge{padding:1rem 1.2rem;background:var(--acl);border-radius:var(--r);text-align:center;margin-top:1rem}.pmnudge p{font-size:.8rem;color:var(--tm);margin-bottom:.6rem}
@@ -614,29 +624,27 @@ function openProfile(id){
   const avG=GRADS[p.avGrad]||GRADS[0];
   const tags=(p.tags||[]).map(t=>`<span class="pmtag">${t}</span>`).join('');
   const modalAvatar = p.photoUrl
-    ? `<img src="${imgUrl(p.photoUrl)}" class="pmav" style="object-fit:cover;width:72px;height:72px;border-radius:50%;border:3px solid white;box-shadow:0 2px 12px rgba(0,0,0,.18);flex-shrink:0" onerror="this.style.display='none'">`
+    ? `<div class="pmav"><img src="${imgUrl(p.photoUrl)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.background='${avG}';this.outerHTML='${p.initials||'??'}'"></div>`
     : `<div class="pmav" style="background:${avG}">${p.initials||'??'}</div>`;
-  const hasBanner = !!p.bannerUrl;
-  const bannerHtml = hasBanner
-    ? `<div class="pmbanner"><img src="${p.bannerUrl}" style="width:100%;height:100%;object-fit:cover;display:block"></div>`
-    : '';
+  const hasBanner = false;
+  const bannerHtml = '';
   const ytVideos = (p.youtubeLinks||[]).filter(Boolean);
   const ytHtml = ytVideos.map(url=>{
     const vid=getYouTubeId(url);
     return vid?`<div class="pmvid"><iframe src="https://www.youtube.com/embed/${vid}" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`:'';
   }).filter(Boolean).join('');
-  const videosHtml = ytVideos.length ? `
-    <div class="pmsec">${ICO_FILM}Showreel & Videos</div>
-    <div class="pmvideos${ytVideos.length===1?' single':''}">${ytHtml}</div>` : '';
+  const videosHtml = ytHtml.length > 0;
   const waNum = (p.wa||'').replace(/[^0-9]/g,'');
   const hireHtml = waNum ? `<button class="hirebtn" onclick="window.open('https://wa.me/${waNum}?text='+encodeURIComponent('Hi ${p.name}, I came across your profile on Timeliners and I would love to start a project with you. Are you available?'),'_blank')">${ICO_WA_GREEN}Hire Me</button>` : '';
+  const vidCount = ytVideos.filter(u=>getYouTubeId(u)).length;
+  const vidGridClass = vidCount===1?'single':vidCount>=3?'many':'';
   document.getElementById('pmodbody').innerHTML=`
     ${bannerHtml}
-    <div class="mbox-inner">
+    <div class="mbox-info">
       <div class="pmhero ${hasBanner?'':'pmhero-nobanner'}">
         ${modalAvatar}
-        <div style="flex:1;min-width:0;padding-bottom:.25rem">
-          <div class="pmname">${p.name}${p.plan==='vip'?` <span style="background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.6rem;padding:.2rem .6rem;border-radius:50px;letter-spacing:.5px;vertical-align:middle">VIP Pro</span>`:''}</div>
+        <div style="flex:1;min-width:0;padding-bottom:.3rem">
+          <div class="pmname">${p.name}${p.plan==='vip'?` <span style="background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.58rem;padding:.18rem .55rem;border-radius:50px;letter-spacing:.5px;vertical-align:middle">VIP Pro</span>`:''}</div>
           <div class="pmrole">${p.role} &nbsp;·&nbsp; ${SVG_PIN} ${p.city}</div>
           <div class="pmtags" style="margin-top:.5rem">${tags}</div>
         </div>
@@ -649,16 +657,15 @@ function openProfile(id){
         <span style="font-size:.82rem;color:var(--mu);font-family:var(--fm);font-weight:600"><span id="pmlc-${id}">${lc}</span> likes</span>
         ${hireHtml}
       </div>
-      ${videosHtml}
-      <div class="pmsec">${ICO_STATS}Stats</div>
       <div class="pmstats">
         <div class="pmsb"><span class="pmsn">${p.views||'0'}</span><span class="pmsl">Profile Views</span></div>
         <div class="pmsb"><span class="pmsn">${lc}</span><span class="pmsl">Likes</span></div>
         <div class="pmsb"><span class="pmsn">${p.pc||0}</span><span class="pmsl">Projects</span></div>
         <div class="pmsb"><span class="pmsn">${p.exp||'—'}</span><span class="pmsl">Experience</span></div>
       </div>
-      <div class="pmnudge"><p>Want a profile like this on Timeliners?</p><button class="btn btn-p btn-sm" onclick="showPage('join');closeProfile()"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M2 13c0-3.04 2.46-5 5.5-5s5.5 1.96 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>Get Your Profile</button></div>
-    </div>`;
+    </div>
+    ${videosHtml ? `<div class="mbox-divider"></div><div class="mbox-videos"><div class="pmvideos ${vidGridClass}">${ytHtml}</div></div>` : ''}
+    <div class="pmnudge" style="margin:0 2rem 1.5rem;margin-top:${videosHtml?'0':'1rem'}"><p>Want a profile like this on Timeliners?</p><button class="btn btn-p btn-sm" onclick="showPage('join');closeProfile()"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M2 13c0-3.04 2.46-5 5.5-5s5.5 1.96 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>Get Your Profile</button></div>`;
   document.getElementById('pmod').classList.add('open');
   document.body.style.overflow='hidden';
 }
