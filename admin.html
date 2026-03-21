@@ -432,18 +432,12 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
               <div class="form-section-title">Photos & Media</div>
 
               <div class="fg">
-                <label class="fl">Profile Photo</label>
-                <div class="upload-area" id="photo-upload-area" onclick="document.getElementById('photo-file-input').click()">
-                  <div class="upload-preview" id="photo-preview" style="display:none"><img id="photo-preview-img" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></div>
-                  <div class="upload-placeholder" id="photo-placeholder">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="10" r="5" stroke="rgba(255,255,255,.4)" stroke-width="1.5" fill="none"/><path d="M4 24c0-5.5 4.5-9 10-9s10 3.5 10 9" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
-                    <span>Click to upload photo</span>
-                    <span style="font-size:.7rem;opacity:.5">JPG, PNG — square recommended</span>
-                  </div>
+                <label class="fl">Profile Photo URL</label>
+                <div style="display:flex;gap:.6rem;align-items:center">
+                  <input class="fi" id="f-photoUrl" placeholder="Right-click any image → Copy image address → paste here" oninput="previewPhoto(this.value)" style="flex:1">
+                  <div id="photo-preview-circle" style="width:48px;height:48px;border-radius:50%;background:var(--bg3);border:1px solid var(--brd);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--t3);text-align:center">No img</div>
                 </div>
-                <input type="file" id="photo-file-input" accept="image/*" style="display:none" onchange="handleImageUpload(this,'photo')">
-                <input type="hidden" id="f-photoUrl">
-                <div class="upload-status" id="photo-status"></div>
+                <div class="form-help">Right-click any image online → "Copy image address" → paste the URL above</div>
               </div>
 
 
@@ -812,51 +806,18 @@ function getCreds() {
 }
 function uid() { return 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2,6); }
 
-// ── IMAGE UPLOAD TO SUPABASE STORAGE ──
-async function handleImageUpload(input, type) {
-  const file = input.files[0];
-  if (!file) return;
-  const statusEl = document.getElementById('photo-status');
-  const previewEl = document.getElementById('photo-preview');
-  const previewImg = document.getElementById('photo-preview-img');
-  const placeholderEl = document.getElementById('photo-placeholder');
-  const hiddenInput = document.getElementById('f-photoUrl');
-
-  // Show local preview immediately
-  const localUrl = URL.createObjectURL(file);
-  previewImg.src = localUrl;
-  previewEl.style.display = 'block';
-  placeholderEl.style.display = 'none';
-  statusEl.textContent = 'Uploading...';
-  statusEl.className = 'upload-status uploading';
-
-  try {
-    const ext = file.name.split('.').pop();
-    const path = `${type}s/${Date.now()}_${Math.random().toString(36).substr(2,6)}.${ext}`;
-    const res = await fetch(`${SB_URL}/storage/v1/object/timeliners-media/${path}`, {
-      method: 'POST',
-      headers: {
-        'apikey': SB_KEY,
-        'Authorization': 'Bearer ' + SB_KEY,
-        'Content-Type': file.type,
-        'x-upsert': 'true'
-      },
-      body: file
-    });
-    if (!res.ok) throw new Error(await res.text());
-    const publicUrl = `${SB_URL}/storage/v1/object/public/timeliners-media/${path}`;
-    hiddenInput.value = publicUrl;
-    statusEl.textContent = 'Uploaded successfully';
-    statusEl.className = 'upload-status done';
-    updatePreview();
-  } catch(e) {
-    console.error('Upload error:', e);
-    statusEl.textContent = 'Upload failed — check Storage bucket exists';
-    statusEl.className = 'upload-status err';
-    // Keep local preview, store blob URL as fallback
-    hiddenInput.value = localUrl;
+function previewPhoto(url) {
+  const el = document.getElementById('photo-preview-circle');
+  if (!el) return;
+  if (url) {
+    el.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:.6rem;color:var(--red)>Bad URL</span>'">`;
+  } else {
+    el.innerHTML = '<span style="font-size:.65rem;color:var(--t3)">No img</span>';
   }
+  updatePreview();
 }
+
+
 
 // ══════════════════════════════════════════════
 // AUTH
@@ -1146,14 +1107,7 @@ function resetForm() {
   document.getElementById('f-edit-id').value='';
   if(document.getElementById('f-photoUrl')) document.getElementById('f-photoUrl').value='';
   if(document.getElementById('f-youtubeLinks')) document.getElementById('f-youtubeLinks').value='';
-  const _rp=document.getElementById('photo-preview');
-  const _rph=document.getElementById('photo-placeholder');
-  const _rst=document.getElementById('photo-status');
-  if(_rp)_rp.style.display='none';
-  if(_rph)_rph.style.display='flex';
-  if(_rst){_rst.textContent='';_rst.className='upload-status';}
-  const pfi=document.getElementById('photo-file-input');
-  if(pfi)pfi.value='';
+  if(document.getElementById('f-photoUrl')) { document.getElementById('f-photoUrl').value=''; previewPhoto(''); }
   document.getElementById('add-form-title').textContent='Add New Profile';
   formTags=[];
   selAvGrad=0;
@@ -1178,12 +1132,11 @@ function editProfile(id) {
   document.getElementById('f-plan').value=p.plan||'free';
   if(document.getElementById('f-photoUrl')) document.getElementById('f-photoUrl').value=p.photoUrl||'';
   if(document.getElementById('f-youtubeLinks')) document.getElementById('f-youtubeLinks').value=(p.youtubeLinks||[]).join('\n');
-  // Show existing photo in preview
-  const _pp=document.getElementById('photo-preview');
-  const _pph=document.getElementById('photo-placeholder');
-  const _pimg=document.getElementById('photo-preview-img');
-  if(p.photoUrl&&_pp&&_pimg){_pimg.src=p.photoUrl;_pp.style.display='block';if(_pph)_pph.style.display='none';}
-  else{if(_pp)_pp.style.display='none';if(_pph)_pph.style.display='flex';}
+  // Show existing photo preview
+  if(document.getElementById('f-photoUrl')) {
+    document.getElementById('f-photoUrl').value = p.photoUrl||'';
+    previewPhoto(p.photoUrl||'');
+  }
   document.getElementById('f-featured').value=p.featured?'yes':'no';
   document.getElementById('f-edit-id').value=p.id;
   document.getElementById('add-form-title').textContent='Edit Profile — '+p.name;
