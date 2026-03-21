@@ -475,17 +475,10 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
                 <input class="fi" id="f-initials" placeholder="NK" maxlength="2" style="text-transform:uppercase;font-family:var(--fm);font-weight:700;font-size:1.1rem;width:80px">
               </div>
               <div class="fg">
-                <label class="fl">Avatar Gradient Color</label>
+                <label class="fl">Avatar Color</label>
                 <div class="grad-grid" id="av-grad-picker"></div>
               </div>
-              <div class="fg">
-                <label class="fl">Cover Background Gradient</label>
-                <div class="grad-grid" id="cover-grad-picker"></div>
-              </div>
-              <div class="fg">
-                <label class="fl">Cover Emoji</label>
-                <div class="emoji-grid" id="emoji-picker"></div>
-              </div>
+
             </div>
 
             <div class="form-section">
@@ -538,10 +531,7 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
               </div>
             </div>
 
-            <div class="form-section">
-              <div class="form-section-title">Portfolio Preview Thumbnails (3 shown on card)</div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem" id="thumb-pickers"></div>
-            </div>
+
 
             <input type="hidden" id="f-edit-id">
             <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.5rem">
@@ -927,18 +917,14 @@ function saveCredentials() {
 // ══════════════════════════════════════════════
 // APP INIT
 // ══════════════════════════════════════════════
-let selAvGrad = 0, selCoverGrad = 1, selEmoji = 0;
+let selAvGrad = 0;
 let formTags = [];
-let thumbSelections = [{e:'🎬',g:0},{e:'✨',g:1},{e:'🎨',g:2}];
 let payTabFilter = 'all';
 let confirmCallback = null;
 
 function initApp() {
   seedIfEmpty(); // seed demo profiles into Supabase if empty
   buildGradPicker('av-grad-picker', 'avGrad', i => { selAvGrad=i; updatePreview(); });
-  buildGradPicker('cover-grad-picker', 'coverGrad', i => { selCoverGrad=i; updatePreview(); });
-  buildEmojiPicker('emoji-picker', 'mainEmoji', i => { selEmoji=i; updatePreview(); });
-  buildThumbPickers();
   buildPortModalPickers();
   updatePreview();
   loadProfilesAsync().then(() => {
@@ -994,7 +980,6 @@ function selectGrad(containerId, idx, el) {
   document.querySelectorAll(`#${containerId} .grad-opt`).forEach(e=>e.classList.remove('sel'));
   el.classList.add('sel');
   if (containerId==='av-grad-picker') { selAvGrad=idx; updatePreview(); }
-  else if (containerId==='cover-grad-picker') { selCoverGrad=idx; updatePreview(); }
 }
 function buildEmojiPicker(containerId, name, cb) {
   const c = document.getElementById(containerId);
@@ -1006,46 +991,8 @@ function buildEmojiPicker(containerId, name, cb) {
 function selectEmoji(containerId, idx, el) {
   document.querySelectorAll(`#${containerId} .emj`).forEach(e=>e.classList.remove('sel'));
   el.classList.add('sel');
-  if (containerId==='emoji-picker') { selEmoji=idx; updatePreview(); }
   else if (containerId==='pm-emoji') { pmSelEmoji=idx; }
 }
-function buildThumbPickers() {
-  const c = document.getElementById('thumb-pickers');
-  if (!c) return;
-  c.innerHTML = [0,1,2].map(i => `
-    <div>
-      <label class="fl" style="margin-bottom:.5rem">Thumbnail ${i+1}</label>
-      <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.5rem" id="tp-emoji-${i}"></div>
-      <div style="display:flex;gap:.3rem;flex-wrap:wrap" id="tp-grad-${i}"></div>
-      <div id="tp-preview-${i}" style="margin-top:.5rem;width:48px;height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem"></div>
-    </div>
-  `).join('');
-  [0,1,2].forEach(i => {
-    const ec = document.getElementById(`tp-emoji-${i}`);
-    const gc = document.getElementById(`tp-grad-${i}`);
-    EMOJIS.slice(0,12).forEach((e,j) => {
-      const d = document.createElement('div');
-      d.className = `emj${thumbSelections[i].e===e?' sel':''}`;
-      d.style.width='28px';d.style.height='28px';d.style.fontSize='.85rem';
-      d.textContent = e;
-      d.onclick = () => { thumbSelections[i].e=e; document.querySelectorAll(`#tp-emoji-${i} .emj`).forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); updateThumbPreview(i); updatePreview(); };
-      ec.appendChild(d);
-    });
-    GRADIENTS.forEach((g,j) => {
-      const d = document.createElement('div');
-      d.className = `grad-opt${thumbSelections[i].g===j?' sel':''}`;
-      d.style.height='22px';d.style.background=g;
-      d.onclick = () => { thumbSelections[i].g=j; document.querySelectorAll(`#tp-grad-${i} .grad-opt`).forEach(x=>x.classList.remove('sel')); d.classList.add('sel'); updateThumbPreview(i); updatePreview(); };
-      gc.appendChild(d);
-    });
-    updateThumbPreview(i);
-  });
-}
-function updateThumbPreview(i) {
-  const p = document.getElementById(`tp-preview-${i}`);
-  if (p) { p.style.background=GRADIENTS[thumbSelections[i].g]||''; p.textContent=thumbSelections[i].e; }
-}
-
 let pmSelEmoji=0, pmSelGrad=0;
 function buildPortModalPickers() {
   const ec = document.getElementById('pm-emoji');
@@ -1107,7 +1054,7 @@ function updatePreview() {
   const avGrad   = GRADIENTS[selAvGrad];
   const covGrad  = GRADIENTS[selCoverGrad];
   const covEmoji = EMOJIS[selEmoji];
-  const thumbs   = thumbSelections.map(t=>`<div class="prev-thumb" style="background:${GRADIENTS[t.g]}">${t.e}</div>`).join('');
+
   const tags     = formTags.slice(0,4).map(t=>`<span class="prev-tag">${t}</span>`).join('');
 
   const fullName = [fname,lname].filter(Boolean).join(' ')||'Creative Name';
@@ -1129,7 +1076,7 @@ function updatePreview() {
         <div class="prev-name">${fullName}</div>
         <div class="prev-role">${role} · 📍 ${city}</div>
         <div class="prev-tags">${tags||'<span class="prev-tag">Add tags...</span>'}</div>
-        <div class="prev-thumbs">${thumbs}</div>
+
         <div class="prev-stats">
           <div class="prev-stat"><span>${pc}</span><span>Projects</span></div>
           <div class="prev-stat"><span>${exp}</span><span>Exp.</span></div>
@@ -1175,7 +1122,6 @@ function saveProfile() {
     avGrad: selAvGrad,
     coverGrad: selCoverGrad,
     coverEmoji: selEmoji,
-    thumbs: thumbSelections.map(t=>({e:t.e, g:t.g})),
     views: editId ? (profiles.find(p=>p.id===editId)?.views||'0') : '0',
     likes: editId ? (profiles.find(p=>p.id===editId)?.likes||0) : 0,
     added: editId ? (profiles.find(p=>p.id===editId)?.added||new Date().toISOString()) : new Date().toISOString(),
@@ -1233,13 +1179,9 @@ function resetForm() {
   if(pfi)pfi.value='';if(bfi)bfi.value='';
   document.getElementById('add-form-title').textContent='Add New Profile';
   formTags=[];
-  thumbSelections=[{e:'🎬',g:0},{e:'✨',g:1},{e:'🎨',g:2}];
   selAvGrad=0; selCoverGrad=1; selEmoji=0;
   renderTags();
   buildGradPicker('av-grad-picker','avGrad',()=>{});
-  buildGradPicker('cover-grad-picker','coverGrad',()=>{});
-  buildEmojiPicker('emoji-picker','mainEmoji',()=>{});
-  buildThumbPickers();
   updatePreview();
 }
 
@@ -1276,16 +1218,10 @@ function editProfile(id) {
   selAvGrad=p.avGrad||0;
   selCoverGrad=p.coverGrad||1;
   selEmoji=p.coverEmoji||0;
-  if (p.thumbs) thumbSelections=p.thumbs.map(t=>({e:t.e,g:t.g}));
   renderTags();
   buildGradPicker('av-grad-picker','avGrad',()=>{});
-  buildGradPicker('cover-grad-picker','coverGrad',()=>{});
-  buildEmojiPicker('emoji-picker','mainEmoji',()=>{});
-  buildThumbPickers();
   // Mark correct selections
   document.querySelectorAll('#av-grad-picker .grad-opt')[selAvGrad]?.classList.add('sel');
-  document.querySelectorAll('#cover-grad-picker .grad-opt')[selCoverGrad]?.classList.add('sel');
-  document.querySelectorAll('#emoji-picker .emj')[selEmoji]?.classList.add('sel');
   updatePreview();
   showTab('add-profile', null);
   // Scroll to top
