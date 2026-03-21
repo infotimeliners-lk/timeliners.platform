@@ -81,10 +81,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255
 .mbox{background:white;border-radius:var(--rlg);padding:2.5rem;width:100%;max-width:700px;box-shadow:var(--slg);position:relative;animation:min .3s cubic-bezier(.4,0,.2,1);margin:auto}
 @keyframes min{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
 .mclose{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;background:var(--lg);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--tr)}.mclose:hover{background:var(--ac);color:white}
-.pmhero{display:flex;align-items:flex-start;gap:1.2rem;margin-bottom:1.4rem;margin-top:-40px;position:relative;z-index:2;padding:0 .2rem}
-.pmav-wrap{flex-shrink:0}
+.pmhero{display:flex;align-items:flex-end;gap:1rem;padding:.5rem 0 1rem;position:relative;z-index:2}
+.pmhero-hasbanner{margin-top:-38px}
+.pmhero-nobanner{margin-top:.5rem;align-items:flex-start}
 .pmav{width:70px;height:70px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1.45rem;color:white;border:3px solid white;box-shadow:0 2px 12px rgba(0,0,0,.15);overflow:hidden;background:#eee}
-.pmbanner{width:calc(100% + 5rem);margin:-2.5rem -2.5rem 1rem;height:180px;background:linear-gradient(135deg,#1a1a2e,#0f3460);overflow:hidden;flex-shrink:0;border-radius:var(--rlg) var(--rlg) 0 0;position:relative}
+.pmbanner{width:calc(100% + 5rem);margin:-2.5rem -2.5rem 0;height:200px;overflow:hidden;flex-shrink:0;border-radius:var(--rlg) var(--rlg) 0 0;position:relative;background:#f0f0f0}
+.pmbanner-none{height:0;margin:0}
+.pmherobox{padding:1.2rem 0 0;margin-bottom:1.2rem}
 .pmvideos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem;margin-bottom:1.4rem}
 .pmvid{aspect-ratio:16/9;border-radius:var(--rsm);overflow:hidden;background:#000}
 .pmvid iframe{width:100%;height:100%;border:none}
@@ -474,7 +477,7 @@ function saveLiked(o){try{localStorage.setItem(LIKES_KEY,JSON.stringify(o))}catc
 // ═══════════════════════════════════════════════════════════
 // CONSTANTS
 // ═══════════════════════════════════════════════════════════
-const GRADS=['linear-gradient(135deg,#F68002,#FF9500)','linear-gradient(135deg,#8b5cf6,#a78bfa)','linear-gradient(135deg,#06b6d4,#0891b2)','linear-gradient(135deg,#22c55e,#16a34a)','linear-gradient(135deg,#ef4444,#dc2626)','linear-gradient(135deg,#f59e0b,#d97706)','linear-gradient(135deg,#fd746c,#ff9068)','linear-gradient(135deg,#1e3c72,#2a5298)','linear-gradient(135deg,#079992,#0a3d62)','linear-gradient(135deg,#667eea,#764ba2)','linear-gradient(135deg,#f953c6,#b91d73)','linear-gradient(135deg,#11998e,#38ef7d)','linear-gradient(135deg,#1a1a2e,#0f3460)','linear-gradient(135deg,#0f2027,#2c5364)','linear-gradient(135deg,#1d2671,#c33764)','linear-gradient(135deg,#134e5e,#71b280)','linear-gradient(135deg,#2d1b69,#11998e)','linear-gradient(135deg,#3c1642,#086972)','linear-gradient(135deg,#2c3e50,#fd746c)','linear-gradient(135deg,#0a3d62,#079992)'];
+const GRADS=['#F68002','#7C3AED','#0EA5E9','#16A34A','#DC2626','#D97706','#F97316','#1D4ED8','#0F766E','#6366F1','#DB2777','#059669','#1E293B','#0F172A','#312E81','#065F46','#4C1D95','#164E63','#7F1D1D','#1E3A5F'];
 const EMOJIS=['🎬','🎥','🎨','📱','🌀','🎞️','🖌️','📊','🎦','✨','🔮','💫','🌊','⚡','🎵','🌿','💎','🌟','🎭','🎤','📸','🎮','🎯','🎪'];
 
 const DEMO_PROFILES=[{id:'nirosha',fname:'Nirosha',lname:'Kumari',name:'Nirosha Kumari',initials:'NK',role:'Motion Graphics Artist',city:'Colombo',bio:'Motion graphics artist with 6+ years in After Effects and Cinema 4D. Specialising in brand animations, explainer videos, and creative transitions for Sri Lankan and international clients.',tags:['After Effects','Cinema 4D','Premiere Pro','Blender'],plan:'vip',featured:true,exp:'6 yrs',pc:'43',avGrad:0,coverGrad:12,coverEmoji:0,thumbs:[{e:'🎬',g:0},{e:'✨',g:9},{e:'🎨',g:11}],views:'4.2K',likes:287,wa:'',due:'',payStatus:'paid',added:'2024-01-15T00:00:00.000Z'},{id:'rajitha',fname:'Rajitha',lname:'Perera',name:'Rajitha Perera',initials:'RP',role:'Senior Video Editor',city:'Kandy',bio:'Senior video editor with 8 years experience in commercial, documentary, and narrative content. Expert in DaVinci Resolve colour grading and cinematic storytelling.',tags:['Premiere Pro','DaVinci Resolve','Colour Grade','Commercial'],plan:'vip',featured:false,exp:'8 yrs',pc:'31',avGrad:1,coverGrad:13,coverEmoji:1,thumbs:[{e:'🌊',g:2},{e:'💫',g:10},{e:'🌿',g:3}],views:'3.8K',likes:214,wa:'',due:'',payStatus:'paid',added:'2024-02-10T00:00:00.000Z'},{id:'amali',fname:'Amali',lname:'Nissanka',name:'Amali Nissanka',initials:'AN',role:'Graphic Designer',city:'Galle',bio:'Brand identity and visual design specialist based in Galle. Creating logos, packaging, and marketing materials with 5 years of Figma and Illustrator expertise.',tags:['Figma','Illustrator','Brand Identity','Packaging'],plan:'standard',featured:true,exp:'5 yrs',pc:'24',avGrad:2,coverGrad:14,coverEmoji:2,thumbs:[{e:'🎵',g:10},{e:'⚡',g:9},{e:'🌸',g:1}],views:'2.9K',likes:176,wa:'',due:'',payStatus:'paid',added:'2024-03-05T00:00:00.000Z'},{id:'kasun',fname:'Kasun',lname:'Fernando',name:'Kasun Fernando',initials:'KF',role:'Social Media Creator',city:'Negombo',bio:'Social media content creator specialising in viral Reels and TikTok edits. Helping brands grow through engaging short-form content for F&B, fashion, and lifestyle.',tags:['Reels','CapCut','Canva Pro','TikTok'],plan:'free',featured:false,exp:'3 yrs',pc:'19',avGrad:3,coverGrad:15,coverEmoji:3,thumbs:[{e:'☀️',g:5},{e:'🌥️',g:2},{e:'🍊',g:6}],views:'1.7K',likes:138,wa:'',due:'',payStatus:'',added:'2024-04-20T00:00:00.000Z'},{id:'tharushi',fname:'Tharushi',lname:'Mendis',name:'Tharushi Mendis',initials:'TM',role:'Motion Graphics & VFX',city:'Colombo',bio:'VFX and motion graphics specialist combining After Effects with Blender for 3D animation. Creating immersive brand experiences for TV, digital, and streaming platforms.',tags:['After Effects','Blender','VFX','3D Animation'],plan:'vip',featured:false,exp:'4 yrs',pc:'28',avGrad:5,coverGrad:16,coverEmoji:4,thumbs:[{e:'🔮',g:9},{e:'💎',g:10},{e:'🌊',g:2}],views:'3.1K',likes:195,wa:'',due:'',payStatus:'paid',added:'2024-02-28T00:00:00.000Z'},{id:'dimuth',fname:'Dimuth',lname:'Wickramasinghe',name:'Dimuth Wickramasinghe',initials:'DW',role:'Cinematographer & Editor',city:'Matara',bio:'Wedding and event cinematographer with 7 years experience. Full post-production including colour grading, highlight reels, and cinematic edits for weddings and corporate events.',tags:['Final Cut Pro','Cinematography','Wedding Films','Events'],plan:'free',featured:false,exp:'7 yrs',pc:'22',avGrad:4,coverGrad:17,coverEmoji:5,thumbs:[{e:'💛',g:5},{e:'💗',g:10},{e:'💜',g:1}],views:'2.2K',likes:154,wa:'',due:'',payStatus:'',added:'2024-03-18T00:00:00.000Z'},{id:'sachini',fname:'Sachini',lname:'Ratnayake',name:'Sachini Ratnayake',initials:'SR',role:'UI/UX & Brand Designer',city:'Kurunegala',bio:'UI/UX designer and brand identity specialist. Creating clean digital experiences and brand systems for startups and businesses with Figma and Photoshop.',tags:['UI/UX','Figma','Photoshop','Brand Systems'],plan:'standard',featured:false,exp:'4 yrs',pc:'35',avGrad:6,coverGrad:18,coverEmoji:6,thumbs:[{e:'🎀',g:1},{e:'🍑',g:6},{e:'🌱',g:3}],views:'2.5K',likes:162,wa:'',due:'',payStatus:'pending',added:'2024-04-01T00:00:00.000Z'},{id:'malith',fname:'Malith',lname:'Jayasekara',name:'Malith Jayasekara',initials:'MJ',role:'Social Media Strategist',city:'Colombo',bio:'Social media strategist helping brands build audiences through data-informed content. Expertise in Instagram Reels, TikTok, and paid social ad creatives across Sri Lanka.',tags:['Instagram','TikTok','Social Ads','Content Strategy'],plan:'free',featured:false,exp:'2 yrs',pc:'16',avGrad:8,coverGrad:19,coverEmoji:7,thumbs:[{e:'🌀',g:2},{e:'🌟',g:5},{e:'💠',g:7}],views:'1.4K',likes:98,wa:'',due:'',payStatus:'',added:'2024-05-10T00:00:00.000Z'},{id:'ishara',fname:'Ishara',lname:'Gunawardena',name:'Ishara Gunawardena',initials:'IG',role:'Documentary & Commercial Editor',city:'Jaffna',bio:'Documentary filmmaker and commercial editor with 9 years of storytelling experience. Crafting compelling narratives for NGOs, brands, and independent film projects across Sri Lanka.',tags:['Documentary','Commercial','Storytelling','Premiere Pro'],plan:'vip',featured:false,exp:'9 yrs',pc:'27',avGrad:7,coverGrad:7,coverEmoji:8,thumbs:[{e:'🎭',g:9},{e:'⭐',g:5},{e:'🌿',g:3}],views:'2.6K',likes:168,wa:'',due:'',payStatus:'paid',added:'2024-01-30T00:00:00.000Z'}];
@@ -530,16 +533,8 @@ function renderAllCards(profiles) {
         }
         return '';
       }).filter(Boolean).join('');
-      // If fewer than 3 YouTube links, pad with gradient tiles
-      const remaining = 3 - ytLinks.slice(0,3).filter(u=>getYouTubeId(u)).length;
-      if (remaining > 0) {
-        const fallback = (p.thumbs||[{e:'🎬',g:0},{e:'✨',g:1},{e:'🎨',g:2}]).slice(0,remaining)
-          .map(t=>`<div class="cthumb" style="background:${GRADS[t.g]||GRADS[0]}">${t.e||'🎬'}</div>`).join('');
-        thumbs += fallback;
-      }
     } else {
-      thumbs = (p.thumbs||[{e:'🎬',g:0},{e:'✨',g:1},{e:'🎨',g:2}]).slice(0,3)
-        .map(t=>`<div class="cthumb" style="background:${GRADS[t.g]||GRADS[0]}">${t.e||'🎬'}</div>`).join('');
+      thumbs = ''; // No YouTube links → no thumbnails shown
     }
     const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="ctag">${t}</span>`).join('');
     const spec=guessSpec(p.role);
@@ -549,31 +544,36 @@ function renderAllCards(profiles) {
 
     const card=document.createElement('div');
     card.className='cc';card.dataset.spec=spec;card.dataset.s=srch;
-    const coverHtml = p.bannerUrl
-      ? `<img src="${p.bannerUrl}" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.parentElement.innerHTML='<div class=ccov-bg style=background:${covG}>${covE}</div>'">`
-      : `<div class="ccov-bg" style="background:${covG}">${covE}</div>`;
     const avatarHtml = p.photoUrl
       ? `<img src="${p.photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.style.display='none'">`
       : `${p.initials||'??'}`;
-    const avatarStyle = p.photoUrl ? '' : `background:${avG}`;
+    const avatarStyle = p.photoUrl ? 'background:#eee' : `background:${avG}`;
+    const hasCover = !!p.bannerUrl;
+    const coverSection = hasCover
+      ? `<div class="ccov">
+          <img src="${p.bannerUrl}" style="width:100%;height:100%;object-fit:cover;display:block">
+          <div class="ccov-g"></div>
+          ${p.plan==='vip'?'<div class="cc-vip">VIP Pro</div>':''}
+          ${p.featured?'<div class="cc-feat">Featured</div>':''}
+        </div>`
+      : `<div style="padding-top:1.2rem;padding-left:1.2rem;padding-right:1.2rem;display:flex;gap:.5rem;align-items:center;justify-content:flex-end">
+          ${p.plan==='vip'?'<div class="cc-vip" style="position:static">VIP Pro</div>':''}
+          ${p.featured?'<div class="cc-feat" style="position:static">Featured</div>':''}
+        </div>`;
+    const avatarMarginTop = hasCover ? '' : 'margin-top:0';
     card.innerHTML=`
-      <div class="ccov">
-        ${coverHtml}
-        <div class="ccov-g"></div>
-        ${p.plan==='vip'?'<div class="cc-vip">VIP Pro</div>':''}
-        ${p.featured?'<div class="cc-feat">Featured</div>':''}
-      </div>
-      <div class="cbody">
+      ${coverSection}
+      <div class="cbody" style="${hasCover?'':'padding-top:0'}">
         <div class="ctop">
-          <div class="cav" style="${avatarStyle}">${avatarHtml}</div>
-          <div style="padding-top:.35rem">
+          <div class="cav" style="${avatarStyle};${hasCover?'':'margin-top:0;border:none;box-shadow:none'}">${avatarHtml}</div>
+          <div style="padding-top:${hasCover?'.35rem':'0'}">
             <div class="cname">${p.name}</div>
             <div class="crole">${p.role}</div>
             <div class="ccity">${SVG_PIN} ${p.city}</div>
           </div>
         </div>
         <div class="ctags">${tags}</div>
-        <div class="cthumbs">${thumbs}</div>
+        ${thumbs ? `<div class="cthumbs">${thumbs}</div>` : ''}
         <div class="cbot">
           <div class="cstats">
             <div class="cstat"><span>${p.pc||0}</span><span>Projects</span></div>
@@ -640,8 +640,10 @@ function openProfile(id){
   const modalAvatar = p.photoUrl
     ? `<img src="${p.photoUrl}" class="pmav" style="object-fit:cover;width:72px;height:72px;border-radius:50%;border:3px solid white;box-shadow:0 2px 12px rgba(0,0,0,.18);flex-shrink:0" onerror="this.style.display='none'">`
     : `<div class="pmav" style="background:${avG}">${p.initials||'??'}</div>`;
-  const bannerBg = p.bannerUrl ? '' : `background:${GRADS[p.coverGrad]||avG}`;
-  const bannerImg = p.bannerUrl ? `<img src="${p.bannerUrl}" style="width:100%;height:100%;object-fit:cover;display:block">` : '';
+  const hasBanner = !!p.bannerUrl;
+  const bannerHtml = hasBanner
+    ? `<div class="pmbanner"><img src="${p.bannerUrl}" style="width:100%;height:100%;object-fit:cover;display:block"></div>`
+    : '';
   const ytVideos = (p.youtubeLinks||[]).filter(Boolean);
   const videosHtml = ytVideos.length ? `
     <div class="pmsec">${ICO_FILM}Showreel & Videos</div>
@@ -650,15 +652,15 @@ function openProfile(id){
       return vid?`<div class="pmvid"><iframe src="https://www.youtube.com/embed/${vid}" frameborder="0" allowfullscreen loading="lazy"></iframe></div>`:'';
     }).join('')}</div>` : '';
   const waNum = (p.wa||'').replace(/[^0-9]/g,'');
-  const hireHtml = waNum ? `<button class="hirebtn" onclick="window.open('https://wa.me/${waNum}?text='+encodeURIComponent('Hi ${p.name}, I came across your profile on Timeliners and I would love to discuss a project with you. Are you available?'),'_blank')">${ICO_WA_GREEN}Hire Me</button>` : '';
+  const hireHtml = waNum ? `<button class="hirebtn" onclick="window.open('https://wa.me/${waNum}?text='+encodeURIComponent('Hi ${p.name}, I came across your profile on Timeliners and I would love to start a project with you. Are you available?'),'_blank')">${ICO_WA_GREEN}Hire Me</button>` : '';
   document.getElementById('pmodbody').innerHTML=`
-    <div class="pmbanner" style="${bannerBg}">${bannerImg}</div>
-    <div class="pmhero">
+    ${bannerHtml}
+    <div class="pmhero ${hasBanner?'pmhero-hasbanner':'pmhero-nobanner'}">
       ${modalAvatar}
-      <div style="flex:1;min-width:0">
+      <div style="flex:1;min-width:0;padding-bottom:.2rem">
         <div class="pmname">${p.name}${p.plan==='vip'?` <span style="background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.6rem;padding:.2rem .6rem;border-radius:50px;letter-spacing:.5px;vertical-align:middle">VIP Pro</span>`:''}</div>
         <div class="pmrole">${p.role} &nbsp;·&nbsp; ${SVG_PIN} ${p.city}</div>
-        <div class="pmtags" style="margin-top:.6rem">${tags}</div>
+        <div class="pmtags" style="margin-top:.5rem">${tags}</div>
       </div>
     </div>
     <p class="pmbio">${p.bio||''}</p>
