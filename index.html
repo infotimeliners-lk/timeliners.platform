@@ -51,14 +51,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255
 .cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
 .cc{background:white;border:1px solid var(--br);border-radius:var(--rlg);overflow:hidden;transition:var(--tr);display:flex;flex-direction:column}
 .cc:hover{box-shadow:var(--slg);transform:translateY(-5px);border-color:rgba(246,128,2,.3)}
-.ccov{height:148px;position:relative;overflow:hidden;flex-shrink:0}
-.ccov-bg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem}
-.ccov-g{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,.5))}
-.cc-vip{position:absolute;top:10px;right:10px;background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.58rem;letter-spacing:1px;text-transform:uppercase;padding:.22rem .6rem;border-radius:50px}
-.cc-feat{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.65);color:white;backdrop-filter:blur(4px);font-family:var(--fm);font-weight:700;font-size:.58rem;letter-spacing:1px;text-transform:uppercase;padding:.22rem .6rem;border-radius:50px}
+.cc-vip{background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.58rem;letter-spacing:1px;text-transform:uppercase;padding:.22rem .6rem;border-radius:50px;white-space:nowrap}
+.cc-feat{background:var(--lg);color:var(--tm);font-family:var(--fm);font-weight:700;font-size:.58rem;letter-spacing:1px;text-transform:uppercase;padding:.22rem .6rem;border-radius:50px;white-space:nowrap}
 .cbody{padding:1.2rem;flex:1;display:flex;flex-direction:column}
-.ctop{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:.85rem}
-.cav{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:.9rem;color:white;border:3px solid white;box-shadow:var(--ssm);margin-top:-24px;position:relative;z-index:1}
+.ctop{display:flex;align-items:center;gap:.85rem;margin-bottom:.85rem}
+.cav{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:.9rem;color:white;overflow:hidden}
 .cname{font-family:var(--fm);font-weight:700;font-size:.92rem;margin-bottom:.12rem}
 .crole{font-size:.73rem;color:var(--mu)}.ccity{font-size:.7rem;color:var(--mu);margin-top:.12rem}
 .ctags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.85rem}
@@ -78,20 +75,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255
 .cjbtn{width:100%;margin-top:.5rem;padding:.6rem;border-radius:50px;border:none;background:var(--ac);font-family:var(--fm);font-weight:700;font-size:.77rem;color:white;cursor:pointer;transition:var(--tr);box-shadow:0 3px 12px rgba(246,128,2,.25)}.cjbtn:hover{background:var(--acd);transform:translateY(-1px)}
 .mov{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
 .mov.open{display:flex}
-.mbox{background:white;border-radius:var(--rlg);padding:2.5rem;width:100%;max-width:700px;box-shadow:var(--slg);position:relative;animation:min .3s cubic-bezier(.4,0,.2,1);margin:auto}
+.mbox{background:white;border-radius:var(--rlg);padding:2.5rem;width:100%;max-width:960px;box-shadow:var(--slg);position:relative;animation:min .3s cubic-bezier(.4,0,.2,1);margin:auto}
 @keyframes min{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
 .mclose{position:absolute;top:1rem;right:1rem;width:32px;height:32px;border-radius:50%;background:var(--lg);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--tr)}.mclose:hover{background:var(--ac);color:white}
 .pmhero{display:flex;align-items:flex-end;gap:1rem;padding:.5rem 0 1rem;position:relative;z-index:2}
 .pmhero-hasbanner{margin-top:-38px}
 .pmhero-nobanner{margin-top:.5rem;align-items:flex-start}
-.pmav{width:70px;height:70px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1.45rem;color:white;border:3px solid white;box-shadow:0 2px 12px rgba(0,0,0,.15);overflow:hidden;background:#eee}
-.pmbanner{width:calc(100% + 5rem);margin:-2.5rem -2.5rem 0;height:200px;overflow:hidden;flex-shrink:0;border-radius:var(--rlg) var(--rlg) 0 0;position:relative;background:#f0f0f0}
+.pmav{width:88px;height:88px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1.6rem;color:white;border:4px solid white;box-shadow:0 3px 16px rgba(0,0,0,.18);overflow:hidden;background:#eee}
+.pmbanner{width:calc(100% + 5rem);margin:-2.5rem -2.5rem 0;height:280px;overflow:hidden;flex-shrink:0;border-radius:var(--rlg) var(--rlg) 0 0;position:relative;background:#f0f0f0}
 .pmbanner-none{height:0;margin:0}
 .pmherobox{padding:1.2rem 0 0;margin-bottom:1.2rem}
-.pmvideos{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.75rem;margin-bottom:1.4rem}
-.pmvid{aspect-ratio:16/9;border-radius:var(--rsm);overflow:hidden;background:#000}
+.pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.8rem}
+.pmvid{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;box-shadow:0 4px 20px rgba(0,0,0,.12)}
 .pmvid iframe{width:100%;height:100%;border:none}
-.pmname{font-family:var(--fm);font-weight:800;font-size:1.25rem;margin-bottom:.2rem}
+.pmvideos.single{grid-template-columns:1fr;max-width:640px}
+@media(max-width:600px){.pmvideos{grid-template-columns:1fr}}
+.pmname{font-family:var(--fm);font-weight:800;font-size:1.45rem;margin-bottom:.25rem}
 .pmrole{font-size:.85rem;color:var(--mu);margin-bottom:.5rem}
 .pmtags{display:flex;gap:.4rem;flex-wrap:wrap}
 .pmtag{font-family:var(--fm);font-weight:600;font-size:.68rem;padding:.2rem .62rem;border-radius:50px;background:var(--acl);color:var(--ac)}
@@ -494,6 +493,12 @@ function getYouTubeId(url) {
   const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
   return m ? m[1] : null;
 }
+function imgUrl(url) {
+  if (!url) return '';
+  // Add cache-buster for Supabase Storage URLs to force fresh load
+  const sep = url.includes('?') ? '&' : '?';
+  return url.includes('supabase') ? url + sep + 't=' + Math.floor(Date.now()/300000) : url;
+}
 
 function guessSpec(role){const r=(role||'').toLowerCase();if(r.includes('motion')||r.includes('vfx')||r.includes('3d'))return 'motion';if(r.includes('video')||r.includes('film')||r.includes('cinema'))return 'video';if(r.includes('graphic')||r.includes('brand')||r.includes('ui')||r.includes('design'))return 'graphic';if(r.includes('social')||r.includes('content')||r.includes('media')||r.includes('reel'))return 'social';return 'video';}
 
@@ -513,29 +518,6 @@ function renderAllCards(profiles) {
 
   profiles.forEach(p => {
     const avG=GRADS[p.avGrad]||GRADS[0];
-    const covG=GRADS[p.coverGrad]||GRADS[1];
-    const covE=EMOJIS[p.coverEmoji]||'🎬';
-    // Use YouTube thumbnails if available, otherwise fall back to gradient tiles
-    const ytLinks = (p.youtubeLinks||[]).filter(Boolean);
-    let thumbs;
-    if (ytLinks.length) {
-      thumbs = ytLinks.slice(0,3).map(url => {
-        const vid = getYouTubeId(url);
-        if (vid) {
-          return `<div class="cthumb cthumb-yt" style="background:#000;position:relative;overflow:hidden">
-            <img src="https://img.youtube.com/vi/${vid}/mqdefault.jpg" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy">
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none">
-              <div style="width:22px;height:22px;background:rgba(255,0,0,.85);border-radius:5px;display:flex;align-items:center;justify-content:center">
-                <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 1.5l5.5 3L2 7.5V1.5z" fill="white"/></svg>
-              </div>
-            </div>
-          </div>`;
-        }
-        return '';
-      }).filter(Boolean).join('');
-    } else {
-      thumbs = ''; // No YouTube links → no thumbnails shown
-    }
     const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="ctag">${t}</span>`).join('');
     const spec=guessSpec(p.role);
     const srch=(p.name+' '+p.city+' '+(p.tags||[]).join(' ')+' '+p.role).toLowerCase();
@@ -544,36 +526,31 @@ function renderAllCards(profiles) {
 
     const card=document.createElement('div');
     card.className='cc';card.dataset.spec=spec;card.dataset.s=srch;
+
+    // Avatar: real photo or solid color + initials
     const avatarHtml = p.photoUrl
-      ? `<img src="${p.photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.style.display='none'">`
+      ? `<img src="${imgUrl(p.photoUrl)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='<span>${p.initials||'??'}</span>'">`
       : `${p.initials||'??'}`;
-    const avatarStyle = p.photoUrl ? 'background:#eee' : `background:${avG}`;
-    const hasCover = !!p.bannerUrl;
-    const coverSection = hasCover
-      ? `<div class="ccov">
-          <img src="${p.bannerUrl}" style="width:100%;height:100%;object-fit:cover;display:block">
-          <div class="ccov-g"></div>
-          ${p.plan==='vip'?'<div class="cc-vip">VIP Pro</div>':''}
-          ${p.featured?'<div class="cc-feat">Featured</div>':''}
-        </div>`
-      : `<div style="padding-top:1.2rem;padding-left:1.2rem;padding-right:1.2rem;display:flex;gap:.5rem;align-items:center;justify-content:flex-end">
-          ${p.plan==='vip'?'<div class="cc-vip" style="position:static">VIP Pro</div>':''}
-          ${p.featured?'<div class="cc-feat" style="position:static">Featured</div>':''}
-        </div>`;
-    const avatarMarginTop = hasCover ? '' : 'margin-top:0';
+    const avatarStyle = p.photoUrl ? 'background:#ddd' : `background:${avG}`;
+
+    // VIP/Featured badges — top right always
+    const badges = [
+      p.plan==='vip' ? '<div class="cc-vip" style="position:static">VIP Pro</div>' : '',
+      p.featured ? '<div class="cc-feat" style="position:static;background:var(--lg);color:var(--tm)">Featured</div>' : ''
+    ].filter(Boolean).join('');
+
     card.innerHTML=`
-      ${coverSection}
-      <div class="cbody" style="${hasCover?'':'padding-top:0'}">
+      <div class="cbody">
         <div class="ctop">
-          <div class="cav" style="${avatarStyle};${hasCover?'':'margin-top:0;border:none;box-shadow:none'}">${avatarHtml}</div>
-          <div style="padding-top:${hasCover?'.35rem':'0'}">
+          <div class="cav" style="${avatarStyle};margin-top:0;border:none;box-shadow:none">${avatarHtml}</div>
+          <div style="flex:1;min-width:0">
             <div class="cname">${p.name}</div>
             <div class="crole">${p.role}</div>
             <div class="ccity">${SVG_PIN} ${p.city}</div>
           </div>
+          <div style="display:flex;flex-direction:column;gap:.3rem;align-items:flex-end;flex-shrink:0">${badges}</div>
         </div>
         <div class="ctags">${tags}</div>
-        ${thumbs ? `<div class="cthumbs">${thumbs}</div>` : ''}
         <div class="cbot">
           <div class="cstats">
             <div class="cstat"><span>${p.pc||0}</span><span>Projects</span></div>
@@ -638,19 +615,20 @@ function openProfile(id){
   const avG=GRADS[p.avGrad]||GRADS[0];
   const tags=(p.tags||[]).map(t=>`<span class="pmtag">${t}</span>`).join('');
   const modalAvatar = p.photoUrl
-    ? `<img src="${p.photoUrl}" class="pmav" style="object-fit:cover;width:72px;height:72px;border-radius:50%;border:3px solid white;box-shadow:0 2px 12px rgba(0,0,0,.18);flex-shrink:0" onerror="this.style.display='none'">`
+    ? `<img src="${imgUrl(p.photoUrl)}" class="pmav" style="object-fit:cover;width:72px;height:72px;border-radius:50%;border:3px solid white;box-shadow:0 2px 12px rgba(0,0,0,.18);flex-shrink:0" onerror="this.style.display='none'">`
     : `<div class="pmav" style="background:${avG}">${p.initials||'??'}</div>`;
   const hasBanner = !!p.bannerUrl;
   const bannerHtml = hasBanner
     ? `<div class="pmbanner"><img src="${p.bannerUrl}" style="width:100%;height:100%;object-fit:cover;display:block"></div>`
     : '';
   const ytVideos = (p.youtubeLinks||[]).filter(Boolean);
+  const ytHtml = ytVideos.map(url=>{
+    const vid=getYouTubeId(url);
+    return vid?`<div class="pmvid"><iframe src="https://www.youtube.com/embed/${vid}" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`:'';
+  }).filter(Boolean).join('');
   const videosHtml = ytVideos.length ? `
     <div class="pmsec">${ICO_FILM}Showreel & Videos</div>
-    <div class="pmvideos">${ytVideos.map(url=>{
-      const vid=getYouTubeId(url);
-      return vid?`<div class="pmvid"><iframe src="https://www.youtube.com/embed/${vid}" frameborder="0" allowfullscreen loading="lazy"></iframe></div>`:'';
-    }).join('')}</div>` : '';
+    <div class="pmvideos${ytVideos.length===1?' single':''}">${ytHtml}</div>` : '';
   const waNum = (p.wa||'').replace(/[^0-9]/g,'');
   const hireHtml = waNum ? `<button class="hirebtn" onclick="window.open('https://wa.me/${waNum}?text='+encodeURIComponent('Hi ${p.name}, I came across your profile on Timeliners and I would love to start a project with you. Are you available?'),'_blank')">${ICO_WA_GREEN}Hire Me</button>` : '';
   document.getElementById('pmodbody').innerHTML=`
