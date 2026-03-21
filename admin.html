@@ -1103,8 +1103,6 @@ function saveProfile() {
     due: document.getElementById('f-due').value,
     featured: document.getElementById('f-featured').value === 'yes',
     avGrad: selAvGrad,
-    coverGrad: selCoverGrad,
-    coverEmoji: selEmoji,
     views: editId ? (profiles.find(p=>p.id===editId)?.views||'0') : '0',
     likes: editId ? (profiles.find(p=>p.id===editId)?.likes||0) : 0,
     added: editId ? (profiles.find(p=>p.id===editId)?.added||new Date().toISOString()) : new Date().toISOString(),
@@ -1120,7 +1118,7 @@ function saveProfile() {
       updateSidebarCount();
       renderDashboard();
       showTab('profiles', document.querySelector('.sb-link:nth-child(5)'));
-    }).catch(e => toast('Save failed: ' + e.message, 'err'));
+    }).catch(e => { console.error('Save error:', e); toast('Save failed: ' + e.message, 'err'); });
   } else {
     upsertProfileSB(profile).then(() => {
       toast('Profile saved & published ✓');
@@ -1128,7 +1126,7 @@ function saveProfile() {
       updateSidebarCount();
       renderDashboard();
       showTab('profiles', document.querySelector('.sb-link:nth-child(5)'));
-    }).catch(e => toast('Save failed: ' + e.message, 'err'));
+    }).catch(e => { console.error('Save error:', e); toast('Save failed: ' + e.message, 'err'); });
   }
 }
 
