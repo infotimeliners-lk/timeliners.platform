@@ -446,20 +446,6 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
                 <div class="upload-status" id="photo-status"></div>
               </div>
 
-              <div class="fg">
-                <label class="fl">Banner / Cover Image</label>
-                <div class="upload-area upload-area-wide" id="banner-upload-area" onclick="document.getElementById('banner-file-input').click()">
-                  <div class="upload-preview upload-preview-wide" id="banner-preview" style="display:none"><img id="banner-preview-img" style="width:100%;height:100%;object-fit:cover"></div>
-                  <div class="upload-placeholder" id="banner-placeholder">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="2" y="6" width="24" height="16" rx="3" stroke="rgba(255,255,255,.4)" stroke-width="1.5" fill="none"/><path d="M2 18l6-5 4 4 4-3 6 5" stroke="rgba(255,255,255,.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="12" r="2" fill="rgba(255,255,255,.3)"/></svg>
-                    <span>Click to upload banner</span>
-                    <span style="font-size:.7rem;opacity:.5">Wide image — 16:9 ratio recommended</span>
-                  </div>
-                </div>
-                <input type="file" id="banner-file-input" accept="image/*" style="display:none" onchange="handleImageUpload(this,'banner')">
-                <input type="hidden" id="f-bannerUrl">
-                <div class="upload-status" id="banner-status"></div>
-              </div>
 
               <div class="fg">
                 <label class="fl">YouTube / Showreel Links (one per line, up to 4)</label>
@@ -641,8 +627,7 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
               <div style="font-family:var(--fm);font-weight:700;font-size:.78rem;color:var(--ac);margin-bottom:.5rem"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><rect x="1" y="3" width="11" height="8.5" rx="2" fill="currentColor"/><circle cx="6.5" cy="7" r="2" fill="white"/><path d="M4.5 3L5.5 1.5h2L8.5 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>How to Upload Photos</div>
               <ol style="font-size:.78rem;color:var(--t3);line-height:2;padding-left:1.2rem">
                 <li>Go to Supabase → Storage → Create bucket <code style="background:var(--bg3);padding:.1rem .35rem;border-radius:3px;color:var(--ac)">timeliners-media</code> (public)</li>
-                <li>Upload profile photo or banner image</li>
-                <li>Click the file → Copy public URL</li>
+                <li>Upload photo → Click it → Copy public URL</li>
                 <li>Paste URL into Profile Photo or Banner field when adding/editing a profile</li>
               </ol>
             </div>
@@ -829,11 +814,11 @@ function uid() { return 'p_' + Date.now() + '_' + Math.random().toString(36).sub
 async function handleImageUpload(input, type) {
   const file = input.files[0];
   if (!file) return;
-  const statusEl = document.getElementById(type === 'photo' ? 'photo-status' : 'banner-status');
-  const previewEl = document.getElementById(type === 'photo' ? 'photo-preview' : 'banner-preview');
-  const previewImg = document.getElementById(type === 'photo' ? 'photo-preview-img' : 'banner-preview-img');
-  const placeholderEl = document.getElementById(type === 'photo' ? 'photo-placeholder' : 'banner-placeholder');
-  const hiddenInput = document.getElementById(type === 'photo' ? 'f-photoUrl' : 'f-bannerUrl');
+  const statusEl = document.getElementById('photo-status');
+  const previewEl = document.getElementById('photo-preview');
+  const previewImg = document.getElementById('photo-preview-img');
+  const placeholderEl = document.getElementById('photo-placeholder');
+  const hiddenInput = document.getElementById('f-photoUrl');
 
   // Show local preview immediately
   const localUrl = URL.createObjectURL(file);
@@ -1060,13 +1045,10 @@ function updatePreview() {
   const fullName = [fname,lname].filter(Boolean).join(' ')||'Creative Name';
 
   const photoUrl = document.getElementById('f-photoUrl')?.value.trim()||'';
-  const bannerUrl = document.getElementById('f-bannerUrl')?.value.trim()||'';
-  const burl = bannerUrl ? (bannerUrl.startsWith('blob:') ? bannerUrl : bannerUrl + (bannerUrl.includes('?')?'&':'?') + 't=' + Date.now()) : '';
   const purl = photoUrl ? (photoUrl.startsWith('blob:') ? photoUrl : photoUrl + (photoUrl.includes('?')?'&':'?') + 't=' + Date.now()) : '';
   document.getElementById('profile-preview').innerHTML = `
     <div class="preview-card">
       <div class="prev-cover" style="background:${covGrad};overflow:hidden">
-        ${burl?`<img src="${burl}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`:``}
         <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,.4))"></div>
         ${plan==='vip'?'<div class="prev-vip">👑 VIP Pro</div>':''}
         ${feat==='yes'?'<div class="prev-vip" style="right:auto;left:8px">⭐ Featured</div>':''}
@@ -1114,7 +1096,6 @@ function saveProfile() {
     exp: document.getElementById('f-exp').value.trim(),
     pc: document.getElementById('f-pc').value||'0',
     photoUrl: document.getElementById('f-photoUrl')?.value.trim()||'',
-    bannerUrl: document.getElementById('f-bannerUrl')?.value.trim()||'',
     youtubeLinks: (document.getElementById('f-youtubeLinks')?.value||'').split('\n').map(s=>s.trim()).filter(Boolean).slice(0,4),
     wa: document.getElementById('f-wa').value.trim(),
     due: document.getElementById('f-due').value,
@@ -1164,19 +1145,15 @@ function resetForm() {
   document.getElementById('f-featured').value='no';
   document.getElementById('f-edit-id').value='';
   if(document.getElementById('f-photoUrl')) document.getElementById('f-photoUrl').value='';
-  if(document.getElementById('f-bannerUrl')) document.getElementById('f-bannerUrl').value='';
   if(document.getElementById('f-youtubeLinks')) document.getElementById('f-youtubeLinks').value='';
-  ['photo','banner'].forEach(t=>{
-    const prev=document.getElementById(t+'-preview');
-    const ph=document.getElementById(t+'-placeholder');
-    const st=document.getElementById(t+'-status');
-    if(prev)prev.style.display='none';
-    if(ph)ph.style.display='flex';
-    if(st){st.textContent='';st.className='upload-status';}
-  });
+  const _rp=document.getElementById('photo-preview');
+  const _rph=document.getElementById('photo-placeholder');
+  const _rst=document.getElementById('photo-status');
+  if(_rp)_rp.style.display='none';
+  if(_rph)_rph.style.display='flex';
+  if(_rst){_rst.textContent='';_rst.className='upload-status';}
   const pfi=document.getElementById('photo-file-input');
-  const bfi=document.getElementById('banner-file-input');
-  if(pfi)pfi.value='';if(bfi)bfi.value='';
+  if(pfi)pfi.value='';
   document.getElementById('add-form-title').textContent='Add New Profile';
   formTags=[];
   selAvGrad=0;
@@ -1200,17 +1177,13 @@ function editProfile(id) {
   document.getElementById('f-initials').value=p.initials||'';
   document.getElementById('f-plan').value=p.plan||'free';
   if(document.getElementById('f-photoUrl')) document.getElementById('f-photoUrl').value=p.photoUrl||'';
-  if(document.getElementById('f-bannerUrl')) document.getElementById('f-bannerUrl').value=p.bannerUrl||'';
   if(document.getElementById('f-youtubeLinks')) document.getElementById('f-youtubeLinks').value=(p.youtubeLinks||[]).join('\n');
-  // Show existing images in preview
-  ['photo','banner'].forEach(t=>{
-    const url = t==='photo'?p.photoUrl:p.bannerUrl;
-    const prev=document.getElementById(t+'-preview');
-    const ph=document.getElementById(t+'-placeholder');
-    const img=document.getElementById(t+'-preview-img');
-    if(url&&prev&&img){img.src=url;prev.style.display='block';if(ph)ph.style.display='none';}
-    else{if(prev)prev.style.display='none';if(ph)ph.style.display='flex';}
-  });
+  // Show existing photo in preview
+  const _pp=document.getElementById('photo-preview');
+  const _pph=document.getElementById('photo-placeholder');
+  const _pimg=document.getElementById('photo-preview-img');
+  if(p.photoUrl&&_pp&&_pimg){_pimg.src=p.photoUrl;_pp.style.display='block';if(_pph)_pph.style.display='none';}
+  else{if(_pp)_pp.style.display='none';if(_pph)_pph.style.display='flex';}
   document.getElementById('f-featured').value=p.featured?'yes':'no';
   document.getElementById('f-edit-id').value=p.id;
   document.getElementById('add-form-title').textContent='Edit Profile — '+p.name;
