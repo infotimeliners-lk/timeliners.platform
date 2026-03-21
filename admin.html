@@ -991,7 +991,7 @@ function buildEmojiPicker(containerId, name, cb) {
 function selectEmoji(containerId, idx, el) {
   document.querySelectorAll(`#${containerId} .emj`).forEach(e=>e.classList.remove('sel'));
   el.classList.add('sel');
-  else if (containerId==='pm-emoji') { pmSelEmoji=idx; }
+  if (containerId==='pm-emoji') { pmSelEmoji=idx; }
 }
 let pmSelEmoji=0, pmSelGrad=0;
 function buildPortModalPickers() {
@@ -1052,8 +1052,8 @@ function updatePreview() {
   if (!initials) initials = '??';
 
   const avGrad   = GRADIENTS[selAvGrad];
-  const covGrad  = GRADIENTS[selCoverGrad];
-  const covEmoji = EMOJIS[selEmoji];
+  const covGrad  = GRADIENTS[0];
+  const covEmoji = '';
 
   const tags     = formTags.slice(0,4).map(t=>`<span class="prev-tag">${t}</span>`).join('');
 
@@ -1179,7 +1179,7 @@ function resetForm() {
   if(pfi)pfi.value='';if(bfi)bfi.value='';
   document.getElementById('add-form-title').textContent='Add New Profile';
   formTags=[];
-  selAvGrad=0; selCoverGrad=1; selEmoji=0;
+  selAvGrad=0;
   renderTags();
   buildGradPicker('av-grad-picker','avGrad',()=>{});
   updatePreview();
@@ -1216,8 +1216,6 @@ function editProfile(id) {
   document.getElementById('add-form-title').textContent='Edit Profile — '+p.name;
   formTags=[...(p.tags||[])];
   selAvGrad=p.avGrad||0;
-  selCoverGrad=p.coverGrad||1;
-  selEmoji=p.coverEmoji||0;
   renderTags();
   buildGradPicker('av-grad-picker','avGrad',()=>{});
   // Mark correct selections
