@@ -95,8 +95,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255
 .mbox-videos::-webkit-scrollbar-track{background:transparent}
 .mbox-videos::-webkit-scrollbar-thumb{background:var(--br);border-radius:4px}
 .pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0}
-.pmvid{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;box-shadow:0 4px 16px rgba(0,0,0,.1)}
-.pmvid iframe{width:100%;height:100%;border:none}
+.pmvid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 6px 24px rgba(0,0,0,.14);position:relative}
+.pmvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none;border-radius:12px}
 .pmvideos.single{grid-template-columns:1fr;max-width:560px}
 .pmvideos.many{grid-template-columns:1fr 1fr 1fr}
 @media(max-width:680px){.pmvideos,.pmvideos.many{grid-template-columns:1fr}.pmbanner{height:120px}.mbox{max-height:100vh;border-radius:var(--r)}}
@@ -633,7 +633,7 @@ function openProfile(id){
   const ytVideos = (p.youtubeLinks||[]).filter(Boolean);
   const ytHtml = ytVideos.map(url=>{
     const vid=getYouTubeId(url);
-    return vid?`<div class="pmvid"><iframe src="https://www.youtube.com/embed/${vid}" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`:'';
+    return vid?`<div class="pmvid"><iframe src="https://www.youtube.com/embed/${vid}?modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&color=white&vq=hd720&playsinline=1&fs=1" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen loading="lazy" style="border-radius:inherit"></iframe></div>`:'';
   }).filter(Boolean).join('');
   const videosHtml = ytHtml.length > 0;
   const waNum = (p.wa||'').replace(/[^0-9]/g,'');
