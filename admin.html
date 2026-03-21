@@ -223,7 +223,7 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
 }
 .profile-row:hover{background:rgba(255,255,255,.02)}
 .profile-row:last-child{border-bottom:none}
-.pr-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:.82rem;color:white}
+.pr-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:.82rem;color:white;overflow:hidden}
 .pr-name{font-family:var(--fm);font-weight:600;font-size:.87rem;color:var(--t1)}
 .pr-role{font-size:.73rem;color:var(--t3)}
 .pr-meta{margin-left:auto;display:flex;align-items:center;gap:.75rem;flex-shrink:0}
@@ -1114,16 +1114,18 @@ function updatePreview() {
 
   const photoUrl = document.getElementById('f-photoUrl')?.value.trim()||'';
   const bannerUrl = document.getElementById('f-bannerUrl')?.value.trim()||'';
+  const burl = bannerUrl ? (bannerUrl.startsWith('blob:') ? bannerUrl : bannerUrl + (bannerUrl.includes('?')?'&':'?') + 't=' + Date.now()) : '';
+  const purl = photoUrl ? (photoUrl.startsWith('blob:') ? photoUrl : photoUrl + (photoUrl.includes('?')?'&':'?') + 't=' + Date.now()) : '';
   document.getElementById('profile-preview').innerHTML = `
     <div class="preview-card">
       <div class="prev-cover" style="background:${covGrad};overflow:hidden">
-        ${bannerUrl?`<img src="${bannerUrl}" style="width:100%;height:100%;object-fit:cover">`:`<span style="font-size:3rem">${covEmoji}</span>`}
+        ${burl?`<img src="${burl}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`:``}
         <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,.4))"></div>
         ${plan==='vip'?'<div class="prev-vip">👑 VIP Pro</div>':''}
         ${feat==='yes'?'<div class="prev-vip" style="right:auto;left:8px">⭐ Featured</div>':''}
       </div>
       <div class="prev-body">
-        <div class="prev-av" style="background:${photoUrl?'transparent':avGrad};overflow:hidden">${photoUrl?`<img src="${photoUrl}" style="width:100%;height:100%;object-fit:cover">`:`${initials}`}</div>
+        <div class="prev-av" style="background:${purl?'transparent':avGrad};overflow:hidden">${purl?`<img src="${purl}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">`:`${initials}`}</div>
         <div class="prev-name">${fullName}</div>
         <div class="prev-role">${role} · 📍 ${city}</div>
         <div class="prev-tags">${tags||'<span class="prev-tag">Add tags...</span>'}</div>
@@ -1354,7 +1356,7 @@ function renderDashboard() {
   const recent = [...profiles].sort((a,b)=>new Date(b.added)-new Date(a.added)).slice(0,5);
   document.getElementById('dash-recent').innerHTML = recent.length ? recent.map(p=>`
     <div class="profile-row" onclick="editProfile('${p.id}')">
-      <div class="pr-av" style="background:${GRADIENTS[p.avGrad||0]}">${p.initials||'??'}</div>
+      <div class="pr-av" style="background:${p.photoUrl?'#eee':GRADIENTS[p.avGrad||0]}">${p.photoUrl?`<img src="${p.photoUrl}" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='${p.initials||'??'}'">`:p.initials||'??'}</div>
       <div><div class="pr-name">${p.name}</div><div class="pr-role">${p.role} · ${p.city}</div></div>
       <div class="pr-meta">${planBadge(p.plan)}<span style="font-size:.73rem;color:var(--t3)">${fmtDate(p.added)}</span></div>
     </div>`).join('') : '<div class="empty" style="padding:2rem"><div class="empty-title">No profiles yet</div></div>';
