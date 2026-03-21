@@ -300,6 +300,7 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
 
 /* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:5px;height:5px}
+.photo-upload-btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fm);font-weight:600;font-size:.78rem;padding:.55rem 1.1rem;border-radius:50px;border:1px solid var(--brd);background:var(--bg3);color:var(--t2);cursor:pointer;transition:var(--tr)}.photo-upload-btn:hover{border-color:var(--ac);color:var(--ac)}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:10px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2)}
@@ -432,12 +433,18 @@ body{background:var(--bg);color:var(--t1);overflow-x:hidden}
               <div class="form-section-title">Photos & Media</div>
 
               <div class="fg">
-                <label class="fl">Profile Photo URL</label>
-                <div style="display:flex;gap:.6rem;align-items:center">
-                  <input class="fi" id="f-photoUrl" placeholder="Right-click any image → Copy image address → paste here" oninput="previewPhoto(this.value)" style="flex:1">
-                  <div id="photo-preview-circle" style="width:48px;height:48px;border-radius:50%;background:var(--bg3);border:1px solid var(--brd);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--t3);text-align:center">No img</div>
+                <label class="fl">Profile Photo</label>
+                <div style="display:flex;gap:1rem;align-items:center">
+                  <label for="photo-file-input" class="photo-upload-btn" id="photo-upload-label">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M8 1v9M5 4L8 1l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11v2.5A1.5 1.5 0 003.5 15h9A1.5 1.5 0 0014 13.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    Choose Photo
+                  </label>
+                  <input type="file" id="photo-file-input" accept="image/*" style="display:none" onchange="handlePhotoUpload(this)">
+                  <div id="photo-preview-circle" style="width:52px;height:52px;border-radius:50%;background:var(--bg3);border:2px solid var(--brd);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--t3);text-align:center;transition:all .2s">Preview</div>
+                  <span id="photo-filename" style="font-size:.78rem;color:var(--t3);font-family:var(--fm)">No file chosen</span>
                 </div>
-                <div class="form-help">Right-click any image online → "Copy image address" → paste the URL above</div>
+                <input type="hidden" id="f-photoUrl">
+                <div class="form-help">JPG or PNG — square crop recommended. Stored directly, no external service needed.</div>
               </div>
 
 
@@ -806,13 +813,46 @@ function getCreds() {
 }
 function uid() { return 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2,6); }
 
+function handlePhotoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const label = document.getElementById('photo-upload-label');
+  const circle = document.getElementById('photo-preview-circle');
+  const filename = document.getElementById('photo-filename');
+  if (filename) filename.textContent = file.name;
+  if (label) label.textContent = 'Loading...';
+
+  // Resize and convert to base64
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      // Resize to max 400x400 to keep size small
+      const canvas = document.createElement('canvas');
+      const size = Math.min(img.width, img.height);
+      const scale = Math.min(400 / size, 1);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const base64 = canvas.toDataURL('image/jpeg', 0.85);
+      document.getElementById('f-photoUrl').value = base64;
+      if (circle) circle.innerHTML = `<img src="${base64}" style="width:100%;height:100%;object-fit:cover">`;
+      if (label) { label.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M8 1v9M5 4L8 1l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11v2.5A1.5 1.5 0 003.5 15h9A1.5 1.5 0 0014 13.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Change Photo'; }
+      updatePreview();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 function previewPhoto(url) {
   const el = document.getElementById('photo-preview-circle');
   if (!el) return;
-  if (url) {
-    el.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:.6rem;color:var(--red)>Bad URL</span>'">`;
+  if (url && url.length > 10) {
+    el.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover">`;
   } else {
-    el.innerHTML = '<span style="font-size:.65rem;color:var(--t3)">No img</span>';
+    el.innerHTML = '<span style="font-size:.65rem;color:var(--t3)">Preview</span>';
   }
   updatePreview();
 }
@@ -1107,7 +1147,11 @@ function resetForm() {
   document.getElementById('f-edit-id').value='';
   if(document.getElementById('f-photoUrl')) document.getElementById('f-photoUrl').value='';
   if(document.getElementById('f-youtubeLinks')) document.getElementById('f-youtubeLinks').value='';
-  if(document.getElementById('f-photoUrl')) { document.getElementById('f-photoUrl').value=''; previewPhoto(''); }
+  if(document.getElementById('f-photoUrl')) document.getElementById('f-photoUrl').value='';
+  previewPhoto('');
+  const _fn=document.getElementById('photo-filename'); if(_fn) _fn.textContent='No file chosen';
+  const _lbl=document.getElementById('photo-upload-label'); if(_lbl) _lbl.innerHTML='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M8 1v9M5 4L8 1l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11v2.5A1.5 1.5 0 003.5 15h9A1.5 1.5 0 0014 13.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Choose Photo';
+  const _pfi=document.getElementById('photo-file-input'); if(_pfi) _pfi.value='';
   document.getElementById('add-form-title').textContent='Add New Profile';
   formTags=[];
   selAvGrad=0;
@@ -1136,6 +1180,10 @@ function editProfile(id) {
   if(document.getElementById('f-photoUrl')) {
     document.getElementById('f-photoUrl').value = p.photoUrl||'';
     previewPhoto(p.photoUrl||'');
+    const fn = document.getElementById('photo-filename');
+    if(fn) fn.textContent = p.photoUrl ? 'Photo saved' : 'No file chosen';
+    const lbl = document.getElementById('photo-upload-label');
+    if(lbl && p.photoUrl) lbl.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><path d="M8 1v9M5 4L8 1l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 11v2.5A1.5 1.5 0 003.5 15h9A1.5 1.5 0 0014 13.5V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Change Photo';
   }
   document.getElementById('f-featured').value=p.featured?'yes':'no';
   document.getElementById('f-edit-id').value=p.id;
