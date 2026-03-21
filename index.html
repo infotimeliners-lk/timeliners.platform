@@ -95,8 +95,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255
 .mbox-videos::-webkit-scrollbar-track{background:transparent}
 .mbox-videos::-webkit-scrollbar-thumb{background:var(--br);border-radius:4px}
 .pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0}
-.pmvid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 6px 24px rgba(0,0,0,.14);position:relative}
-.pmvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none;border-radius:12px}
+.pmvid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 6px 24px rgba(0,0,0,.14);position:relative;cursor:pointer}
+.pmvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none;pointer-events:none}
+.pmvid.playing iframe{pointer-events:auto}
+.pmvid-thumb{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .3s}
+.pmvid.playing .pmvid-thumb{opacity:0;pointer-events:none}
+.pmvid-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .3s}
+.pmvid.playing .pmvid-play{opacity:0;pointer-events:none}
+.pmvid-playbtn{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:transform .2s,background .2s}
+.pmvid:hover .pmvid-playbtn{transform:scale(1.1);background:white}
+.pmvid-playbtn svg{margin-left:4px}
+.pmvid-title{position:absolute;bottom:0;left:0;right:0;padding:.75rem 1rem;background:linear-gradient(transparent,rgba(0,0,0,.7));color:white;font-family:var(--fm);font-weight:600;font-size:.82rem;transition:opacity .3s}
+.pmvid.playing .pmvid-title{opacity:0}
 .pmvideos.single{grid-template-columns:1fr;max-width:560px}
 .pmvideos.many{grid-template-columns:1fr 1fr 1fr}
 @media(max-width:680px){.pmvideos,.pmvideos.many{grid-template-columns:1fr}.pmbanner{height:120px}.mbox{max-height:100vh;border-radius:var(--r)}}
@@ -504,6 +514,12 @@ function getYouTubeId(url) {
   const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
   return m ? m[1] : null;
 }
+
+function playVid(vid) {
+  const container = document.getElementById('pvid-' + vid);
+  if (!container || container.classList.contains('playing')) return;
+  container.classList.add('playing');
+}
 function imgUrl(url) {
   if (!url) return '';
   // Add cache-buster for Supabase Storage URLs to force fresh load
@@ -633,7 +649,18 @@ function openProfile(id){
   const ytVideos = (p.youtubeLinks||[]).filter(Boolean);
   const ytHtml = ytVideos.map(url=>{
     const vid=getYouTubeId(url);
-    return vid?`<div class="pmvid"><iframe src="https://www.youtube.com/embed/${vid}?modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&color=white&vq=hd720&playsinline=1&fs=1" frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen" allowfullscreen loading="lazy" style="border-radius:inherit"></iframe></div>`:'';
+    if (!vid) return '';
+    const thumb = `https://img.youtube.com/vi/${vid}/maxresdefault.jpg`;
+    const fallbackThumb = `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
+    return `<div class="pmvid" id="pvid-${vid}" onclick="playVid('${vid}')">
+      <iframe src="https://www.youtube.com/embed/${vid}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&color=white&vq=hd720&playsinline=1&controls=1&enablejsapi=0" frameborder="0" allow="autoplay;encrypted-media;fullscreen" allowfullscreen loading="lazy"></iframe>
+      <div class="pmvid-thumb" id="pthumb-${vid}" style="background-image:url('${thumb}')" onerror="this.style.backgroundImage=\"url('${fallbackThumb}')\"></div>
+      <div class="pmvid-play">
+        <div class="pmvid-playbtn">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M6 4l14 7.5L6 19V4z" fill="#111"/></svg>
+        </div>
+      </div>
+    </div>`;
   }).filter(Boolean).join('');
   const videosHtml = ytHtml.length > 0;
   const waNum = (p.wa||'').replace(/[^0-9]/g,'');
