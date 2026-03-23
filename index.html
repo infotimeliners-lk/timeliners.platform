@@ -4,588 +4,901 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="logo_1.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timeliners — Sri Lanka's Creative Showcase</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Timeliners</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--ac:#F68002;--acd:#D96C00;--acl:#FFF3E0;--w:#FFF;--ow:#FAFAFA;--lg:#F4F4F4;--td:#111;--tm:#444;--mu:#888;--br:#E0E0E0;--ssm:0 2px 8px rgba(0,0,0,.06);--smd:0 8px 32px rgba(0,0,0,.10);--slg:0 20px 60px rgba(0,0,0,.12);--r:12px;--rsm:8px;--rlg:20px;--fm:'Montserrat',sans-serif;--fb:'Poppins',sans-serif;--tr:all .25s cubic-bezier(.4,0,.2,1)}
+:root{
+  --ac:#FE730A;--acd:#e55e00;--acl:rgba(254,115,10,.1);--acl2:rgba(254,115,10,.06);
+  --dark:#232323;--dark2:#2c2c2c;--dark3:#383838;
+  --w:#ffffff;--off:#f5f4f2;--lg:#efefed;
+  --tm:#444;--mu:#888;--br:#e2e0dc;--brl:#eeece9;
+  --r:10px;--rsm:6px;--rlg:16px;--rxl:24px;
+  --fm:'Poppins',sans-serif;
+  --tr:all .2s cubic-bezier(.4,0,.2,1);
+  --sh:0 8px 32px rgba(0,0,0,.09);--shl:0 20px 60px rgba(0,0,0,.11);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}body{font-family:var(--fb);background:var(--w);color:var(--td);overflow-x:hidden}
+html{scroll-behavior:smooth}
+body{font-family:var(--fm);background:var(--w);color:var(--dark);overflow-x:hidden}
 .page{display:none;min-height:100vh}.page.active{display:block}
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--br);padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:68px}
-.logo{font-family:var(--fm);font-weight:900;font-size:1.4rem;letter-spacing:-.5px;color:var(--td);cursor:pointer;text-decoration:none}.logo span{color:var(--ac)}
-.nav-links{display:flex;gap:2rem;align-items:center}
-.nav-links a{font-family:var(--fm);font-weight:500;font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;color:var(--tm);text-decoration:none;cursor:pointer;transition:var(--tr)}.nav-links a:hover{color:var(--ac)}
-.nav-cta{background:var(--ac);color:white!important;padding:.55rem 1.4rem;border-radius:50px;box-shadow:0 4px 14px rgba(246,128,2,.3)}.nav-cta:hover{background:var(--acd)!important;transform:translateY(-1px)}
+
+/* ══════════════════════════════════════
+   SPLASH
+══════════════════════════════════════ */
+#page-splash{
+  background:var(--w);
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.spl-noise{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.spl-nav{
+  position:relative;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.6rem 5%;
+}
+.spl-brand{
+  font-family:var(--fm);font-weight:900;font-size:1.3rem;
+  color:var(--dark);letter-spacing:-.5px;
+}
+.spl-brand span{color:var(--ac)}
+.spl-nav-links{display:flex;align-items:center;gap:.3rem}
+.spl-nav-link{
+  font-family:var(--fm);font-weight:500;font-size:.78rem;
+  color:var(--mu);cursor:pointer;padding:.4rem .8rem;
+  border-radius:50px;transition:var(--tr);text-decoration:none;
+}
+.spl-nav-link:hover{color:var(--dark)}
+
+.spl-body{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:3rem 5%;
+  position:relative;z-index:2;
+}
+.spl-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--ac);background:var(--acl);
+  padding:.35rem 1rem;border-radius:50px;margin-bottom:2rem;
+}
+.spl-eyebrow::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ac);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3;transform:scale(1.5)}}
+
+.spl-h{
+  font-size:clamp(3.2rem,8vw,7.5rem);
+  font-weight:900;line-height:.9;
+  letter-spacing:-4px;color:var(--dark);
+  margin-bottom:1.2rem;
+}
+.spl-h em{color:var(--ac);font-style:normal;display:block}
+.spl-sub{
+  font-size:clamp(.85rem,1.3vw,.98rem);font-weight:400;
+  color:var(--mu);max-width:460px;margin:0 auto 3.5rem;
+  line-height:1.75;
+}
+
+.spl-cards{
+  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+}
+.spl-card{
+  display:flex;flex-direction:column;align-items:flex-start;
+  width:230px;padding:1.6rem;border-radius:20px;
+  cursor:pointer;transition:var(--tr);text-align:left;
+  border:2px solid transparent;text-decoration:none;
+}
+.spl-card-primary{
+  background:var(--dark);color:white;
+  box-shadow:0 12px 40px rgba(35,35,35,.22);
+}
+.spl-card-primary:hover{transform:translateY(-5px) rotate(-.5deg);box-shadow:0 20px 55px rgba(35,35,35,.3)}
+.spl-card-ghost{
+  background:var(--w);color:var(--dark);
+  border-color:var(--br);box-shadow:var(--sh);
+}
+.spl-card-ghost:hover{transform:translateY(-5px) rotate(.5deg);border-color:var(--ac);box-shadow:0 16px 44px rgba(254,115,10,.12)}
+.spl-card-ico{
+  width:44px;height:44px;border-radius:12px;margin-bottom:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.spl-card-primary .spl-card-ico{background:rgba(255,255,255,.1)}
+.spl-card-ghost .spl-card-ico{background:var(--acl)}
+.spl-card-label{
+  font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:.35rem;opacity:.45;
+}
+.spl-card-title{font-size:1.05rem;font-weight:800;line-height:1.25;margin-bottom:.5rem}
+.spl-card-primary .spl-card-title{color:white}
+.spl-card-ghost .spl-card-title{color:var(--dark)}
+.spl-card-desc{font-size:.72rem;line-height:1.65;opacity:.5;font-weight:400}
+
+.spl-foot{
+  position:relative;z-index:2;
+  text-align:center;padding:1.5rem 5% 2.2rem;
+  font-size:.7rem;color:var(--mu);letter-spacing:.3px;
+}
+.spl-foot a{color:var(--ac);cursor:pointer;font-weight:600;text-decoration:none}
+
+/* Decorative floating avatars */
+.spl-deco{position:absolute;pointer-events:none;z-index:1}
+.spl-av{
+  width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.75rem;color:white;
+  box-shadow:0 4px 16px rgba(0,0,0,.12);
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+#main-nav{
+  display:none;position:fixed;top:0;left:0;right:0;z-index:1000;
+  background:rgba(255,255,255,.97);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--br);
+  padding:0 5%;height:60px;
+  align-items:center;justify-content:space-between;
+}
+.nav-brand{
+  font-family:var(--fm);font-weight:900;font-size:1.2rem;
+  color:var(--dark);cursor:pointer;letter-spacing:-.5px;
+  display:flex;align-items:center;gap:.5rem;
+}
+.nav-brand span{color:var(--ac)}
+.nav-center{display:flex;gap:.15rem;align-items:center}
+.nav-link{
+  font-family:var(--fm);font-weight:600;font-size:.75rem;
+  color:var(--mu);cursor:pointer;padding:.4rem .9rem;
+  border-radius:50px;transition:var(--tr);text-decoration:none;
+}
+.nav-link:hover{color:var(--dark);background:var(--lg)}
+.nav-link.active{color:var(--dark);font-weight:700}
+.nav-right{display:flex;align-items:center;gap:.6rem}
+.nav-cta{
+  background:var(--dark);color:white;
+  font-family:var(--fm);font-weight:700;font-size:.75rem;
+  padding:.48rem 1.2rem;border-radius:50px;
+  cursor:pointer;border:none;transition:var(--tr);
+  display:flex;align-items:center;gap:.4rem;
+}
+.nav-cta:hover{background:var(--ac);transform:translateY(-1px)}
 .ham{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
-.ham span{display:block;width:22px;height:2px;background:var(--td);border-radius:2px}
-#mob{display:none;position:fixed;top:68px;left:0;right:0;background:white;border-bottom:1px solid var(--br);z-index:999;padding:1.5rem 5%}
-#mob a{display:block;padding:.7rem 0;font-family:var(--fm);font-weight:600;font-size:.9rem;color:var(--tm);cursor:pointer;border-bottom:1px solid var(--br)}
-.btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fm);font-weight:600;font-size:.85rem;letter-spacing:.5px;padding:.85rem 2rem;border-radius:50px;border:none;cursor:pointer;transition:var(--tr);text-decoration:none}
-.btn-p{background:var(--ac);color:white;box-shadow:0 4px 20px rgba(246,128,2,.35)}.btn-p:hover{background:var(--acd);transform:translateY(-2px) scale(1.02)}
-.btn-o{background:transparent;color:var(--ac);border:2px solid var(--ac)}.btn-o:hover{background:var(--ac);color:white;transform:translateY(-2px)}
-.btn-w{background:white;color:var(--ac);box-shadow:var(--smd)}.btn-w:hover{transform:translateY(-2px);box-shadow:var(--slg)}
-.btn-g{background:transparent;color:var(--tm);border:1px solid var(--br)}.btn-g:hover{border-color:var(--ac);color:var(--ac)}
-.btn-sm{font-size:.75rem;padding:.5rem 1.1rem}.btn-lg{font-size:.95rem;padding:1rem 2.5rem}
-.sec{padding:90px 5%}.stag{display:inline-block;font-family:var(--fm);font-weight:700;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--ac);background:var(--acl);padding:.4rem 1rem;border-radius:50px;margin-bottom:1.2rem}
-.sh{font-family:var(--fm);font-weight:800;font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.15;color:var(--td);margin-bottom:1rem}
-.ss{font-size:1rem;color:var(--tm);line-height:1.8;max-width:540px}.tac{text-align:center}.tac .ss{margin:0 auto}.tac2{color:var(--ac)}
-.hero{background:var(--w);padding:105px 5% 0;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(246,128,2,.06) 0%,transparent 70%);pointer-events:none}
-.hero-in{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:3rem}
-.live{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--fm);font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ac);background:var(--acl);border:1px solid rgba(246,128,2,.2);padding:.4rem 1rem;border-radius:50px;margin-bottom:1.5rem}
-.live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--ac);animation:blink 2s ease-in-out infinite}
-@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.4)}}
-.hero h1{font-family:var(--fm);font-weight:900;font-size:clamp(2.4rem,5vw,4rem);line-height:1.1;letter-spacing:-1.5px;color:var(--td);margin-bottom:1.2rem}
-.hero-sub{font-size:1.05rem;color:var(--tm);line-height:1.8;max-width:560px;margin:0 auto 2.5rem}
-.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem}
-.hero-stats{display:flex;gap:2.5rem;justify-content:center;padding:1.4rem 2.5rem;background:var(--ow);border-radius:var(--rlg);border:1px solid var(--br);flex-wrap:wrap}
-.hs-n{font-family:var(--fm);font-weight:800;font-size:1.4rem;color:var(--td)}.hs-l{font-size:.73rem;color:var(--mu)}.hs-div{width:1px;background:var(--br);align-self:stretch}
-.fbar{background:var(--w);border-bottom:1px solid var(--br);padding:0 5%;position:sticky;top:68px;z-index:100}
-.fbar-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 0;flex-wrap:wrap}
-.ftabs{display:flex;gap:.4rem;flex-wrap:wrap}
-.ftab{font-family:var(--fm);font-weight:600;font-size:.75rem;padding:.48rem 1.1rem;border-radius:50px;cursor:pointer;border:1px solid var(--br);background:white;color:var(--mu);transition:var(--tr)}.ftab:hover{border-color:var(--ac);color:var(--ac)}.ftab.active{background:var(--ac);color:white;border-color:var(--ac)}
-.fsearch{display:flex;align-items:center;gap:.6rem;background:var(--ow);border:1px solid var(--br);border-radius:50px;padding:.48rem 1rem;min-width:210px;transition:var(--tr)}.fsearch:focus-within{border-color:var(--ac);background:white}
-.fsearch input{border:none;outline:none;font-family:var(--fb);font-size:.84rem;color:var(--td);background:transparent;width:100%}
-.gw{padding:2.5rem 5%;background:var(--ow)}.gi{max-width:1200px;margin:0 auto}
-.gh{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
-.gc{font-family:var(--fm);font-weight:600;font-size:.85rem;color:var(--mu)}
-.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.cc{background:white;border:1px solid var(--br);border-radius:var(--rlg);overflow:hidden;transition:var(--tr);display:flex;flex-direction:column}
-.cc:hover{box-shadow:var(--slg);transform:translateY(-5px);border-color:rgba(246,128,2,.3)}
-.cc-vip{background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.58rem;letter-spacing:1px;text-transform:uppercase;padding:.22rem .6rem;border-radius:50px;white-space:nowrap}
-.cc-feat{background:var(--lg);color:var(--tm);font-family:var(--fm);font-weight:700;font-size:.58rem;letter-spacing:1px;text-transform:uppercase;padding:.22rem .6rem;border-radius:50px;white-space:nowrap}
-.cbody{padding:1.2rem;flex:1;display:flex;flex-direction:column}
-.ctop{display:flex;align-items:center;gap:.85rem;margin-bottom:.85rem}
-.cav{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:.9rem;color:white;overflow:hidden}
-.cname{font-family:var(--fm);font-weight:700;font-size:.92rem;margin-bottom:.12rem}
-.crole{font-size:.73rem;color:var(--mu)}.ccity{font-size:.7rem;color:var(--mu);margin-top:.12rem}
-.ctags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.85rem}
-.ctag{font-family:var(--fm);font-weight:600;font-size:.62rem;padding:.18rem .55rem;border-radius:50px;background:var(--lg);color:var(--tm)}
-.cthumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem;margin-bottom:.85rem}
-.cthumb{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--tr)}.cthumb:hover{transform:scale(1.06)}
-.cthumb-yt{cursor:pointer}.cthumb-yt:hover img{opacity:.85}
-.cbot{display:flex;align-items:center;justify-content:space-between;padding-top:.85rem;border-top:1px solid var(--br);margin-top:auto;gap:.5rem}
-.cstats{display:flex;gap:1rem}
-.cstat span:first-child{display:block;font-family:var(--fm);font-weight:700;font-size:.83rem;color:var(--td)}
-.cstat span:last-child{font-size:.63rem;color:var(--mu)}
-.lbtn{display:flex;align-items:center;gap:.4rem;font-family:var(--fm);font-weight:700;font-size:.75rem;padding:.42rem .9rem;border-radius:50px;border:1.5px solid var(--br);background:white;cursor:pointer;transition:var(--tr);color:var(--mu);flex-shrink:0}
-.lbtn:hover{border-color:#ef4444;color:#ef4444}.lbtn.liked{background:#fef2f2;border-color:#ef4444;color:#ef4444}
-.lhrt{font-size:.85rem}.lbtn.liked .lhrt{animation:hpop .3s ease}
-@keyframes hpop{0%{transform:scale(1)}50%{transform:scale(1.5)}100%{transform:scale(1)}}
-.cvbtn{width:100%;margin-top:.85rem;padding:.6rem;border-radius:50px;border:1.5px solid var(--ac);background:transparent;font-family:var(--fm);font-weight:600;font-size:.77rem;color:var(--ac);cursor:pointer;transition:var(--tr)}.cvbtn:hover{background:var(--ac);color:white}
-.cjbtn{width:100%;margin-top:.5rem;padding:.6rem;border-radius:50px;border:none;background:var(--ac);font-family:var(--fm);font-weight:700;font-size:.77rem;color:white;cursor:pointer;transition:var(--tr);box-shadow:0 3px 12px rgba(246,128,2,.25)}.cjbtn:hover{background:var(--acd);transform:translateY(-1px)}
-.mov{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.58);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1.5rem}
+.ham span{display:block;width:22px;height:2px;background:var(--dark);border-radius:2px}
+#mob{
+  display:none;position:fixed;top:60px;left:0;right:0;
+  background:white;border-bottom:1px solid var(--br);z-index:999;padding:1rem 5%;
+}
+#mob a{
+  display:block;padding:.65rem 0;
+  font-family:var(--fm);font-weight:600;font-size:.88rem;
+  color:var(--tm);cursor:pointer;border-bottom:1px solid var(--brl);
+}
+
+/* ══════════════════════════════════════
+   CREATIVES PAGE
+══════════════════════════════════════ */
+#page-showcase{padding-top:60px}
+
+.browse-header{
+  background:var(--dark);
+  padding:3rem 5% 2.5rem;
+  position:relative;overflow:hidden;
+}
+.browse-header::after{
+  content:'CREATIVES';
+  position:absolute;right:-1%;bottom:-15px;
+  font-size:9vw;font-weight:900;
+  color:rgba(255,255,255,.03);
+  letter-spacing:-4px;pointer-events:none;
+  line-height:1;white-space:nowrap;
+}
+.browse-h{
+  font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;
+  color:white;letter-spacing:-1.5px;line-height:.95;margin-bottom:.6rem;
+}
+.browse-h span{color:var(--ac)}
+.browse-sub{font-size:.83rem;color:rgba(255,255,255,.38);line-height:1.7;margin-bottom:0}
+
+.cat-bar{
+  background:var(--w);
+  border-bottom:1px solid var(--br);
+  padding:0 5%;
+  position:sticky;top:60px;z-index:100;
+}
+.cat-bar-in{
+  max-width:1500px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:.65rem 0;flex-wrap:wrap;
+}
+.cat-tabs{display:flex;gap:.25rem;flex-wrap:wrap}
+.cat-tab{
+  font-family:var(--fm);font-weight:700;font-size:.72rem;
+  padding:.38rem .92rem;border-radius:50px;cursor:pointer;
+  border:1.5px solid var(--br);background:white;color:var(--mu);
+  transition:var(--tr);letter-spacing:.2px;
+}
+.cat-tab:hover{border-color:var(--dark);color:var(--dark)}
+.cat-tab.active{background:var(--dark);color:white;border-color:var(--dark)}
+.cat-search{
+  display:flex;align-items:center;gap:.6rem;
+  background:var(--off);border:1.5px solid var(--br);
+  border-radius:50px;padding:.38rem .95rem;min-width:200px;
+  transition:var(--tr);
+}
+.cat-search:focus-within{border-color:var(--dark);background:white}
+.cat-search input{border:none;outline:none;font-family:var(--fm);font-size:.8rem;color:var(--dark);background:transparent;width:100%}
+
+.cg-wrap{padding:1.6rem 5%;background:var(--off);min-height:60vh}
+.cg-inner{max-width:1500px;margin:0 auto}
+.cg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
+.cg-count{font-family:var(--fm);font-weight:700;font-size:.78rem;color:var(--mu)}
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+
+/* ── Creative Card — Behance-style, image dominant ── */
+.cc{
+  background:white;border-radius:14px;
+  overflow:hidden;transition:var(--tr);
+  display:flex;flex-direction:column;cursor:pointer;
+  border:1px solid var(--brl);
+}
+.cc:hover{box-shadow:0 12px 40px rgba(0,0,0,.1);transform:translateY(-4px);border-color:transparent}
+.cc-cover{
+  width:100%;aspect-ratio:16/9;overflow:hidden;
+  position:relative;background:var(--dark);flex-shrink:0;
+}
+.cc-cover-inner{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.cc-cover-av{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:1.4rem;color:white;
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+.cc-cover-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.cc-cover-badge{
+  position:absolute;top:.65rem;right:.65rem;
+  background:var(--ac);color:white;
+  font-weight:700;font-size:.55rem;letter-spacing:.8px;
+  text-transform:uppercase;padding:.18rem .55rem;border-radius:50px;
+}
+.cc-cover-feat{
+  position:absolute;top:.65rem;left:.65rem;
+  background:rgba(255,255,255,.15);backdrop-filter:blur(8px);color:white;
+  font-weight:700;font-size:.55rem;letter-spacing:.8px;
+  text-transform:uppercase;padding:.18rem .55rem;border-radius:50px;
+  border:1px solid rgba(255,255,255,.2);
+}
+.cc-body{padding:.85rem;flex:1;display:flex;flex-direction:column}
+.cc-name{font-weight:800;font-size:.88rem;margin-bottom:.1rem;line-height:1.2}
+.cc-role{font-size:.7rem;color:var(--mu);margin-bottom:.55rem;display:flex;align-items:center;gap:.3rem}
+.cc-tags{display:flex;gap:.25rem;flex-wrap:wrap;margin-bottom:.7rem}
+.cc-tag{
+  font-weight:600;font-size:.58rem;padding:.12rem .45rem;
+  border-radius:50px;background:var(--off);color:var(--tm);
+  border:1px solid var(--brl);
+}
+.cc-bot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:.65rem;border-top:1px solid var(--brl);margin-top:auto;
+}
+.cc-stats{display:flex;gap:.7rem}
+.cc-stat span:first-child{display:block;font-weight:700;font-size:.75rem;color:var(--dark)}
+.cc-stat span:last-child{font-size:.58rem;color:var(--mu)}
+.lbtn{
+  display:flex;align-items:center;gap:.3rem;
+  font-weight:700;font-size:.68rem;
+  padding:.3rem .7rem;border-radius:50px;
+  border:1.5px solid var(--br);background:white;
+  cursor:pointer;transition:var(--tr);color:var(--mu);flex-shrink:0;
+}
+.lbtn:hover{border-color:#ef4444;color:#ef4444}
+.lbtn.liked{background:#fef2f2;border-color:#ef4444;color:#ef4444}
+.cvbtn{
+  width:100%;margin-top:.7rem;padding:.5rem;
+  border-radius:50px;border:2px solid var(--dark);
+  background:transparent;font-weight:700;font-size:.7rem;
+  color:var(--dark);cursor:pointer;transition:var(--tr);
+}
+.cvbtn:hover{background:var(--dark);color:white}
+.loading-state{text-align:center;padding:4rem 0;color:var(--mu);grid-column:1/-1}
+.loading-spinner{width:28px;height:28px;border:2.5px solid var(--br);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.nores{display:none;text-align:center;padding:3rem;color:var(--mu);grid-column:1/-1}
+
+/* ══════════════════════════════════════
+   PROFILE MODAL
+══════════════════════════════════════ */
+.mov{
+  display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,.62);backdrop-filter:blur(5px);
+  align-items:center;justify-content:center;padding:1.5rem;
+}
 .mov.open{display:flex}
-.mbox{background:white;border-radius:var(--rlg);width:100%;max-width:960px;max-height:92vh;box-shadow:0 24px 80px rgba(0,0,0,.22);position:relative;animation:min .3s cubic-bezier(.4,0,.2,1);margin:auto;display:flex;flex-direction:column;overflow:hidden}
-@keyframes min{from{transform:translateY(-18px);opacity:0}to{transform:translateY(0);opacity:1}}
-.mclose{position:absolute;top:.9rem;right:.9rem;z-index:20;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.25);backdrop-filter:blur(4px);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:white;transition:var(--tr)}.mclose:hover{background:var(--ac)}
-/* Banner — flush at top, fixed height */
-.pmbanner{display:none!important}
-/* White profile info area — fixed, no scroll */
-.mbox-info{padding:0 2rem 1.2rem;flex-shrink:0}
-/* Avatar overlaps banner */
-.pmhero{display:flex;align-items:flex-end;gap:1rem;margin-top:-44px;margin-bottom:.85rem;position:relative;z-index:2}
-.pmhero-nobanner{margin-top:1.5rem;align-items:center}
-.pmav{width:80px;height:80px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1.4rem;color:white;border:4px solid white;box-shadow:0 4px 14px rgba(0,0,0,.15);overflow:hidden;background:#ddd}
-.pmname{font-family:var(--fm);font-weight:800;font-size:1.3rem;margin-bottom:.18rem}
-/* Divider between info and videos */
-.mbox-divider{height:1px;background:var(--br);margin:0 2rem;flex-shrink:0}
-/* Video section — scrollable */
-.mbox-videos{padding:1.2rem 2rem 1.5rem;overflow-y:auto;flex:1;min-height:0}
+.mbox{
+  background:white;border-radius:20px;width:100%;
+  max-width:920px;max-height:92vh;
+  box-shadow:0 28px 90px rgba(0,0,0,.22);
+  position:relative;animation:mopen .28s cubic-bezier(.4,0,.2,1);
+  margin:auto;display:flex;flex-direction:column;overflow:hidden;
+}
+@keyframes mopen{from{transform:translateY(-18px);opacity:0}to{transform:none;opacity:1}}
+.mclose{
+  position:absolute;top:.85rem;right:.85rem;z-index:10;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(0,0,0,.08);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:var(--dark);transition:var(--tr);
+}
+.mclose:hover{background:var(--dark);color:white}
+.mbox-info{padding:1.6rem 1.8rem 1rem;flex-shrink:0}
+.pmhero{display:flex;align-items:center;gap:.9rem;margin-bottom:.85rem}
+.pmav{
+  width:70px;height:70px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1.25rem;color:white;
+  border:3px solid white;box-shadow:0 3px 12px rgba(0,0,0,.1);
+  overflow:hidden;background:#ddd;
+}
+.pmname{font-weight:800;font-size:1.2rem;margin-bottom:.14rem;line-height:1.2}
+.pmrole{font-size:.78rem;color:var(--mu);margin-bottom:.35rem}
+.pmtags{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.8rem}
+.pmtag{font-weight:600;font-size:.62rem;padding:.15rem .52rem;border-radius:50px;background:var(--off);color:var(--tm);border:1px solid var(--brl)}
+.pmbio{font-size:.82rem;color:var(--tm);line-height:1.8;margin-bottom:.9rem}
+.pmsec{font-weight:700;font-size:.65rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);margin-bottom:.6rem}
+.pmlrow{display:flex;align-items:center;gap:.65rem;padding:.8rem .95rem;background:var(--off);border-radius:var(--r);margin-bottom:.8rem;flex-wrap:wrap}
+.hirebtn{
+  display:flex;align-items:center;gap:.4rem;
+  font-weight:700;font-size:.78rem;padding:.46rem 1.1rem;
+  border-radius:50px;border:none;background:#25D366;color:white;
+  cursor:pointer;transition:var(--tr);margin-left:auto;
+  box-shadow:0 3px 10px rgba(37,211,102,.25);
+}
+.hirebtn:hover{background:#1ebe5d;transform:translateY(-1px)}
+.pmlbtn{
+  display:flex;align-items:center;gap:.42rem;
+  font-weight:700;font-size:.78rem;padding:.46rem 1.1rem;
+  border-radius:50px;border:2px solid var(--br);
+  background:white;cursor:pointer;transition:var(--tr);color:var(--mu);
+}
+.pmlbtn:hover{border-color:#ef4444;color:#ef4444}
+.pmlbtn.liked{background:#fef2f2;border-color:#ef4444;color:#ef4444}
+.pmstats{display:flex;gap:.5rem;flex-wrap:wrap}
+.pmsb{flex:1;min-width:68px;background:var(--off);border-radius:var(--rsm);padding:.75rem;text-align:center}
+.pmsn{font-weight:800;font-size:.95rem;color:var(--ac);display:block}.pmsl{font-size:.6rem;color:var(--mu)}
+.mbox-divider{height:1px;background:var(--br);flex-shrink:0}
+.mbox-videos{padding:1.1rem 1.8rem 1.4rem;overflow-y:auto;flex:1;min-height:0}
 .mbox-videos::-webkit-scrollbar{width:4px}
-.mbox-videos::-webkit-scrollbar-track{background:transparent}
 .mbox-videos::-webkit-scrollbar-thumb{background:var(--br);border-radius:4px}
-.pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:0}
-.pmvid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 6px 24px rgba(0,0,0,.14);position:relative;cursor:pointer}
+.pmvideos{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.pmvid{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;background:#000;position:relative;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.1)}
 .pmvid iframe{position:absolute;inset:0;width:100%;height:100%;border:none;pointer-events:none}
 .pmvid.playing iframe{pointer-events:auto}
-.pmvid-thumb{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .3s}
-.pmvid.playing .pmvid-thumb{opacity:0;pointer-events:none}
-.pmvid-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .3s}
-.pmvid.playing .pmvid-play{opacity:0;pointer-events:none}
-.pmvid-playbtn{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.3);transition:transform .2s,background .2s}
-.pmvid:hover .pmvid-playbtn{transform:scale(1.1);background:white}
+.pmvid-thumb{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .28s}
+.pmvid.playing .pmvid-thumb,.pmvid.playing .pmvid-play{opacity:0;pointer-events:none}
+.pmvid-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity .28s}
+.pmvid-playbtn{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,.28);transition:transform .18s}
+.pmvid:hover .pmvid-playbtn{transform:scale(1.08)}
 .pmvid-playbtn svg{margin-left:4px}
-.pmvid-title{position:absolute;bottom:0;left:0;right:0;padding:.75rem 1rem;background:linear-gradient(transparent,rgba(0,0,0,.7));color:white;font-family:var(--fm);font-weight:600;font-size:.82rem;transition:opacity .3s}
-.pmvid.playing .pmvid-title{opacity:0}
-.pmvid-topbar{position:absolute;top:0;left:0;right:0;height:52px;background:linear-gradient(rgba(0,0,0,.85),transparent);z-index:5;pointer-events:none;opacity:0;transition:opacity .5s}
+.pmvid-topbar{position:absolute;top:0;left:0;right:0;height:50px;background:linear-gradient(rgba(0,0,0,.82),transparent);z-index:5;pointer-events:none;opacity:0}
 .pmvid.playing .pmvid-topbar{opacity:1;animation:hidetop 4.5s forwards}
 @keyframes hidetop{0%{opacity:1}70%{opacity:1}100%{opacity:0}}
-.pmvideos.single{grid-template-columns:1fr;max-width:560px}
-.pmvideos.many{grid-template-columns:1fr 1fr 1fr}
-@media(max-width:680px){.pmvideos,.pmvideos.many{grid-template-columns:1fr}.pmbanner{height:120px}.mbox{max-height:100vh;border-radius:var(--r)}}
-.pmrole{font-size:.82rem;color:var(--mu);margin-bottom:.4rem}
-.pmtags{display:flex;gap:.4rem;flex-wrap:wrap}
-.pmtag{font-family:var(--fm);font-weight:600;font-size:.68rem;padding:.2rem .62rem;border-radius:50px;background:var(--acl);color:var(--ac)}
-.pmbio{font-size:.86rem;color:var(--tm);line-height:1.75;margin-bottom:1rem}
-.pmsec{font-family:var(--fm);font-weight:700;font-size:.73rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--mu);margin-bottom:.7rem}
-.pmlrow{display:flex;align-items:center;gap:.75rem;padding:.85rem 1.1rem;background:var(--ow);border-radius:var(--r);margin-bottom:1rem;flex-wrap:wrap}
-.hirebtn{display:flex;align-items:center;gap:.45rem;font-family:var(--fm);font-weight:700;font-size:.83rem;padding:.55rem 1.3rem;border-radius:50px;border:none;background:#25D366;color:white;cursor:pointer;transition:var(--tr);margin-left:auto;box-shadow:0 3px 12px rgba(37,211,102,.3)}.hirebtn:hover{background:#1ebe5d;transform:translateY(-1px)}
-.pmlbtn{display:flex;align-items:center;gap:.5rem;font-family:var(--fm);font-weight:700;font-size:.85rem;padding:.58rem 1.4rem;border-radius:50px;border:2px solid var(--br);background:white;cursor:pointer;transition:var(--tr);color:var(--mu)}
-.pmlbtn:hover{border-color:#ef4444;color:#ef4444}.pmlbtn.liked{background:#fef2f2;border-color:#ef4444;color:#ef4444}
-.pmport{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-bottom:1.4rem}
-.pmthumb{aspect-ratio:16/10;border-radius:var(--rsm);display:flex;align-items:center;justify-content:center;font-size:1.8rem;transition:var(--tr)}.pmthumb:hover{transform:scale(1.04);border-radius:var(--r)}
-.pmstats{display:flex;gap:.6rem;margin-bottom:0;flex-wrap:wrap}
-.pmsb{flex:1;min-width:80px;background:var(--ow);border-radius:var(--rsm);padding:.9rem;text-align:center}
-.pmsn{font-family:var(--fm);font-weight:800;font-size:1.2rem;color:var(--ac);display:block}.pmsl{font-size:.68rem;color:var(--mu)}
-.pmnudge{padding:1rem 1.2rem;background:var(--acl);border-radius:var(--r);text-align:center;margin-top:1rem}.pmnudge p{font-size:.8rem;color:var(--tm);margin-bottom:.6rem}
-.loading-state{text-align:center;padding:4rem 0;color:var(--mu);grid-column:1/-1}
-.loading-spinner{width:36px;height:36px;border:3px solid var(--br);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
-@keyframes spin{to{transform:rotate(360deg)}}
-.nores{display:none;text-align:center;padding:3.5rem 0;color:var(--mu);grid-column:1/-1}
-.jhero{background:var(--td);padding:130px 5% 80px;position:relative;overflow:hidden}
-.jhero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:500px;background:radial-gradient(ellipse,rgba(246,128,2,.14) 0%,transparent 68%)}
-.jinn{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;position:relative}
-.jhero h1{font-family:var(--fm);font-weight:900;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.1;color:white;margin-bottom:1.2rem}
-.jsub{font-size:.98rem;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:1.8rem}
-.jlist{list-style:none;margin-bottom:2.2rem}
-.jlist li{display:flex;align-items:flex-start;gap:.8rem;font-size:.9rem;color:rgba(255,255,255,.75);margin-bottom:.7rem;line-height:1.5}
-.jchk{width:20px;height:20px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;color:white;font-size:.6rem;font-weight:700;flex-shrink:0;margin-top:1px}
-.jmock{background:white;border-radius:20px;padding:1.4rem;box-shadow:0 30px 80px rgba(0,0,0,.35);width:100%}
-.jmh{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem;padding-bottom:1rem;border-bottom:1px solid var(--br)}
-.jmav{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--ac),#FF9500);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:.95rem;color:white}
-.jmname{font-family:var(--fm);font-weight:700;font-size:.88rem}.jmrole{font-size:.73rem;color:var(--mu)}
-.jmbadge{margin-left:auto;background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.58rem;padding:.18rem .55rem;border-radius:50px}
-.jmthumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:1rem}
-.jmthumb{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
-.jmstats{display:flex;gap:.5rem}.jms{flex:1;background:var(--ow);border-radius:8px;padding:.65rem;text-align:center}
-.jmsn{font-family:var(--fm);font-weight:800;font-size:.95rem;color:var(--ac);display:block}.jmsl{font-size:.61rem;color:var(--mu)}
-.how{background:var(--ow)}
-.srow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;max-width:1100px;margin:3.5rem auto 0;position:relative}
-.srow::before{content:'';position:absolute;top:27px;left:12.5%;right:12.5%;height:2px;background:var(--br);z-index:0}
-.si{text-align:center;padding:0 1.2rem;position:relative;z-index:1}
-.snum{width:54px;height:54px;border-radius:50%;background:white;border:2px solid var(--br);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:800;font-size:1rem;color:var(--mu);margin:0 auto 1.2rem;transition:var(--tr)}.si:hover .snum{border-color:var(--ac);color:var(--ac);box-shadow:0 0 0 6px var(--acl)}
-.stitle{font-family:var(--fm);font-weight:700;font-size:.9rem;margin-bottom:.5rem}.sdesc{font-size:.81rem;color:var(--mu);line-height:1.7}
-.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
-.fc{background:white;border:1px solid var(--br);border-radius:var(--rlg);padding:1.85rem;position:relative;overflow:hidden;transition:var(--tr)}
-.fc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--ac);transform:scaleX(0);transform-origin:left;transition:var(--tr)}
-.fc:hover{box-shadow:var(--smd);transform:translateY(-5px)}.fc:hover::after{transform:scaleX(1)}
-.fic{width:50px;height:50px;border-radius:13px;background:var(--acl);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.2rem}
-.fc h3{font-family:var(--fm);font-weight:700;font-size:.93rem;margin-bottom:.6rem}.fc p{font-size:.84rem;color:var(--mu);line-height:1.7}
-.pkgsec{background:var(--td);padding:90px 5%;position:relative;overflow:hidden}
-.pkgsec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:1000px;height:600px;background:radial-gradient(ellipse,rgba(246,128,2,.1) 0%,transparent 68%)}
-.pkginn{max-width:1100px;margin:0 auto;position:relative}
-.pkggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
-.pcard{border-radius:var(--rlg);padding:2.2rem;position:relative;transition:var(--tr);border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
-.pcard:hover{transform:translateY(-6px);border-color:rgba(246,128,2,.35)}
-.pcard.pfeat{background:white;border-color:var(--ac);border-width:2px;box-shadow:0 20px 60px rgba(246,128,2,.22)}
-.ppop{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--ac);color:white;white-space:nowrap;font-family:var(--fm);font-weight:700;font-size:.63rem;letter-spacing:1.5px;text-transform:uppercase;padding:.27rem .9rem;border-radius:50px}
-.pname{font-family:var(--fm);font-weight:700;font-size:.73rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;color:rgba(255,255,255,.4)}.pcard.pfeat .pname{color:var(--mu)}
-.pprice{font-family:var(--fm);font-weight:900;font-size:2.3rem;color:white;margin-bottom:.2rem;line-height:1}.pcard.pfeat .pprice{color:var(--td)}
-.ppsub{font-size:.8rem;color:rgba(255,255,255,.38);margin-bottom:1.2rem}.pcard.pfeat .ppsub{color:var(--mu)}
-.pdiv{border:none;border-top:1px solid rgba(255,255,255,.08);margin:1.2rem 0}.pcard.pfeat .pdiv{border-color:var(--br)}
-.pdesc{font-size:.83rem;color:rgba(255,255,255,.52);line-height:1.7;margin-bottom:1.4rem}.pcard.pfeat .pdesc{color:var(--mu)}
-.pfeats{list-style:none;margin-bottom:1.8rem}
-.pfeats li{display:flex;align-items:flex-start;gap:.62rem;font-size:.83rem;color:rgba(255,255,255,.68);padding:.42rem 0;line-height:1.5}.pcard.pfeat .pfeats li{color:var(--tm)}
-.pfeats .chk{color:var(--ac);font-weight:700;flex-shrink:0}.pfeats li.no .chk{color:rgba(255,255,255,.18)}.pfeats li.no{color:rgba(255,255,255,.28)}.pcard.pfeat .pfeats li.no{color:var(--tm);opacity:.4}
-.pbtn{width:100%;padding:.88rem;border-radius:50px;font-family:var(--fm);font-weight:700;font-size:.81rem;cursor:pointer;transition:var(--tr);border:none;display:flex;align-items:center;justify-content:center;gap:.5rem}
-.pg{background:transparent;color:rgba(255,255,255,.65);border:1.5px solid rgba(255,255,255,.18)}.pg:hover{border-color:var(--ac);color:var(--ac)}
-.pa{background:var(--ac);color:white;box-shadow:0 6px 22px rgba(246,128,2,.38)}.pa:hover{background:var(--acd);transform:translateY(-2px)}
-.pd{background:var(--td);color:white}.pd:hover{background:#2a2a2a;transform:translateY(-2px)}
-.pnote{text-align:center;margin-top:2.5rem;font-size:.8rem;color:rgba(255,255,255,.32)}.pnote span{color:rgba(255,255,255,.52)}.pnote a{color:var(--ac);cursor:pointer;text-decoration:none}
-.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
-.tcard{background:white;border:1px solid var(--br);border-radius:var(--rlg);padding:1.7rem}
-.stars{color:var(--ac);font-size:.8rem;letter-spacing:1px;margin-bottom:.85rem}
-.tq{font-size:.88rem;color:var(--tm);line-height:1.8;margin-bottom:1.2rem;font-style:italic}.tq::before{content:'"';color:var(--ac);font-size:1.8rem;line-height:0;vertical-align:-.35em;margin-right:.12rem}
-.tau{display:flex;align-items:center;gap:.7rem}.tav{width:37px;height:37px;border-radius:50%;background:linear-gradient(135deg,var(--ac) 0%,#FF9500 100%);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-weight:700;font-size:.78rem;color:white;flex-shrink:0}
-.tn{font-family:var(--fm);font-weight:700;font-size:.85rem}.tr2{font-size:.73rem;color:var(--mu)}
-.ctab{background:var(--td);padding:80px 5%;text-align:center;position:relative;overflow:hidden}
-.ctab::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(246,128,2,.14) 0%,transparent 70%)}
-.ctab h2{font-family:var(--fm);font-weight:800;font-size:clamp(1.8rem,3.5vw,2.8rem);color:white;margin-bottom:1rem;position:relative}
-.ctab p{font-size:.98rem;color:rgba(255,255,255,.58);margin-bottom:2.5rem;position:relative}
-footer{background:var(--td);padding:55px 5% 28px}
-.fgr{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
-.fbrand{font-family:var(--fm);font-weight:900;font-size:1.25rem;color:white;margin-bottom:.88rem}.fbrand span{color:var(--ac)}
-.fdesc{font-size:.84rem;color:rgba(255,255,255,.38);line-height:1.8;max-width:260px}
-.fct{font-family:var(--fm);font-weight:700;font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:1.1rem}
-.flink{display:block;font-size:.84rem;color:rgba(255,255,255,.48);text-decoration:none;margin-bottom:.68rem;cursor:pointer;transition:var(--tr)}.flink:hover{color:var(--ac)}
-.fbot{border-top:1px solid rgba(255,255,255,.07);padding-top:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.fcopy{font-size:.78rem;color:rgba(255,255,255,.22)}.fsocs{display:flex;gap:.58rem}
-.fsoc{width:33px;height:33px;border-radius:9px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:rgba(255,255,255,.38);cursor:pointer;transition:var(--tr);font-family:var(--fm);font-weight:700}.fsoc:hover{background:var(--ac);color:white}
-.ihero{background:var(--td);padding:130px 5% 70px;text-align:center;position:relative;overflow:hidden}
-.ihero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(246,128,2,.13) 0%,transparent 70%)}
-.ihero h1{font-family:var(--fm);font-weight:900;font-size:clamp(2rem,4vw,3.2rem);color:white;position:relative;margin-bottom:1rem}.ihero p{color:rgba(255,255,255,.58);font-size:.98rem;max-width:540px;margin:0 auto;position:relative}
-.faqlist{max-width:760px;margin:3.5rem auto 0}
-.faqitem{border:1px solid var(--br);border-radius:var(--r);margin-bottom:.88rem;overflow:hidden;transition:var(--tr)}.faqitem:hover{border-color:rgba(246,128,2,.35)}
-.faqq{padding:1.12rem 1.38rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-family:var(--fm);font-weight:600;font-size:.9rem;color:var(--td)}
-.faqico{width:22px;height:22px;border-radius:50%;background:var(--acl);display:flex;align-items:center;justify-content:center;color:var(--ac);font-size:.93rem;flex-shrink:0;transition:var(--tr)}
-.faqa{padding:0 1.38rem;max-height:0;overflow:hidden;transition:all .3s ease;font-size:.87rem;color:var(--tm);line-height:1.8}
-.faqitem.open .faqa{max-height:300px;padding:0 1.38rem 1.12rem}.faqitem.open .faqico{transform:rotate(45deg);background:var(--ac);color:white}
-.cgrid2{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;max-width:940px;margin:3.5rem auto 0}
-.ciitem{display:flex;gap:1rem;margin-bottom:1.75rem}
-.ciico{width:44px;height:44px;border-radius:12px;background:var(--acl);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
-.cilabel{font-family:var(--fm);font-weight:700;font-size:.82rem;margin-bottom:.2rem}.cival{font-size:.84rem;color:var(--mu)}
-.fg{margin-bottom:1rem}.fl{display:block;font-family:var(--fm);font-weight:600;font-size:.73rem;letter-spacing:.5px;color:var(--tm);margin-bottom:.42rem;text-transform:uppercase}
-.fi,.fta,.fsel{width:100%;padding:.68rem 1rem;border:1px solid var(--br);border-radius:var(--rsm);font-family:var(--fb);font-size:.87rem;color:var(--td);background:white;transition:var(--tr);outline:none;resize:vertical}
-.fi:focus,.fta:focus,.fsel:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(246,128,2,.1)}.fta{min-height:88px}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.acard-c{background:white;border:1px solid var(--br);border-radius:var(--rlg);padding:1.5rem;margin-bottom:1.5rem}
-.toast{position:fixed;bottom:24px;right:24px;z-index:9999;background:var(--td);color:white;padding:.88rem 1.38rem;border-radius:var(--r);font-family:var(--fm);font-size:.84rem;font-weight:500;box-shadow:var(--slg);display:flex;align-items:center;gap:.68rem;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);max-width:300px}
-.toast.show{transform:translateY(0);opacity:1}.tico{color:var(--ac);font-size:1rem}
-@media(max-width:1024px){.cgrid{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:repeat(2,1fr)}.pkggrid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto}.jinn{grid-template-columns:1fr}.jvis{display:none!important}.fgr{grid-template-columns:1fr 1fr}}
-@media(max-width:768px){.nav-links{display:none}.ham{display:flex}.cgrid{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr 1fr}.tgrid{grid-template-columns:1fr}.srow{grid-template-columns:1fr 1fr}.srow::before{display:none}.cgrid2{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}.hero-stats{gap:1.5rem;flex-wrap:wrap}}
-@media(max-width:480px){.fgrid{grid-template-columns:1fr}.srow{grid-template-columns:1fr}.frow{grid-template-columns:1fr}}
+.pmvideos.single{grid-template-columns:1fr}.pmvideos.many{grid-template-columns:repeat(3,1fr)}
+.pmnudge{padding:.85rem 1.1rem;background:var(--acl);border-radius:var(--r);text-align:center}
+.pmnudge p{font-size:.76rem;color:var(--tm);margin-bottom:.5rem}
+
+/* ══════════════════════════════════════
+   JOBS PAGE
+══════════════════════════════════════ */
+#page-jobs{padding-top:60px}
+.jobs-header{
+  background:var(--dark);
+  padding:3rem 5% 2.5rem;position:relative;overflow:hidden;
+}
+.jobs-header::after{
+  content:'JOBS';position:absolute;right:-1%;bottom:-15px;
+  font-size:11vw;font-weight:900;color:rgba(255,255,255,.025);
+  letter-spacing:-4px;pointer-events:none;line-height:1;
+}
+.jobs-h{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:900;color:white;letter-spacing:-1.5px;line-height:.95;margin-bottom:.6rem}
+.jobs-h span{color:var(--ac)}
+.jobs-sub{font-size:.83rem;color:rgba(255,255,255,.38);line-height:1.7;margin-bottom:1.5rem;max-width:480px}
+.jobs-filters{
+  display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;
+  padding:.85rem 5%;background:var(--w);
+  border-bottom:1px solid var(--br);
+  position:sticky;top:60px;z-index:100;
+}
+.jf-select{
+  font-family:var(--fm);font-size:.74rem;font-weight:600;
+  padding:.42rem 1rem;border:1.5px solid var(--br);
+  border-radius:50px;background:white;color:var(--tm);
+  cursor:pointer;outline:none;transition:var(--tr);
+}
+.jf-select:focus{border-color:var(--dark);color:var(--dark)}
+.jobs-wrap{padding:1.6rem 5%;background:var(--off)}
+.jobs-inner{max-width:980px;margin:0 auto}
+.jobs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.jcard{
+  background:white;border:1px solid var(--brl);
+  border-radius:14px;padding:1.4rem;
+  transition:var(--tr);cursor:pointer;
+}
+.jcard:hover{border-color:var(--dark);box-shadow:0 8px 28px rgba(0,0,0,.07);transform:translateY(-2px)}
+.jcard-top{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:.85rem}
+.jcard-logo{
+  width:44px;height:44px;border-radius:10px;background:var(--dark);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:.92rem;color:var(--ac);flex-shrink:0;
+}
+.jcard-co{font-weight:600;font-size:.72rem;color:var(--mu);margin-bottom:.15rem}
+.jcard-title{font-weight:800;font-size:.92rem;color:var(--dark);line-height:1.2}
+.jcard-desc{font-size:.77rem;color:var(--mu);line-height:1.72;margin-bottom:.85rem}
+.jcard-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.8rem}
+.jtag{font-weight:700;font-size:.6rem;padding:.17rem .55rem;border-radius:50px}
+.jtag-type{background:var(--dark);color:white}
+.jtag-loc{background:var(--off);color:var(--tm);border:1px solid var(--brl)}
+.jtag-cat{background:var(--acl);color:var(--ac)}
+.jcard-bot{display:flex;align-items:center;justify-content:space-between;padding-top:.8rem;border-top:1px solid var(--brl)}
+.jcard-salary{font-weight:800;font-size:.82rem;color:var(--dark)}
+.jcard-meta{font-size:.68rem;color:var(--mu);display:flex;align-items:center;gap:.3rem;margin-top:.18rem}
+.japply{
+  font-weight:700;font-size:.74rem;
+  padding:.46rem 1.15rem;border-radius:50px;
+  border:none;background:var(--dark);color:white;
+  cursor:pointer;transition:var(--tr);
+  display:flex;align-items:center;gap:.38rem;
+}
+.japply:hover{background:var(--ac);transform:translateY(-1px)}
+
+/* ══════════════════════════════════════
+   JOIN PAGE
+══════════════════════════════════════ */
+#page-join{padding-top:60px}
+.jhero{
+  background:var(--dark);padding:3.5rem 5% 3rem;
+  position:relative;overflow:hidden;
+}
+.jhero::before{
+  content:'';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);width:700px;height:450px;
+  background:radial-gradient(ellipse,rgba(254,115,10,.1) 0%,transparent 70%);
+}
+.jinn{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;position:relative;z-index:1}
+.jhero h1{font-weight:900;font-size:clamp(1.8rem,3.2vw,2.8rem);line-height:1.05;color:white;margin-bottom:.9rem;letter-spacing:-.8px}
+.jhero h1 span{color:var(--ac)}.jsub{font-size:.87rem;color:rgba(255,255,255,.42);line-height:1.82;margin-bottom:1.7rem}
+.jlist{list-style:none;margin-bottom:1.8rem}
+.jlist li{display:flex;align-items:flex-start;gap:.7rem;font-size:.83rem;color:rgba(255,255,255,.6);margin-bottom:.58rem;line-height:1.5}
+.jchk{width:17px;height:17px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;color:white;font-size:.52rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.pkgsec{background:var(--dark);padding:60px 5%;position:relative;overflow:hidden}
+.pkgsec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:450px;background:radial-gradient(ellipse,rgba(254,115,10,.07) 0%,transparent 68%)}
+.pkginn{max-width:960px;margin:0 auto;position:relative;z-index:1}
+.pkggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.2rem}
+.pcard{border-radius:var(--rlg);padding:1.8rem;position:relative;transition:var(--tr);border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.032)}
+.pcard:hover{transform:translateY(-4px);border-color:rgba(254,115,10,.28)}.pcard.pfeat{background:white;border-color:var(--ac);border-width:2px;box-shadow:0 18px 55px rgba(254,115,10,.16)}
+.ppop{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--ac);color:white;white-space:nowrap;font-weight:700;font-size:.58rem;letter-spacing:1.5px;text-transform:uppercase;padding:.22rem .8rem;border-radius:50px}
+.pname{font-weight:700;font-size:.66rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.85rem;color:rgba(255,255,255,.28)}.pcard.pfeat .pname{color:var(--mu)}
+.pprice{font-weight:900;font-size:2rem;color:white;margin-bottom:.1rem;line-height:1}.pcard.pfeat .pprice{color:var(--dark)}
+.ppsub{font-size:.72rem;color:rgba(255,255,255,.25);margin-bottom:1rem}.pcard.pfeat .ppsub{color:var(--mu)}
+.pdiv{border:none;border-top:1px solid rgba(255,255,255,.07);margin:1rem 0}.pcard.pfeat .pdiv{border-color:var(--brl)}
+.pdesc{font-size:.76rem;color:rgba(255,255,255,.36);line-height:1.72;margin-bottom:1.2rem}.pcard.pfeat .pdesc{color:var(--mu)}
+.pfeats{list-style:none;margin-bottom:1.5rem}
+.pfeats li{display:flex;align-items:flex-start;gap:.55rem;font-size:.76rem;color:rgba(255,255,255,.52);padding:.32rem 0;line-height:1.5}.pcard.pfeat .pfeats li{color:var(--tm)}
+.pfeats .chk{color:var(--ac);font-weight:700;flex-shrink:0}.pfeats li.no .chk{color:rgba(255,255,255,.12)}.pfeats li.no{color:rgba(255,255,255,.18)}.pcard.pfeat .pfeats li.no{opacity:.35}
+.pbtn{width:100%;padding:.8rem;border-radius:50px;font-weight:700;font-size:.76rem;cursor:pointer;transition:var(--tr);border:none;display:flex;align-items:center;justify-content:center;gap:.42rem}
+.pg{background:transparent;color:rgba(255,255,255,.45);border:1.5px solid rgba(255,255,255,.12)}.pg:hover{border-color:var(--ac);color:var(--ac)}
+.pa{background:var(--ac);color:white;box-shadow:0 6px 20px rgba(254,115,10,.3)}.pa:hover{background:var(--acd);transform:translateY(-2px)}
+.pd{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7)}.pd:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+
+/* ══════════════════════════════════════
+   SHARED / UTILS
+══════════════════════════════════════ */
+.sec{padding:65px 5%}
+.stag{display:inline-block;font-weight:700;font-size:.64rem;letter-spacing:2px;text-transform:uppercase;color:var(--ac);background:var(--acl);padding:.34rem .88rem;border-radius:50px;margin-bottom:.9rem}
+.sh{font-weight:800;font-size:clamp(1.55rem,2.8vw,2.4rem);line-height:1.1;color:var(--dark);margin-bottom:.82rem}
+.tac{text-align:center}.tac2{color:var(--ac)}
+.ihero{background:var(--dark);padding:5rem 5% 3.5rem;text-align:center;position:relative;overflow:hidden}
+.ihero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:550px;height:320px;background:radial-gradient(ellipse,rgba(254,115,10,.1) 0%,transparent 70%)}
+.ihero h1{font-weight:900;font-size:clamp(1.7rem,3.2vw,2.8rem);color:white;position:relative;margin-bottom:.85rem;letter-spacing:-.8px}
+.ihero p{color:rgba(255,255,255,.38);font-size:.88rem;max-width:440px;margin:0 auto;position:relative;line-height:1.75}
+.faqlist{max-width:680px;margin:2.5rem auto 0}
+.faqitem{border:1.5px solid var(--br);border-radius:var(--r);margin-bottom:.65rem;overflow:hidden;transition:var(--tr)}.faqitem:hover{border-color:var(--dark)}
+.faqq{padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:600;font-size:.85rem;color:var(--dark)}
+.faqico{width:20px;height:20px;border-radius:50%;background:var(--off);display:flex;align-items:center;justify-content:center;color:var(--dark);font-size:.88rem;flex-shrink:0;transition:var(--tr)}
+.faqa{padding:0 1.2rem;max-height:0;overflow:hidden;transition:all .3s ease;font-size:.82rem;color:var(--tm);line-height:1.8}
+.faqitem.open .faqa{max-height:300px;padding:0 1.2rem 1.05rem}.faqitem.open .faqico{transform:rotate(45deg);background:var(--dark);color:white}
+.cgrid2{display:grid;grid-template-columns:1fr 1.3fr;gap:3rem;max-width:840px;margin:2.5rem auto 0}
+.ciitem{display:flex;gap:.9rem;margin-bottom:1.4rem}
+.ciico{width:40px;height:40px;border-radius:10px;background:var(--off);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.cilabel{font-weight:700;font-size:.76rem;margin-bottom:.12rem}.cival{font-size:.78rem;color:var(--mu)}
+.fg{margin-bottom:.82rem}.fl{display:block;font-weight:600;font-size:.66rem;letter-spacing:.5px;color:var(--tm);margin-bottom:.32rem;text-transform:uppercase}
+.fi,.fta,.fsel{width:100%;padding:.6rem .88rem;border:1.5px solid var(--br);border-radius:var(--rsm);font-family:var(--fm);font-size:.82rem;color:var(--dark);background:white;transition:var(--tr);outline:none;resize:vertical}
+.fi:focus,.fta:focus,.fsel:focus{border-color:var(--dark);box-shadow:0 0 0 3px rgba(35,35,35,.06)}.fta{min-height:80px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.82rem}
+.acard-c{background:white;border:1.5px solid var(--br);border-radius:var(--rlg);padding:1.4rem}
+.btn{display:inline-flex;align-items:center;gap:.45rem;font-weight:700;font-size:.8rem;padding:.76rem 1.7rem;border-radius:50px;border:none;cursor:pointer;transition:var(--tr)}
+.btn-p{background:var(--dark);color:white;box-shadow:0 4px 16px rgba(35,35,35,.2)}.btn-p:hover{background:var(--ac);transform:translateY(-2px)}
+.btn-w{background:white;color:var(--dark);box-shadow:var(--sh);border:1.5px solid var(--br)}.btn-w:hover{transform:translateY(-2px);border-color:var(--dark)}
+.btn-sm{font-size:.7rem;padding:.42rem .95rem}.btn-lg{font-size:.88rem;padding:.9rem 2rem}
+.ctab{background:var(--dark);padding:60px 5%;text-align:center;position:relative;overflow:hidden}
+.ctab::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:650px;height:320px;background:radial-gradient(ellipse,rgba(254,115,10,.1) 0%,transparent 70%)}
+.ctab h2{font-weight:900;font-size:clamp(1.5rem,2.8vw,2.3rem);color:white;margin-bottom:.82rem;position:relative;letter-spacing:-.5px}
+.ctab p{font-size:.87rem;color:rgba(255,255,255,.38);margin-bottom:2rem;position:relative}
+footer{background:var(--dark);padding:40px 5% 20px}
+.fgr{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
+.fbrand{font-weight:900;font-size:1.1rem;color:white;margin-bottom:.7rem}.fbrand span{color:var(--ac)}
+.fdesc{font-size:.78rem;color:rgba(255,255,255,.25);line-height:1.82;max-width:225px}
+.fct{font-weight:700;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:.85rem}
+.flink{display:block;font-size:.78rem;color:rgba(255,255,255,.35);text-decoration:none;margin-bottom:.52rem;cursor:pointer;transition:var(--tr)}.flink:hover{color:var(--ac)}
+.fbot{border-top:1px solid rgba(255,255,255,.07);padding-top:1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fcopy{font-size:.7rem;color:rgba(255,255,255,.16)}
+.toast{position:fixed;bottom:20px;right:20px;z-index:9999;background:var(--dark);color:white;padding:.8rem 1.2rem;border-radius:var(--r);font-size:.78rem;font-weight:500;box-shadow:var(--shl);display:flex;align-items:center;gap:.55rem;transform:translateY(68px);opacity:0;transition:all .28s cubic-bezier(.4,0,.2,1);max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}.tico{color:var(--ac)}
+
+/* ── CTA strip ── */
+.cta-strip{
+  background:var(--ac);padding:2.8rem 5%;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;
+}
+.cta-strip h3{font-weight:900;font-size:clamp(1.2rem,2.5vw,1.8rem);color:white;letter-spacing:-.5px}
+.cta-strip p{font-size:.82rem;color:rgba(255,255,255,.7);margin-top:.3rem}
+.cta-strip-btn{background:white;color:var(--dark);font-weight:800;font-size:.82rem;padding:.8rem 1.8rem;border-radius:50px;border:none;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.cta-strip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.18)}
+
+@media(max-width:1200px){.cgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:960px){.cgrid{grid-template-columns:repeat(2,1fr)}.pkggrid{grid-template-columns:1fr;max-width:340px;margin-left:auto;margin-right:auto}.jinn{grid-template-columns:1fr}.fgr{grid-template-columns:1fr 1fr}.jobs-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.nav-center{display:none}.ham{display:flex}.cgrid{grid-template-columns:repeat(2,1fr)}.cgrid2{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}}
+@media(max-width:480px){.cgrid{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.spl-h{letter-spacing:-2.5px}.spl-cards{flex-direction:column;align-items:center}}
 </style>
 </head>
 <body>
 
-<nav id="main-nav">
-  <a class="logo" onclick="showPage('showcase')" style="display:flex;align-items:center;gap:.5rem"><img src="logo_1.png" style="width:28px;height:28px;object-fit:contain">Time<span>liners</span></a>
-  <div class="nav-links">
-    <a onclick="showPage('showcase')">Browse Creatives</a>
-    <a onclick="showPage('join')">Join</a>
-    <a onclick="showPage('faq')">FAQ</a>
-    <a onclick="showPage('contact')">Contact</a>
-    <a class="nav-cta" onclick="showPage('join')"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="display:inline;vertical-align:middle;flex-shrink:0;margin-right:6px"><circle cx="8" cy="5" r="3" fill="currentColor"/><path d="M2 13.5C2 11 4.7 9 8 9s6 2 6 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>Make Your Profile</a>
-  </div>
-  <button class="ham" onclick="toggleMob()" aria-label="Menu"><span></span><span></span><span></span></button>
-</nav>
-<div id="mob">
-  <a onclick="showPage('showcase');closeMob()">Browse Creatives</a>
-  <a onclick="showPage('join');closeMob()">Join Timeliners</a>
-  <a onclick="showPage('faq');closeMob()">FAQ</a>
-  <a onclick="showPage('contact');closeMob()">Contact</a>
-  <button class="btn btn-p" style="width:100%;justify-content:center;margin-top:1rem" onclick="showPage('join');closeMob()"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M2 13c0-3.04 2.46-5 5.5-5s5.5 1.96 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg> Make Your Profile</button>
-</div>
+<!-- ══ SPLASH ══ -->
+<div class="page active" id="page-splash">
+  <div class="spl-noise"></div>
 
-<div class="page active" id="page-showcase">
-  <div class="hero">
-    <div class="hero-in">
-      <div class="live">Sri Lanka's Creative Platform</div>
-      <h1>Discover Sri Lanka's<br><span class="tac2">Top Creative Talent</span></h1>
-      <p class="hero-sub">Browse verified video editors, motion designers, graphic artists, and content creators — handpicked from across Sri Lanka.</p>
-      <div class="hero-btns">
-        <button class="btn btn-p btn-lg" onclick="showPage('join')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M2 13c0-3.04 2.46-5 5.5-5s5.5 1.96 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg> Make Your Profile</button>
-        <button class="btn btn-g btn-lg" onclick="document.getElementById('gsec').scrollIntoView({behavior:'smooth'})">Browse Creatives ↓</button>
-      </div>
-      <div class="hero-stats">
-        <div><div class="hs-n" id="stat-count">—</div><div class="hs-l">Verified Creatives</div></div>
-        <div class="hs-div"></div>
-        <div><div class="hs-n">12K+</div><div class="hs-l">Portfolio Projects</div></div>
-        <div class="hs-div"></div>
-        <div><div class="hs-n">25+</div><div class="hs-l">Cities in Sri Lanka</div></div>
-        <div class="hs-div"></div>
-        <div><div class="hs-n">98%</div><div class="hs-l">Client Satisfaction</div></div>
-      </div>
+  <!-- Floating decorative avatars -->
+  <div class="spl-deco" style="top:18%;left:5%;animation-delay:0s">
+    <div class="spl-av" style="background:#FE730A">NK</div>
+  </div>
+  <div class="spl-deco" style="top:30%;right:7%;animation-delay:1.5s">
+    <div class="spl-av" style="background:#232323">RP</div>
+  </div>
+  <div class="spl-deco" style="bottom:28%;left:8%;animation-delay:.8s">
+    <div class="spl-av" style="background:#0EA5E9">KF</div>
+  </div>
+  <div class="spl-deco" style="bottom:22%;right:6%;animation-delay:2.1s">
+    <div class="spl-av" style="background:#16A34A">TM</div>
+  </div>
+
+  <nav class="spl-nav">
+    <div class="spl-brand">Timeliners</div>
+    <div class="spl-nav-links">
+      <a class="spl-nav-link" onclick="enterPlatform('faq')">FAQ</a>
+      <a class="spl-nav-link" onclick="enterPlatform('contact')">Contact</a>
+    </div>
+  </nav>
+
+  <div class="spl-body">
+    <div class="spl-eyebrow">Sri Lanka's Creative Platform</div>
+    <h1 class="spl-h">
+      Discover<br>
+      <em>Sri Lanka's</em>
+      Best Talent.
+    </h1>
+    <p class="spl-sub">The platform where video editors, motion designers and content creators get found by the right people.</p>
+
+    <div class="spl-cards">
+      <button class="spl-card spl-card-primary" onclick="enterPlatform('showcase')">
+        <div class="spl-card-ico">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="7" r="4" fill="rgba(255,255,255,.7)"/><path d="M3 19c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,.7)" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <div class="spl-card-label">For Clients</div>
+        <div class="spl-card-title">Find a Creative</div>
+        <div class="spl-card-desc">Browse verified video editors, motion designers and more.</div>
+      </button>
+      <button class="spl-card spl-card-ghost" onclick="enterPlatform('join')">
+        <div class="spl-card-ico">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="3" width="16" height="16" rx="4" stroke="#FE730A" stroke-width="1.8" fill="none"/><path d="M11 7v8M7 11h8" stroke="#FE730A" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="spl-card-label">For Creatives</div>
+        <div class="spl-card-title">Join as Creative</div>
+        <div class="spl-card-desc">Get your profile in front of clients. Free to start.</div>
+      </button>
     </div>
   </div>
-  <div class="fbar">
-    <div class="fbar-in">
-      <div class="ftabs">
-        <button class="ftab active" onclick="filterGrid('all',this)">All</button>
-        <button class="ftab" onclick="filterGrid('video',this)">Video Editors</button>
-        <button class="ftab" onclick="filterGrid('motion',this)">Motion Artists</button>
-        <button class="ftab" onclick="filterGrid('graphic',this)">Graphic Designers</button>
-        <button class="ftab" onclick="filterGrid('social',this)">Social Media</button>
+
+  <div class="spl-foot">Also hiring? <a onclick="enterPlatform('jobs')">Post a job →</a></div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav id="main-nav">
+  <div class="nav-brand" onclick="showSplash()">Timeliners</div>
+  <div class="nav-center">
+    <a class="nav-link" id="nav-showcase" onclick="showPage('showcase')">Creatives</a>
+    <a class="nav-link" id="nav-jobs" onclick="showPage('jobs')">Jobs</a>
+    <a class="nav-link" id="nav-faq" onclick="showPage('faq')">FAQ</a>
+    <a class="nav-link" id="nav-contact" onclick="showPage('contact')">Contact</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-cta" onclick="showPage('join')">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      Make Your Profile
+    </button>
+    <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div id="mob">
+  <a onclick="showPage('showcase');closeMob()">Creatives</a>
+  <a onclick="showPage('jobs');closeMob()">Jobs</a>
+  <a onclick="showPage('faq');closeMob()">FAQ</a>
+  <a onclick="showPage('contact');closeMob()">Contact</a>
+  <a onclick="showPage('join');closeMob()">Make Your Profile</a>
+</div>
+
+<!-- ══ CREATIVES PAGE ══ -->
+<div class="page" id="page-showcase">
+  <div class="browse-header">
+    <div style="max-width:1500px;margin:0 auto">
+      <div class="browse-h">Sri Lanka's<br><span>Creative Talent</span></div>
+      <p class="browse-sub">Verified editors, designers & motion artists — ready to work.</p>
+    </div>
+  </div>
+  <div class="cat-bar">
+    <div class="cat-bar-in">
+      <div class="cat-tabs">
+        <button class="cat-tab active" onclick="filterGrid('all',this)">All</button>
+        <button class="cat-tab" onclick="filterGrid('video',this)">Video Editors</button>
+        <button class="cat-tab" onclick="filterGrid('motion',this)">Motion Designers</button>
+        <button class="cat-tab" onclick="filterGrid('graphic',this)">Graphic Designers</button>
+        <button class="cat-tab" onclick="filterGrid('social',this)">Social Media</button>
       </div>
-      <div class="fsearch">
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="flex-shrink:0"><circle cx="6.5" cy="6.5" r="5" stroke="#888" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="#F68002" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="cat-search">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink:0"><circle cx="5.5" cy="5.5" r="4" stroke="#bbb" stroke-width="1.3"/><path d="M9 9l2.5 2.5" stroke="#FE730A" stroke-width="1.4" stroke-linecap="round"/></svg>
         <input type="text" id="sinp" placeholder="Search name, skill, city..." oninput="searchGrid(this.value)">
       </div>
     </div>
   </div>
-  <section class="gw" id="gsec">
-    <div class="gi">
-      <div class="gh">
-        <span class="gc" id="gcnt">Loading profiles...</span>
-        <button class="btn btn-o btn-sm" onclick="showPage('join')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="display:inline;vertical-align:middle;flex-shrink:0"><circle cx="8" cy="5" r="3" fill="currentColor"/><path d="M2 13.5C2 11 4.7 9 8 9s6 2 6 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg> Add Your Profile</button>
+  <div class="cg-wrap">
+    <div class="cg-inner">
+      <div class="cg-head">
+        <span class="cg-count" id="gcnt">Loading...</span>
+        <button class="btn btn-p btn-sm" onclick="showPage('join')">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          Get Listed
+        </button>
       </div>
       <div class="cgrid" id="mgrid">
-        <div class="loading-state"><div class="loading-spinner"></div><div style="font-family:var(--fm);font-weight:600;font-size:.88rem">Loading creatives...</div></div>
+        <div class="loading-state"><div class="loading-spinner"></div><div style="font-weight:600;font-size:.8rem">Loading creatives...</div></div>
       </div>
     </div>
-  </section>
-  <section class="ctab">
-    <h2>Are You a Sri Lankan Creative?</h2>
-    <p>Get your own profile on Timeliners. Clients are browsing right now.</p>
-    <button class="btn btn-w btn-lg" onclick="showPage('join')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M2 13c0-3.04 2.46-5 5.5-5s5.5 1.96 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg> Make Your Profile — Free</button>
-  </section>
+  </div>
+  <div class="cta-strip">
+    <div>
+      <h3>Are you a Sri Lankan Creative?</h3>
+      <p>Get your profile seen by clients actively looking for your skills.</p>
+    </div>
+    <button class="cta-strip-btn" onclick="showPage('join')">Get Your Profile — Free →</button>
+  </div>
   <footer>
     <div class="fgr">
-      <div><div class="fbrand">Time<span>liners</span></div><div class="fdesc">Sri Lanka's premier showcase for video editors, motion artists, graphic designers, and content creators.</div></div>
-      <div><div class="fct">Platform</div><a class="flink" onclick="showPage('showcase')">Browse Creatives</a><a class="flink" onclick="showPage('join')">Join & Get Listed</a><a class="flink" onclick="openWA('General')">WhatsApp Us</a></div>
-      <div><div class="fct">Company</div><a class="flink" onclick="showPage('faq')">FAQ & Help</a><a class="flink" onclick="showPage('contact')">Contact</a></div>
-      <div><div class="fct">Connect</div><a class="flink">Instagram</a><a class="flink">Facebook</a><a class="flink">TikTok</a><a class="flink" onclick="openWA('General')">WhatsApp</a></div>
+      <div><div class="fbrand">Timeliners</div><div class="fdesc">Sri Lanka's platform for video editors, motion designers and content creators.</div></div>
+      <div><div class="fct">Platform</div><a class="flink" onclick="showPage('showcase')">Find Creatives</a><a class="flink" onclick="showPage('jobs')">Post a Job</a><a class="flink" onclick="showPage('join')">Get Listed</a></div>
+      <div><div class="fct">Company</div><a class="flink" onclick="showPage('faq')">FAQ</a><a class="flink" onclick="showPage('contact')">Contact</a></div>
+      <div><div class="fct">Connect</div><a class="flink" onclick="openWA('General')">WhatsApp</a><a class="flink">Instagram</a><a class="flink">TikTok</a></div>
     </div>
-    <div class="fbot"><div class="fcopy">© 2025 Timeliners. All rights reserved. Sri Lanka.</div><div class="fsocs"><div class="fsoc">ig</div><div class="fsoc">fb</div><div class="fsoc">tt</div><div class="fsoc">wa</div></div></div>
+    <div class="fbot"><div class="fcopy">© 2025 Timeliners. All rights reserved.</div></div>
   </footer>
 </div>
 
+<!-- ══ PROFILE MODAL ══ -->
 <div class="mov" id="pmod">
   <div class="mbox">
     <button class="mclose" onclick="closeProfile()">×</button>
     <div id="pmodbody"></div>
-
   </div>
 </div>
 
+<!-- ══ JOBS PAGE ══ -->
+<div class="page" id="page-jobs">
+  <div class="jobs-header">
+    <div style="max-width:980px;margin:0 auto">
+      <div class="jobs-h">Find Your Next<br><span>Creative Gig</span></div>
+      <p class="jobs-sub">Video editing, motion, content creation and more — posted by real companies across Sri Lanka.</p>
+      <button class="btn" style="background:var(--ac);color:white;box-shadow:0 6px 20px rgba(254,115,10,.3)" onclick="openWA('I would like to post a job on Timeliners')">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Post a Job — Free
+      </button>
+    </div>
+  </div>
+  <div class="jobs-filters">
+    <select class="jf-select" id="jf-type" onchange="filterJobs()"><option value="">All Types</option><option value="full-time">Full Time</option><option value="part-time">Part Time</option><option value="freelance">Freelance</option><option value="remote">Remote</option></select>
+    <select class="jf-select" id="jf-cat" onchange="filterJobs()"><option value="">All Categories</option><option value="video">Video Editing</option><option value="motion">Motion Design</option><option value="social">Social Media</option><option value="graphic">Graphic Design</option></select>
+    <select class="jf-select" id="jf-loc" onchange="filterJobs()"><option value="">All Locations</option><option value="colombo">Colombo</option><option value="kandy">Kandy</option><option value="galle">Galle</option><option value="remote">Remote</option></select>
+  </div>
+  <div class="jobs-wrap"><div class="jobs-inner"><div class="jobs-grid" id="jobs-grid"></div></div></div>
+  <div class="cta-strip">
+    <div><h3>Hiring a Creative?</h3><p>Post your job and reach Sri Lanka's top video editors and motion designers.</p></div>
+    <button class="cta-strip-btn" onclick="openWA('I would like to post a job on Timeliners')">Post a Job — Free →</button>
+  </div>
+  <footer>
+    <div class="fgr">
+      <div><div class="fbrand">Timeliners</div><div class="fdesc">Sri Lanka's creative talent platform.</div></div>
+      <div><div class="fct">Platform</div><a class="flink" onclick="showPage('showcase')">Find Creatives</a><a class="flink" onclick="showPage('join')">Get Listed</a></div>
+      <div><div class="fct">Company</div><a class="flink" onclick="showPage('faq')">FAQ</a><a class="flink" onclick="showPage('contact')">Contact</a></div>
+      <div><div class="fct">Connect</div><a class="flink" onclick="openWA('General')">WhatsApp</a></div>
+    </div>
+    <div class="fbot"><div class="fcopy">© 2025 Timeliners.</div></div>
+  </footer>
+</div>
+
+<!-- ══ JOIN PAGE ══ -->
 <div class="page" id="page-join">
   <div class="jhero">
     <div class="jinn">
       <div>
-        <div class="live" style="margin-bottom:1.5rem">Sri Lanka's #1 Creative Platform</div>
-        <h1>Get Your Work Seen by the <span style="color:var(--ac)">Right People</span></h1>
-        <p class="jsub">Timeliners is Sri Lanka's premium showcase for video editors, motion artists, graphic designers, and content creators. We build and manage your profile — you focus on your craft.</p>
+        <div style="font-size:.63rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ac);border:1px solid rgba(254,115,10,.25);padding:.28rem .85rem;border-radius:50px;display:inline-block;margin-bottom:1.1rem">For Creatives</div>
+        <h1>Get Your Work Seen<br>by the <span>Right People</span></h1>
+        <p class="jsub">Timeliners is Sri Lanka's platform for video editors, motion designers and content creators. We build your profile — you focus on your craft.</p>
         <ul class="jlist">
-          <li><div class="jchk">✓</div>Professional portfolio that works for you 24/7</li>
-          <li><div class="jchk">✓</div>Admin builds &amp; manages your profile for you</li>
-          <li><div class="jchk">✓</div>Analytics — see who views your work</li>
-          <li><div class="jchk">✓</div>VIP badge for premium visibility &amp; client trust</li>
-          <li><div class="jchk">✓</div>Social media promotion on our channels (Pro plan)</li>
+          <li><div class="jchk">✓</div>Professional profile working 24/7</li>
+          <li><div class="jchk">✓</div>Admin builds and manages your profile</li>
+          <li><div class="jchk">✓</div>Analytics — track who views your work</li>
+          <li><div class="jchk">✓</div>VIP badge for premium visibility</li>
+          <li><div class="jchk">✓</div>Social media promotion on our channels</li>
         </ul>
-        <div style="display:flex;gap:1rem;flex-wrap:wrap">
-          <button class="btn btn-p btn-lg" onclick="document.getElementById('pkgsec').scrollIntoView({behavior:'smooth'})">See Packages ↓</button>
-          <button class="btn" style="background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.15)" onclick="openWA('General')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><path d="M7.5 1C3.91 1 1 3.91 1 7.5c0 1.16.3 2.25.82 3.2L1 14l3.38-.8A6.5 6.5 0 107.5 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/><path d="M5.5 5.5c.17.38.56 1.3.63 1.44.07.14.04.3-.04.42l-.38.47c-.08.1-.09.24-.02.35.28.45.82 1.08 1.34 1.42.14.09.32.07.44-.04l.4-.38c.12-.11.3-.13.43-.05.28.16 1.03.56 1.4.74.15.07.2.25.14.4-.2.5-.73 1.13-1.3 1.07-.93-.1-2.77-1.13-3.67-3.3-.21-.51-.2-1.1.05-1.59.23-.46.58-.95.58-.95z" fill="currentColor"/></svg> Chat on WhatsApp</button>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+          <button class="btn btn-p btn-lg" onclick="document.getElementById('pkgsec').scrollIntoView({behavior:'smooth'})">See Plans ↓</button>
+          <button class="btn btn-w btn-lg" onclick="openWA('General')">Chat on WhatsApp</button>
         </div>
       </div>
-      <div class="jvis">
-        <div class="jmock">
-          <div class="jmh"><div class="jmav">NK</div><div><div class="jmname">Nirosha Kumari</div><div class="jmrole">Motion Graphics · Colombo</div></div><div class="jmbadge">👑 VIP Pro</div></div>
-          <div class="jmthumbs"><div class="jmthumb" style="background:linear-gradient(135deg,#FF6B35,#F68002)">🎬</div><div class="jmthumb" style="background:linear-gradient(135deg,#667eea,#764ba2)">✨</div><div class="jmthumb" style="background:linear-gradient(135deg,#11998e,#38ef7d)">🎨</div></div>
-          <div class="jmstats"><div class="jms"><span class="jmsn">4.2K</span><span class="jmsl">Views</span></div><div class="jms"><span class="jmsn">287</span><span class="jmsl">Likes</span></div><div class="jms"><span class="jmsn">14</span><span class="jmsl">Inquiries</span></div></div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.4rem">
+        <div style="font-weight:700;font-size:.63rem;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.22);margin-bottom:.9rem">Sample Profile</div>
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.9rem;padding-bottom:.9rem;border-bottom:1px solid rgba(255,255,255,.07)">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;color:white;flex-shrink:0">NK</div>
+          <div><div style="font-weight:700;font-size:.82rem;color:white">Nirosha Kumari</div><div style="font-size:.7rem;color:rgba(255,255,255,.32)">Motion Graphics · Colombo</div></div>
+          <div style="margin-left:auto;background:var(--ac);color:white;font-weight:700;font-size:.54rem;padding:.16rem .5rem;border-radius:50px;white-space:nowrap">VIP Pro</div>
         </div>
+        <div style="display:flex;gap:.45rem;margin-bottom:.75rem">
+          <div style="flex:1;background:rgba(255,255,255,.055);border-radius:8px;padding:.6rem;text-align:center"><div style="font-weight:800;font-size:.88rem;color:var(--ac)">4.2K</div><div style="font-size:.6rem;color:rgba(255,255,255,.25)">Views</div></div>
+          <div style="flex:1;background:rgba(255,255,255,.055);border-radius:8px;padding:.6rem;text-align:center"><div style="font-weight:800;font-size:.88rem;color:var(--ac)">287</div><div style="font-size:.6rem;color:rgba(255,255,255,.25)">Likes</div></div>
+          <div style="flex:1;background:rgba(255,255,255,.055);border-radius:8px;padding:.6rem;text-align:center"><div style="font-weight:800;font-size:.88rem;color:var(--ac)">43</div><div style="font-size:.6rem;color:rgba(255,255,255,.25)">Projects</div></div>
+        </div>
+        <div style="font-size:.73rem;color:rgba(255,255,255,.2);text-align:center">Live in 24–48 hours after signing up</div>
       </div>
     </div>
   </div>
-  <section class="sec how tac">
-    <div style="max-width:1100px;margin:0 auto">
-      <div class="stag">How It Works</div>
-      <h2 class="sh">Simple as <span class="tac2">1 – 2 – 3</span></h2>
-      <p class="ss" style="margin:0 auto">No technical skills needed. We handle everything.</p>
-      <div class="srow">
-        <div class="si"><div class="snum">1</div><div class="stitle">Choose a Plan</div><div class="sdesc">Pick Starter, Standard, or VIP Pro.</div></div>
-        <div class="si"><div class="snum">2</div><div class="stitle">Message on WhatsApp</div><div class="sdesc">Send your details and work samples to us.</div></div>
-        <div class="si"><div class="snum">3</div><div class="stitle">We Build Your Profile</div><div class="sdesc">Admin creates and uploads your portfolio within 24–48 hrs.</div></div>
-        <div class="si"><div class="snum">4</div><div class="stitle">Get Discovered</div><div class="sdesc">Your profile goes live. Clients across Sri Lanka find you.</div></div>
-      </div>
-    </div>
-  </section>
-  <section class="sec tac" style="background:white">
-    <div style="max-width:1100px;margin:0 auto">
-      <div class="stag">What You Get</div>
-      <h2 class="sh">Everything Your Creative Career <span class="tac2">Needs</span></h2>
-      <div class="fgrid">
-        <div class="fc"><div class="fic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="3" fill="#111"/><rect x="2" y="4" width="9" height="5" rx="2" fill="#F68002"/><rect x="6" y="11" width="12" height="1.5" rx=".75" fill="rgba(255,255,255,.5)"/><rect x="6" y="14" width="8" height="1.5" rx=".75" fill="rgba(255,255,255,.3)"/></svg></div><h3>Portfolio Management</h3><p>A beautifully organised profile showcasing your best work. We upload and arrange it for you.</p></div>
-        <div class="fc"><div class="fic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="12" width="4" height="9" rx="1.5" fill="#111"/><rect x="10" y="7" width="4" height="14" rx="1.5" fill="#F68002"/><rect x="17" y="3" width="4" height="18" rx="1.5" fill="#111"/></svg></div><h3>Analytics & Likes</h3><p>Track how many people view your profile and like your work. See what resonates with clients.</p></div>
-        <div class="fc"><div class="fic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 18h18v2H3z" fill="#111"/><path d="M3 18L6 8l4.5 5L12 4l1.5 9L18 8l3 10H3z" fill="#F68002"/><circle cx="3" cy="8" r="1.5" fill="#111"/><circle cx="21" cy="8" r="1.5" fill="#111"/><circle cx="12" cy="4" r="1.5" fill="#111"/></svg></div><h3>VIP Visibility</h3><p>Featured placement on the homepage and priority search ranking to put your work front and centre.</p></div>
-        <div class="fc"><div class="fic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="#111"/><path d="M16.5 12A4.5 4.5 0 0014 7.97v8.05A4.5 4.5 0 0016.5 12z" fill="#F68002"/><path d="M14 3.23v2.06A7 7 0 0114 20.7v2.07A9 9 0 0014 3.23z" fill="#F68002" opacity=".5"/></svg></div><h3>Social Media Promo</h3><p>VIP Pro members get work promoted on Timeliners' Instagram, Facebook, and TikTok channels monthly.</p></div>
-      </div>
-    </div>
-  </section>
   <section class="pkgsec" id="pkgsec">
     <div class="pkginn">
       <div class="tac">
-        <div class="stag" style="background:rgba(246,128,2,.15);color:var(--ac)">Monthly Plans</div>
-        <h2 class="sh" style="color:white">Choose Your <span style="color:var(--ac)">Plan</span></h2>
-        <p style="color:rgba(255,255,255,.52);max-width:500px;margin:0 auto;font-size:.95rem;line-height:1.8">Message us on WhatsApp after choosing — we set everything up within 24–48 hours.</p>
+        <div class="stag">Choose a Plan</div>
+        <h2 class="sh" style="color:white">Simple, Transparent <span style="color:var(--ac)">Pricing</span></h2>
+        <p style="color:rgba(255,255,255,.32);max-width:400px;margin:0 auto;font-size:.85rem;line-height:1.82">Message us after picking — we set everything up within 24–48 hours.</p>
       </div>
       <div class="pkggrid">
-        <div class="pcard"><div class="pname">Starter</div><div class="pprice">Free</div><div class="ppsub">Forever free · Limited features</div><hr class="pdiv"><div class="pdesc">Get listed on Timeliners with a basic presence.</div><ul class="pfeats"><li><span class="chk">✓</span>Public profile listing</li><li><span class="chk">✓</span>Up to 3 portfolio projects</li><li><span class="chk">✓</span>Likes counter on profile</li><li class="no"><span class="chk">×</span>Featured placement</li><li class="no"><span class="chk">×</span>Analytics dashboard</li><li class="no"><span class="chk">×</span>Social media promotion</li></ul><button class="pbtn pg" onclick="openWA('Starter (Free)')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><path d="M7.5 1C3.91 1 1 3.91 1 7.5c0 1.16.3 2.25.82 3.2L1 14l3.38-.8A6.5 6.5 0 107.5 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/><path d="M5.5 5.5c.17.38.56 1.3.63 1.44.07.14.04.3-.04.42l-.38.47c-.08.1-.09.24-.02.35.28.45.82 1.08 1.34 1.42.14.09.32.07.44-.04l.4-.38c.12-.11.3-.13.43-.05.28.16 1.03.56 1.4.74.15.07.2.25.14.4-.2.5-.73 1.13-1.3 1.07-.93-.1-2.77-1.13-3.67-3.3-.21-.51-.2-1.1.05-1.59.23-.46.58-.95.58-.95z" fill="currentColor"/></svg> Get Started Free</button></div>
-        <div class="pcard pfeat"><div class="ppop">Most Popular</div><div class="pname" style="color:var(--mu)">Standard</div><div class="pprice" style="color:var(--td)">1,990 <span style="font-size:1rem;font-weight:500;color:var(--mu)">LKR</span></div><div class="ppsub" style="color:var(--mu)">Per month</div><hr class="pdiv"><div class="pdesc" style="color:var(--mu)">Full portfolio access for serious creatives.</div><ul class="pfeats"><li><span class="chk">✓</span>Everything in Starter</li><li><span class="chk">✓</span>Unlimited portfolio projects</li><li><span class="chk">✓</span>Featured profile placement</li><li><span class="chk">✓</span>Analytics — views & engagement</li><li><span class="chk">✓</span>VIP badge on your profile</li><li class="no"><span class="chk" style="color:#ccc">×</span>Social media promotion</li></ul><button class="pbtn pa" onclick="openWA('Standard (1,990 LKR/month)')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><path d="M7.5 1C3.91 1 1 3.91 1 7.5c0 1.16.3 2.25.82 3.2L1 14l3.38-.8A6.5 6.5 0 107.5 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/><path d="M5.5 5.5c.17.38.56 1.3.63 1.44.07.14.04.3-.04.42l-.38.47c-.08.1-.09.24-.02.35.28.45.82 1.08 1.34 1.42.14.09.32.07.44-.04l.4-.38c.12-.11.3-.13.43-.05.28.16 1.03.56 1.4.74.15.07.2.25.14.4-.2.5-.73 1.13-1.3 1.07-.93-.1-2.77-1.13-3.67-3.3-.21-.51-.2-1.1.05-1.59.23-.46.58-.95.58-.95z" fill="currentColor"/></svg> Subscribe — 1,990 LKR/mo</button></div>
-        <div class="pcard"><div class="pname">VIP Pro</div><div class="pprice">4,990 <span style="font-size:.85rem;color:rgba(255,255,255,.4);font-weight:400">LKR</span></div><div class="ppsub">Per month · Everything included</div><hr class="pdiv"><div class="pdesc">Maximum exposure + active social promotion.</div><ul class="pfeats"><li><span class="chk">✓</span>Everything in Standard</li><li><span class="chk">✓</span>Promoted on Instagram & Facebook</li><li><span class="chk">✓</span>Promoted on TikTok channel</li><li><span class="chk">✓</span>Priority homepage placement</li><li><span class="chk">✓</span>Monthly performance report</li><li><span class="chk">✓</span>Dedicated account manager</li></ul><button class="pbtn pd" onclick="openWA('VIP Pro (4,990 LKR/month)')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><path d="M7.5 1C3.91 1 1 3.91 1 7.5c0 1.16.3 2.25.82 3.2L1 14l3.38-.8A6.5 6.5 0 107.5 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/><path d="M5.5 5.5c.17.38.56 1.3.63 1.44.07.14.04.3-.04.42l-.38.47c-.08.1-.09.24-.02.35.28.45.82 1.08 1.34 1.42.14.09.32.07.44-.04l.4-.38c.12-.11.3-.13.43-.05.28.16 1.03.56 1.4.74.15.07.2.25.14.4-.2.5-.73 1.13-1.3 1.07-.93-.1-2.77-1.13-3.67-3.3-.21-.51-.2-1.1.05-1.59.23-.46.58-.95.58-.95z" fill="currentColor"/></svg> Subscribe — 4,990 LKR/mo</button></div>
+        <div class="pcard"><div class="pname">Starter</div><div class="pprice">Free</div><div class="ppsub">Forever · Basic features</div><hr class="pdiv"><div class="pdesc">Get listed with a basic presence.</div><ul class="pfeats"><li><span class="chk">✓</span>Public profile listing</li><li><span class="chk">✓</span>Up to 3 portfolio projects</li><li><span class="chk">✓</span>Likes counter</li><li class="no"><span class="chk">×</span>Featured placement</li><li class="no"><span class="chk">×</span>Analytics</li><li class="no"><span class="chk">×</span>Social media promo</li></ul><button class="pbtn pg" onclick="openWA('Starter (Free)')">Get Started Free</button></div>
+        <div class="pcard pfeat"><div class="ppop">Most Popular</div><div class="pname">Standard</div><div class="pprice" style="color:var(--dark)">1,990 <span style="font-size:.9rem;font-weight:500;color:var(--mu)">LKR</span></div><div class="ppsub" style="color:var(--mu)">Per month</div><hr class="pdiv"><div class="pdesc" style="color:var(--mu)">Full portfolio for serious creatives.</div><ul class="pfeats"><li><span class="chk">✓</span>Everything in Starter</li><li><span class="chk">✓</span>Unlimited projects</li><li><span class="chk">✓</span>Featured placement</li><li><span class="chk">✓</span>Analytics & engagement</li><li><span class="chk">✓</span>VIP badge</li><li class="no"><span class="chk" style="color:#ccc">×</span>Social media promo</li></ul><button class="pbtn pa" onclick="openWA('Standard (1,990 LKR/month)')">Subscribe — 1,990 LKR/mo</button></div>
+        <div class="pcard"><div class="pname">VIP Pro</div><div class="pprice">4,990 <span style="font-size:.78rem;color:rgba(255,255,255,.28);font-weight:400">LKR</span></div><div class="ppsub">Per month · All inclusive</div><hr class="pdiv"><div class="pdesc">Maximum exposure + social promotion.</div><ul class="pfeats"><li><span class="chk">✓</span>Everything in Standard</li><li><span class="chk">✓</span>Instagram & Facebook promo</li><li><span class="chk">✓</span>TikTok channel feature</li><li><span class="chk">✓</span>Priority homepage placement</li><li><span class="chk">✓</span>Monthly performance report</li><li><span class="chk">✓</span>Dedicated account manager</li></ul><button class="pbtn pd" onclick="openWA('VIP Pro (4,990 LKR/month)')">Subscribe — 4,990 LKR/mo</button></div>
       </div>
-      <div class="pnote">All subscriptions activated manually after WhatsApp confirmation. <span>Payment via bank transfer or WhatsApp Pay.</span></div>
+      <div style="text-align:center;margin-top:1.8rem;font-size:.73rem;color:rgba(255,255,255,.18)">Activated manually after WhatsApp confirmation · Bank transfer or WhatsApp Pay</div>
     </div>
   </section>
-  <section class="sec" style="background:var(--ow)">
-    <div style="max-width:1100px;margin:0 auto">
-      <div class="tac"><div class="stag">Real Members</div><h2 class="sh">What Our <span class="tac2">Community Says</span></h2></div>
-      <div class="tgrid">
-        <div class="tcard"><div class="stars">★★★★★</div><p class="tq">The admin team uploaded all my portfolio pieces and set up my profile in one day. Now clients contact me directly through Timeliners.</p><div class="tau"><div class="tav">SK</div><div><div class="tn">Samitha Kodithuwakku</div><div class="tr2">Video Editor · Kandy</div></div></div></div>
-        <div class="tcard"><div class="stars">★★★★★</div><p class="tq">The VIP Pro plan's social media promotion is what sets it apart. My reel got featured on Timeliners' Instagram and I received 3 client inquiries in the same week.</p><div class="tau"><div class="tav">RP</div><div><div class="tn">Rajitha Perera</div><div class="tr2">Motion Artist · Colombo</div></div></div></div>
-        <div class="tcard"><div class="stars">★★★★★</div><p class="tq">Started with the free plan to test it. Within two weeks I upgraded to Standard. The visibility I get here beats posting on Instagram.</p><div class="tau"><div class="tav">AN</div><div><div class="tn">Amali Nissanka</div><div class="tr2">Graphic Designer · Galle</div></div></div></div>
-      </div>
-    </div>
-  </section>
-  <section class="ctab"><h2>Ready to Get <span style="color:var(--ac)">Discovered?</span></h2><p>Message us on WhatsApp — your profile will be live within 48 hours.</p><button class="btn btn-w btn-lg" onclick="openWA('General')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><path d="M7.5 1C3.91 1 1 3.91 1 7.5c0 1.16.3 2.25.82 3.2L1 14l3.38-.8A6.5 6.5 0 107.5 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/><path d="M5.5 5.5c.17.38.56 1.3.63 1.44.07.14.04.3-.04.42l-.38.47c-.08.1-.09.24-.02.35.28.45.82 1.08 1.34 1.42.14.09.32.07.44-.04l.4-.38c.12-.11.3-.13.43-.05.28.16 1.03.56 1.4.74.15.07.2.25.14.4-.2.5-.73 1.13-1.3 1.07-.93-.1-2.77-1.13-3.67-3.3-.21-.51-.2-1.1.05-1.59.23-.46.58-.95.58-.95z" fill="currentColor"/></svg> Message Us on WhatsApp</button></section>
-  <footer><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem"><div class="fbrand">Time<span>liners</span></div><div style="display:flex;gap:1.5rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Browse</a><a class="flink" onclick="showPage('faq')">FAQ</a><a class="flink" onclick="showPage('contact')">Contact</a></div></div></footer>
+  <footer><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem"><div class="fbrand">Timeliners</div><div style="display:flex;gap:1.5rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Creatives</a><a class="flink" onclick="showPage('jobs')">Jobs</a><a class="flink" onclick="showPage('faq')">FAQ</a></div></div><div class="fbot"><div class="fcopy">© 2025 Timeliners.</div></div></footer>
 </div>
 
+<!-- ══ FAQ PAGE ══ -->
 <div class="page" id="page-faq">
-  <div class="ihero"><div class="stag" style="position:relative">Help Center</div><h1>Frequently Asked <span style="color:var(--ac)">Questions</span></h1><p>Everything about joining Timeliners, packages, and how profiles work.</p></div>
+  <div class="ihero"><h1>Frequently Asked <span style="color:var(--ac)">Questions</span></h1><p>Everything about joining Timeliners, plans, and how profiles work.</p></div>
   <section class="sec">
     <div class="faqlist">
-      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">How do I get a profile on Timeliners?<div class="faqico">+</div></div><div class="faqa">Choose a plan on the Join page, tap the WhatsApp button. Send us your name, specialty, bio, and work samples. Our admin creates your profile within 24–48 hours.</div></div>
-      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">Do I need to create an account myself?<div class="faqico">+</div></div><div class="faqa">No. Timeliners is fully managed. Message us on WhatsApp with your details — our admin team builds everything for you.</div></div>
-      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">What is the difference between the three plans?<div class="faqico">+</div></div><div class="faqa">Starter (Free): Basic profile, up to 3 portfolio items. Standard (1,990 LKR/mo): Unlimited portfolio, VIP badge, featured placement, analytics. VIP Pro (4,990 LKR/mo): Everything in Standard plus monthly social media promotion.</div></div>
-      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">How does payment work?<div class="faqico">+</div></div><div class="faqa">All payments are manual. After messaging us on WhatsApp, we send bank account details. Transfer the fee, send the confirmation, and your profile activates within 24 hours. We accept bank transfers and WhatsApp Pay.</div></div>
-      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">How does the like system work?<div class="faqico">+</div></div><div class="faqa">Visitors can like each creative's profile once per browser. Likes are stored so the same profile can't be liked twice from the same browser.</div></div>
-      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">Can I update my portfolio after it's live?<div class="faqico">+</div></div><div class="faqa">Yes. Message us on WhatsApp with new work files and we'll update your portfolio within 48 hours. Standard and VIP Pro get unlimited updates.</div></div>
-      <div style="text-align:center;margin-top:3rem;padding:2.5rem;background:var(--ow);border-radius:var(--rlg)"><div style="margin-bottom:.75rem"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="21" rx="6" fill="#111"/><path d="M6 28l5-5h12a6 6 0 006-6" stroke="#F68002" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="10" cy="12.5" r="2" fill="#F68002"/><circle cx="16" cy="12.5" r="2" fill="white"/><circle cx="22" cy="12.5" r="2" fill="white"/></svg></div><div style="font-family:var(--fm);font-weight:700;font-size:1rem;margin-bottom:.4rem">Still have questions?</div><p style="font-size:.88rem;color:var(--mu);margin-bottom:1.25rem">Our team replies on WhatsApp within a few hours.</p><button class="btn btn-p" onclick="openWA('General')"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><path d="M7.5 1C3.91 1 1 3.91 1 7.5c0 1.16.3 2.25.82 3.2L1 14l3.38-.8A6.5 6.5 0 107.5 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/><path d="M5.5 5.5c.17.38.56 1.3.63 1.44.07.14.04.3-.04.42l-.38.47c-.08.1-.09.24-.02.35.28.45.82 1.08 1.34 1.42.14.09.32.07.44-.04l.4-.38c.12-.11.3-.13.43-.05.28.16 1.03.56 1.4.74.15.07.2.25.14.4-.2.5-.73 1.13-1.3 1.07-.93-.1-2.77-1.13-3.67-3.3-.21-.51-.2-1.1.05-1.59.23-.46.58-.95.58-.95z" fill="currentColor"/></svg> Chat with Us on WhatsApp</button></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">How do I get a profile on Timeliners?<div class="faqico">+</div></div><div class="faqa">Choose a plan, tap the WhatsApp button and send your name, specialty, bio, and work samples. Our admin creates your profile within 24–48 hours.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">Do I need to create an account myself?<div class="faqico">+</div></div><div class="faqa">No. Timeliners is fully managed. Message us on WhatsApp with your details — our team builds everything for you.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">What is the difference between the three plans?<div class="faqico">+</div></div><div class="faqa">Starter (Free): Basic profile, up to 3 projects. Standard (1,990 LKR/mo): Unlimited projects, VIP badge, featured placement, analytics. VIP Pro (4,990 LKR/mo): Everything in Standard plus monthly social media promotion.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">How does payment work?<div class="faqico">+</div></div><div class="faqa">All payments are manual. After messaging us on WhatsApp, we send bank account details. Transfer the fee, send confirmation, and your profile activates within 24 hours.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">How do I post a job?<div class="faqico">+</div></div><div class="faqa">Message us on WhatsApp with the job details — role, type (full-time/freelance), location, and description. We'll post it on the Jobs page for free.</div></div>
+      <div class="faqitem"><div class="faqq" onclick="toggleFaq(this)">Can I update my portfolio after it's live?<div class="faqico">+</div></div><div class="faqa">Yes. Message us on WhatsApp with new work and we'll update your portfolio within 48 hours. Standard and VIP Pro get unlimited updates.</div></div>
+      <div style="text-align:center;margin-top:2rem;padding:1.8rem;background:var(--off);border-radius:var(--rlg)"><div style="font-weight:700;font-size:.9rem;margin-bottom:.35rem">Still have questions?</div><p style="font-size:.82rem;color:var(--mu);margin-bottom:1.1rem">We reply on WhatsApp within a few hours.</p><button class="btn btn-p" onclick="openWA('General')">Chat on WhatsApp</button></div>
     </div>
   </section>
-  <footer><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding:36px 0 0"><div class="fbrand">Time<span>liners</span></div><div style="display:flex;gap:1.5rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Browse</a><a class="flink" onclick="showPage('join')">Join</a><a class="flink" onclick="showPage('contact')">Contact</a></div></div></footer>
+  <footer><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding-top:0"><div class="fbrand">Timeliners</div><div style="display:flex;gap:1.5rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Creatives</a><a class="flink" onclick="showPage('jobs')">Jobs</a><a class="flink" onclick="showPage('contact')">Contact</a></div></div><div class="fbot"><div class="fcopy">© 2025 Timeliners.</div></div></footer>
 </div>
 
+<!-- ══ CONTACT PAGE ══ -->
 <div class="page" id="page-contact">
-  <div class="ihero"><div class="stag" style="position:relative">Get In Touch</div><h1>We're Here to <span style="color:var(--ac)">Help</span></h1><p>Reach out via WhatsApp for the fastest response.</p></div>
+  <div class="ihero"><h1>Get In <span style="color:var(--ac)">Touch</span></h1><p>Reach out via WhatsApp for the fastest response.</p></div>
   <section class="sec">
     <div class="cgrid2">
       <div>
-        <div class="stag">Contact Channels</div>
-        <h2 class="sh" style="font-size:1.7rem">Talk to the <span class="tac2">Team</span></h2>
-        <p style="color:var(--mu);font-size:.9rem;line-height:1.8;margin-bottom:2rem">Whether you want to join, ask about a package, or have questions — we respond fast on WhatsApp.</p>
-        <div class="ciitem"><div class="ciico"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="20" height="15" rx="4" fill="#111"/><path d="M4 19l3-3h9a4 4 0 004-4" stroke="#F68002" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="7" cy="8.5" r="1.5" fill="#F68002"/><circle cx="11" cy="8.5" r="1.5" fill="white"/><circle cx="15" cy="8.5" r="1.5" fill="white"/></svg></div><div><div class="cilabel">WhatsApp (Fastest)</div><div class="cival">+94 77 187 3449</div></div></div>
-        <div class="ciitem"><div class="ciico"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="1" y="4" width="20" height="14" rx="3" fill="#111"/><path d="M1 7l10 7 10-7" stroke="#F68002" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div><div><div class="cilabel">Email</div><div class="cival"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4b22252d24653f22262e2722252e39380b2c262a222765282426">[email&#160;protected]</a></div></div></div>
-        <div class="ciitem"><div class="ciico"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 1C7.13 1 4 4.13 4 8c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#111"/><circle cx="11" cy="8" r="2.5" fill="#F68002"/></svg></div><div><div class="cilabel">Based In</div><div class="cival">Colombo, Sri Lanka</div></div></div>
-        <div class="ciitem"><div class="ciico"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="12" r="8" fill="#111"/><path d="M11 8v4l3 3" stroke="#F68002" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M8 2h6" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="cilabel">Response Time</div><div class="cival">Usually within 2–4 hours on WhatsApp</div></div></div>
-        <button class="btn btn-p btn-lg" onclick="openWA('General')" style="margin-top:1rem"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle"><path d="M7.5 1C3.91 1 1 3.91 1 7.5c0 1.16.3 2.25.82 3.2L1 14l3.38-.8A6.5 6.5 0 107.5 1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/><path d="M5.5 5.5c.17.38.56 1.3.63 1.44.07.14.04.3-.04.42l-.38.47c-.08.1-.09.24-.02.35.28.45.82 1.08 1.34 1.42.14.09.32.07.44-.04l.4-.38c.12-.11.3-.13.43-.05.28.16 1.03.56 1.4.74.15.07.2.25.14.4-.2.5-.73 1.13-1.3 1.07-.93-.1-2.77-1.13-3.67-3.3-.21-.51-.2-1.1.05-1.59.23-.46.58-.95.58-.95z" fill="currentColor"/></svg> Open WhatsApp Chat</button>
+        <div class="stag">Contact</div>
+        <h2 class="sh" style="font-size:1.5rem">Talk to the <span class="tac2">Team</span></h2>
+        <p style="color:var(--mu);font-size:.85rem;line-height:1.8;margin-bottom:1.6rem">Whether you want to join, ask about a plan, or post a job — we respond fast.</p>
+        <div class="ciitem"><div class="ciico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1C6.13 1 3 4.13 3 8c0 1.24.32 2.4.88 3.4L3 15l3.68-.87A7 7 0 1010 1z" fill="#232323"/><path d="M7 7c.15.35.5 1.2.57 1.33.06.13.03.28-.04.39l-.35.43c-.07.09-.08.22-.02.32.26.42.75 1 1.23 1.31.13.09.3.07.41-.04l.37-.35c.11-.1.27-.12.4-.05.26.15.95.52 1.28.68.14.07.19.23.13.37-.18.46-.67 1.04-1.2.99-.85-.09-2.54-1.04-3.36-3.04-.2-.47-.18-1.01.04-1.46.21-.43.54-.88.54-.88z" fill="#FE730A"/></svg></div><div><div class="cilabel">WhatsApp</div><div class="cival">+94 77 187 3449</div></div></div>
+        <div class="ciitem"><div class="ciico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="3" fill="#232323"/><path d="M2 7l8 5 8-5" stroke="#FE730A" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></div><div><div class="cilabel">Email</div><div class="cival">info.timeliners@gmail.com</div></div></div>
+        <div class="ciitem"><div class="ciico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1C7.24 1 5 3.24 5 6c0 4.25 5 11 5 11s5-6.75 5-11c0-2.76-2.24-5-5-5z" fill="#232323"/><circle cx="10" cy="6" r="2" fill="#FE730A"/></svg></div><div><div class="cilabel">Based in</div><div class="cival">Colombo, Sri Lanka</div></div></div>
+        <button class="btn btn-p btn-lg" onclick="openWA('General')" style="margin-top:.8rem">Open WhatsApp Chat</button>
       </div>
       <div class="acard-c">
-        <h3 style="font-family:var(--fm);font-weight:700;margin-bottom:1.5rem">Send a Message</h3>
-        <div class="frow"><div class="fg"><label class="fl">Your Name</label><input class="fi" placeholder="Kasun Perera"></div><div class="fg"><label class="fl">Email</label><input class="fi" placeholder="kasun@email.com"></div></div>
-        <div class="fg"><label class="fl">Topic</label><select class="fsel"><option>I want to join Timeliners</option><option>Question about a package</option><option>Hiring a creative</option><option>Other</option></select></div>
+        <h3 style="font-weight:700;margin-bottom:1.3rem;font-size:.95rem">Send a Message</h3>
+        <div class="frow"><div class="fg"><label class="fl">Name</label><input class="fi" placeholder="Kasun Perera"></div><div class="fg"><label class="fl">Email</label><input class="fi" placeholder="kasun@email.com"></div></div>
+        <div class="fg"><label class="fl">Topic</label><select class="fsel"><option>I want to join Timeliners</option><option>Question about a plan</option><option>I want to post a job</option><option>Hiring a creative</option><option>Other</option></select></div>
         <div class="fg"><label class="fl">Message</label><textarea class="fta" placeholder="Tell us how we can help..."></textarea></div>
-        <button class="btn btn-p" onclick="showToast('Message sent! We\'ll reply soon 📩')">Send Message</button>
+        <button class="btn btn-p" onclick="showToast('Message sent! We\'ll reply soon.')">Send Message</button>
       </div>
     </div>
   </section>
-  <footer><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding:36px 0 0"><div class="fbrand">Time<span>liners</span></div><div style="display:flex;gap:1.5rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Browse</a><a class="flink" onclick="showPage('join')">Join</a><a class="flink" onclick="showPage('faq')">FAQ</a></div></div></footer>
+  <footer><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding-top:0"><div class="fbrand">Timeliners</div><div style="display:flex;gap:1.5rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Creatives</a><a class="flink" onclick="showPage('jobs')">Jobs</a><a class="flink" onclick="showPage('faq')">FAQ</a></div></div><div class="fbot"><div class="fcopy">© 2025 Timeliners.</div></div></footer>
 </div>
 
 <div class="toast" id="toast"><span class="tico">✓</span><span id="tmsg"></span></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-// SUPABASE CONFIG
-// ═══════════════════════════════════════════════════════════
-const SB_URL = 'https://xilhrpbqdqocpwxaigvy.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
-
-async function sbFetch(path, method, body) {
-  const isWrite = method && method !== 'GET';
-  const opts = {
-    method: method || 'GET',
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': isWrite ? 'return=minimal,resolution=merge-duplicates' : 'return=representation'
-    }
-  };
-  if (body) opts.body = JSON.stringify(body);
-  const res = await fetch(SB_URL + '/rest/v1' + path, opts);
-  const txt = await res.text();
-  if (!res.ok) throw new Error(txt || res.status);
-  return txt ? JSON.parse(txt) : null;
-}
-
-async function loadProfiles() {
-  const rows = await sbFetch('/profiles?select=id,data');
-  return (rows || []).map(r => r.data);
-}
-
-async function upsertProfile(profile) {
-  await sbFetch('/profiles', 'POST', { id: profile.id, data: profile });
-}
-
-async function deleteProfile(id) {
-  await sbFetch('/profiles?id=eq.' + id, 'DELETE');
-}
-
-async function seedIfEmpty() {
-  const rows = await sbFetch('/profiles?select=id&limit=1');
-  if (rows && rows.length > 0) return;
-  for (const p of DEMO_PROFILES) {
-    await sbFetch('/profiles', 'POST', { id: p.id, data: p });
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
-// LIKES — still localStorage per browser (no login required)
-// ═══════════════════════════════════════════════════════════
-const LIKES_KEY = 'tl_lk';
+const SB_URL='https://xilhrpbqdqocpwxaigvy.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
+async function sbFetch(path,method,body){const isWrite=method&&method!=='GET';const opts={method:method||'GET',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':isWrite?'return=minimal,resolution=merge-duplicates':'return=representation'}};if(body)opts.body=JSON.stringify(body);const res=await fetch(SB_URL+'/rest/v1'+path,opts);const txt=await res.text();if(!res.ok)throw new Error(txt||res.status);return txt?JSON.parse(txt):null;}
+async function loadProfiles(){const rows=await sbFetch('/profiles?select=id,data');return(rows||[]).map(r=>r.data);}
+async function seedIfEmpty(){const rows=await sbFetch('/profiles?select=id&limit=1');if(rows&&rows.length>0)return;for(const p of DEMO_PROFILES){await sbFetch('/profiles','POST',{id:p.id,data:p});}}
+const LIKES_KEY='tl_lk';
 function getLiked(){try{return JSON.parse(localStorage.getItem(LIKES_KEY)||'{}')}catch(e){return{}}}
 function saveLiked(o){try{localStorage.setItem(LIKES_KEY,JSON.stringify(o))}catch(e){}}
+const GRADS=['#FE730A','#7C3AED','#0EA5E9','#16A34A','#DC2626','#D97706','#F97316','#1D4ED8','#0F766E','#6366F1','#DB2777','#059669','#1E293B','#0F172A','#312E81','#065F46','#4C1D95','#164E63','#7F1D1D','#1E3A5F'];
+const DEMO_PROFILES=[{id:'nirosha',name:'Nirosha Kumari',initials:'NK',role:'Motion Graphics Artist',city:'Colombo',bio:'Motion graphics artist with 6+ years in After Effects and Cinema 4D. Specialising in brand animations, explainer videos, and creative transitions.',tags:['After Effects','Cinema 4D','Premiere Pro','Blender'],plan:'vip',featured:true,exp:'6 yrs',pc:'43',avGrad:0,views:'4.2K',likes:287,wa:'',added:'2024-01-15T00:00:00.000Z'},{id:'rajitha',name:'Rajitha Perera',initials:'RP',role:'Senior Video Editor',city:'Kandy',bio:'Senior video editor with 8 years experience in commercial, documentary, and narrative content.',tags:['Premiere Pro','DaVinci Resolve','Colour Grade','Commercial'],plan:'vip',featured:false,exp:'8 yrs',pc:'31',avGrad:1,views:'3.8K',likes:214,wa:'',added:'2024-02-10T00:00:00.000Z'},{id:'amali',name:'Amali Nissanka',initials:'AN',role:'Graphic Designer',city:'Galle',bio:'Brand identity and visual design specialist creating logos, packaging, and marketing materials.',tags:['Figma','Illustrator','Brand Identity','Packaging'],plan:'standard',featured:true,exp:'5 yrs',pc:'24',avGrad:2,views:'2.9K',likes:176,wa:'',added:'2024-03-05T00:00:00.000Z'},{id:'kasun',name:'Kasun Fernando',initials:'KF',role:'Social Media Creator',city:'Negombo',bio:'Social media content creator specialising in viral Reels and TikTok edits.',tags:['Reels','CapCut','Canva Pro','TikTok'],plan:'free',featured:false,exp:'3 yrs',pc:'19',avGrad:3,views:'1.7K',likes:138,wa:'',added:'2024-04-20T00:00:00.000Z'},{id:'tharushi',name:'Tharushi Mendis',initials:'TM',role:'Motion Graphics & VFX',city:'Colombo',bio:'VFX and motion graphics specialist combining After Effects with Blender for 3D animation.',tags:['After Effects','Blender','VFX','3D Animation'],plan:'vip',featured:false,exp:'4 yrs',pc:'28',avGrad:5,views:'3.1K',likes:195,wa:'',added:'2024-02-28T00:00:00.000Z'},{id:'dimuth',name:'Dimuth Wickramasinghe',initials:'DW',role:'Cinematographer & Editor',city:'Matara',bio:'Wedding and event cinematographer with 7 years experience.',tags:['Final Cut Pro','Cinematography','Wedding Films','Events'],plan:'free',featured:false,exp:'7 yrs',pc:'22',avGrad:4,views:'2.2K',likes:154,wa:'',added:'2024-03-18T00:00:00.000Z'},{id:'sachini',name:'Sachini Ratnayake',initials:'SR',role:'UI/UX & Brand Designer',city:'Kurunegala',bio:'UI/UX designer and brand identity specialist creating digital experiences for startups.',tags:['UI/UX','Figma','Photoshop','Brand Systems'],plan:'standard',featured:false,exp:'4 yrs',pc:'35',avGrad:6,views:'2.5K',likes:162,wa:'',added:'2024-04-01T00:00:00.000Z'},{id:'ishara',name:'Ishara Gunawardena',initials:'IG',role:'Documentary & Commercial Editor',city:'Jaffna',bio:'Documentary filmmaker and commercial editor with 9 years of storytelling experience.',tags:['Documentary','Commercial','Storytelling','Premiere Pro'],plan:'vip',featured:false,exp:'9 yrs',pc:'27',avGrad:7,views:'2.6K',likes:168,wa:'',added:'2024-01-30T00:00:00.000Z'}];
 
-// ═══════════════════════════════════════════════════════════
-// CONSTANTS
-// ═══════════════════════════════════════════════════════════
-const GRADS=['#F68002','#7C3AED','#0EA5E9','#16A34A','#DC2626','#D97706','#F97316','#1D4ED8','#0F766E','#6366F1','#DB2777','#059669','#1E293B','#0F172A','#312E81','#065F46','#4C1D95','#164E63','#7F1D1D','#1E3A5F'];
-const EMOJIS=['🎬','🎥','🎨','📱','🌀','🎞️','🖌️','📊','🎦','✨','🔮','💫','🌊','⚡','🎵','🌿','💎','🌟','🎭','🎤','📸','🎮','🎯','🎪'];
+let cachedProfiles=[];
+const SVG_PIN=`<svg width="10" height="12" viewBox="0 0 10 12" fill="none" style="display:inline;vertical-align:middle;margin-right:2px"><path d="M5 0C2.79 0 1 1.79 1 4c0 3 4 8 4 8s4-5 4-8c0-2.21-1.79-4-4-4z" fill="#232323"/><circle cx="5" cy="4" r="1.5" fill="#FE730A"/></svg>`;
+const ICO_FILM=`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:inline;vertical-align:middle;margin-right:5px"><rect x="1" y="1.5" width="10" height="9" rx="2" stroke="#999" stroke-width="1.1" fill="none"/><circle cx="2.8" cy="4" r=".7" fill="#FE730A"/><circle cx="2.8" cy="8" r=".7" fill="#FE730A"/><circle cx="9.2" cy="4" r=".7" fill="#FE730A"/><circle cx="9.2" cy="8" r=".7" fill="#FE730A"/><path d="M5 4l3 2-3 2V4z" fill="#999"/></svg>`;
+const ICO_HEART=`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>`;
+const ICO_HEART_FILLED=`<svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" fill="#ef4444" stroke="#ef4444" stroke-width="1.1"/></svg>`;
+const ICO_WA=`<svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:inline;vertical-align:middle;margin-right:5px"><path d="M7 1C4.24 1 2 3.24 2 7c0 1.08.28 2.1.76 2.98L2 13l3.1-.74A6 6 0 107 1z" fill="white" opacity=".9"/><path d="M5 5c.15.32.48 1.12.54 1.24.06.12.03.26-.04.36l-.33.4c-.07.09-.08.2-.02.3.25.38.7.92 1.14 1.2.12.08.28.07.38-.04l.34-.33c.1-.09.25-.11.37-.05.24.14.88.48 1.2.63.13.07.17.21.12.34-.17.43-.62.97-1.1.92-.79-.08-2.36-.97-3.12-2.82-.18-.44-.17-.94.04-1.36.2-.4.5-.82.5-.82z" fill="#25D366"/></svg>`;
 
-const DEMO_PROFILES=[{id:'nirosha',fname:'Nirosha',lname:'Kumari',name:'Nirosha Kumari',initials:'NK',role:'Motion Graphics Artist',city:'Colombo',bio:'Motion graphics artist with 6+ years in After Effects and Cinema 4D. Specialising in brand animations, explainer videos, and creative transitions for Sri Lankan and international clients.',tags:['After Effects','Cinema 4D','Premiere Pro','Blender'],plan:'vip',featured:true,exp:'6 yrs',pc:'43',avGrad:0,coverGrad:12,coverEmoji:0,thumbs:[{e:'🎬',g:0},{e:'✨',g:9},{e:'🎨',g:11}],views:'4.2K',likes:287,wa:'',due:'',payStatus:'paid',added:'2024-01-15T00:00:00.000Z'},{id:'rajitha',fname:'Rajitha',lname:'Perera',name:'Rajitha Perera',initials:'RP',role:'Senior Video Editor',city:'Kandy',bio:'Senior video editor with 8 years experience in commercial, documentary, and narrative content. Expert in DaVinci Resolve colour grading and cinematic storytelling.',tags:['Premiere Pro','DaVinci Resolve','Colour Grade','Commercial'],plan:'vip',featured:false,exp:'8 yrs',pc:'31',avGrad:1,coverGrad:13,coverEmoji:1,thumbs:[{e:'🌊',g:2},{e:'💫',g:10},{e:'🌿',g:3}],views:'3.8K',likes:214,wa:'',due:'',payStatus:'paid',added:'2024-02-10T00:00:00.000Z'},{id:'amali',fname:'Amali',lname:'Nissanka',name:'Amali Nissanka',initials:'AN',role:'Graphic Designer',city:'Galle',bio:'Brand identity and visual design specialist based in Galle. Creating logos, packaging, and marketing materials with 5 years of Figma and Illustrator expertise.',tags:['Figma','Illustrator','Brand Identity','Packaging'],plan:'standard',featured:true,exp:'5 yrs',pc:'24',avGrad:2,coverGrad:14,coverEmoji:2,thumbs:[{e:'🎵',g:10},{e:'⚡',g:9},{e:'🌸',g:1}],views:'2.9K',likes:176,wa:'',due:'',payStatus:'paid',added:'2024-03-05T00:00:00.000Z'},{id:'kasun',fname:'Kasun',lname:'Fernando',name:'Kasun Fernando',initials:'KF',role:'Social Media Creator',city:'Negombo',bio:'Social media content creator specialising in viral Reels and TikTok edits. Helping brands grow through engaging short-form content for F&B, fashion, and lifestyle.',tags:['Reels','CapCut','Canva Pro','TikTok'],plan:'free',featured:false,exp:'3 yrs',pc:'19',avGrad:3,coverGrad:15,coverEmoji:3,thumbs:[{e:'☀️',g:5},{e:'🌥️',g:2},{e:'🍊',g:6}],views:'1.7K',likes:138,wa:'',due:'',payStatus:'',added:'2024-04-20T00:00:00.000Z'},{id:'tharushi',fname:'Tharushi',lname:'Mendis',name:'Tharushi Mendis',initials:'TM',role:'Motion Graphics & VFX',city:'Colombo',bio:'VFX and motion graphics specialist combining After Effects with Blender for 3D animation. Creating immersive brand experiences for TV, digital, and streaming platforms.',tags:['After Effects','Blender','VFX','3D Animation'],plan:'vip',featured:false,exp:'4 yrs',pc:'28',avGrad:5,coverGrad:16,coverEmoji:4,thumbs:[{e:'🔮',g:9},{e:'💎',g:10},{e:'🌊',g:2}],views:'3.1K',likes:195,wa:'',due:'',payStatus:'paid',added:'2024-02-28T00:00:00.000Z'},{id:'dimuth',fname:'Dimuth',lname:'Wickramasinghe',name:'Dimuth Wickramasinghe',initials:'DW',role:'Cinematographer & Editor',city:'Matara',bio:'Wedding and event cinematographer with 7 years experience. Full post-production including colour grading, highlight reels, and cinematic edits for weddings and corporate events.',tags:['Final Cut Pro','Cinematography','Wedding Films','Events'],plan:'free',featured:false,exp:'7 yrs',pc:'22',avGrad:4,coverGrad:17,coverEmoji:5,thumbs:[{e:'💛',g:5},{e:'💗',g:10},{e:'💜',g:1}],views:'2.2K',likes:154,wa:'',due:'',payStatus:'',added:'2024-03-18T00:00:00.000Z'},{id:'sachini',fname:'Sachini',lname:'Ratnayake',name:'Sachini Ratnayake',initials:'SR',role:'UI/UX & Brand Designer',city:'Kurunegala',bio:'UI/UX designer and brand identity specialist. Creating clean digital experiences and brand systems for startups and businesses with Figma and Photoshop.',tags:['UI/UX','Figma','Photoshop','Brand Systems'],plan:'standard',featured:false,exp:'4 yrs',pc:'35',avGrad:6,coverGrad:18,coverEmoji:6,thumbs:[{e:'🎀',g:1},{e:'🍑',g:6},{e:'🌱',g:3}],views:'2.5K',likes:162,wa:'',due:'',payStatus:'pending',added:'2024-04-01T00:00:00.000Z'},{id:'malith',fname:'Malith',lname:'Jayasekara',name:'Malith Jayasekara',initials:'MJ',role:'Social Media Strategist',city:'Colombo',bio:'Social media strategist helping brands build audiences through data-informed content. Expertise in Instagram Reels, TikTok, and paid social ad creatives across Sri Lanka.',tags:['Instagram','TikTok','Social Ads','Content Strategy'],plan:'free',featured:false,exp:'2 yrs',pc:'16',avGrad:8,coverGrad:19,coverEmoji:7,thumbs:[{e:'🌀',g:2},{e:'🌟',g:5},{e:'💠',g:7}],views:'1.4K',likes:98,wa:'',due:'',payStatus:'',added:'2024-05-10T00:00:00.000Z'},{id:'ishara',fname:'Ishara',lname:'Gunawardena',name:'Ishara Gunawardena',initials:'IG',role:'Documentary & Commercial Editor',city:'Jaffna',bio:'Documentary filmmaker and commercial editor with 9 years of storytelling experience. Crafting compelling narratives for NGOs, brands, and independent film projects across Sri Lanka.',tags:['Documentary','Commercial','Storytelling','Premiere Pro'],plan:'vip',featured:false,exp:'9 yrs',pc:'27',avGrad:7,coverGrad:7,coverEmoji:8,thumbs:[{e:'🎭',g:9},{e:'⭐',g:5},{e:'🌿',g:3}],views:'2.6K',likes:168,wa:'',due:'',payStatus:'paid',added:'2024-01-30T00:00:00.000Z'}];
+function getYouTubeId(url){if(!url)return null;const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
+function playVid(vid){const c=document.getElementById('pvid-'+vid);if(!c||c.classList.contains('playing'))return;c.classList.add('playing');}
+function imgUrl(url){if(!url)return'';if(url.startsWith('data:'))return url;const sep=url.includes('?')?'&':'?';return url.includes('supabase')?url+sep+'t='+Math.floor(Date.now()/300000):url;}
+function guessSpec(role){const r=(role||'').toLowerCase();if(r.includes('motion')||r.includes('vfx')||r.includes('3d'))return'motion';if(r.includes('video')||r.includes('film')||r.includes('cinema'))return'video';if(r.includes('graphic')||r.includes('brand')||r.includes('ui')||r.includes('design'))return'graphic';if(r.includes('social')||r.includes('content')||r.includes('media')||r.includes('reel'))return'social';return'video';}
 
-let cachedProfiles = [];
-
-// ── SVG ICONS (duotone: black body + orange accent) ──
-const SVG_PIN = `<svg width="11" height="13" viewBox="0 0 11 13" fill="none" style="display:inline;vertical-align:middle;margin-right:2px"><path d="M5.5 0C3.01 0 1 2.01 1 4.5c0 3.375 4.5 8.5 4.5 8.5s4.5-5.125 4.5-8.5C10 2.01 7.99 0 5.5 0z" fill="#111"/><circle cx="5.5" cy="4.5" r="1.5" fill="#F68002"/></svg>`;
-const SVG_PLAY_ICON = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:5px"><rect width="13" height="13" rx="3" fill="#111"/><path d="M5 3.5L10 6.5L5 9.5V3.5Z" fill="#F68002"/></svg>`;
-const SVG_GRID_ICON = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="display:inline;vertical-align:middle;margin-right:5px"><rect x="0" y="0" width="5.5" height="5.5" rx="1.5" fill="#111"/><rect x="7.5" y="0" width="5.5" height="5.5" rx="1.5" fill="#111"/><rect x="0" y="7.5" width="5.5" height="5.5" rx="1.5" fill="#F68002"/><rect x="7.5" y="7.5" width="5.5" height="5.5" rx="1.5" fill="#F68002"/></svg>`;
-
-function getYouTubeId(url) {
-  if (!url) return null;
-  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([A-Za-z0-9_-]{11})/);
-  return m ? m[1] : null;
+// ── Cover color for dark card background ──
+function coverColor(avGrad){
+  const g=GRADS[avGrad]||GRADS[0];
+  // darken slightly for cover bg
+  return g;
 }
 
-function playVid(vid) {
-  const container = document.getElementById('pvid-' + vid);
-  if (!container || container.classList.contains('playing')) return;
-  container.classList.add('playing');
-}
-function imgUrl(url) {
-  if (!url) return '';
-  // Add cache-buster for Supabase Storage URLs to force fresh load
-  const sep = url.includes('?') ? '&' : '?';
-  return url.includes('supabase') ? url + sep + 't=' + Math.floor(Date.now()/300000) : url;
-}
-
-function guessSpec(role){const r=(role||'').toLowerCase();if(r.includes('motion')||r.includes('vfx')||r.includes('3d'))return 'motion';if(r.includes('video')||r.includes('film')||r.includes('cinema'))return 'video';if(r.includes('graphic')||r.includes('brand')||r.includes('ui')||r.includes('design'))return 'graphic';if(r.includes('social')||r.includes('content')||r.includes('media')||r.includes('reel'))return 'social';return 'video';}
-
-// ═══════════════════════════════════════════════════════════
-// RENDER CARDS
-// ═══════════════════════════════════════════════════════════
-function renderAllCards(profiles) {
-  cachedProfiles = profiles;
-  const grid = document.getElementById('mgrid');
-  grid.innerHTML = '';
-  const liked = getLiked();
-
-  if (!profiles.length) {
-    grid.innerHTML = '<div class="nores" style="display:block"><div style="font-size:2rem;margin-bottom:.75rem">👋</div><div style="font-family:var(--fm);font-weight:700;font-size:.95rem;margin-bottom:.4rem">No profiles yet</div><div style="font-size:.85rem">Check back soon!</div></div>';
-    return;
-  }
-
-  profiles.forEach(p => {
+function renderAllCards(profiles){
+  cachedProfiles=profiles;
+  const grid=document.getElementById('mgrid');grid.innerHTML='';
+  const liked=getLiked();
+  if(!profiles.length){grid.innerHTML='<div class="nores" style="display:block;grid-column:1/-1"><div style="font-weight:700;font-size:.88rem;margin-bottom:.35rem">No profiles yet</div></div>';return;}
+  profiles.forEach(p=>{
     const avG=GRADS[p.avGrad]||GRADS[0];
-    const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="ctag">${t}</span>`).join('');
+    const tags=(p.tags||[]).slice(0,3).map(t=>`<span class="cc-tag">${t}</span>`).join('');
     const spec=guessSpec(p.role);
     const srch=(p.name+' '+p.city+' '+(p.tags||[]).join(' ')+' '+p.role).toLowerCase();
-    const isLiked=!!liked[p.id];
-    const lc=parseInt(p.likes)||0;
-
-    const card=document.createElement('div');
-    card.className='cc';card.dataset.spec=spec;card.dataset.s=srch;
-
-    // Avatar: real photo or solid color + initials
-    const avatarHtml = p.photoUrl
-      ? `<img src="${imgUrl(p.photoUrl)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.outerHTML='<span>${p.initials||'??'}</span>'">`
-      : `${p.initials||'??'}`;
-    const avatarStyle = p.photoUrl ? 'background:#ddd' : `background:${avG}`;
-
-    // VIP/Featured badges — top right always
-    const badges = [
-      p.plan==='vip' ? '<div class="cc-vip" style="position:static">VIP Pro</div>' : '',
-      p.featured ? '<div class="cc-feat" style="position:static;background:var(--lg);color:var(--tm)">Featured</div>' : ''
-    ].filter(Boolean).join('');
-
+    const isLiked=!!liked[p.id];const lc=parseInt(p.likes)||0;
+    const avatarInner=p.photoUrl?`<img src="${imgUrl(p.photoUrl)}" onerror="this.outerHTML='<span>${p.initials||'??'}</span>'">`:`${p.initials||'??'}`;
+    const avStyle=p.photoUrl?'background:#444':`background:${avG};color:${avG}`;
+    const vipBadge=p.plan==='vip'?`<div class="cc-cover-badge">VIP Pro</div>`:'';
+    const featBadge=p.featured?`<div class="cc-cover-feat">Featured</div>`:'';
+    const card=document.createElement('div');card.className='cc';card.dataset.spec=spec;card.dataset.s=srch;
     card.innerHTML=`
-      <div class="cbody">
-        <div class="ctop">
-          <div class="cav" style="${avatarStyle};margin-top:0;border:none;box-shadow:none">${avatarHtml}</div>
-          <div style="flex:1;min-width:0">
-            <div class="cname">${p.name}</div>
-            <div class="crole">${p.role}</div>
-            <div class="ccity">${SVG_PIN} ${p.city}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:.3rem;align-items:flex-end;flex-shrink:0">${badges}</div>
+      <div class="cc-cover" style="background:${avG}22">
+        <div class="cc-cover-inner" style="background:${avG}18">
+          <div class="cc-cover-av" style="${avStyle}">${avatarInner}</div>
         </div>
-        <div class="ctags">${tags}</div>
-        <div class="cbot">
-          <div class="cstats">
-            <div class="cstat"><span>${p.pc||0}</span><span>Projects</span></div>
-            <div class="cstat"><span>${p.exp||'—'}</span><span>Exp.</span></div>
+        ${vipBadge}${featBadge}
+      </div>
+      <div class="cc-body">
+        <div class="cc-name">${p.name}</div>
+        <div class="cc-role">${SVG_PIN}${p.city} · ${p.role}</div>
+        <div class="cc-tags">${tags}</div>
+        <div class="cc-bot">
+          <div class="cc-stats">
+            <div class="cc-stat"><span>${p.pc||0}</span><span>Projects</span></div>
+            <div class="cc-stat"><span>${p.exp||'—'}</span><span>Exp.</span></div>
           </div>
           <button class="lbtn${isLiked?' liked':''}" id="like-${p.id}" onclick="event.stopPropagation();toggleLike('${p.id}',this)">
             <span class="lhrt" style="display:flex;align-items:center">${isLiked?ICO_HEART_FILLED:ICO_HEART}</span>
@@ -593,177 +906,109 @@ function renderAllCards(profiles) {
           </button>
         </div>
         <button class="cvbtn" onclick="openProfile('${p.id}')">View Profile</button>
-        <button class="cjbtn" onclick="showPage('join')">Get Your Profile</button>
-        <div class="pmvid-topbar"></div>
-    </div>`;
+      </div>`;
     grid.appendChild(card);
   });
-
-  const sc=document.getElementById('stat-count');
-  if(sc) sc.textContent=profiles.length+'+';
-  updateGridCount();
-  applyF();
+  updateGridCount();applyF();
 }
 
-// ═══════════════════════════════════════════════════════════
-// LIKES
-// ═══════════════════════════════════════════════════════════
 function toggleLike(id,btn){
-  const liked=getLiked();
-  const p=cachedProfiles.find(x=>x.id===id);
-  const base=p?parseInt(p.likes)||0:0;
-  const cEl=document.getElementById('lc-'+id);
-  const pmEl=document.getElementById('pmlc-'+id);
-  if(liked[id]){
-    delete liked[id];
-    btn.classList.remove('liked');btn.querySelector('.lhrt').innerHTML=ICO_HEART;
-    if(cEl)cEl.textContent=base;if(pmEl)pmEl.textContent=base;
-    showToast('Like removed');
-  }else{
-    liked[id]=1;
-    btn.classList.add('liked');btn.querySelector('.lhrt').innerHTML=ICO_HEART_FILLED;
-    if(cEl)cEl.textContent=base+1;if(pmEl)pmEl.textContent=base+1;
-    showToast('Liked!');
-  }
+  const liked=getLiked();const p=cachedProfiles.find(x=>x.id===id);const base=p?parseInt(p.likes)||0:0;
+  const cEl=document.getElementById('lc-'+id);const pmEl=document.getElementById('pmlc-'+id);
+  if(liked[id]){delete liked[id];btn.classList.remove('liked');btn.querySelector('.lhrt').innerHTML=ICO_HEART;if(cEl)cEl.textContent=base;if(pmEl)pmEl.textContent=base;showToast('Like removed');}
+  else{liked[id]=1;btn.classList.add('liked');btn.querySelector('.lhrt').innerHTML=ICO_HEART_FILLED;if(cEl)cEl.textContent=base+1;if(pmEl)pmEl.textContent=base+1;showToast('Liked!');}
   saveLiked(liked);
-  const pmb=document.getElementById('pml-'+id);
-  if(pmb&&pmb!==btn){pmb.classList.toggle('liked',!!liked[id]);pmb.querySelector('.lhrt').innerHTML=liked[id]?ICO_HEART_FILLED:ICO_HEART;}
+  const pmb=document.getElementById('pml-'+id);if(pmb&&pmb!==btn){pmb.classList.toggle('liked',!!liked[id]);pmb.querySelector('.lhrt').innerHTML=liked[id]?ICO_HEART_FILLED:ICO_HEART;}
 }
-
-// ═══════════════════════════════════════════════════════════
-// PROFILE MODAL
-// ═══════════════════════════════════════════════════════════
-// SVG icons for modal sections (Apple-style, inline)
-const ICO_FILM = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:inline;vertical-align:middle;margin-right:6px;margin-bottom:1px"><rect x="1" y="2.5" width="12" height="9" rx="2" stroke="#888" stroke-width="1.3" fill="none"/><circle cx="3.5" cy="5" r=".9" fill="#F68002"/><circle cx="3.5" cy="9" r=".9" fill="#F68002"/><circle cx="10.5" cy="5" r=".9" fill="#F68002"/><circle cx="10.5" cy="9" r=".9" fill="#F68002"/><path d="M6 5l3 2-3 2V5z" fill="#888"/></svg>`;
-const ICO_HEART = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:inline;vertical-align:middle;margin-right:5px"><path d="M7 12S1.5 8 1.5 4.5a2.5 2.5 0 015-0c.3-.6.9-1 1.5-1a2.5 2.5 0 012.5 2.5C10.5 8 7 12 7 12z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/></svg>`;
-const ICO_HEART_FILLED = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:inline;vertical-align:middle;margin-right:5px"><path d="M7 12S1.5 8 1.5 4.5a2.5 2.5 0 015-0c.3-.6.9-1 1.5-1a2.5 2.5 0 012.5 2.5C10.5 8 7 12 7 12z" fill="#ef4444" stroke="#ef4444" stroke-width="1.3"/></svg>`;
-const ICO_WA_GREEN = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M8 1C4.13 1 1 4.13 1 8c0 1.24.32 2.4.88 3.4L1 15l3.68-.87A7 7 0 108 1z" fill="white" opacity=".9"/><path d="M6 6c.18.4.6 1.4.68 1.55.08.15.04.32-.04.45l-.42.5c-.08.1-.1.26-.02.38.3.5.9 1.18 1.46 1.54.15.1.34.08.47-.04l.44-.42c.13-.12.32-.14.46-.06.32.18 1.17.64 1.58.84.17.08.22.27.15.44-.22.56-.8 1.26-1.44 1.2-1.04-.1-3.1-1.26-4.1-3.54-.25-.59-.23-1.27.05-1.82.27-.52.67-1.05.67-1.05C6.5 5.5 6.4 5.5 6 6z" fill="#25D366"/></svg>`;
-const ICO_STATS = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="display:inline;vertical-align:middle;margin-right:6px;margin-bottom:1px"><rect x="1" y="7" width="3" height="6" rx="1" fill="#888"/><rect x="5.5" y="4" width="3" height="9" rx="1" fill="#F68002"/><rect x="10" y="1" width="3" height="12" rx="1" fill="#888"/></svg>`;
 
 function openProfile(id){
   const p=cachedProfiles.find(x=>x.id===id);if(!p)return;
-  const liked=getLiked();const isLiked=!!liked[id];
-  const lc=isLiked?(parseInt(p.likes)||0)+1:(parseInt(p.likes)||0);
+  const liked=getLiked();const isLiked=!!liked[id];const lc=isLiked?(parseInt(p.likes)||0)+1:(parseInt(p.likes)||0);
   const avG=GRADS[p.avGrad]||GRADS[0];
   const tags=(p.tags||[]).map(t=>`<span class="pmtag">${t}</span>`).join('');
-  const modalAvatar = p.photoUrl
-    ? `<div class="pmav"><img src="${imgUrl(p.photoUrl)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.background='${avG}';this.outerHTML='${p.initials||'??'}'"></div>`
-    : `<div class="pmav" style="background:${avG}">${p.initials||'??'}</div>`;
-  const hasBanner = false;
-  const bannerHtml = '';
-  const ytVideos = (p.youtubeLinks||[]).filter(Boolean);
-  const ytHtml = ytVideos.map(url=>{
-    const vid=getYouTubeId(url);
-    if (!vid) return '';
-    const thumb = `https://img.youtube.com/vi/${vid}/maxresdefault.jpg`;
-    const fallbackThumb = `https://img.youtube.com/vi/${vid}/hqdefault.jpg`;
-    return `<div class="pmvid" id="pvid-${vid}" onclick="playVid('${vid}')">
-      <iframe src="https://www.youtube.com/embed/${vid}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&color=white&vq=hd720&playsinline=1&controls=1&enablejsapi=0" frameborder="0" allow="autoplay;encrypted-media;fullscreen" allowfullscreen loading="lazy"></iframe>
-      <div class="pmvid-thumb" id="pthumb-${vid}" style="background-image:url('${thumb}')" onerror="this.style.backgroundImage=\"url('${fallbackThumb}')\"></div>
-      <div class="pmvid-play">
-        <div class="pmvid-playbtn">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M6 4l14 7.5L6 19V4z" fill="#111"/></svg>
-        </div>
-      </div>
-      <div class="pmvid-topbar"></div>
-    </div>`;
-  }).filter(Boolean).join('');
-  const videosHtml = ytHtml.length > 0;
-  const waNum = (p.wa||'').replace(/[^0-9]/g,'');
-  const hireHtml = waNum ? `<button class="hirebtn" onclick="window.open('https://wa.me/${waNum}?text='+encodeURIComponent('Hi ${p.name}, I came across your profile on Timeliners and I would love to start a project with you. Are you available?'),'_blank')">${ICO_WA_GREEN}Hire Me</button>` : '';
-  const vidCount = ytVideos.filter(u=>getYouTubeId(u)).length;
-  const vidGridClass = vidCount===1?'single':vidCount>=3?'many':'';
-  document.getElementById('pmodbody').innerHTML=`
-    ${bannerHtml}
-    <div class="mbox-info">
-      <div class="pmhero ${hasBanner?'':'pmhero-nobanner'}">
-        ${modalAvatar}
-        <div style="flex:1;min-width:0;padding-bottom:.3rem">
-          <div class="pmname">${p.name}${p.plan==='vip'?` <span style="background:var(--ac);color:white;font-family:var(--fm);font-weight:700;font-size:.58rem;padding:.18rem .55rem;border-radius:50px;letter-spacing:.5px;vertical-align:middle">VIP Pro</span>`:''}</div>
-          <div class="pmrole">${p.role} &nbsp;·&nbsp; ${SVG_PIN} ${p.city}</div>
-          <div class="pmtags" style="margin-top:.5rem">${tags}</div>
-        </div>
-      </div>
-      <p class="pmbio">${p.bio||''}</p>
-      <div class="pmlrow">
-        <button class="pmlbtn${isLiked?' liked':''}" id="pml-${id}" onclick="toggleLike('${id}',this)">
-          <span class="lhrt">${isLiked?ICO_HEART_FILLED:ICO_HEART}</span>${isLiked?'Liked':'Like'}
-        </button>
-        <span style="font-size:.82rem;color:var(--mu);font-family:var(--fm);font-weight:600"><span id="pmlc-${id}">${lc}</span> likes</span>
-        ${hireHtml}
-      </div>
-      <div class="pmstats">
-        <div class="pmsb"><span class="pmsn">${p.views||'0'}</span><span class="pmsl">Profile Views</span></div>
-        <div class="pmsb"><span class="pmsn">${lc}</span><span class="pmsl">Likes</span></div>
-        <div class="pmsb"><span class="pmsn">${p.pc||0}</span><span class="pmsl">Projects</span></div>
-        <div class="pmsb"><span class="pmsn">${p.exp||'—'}</span><span class="pmsl">Experience</span></div>
-      </div>
-    </div>
-    ${videosHtml ? `<div class="mbox-divider"></div><div class="mbox-videos"><div class="pmvideos ${vidGridClass}">${ytHtml}</div></div>` : ''}
-    <div class="pmnudge" style="margin:0 2rem 1.5rem;margin-top:${videosHtml?'0':'1rem'}"><p>Want a profile like this on Timeliners?</p><button class="btn btn-p btn-sm" onclick="showPage('join');closeProfile()"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" style="display:inline;vertical-align:middle;margin-right:4px"><circle cx="7.5" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M2 13c0-3.04 2.46-5 5.5-5s5.5 1.96 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg>Get Your Profile</button></div>`;
-  document.getElementById('pmod').classList.add('open');
-  document.body.style.overflow='hidden';
+  const modalAvatar=p.photoUrl?`<div class="pmav"><img src="${imgUrl(p.photoUrl)}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.background='${avG}';this.remove()"></div>`:`<div class="pmav" style="background:${avG}">${p.initials||'??'}</div>`;
+  const ytVideos=(p.youtubeLinks||[]).filter(Boolean);
+  const ytHtml=ytVideos.map(url=>{const vid=getYouTubeId(url);if(!vid)return'';return`<div class="pmvid" id="pvid-${vid}" onclick="playVid('${vid}')"><iframe src="https://www.youtube.com/embed/${vid}?autoplay=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&color=white&vq=hd720&playsinline=1&controls=1" frameborder="0" allow="autoplay;encrypted-media;fullscreen" allowfullscreen loading="lazy"></iframe><div class="pmvid-thumb" style="background-image:url('https://img.youtube.com/vi/${vid}/maxresdefault.jpg')"></div><div class="pmvid-play"><div class="pmvid-playbtn"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 3l13 7-13 7V3z" fill="#232323"/></svg></div></div><div class="pmvid-topbar"></div></div>`;}).filter(Boolean).join('');
+  const hasVideos=ytHtml.length>0;const vidCount=ytVideos.filter(u=>getYouTubeId(u)).length;const vidClass=vidCount===1?'single':vidCount>=3?'many':'';
+  const waNum=(p.wa||'').replace(/[^0-9]/g,'');
+  const hireHtml=waNum?`<button class="hirebtn" onclick="window.open('https://wa.me/${waNum}?text='+encodeURIComponent('Hi ${p.name}, I found your profile on Timeliners and would love to discuss a project.'),'_blank')">${ICO_WA}Hire Me</button>`:'';
+  document.getElementById('pmodbody').innerHTML=`<div class="mbox-info"><div class="pmhero">${modalAvatar}<div style="flex:1;min-width:0"><div class="pmname">${p.name}${p.plan==='vip'?` <span style="background:var(--ac);color:white;font-weight:700;font-size:.54rem;padding:.14rem .48rem;border-radius:50px;vertical-align:middle">VIP Pro</span>`:''}</div><div class="pmrole">${p.role} · ${SVG_PIN}${p.city}</div><div class="pmtags">${tags}</div></div></div><p class="pmbio">${p.bio||''}</p><div class="pmlrow"><button class="pmlbtn${isLiked?' liked':''}" id="pml-${id}" onclick="toggleLike('${id}',this)"><span class="lhrt">${isLiked?ICO_HEART_FILLED:ICO_HEART}</span>${isLiked?'Liked':'Like'}</button><span style="font-size:.76rem;color:var(--mu);font-weight:600"><span id="pmlc-${id}">${lc}</span> likes</span>${hireHtml}</div><div class="pmstats"><div class="pmsb"><span class="pmsn">${p.views||'0'}</span><span class="pmsl">Views</span></div><div class="pmsb"><span class="pmsn">${lc}</span><span class="pmsl">Likes</span></div><div class="pmsb"><span class="pmsn">${p.pc||0}</span><span class="pmsl">Projects</span></div><div class="pmsb"><span class="pmsn">${p.exp||'—'}</span><span class="pmsl">Exp.</span></div></div></div>${hasVideos?`<div class="mbox-divider"></div><div class="mbox-videos"><div class="pmsec">${ICO_FILM}Showreel & Videos</div><div class="pmvideos ${vidClass}">${ytHtml}</div></div>`:''}<div class="pmnudge" style="margin:0 1.6rem 1.3rem;${hasVideos?'':'margin-top:.75rem'}"><p>Want a profile like this on Timeliners?</p><button class="btn btn-p btn-sm" onclick="showPage('join');closeProfile()">Get Your Profile — Free</button></div>`;
+  document.getElementById('pmod').classList.add('open');document.body.style.overflow='hidden';
 }
 function closeProfile(){document.getElementById('pmod').classList.remove('open');document.body.style.overflow='';}
 document.getElementById('pmod').addEventListener('click',function(e){if(e.target===this)closeProfile();});
 
-// ═══════════════════════════════════════════════════════════
-// PAGE ROUTING
-// ═══════════════════════════════════════════════════════════
+// JOBS
+const FAKE_JOBS=[
+  {id:1,company:'Leo Burnett Colombo',role:'Senior Video Editor',desc:"Join our creative team working on TV commercials, digital campaigns and brand films for leading Sri Lankan and international clients.",type:'full-time',cat:'video',loc:'colombo',salary:'LKR 80K–120K/mo',posted:'2 days ago'},
+  {id:2,company:'Framelab Studio',role:'Motion Graphics Designer',desc:"Boutique motion studio creating content for streaming platforms and brands. Strong After Effects skills required.",type:'freelance',cat:'motion',loc:'remote',salary:'LKR 50K–80K/mo',posted:'4 days ago'},
+  {id:3,company:'Shopper Media',role:'Social Media Video Creator',desc:"Create engaging short-form video content for Instagram, TikTok and YouTube for retail clients. Fast turnaround, trending formats.",type:'part-time',cat:'social',loc:'colombo',salary:'LKR 35K–55K/mo',posted:'1 week ago'},
+  {id:4,company:'Ceylon Digital',role:'Brand Film Director / Editor',desc:"Documentary-style brand films for corporate clients. Full production ownership from brief to final delivery.",type:'freelance',cat:'video',loc:'remote',salary:'Project-based',posted:'1 week ago'},
+  {id:5,company:'Hashtag Media',role:'3D Motion Designer',desc:"Create 3D animations and motion graphics for product launches and social campaigns. Blender or Cinema 4D required.",type:'full-time',cat:'motion',loc:'colombo',salary:'LKR 70K–100K/mo',posted:'2 weeks ago'},
+  {id:6,company:'Pixel & Co',role:'Graphic Designer – Social Assets',desc:"Scroll-stopping thumbnails, social assets and branded templates for a fast-growing YouTube channel. Strong Photoshop skills needed.",type:'part-time',cat:'graphic',loc:'remote',salary:'LKR 25K–40K/mo',posted:'2 weeks ago'},
+];
+function renderJobs(){
+  const grid=document.getElementById('jobs-grid');if(!grid)return;
+  const type=document.getElementById('jf-type')?.value||'';const cat=document.getElementById('jf-cat')?.value||'';const loc=document.getElementById('jf-loc')?.value||'';
+  const list=FAKE_JOBS.filter(j=>(!type||j.type===type)&&(!cat||j.cat===cat)&&(!loc||j.loc===loc));
+  if(!list.length){grid.innerHTML='<div style="text-align:center;padding:3rem;color:var(--mu);font-size:.85rem;grid-column:1/-1">No jobs match your filters.</div>';return;}
+  const catLabel={video:'Video Editing',motion:'Motion Design',social:'Social Media',graphic:'Graphic Design'};
+  grid.innerHTML=list.map(j=>`<div class="jcard"><div class="jcard-top"><div class="jcard-logo">${j.company[0]}</div><div style="flex:1;min-width:0"><div class="jcard-co">${j.company}</div><div class="jcard-title">${j.role}</div></div></div><div class="jcard-desc">${j.desc}</div><div class="jcard-tags"><span class="jtag jtag-type">${j.type}</span><span class="jtag jtag-loc">${j.loc}</span><span class="jtag jtag-cat">${catLabel[j.cat]||j.cat}</span></div><div class="jcard-bot"><div><div class="jcard-salary">${j.salary}</div><div class="jcard-meta"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5.5" r="3.5" stroke="#aaa" stroke-width="1.1" fill="none"/><path d="M5 4v1.5l1.5 1.5" stroke="#FE730A" stroke-width="1" stroke-linecap="round" fill="none"/></svg>${j.posted}</div></div><button class="japply" onclick="openWA('Applying for ${j.role} at ${j.company}')">Apply <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5h7M7 3l2 2.5-2 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div>`).join('');
+}
+function filterJobs(){renderJobs();}
+
+// ROUTING
+function enterPlatform(page){
+  const splash=document.getElementById('page-splash');
+  splash.style.transition='opacity .35s ease';
+  splash.style.opacity='0';
+  setTimeout(()=>{
+    splash.style.display='none';
+    showPage(page);
+  },320);
+}
+function showSplash(){showPage('showcase');}
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   const t=document.getElementById('page-'+id);if(t)t.classList.add('active');
-  window.scrollTo(0,0);
-  document.getElementById('main-nav').style.display='flex';
+  window.scrollTo(0,0);document.getElementById('main-nav').style.display='flex';
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  const nl=document.getElementById('nav-'+id);if(nl)nl.classList.add('active');
   closeProfile();closeMob();
-  if(id==='showcase') initShowcase();
+  if(id==='showcase')initShowcase();
+  if(id==='jobs')renderJobs();
 }
 
-// ═══════════════════════════════════════════════════════════
-// FILTER & SEARCH
-// ═══════════════════════════════════════════════════════════
+// FILTER
 let aspec='all';
-function filterGrid(spec,btn){aspec=spec;document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');applyF();}
+function filterGrid(spec,btn){aspec=spec;document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');applyF();}
 function searchGrid(v){applyF(v.toLowerCase().trim());}
 function applyF(q){
   const sq=q!==undefined?q:(document.getElementById('sinp')?document.getElementById('sinp').value.toLowerCase().trim():'');
-  const cards=document.querySelectorAll('#mgrid .cc');
-  let vis=0;
+  const cards=document.querySelectorAll('#mgrid .cc');let vis=0;
   cards.forEach(c=>{const ms=aspec==='all'||c.dataset.spec===aspec;const mq=!sq||c.dataset.s.includes(sq);const show=ms&&mq;c.style.display=show?'flex':'none';if(show)vis++;});
-  const ce=document.getElementById('gcnt');
-  if(ce)ce.textContent=`Showing ${vis} creative${vis!==1?'s':''}`;
-  const nr=document.getElementById('nores');if(nr)nr.style.display=vis===0?'block':'none';
+  const ce=document.getElementById('gcnt');if(ce)ce.textContent=`${vis} creative${vis!==1?'s':''}`;
 }
-function updateGridCount(){const cards=document.querySelectorAll('#mgrid .cc');const el=document.getElementById('gcnt');if(el)el.textContent=`Showing ${cards.length} creative${cards.length!==1?'s':''}`;}
+function updateGridCount(){const cards=document.querySelectorAll('#mgrid .cc');const el=document.getElementById('gcnt');if(el)el.textContent=`${cards.length} creative${cards.length!==1?'s':''}`;}
 
-// ═══════════════════════════════════════════════════════════
 // UTILS
-// ═══════════════════════════════════════════════════════════
 function toggleMob(){const m=document.getElementById('mob');m.style.display=m.style.display==='none'?'block':'none';}
 function closeMob(){document.getElementById('mob').style.display='none';}
-function openWA(pkg){const ph='94771873449';const msg=pkg==='General'?'Hey, I would like to learn more about Timeliners.':'Hey, I would like to join Timeliners and subscribe to the '+pkg+' plan.';window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(msg),'_blank');}
-function showToast(msg){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+function openWA(pkg){const ph='94771873449';const msg=pkg==='General'?'Hey, I would like to learn more about Timeliners.':`Hey, I'm interested in: ${pkg}`;window.open('https://wa.me/'+ph+'?text='+encodeURIComponent(msg),'_blank');}
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 function toggleFaq(el){const item=el.closest('.faqitem');const was=item.classList.contains('open');document.querySelectorAll('.faqitem').forEach(i=>i.classList.remove('open'));if(!was)item.classList.add('open');}
 
-// ═══════════════════════════════════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════════════════
-async function initShowcase() {
-  document.getElementById('gcnt').textContent = 'Loading profiles...';
-  document.getElementById('mgrid').innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div style="font-family:var(--fm);font-weight:600;font-size:.88rem">Loading creatives...</div></div>';
-  try {
-    await seedIfEmpty();
-    const profiles = await loadProfiles();
-    renderAllCards(profiles);
-  } catch(e) {
-    console.error('Supabase error:', e);
-    document.getElementById('mgrid').innerHTML = '<div class="nores" style="display:block"><div style="font-size:2rem;margin-bottom:.75rem">⚠️</div><div style="font-family:var(--fm);font-weight:700;font-size:.95rem;margin-bottom:.4rem">Could not load profiles</div><div style="font-size:.85rem;color:var(--mu)">Check your connection and try again.</div></div>';
-    document.getElementById('gcnt').textContent = 'Error loading profiles';
-  }
+let showcaseLoaded=false;
+async function initShowcase(){
+  if(showcaseLoaded)return;
+  document.getElementById('gcnt').textContent='Loading...';
+  document.getElementById('mgrid').innerHTML='<div class="loading-state"><div class="loading-spinner"></div><div style="font-weight:600;font-size:.8rem">Loading creatives...</div></div>';
+  try{await seedIfEmpty();const profiles=await loadProfiles();renderAllCards(profiles);showcaseLoaded=true;}
+  catch(e){console.error('Error:',e);document.getElementById('mgrid').innerHTML='<div class="nores" style="display:block;grid-column:1/-1"><div style="font-weight:700;font-size:.88rem;margin-bottom:.3rem">Could not load profiles</div></div>';document.getElementById('gcnt').textContent='Error';}
 }
 
-// Start on showcase page
-showPage('showcase');
+document.getElementById('main-nav').style.display='none';
 </script>
 </body>
 </html>
