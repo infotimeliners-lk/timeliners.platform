@@ -135,7 +135,7 @@ a{text-decoration:none;cursor:pointer}
 .cg-count{font-size:.72rem;font-weight:500;color:var(--t2)}
 .cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem}
 .cc{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);overflow:hidden;transition:var(--tr);cursor:pointer;display:flex;flex-direction:column}.cc:hover{border-color:var(--brd2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.45)}
-.cc-cover{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg3)}
+.cc-cover{display:none}
 .cc-av{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:1.05rem;color:white;box-shadow:0 4px 20px rgba(0,0,0,.5);overflow:hidden}
 .cc-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .cc-badge{position:absolute;top:.55rem;right:.55rem;background:var(--ac);color:white;font-size:.5rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:.13rem .48rem;border-radius:50px}
@@ -503,7 +503,6 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
       <div style="text-align:center;margin-top:1.4rem;font-size:.68rem;font-weight:300;color:var(--t3)">Activated manually after WhatsApp confirmation · Bank transfer or WhatsApp Pay</div>
     </div>
   </div></section>
-  <footer><div class="c" style="padding-top:1.8rem;padding-bottom:1.2rem"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem"><div class="fbrand">Timeliners</div><div style="display:flex;gap:1.4rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Creatives</a><a class="flink" onclick="showPage('jobs')">Jobs</a><a class="flink" onclick="showPage('faq')">FAQ</a></div></div><div class="fbot"><div class="fcopy">© 2025 Timeliners.</div></div></div></footer>
 </div>
 
 <!-- FAQ -->
@@ -524,7 +523,6 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
       </div>
     </div>
   </div></section>
-  <footer><div class="c" style="padding-top:1.8rem;padding-bottom:1.2rem"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem"><div class="fbrand">Timeliners</div><div style="display:flex;gap:1.4rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Creatives</a><a class="flink" onclick="showPage('jobs')">Jobs</a><a class="flink" onclick="showPage('contact')">Contact</a></div></div><div class="fbot"><div class="fcopy">© 2025 Timeliners.</div></div></div></footer>
 </div>
 
 <!-- CONTACT -->
@@ -550,7 +548,6 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
       </div>
     </div>
   </div></section>
-  <footer><div class="c" style="padding-top:1.8rem;padding-bottom:1.2rem"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem"><div class="fbrand">Timeliners</div><div style="display:flex;gap:1.4rem;flex-wrap:wrap"><a class="flink" onclick="showPage('showcase')">Creatives</a><a class="flink" onclick="showPage('jobs')">Jobs</a><a class="flink" onclick="showPage('faq')">FAQ</a></div></div><div class="fbot"><div class="fcopy">© 2025 Timeliners.</div></div></div></footer>
 </div>
 
 <div class="toast" id="toast"><span class="tico">✓</span><span id="tmsg"></span></div>
@@ -587,7 +584,7 @@ function renderAllCards(profiles){
     const avInner=p.photoUrl?`<img src="${imgUrl(p.photoUrl)}" onerror="this.outerHTML='<span>${p.initials||'??'}</span>'">`:`${p.initials||'??'}`;
     const avStyle=p.photoUrl?'background:var(--bg4)':`background:${avG}`;
     const card=document.createElement('div');card.className='cc';card.dataset.spec=spec;card.dataset.s=srch;
-    card.innerHTML=`<div class="cc-cover" style="background:${avG}14"><div class="cc-av" style="${avStyle}">${avInner}</div>${p.plan==='vip'?'<div class="cc-badge">VIP Pro</div>':''}${p.featured?'<div class="cc-feat">Featured</div>':''}</div><div class="cc-body"><div class="cc-name">${p.name}</div><div class="cc-role">${SVG_PIN}${p.city}<span style="opacity:.25;margin:0 .15rem">·</span>${p.role}</div><div class="cc-tags">${tags}</div><div class="cc-bot"><div class="cc-stats"><div class="cc-stat"><span>${p.pc||0}</span><span>Projects</span></div><div class="cc-stat"><span>${p.exp||'—'}</span><span>Exp.</span></div></div><button class="lbtn${isLiked?' liked':''}" id="like-${p.id}" onclick="event.stopPropagation();toggleLike('${p.id}',this)"><span class="lhrt" style="display:flex;align-items:center">${isLiked?ICO_HEART_FILLED:ICO_HEART}</span><span id="lc-${p.id}">${isLiked?lc+1:lc}</span></button></div><button class="cvbtn" onclick="openProfile('${p.id}')">View Profile</button></div>`;
+    card.innerHTML=`<div class="cc-body"><div style="display:flex;align-items:center;gap:.65rem;margin-bottom:.5rem"><div class="cc-av" style="${avStyle};width:42px;height:42px;font-size:.85rem;flex-shrink:0">${avInner}</div><div style="min-width:0;flex:1">${p.plan==='vip'?'<span style="background:var(--ac);color:white;font-size:.5rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:.1rem .4rem;border-radius:50px;display:inline-block;margin-bottom:.12rem">VIP Pro</span><br>':''}<div class="cc-name">${p.name}</div></div></div><div class="cc-role">${SVG_PIN}${p.city}<span style="opacity:.25;margin:0 .15rem">·</span>${p.role}</div><div class="cc-tags">${tags}</div><div class="cc-bot"><div class="cc-stats"><div class="cc-stat"><span>${p.pc||0}</span><span>Projects</span></div><div class="cc-stat"><span>${p.exp||'—'}</span><span>Exp.</span></div></div><button class="lbtn${isLiked?' liked':''}" id="like-${p.id}" onclick="event.stopPropagation();toggleLike('${p.id}',this)"><span class="lhrt" style="display:flex;align-items:center">${isLiked?ICO_HEART_FILLED:ICO_HEART}</span><span id="lc-${p.id}">${isLiked?lc+1:lc}</span></button></div><button class="cvbtn" onclick="openProfile('${p.id}')">View Profile</button></div>`;
     grid.appendChild(card);
   });updateGridCount();applyF();
 }
