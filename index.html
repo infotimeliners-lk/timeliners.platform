@@ -903,7 +903,15 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 // This avoids ANY name collision with window.supabase
 const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
-// ── DB REST HELPER ───────────────────────────────────
+// ── SAFE DOM HELPER ──────────────────────────────────
+// Returns element or a dummy object so .style / .textContent etc never throw
+function el(id) {
+  return document.getElementById(id) || {
+    style: {}, classList: { add:()=>{}, remove:()=>{}, toggle:()=>{} },
+    textContent: '', innerHTML: '', value: '', disabled: false,
+    checked: false, href: '', onclick: null
+  };
+}
 async function db(path, method = 'GET', body = null, token = null) {
   const r = await fetch(SB_URL + '/rest/v1' + path, {
     method,
@@ -1009,31 +1017,31 @@ async function getToken() {
 // ── AUTH MODAL ───────────────────────────────────────
 function openAuth(tab) {
   tab = tab || 'in';
-  document.getElementById('auth-overlay').classList.add('open');
+  el('auth-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
   switchAuthTab(tab);
   clearAuthErr();
 }
 function closeAuth() {
-  document.getElementById('auth-overlay').classList.remove('open');
+  el('auth-overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
 function switchAuthTab(tab) {
-  document.getElementById('auth-in-form').style.display = tab === 'in' ? 'block' : 'none';
-  document.getElementById('auth-up-form').style.display = tab === 'up' ? 'block' : 'none';
-  document.getElementById('atab-in').classList.toggle('active', tab === 'in');
-  document.getElementById('atab-up').classList.toggle('active', tab === 'up');
+  el('auth-in-form').style.display = tab === 'in' ? 'block' : 'none';
+  el('auth-up-form').style.display = tab === 'up' ? 'block' : 'none';
+  el('atab-in').classList.toggle('active', tab === 'in');
+  el('atab-up').classList.toggle('active', tab === 'up');
   clearAuthErr();
 }
 function showAuthErr(msg) {
-  const e = document.getElementById('auth-err');
+  const e = el('auth-err');
   e.textContent = msg; e.classList.add('show');
 }
 function clearAuthErr() {
-  document.getElementById('auth-err').classList.remove('show');
+  el('auth-err').classList.remove('show');
 }
 function setAuthBusy(btnId, on) {
-  const b = document.getElementById(btnId);
+  const b = el(btnId);
   b.disabled = on;
   b.innerHTML = on
     ? '<div class="spinner" style="width:15px;height:15px;border-width:1.5px;margin:0 auto"></div>'
@@ -1041,8 +1049,8 @@ function setAuthBusy(btnId, on) {
 }
 
 async function handleSignIn() {
-  const email = document.getElementById('si-email').value.trim().toLowerCase();
-  const pw    = document.getElementById('si-pw').value;
+  const email = el('si-email').value.trim().toLowerCase();
+  const pw    = el('si-pw').value;
   if (!email || !pw) { showAuthErr('Please fill in both fields.'); return; }
   clearAuthErr(); setAuthBusy('si-btn', true);
   try {
@@ -1067,11 +1075,11 @@ async function handleSignIn() {
 }
 
 async function handleSignUp() {
-  const fn   = document.getElementById('su-fn').value.trim();
-  const ln   = document.getElementById('su-ln').value.trim();
-  const email= document.getElementById('su-email').value.trim().toLowerCase();
-  const spec = document.getElementById('su-spec').value;
-  const pw   = document.getElementById('su-pw').value;
+  const fn   = el('su-fn').value.trim();
+  const ln   = el('su-ln').value.trim();
+  const email= el('su-email').value.trim().toLowerCase();
+  const spec = el('su-spec').value;
+  const pw   = el('su-pw').value;
   if (!fn || !ln || !email || !spec || !pw) { showAuthErr('Please fill in all fields.'); return; }
   if (pw.length < 8) { showAuthErr('Password must be at least 8 characters.'); return; }
   clearAuthErr(); setAuthBusy('su-btn', true);
@@ -1131,20 +1139,19 @@ async function loadProfile() {
 }
 
 function applyLoggedIn() {
-  document.querySelectorAll('.nav-li').forEach(el => el.style.display = '');
-  document.querySelectorAll('.nav-lo').forEach(el => el.style.display = 'none');
-  document.getElementById('nav-user-btn').style.display = 'flex';
+  document.querySelectorAll('.nav-li').forEach(e => e.style.display = '');
+  document.querySelectorAll('.nav-lo').forEach(e => e.style.display = 'none');
+  el('nav-user-btn').style.display = 'flex';
   const p = S.profile;
-  document.getElementById('nav-initials').textContent = p?.initials || (S.user?.email?.[0] || '?').toUpperCase();
-  document.getElementById('nav-uname-el').textContent = p?.name?.split(' ')[0] || 'Account';
-  refreshProfile();
-  refreshDash();
-  updatePlanUI();
+  el('nav-initials').textContent = p?.initials || (S.user?.email?.[0] || '?').toUpperCase();
+  el('nav-uname-el').textContent = p?.name?.split(' ')[0] || 'Account';
+  // Don't call refreshDash/refreshProfile here — showPage() handles that
+  // when the user actually navigates to those pages
 }
 function applyLoggedOut() {
-  document.querySelectorAll('.nav-li').forEach(el => el.style.display = 'none');
-  document.querySelectorAll('.nav-lo').forEach(el => el.style.display = '');
-  document.getElementById('nav-user-btn').style.display = 'none';
+  document.querySelectorAll('.nav-li').forEach(e => e.style.display = 'none');
+  document.querySelectorAll('.nav-lo').forEach(e => e.style.display = '');
+  el('nav-user-btn').style.display = 'none';
 }
 
 // ── FEED ─────────────────────────────────────────────
@@ -1163,7 +1170,7 @@ async function loadFeed() {
 }
 
 function showDbNotice() {
-  if (document.getElementById('db-notice')) return;
+  if (el('db-notice')) return;
   const b = document.createElement('div');
   b.id = 'db-notice';
   b.style.cssText = 'background:rgba(254,115,10,.08);border:1px solid rgba(254,115,10,.22);border-radius:12px;padding:.7rem 1rem;margin-bottom:1rem;font-size:.74rem;color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap';
@@ -1173,15 +1180,15 @@ function showDbNotice() {
 }
 
 function renderFeed() {
-  const grid  = document.getElementById('feed-grid');
-  const nores = document.getElementById('feed-nores');
+  const grid  = el('feed-grid');
+  const nores = el('feed-nores');
   if (!grid) return;
   let list = S.projects.filter(p => p.status === 'published');
   if (S.filter !== 'all') list = list.filter(p => p.cat === S.filter);
   if (S.search) list = list.filter(p => (p.title + (p.author_name || '') + (p.tags || []).join(' ')).toLowerCase().includes(S.search));
   if (S.sort === 'popular') list = list.slice().sort((a, b) => b.likes - a.likes);
   else if (S.sort === 'views') list = list.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
-  document.getElementById('feed-count').textContent = list.length + ' project' + (list.length !== 1 ? 's' : '');
+  el('feed-count').textContent = list.length + ' project' + (list.length !== 1 ? 's' : '');
   if (!list.length) { grid.innerHTML = ''; nores.classList.add('show'); return; }
   nores.classList.remove('show');
   grid.innerHTML = list.map(buildCard).join('');
@@ -1228,31 +1235,31 @@ function openProject(id) {
   if (!p) return;
   const bg = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
   const CAT = {motion:'Motion Graphics',video:'Video Editing',graphic:'Graphic Design',social:'Social Media','3d':'3D & VFX',photo:'Photography'};
-  document.getElementById('pv-cat').textContent          = CAT[p.cat] || p.cat;
-  document.getElementById('pv-title').textContent        = p.title;
-  document.getElementById('pv-author-av').style.background = bg;
-  document.getElementById('pv-author-av').textContent    = p.author_init || '?';
-  document.getElementById('pv-author-name').textContent  = p.author_name || '—';
-  document.getElementById('pv-date').textContent         = p.year || '';
-  document.getElementById('pv-tags').innerHTML = (p.tags || []).map(t => '<span class="pv-htag">' + t + '</span>').join('');
-  const cov = document.getElementById('pv-cover');
+  el('pv-cat').textContent          = CAT[p.cat] || p.cat;
+  el('pv-title').textContent        = p.title;
+  el('pv-author-av').style.background = bg;
+  el('pv-author-av').textContent    = p.author_init || '?';
+  el('pv-author-name').textContent  = p.author_name || '—';
+  el('pv-date').textContent         = p.year || '';
+  el('pv-tags').innerHTML = (p.tags || []).map(t => '<span class="pv-htag">' + t + '</span>').join('');
+  const cov = el('pv-cover');
   cov.style.background = bg + '18'; cov.textContent = p.author_init || '?';
   cov.style.color = bg + '55'; cov.style.fontSize = '4rem'; cov.style.fontWeight = '700';
-  document.getElementById('pv-desc').textContent         = p.description || 'No description provided.';
-  document.getElementById('pv-views').textContent        = p.views || 0;
-  document.getElementById('pv-likes-n').textContent      = p.likes || 0;
-  document.getElementById('pv-sb-av').textContent        = p.author_init || '?';
-  document.getElementById('pv-sb-av').style.background   = bg;
-  document.getElementById('pv-sb-name').textContent      = p.author_name || '—';
-  document.getElementById('pv-sb-role').textContent      = CAT[p.cat] || p.cat;
-  const lb = document.getElementById('pv-like-btn');
+  el('pv-desc').textContent         = p.description || 'No description provided.';
+  el('pv-views').textContent        = p.views || 0;
+  el('pv-likes-n').textContent      = p.likes || 0;
+  el('pv-sb-av').textContent        = p.author_init || '?';
+  el('pv-sb-av').style.background   = bg;
+  el('pv-sb-name').textContent      = p.author_name || '—';
+  el('pv-sb-role').textContent      = CAT[p.cat] || p.cat;
+  const lb = el('pv-like-btn');
   lb.classList.remove('liked');
   lb.innerHTML = '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>Like this project';
-  document.getElementById('pv-hire-btn').onclick = () => showToast('Contact via WhatsApp to hire this creative.');
+  el('pv-hire-btn').onclick = () => showToast('Contact via WhatsApp to hire this creative.');
 }
 
 function toggleProjLike() {
-  const btn = document.getElementById('pv-like-btn');
+  const btn = el('pv-like-btn');
   const liked = btn.classList.toggle('liked');
   btn.innerHTML = liked
     ? '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" fill="#ef4444" stroke="#ef4444" stroke-width="1.1"/></svg>Liked!'
@@ -1264,7 +1271,7 @@ function toggleProjLike() {
 function switchDash(id, btn) {
   document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.dni').forEach(b => b.classList.remove('active'));
-  document.getElementById('dash-panel-' + id).classList.add('active');
+  el('dash-panel-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
   if (id === 'projects') renderMyProjects();
 }
@@ -1272,67 +1279,67 @@ function switchDash(id, btn) {
 function switchAccTab(id) {
   document.querySelectorAll('.acc-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.acc-pane').forEach(p => p.classList.remove('active'));
-  document.getElementById('atab-' + id).classList.add('active');
-  document.getElementById('acc-pane-' + id).classList.add('active');
+  el('atab-' + id).classList.add('active');
+  el('acc-pane-' + id).classList.add('active');
 }
 
 function refreshDash() {
   const p = S.profile; if (!p) return;
   const planLabel = {free:'Free Plan', standard:'Standard Plan', vip:'VIP Pro Plan'};
-  document.getElementById('dash-h').textContent   = 'Welcome back, ' + (p.name?.split(' ')[0] || '');
-  document.getElementById('dash-sub').textContent = (planLabel[p.plan] || 'Free Plan') + ' · Manage your portfolio and account.';
-  document.getElementById('st-views').textContent = p.views || 0;
-  document.getElementById('st-likes').textContent = p.likes || 0;
-  document.getElementById('st-plan').textContent  = p.plan === 'vip' ? 'VIP Pro' : p.plan === 'standard' ? 'Standard' : 'Free';
-  document.getElementById('acc-name').value       = p.name || '';
-  document.getElementById('acc-email').value      = p.email || '';
-  document.getElementById('acc-plan-disp').value  = planLabel[p.plan] || 'Free Plan';
-  document.getElementById('ep-name').value   = p.name    || '';
-  document.getElementById('ep-role').value   = p.role    || '';
-  document.getElementById('ep-city').value   = p.city    || '';
-  document.getElementById('ep-exp').value    = p.exp     || '';
-  document.getElementById('ep-bio').value    = p.bio     || '';
-  document.getElementById('ep-skills').value = p.skills  || '';
-  document.getElementById('ep-wa').value     = p.wa      || '';
-  document.getElementById('ep-ig').value     = p.ig      || '';
-  document.getElementById('ep-yt').value     = p.yt      || '';
-  document.getElementById('ep-web').value    = p.web     || '';
+  el('dash-h').textContent   = 'Welcome back, ' + (p.name?.split(' ')[0] || '');
+  el('dash-sub').textContent = (planLabel[p.plan] || 'Free Plan') + ' · Manage your portfolio and account.';
+  el('st-views').textContent = p.views || 0;
+  el('st-likes').textContent = p.likes || 0;
+  el('st-plan').textContent  = p.plan === 'vip' ? 'VIP Pro' : p.plan === 'standard' ? 'Standard' : 'Free';
+  el('acc-name').value       = p.name || '';
+  el('acc-email').value      = p.email || '';
+  el('acc-plan-disp').value  = planLabel[p.plan] || 'Free Plan';
+  el('ep-name').value   = p.name    || '';
+  el('ep-role').value   = p.role    || '';
+  el('ep-city').value   = p.city    || '';
+  el('ep-exp').value    = p.exp     || '';
+  el('ep-bio').value    = p.bio     || '';
+  el('ep-skills').value = p.skills  || '';
+  el('ep-wa').value     = p.wa      || '';
+  el('ep-ig').value     = p.ig      || '';
+  el('ep-yt').value     = p.yt      || '';
+  el('ep-web').value    = p.web     || '';
   document.querySelectorAll('.copt').forEach((el, i) => el.classList.toggle('sel', i === (p.cover_idx || 0)));
   const isFree = !p.plan || p.plan === 'free';
-  document.getElementById('upload-gate').style.display     = isFree ? 'block' : 'none';
-  document.getElementById('pub-btn').disabled              = isFree;
-  document.getElementById('upload-sub-txt').textContent    = isFree
+  el('upload-gate').style.display     = isFree ? 'block' : 'none';
+  el('pub-btn').disabled              = isFree;
+  el('upload-sub-txt').textContent    = isFree
     ? 'You can save drafts on the Free plan. Upgrade to publish publicly.'
     : 'Share your work with the Timeliners community.';
-  document.getElementById('gate-banner').style.display     = isFree ? 'block' : 'none';
+  el('gate-banner').style.display     = isFree ? 'block' : 'none';
 }
 
 function updatePlanUI() {
   const plan = S.profile?.plan || 'free';
-  document.getElementById('pb-free').className = 'plan-btn plan-btn-cur';
-  document.getElementById('pb-free').textContent = 'Current Plan';
-  document.getElementById('pb-std').className  = 'plan-btn plan-btn-p';
-  document.getElementById('pb-std').textContent = 'Upgrade — 1,990 LKR/mo';
-  document.getElementById('pb-std').onclick = () => requestUpgrade('standard');
-  document.getElementById('pb-vip').className  = 'plan-btn';
-  document.getElementById('pb-vip').textContent = 'Upgrade — 4,990 LKR/mo';
-  document.getElementById('pb-vip').onclick = () => requestUpgrade('vip');
-  ['free','std','vip'].forEach(k => document.getElementById('pc-' + k).classList.remove('current'));
+  el('pb-free').className = 'plan-btn plan-btn-cur';
+  el('pb-free').textContent = 'Current Plan';
+  el('pb-std').className  = 'plan-btn plan-btn-p';
+  el('pb-std').textContent = 'Upgrade — 1,990 LKR/mo';
+  el('pb-std').onclick = () => requestUpgrade('standard');
+  el('pb-vip').className  = 'plan-btn';
+  el('pb-vip').textContent = 'Upgrade — 4,990 LKR/mo';
+  el('pb-vip').onclick = () => requestUpgrade('vip');
+  ['free','std','vip'].forEach(k => el('pc-' + k).classList.remove('current'));
   if (plan === 'standard') {
-    document.getElementById('pc-std').classList.add('current');
-    document.getElementById('pb-free').className = 'plan-btn'; document.getElementById('pb-free').textContent = 'Downgrade';
-    document.getElementById('pb-std').className = 'plan-btn plan-btn-cur'; document.getElementById('pb-std').textContent = 'Current Plan'; document.getElementById('pb-std').onclick = null;
+    el('pc-std').classList.add('current');
+    el('pb-free').className = 'plan-btn'; el('pb-free').textContent = 'Downgrade';
+    el('pb-std').className = 'plan-btn plan-btn-cur'; el('pb-std').textContent = 'Current Plan'; el('pb-std').onclick = null;
   } else if (plan === 'vip') {
-    document.getElementById('pc-vip').classList.add('current');
-    document.getElementById('pb-free').className = 'plan-btn'; document.getElementById('pb-free').textContent = 'Downgrade';
-    document.getElementById('pb-std').className = 'plan-btn'; document.getElementById('pb-std').textContent = 'Downgrade'; document.getElementById('pb-std').onclick = null;
-    document.getElementById('pb-vip').className = 'plan-btn plan-btn-cur'; document.getElementById('pb-vip').textContent = 'Current Plan'; document.getElementById('pb-vip').onclick = null;
+    el('pc-vip').classList.add('current');
+    el('pb-free').className = 'plan-btn'; el('pb-free').textContent = 'Downgrade';
+    el('pb-std').className = 'plan-btn'; el('pb-std').textContent = 'Downgrade'; el('pb-std').onclick = null;
+    el('pb-vip').className = 'plan-btn plan-btn-cur'; el('pb-vip').textContent = 'Current Plan'; el('pb-vip').onclick = null;
   } else {
-    document.getElementById('pc-free').classList.add('current');
+    el('pc-free').classList.add('current');
   }
   const mine = S.projects.filter(p => S.profile && p.user_id === S.profile.id);
-  document.getElementById('st-projs').textContent = mine.length;
-  document.getElementById('st-projs-hint').textContent = plan === 'free' ? '(drafts only)' : '';
+  el('st-projs').textContent = mine.length;
+  el('st-projs-hint').textContent = plan === 'free' ? '(drafts only)' : '';
 }
 
 function requestUpgrade(plan) {
@@ -1346,14 +1353,14 @@ function requestUpgrade(plan) {
 // ── SAVE PROFILE ────────────────────────────────────
 async function saveProfile() {
   if (!S.profile) return;
-  const name = document.getElementById('ep-name').value || S.profile.name;
+  const name = el('ep-name').value || S.profile.name;
   const n    = name.trim().split(' ');
   const updates = {
-    name, role: document.getElementById('ep-role').value,
-    city: document.getElementById('ep-city').value, exp: document.getElementById('ep-exp').value,
-    bio:  document.getElementById('ep-bio').value,  skills: document.getElementById('ep-skills').value,
-    wa:   document.getElementById('ep-wa').value,   ig: document.getElementById('ep-ig').value,
-    yt:   document.getElementById('ep-yt').value,   web: document.getElementById('ep-web').value,
+    name, role: el('ep-role').value,
+    city: el('ep-city').value, exp: el('ep-exp').value,
+    bio:  el('ep-bio').value,  skills: el('ep-skills').value,
+    wa:   el('ep-wa').value,   ig: el('ep-ig').value,
+    yt:   el('ep-yt').value,   web: el('ep-web').value,
     initials: ((n[0]?.[0] || '') + (n[1]?.[0] || '')).toUpperCase() || '?'
   };
   try {
@@ -1367,7 +1374,7 @@ async function saveProfile() {
 
 async function saveAccountDetails() {
   if (!S.profile) return;
-  const name = document.getElementById('acc-name').value.trim();
+  const name = el('acc-name').value.trim();
   if (!name) { showToast('Name cannot be empty.'); return; }
   try {
     const token = await getToken();
@@ -1377,16 +1384,16 @@ async function saveAccountDetails() {
 }
 
 async function changePassword() {
-  const pw1 = document.getElementById('acc-pw-new').value;
-  const pw2 = document.getElementById('acc-pw-cf').value;
+  const pw1 = el('acc-pw-new').value;
+  const pw2 = el('acc-pw-cf').value;
   if (!pw1 || !pw2) { showToast('Fill in both password fields.'); return; }
   if (pw1 !== pw2)  { showToast('Passwords do not match.'); return; }
   if (pw1.length < 8) { showToast('At least 8 characters required.'); return; }
   try {
     const { error } = await sb.auth.updateUser({ password: pw1 });
     if (error) throw error;
-    document.getElementById('acc-pw-new').value = '';
-    document.getElementById('acc-pw-cf').value  = '';
+    el('acc-pw-new').value = '';
+    el('acc-pw-cf').value  = '';
     showToast('✓ Password updated!');
   } catch(e) { showToast('Error: ' + e.message); }
 }
@@ -1395,40 +1402,40 @@ async function changePassword() {
 async function saveProject(status) {
   status = status || 'published';
   if (!S.profile) { showToast('Please sign in first.'); return; }
-  const title = document.getElementById('up-title').value.trim();
+  const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
   if (status === 'published' && (!S.profile.plan || S.profile.plan === 'free')) {
     showToast('Upgrade to publish publicly.');
-    switchDash('account', document.getElementById('dnav-account'));
+    switchDash('account', el('dnav-account'));
     setTimeout(() => switchAccTab('pro'), 80); return;
   }
   const proj = {
-    user_id: S.profile.id, title, cat: document.getElementById('up-cat').value,
-    tags: document.getElementById('up-tags').value.split(',').map(t => t.trim()).filter(Boolean),
-    description: document.getElementById('up-desc').value,
-    year: document.getElementById('up-year').value || String(new Date().getFullYear()),
-    yt_link: document.getElementById('up-yt').value, status,
+    user_id: S.profile.id, title, cat: el('up-cat').value,
+    tags: el('up-tags').value.split(',').map(t => t.trim()).filter(Boolean),
+    description: el('up-desc').value,
+    year: el('up-year').value || String(new Date().getFullYear()),
+    yt_link: el('up-yt').value, status,
     author_name: S.profile.name, author_init: S.profile.initials || '?',
     grad_idx: S.profile.grad_idx || 0, likes: 0, views: 0
   };
-  document.getElementById('upload-saving').style.display = 'block';
+  el('upload-saving').style.display = 'block';
   try {
     const token = await getToken();
     const rows  = await db('/tl_projects', 'POST', proj, token);
     S.projects.unshift((rows && rows[0]) ? rows[0] : Object.assign({id: 'local_' + Date.now()}, proj));
-    ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-    document.getElementById('upreview').innerHTML = '';
+    ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(id => { const el = el(id); if (el) el.value = ''; });
+    el('upreview').innerHTML = '';
     showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
-    switchDash('projects', document.getElementById('dnav-projects'));
+    switchDash('projects', el('dnav-projects'));
     updatePlanUI();
     if (status === 'published') loadFeed();
   } catch(e) { showToast('Error: ' + e.message); }
-  finally { document.getElementById('upload-saving').style.display = 'none'; }
+  finally { el('upload-saving').style.display = 'none'; }
 }
 
 async function renderMyProjects() {
-  const tbody = document.getElementById('my-proj-tbody');
-  const empty = document.getElementById('my-proj-empty');
+  const tbody = el('my-proj-tbody');
+  const empty = el('my-proj-empty');
   if (!S.profile) { empty.style.display = 'block'; tbody.innerHTML = ''; return; }
   let projs = [];
   try {
@@ -1437,7 +1444,7 @@ async function renderMyProjects() {
   } catch(e) {
     projs = S.projects.filter(p => p.user_id === S.profile.id);
   }
-  document.getElementById('st-projs').textContent = projs.length;
+  el('st-projs').textContent = projs.length;
   if (!projs.length) { empty.style.display = 'block'; tbody.innerHTML = ''; return; }
   empty.style.display = 'none';
   tbody.innerHTML = projs.map(p =>
@@ -1468,39 +1475,39 @@ async function deleteProject(id) {
 // ── PROFILE PAGE ─────────────────────────────────────
 function refreshProfile() {
   const p = S.profile; if (!p) return;
-  document.getElementById('pav-ph').textContent        = p.initials || '?';
-  document.getElementById('pav-ph').style.background   = GCOLS[p.grad_idx || 0];
-  document.getElementById('pcov-el').style.background  = GRADS[p.cover_idx || 0];
-  document.getElementById('pname-el').innerHTML        = (p.name || '—') + (p.plan === 'vip' ? ' <span class="prof-badge">VIP Pro</span>' : '');
-  document.getElementById('pbadge-el').style.display   = p.plan === 'vip' ? 'inline' : 'none';
-  document.getElementById('prole-el').textContent      = (p.city || 'Sri Lanka') + ' · ' + (p.role || 'Creative');
+  el('pav-ph').textContent        = p.initials || '?';
+  el('pav-ph').style.background   = GCOLS[p.grad_idx || 0];
+  el('pcov-el').style.background  = GRADS[p.cover_idx || 0];
+  el('pname-el').innerHTML        = (p.name || '—') + (p.plan === 'vip' ? ' <span class="prof-badge">VIP Pro</span>' : '');
+  el('pbadge-el').style.display   = p.plan === 'vip' ? 'inline' : 'none';
+  el('prole-el').textContent      = (p.city || 'Sri Lanka') + ' · ' + (p.role || 'Creative');
   const skills = (p.skills || '').split(',').map(s => s.trim()).filter(Boolean);
-  document.getElementById('ptags-el').innerHTML        = skills.slice(0, 3).map(s => '<span class="prof-tag">' + s + '</span>').join('');
-  document.getElementById('pbio-el').textContent       = p.bio || 'Add your bio in the dashboard.';
-  document.getElementById('pfullbio-el').textContent   = p.bio || '—';
-  document.getElementById('pexp-el').textContent       = p.exp  || '—';
-  document.getElementById('pcity-el').textContent      = p.city || '—';
-  document.getElementById('pskills-el').innerHTML      = skills.map(s => '<span class="skill-tag">' + s + '</span>').join('') || '<span style="font-size:.76rem;color:var(--t3)">No skills added.</span>';
-  const wa = document.getElementById('pwa-link'), ig = document.getElementById('pig-link'), yt = document.getElementById('pyt-link'), nl = document.getElementById('pno-links');
+  el('ptags-el').innerHTML        = skills.slice(0, 3).map(s => '<span class="prof-tag">' + s + '</span>').join('');
+  el('pbio-el').textContent       = p.bio || 'Add your bio in the dashboard.';
+  el('pfullbio-el').textContent   = p.bio || '—';
+  el('pexp-el').textContent       = p.exp  || '—';
+  el('pcity-el').textContent      = p.city || '—';
+  el('pskills-el').innerHTML      = skills.map(s => '<span class="skill-tag">' + s + '</span>').join('') || '<span style="font-size:.76rem;color:var(--t3)">No skills added.</span>';
+  const wa = el('pwa-link'), ig = el('pig-link'), yt = el('pyt-link'), nl = el('pno-links');
   let has = false;
   if (p.wa) { wa.style.display='flex'; wa.href='https://wa.me/'+p.wa.replace(/[^0-9]/g,''); has=true; } else wa.style.display='none';
   if (p.ig) { ig.style.display='flex'; ig.href=p.ig; has=true; } else ig.style.display='none';
   if (p.yt) { yt.style.display='flex'; yt.href=p.yt; has=true; } else yt.style.display='none';
   nl.style.display = has ? 'none' : 'block';
-  document.getElementById('p-hire-btn').onclick = p.wa
+  el('p-hire-btn').onclick = p.wa
     ? () => window.open('https://wa.me/' + p.wa.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent('Hi ' + p.name + ', I found your profile on Timeliners and would love to discuss a project.'), '_blank')
     : () => showToast("This creative hasn't added a contact method yet.");
   renderProfileProjects();
 }
 
 function renderProfileProjects() {
-  const grid  = document.getElementById('profile-pgrid');
-  const nores = document.getElementById('pnores');
+  const grid  = el('profile-pgrid');
+  const nores = el('pnores');
   if (!S.profile) { nores.classList.add('show'); return; }
   const projs = S.projects.filter(p => p.user_id === S.profile.id && p.status === 'published');
-  document.getElementById('pstat-proj').textContent  = projs.length;
-  document.getElementById('pstat-likes').textContent = S.profile.likes || 0;
-  document.getElementById('pstat-views').textContent = S.profile.views || 0;
+  el('pstat-proj').textContent  = projs.length;
+  el('pstat-likes').textContent = S.profile.likes || 0;
+  el('pstat-views').textContent = S.profile.views || 0;
   if (!projs.length) { grid.innerHTML = ''; nores.classList.add('show'); return; }
   nores.classList.remove('show');
   grid.innerHTML = projs.map(buildCard).join('');
@@ -1508,27 +1515,27 @@ function renderProfileProjects() {
 
 function switchPTab(id, btn) {
   document.querySelectorAll('.ptab').forEach(b => b.classList.remove('active')); btn.classList.add('active');
-  document.getElementById('ptab-work').style.display  = id === 'work'  ? 'block' : 'none';
-  document.getElementById('ptab-about').style.display = id === 'about' ? 'block' : 'none';
+  el('ptab-work').style.display  = id === 'work'  ? 'block' : 'none';
+  el('ptab-about').style.display = id === 'about' ? 'block' : 'none';
 }
 
 // ── COVER PICKER ─────────────────────────────────────
 function buildCoverPicker() {
-  document.getElementById('cover-picker').innerHTML = GRADS.map((g, i) =>
+  el('cover-picker').innerHTML = GRADS.map((g, i) =>
     '<div class="copt' + (i === 0 ? ' sel' : '') + '" style="background:' + g + '" onclick="selectCover(' + i + ',this)"></div>'
   ).join('');
 }
 function selectCover(idx, el) {
   document.querySelectorAll('.copt').forEach(e => e.classList.remove('sel')); el.classList.add('sel');
   if (S.profile) S.profile.cover_idx = idx;
-  document.getElementById('pcov-el').style.background = GRADS[idx];
+  el('pcov-el').style.background = GRADS[idx];
 }
 
 // ── FILE UPLOAD PREVIEW ──────────────────────────────
 function handleFileSelect(input) { showPreviews(input.files); }
-function handleDrop(e) { e.preventDefault(); document.getElementById('upload-zone').classList.remove('drag'); showPreviews(e.dataTransfer.files); }
+function handleDrop(e) { e.preventDefault(); el('upload-zone').classList.remove('drag'); showPreviews(e.dataTransfer.files); }
 function showPreviews(files) {
-  const prev = document.getElementById('upreview');
+  const prev = el('upreview');
   Array.from(files).slice(0, 6).forEach(f => {
     if (!f.type.startsWith('image/')) return;
     const r = new FileReader();
@@ -1543,12 +1550,12 @@ function showPreviews(files) {
 
 // ── JOBS ─────────────────────────────────────────────
 function renderJobs() {
-  const grid  = document.getElementById('jobs-grid');
-  const nores = document.getElementById('jobs-nores');
+  const grid  = el('jobs-grid');
+  const nores = el('jobs-nores');
   if (!grid) return;
-  const type = document.getElementById('jf-type') ? document.getElementById('jf-type').value : '';
-  const cat  = document.getElementById('jf-cat')  ? document.getElementById('jf-cat').value  : '';
-  const loc  = document.getElementById('jf-loc')  ? document.getElementById('jf-loc').value  : '';
+  const type = el('jf-type') ? el('jf-type').value : '';
+  const cat  = el('jf-cat')  ? el('jf-cat').value  : '';
+  const loc  = el('jf-loc')  ? el('jf-loc').value  : '';
   const list = JOBS.filter(j => (!type || j.type === type) && (!cat || j.cat === cat) && (!loc || j.loc === loc));
   if (!list.length) { grid.innerHTML = ''; nores && nores.classList.add('show'); return; }
   nores && nores.classList.remove('show');
@@ -1593,17 +1600,17 @@ function openWA(msg) {
 }
 
 // ── NAVIGATION ───────────────────────────────────────
-document.getElementById('main-nav').style.display = 'none';
+el('main-nav').style.display = 'none';
 
 function showPage(id, projId) {
   if ((id === 'dashboard' || id === 'profile') && !S.user) { openAuth('in'); return; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const pg = document.getElementById('page-' + id);
+  const pg = el('page-' + id);
   if (pg) pg.classList.add('active');
   window.scrollTo(0, 0);
-  document.getElementById('main-nav').style.display = id === 'splash' ? 'none' : 'flex';
+  el('main-nav').style.display = id === 'splash' ? 'none' : 'flex';
   document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
-  const nl = document.getElementById('nav-' + id);
+  const nl = el('nav-' + id);
   if (nl) nl.classList.add('active');
   closeMob();
   if (id === 'feed')      renderFeed();
@@ -1614,13 +1621,13 @@ function showPage(id, projId) {
 }
 
 function enterPage(id) {
-  const s = document.getElementById('page-splash');
+  const s = el('page-splash');
   s.style.transition = 'opacity .28s ease'; s.style.opacity = '0';
   setTimeout(() => { s.style.display = 'none'; showPage(id); }, 260);
 }
 
-function toggleMob() { const m = document.getElementById('mob'); m.style.display = m.style.display === 'block' ? 'none' : 'block'; }
-function closeMob()  { document.getElementById('mob').style.display = 'none'; }
+function toggleMob() { const m = el('mob'); m.style.display = m.style.display === 'block' ? 'none' : 'block'; }
+function closeMob()  { el('mob').style.display = 'none'; }
 
 // ── THEME ────────────────────────────────────────────
 const MOON = '<svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M12.5 9.5A6 6 0 015.5 2.5a6 6 0 000 10A6 6 0 0012.5 9.5z" stroke="var(--t1)" stroke-width="1.3" fill="none"/></svg>';
@@ -1641,8 +1648,8 @@ function initTheme() {
 
 // ── TOAST ────────────────────────────────────────────
 function showToast(msg) {
-  const t = document.getElementById('toast');
-  document.getElementById('tmsg').textContent = msg;
+  const t = el('toast');
+  el('tmsg').textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
