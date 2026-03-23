@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="logo_1.png">
@@ -52,12 +52,19 @@ html.light .ihero p{color:rgba(255,255,255,.45)}
 
 /* Theme toggle */
 .theme-btn{
-  width:34px;height:34px;border-radius:50%;border:1px solid var(--brd2);
-  background:var(--bg3);cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:var(--tr);flex-shrink:0;
+  width:44px;height:24px;border-radius:50px;
+  border:1.5px solid var(--brd2);background:var(--bg3);
+  cursor:pointer;display:flex;align-items:center;padding:2px;
+  transition:var(--tr);flex-shrink:0;position:relative;
 }
-.theme-btn:hover{border-color:var(--ac);background:var(--acl)}
-.theme-btn svg{transition:var(--tr)}
+.theme-btn:hover{border-color:var(--ac)}
+.theme-knob{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--t2);transition:transform .25s cubic-bezier(.4,0,.2,1),background .2s;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+html.light .theme-knob{transform:translateX(20px);background:var(--ac)}
+.theme-knob svg{transition:var(--tr)}
 /* light mode overrides */
 
 html.light .spl-glow{background:radial-gradient(circle,rgba(254,115,10,.14) 0%,transparent 65%)}
@@ -133,7 +140,7 @@ a{text-decoration:none;cursor:pointer}
 .cg-inner{width:100%;max-width:1140px;margin:0 auto;padding:1.3rem 24px 3rem}
 .cg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
 .cg-count{font-size:.72rem;font-weight:500;color:var(--t2)}
-.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 .cc{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);overflow:hidden;transition:var(--tr);cursor:pointer;display:flex;flex-direction:column}.cc:hover{border-color:var(--brd2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.45)}
 .cc-cover{display:none}
 .cc-av{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:1.05rem;color:white;box-shadow:0 4px 20px rgba(0,0,0,.5);overflow:hidden}
@@ -291,7 +298,7 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 
 .c{width:100%;max-width:1140px;margin-left:auto;margin-right:auto;padding-left:24px;padding-right:24px}
 @media(max-width:1200px){.cgrid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:960px){.cgrid{grid-template-columns:repeat(2,1fr)}.pkggrid{grid-template-columns:1fr;max-width:300px;margin-left:auto;margin-right:auto}.jinn{grid-template-columns:1fr}.fgr{grid-template-columns:1fr 1fr}.jobs-grid{grid-template-columns:1fr}}
+@media(max-width:900px){.cgrid{grid-template-columns:repeat(2,1fr)}.pkggrid{grid-template-columns:1fr;max-width:300px;margin-left:auto;margin-right:auto}.jinn{grid-template-columns:1fr}.fgr{grid-template-columns:1fr 1fr}.jobs-grid{grid-template-columns:1fr}}
 @media(max-width:768px){.nav-center{display:none}.ham{display:flex}.cgrid{grid-template-columns:repeat(2,1fr)}.cgrid2{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}}
 @media(max-width:480px){.cgrid{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.spl-cards{flex-direction:column;align-items:center;width:100%;max-width:280px}}
 </style>
@@ -344,11 +351,13 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
       <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       Make Your Profile
     </button>
-    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark">
-      <svg id="theme-ico" width="15" height="15" viewBox="0 0 15 15" fill="none">
-        <circle cx="7.5" cy="7.5" r="3" stroke="var(--t1)" stroke-width="1.3" fill="none"/>
-        <path d="M7.5 1.5V3M7.5 12v1.5M1.5 7.5H3M12 7.5h1.5M3.2 3.2l1 1M10.8 10.8l1 1M10.8 3.2l-1 1M4.2 10.8l-1 1" stroke="var(--t1)" stroke-width="1.3" stroke-linecap="round"/>
-      </svg>
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode">
+      <div class="theme-knob" id="theme-knob">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <circle cx="5" cy="5" r="2" stroke="white" stroke-width="1.2" fill="none" class="sun-icon"/>
+          <path d="M5 1v1M5 8v1M1 5h1M8 5h1M2.1 2.1l.7.7M7.2 7.2l.7.7M7.2 2.1l-.7.7M2.8 7.2l-.7.7" stroke="white" stroke-width="1" stroke-linecap="round" class="sun-icon"/>
+        </svg>
+      </div>
     </button>
     <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
   </div>
@@ -500,7 +509,37 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
         <div class="pcard pfeat"><div class="ppop">Most Popular</div><div class="pname" style="color:#999">Standard</div><div class="pprice" style="color:#111">1,990 <span style="font-size:.88rem;font-weight:400;color:#aaa">LKR</span></div><div class="ppsub" style="color:#999">Per month</div><hr class="pdiv"><div class="pdesc" style="color:#555">Full portfolio for serious creatives.</div><ul class="pfeats"><li><span class="chk">✓</span>Everything in Starter</li><li><span class="chk">✓</span>Unlimited projects</li><li><span class="chk">✓</span>Featured placement</li><li><span class="chk">✓</span>Analytics & engagement</li><li><span class="chk">✓</span>VIP badge</li><li class="no" style="color:#ccc"><span class="chk" style="color:#ddd">×</span>Social media promo</li></ul><button class="pbtn pa" onclick="openWA('Standard (1,990 LKR/month)')">Subscribe — 1,990 LKR/mo</button></div>
         <div class="pcard"><div class="pname">VIP Pro</div><div class="pprice">4,990 <span style="font-size:.78rem;font-weight:300;color:var(--t3)">LKR</span></div><div class="ppsub">Per month · All inclusive</div><hr class="pdiv"><div class="pdesc">Maximum exposure + social promotion.</div><ul class="pfeats"><li><span class="chk">✓</span>Everything in Standard</li><li><span class="chk">✓</span>Instagram & Facebook promo</li><li><span class="chk">✓</span>TikTok channel feature</li><li><span class="chk">✓</span>Priority homepage placement</li><li><span class="chk">✓</span>Monthly performance report</li><li><span class="chk">✓</span>Dedicated account manager</li></ul><button class="pbtn pd" onclick="openWA('VIP Pro (4,990 LKR/month)')">Subscribe — 4,990 LKR/mo</button></div>
       </div>
-      <div style="text-align:center;margin-top:1.4rem;font-size:.68rem;font-weight:300;color:var(--t3)">Activated manually after WhatsApp confirmation · Bank transfer or WhatsApp Pay</div>
+
+  <!-- Plan Comparison Table -->
+  <div style="margin-top:3rem;border:1px solid var(--brd);border-radius:var(--rlg);overflow:hidden">
+    <div style="background:var(--bg3);padding:1.2rem 1.5rem;border-bottom:1px solid var(--brd)">
+      <div style="font-size:.72rem;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--t2)">Full Plan Comparison</div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+      <thead>
+        <tr style="border-bottom:1px solid var(--brd)">
+          <th style="text-align:left;padding:.9rem 1.5rem;font-weight:600;color:var(--t1);width:40%">Feature</th>
+          <th style="text-align:center;padding:.9rem 1rem;font-weight:600;color:var(--t2);width:20%">Starter<br><span style="font-weight:400;font-size:.72rem;color:var(--t3)">Free</span></th>
+          <th style="text-align:center;padding:.9rem 1rem;font-weight:600;color:var(--ac);width:20%;background:rgba(254,115,10,.05)">Standard<br><span style="font-weight:400;font-size:.72rem;color:var(--t3)">1,990 LKR/mo</span></th>
+          <th style="text-align:center;padding:.9rem 1rem;font-weight:600;color:var(--t1);width:20%">VIP Pro<br><span style="font-weight:400;font-size:.72rem;color:var(--t3)">4,990 LKR/mo</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">Public profile listing</td><td style="text-align:center;color:var(--ac)">✓</td><td style="text-align:center;color:var(--ac);background:rgba(254,115,10,.05)">✓</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">Portfolio projects</td><td style="text-align:center;color:var(--t3)">Up to 3</td><td style="text-align:center;color:var(--ac);background:rgba(254,115,10,.05)">Unlimited</td><td style="text-align:center;color:var(--ac)">Unlimited</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">Likes counter</td><td style="text-align:center;color:var(--ac)">✓</td><td style="text-align:center;color:var(--ac);background:rgba(254,115,10,.05)">✓</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">Featured placement</td><td style="text-align:center;color:var(--t3)">✗</td><td style="text-align:center;color:var(--ac);background:rgba(254,115,10,.05)">✓</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">Analytics & engagement</td><td style="text-align:center;color:var(--t3)">✗</td><td style="text-align:center;color:var(--ac);background:rgba(254,115,10,.05)">✓</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">VIP badge</td><td style="text-align:center;color:var(--t3)">✗</td><td style="text-align:center;color:var(--ac);background:rgba(254,115,10,.05)">✓</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">Instagram & Facebook promo</td><td style="text-align:center;color:var(--t3)">✗</td><td style="text-align:center;color:var(--t3);background:rgba(254,115,10,.05)">✗</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">TikTok channel feature</td><td style="text-align:center;color:var(--t3)">✗</td><td style="text-align:center;color:var(--t3);background:rgba(254,115,10,.05)">✗</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">Priority homepage placement</td><td style="text-align:center;color:var(--t3)">✗</td><td style="text-align:center;color:var(--t3);background:rgba(254,115,10,.05)">✗</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr style="border-bottom:1px solid var(--brd)"><td style="padding:.75rem 1.5rem;color:var(--t2)">Monthly performance report</td><td style="text-align:center;color:var(--t3)">✗</td><td style="text-align:center;color:var(--t3);background:rgba(254,115,10,.05)">✗</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+        <tr><td style="padding:.75rem 1.5rem;color:var(--t2)">Dedicated account manager</td><td style="text-align:center;color:var(--t3)">✗</td><td style="text-align:center;color:var(--t3);background:rgba(254,115,10,.05)">✗</td><td style="text-align:center;color:var(--ac)">✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+      <div style="text-align:center;margin-top:1.5rem;font-size:.68rem;font-weight:300;color:var(--t3)">Activated manually after WhatsApp confirmation · Bank transfer or WhatsApp Pay</div>
     </div>
   </div></section>
 </div>
@@ -648,11 +687,18 @@ const MOON_SVG=`<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><pat
 const SUN_SVG=`<svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="3" stroke="var(--t1)" stroke-width="1.3" fill="none"/><path d="M7.5 1.5V3M7.5 12v1.5M1.5 7.5H3M12 7.5h1.5M3.2 3.2l1 1M10.8 10.8l1 1M10.8 3.2l-1 1M4.2 10.8l-1 1" stroke="var(--t1)" stroke-width="1.3" stroke-linecap="round"/></svg>`;
 function toggleTheme(){
   const isLight=document.documentElement.classList.toggle('light');
-  document.getElementById('theme-btn').innerHTML=isLight?MOON_SVG:SUN_SVG;
+  // knob moves via CSS — no innerHTML swap needed
   try{localStorage.setItem('tl_theme',isLight?'light':'dark');}catch(e){}
 }
 (function(){
-  try{if(localStorage.getItem('tl_theme')==='light'){document.documentElement.classList.add('light');document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('theme-btn');if(b)b.innerHTML=MOON_SVG;});}}catch(e){}
+  try{
+    const saved=localStorage.getItem('tl_theme');
+    if(saved==='dark'){document.documentElement.classList.remove('light');}
+    else{document.documentElement.classList.add('light');}
+    document.addEventListener('DOMContentLoaded',()=>{
+      // knob moves via CSS
+    });
+  }catch(e){}
 })();
 </script>
 </body>
