@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html><head>
+<script>
+  var seg = location.pathname.replace(/^\/[^/]*\//, '').replace(/^\//, '');
+  sessionStorage.setItem('tl_redirect', seg);
+  window.location = location.origin + location.pathname.replace(/\/[^/]*$/, '/');
+</script>
+</head></html>
