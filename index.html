@@ -140,46 +140,62 @@ html.light .fsrch input{color:var(--t1)}
 .pcard-tags{display:flex;gap:.25rem;overflow:hidden;flex:1}
 .pcard-tag{font-size:.52rem;padding:.1rem .4rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2);white-space:nowrap}
 .pcard-likes{display:flex;align-items:center;gap:.2rem;font-size:.65rem;color:var(--t3);flex-shrink:0}
-/* PROFILE PAGE — YouTube channel + TikTok portfolio hybrid */
+/* PROFILE PAGE — single-page card layout, no cover banner */
 #page-profile{padding-top:56px;min-height:100vh;background:var(--bg)}
-.prof-banner{height:200px;position:relative;overflow:hidden}
-.prof-banner-ov{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.72))}
-.prof-header{max-width:1180px;margin:0 auto;padding:0 24px;position:relative}
-.prof-header-inner{display:flex;align-items:flex-end;gap:1.2rem;margin-top:-44px;position:relative;z-index:2;padding-bottom:1.2rem;border-bottom:1px solid var(--brd);flex-wrap:wrap}
-.prof-av-wrap{width:88px;height:88px;border-radius:50%;border:3px solid var(--bg);overflow:hidden;flex-shrink:0;box-shadow:0 4px 20px rgba(0,0,0,.7)}
-.prof-av-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:white}
-.prof-info{flex:1;min-width:0;padding-bottom:.35rem}
-.prof-name{font-size:1.35rem;font-weight:700;color:white;margin-bottom:.12rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;text-shadow:0 1px 4px rgba(0,0,0,.5)}
-.prof-badge{background:var(--ac);color:white;font-size:.46rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:.14rem .52rem;border-radius:50px}
-.prof-handle{font-size:.82rem;color:rgba(255,255,255,.55);margin-bottom:.45rem}
-.prof-channel-stats{display:flex;gap:1.2rem;flex-wrap:wrap}
-.prof-cstat-n{font-size:.92rem;font-weight:700;color:white;display:block}.prof-cstat-l{font-size:.55rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;display:block}
-.prof-actions{display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap;padding-bottom:.35rem}
-.btn-ghost{background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);font-size:.82rem;padding:.48rem 1.1rem;border-radius:50px;display:inline-flex;align-items:center;gap:.35rem;transition:var(--tr)}.btn-ghost:hover{background:rgba(255,255,255,.2)}
-.prof-tabs-bar{background:var(--bg2);border-bottom:1px solid var(--brd);position:sticky;top:56px;z-index:100}
-.prof-tabs-bar-inner{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;gap:0}
-.prof-ctab{font-size:.82rem;font-weight:500;color:var(--t2);padding:.75rem 1.1rem;border-bottom:2px solid transparent;transition:var(--tr);border-top:none;border-left:none;border-right:none;background:none;cursor:pointer}.prof-ctab:hover{color:var(--t1)}.prof-ctab.active{color:var(--t1);border-bottom-color:var(--ac)}
-.prof-content{max-width:1180px;margin:0 auto;padding:1.5rem 24px 4rem}
-.prof-section-title{font-size:.57rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin:1.5rem 0 .85rem;display:flex;align-items:center;gap:.6rem}.prof-section-title::after{content:'';flex:1;height:1px;background:var(--brd)}
-.prof-longform-list{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.5rem}
-.prof-lf-item{display:grid;grid-template-columns:195px 1fr;gap:.9rem;padding:.75rem;border-radius:var(--rlg);transition:var(--tr);cursor:pointer}.prof-lf-item:hover{background:var(--bg2)}
-.prof-lf-thumb{aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;position:relative;background:var(--bg3)}
-.prof-lf-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.6rem;color:rgba(255,255,255,.12);letter-spacing:2px}
-.prof-lf-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.32);opacity:0;transition:.2s}.prof-lf-item:hover .prof-lf-play{opacity:1}
-.prof-lf-play-ico{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center}
-.prof-lf-type-badge{position:absolute;bottom:.38rem;left:.38rem;font-size:.46rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:.11rem .38rem;border-radius:3px;background:rgba(254,115,10,.8);color:white}
-.prof-lf-dur{position:absolute;bottom:.38rem;right:.38rem;font-size:.54rem;color:white;background:rgba(0,0,0,.7);padding:.08rem .3rem;border-radius:3px}
-.prof-lf-info{display:flex;flex-direction:column;gap:.18rem;padding-top:.1rem}
-.prof-lf-title{font-size:.88rem;font-weight:600;color:var(--t1);line-height:1.35}
-.prof-lf-meta{font-size:.68rem;color:var(--t3);display:flex;gap:.6rem;flex-wrap:wrap}
-.prof-lf-desc{font-size:.75rem;color:var(--t2);line-height:1.7;margin-top:.18rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.prof-shorts-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem;margin-bottom:1.5rem}
-.prof-short-item{aspect-ratio:9/16;border-radius:var(--r);overflow:hidden;position:relative;background:var(--bg3);cursor:pointer;transition:var(--tr)}.prof-short-item:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.5)}
-.prof-short-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.5rem;color:rgba(255,255,255,.12)}
-.prof-short-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,transparent 50%)}
-.prof-short-title{position:absolute;bottom:.42rem;left:.42rem;right:.42rem;font-size:.56rem;font-weight:500;color:white;line-height:1.4;z-index:2}
-.prof-short-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;opacity:0;transition:.2s;z-index:2}.prof-short-item:hover .prof-short-play{opacity:1}
-.prof-about-layout{display:grid;grid-template-columns:1fr 270px;gap:1.8rem;align-items:start}
+.prof-outer{max-width:1100px;margin:0 auto;padding:2rem 24px 4rem;display:grid;grid-template-columns:340px 1fr;gap:1.5rem;align-items:start}
+/* Identity card — left column */
+.prof-card{background:var(--bg2);border:1px solid var(--brd2);border-radius:20px;overflow:hidden;position:sticky;top:68px}
+.prof-card-mesh{height:120px;position:relative;overflow:hidden}
+.prof-card-mesh-bg{position:absolute;inset:0;background:var(--prof-mesh,linear-gradient(135deg,#FE730A,#c0390a));opacity:.85}
+.prof-card-mesh-noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");opacity:.35;mix-blend-mode:overlay}
+.prof-card-body{padding:0 1.4rem 1.4rem}
+.prof-av-float{width:72px;height:72px;border-radius:50%;border:3px solid var(--bg2);box-shadow:0 4px 20px rgba(0,0,0,.5);margin-top:-36px;position:relative;z-index:2;overflow:hidden;flex-shrink:0}
+.prof-av-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:white}
+.prof-card-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:.9rem}
+.prof-badge{background:var(--ac);color:white;font-size:.44rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:.15rem .55rem;border-radius:50px;flex-shrink:0}
+.prof-name{font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:.12rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.prof-role-city{font-size:.78rem;color:var(--t2);margin-bottom:.22rem}
+.prof-handle-line{font-size:.7rem;color:var(--t3);margin-bottom:.95rem;font-style:italic}
+/* Stats row in card */
+.prof-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.38rem;margin-bottom:1rem}
+.prof-stat-box{background:var(--bg3);border:1px solid var(--brd);border-radius:10px;padding:.55rem .3rem;text-align:center}
+.prof-stat-n{font-size:.9rem;font-weight:700;color:var(--t1);display:block}
+.prof-stat-l{font-size:.5rem;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;display:block;margin-top:.08rem}
+/* Skills chips */
+.prof-section-lbl{font-size:.52rem;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.55rem;margin-top:.95rem}
+.sw-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;padding:.2rem .58rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2);margin:.15rem .15rem 0 0}
+.sw-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+/* Social links in card */
+.prof-social-row{display:flex;gap:.45rem;margin-top:1rem;flex-wrap:wrap}
+.prof-soc-btn{display:inline-flex;align-items:center;gap:.38rem;font-size:.72rem;font-weight:500;padding:.42rem .85rem;border-radius:50px;border:1px solid var(--brd2);background:var(--bg3);color:var(--t2);transition:var(--tr);text-decoration:none}.prof-soc-btn:hover{border-color:var(--ac);color:var(--ac)}
+/* Hire button */
+.prof-hire-btn{width:100%;padding:.68rem;border-radius:10px;border:none;background:var(--ac);color:white;font-size:.85rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:var(--tr);margin-top:1rem}.prof-hire-btn:hover{background:#e55e00;transform:translateY(-1px)}
+.prof-edit-btn{width:100%;padding:.6rem;border-radius:10px;border:1px solid var(--brd2);background:transparent;color:var(--t2);font-size:.82rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.4rem;transition:var(--tr);margin-top:.5rem}.prof-edit-btn:hover{border-color:var(--brd3);color:var(--t1)}
+/* Divider */
+.prof-card-divider{border:none;border-top:1px solid var(--brd);margin:.95rem 0}
+/* Exp/location info */
+.prof-info-row{display:flex;gap:.5rem;align-items:flex-start;margin-bottom:.55rem}
+.prof-info-ico{width:28px;height:28px;border-radius:8px;background:var(--bg3);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.prof-info-txt{font-size:.78rem;color:var(--t2)}.prof-info-lbl{font-size:.56rem;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.06rem}
+/* Right column */
+.prof-right{}
+.prof-right-sec{background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:1.2rem;margin-bottom:1rem}
+.prof-right-sec-h{font-size:.54rem;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem}.prof-right-sec-h::after{content:'';flex:1;height:1px;background:var(--brd)}
+.prof-bio-txt{font-size:.84rem;color:var(--t2);line-height:1.9}
+/* Projects in profile — compact cards */
+.prof-proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
+.prof-pcard{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;overflow:hidden;cursor:pointer;transition:var(--tr)}.prof-pcard:hover{border-color:var(--brd2);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.prof-pcard-thumb{aspect-ratio:16/9;position:relative;background:var(--bg4);display:flex;align-items:center;justify-content:center}
+.prof-pcard-ph{font-family:var(--fd);font-size:2.2rem;color:rgba(255,255,255,.1)}
+.prof-pcard-thumb img{width:100%;height:100%;object-fit:cover}
+.prof-pcard-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.3);opacity:0;transition:.2s}.prof-pcard:hover .prof-pcard-play{opacity:1}
+.prof-pcard-play-ico{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center}
+.prof-pcard-info{padding:.65rem .75rem}
+.prof-pcard-title{font-size:.82rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.22rem}
+.prof-pcard-meta{font-size:.65rem;color:var(--t3);display:flex;gap:.5rem}
+/* No projects state */
+.prof-noproj{text-align:center;padding:2.5rem;font-size:.78rem;color:var(--t3)}
+/* Legacy aliases (keep pside for any leftover refs) */
 .pside{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1.2rem;margin-bottom:.85rem}
 .pside-lbl{font-size:.54rem;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.68rem}
 .pside-bio{font-size:.83rem;color:var(--t2);line-height:1.85}
@@ -190,9 +206,9 @@ html.light .fsrch input{color:var(--t1)}
 .skill-tag{font-size:.62rem;display:inline-block;padding:.18rem .55rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2);margin:.15rem .15rem 0 0}
 .plink{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--t2);padding:.4rem 0;border-bottom:1px solid var(--brd);transition:var(--tr)}.plink:last-child{border-bottom:none}.plink:hover{color:var(--ac)}
 .plink-ico{width:25px;height:25px;border-radius:var(--r);background:var(--bg3);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.sw-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;padding:.2rem .58rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2);margin:.15rem .15rem 0 0}
-.sw-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .ppgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem}
+/* Responsive profile */
+@media(max-width:860px){.prof-outer{grid-template-columns:1fr}.prof-card{position:static}.prof-proj-grid{grid-template-columns:1fr}}
 /* PROJECT VIEW */
 #page-project{padding-top:56px;min-height:100vh;background:var(--bg)}
 .pv-top{max-width:960px;margin:0 auto;padding:2.2rem 24px 0}
@@ -324,11 +340,11 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .fcopy{font-size:.75rem;color:var(--t2)}
 .toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--bg2);border:1px solid var(--brd2);color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:250px}.toast.show{transform:translateY(0);opacity:1}.toast-ico{color:var(--ac)}
 /* Responsive */
-@media(max-width:1100px){.pgrid{grid-template-columns:repeat(3,1fr)}.ppgrid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:repeat(2,1fr)}.prof-shorts-grid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:900px){.pgrid{grid-template-columns:repeat(2,1fr)}.prof-about-layout{grid-template-columns:1fr}.pv-body{grid-template-columns:1fr}.pv-side{position:static}.dash-grid{grid-template-columns:1fr}.dash-nav{position:static}.plan-grid{grid-template-columns:1fr;max-width:300px;margin:0 auto .85rem}.pricing-grid{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}.jobs-grid{grid-template-columns:1fr}.fgr{grid-template-columns:1fr 1fr}.prof-shorts-grid{grid-template-columns:repeat(3,1fr)}.prof-lf-item{grid-template-columns:160px 1fr}}
-@media(max-width:768px){.nav-mid{display:none}.ham{display:flex}.spl-preview{grid-template-columns:repeat(2,1fr)}.d2col{grid-template-columns:1fr}.auth-2col{grid-template-columns:1fr}.upreview{grid-template-columns:1fr 1fr}.prof-header-inner{margin-top:-30px}.prof-shorts-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:600px){.pgrid{grid-template-columns:1fr}.ppgrid{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}.cta-inner{padding:1.8rem 1.5rem}.stats-row{grid-template-columns:repeat(2,1fr)}.prof-shorts-grid{grid-template-columns:repeat(2,1fr)}.prof-lf-item{grid-template-columns:1fr;gap:.6rem}}
-@media(max-width:480px){.spl-cards{flex-direction:column;align-items:center;width:100%;max-width:275px}.spl-preview{display:none}.prof-banner{height:140px}.prof-av-wrap{width:68px;height:68px}}
+@media(max-width:1100px){.pgrid{grid-template-columns:repeat(3,1fr)}.ppgrid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.pgrid{grid-template-columns:repeat(2,1fr)}.pv-body{grid-template-columns:1fr}.pv-side{position:static}.dash-grid{grid-template-columns:1fr}.dash-nav{position:static}.plan-grid{grid-template-columns:1fr;max-width:300px;margin:0 auto .85rem}.pricing-grid{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}.jobs-grid{grid-template-columns:1fr}.fgr{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.nav-mid{display:none}.ham{display:flex}.spl-preview{grid-template-columns:repeat(2,1fr)}.d2col{grid-template-columns:1fr}.auth-2col{grid-template-columns:1fr}.upreview{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.pgrid{grid-template-columns:1fr}.ppgrid{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}.cta-inner{padding:1.8rem 1.5rem}.stats-row{grid-template-columns:repeat(2,1fr)}.prof-proj-grid{grid-template-columns:1fr}}
+@media(max-width:480px){.spl-cards{flex-direction:column;align-items:center;width:100%;max-width:275px}.spl-preview{display:none}}
 /* ── JOBS ── */
 #page-jobs{padding-top:56px;min-height:100vh;background:var(--bg)}
 .inner-hero{background:var(--bg2);border-bottom:1px solid var(--brd);position:relative;overflow:hidden}
@@ -579,79 +595,88 @@ html.light .jf-sel{color:var(--t1)}
 
 <!-- ══ PROFILE ══ -->
 <div class="page" id="page-profile">
-  <!-- Banner -->
-  <div class="prof-banner" id="pcov-el" style="background:linear-gradient(135deg,#1a1a1a,#2a1a0a)">
-    <div class="prof-banner-ov"></div>
-  </div>
-  <!-- Channel header -->
-  <div class="prof-header">
-    <div class="prof-header-inner">
-      <div class="prof-av-wrap"><div class="prof-av-ph" id="pav-ph" style="background:#FE730A">?</div></div>
-      <div class="prof-info">
-        <div class="prof-name" id="pname-el">—<span class="prof-badge" id="pbadge-el" style="display:none">VIP Pro</span></div>
-        <div class="prof-handle" id="prole-el">—</div>
-        <div class="prof-channel-stats">
-          <div><span class="prof-cstat-n" id="pstat-proj">0</span><span class="prof-cstat-l">Videos</span></div>
-          <div><span class="prof-cstat-n" id="pstat-likes">0</span><span class="prof-cstat-l">Likes</span></div>
-          <div><span class="prof-cstat-n" id="pstat-views">0</span><span class="prof-cstat-l">Views</span></div>
+  <div class="prof-outer">
+    <!-- LEFT: Identity Card -->
+    <div class="prof-card">
+      <!-- Mesh gradient header (no photo, just colour) -->
+      <div class="prof-card-mesh">
+        <div class="prof-card-mesh-bg" id="pcov-el"></div>
+        <div class="prof-card-mesh-noise"></div>
+      </div>
+      <div class="prof-card-body">
+        <div class="prof-card-top">
+          <div class="prof-av-float"><div class="prof-av-ph" id="pav-ph" style="background:#FE730A">?</div></div>
+          <span class="prof-badge" id="pbadge-el" style="display:none">VIP Pro</span>
+        </div>
+        <div class="prof-name" id="pname-el">—</div>
+        <div class="prof-role-city" id="prole-el">—</div>
+        <div class="prof-handle-line" id="pusername-el" style="display:none"></div>
+
+        <!-- Stats -->
+        <div class="prof-stats-row">
+          <div class="prof-stat-box"><span class="prof-stat-n" id="pstat-proj">0</span><span class="prof-stat-l">Projects</span></div>
+          <div class="prof-stat-box"><span class="prof-stat-n" id="pstat-likes">0</span><span class="prof-stat-l">Likes</span></div>
+          <div class="prof-stat-box"><span class="prof-stat-n" id="pstat-views">0</span><span class="prof-stat-l">Views</span></div>
+        </div>
+
+        <!-- Hire + Edit buttons -->
+        <button class="prof-hire-btn" id="p-hire-btn">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg>
+          Hire Me
+        </button>
+        <button class="prof-edit-btn" id="p-edit-btn" style="display:none" onclick="showPage('dashboard')">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>
+          Edit Profile
+        </button>
+
+        <hr class="prof-card-divider">
+
+        <!-- Info rows -->
+        <div class="prof-info-row">
+          <div class="prof-info-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="5" r="2.5" stroke="var(--t3)" stroke-width="1.1" fill="none"/><path d="M1.5 11c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4" stroke="var(--t3)" stroke-width="1.1" stroke-linecap="round" fill="none"/></svg></div>
+          <div><div class="prof-info-lbl">Experience</div><div class="prof-info-txt" id="pexp-el">—</div></div>
+        </div>
+        <div class="prof-info-row">
+          <div class="prof-info-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.1 1 2.5 2.6 2.5 4.5c0 3 3.5 6.5 3.5 6.5s3.5-3.5 3.5-6.5C9.5 2.6 7.9 1 6 1z" stroke="var(--t3)" stroke-width="1.1" fill="none"/><circle cx="6" cy="4.5" r="1" fill="var(--t3)"/></svg></div>
+          <div><div class="prof-info-lbl">Location</div><div class="prof-info-txt" id="pcity-el">—</div></div>
+        </div>
+
+        <!-- Skills -->
+        <div class="prof-section-lbl">Software & Tools</div>
+        <div id="pskills-el"></div>
+
+        <!-- Social links -->
+        <div class="prof-section-lbl" style="margin-top:1rem">Contact & Socials</div>
+        <div class="prof-social-row" id="prof-socials-row">
+          <a class="prof-soc-btn" id="pwa-link" style="display:none" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="#25D366"/></svg>WhatsApp
+          </a>
+          <a class="prof-soc-btn" id="pig-link" style="display:none" target="_blank">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="3" stroke="#E1306C" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="2.2" stroke="#E1306C" stroke-width="1.1" fill="none"/></svg>Instagram
+          </a>
+          <a class="prof-soc-btn" id="pyt-link" style="display:none" target="_blank">
+            <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><rect x=".5" y=".5" width="12" height="9" rx="2.2" stroke="#FF0000" stroke-width="1" fill="none"/><path d="M5 3l3.5 2L5 7V3z" fill="#FF0000"/></svg>YouTube
+          </a>
+          <span id="pno-links" style="font-size:.72rem;color:var(--t3)">No links added.</span>
         </div>
       </div>
-      <div class="prof-actions">
-        <button class="btn-ghost" id="p-hire-btn"><svg width="11" height="11" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".8"/></svg>Hire Me</button>
-        <button class="btn-ghost" onclick="showPage('dashboard')"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="white" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Edit Profile</button>
+    </div>
+
+    <!-- RIGHT: About + Projects -->
+    <div class="prof-right">
+      <!-- About / Bio -->
+      <div class="prof-right-sec" id="prof-bio-sec" style="display:none">
+        <div class="prof-right-sec-h">About</div>
+        <div class="prof-bio-txt" id="pfullbio-el">—</div>
       </div>
-    </div>
-  </div>
-  <!-- Channel tabs -->
-  <div class="prof-tabs-bar">
-    <div class="prof-tabs-bar-inner">
-      <button class="prof-ctab active" onclick="switchPTab('videos',this)">Videos</button>
-      <button class="prof-ctab" onclick="switchPTab('shorts',this)">Shorts</button>
-      <button class="prof-ctab" onclick="switchPTab('about',this)">About</button>
-    </div>
-  </div>
-  <!-- Content -->
-  <div class="prof-content">
-    <!-- VIDEOS TAB -->
-    <div id="ptab-videos">
-      <div class="prof-section-title">Long-form Projects</div>
-      <div class="prof-longform-list" id="profile-longform-list"></div>
-      <div class="nores" id="pnores" style="display:none;text-align:center;padding:3rem;color:var(--t3);font-size:.8rem">
-        No published projects yet.
-        <div style="margin-top:.65rem"><button class="btn btn-p btn-sm" onclick="showPage('dashboard');switchDash('upload',document.getElementById('dnav-upload'))">Upload a project →</button></div>
-      </div>
-    </div>
-    <!-- SHORTS TAB -->
-    <div id="ptab-shorts" style="display:none">
-      <div class="prof-section-title">Shorts & Reels</div>
-      <div class="prof-shorts-grid" id="profile-shorts-grid"></div>
-      <div class="nores" id="pnores-shorts" style="display:none;text-align:center;padding:3rem;color:var(--t3);font-size:.8rem">No shorts uploaded yet.</div>
-    </div>
-    <!-- ABOUT TAB -->
-    <div id="ptab-about" style="display:none">
-      <div class="prof-about-layout">
-        <div>
-          <div class="pside"><div class="pside-lbl">About</div><div class="pside-bio" id="pfullbio-el">—</div></div>
-          <div class="pside"><div class="pside-lbl">Software & Tools</div><div id="pskills-el"></div></div>
-        </div>
-        <div>
-          <div class="pstats">
-            <div class="pstat"><span class="pstat-n" id="pstat-proj2">0</span><span class="pstat-l">Projects</span></div>
-            <div class="pstat"><span class="pstat-n" id="pstat-likes2">0</span><span class="pstat-l">Likes</span></div>
-            <div class="pstat"><span class="pstat-n" id="pstat-views2">0</span><span class="pstat-l">Views</span></div>
-          </div>
-          <div class="pside">
-            <div class="pside-lbl">Info</div>
-            <div style="font-size:.7rem;color:var(--t3);margin-bottom:.2rem">Experience</div><div style="font-size:.82rem;color:var(--t2);margin-bottom:.62rem" id="pexp-el">—</div>
-            <div style="font-size:.7rem;color:var(--t3);margin-bottom:.2rem">Location</div><div style="font-size:.82rem;color:var(--t2)" id="pcity-el">—</div>
-          </div>
-          <div class="pside">
-            <div class="pside-lbl">Links</div>
-            <a class="plink" id="pwa-link" style="display:none" target="_blank"><div class="plink-ico"><svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="#25D366"/></svg></div>WhatsApp</a>
-            <a class="plink" id="pig-link" style="display:none" target="_blank"><div class="plink-ico"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="3" stroke="#E1306C" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="2.2" stroke="#E1306C" stroke-width="1.1" fill="none"/></svg></div>Instagram</a>
-            <a class="plink" id="pyt-link" style="display:none" target="_blank"><div class="plink-ico"><svg width="12" height="10" viewBox="0 0 13 10" fill="none"><rect x=".5" y=".5" width="12" height="9" rx="2.2" stroke="#FF0000" stroke-width="1" fill="none"/><path d="M5 3l3.5 2L5 7V3z" fill="#FF0000"/></svg></div>YouTube</a>
-            <span id="pno-links" style="font-size:.72rem;color:var(--t3)">No links added.</span>
-          </div>
+
+      <!-- Projects -->
+      <div class="prof-right-sec">
+        <div class="prof-right-sec-h">Projects</div>
+        <div class="prof-proj-grid" id="profile-proj-grid"></div>
+        <div class="prof-noproj" id="pnores" style="display:none">
+          No published projects yet.
+          <div style="margin-top:.65rem"><button class="btn btn-p btn-sm" id="pnores-upload-btn" style="display:none" onclick="showPage('dashboard');switchDash('upload',document.getElementById('dnav-upload'))">Upload a project →</button></div>
         </div>
       </div>
     </div>
@@ -691,7 +716,7 @@ html.light .jf-sel{color:var(--t1)}
           <div class="pv-author-av"><div id="pv-sb-av" style="width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:white">?</div></div>
           <div style="font-size:.87rem;font-weight:600;color:var(--t1);margin-bottom:.14rem" id="pv-sb-name">—</div>
           <div style="font-size:.7rem;color:var(--t2);margin-bottom:.72rem" id="pv-sb-role">—</div>
-          <button class="btn btn-o btn-sm" onclick="showPage('profile')">View Portfolio</button>
+          <button class="btn btn-o btn-sm" id="pv-view-profile-btn" onclick="showPage('profile')">View Portfolio</button>
         </div>
       </div>
     </div>
@@ -884,6 +909,14 @@ html.light .jf-sel{color:var(--t1)}
         <div class="dash-panel" id="dash-panel-editprofile">
           <div class="dcard">
             <div class="dcard-h">Profile Details</div><div class="dcard-sub">Your public profile information.</div>
+            <div class="df">
+              <label class="dl">Username <span style="color:var(--ac)">·</span> Your shareable link</label>
+              <div style="display:flex;align-items:center;gap:0;border:1px solid var(--brd2);border-radius:var(--r);overflow:hidden;background:var(--bg3)">
+                <span style="padding:.56rem .75rem;font-size:.82rem;color:var(--t3);background:var(--bg4);border-right:1px solid var(--brd2);white-space:nowrap;flex-shrink:0">timeliners.lk/@</span>
+                <input class="di" id="ep-username" type="text" placeholder="yourname" style="border:none;border-radius:0;background:transparent;flex:1">
+              </div>
+              <div style="font-size:.62rem;color:var(--t3);margin-top:.3rem">Only letters, numbers, underscores. Unique to you.</div>
+            </div>
             <div class="d2col">
               <div class="df"><label class="dl">Display Name</label><input class="di" id="ep-name" type="text"></div>
               <div class="df"><label class="dl">Specialty / Role</label><input class="di" id="ep-role" type="text" placeholder="Motion Graphics Artist"></div>
@@ -921,6 +954,7 @@ html.light .jf-sel{color:var(--t1)}
     id UUID PRIMARY KEY,
     email TEXT NOT NULL,
     name TEXT, role TEXT, initials TEXT,
+    username TEXT UNIQUE,
     city TEXT, bio TEXT, exp TEXT, skills TEXT,
     wa TEXT, ig TEXT, yt TEXT, web TEXT,
     plan TEXT DEFAULT 'free',
@@ -950,6 +984,9 @@ html.light .jf-sel{color:var(--t1)}
   CREATE POLICY "Read all profiles" ON tl_profiles FOR SELECT USING (true);
   CREATE POLICY "Owner update" ON tl_profiles FOR UPDATE USING (auth.uid() = id);
   CREATE POLICY "Owner insert" ON tl_profiles FOR INSERT WITH CHECK (auth.uid() = id);
+
+  -- If upgrading existing table, run this once:
+  -- ALTER TABLE tl_profiles ADD COLUMN IF NOT EXISTS username TEXT UNIQUE;
 ══════════════════════════════════════════════════ -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -1349,6 +1386,11 @@ function openProject(id) {
   lb.classList.remove('liked');
   lb.innerHTML = '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>Like this project';
   el('pv-hire-btn').onclick = () => showToast('Contact via WhatsApp to hire this creative.');
+  const vpBtn = el('pv-view-profile-btn');
+  if (vpBtn && p.user_id) vpBtn.onclick = () => showPage('profile', p.user_id);
+  // Author pill click
+  const pill = document.querySelector('.pv-author-pill');
+  if (pill && p.user_id) pill.onclick = () => showPage('profile', p.user_id);
 }
 
 function toggleProjLike() {
@@ -1397,6 +1439,7 @@ function refreshDash() {
   el('ep-ig').value     = p.ig      || '';
   el('ep-yt').value     = p.yt      || '';
   el('ep-web').value    = p.web     || '';
+  el('ep-username').value = p.username || '';
   document.querySelectorAll('.copt').forEach((el, i) => el.classList.toggle('sel', i === (p.cover_idx || 0)));
   const isFree = !p.plan || p.plan === 'free';
   el('upload-gate').style.display     = isFree ? 'block' : 'none';
@@ -1448,12 +1491,14 @@ async function saveProfile() {
   if (!S.profile) return;
   const name = el('ep-name').value || S.profile.name;
   const n    = name.trim().split(' ');
+  const rawUsername = (el('ep-username').value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
   const updates = {
     name, role: el('ep-role').value,
     city: el('ep-city').value, exp: el('ep-exp').value,
     bio:  el('ep-bio').value,  skills: el('ep-skills').value,
     wa:   el('ep-wa').value,   ig: el('ep-ig').value,
     yt:   el('ep-yt').value,   web: el('ep-web').value,
+    username: rawUsername || undefined,
     initials: ((n[0]?.[0] || '') + (n[1]?.[0] || '')).toUpperCase() || '?'
   };
   try {
@@ -1566,113 +1611,114 @@ async function deleteProject(id) {
 }
 
 // ── PROFILE PAGE ─────────────────────────────────────
-function refreshProfile() {
-  const p = S.profile; if (!p) return;
+// S.viewingProfile = profile object we're currently viewing (may differ from S.profile)
+function refreshProfile(profileData) {
+  const p = profileData || S.profile; if (!p) return;
+  S.viewingProfile = p;
+  const isOwn = S.profile && p.id === S.profile.id;
+
   el('pav-ph').textContent        = p.initials || '?';
   el('pav-ph').style.background   = GCOLS[p.grad_idx || 0];
-  el('pcov-el').style.background  = GRADS[p.cover_idx || 0];
-  el('pname-el').innerHTML        = (p.name || '—') + (p.plan === 'vip' ? ' <span class="prof-badge">VIP Pro</span>' : '');
-  el('pbadge-el').style.display   = p.plan === 'vip' ? 'inline' : 'none';
+  // Mesh gradient uses cover_idx colour mapped to gradient
+  const meshGrad = GRADS[p.cover_idx || 0] || 'linear-gradient(135deg,#FE730A,#c0390a)';
+  const covEl = document.getElementById('pcov-el');
+  if (covEl) covEl.style.background = meshGrad;
+  el('pname-el').textContent      = p.name || '—';
+  const badge = el('pbadge-el');
+  badge.style.display = p.plan === 'vip' ? 'inline' : 'none';
   el('prole-el').textContent      = (p.role || 'Video Editor') + ' · ' + (p.city || 'Sri Lanka');
-  el('pfullbio-el').textContent   = p.bio || '—';
+
+  // Username / shareable handle
+  const uline = el('pusername-el');
+  if (p.username) {
+    uline.textContent  = '@' + p.username;
+    uline.style.display = 'block';
+  } else { uline.style.display = 'none'; }
+
   el('pexp-el').textContent       = p.exp  || '—';
   el('pcity-el').textContent      = p.city || '—';
-  // Software/skills badges with colour dots
+
+  // Bio section
+  const bioSec = document.getElementById('prof-bio-sec');
+  if (p.bio) {
+    el('pfullbio-el').textContent = p.bio;
+    if (bioSec) bioSec.style.display = 'block';
+  } else { if (bioSec) bioSec.style.display = 'none'; }
+
+  // Skills
   const SW_COLS = {'After Effects':'#9b59b6','Premiere Pro':'#e74c3c','Final Cut Pro':'#f1c40f','DaVinci Resolve':'#e67e22','CapCut':'#3498db','Blender':'#f39c12','Cinema 4D':'#2ecc71','Figma':'#e91e63','Illustrator':'#ff9800','Photoshop':'#2196f3'};
   const skills = (p.skills || '').split(',').map(s => s.trim()).filter(Boolean);
   el('pskills-el').innerHTML = skills.map(s => {
     const col = SW_COLS[s] || '#FE730A';
     return '<span class="sw-badge"><span class="sw-dot" style="background:' + col + '"></span>' + s + '</span>';
-  }).join('') || '<span style="font-size:.76rem;color:var(--t3)">No tools added yet.</span>';
+  }).join('') || '<span style="font-size:.72rem;color:var(--t3)">No tools added yet.</span>';
+
+  // Socials
   const wa = el('pwa-link'), ig = el('pig-link'), yt = el('pyt-link'), nl = el('pno-links');
   let has = false;
   if (p.wa) { wa.style.display='flex'; wa.href='https://wa.me/'+p.wa.replace(/[^0-9]/g,''); has=true; } else wa.style.display='none';
   if (p.ig) { ig.style.display='flex'; ig.href=p.ig; has=true; } else ig.style.display='none';
   if (p.yt) { yt.style.display='flex'; yt.href=p.yt; has=true; } else yt.style.display='none';
-  nl.style.display = has ? 'none' : 'block';
+  nl.style.display = has ? 'none' : 'inline';
+
+  // Hire button
   el('p-hire-btn').onclick = p.wa
     ? () => window.open('https://wa.me/' + p.wa.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent('Hi ' + p.name + ', I found your profile on Timeliners and would love to hire you for a project.'), '_blank')
     : () => showToast("This editor hasn't added a contact method yet.");
-  renderProfileProjects();
+
+  // Edit button — only show to owner
+  el('p-edit-btn').style.display = isOwn ? 'flex' : 'none';
+
+  renderProfileProjects(p);
 }
 
-function renderProfileProjects() {
-  if (!S.profile) return;
-  const allProjs = S.projects.filter(p => p.user_id === S.profile.id && p.status === 'published');
-  const shorts   = allProjs.filter(p => p.cat === 'shorts' || p.cat === 'social' || p.video_type === 'shorts');
-  const longform = allProjs.filter(p => p.cat !== 'shorts' || p.video_type !== 'shorts');
+function renderProfileProjects(prof) {
+  const p = prof || S.viewingProfile || S.profile;
+  if (!p) return;
+  const isOwn = S.profile && p.id === S.profile.id;
+  const allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
 
-  // Update stats (both in header and about tab)
-  ['pstat-proj','pstat-proj2'].forEach(id => el(id).textContent = allProjs.length);
-  ['pstat-likes','pstat-likes2'].forEach(id => el(id).textContent = S.profile.likes || 0);
-  ['pstat-views','pstat-views2'].forEach(id => el(id).textContent = S.profile.views || 0);
+  // Stats
+  el('pstat-proj').textContent  = allProjs.length;
+  el('pstat-likes').textContent = p.likes || 0;
+  el('pstat-views').textContent = p.views || 0;
 
-  // Long-form list
-  const lfList = el('profile-longform-list');
-  const nores  = el('pnores');
-  if (!longform.length) {
-    lfList.innerHTML = '';
+  const grid  = document.getElementById('profile-proj-grid');
+  const nores = el('pnores');
+  const noresBtn = el('pnores-upload-btn');
+  if (!allProjs.length) {
+    if (grid) grid.innerHTML = '';
     nores.style.display = 'block';
+    if (noresBtn) noresBtn.style.display = isOwn ? 'inline-flex' : 'none';
   } else {
     nores.style.display = 'none';
-    lfList.innerHTML = longform.map(p => buildProfileLFItem(p)).join('');
-  }
-
-  // Shorts grid
-  const sgrid   = el('profile-shorts-grid');
-  const nshorts = el('pnores-shorts');
-  if (!shorts.length) {
-    sgrid.innerHTML = '';
-    nshorts.style.display = 'block';
-  } else {
-    nshorts.style.display = 'none';
-    sgrid.innerHTML = shorts.map(p => buildProfileShortItem(p)).join('');
+    if (grid) grid.innerHTML = allProjs.map(buildProfilePCard).join('');
   }
 }
 
-function buildProfileLFItem(p) {
+function buildProfilePCard(p) {
   const bg = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
-  const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',graphic:'Design',social:'Social',longform:'Long-form'};
-  return '<div class="prof-lf-item" onclick="showPage(\'project\',\'' + p.id + '\')">' +
-    '<div class="prof-lf-thumb">' +
+  const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',graphic:'Design',social:'Social',longform:'Long-form',wedding:'Wedding',shorts:'Shorts'};
+  return '<div class="prof-pcard" onclick="showPage(\'project\',\'' + p.id + '\')">' +
+    '<div class="prof-pcard-thumb">' +
       (p.cover_url
-        ? '<img src="' + p.cover_url + '" style="width:100%;height:100%;object-fit:cover">'
-        : '<div class="prof-lf-ph" style="background:' + bg + '18">' + (p.author_init||'?') + '</div>') +
-      '<div class="prof-lf-play"><div class="prof-lf-play-ico"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>' +
-      '<span class="prof-lf-type-badge">' + (CAT[p.cat] || 'Video') + '</span>' +
-      (p.duration ? '<span class="prof-lf-dur">' + p.duration + '</span>' : '') +
+        ? '<img src="' + p.cover_url + '">'
+        : '<div class="prof-pcard-ph" style="background:' + bg + '18">' + (p.author_init||'?') + '</div>') +
+      '<div class="prof-pcard-play"><div class="prof-pcard-play-ico"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>' +
     '</div>' +
-    '<div class="prof-lf-info">' +
-      '<div class="prof-lf-title">' + p.title + '</div>' +
-      '<div class="prof-lf-meta">' +
-        '<span>' + (p.year || '') + '</span>' +
-        (p.views ? '<span>' + p.views + ' views</span>' : '') +
-        (p.likes ? '<span>' + p.likes + ' likes</span>' : '') +
+    '<div class="prof-pcard-info">' +
+      '<div class="prof-pcard-title">' + p.title + '</div>' +
+      '<div class="prof-pcard-meta">' +
+        '<span style="text-transform:capitalize">' + (CAT[p.cat] || 'Video') + '</span>' +
+        (p.likes ? '<span>· ' + p.likes + ' likes</span>' : '') +
       '</div>' +
-      '<div class="prof-lf-desc">' + (p.description || '') + '</div>' +
     '</div>' +
   '</div>';
 }
 
-function buildProfileShortItem(p) {
-  const bg = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
-  return '<div class="prof-short-item" onclick="showPage(\'project\',\'' + p.id + '\')">' +
-    (p.cover_url
-      ? '<img src="' + p.cover_url + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">'
-      : '<div class="prof-short-ph" style="background:' + bg + '22">' + (p.author_init||'?') + '</div>') +
-    '<div class="prof-short-ov"></div>' +
-    '<div class="prof-short-play"><svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="white"/></svg></div>' +
-    '<div class="prof-short-title">' + p.title + '</div>' +
-  '</div>';
-}
+function switchPTab(id, btn) { /* kept for backward compat — no-op */ }
 
-function switchPTab(id, btn) {
-  document.querySelectorAll('.prof-ctab').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  el('ptab-videos').style.display  = id === 'videos' ? 'block' : 'none';
-  el('ptab-shorts').style.display  = id === 'shorts' ? 'block' : 'none';
-  el('ptab-about').style.display   = id === 'about'  ? 'block' : 'none';
-}
+
 
 // ── COVER PICKER ─────────────────────────────────────
 function buildCoverPicker() {
@@ -1758,7 +1804,9 @@ function openWA(msg) {
 el('main-nav').style.display = 'none';
 
 function showPage(id, projId) {
-  if ((id === 'dashboard' || id === 'profile') && !S.user) { openAuth('in'); return; }
+  if (id === 'dashboard' && !S.user) { openAuth('in'); return; }
+  // Profile: if not logged in but viewing someone else's profile, allow it
+  if (id === 'profile' && !S.user && !projId) { openAuth('in'); return; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const pg = el('page-' + id);
   if (pg) pg.classList.add('active');
@@ -1772,7 +1820,24 @@ function showPage(id, projId) {
   if (id === 'jobs')      renderJobs();
   if (id === 'project' && projId) openProject(projId);
   if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
-  if (id === 'profile')   refreshProfile();
+  if (id === 'profile') {
+    // projId here is used as a user_id to view another person's profile
+    if (projId) {
+      // Find profile by user_id in loaded profiles cache, or fetch it
+      const cachedProf = S.profiles && S.profiles.find(p => p.id === projId);
+      if (cachedProf) {
+        refreshProfile(cachedProf);
+      } else {
+        // Fetch from Supabase
+        db('/tl_profiles?id=eq.' + projId + '&select=*').then(rows => {
+          if (rows && rows.length) refreshProfile(rows[0]);
+          else if (S.profile) refreshProfile(S.profile);
+        }).catch(() => { if (S.profile) refreshProfile(S.profile); });
+      }
+    } else {
+      refreshProfile(S.profile);
+    }
+  }
 }
 
 function enterPage(id) {
@@ -1841,6 +1906,7 @@ window.selectCover   = selectCover;
 window.handleFileSelect = handleFileSelect;
 window.handleDrop    = handleDrop;
 window.switchPTab    = switchPTab;
+window.refreshProfile = refreshProfile;
 window.renderJobs    = renderJobs;
 window.toggleFaq     = toggleFaq;
 window.openWA        = openWA;
