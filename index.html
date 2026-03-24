@@ -69,7 +69,7 @@ html.light #main-nav{background:rgba(245,245,245,.97)}
 .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--brd2);background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0}.theme-btn:hover{border-color:var(--ac);background:var(--acl)}
 .ham{display:none;flex-direction:column;gap:4px;background:none;border:none;padding:4px}.ham span{display:block;width:20px;height:1.5px;background:var(--t1);border-radius:2px}
 #mob{display:none;position:fixed;top:56px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--brd);z-index:999;padding:.75rem 24px}
-#mob a{display:block;padding:.55rem 0;font-size:.85rem;color:var(--t2);border-bottom:1px solid var(--brd);transition:var(--tr)}.#mob a:hover{color:var(--t1)}
+#mob a{display:block;padding:.55rem 0;font-size:.85rem;color:var(--t2);border-bottom:1px solid var(--brd);transition:var(--tr)}#mob a:hover{color:var(--t1)}
 /* AUTH MODAL — only opens when Sign In clicked */
 #auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:3000;display:none;align-items:center;justify-content:center;padding:1rem}
 #auth-overlay.open{display:flex}
@@ -178,7 +178,7 @@ html.light .fsrch input{color:var(--t1)}
 .prof-info-ico{width:28px;height:28px;border-radius:8px;background:var(--bg3);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .prof-info-txt{font-size:.78rem;color:var(--t2)}.prof-info-lbl{font-size:.56rem;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.06rem}
 /* Right column */
-.prof-right{}
+/* .prof-right layout */
 .prof-right-sec{background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:1.2rem;margin-bottom:1rem}
 .prof-right-sec-h{font-size:.54rem;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem}.prof-right-sec-h::after{content:'';flex:1;height:1px;background:var(--brd)}
 .prof-bio-txt{font-size:.84rem;color:var(--t2);line-height:1.9}
@@ -466,6 +466,7 @@ html.light .jf-sel{color:var(--t1)}
         <div class="af"><label class="al">First Name</label><input class="ai" type="text" id="su-fn" placeholder="Nirosha"></div>
         <div class="af"><label class="al">Last Name</label><input class="ai" type="text" id="su-ln" placeholder="Kumari"></div>
       </div>
+      <div class="af"><label class="al">Username <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· your @handle</span></label><input class="ai" type="text" id="su-username" placeholder="yourname (letters, numbers, _)"></div>
       <div class="af"><label class="al">Email</label><input class="ai" type="email" id="su-email" placeholder="you@example.com"></div>
       <div class="af"><label class="al">Specialty</label>
         <select class="ai" id="su-spec">
@@ -474,10 +475,10 @@ html.light .jf-sel{color:var(--t1)}
           <option>Motion Graphics Artist</option>
           <option>Cinematographer / Film Editor</option>
           <option>Social Media Editor (Reels / TikTok)</option>
-          <option>Wedding & Events Editor</option>
+          <option>Wedding &amp; Events Editor</option>
           <option>Commercial / Ad Editor</option>
           <option>Documentary Editor</option>
-          <option>3D & VFX Artist</option>
+          <option>3D &amp; VFX Artist</option>
           <option>Content Creator</option>
         </select>
       </div>
@@ -605,7 +606,7 @@ html.light .jf-sel{color:var(--t1)}
       </div>
       <div class="prof-card-body">
         <div class="prof-card-top">
-          <div class="prof-av-float"><div class="prof-av-ph" id="pav-ph" style="background:#FE730A">?</div></div>
+          <div class="prof-av-float" id="pav-wrap"><div class="prof-av-ph" id="pav-ph" style="background:#FE730A">?</div></div>
           <span class="prof-badge" id="pbadge-el" style="display:none">VIP Pro</span>
         </div>
         <div class="prof-name" id="pname-el">—</div>
@@ -627,6 +628,10 @@ html.light .jf-sel{color:var(--t1)}
         <button class="prof-edit-btn" id="p-edit-btn" style="display:none" onclick="showPage('dashboard')">
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>
           Edit Profile
+        </button>
+        <button class="prof-edit-btn" onclick="copyProfileLink()" style="margin-top:.4rem">
+          <svg width="11" height="11" viewBox="0 0 13 13" fill="none"><circle cx="10" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="10" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="3" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/><path d="M4.4 7.3l4.2 2.5M8.6 3.2L4.4 5.7" stroke="currentColor" stroke-width="1.1"/></svg>
+          Share Portfolio
         </button>
 
         <hr class="prof-card-divider">
@@ -870,12 +875,33 @@ html.light .jf-sel{color:var(--t1)}
             </div>
             <div class="df"><label class="dl">Description</label><textarea class="dta" id="up-desc" placeholder="Describe the project, tools used, and your role..."></textarea></div>
             <div class="df"><label class="dl">Tags (comma separated)</label><input class="di" id="up-tags" type="text" placeholder="After Effects, Brand, Logo Animation"></div>
-            <div class="df"><label class="dl">Cover Image</label>
+            <!-- Project Video Upload -->
+            <div class="df">
+              <label class="dl">Project Video <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· up to 100 MB (free tier)</span></label>
+              <div class="upload-zone" id="video-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleVideoDrop(event)">
+                <input type="file" accept="video/*" id="video-file-input" onchange="handleVideoSelect(this)">
+                <div class="upload-ico">🎬</div>
+                <div class="upload-lbl" id="video-upload-lbl">Drop video here or click to upload</div>
+                <div class="upload-hint">MP4, MOV, WEBM · max 100 MB</div>
+                <div id="video-preview-wrap" style="display:none;margin-top:.75rem">
+                  <video id="video-preview" controls style="width:100%;border-radius:8px;max-height:200px;background:#000"></video>
+                  <button onclick="clearVideoUpload()" style="margin-top:.38rem;font-size:.7rem;color:rgba(239,68,68,.7);background:none;border:none;cursor:pointer">✕ Remove video</button>
+                </div>
+              </div>
+              <div id="video-upload-progress" style="display:none;margin-top:.45rem">
+                <div style="background:var(--brd2);border-radius:4px;height:4px;overflow:hidden">
+                  <div id="video-progress-bar" style="height:100%;background:var(--ac);width:0%;transition:width .2s"></div>
+                </div>
+                <div style="font-size:.64rem;color:var(--t3);margin-top:.22rem" id="video-progress-txt">Uploading...</div>
+              </div>
+            </div>
+            <!-- Cover Image -->
+            <div class="df"><label class="dl">Cover Image <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· optional if video uploaded</span></label>
               <div class="upload-zone" id="upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
                 <input type="file" accept="image/*" multiple onchange="handleFileSelect(this)">
                 <div class="upload-ico">📁</div>
                 <div class="upload-lbl">Drop images here or click to upload</div>
-                <div class="upload-hint">PNG, JPG, WEBP · max 10MB each</div>
+                <div class="upload-hint">PNG, JPG, WEBP · max 5 MB each</div>
                 <div class="upreview" id="upreview"></div>
               </div>
             </div>
@@ -907,6 +933,19 @@ html.light .jf-sel{color:var(--t1)}
 
         <!-- EDIT PROFILE -->
         <div class="dash-panel" id="dash-panel-editprofile">
+          <div class="dcard">
+            <div class="dcard-h">Profile Photo</div><div class="dcard-sub">Upload a profile picture · max 5 MB.</div>
+            <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:.85rem">
+              <div id="ep-av-preview" style="width:72px;height:72px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:white;flex-shrink:0;overflow:hidden">?</div>
+              <div style="flex:1">
+                <div class="upload-zone" style="padding:.85rem 1rem" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleAvatarDrop(event)">
+                  <input type="file" accept="image/*" id="avatar-file-input" onchange="handleAvatarSelect(this)">
+                  <div style="font-size:.81rem;font-weight:500;color:var(--t1);margin-bottom:.12rem">Click or drop image</div>
+                  <div style="font-size:.66rem;color:var(--t3)">PNG, JPG, WEBP · max 5 MB</div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="dcard">
             <div class="dcard-h">Profile Details</div><div class="dcard-sub">Your public profile information.</div>
             <div class="df">
@@ -950,11 +989,12 @@ html.light .jf-sel{color:var(--t1)}
 <!-- ══════════════════════════════════════════════════
   SQL — run once in Supabase SQL Editor to set up tables
 
-  CREATE TABLE IF NOT EXISTS tl_profiles (
+  CREATE TABLE IF NOT EXISTS profiles (
     id UUID PRIMARY KEY,
     email TEXT NOT NULL,
     name TEXT, role TEXT, initials TEXT,
     username TEXT UNIQUE,
+    avatar_url TEXT,
     city TEXT, bio TEXT, exp TEXT, skills TEXT,
     wa TEXT, ig TEXT, yt TEXT, web TEXT,
     plan TEXT DEFAULT 'free',
@@ -964,29 +1004,33 @@ html.light .jf-sel{color:var(--t1)}
     created_at TIMESTAMPTZ DEFAULT now()
   );
 
-  CREATE TABLE IF NOT EXISTS tl_projects (
+  CREATE TABLE IF NOT EXISTS projects (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES tl_profiles(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
     title TEXT NOT NULL, cat TEXT, tags TEXT[],
-    description TEXT, year TEXT, cover_url TEXT, yt_link TEXT,
+    description TEXT, year TEXT, cover_url TEXT, video_url TEXT, yt_link TEXT,
     status TEXT DEFAULT 'draft',
-    author_name TEXT, author_init TEXT, grad_idx INT DEFAULT 0,
+    author_name TEXT, author_init TEXT, author_avatar TEXT, grad_idx INT DEFAULT 0,
     likes INT DEFAULT 0, views INT DEFAULT 0,
     featured BOOLEAN DEFAULT false,
     created_at TIMESTAMPTZ DEFAULT now()
   );
 
-  ALTER TABLE tl_projects ENABLE ROW LEVEL SECURITY;
-  CREATE POLICY "Read published" ON tl_projects FOR SELECT USING (status = 'published');
-  CREATE POLICY "Owner all" ON tl_projects FOR ALL USING (auth.uid() = user_id);
+  ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+  CREATE POLICY "Read published" ON projects FOR SELECT USING (status = 'published');
+  CREATE POLICY "Owner all" ON projects FOR ALL USING (auth.uid() = user_id);
 
-  ALTER TABLE tl_profiles ENABLE ROW LEVEL SECURITY;
-  CREATE POLICY "Read all profiles" ON tl_profiles FOR SELECT USING (true);
-  CREATE POLICY "Owner update" ON tl_profiles FOR UPDATE USING (auth.uid() = id);
-  CREATE POLICY "Owner insert" ON tl_profiles FOR INSERT WITH CHECK (auth.uid() = id);
+  ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+  CREATE POLICY "Read all profiles" ON profiles FOR SELECT USING (true);
+  CREATE POLICY "Owner update" ON profiles FOR UPDATE USING (auth.uid() = id);
+  CREATE POLICY "Owner insert" ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
 
-  -- If upgrading existing table, run this once:
-  -- ALTER TABLE tl_profiles ADD COLUMN IF NOT EXISTS username TEXT UNIQUE;
+  -- Storage: create buckets 'avatars' and 'project-videos' with public access.
+  -- If upgrading existing tables, run:
+  -- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS username TEXT UNIQUE;
+  -- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+  -- ALTER TABLE projects ADD COLUMN IF NOT EXISTS video_url TEXT;
+  -- ALTER TABLE projects ADD COLUMN IF NOT EXISTS author_avatar TEXT;
 ══════════════════════════════════════════════════ -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -1016,7 +1060,12 @@ function el(id) {
     checked: false, href: '', onclick: null
   };
 }
-async function db(path, method = 'GET', body = null, token = null) {
+// ── DB HELPER — auto-detects tl_ prefix vs no prefix ──
+// On first call, detects which naming convention your Supabase
+// uses (profiles vs tl_profiles) and remembers it forever.
+const DB_STATE = { prefix: null }; // null = not yet detected
+
+async function dbRaw(path, method = 'GET', body = null, token = null) {
   const r = await fetch(SB_URL + '/rest/v1' + path, {
     method,
     headers: {
@@ -1030,6 +1079,33 @@ async function db(path, method = 'GET', body = null, token = null) {
   const txt = await r.text();
   if (!r.ok) throw new Error(txt || r.status);
   return txt ? JSON.parse(txt) : null;
+}
+
+async function db(path, method = 'GET', body = null, token = null) {
+  // If we already know the prefix, use it directly
+  if (DB_STATE.prefix !== null) {
+    const p = DB_STATE.prefix ? path.replace(/^\/(profiles|projects)/, '/tl_$1') : path;
+    return dbRaw(p, method, body, token);
+  }
+  // First call: try without prefix first
+  try {
+    const result = await dbRaw(path, method, body, token);
+    DB_STATE.prefix = false; // no prefix works
+    return result;
+  } catch(e) {
+    // If schema cache error, try with tl_ prefix
+    const errTxt = e.message || '';
+    if (errTxt.includes('PGRST205') || errTxt.includes('schema cache') || errTxt.includes('tl_profiles') || errTxt.includes('does not exist')) {
+      try {
+        const altPath = path.replace(/^\/(profiles|projects)/, '/tl_$1');
+        const result  = await dbRaw(altPath, method, body, token);
+        DB_STATE.prefix = true; // tl_ prefix works
+        console.info('Timeliners: using tl_ table prefix');
+        return result;
+      } catch(e2) { throw e2; }
+    }
+    throw e;
+  }
 }
 
 // ── STATE ────────────────────────────────────────────
@@ -1181,6 +1257,7 @@ async function handleSignIn() {
 async function handleSignUp() {
   const fn   = el('su-fn').value.trim();
   const ln   = el('su-ln').value.trim();
+  const rawUn= (el('su-username').value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
   const email= el('su-email').value.trim().toLowerCase();
   const spec = el('su-spec').value;
   const pw   = el('su-pw').value;
@@ -1196,14 +1273,15 @@ async function handleSignUp() {
     const profile = {
       id: data.user.id, email, name: fn + ' ' + ln, role: spec,
       initials: (fn[0] + ln[0]).toUpperCase(),
+      username: rawUn || undefined,
       grad_idx: Math.floor(Math.random() * GRADS.length), cover_idx: 0,
       city: 'Colombo', plan: 'free', bio: '', exp: '', skills: '',
       wa: '', ig: '', yt: '', web: '', views: 0, likes: 0
     };
     try {
-      await db('/tl_profiles', 'POST', profile, data.session?.access_token || SB_KEY);
+      await db('/profiles', 'POST', profile, data.session?.access_token || SB_KEY);
     } catch(dbErr) {
-      console.warn('tl_profiles not ready, saving locally:', dbErr.message);
+      console.warn('profiles insert error, saving locally:', dbErr.message);
       try { localStorage.setItem('tl_lp_' + data.user.id, JSON.stringify(profile)); } catch(le) {}
     }
     S.profile = profile;
@@ -1235,10 +1313,10 @@ async function loadProfile() {
   if (!S.user) return;
   try {
     const token = await getToken();
-    const rows = await db('/tl_profiles?id=eq.' + S.user.id + '&select=*', 'GET', null, token);
+    const rows = await db('/profiles?id=eq.' + S.user.id + '&select=*', 'GET', null, token);
     if (rows && rows.length) S.profile = rows[0];
   } catch(e) {
-    console.warn('Profile load (table may not exist yet):', e.message);
+    console.warn('Profile load error:', e.message);
   }
 }
 
@@ -1247,10 +1325,13 @@ function applyLoggedIn() {
   document.querySelectorAll('.nav-lo').forEach(e => e.style.display = 'none');
   el('nav-user-btn').style.display = 'flex';
   const p = S.profile;
-  el('nav-initials').textContent = p?.initials || (S.user?.email?.[0] || '?').toUpperCase();
-  el('nav-uname-el').textContent = p?.name?.split(' ')[0] || 'Account';
-  // Don't call refreshDash/refreshProfile here — showPage() handles that
-  // when the user actually navigates to those pages
+  const navAv = el('nav-av-el');
+  if (p?.avatar_url) {
+    navAv.innerHTML = '<img src="' + p.avatar_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  } else {
+    navAv.innerHTML = '<span id="nav-initials">' + (p?.initials || (S.user?.email?.[0] || '?').toUpperCase()) + '</span>';
+  }
+  el('nav-uname-el').textContent = p?.username ? '@' + p.username : (p?.name?.split(' ')[0] || 'Account');
 }
 function applyLoggedOut() {
   document.querySelectorAll('.nav-li').forEach(e => e.style.display = 'none');
@@ -1261,12 +1342,11 @@ function applyLoggedOut() {
 // ── FEED ─────────────────────────────────────────────
 async function loadFeed() {
   try {
-    const rows = await db('/tl_projects?status=eq.published&select=*&order=created_at.desc');
+    const rows = await db('/projects?status=eq.published&select=*&order=created_at.desc');
     S.projects = (rows && rows.length) ? rows : DEMO;
   } catch(e) {
     S.projects = DEMO;
-    // Show setup notice only if tables are missing
-    if (e.message && (e.message.includes('relation') || e.message.includes('42P01') || e.message.includes('does not exist'))) {
+    if (e.message && (e.message.includes('relation') || e.message.includes('42P01') || e.message.includes('does not exist') || e.message.includes('schema cache'))) {
       showDbNotice();
     }
   }
@@ -1307,15 +1387,16 @@ function buildCard(p) {
   const typeLabel = isShorts ? 'Shorts' : (isReel ? 'Reel' : 'Video');
 
   let thumbHtml = '';
-  if (p.cover_url) {
+  if (p.video_url) {
+    // Actual video — plays on hover
+    thumbHtml = '<video class="pcard-video" src="' + p.video_url + '" muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover"></video>';
+  } else if (p.cover_url) {
     thumbHtml = '<img src="' + p.cover_url + '" loading="lazy">';
   } else if (isShorts && p.cover_urls && p.cover_urls.length >= 3) {
-    // 3-panel shorts combined thumbnail
     thumbHtml = '<div class="pcard-shorts">' +
       p.cover_urls.slice(0,3).map(url => '<div class="pcard-shorts-panel" style="background-image:url(\'' + url + '\');background-size:cover;background-position:center"></div>').join('') +
       '</div>';
   } else {
-    // Placeholder with initials
     const panels = isShorts
       ? '<div class="pcard-shorts">' +
           [bg+'22', bg+'15', bg+'1a'].map(c =>
@@ -1440,6 +1521,14 @@ function refreshDash() {
   el('ep-yt').value     = p.yt      || '';
   el('ep-web').value    = p.web     || '';
   el('ep-username').value = p.username || '';
+  // Avatar preview in edit profile
+  const avPrev = el('ep-av-preview');
+  if (p.avatar_url) {
+    avPrev.innerHTML = '<img src="' + p.avatar_url + '" style="width:100%;height:100%;object-fit:cover">';
+  } else {
+    avPrev.style.background = GCOLS[p.grad_idx || 0];
+    avPrev.textContent = p.initials || '?';
+  }
   document.querySelectorAll('.copt').forEach((el, i) => el.classList.toggle('sel', i === (p.cover_idx || 0)));
   const isFree = !p.plan || p.plan === 'free';
   el('upload-gate').style.display     = isFree ? 'block' : 'none';
@@ -1486,6 +1575,42 @@ function requestUpgrade(plan) {
   showToast('Opening WhatsApp to upgrade!');
 }
 
+// ── AVATAR (PROFILE PICTURE) UPLOAD ─────────────────
+let _pendingAvatarFile = null;
+
+function handleAvatarSelect(input) {
+  if (!input.files || !input.files[0]) return;
+  processAvatarFile(input.files[0]);
+}
+function handleAvatarDrop(e) {
+  e.preventDefault();
+  const f = e.dataTransfer?.files?.[0];
+  if (f) processAvatarFile(f);
+}
+function processAvatarFile(f) {
+  const MAX = 5 * 1024 * 1024; // 5 MB
+  if (!f.type.startsWith('image/')) { showToast('Please select an image file.'); return; }
+  if (f.size > MAX) { showToast('Image must be under 5 MB.'); return; }
+  _pendingAvatarFile = f;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const avPrev = el('ep-av-preview');
+    avPrev.innerHTML = '<img src="' + ev.target.result + '" style="width:100%;height:100%;object-fit:cover">';
+  };
+  reader.readAsDataURL(f);
+}
+
+async function uploadAvatar(token) {
+  if (!_pendingAvatarFile || !S.profile) return null;
+  const ext = _pendingAvatarFile.name.split('.').pop() || 'jpg';
+  const path = S.profile.id + '/avatar.' + ext;
+  const { data, error } = await sb.storage.from('avatars').upload(path, _pendingAvatarFile, { upsert: true, contentType: _pendingAvatarFile.type });
+  if (error) throw new Error('Avatar upload failed: ' + error.message);
+  const { data: urlData } = sb.storage.from('avatars').getPublicUrl(path);
+  _pendingAvatarFile = null;
+  return urlData?.publicUrl || null;
+}
+
 // ── SAVE PROFILE ────────────────────────────────────
 async function saveProfile() {
   if (!S.profile) return;
@@ -1503,7 +1628,14 @@ async function saveProfile() {
   };
   try {
     const token = await getToken();
-    await db('/tl_profiles?id=eq.' + S.profile.id, 'PATCH', updates, token);
+    // Upload avatar if one was selected
+    if (_pendingAvatarFile) {
+      try {
+        const avatarUrl = await uploadAvatar(token);
+        if (avatarUrl) updates.avatar_url = avatarUrl;
+      } catch(avErr) { showToast('⚠️ ' + avErr.message + ' — profile saved without photo.'); }
+    }
+    await db('/profiles?id=eq.' + S.profile.id, 'PATCH', updates, token);
     Object.assign(S.profile, updates);
     try { localStorage.setItem('tl_lp_' + S.profile.id, JSON.stringify(S.profile)); } catch(e) {}
     applyLoggedIn(); showToast('✓ Profile saved!');
@@ -1516,7 +1648,7 @@ async function saveAccountDetails() {
   if (!name) { showToast('Name cannot be empty.'); return; }
   try {
     const token = await getToken();
-    await db('/tl_profiles?id=eq.' + S.profile.id, 'PATCH', { name }, token);
+    await db('/profiles?id=eq.' + S.profile.id, 'PATCH', { name }, token);
     S.profile.name = name; applyLoggedIn(); showToast('✓ Account details saved!');
   } catch(e) { showToast('Error: ' + e.message); }
 }
@@ -1534,6 +1666,62 @@ async function changePassword() {
     el('acc-pw-cf').value  = '';
     showToast('✓ Password updated!');
   } catch(e) { showToast('Error: ' + e.message); }
+}
+
+// ── VIDEO UPLOAD ─────────────────────────────────────
+let _pendingVideoFile = null;
+
+function handleVideoSelect(input) {
+  if (!input.files || !input.files[0]) return;
+  processVideoFile(input.files[0]);
+}
+function handleVideoDrop(e) {
+  e.preventDefault();
+  el('video-upload-zone').classList.remove('drag');
+  const f = e.dataTransfer?.files?.[0];
+  if (f) processVideoFile(f);
+}
+function processVideoFile(f) {
+  const MAX = 100 * 1024 * 1024; // 100 MB
+  if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
+  if (f.size > MAX) { showToast('Video must be under 100 MB for the free tier.'); return; }
+  _pendingVideoFile = f;
+  const url = URL.createObjectURL(f);
+  const vprev = document.getElementById('video-preview');
+  if (vprev) { vprev.src = url; }
+  el('video-preview-wrap').style.display = 'block';
+  el('video-upload-lbl').textContent = f.name;
+}
+function clearVideoUpload() {
+  _pendingVideoFile = null;
+  const vprev = document.getElementById('video-preview');
+  if (vprev) vprev.src = '';
+  el('video-preview-wrap').style.display = 'none';
+  el('video-upload-lbl').textContent = 'Drop video here or click to upload';
+  const inp = document.getElementById('video-file-input');
+  if (inp) inp.value = '';
+}
+
+async function uploadProjectVideo(token) {
+  if (!_pendingVideoFile || !S.profile) return null;
+  const safeName = _pendingVideoFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  const path = S.profile.id + '/' + Date.now() + '_' + safeName;
+  const progressBar = el('video-progress-bar');
+  const progressTxt = el('video-progress-txt');
+  const progressWrap = el('video-upload-progress');
+  if (progressWrap) progressWrap.style.display = 'block';
+  // Upload using Supabase JS SDK (supports progress)
+  const { data, error } = await sb.storage.from('project-videos').upload(path, _pendingVideoFile, {
+    contentType: _pendingVideoFile.type,
+    upsert: false
+  });
+  if (error) { if (progressWrap) progressWrap.style.display = 'none'; throw new Error('Video upload failed: ' + error.message); }
+  if (progressBar) { progressBar.style.width = '100%'; }
+  if (progressTxt) progressTxt.textContent = 'Upload complete!';
+  setTimeout(() => { if (progressWrap) progressWrap.style.display = 'none'; if (progressBar) progressBar.style.width = '0%'; }, 1500);
+  const { data: urlData } = sb.storage.from('project-videos').getPublicUrl(path);
+  _pendingVideoFile = null;
+  return urlData?.publicUrl || null;
 }
 
 // ── SAVE PROJECT ────────────────────────────────────
@@ -1554,15 +1742,26 @@ async function saveProject(status) {
     year: el('up-year').value || String(new Date().getFullYear()),
     yt_link: el('up-yt').value, status,
     author_name: S.profile.name, author_init: S.profile.initials || '?',
+    author_avatar: S.profile.avatar_url || null,
     grad_idx: S.profile.grad_idx || 0, likes: 0, views: 0
   };
   el('upload-saving').style.display = 'block';
   try {
     const token = await getToken();
-    const rows  = await db('/tl_projects', 'POST', proj, token);
-    S.projects.unshift((rows && rows[0]) ? rows[0] : Object.assign({id: 'local_' + Date.now()}, proj));
-    ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(id => { const el = el(id); if (el) el.value = ''; });
+    // Upload video if one was selected
+    if (_pendingVideoFile) {
+      try {
+        const videoUrl = await uploadProjectVideo(token);
+        if (videoUrl) proj.video_url = videoUrl;
+      } catch(vErr) { showToast('⚠️ ' + vErr.message + ' — project saved without video.'); }
+    }
+    const rows = await db('/projects', 'POST', proj, token);
+    const saved = (rows && rows[0]) ? rows[0] : Object.assign({id: 'local_' + Date.now()}, proj);
+    S.projects.unshift(saved);
+    // Clear form
+    ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(fid => { const f = document.getElementById(fid); if (f) f.value = ''; });
     el('upreview').innerHTML = '';
+    clearVideoUpload();
     showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
     switchDash('projects', el('dnav-projects'));
     updatePlanUI();
@@ -1578,7 +1777,7 @@ async function renderMyProjects() {
   let projs = [];
   try {
     const token = await getToken();
-    projs = await db('/tl_projects?user_id=eq.' + S.profile.id + '&select=*&order=created_at.desc', 'GET', null, token) || [];
+    projs = await db('/projects?user_id=eq.' + S.profile.id + '&select=*&order=created_at.desc', 'GET', null, token) || [];
   } catch(e) {
     projs = S.projects.filter(p => p.user_id === S.profile.id);
   }
@@ -1604,7 +1803,7 @@ async function deleteProject(id) {
   if (!confirm('Delete this project? This cannot be undone.')) return;
   try {
     const token = await getToken();
-    await db('/tl_projects?id=eq.' + id, 'DELETE', null, token);
+    await db('/projects?id=eq.' + id, 'DELETE', null, token);
     S.projects = S.projects.filter(p => p.id !== id);
     renderMyProjects(); showToast('Project deleted.');
   } catch(e) { showToast('Error: ' + e.message); }
@@ -1617,9 +1816,13 @@ function refreshProfile(profileData) {
   S.viewingProfile = p;
   const isOwn = S.profile && p.id === S.profile.id;
 
-  el('pav-ph').textContent        = p.initials || '?';
-  el('pav-ph').style.background   = GCOLS[p.grad_idx || 0];
-  // Mesh gradient uses cover_idx colour mapped to gradient
+  // Avatar
+  const avWrap = el('pav-wrap');
+  if (p.avatar_url) {
+    avWrap.innerHTML = '<img src="' + p.avatar_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  } else {
+    avWrap.innerHTML = '<div class="prof-av-ph" id="pav-ph" style="background:' + GCOLS[p.grad_idx || 0] + '">' + (p.initials || '?') + '</div>';
+  }
   const meshGrad = GRADS[p.cover_idx || 0] || 'linear-gradient(135deg,#FE730A,#c0390a)';
   const covEl = document.getElementById('pcov-el');
   if (covEl) covEl.style.background = meshGrad;
@@ -1726,10 +1929,11 @@ function buildCoverPicker() {
     '<div class="copt' + (i === 0 ? ' sel' : '') + '" style="background:' + g + '" onclick="selectCover(' + i + ',this)"></div>'
   ).join('');
 }
-function selectCover(idx, el) {
-  document.querySelectorAll('.copt').forEach(e => e.classList.remove('sel')); el.classList.add('sel');
+function selectCover(idx, btn) {
+  document.querySelectorAll('.copt').forEach(e => e.classList.remove('sel')); btn.classList.add('sel');
   if (S.profile) S.profile.cover_idx = idx;
-  el('pcov-el').style.background = GRADS[idx];
+  const covEl = document.getElementById('pcov-el');
+  if (covEl) covEl.style.background = GRADS[idx];
 }
 
 // ── FILE UPLOAD PREVIEW ──────────────────────────────
@@ -1800,12 +2004,18 @@ function openWA(msg) {
   window.open('https://wa.me/94771873449?text=' + encodeURIComponent(text), '_blank');
 }
 
-// ── NAVIGATION ───────────────────────────────────────
+// ── NAVIGATION + HASH ROUTING ────────────────────────
 el('main-nav').style.display = 'none';
+
+const HASH_PAGES = ['feed','jobs','pricing','faq','profile','dashboard','project'];
+
+function pushHash(id) {
+  const h = '#/' + id;
+  if (location.hash !== h) history.pushState(null, '', h);
+}
 
 function showPage(id, projId) {
   if (id === 'dashboard' && !S.user) { openAuth('in'); return; }
-  // Profile: if not logged in but viewing someone else's profile, allow it
   if (id === 'profile' && !S.user && !projId) { openAuth('in'); return; }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const pg = el('page-' + id);
@@ -1816,20 +2026,19 @@ function showPage(id, projId) {
   const nl = el('nav-' + id);
   if (nl) nl.classList.add('active');
   closeMob();
+  // Update URL hash
+  if (id !== 'splash') { pushHash(id); trackPage(id); }
   if (id === 'feed')      renderFeed();
   if (id === 'jobs')      renderJobs();
   if (id === 'project' && projId) openProject(projId);
   if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
   if (id === 'profile') {
-    // projId here is used as a user_id to view another person's profile
     if (projId) {
-      // Find profile by user_id in loaded profiles cache, or fetch it
       const cachedProf = S.profiles && S.profiles.find(p => p.id === projId);
       if (cachedProf) {
         refreshProfile(cachedProf);
       } else {
-        // Fetch from Supabase
-        db('/tl_profiles?id=eq.' + projId + '&select=*').then(rows => {
+        db('/profiles?id=eq.' + projId + '&select=*').then(rows => {
           if (rows && rows.length) refreshProfile(rows[0]);
           else if (S.profile) refreshProfile(S.profile);
         }).catch(() => { if (S.profile) refreshProfile(S.profile); });
@@ -1838,7 +2047,53 @@ function showPage(id, projId) {
       refreshProfile(S.profile);
     }
   }
+  // Play/pause videos in feed cards on page change
+  document.querySelectorAll('.pcard-video').forEach(v => {
+    try { if (id === 'feed') { /* hover handles it */ } else { v.pause(); } } catch(e) {}
+  });
 }
+
+// Restore page from hash on load / back-forward
+function restoreFromHash() {
+  const raw  = location.hash.replace('#/', '').split('?')[0].toLowerCase();
+  const hash = HASH_PAGES.includes(raw) ? raw : '';
+  if (hash && hash !== 'splash') {
+    // Don't show protected pages before session is known
+    if ((hash === 'dashboard' || hash === 'profile') && !S.user) {
+      showPage('feed'); return;
+    }
+    showPage(hash);
+  } else if (!hash) {
+    // No hash at all — land on feed (skip splash on refresh)
+    const lastPage = (() => { try { return sessionStorage.getItem('tl_lastpage'); } catch(e){ return null; } })();
+    if (lastPage && HASH_PAGES.includes(lastPage) && lastPage !== 'splash') {
+      if ((lastPage === 'dashboard' || lastPage === 'profile') && !S.user) { showPage('feed'); return; }
+      showPage(lastPage);
+    }
+    // else: stay on splash (first visit)
+  }
+}
+
+// Save last visited page so refresh lands there
+function trackPage(id) {
+  try { if (id !== 'splash') sessionStorage.setItem('tl_lastpage', id); } catch(e) {}
+}
+
+// Back/forward browser navigation
+window.addEventListener('hashchange', () => {
+  const hash = location.hash.replace('#/', '').split('?')[0].toLowerCase();
+  if (HASH_PAGES.includes(hash)) showPage(hash);
+});
+
+// Hover-to-play video cards
+document.addEventListener('mouseover', e => {
+  const v = e.target.closest('.pcard')?.querySelector('.pcard-video');
+  if (v) { v.play().catch(() => {}); }
+});
+document.addEventListener('mouseout', e => {
+  const v = e.target.closest('.pcard')?.querySelector('.pcard-video');
+  if (v) { v.pause(); v.currentTime = 0; }
+});
 
 function enterPage(id) {
   const s = el('page-splash');
@@ -1874,7 +2129,25 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ── EXPOSE to HTML onclick handlers ──────────────────
+// ── SHARE / COPY PROFILE LINK ────────────────────────
+function copyProfileLink() {
+  const p = S.viewingProfile || S.profile;
+  const handle = p?.username;
+  const link = handle
+    ? window.location.origin + window.location.pathname + '#/profile/@' + handle
+    : window.location.origin + window.location.pathname + '#/profile';
+  navigator.clipboard.writeText(link).then(
+    () => showToast('✓ Profile link copied!'),
+    () => {
+      // Fallback for browsers that block clipboard
+      const inp = document.createElement('input');
+      inp.value = link; document.body.appendChild(inp);
+      inp.select(); document.execCommand('copy');
+      document.body.removeChild(inp);
+      showToast('✓ Profile link copied!');
+    }
+  );
+}
 // Everything inside the IIFE is private. These assignments
 // put only what's needed onto window so onclick="" works.
 window.openAuth      = openAuth;
@@ -1905,14 +2178,29 @@ window.requestUpgrade= requestUpgrade;
 window.selectCover   = selectCover;
 window.handleFileSelect = handleFileSelect;
 window.handleDrop    = handleDrop;
+window.handleVideoDrop  = handleVideoDrop;
+window.handleVideoSelect= handleVideoSelect;
+window.clearVideoUpload = clearVideoUpload;
+window.handleAvatarSelect = handleAvatarSelect;
+window.handleAvatarDrop   = handleAvatarDrop;
+window.copyProfileLink  = copyProfileLink;
 window.switchPTab    = switchPTab;
 window.refreshProfile = refreshProfile;
 window.renderJobs    = renderJobs;
 window.toggleFaq     = toggleFaq;
 window.openWA        = openWA;
 
+// ── EXPOSE EXTRA HELPERS ─────────────────────────────
+window.handleVideoSelect  = handleVideoSelect;
+window.handleVideoDrop    = handleVideoDrop;
+window.clearVideoUpload   = clearVideoUpload;
+window.handleAvatarSelect = handleAvatarSelect;
+window.handleAvatarDrop   = handleAvatarDrop;
+
 // ── START ────────────────────────────────────────────
 boot();
+// Restore page from URL hash after boot (session may not be ready for protected pages)
+setTimeout(restoreFromHash, 350);
 
 })(); // end IIFE
 </script>
