@@ -434,48 +434,6 @@ html.light .jf-sel{color:var(--t1)}
 
 <div class="toast" id="toast"><span class="toast-ico">✦</span><span id="tmsg"></span></div>
 
-<!-- ── INSTANT HASH REDIRECT — runs before any paint ── -->
-<script>
-(function(){
-  var hash = location.hash.replace('#/','').split('?')[0].toLowerCase();
-  var pages = ['feed','jobs','pricing','faq','profile','dashboard','project'];
-  if (pages.indexOf(hash) !== -1) {
-    // Remove active from splash immediately so it never flashes
-    document.addEventListener('DOMContentLoaded', function() {
-      var splash = document.getElementById('page-splash');
-      if (splash) { splash.classList.remove('active'); splash.style.display = 'none'; }
-      var target = document.getElementById('page-' + hash);
-      if (target) { target.classList.add('active'); }
-      var nav = document.getElementById('main-nav');
-      if (nav) nav.style.display = 'flex';
-    });
-  } else {
-    // No hash — check sessionStorage for last page
-    var last = '';
-    try { last = sessionStorage.getItem('tl_lastpage') || ''; } catch(e){}
-    if (last && pages.indexOf(last) !== -1 && last !== 'splash') {
-      document.addEventListener('DOMContentLoaded', function() {
-        var splash = document.getElementById('page-splash');
-        if (splash) { splash.classList.remove('active'); splash.style.display = 'none'; }
-        // Don't show protected pages — boot() will handle session then redirect
-        if (last !== 'dashboard' && last !== 'profile') {
-          var target = document.getElementById('page-' + last);
-          if (target) { target.classList.add('active'); }
-          var nav = document.getElementById('main-nav');
-          if (nav) nav.style.display = 'flex';
-        } else {
-          // Show feed as safe fallback for protected pages until session loads
-          var feed = document.getElementById('page-feed');
-          if (feed) { feed.classList.add('active'); }
-          var nav = document.getElementById('main-nav');
-          if (nav) nav.style.display = 'flex';
-        }
-      });
-    }
-  }
-})();
-</script>
-
 <!-- ══ AUTH MODAL — only appears when Sign In is clicked ══ -->
 <div id="auth-overlay" onclick="if(event.target===this)closeAuth()">
   <div class="auth-box">
@@ -508,7 +466,7 @@ html.light .jf-sel{color:var(--t1)}
         <div class="af"><label class="al">First Name</label><input class="ai" type="text" id="su-fn" placeholder="Nirosha"></div>
         <div class="af"><label class="al">Last Name</label><input class="ai" type="text" id="su-ln" placeholder="Kumari"></div>
       </div>
-      <div class="af"><label class="al">Username <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· your @handle</span></label><input class="ai" type="text" id="su-username" placeholder="yourname (letters, numbers, _)"></div>
+      <div style="font-size:.7rem;color:var(--t3);background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.55rem .75rem;margin-bottom:.78rem">🎲 A unique username will be auto-generated for you. You can change it anytime in your dashboard.</div>
       <div class="af"><label class="al">Email</label><input class="ai" type="email" id="su-email" placeholder="you@example.com"></div>
       <div class="af"><label class="al">Specialty</label>
         <select class="ai" id="su-spec">
@@ -944,6 +902,8 @@ html.light .jf-sel{color:var(--t1)}
               </div>
             </div>
             <div class="df"><label class="dl">YouTube / Showreel Link</label><input class="di" id="up-yt" type="text" placeholder="https://youtube.com/..."></div>
+            <!-- Storage usage bar — shown for free users -->
+            <div id="storage-bar-wrap" style="display:none;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem .9rem;margin-bottom:.75rem"></div>
             <div style="display:flex;gap:.58rem;align-items:center;flex-wrap:wrap;margin-top:.4rem">
               <button class="dsave" id="pub-btn" onclick="saveProject('published')">Publish Project →</button>
               <button class="dbtn-o" onclick="saveProject('draft')">Save as Draft</button>
@@ -1068,6 +1028,7 @@ html.light .jf-sel{color:var(--t1)}
   -- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS username TEXT UNIQUE;
   -- ALTER TABLE profiles ADD COLUMN IF NOT EXISTS avatar_url TEXT;
   -- ALTER TABLE projects ADD COLUMN IF NOT EXISTS video_url TEXT;
+  -- ALTER TABLE projects ADD COLUMN IF NOT EXISTS video_size BIGINT DEFAULT 0;
   -- ALTER TABLE projects ADD COLUMN IF NOT EXISTS author_avatar TEXT;
 ══════════════════════════════════════════════════ -->
 
@@ -1175,21 +1136,14 @@ function boot() {
 async function restoreSession() {
   try {
     const { data: { session } } = await sb.auth.getSession();
-    if (!session) {
-      // No session — still need to restore hash routing
-      restoreFromHash();
-      return;
-    }
+    if (!session) return;
     S.session = session;
     S.user    = session.user;
     await loadProfile();
     tryLocalProfile();
     applyLoggedIn();
-    // Now session is known — safe to restore protected pages
-    restoreFromHash();
   } catch(e) {
     console.warn('Session restore:', e.message);
-    restoreFromHash(); // still restore routing even on error
   }
 }
 
@@ -1270,7 +1224,6 @@ async function handleSignIn() {
 async function handleSignUp() {
   const fn   = el('su-fn').value.trim();
   const ln   = el('su-ln').value.trim();
-  const rawUn= (el('su-username').value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
   const email= el('su-email').value.trim().toLowerCase();
   const spec = el('su-spec').value;
   const pw   = el('su-pw').value;
@@ -1283,10 +1236,14 @@ async function handleSignUp() {
     if (!data.user) throw new Error('Sign up failed — please try again.');
     S.session = data.session;
     S.user    = data.user;
+
+    // Auto-generate unique username: firstname + random 4-digit number
+    const baseUn = fn.toLowerCase().replace(/[^a-z0-9]/g, '') + Math.floor(1000 + Math.random() * 9000);
+
     const profile = {
       id: data.user.id, email, name: fn + ' ' + ln, role: spec,
       initials: (fn[0] + ln[0]).toUpperCase(),
-      username: rawUn || undefined,
+      username: baseUn,
       grad_idx: Math.floor(Math.random() * GRADS.length), cover_idx: 0,
       city: 'Colombo', plan: 'free', bio: '', exp: '', skills: '',
       wa: '', ig: '', yt: '', web: '', views: 0, likes: 0
@@ -1301,7 +1258,7 @@ async function handleSignUp() {
     applyLoggedIn();
     closeAuth();
     showPage('dashboard');
-    showToast('🎉 Welcome to Timeliners, ' + fn + '!');
+    showToast('🎉 Welcome to Timeliners, ' + fn + '! Your username is @' + baseUn);
   } catch(e) {
     const m = (e.message || '').toLowerCase();
     if (m.includes('already') || m.includes('duplicate') || m.includes('registered')) {
@@ -1544,12 +1501,14 @@ function refreshDash() {
   }
   document.querySelectorAll('.copt').forEach((el, i) => el.classList.toggle('sel', i === (p.cover_idx || 0)));
   const isFree = !p.plan || p.plan === 'free';
-  el('upload-gate').style.display     = isFree ? 'block' : 'none';
-  el('pub-btn').disabled              = isFree;
-  el('upload-sub-txt').textContent    = isFree
-    ? 'You can save drafts on the Free plan. Upgrade to publish publicly.'
+  el('upload-gate').style.display  = 'none'; // free users can publish now
+  el('pub-btn').disabled           = false;
+  el('upload-sub-txt').textContent = isFree
+    ? 'Free plan · 100 MB total storage for videos. Upgrade for unlimited.'
     : 'Share your work with the Timeliners community.';
-  el('gate-banner').style.display     = isFree ? 'block' : 'none';
+  el('gate-banner').style.display  = 'none';
+  // Show storage usage bar for free users
+  if (isFree) refreshStorageBar();
 }
 
 function updatePlanUI() {
@@ -1627,20 +1586,45 @@ async function uploadAvatar(token) {
 // ── SAVE PROFILE ────────────────────────────────────
 async function saveProfile() {
   if (!S.profile) return;
-  const name = el('ep-name').value || S.profile.name;
-  const n    = name.trim().split(' ');
-  const rawUsername = (el('ep-username').value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
-  const updates = {
-    name, role: el('ep-role').value,
-    city: el('ep-city').value, exp: el('ep-exp').value,
-    bio:  el('ep-bio').value,  skills: el('ep-skills').value,
-    wa:   el('ep-wa').value,   ig: el('ep-ig').value,
-    yt:   el('ep-yt').value,   web: el('ep-web').value,
-    username: rawUsername || undefined,
-    initials: ((n[0]?.[0] || '') + (n[1]?.[0] || '')).toUpperCase() || '?'
-  };
+
+  // Loading state on button
+  const btn = document.querySelector('[onclick="saveProfile()"]');
+  const origTxt = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.innerHTML = '<div class="spinner" style="width:14px;height:14px;border-width:1.5px;margin:0 auto"></div> Saving...'; }
+
   try {
+    const name = (el('ep-name').value || S.profile.name || '').trim();
+    const n    = name.split(' ');
+    const rawUsername = (el('ep-username').value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
+
+    // Username uniqueness check (only if changed)
+    if (rawUsername && rawUsername !== S.profile.username) {
+      try {
+        const existing = await db('/profiles?username=eq.' + rawUsername + '&select=id', 'GET', null, SB_KEY);
+        if (existing && existing.length > 0 && existing[0].id !== S.profile.id) {
+          showToast('⚠️ @' + rawUsername + ' is already taken. Choose a different username.');
+          return;
+        }
+      } catch(e) { /* ignore — proceed with save */ }
+    }
+
+    const updates = {
+      name,
+      role:     el('ep-role').value    || S.profile.role    || '',
+      city:     el('ep-city').value    || S.profile.city    || '',
+      exp:      el('ep-exp').value     || S.profile.exp     || '',
+      bio:      el('ep-bio').value     || S.profile.bio     || '',
+      skills:   el('ep-skills').value  || S.profile.skills  || '',
+      wa:       el('ep-wa').value      || S.profile.wa      || '',
+      ig:       el('ep-ig').value      || S.profile.ig      || '',
+      yt:       el('ep-yt').value      || S.profile.yt      || '',
+      web:      el('ep-web').value     || S.profile.web     || '',
+      username: rawUsername || S.profile.username || null,
+      initials: ((n[0]?.[0] || '') + (n[1]?.[0] || '')).toUpperCase() || (S.profile.initials || '?')
+    };
+
     const token = await getToken();
+
     // Upload avatar if one was selected
     if (_pendingAvatarFile) {
       try {
@@ -1648,11 +1632,18 @@ async function saveProfile() {
         if (avatarUrl) updates.avatar_url = avatarUrl;
       } catch(avErr) { showToast('⚠️ ' + avErr.message + ' — profile saved without photo.'); }
     }
+
+    // Use upsert with id to ensure update always works
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', updates, token);
     Object.assign(S.profile, updates);
     try { localStorage.setItem('tl_lp_' + S.profile.id, JSON.stringify(S.profile)); } catch(e) {}
-    applyLoggedIn(); showToast('✓ Profile saved!');
-  } catch(e) { showToast('Error: ' + e.message); }
+    applyLoggedIn();
+    showToast('✓ Profile saved!');
+  } catch(e) {
+    showToast('Error: ' + e.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = origTxt || 'Save Profile'; }
+  }
 }
 
 async function saveAccountDetails() {
@@ -1738,16 +1729,61 @@ async function uploadProjectVideo(token) {
 }
 
 // ── SAVE PROJECT ────────────────────────────────────
+const FREE_STORAGE_LIMIT = 100 * 1024 * 1024; // 100 MB
+
+async function getUsedStorage() {
+  if (!S.profile) return 0;
+  try {
+    const token = await getToken();
+    const projs = await db('/projects?user_id=eq.' + S.profile.id + '&select=video_size', 'GET', null, token) || [];
+    return projs.reduce((sum, p) => sum + (p.video_size || 0), 0);
+  } catch(e) { return 0; }
+}
+
+function fmtBytes(b) {
+  if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+  return (b / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+async function refreshStorageBar() {
+  const bar = document.getElementById('storage-bar-wrap');
+  if (!bar || !S.profile) return;
+  const used = await getUsedStorage();
+  const pct  = Math.min(100, (used / FREE_STORAGE_LIMIT) * 100);
+  const remaining = FREE_STORAGE_LIMIT - used;
+  const color = pct > 85 ? '#ef4444' : pct > 60 ? '#f59e0b' : 'var(--ac)';
+  bar.style.display = 'block';
+  bar.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.38rem">' +
+      '<span style="font-size:.62rem;color:var(--t3);font-weight:500;text-transform:uppercase;letter-spacing:.8px">Free Storage</span>' +
+      '<span style="font-size:.68rem;font-weight:600;color:' + (pct > 85 ? '#ef4444' : 'var(--t2)') + '">' + fmtBytes(used) + ' / 100 MB used</span>' +
+    '</div>' +
+    '<div style="background:var(--bg4);border-radius:4px;height:6px;overflow:hidden">' +
+      '<div style="height:100%;background:' + color + ';width:' + pct + '%;transition:width .4s;border-radius:4px"></div>' +
+    '</div>' +
+    (remaining < FREE_STORAGE_LIMIT * 0.2
+      ? '<div style="font-size:.64rem;color:#f59e0b;margin-top:.3rem">⚠️ ' + fmtBytes(remaining) + ' remaining — upgrade for unlimited storage.</div>'
+      : '<div style="font-size:.64rem;color:var(--t3);margin-top:.3rem">' + fmtBytes(remaining) + ' remaining on free plan.</div>');
+}
+
 async function saveProject(status) {
   status = status || 'published';
   if (!S.profile) { showToast('Please sign in first.'); return; }
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
-  if (status === 'published' && (!S.profile.plan || S.profile.plan === 'free')) {
-    showToast('Upgrade to publish publicly.');
-    switchDash('account', el('dnav-account'));
-    setTimeout(() => switchAccTab('pro'), 80); return;
+
+  // Check storage limit for free users
+  if (S.profile.plan === 'free' || !S.profile.plan) {
+    if (_pendingVideoFile) {
+      const used = await getUsedStorage();
+      const newSize = _pendingVideoFile.size;
+      if (used + newSize > FREE_STORAGE_LIMIT) {
+        showToast('⚠️ Storage full! Free plan limit is 100 MB. Upgrade for unlimited.');
+        return;
+      }
+    }
   }
+
   const proj = {
     user_id: S.profile.id, title, cat: el('up-cat').value,
     tags: el('up-tags').value.split(',').map(t => t.trim()).filter(Boolean),
@@ -1756,12 +1792,19 @@ async function saveProject(status) {
     yt_link: el('up-yt').value, status,
     author_name: S.profile.name, author_init: S.profile.initials || '?',
     author_avatar: S.profile.avatar_url || null,
-    grad_idx: S.profile.grad_idx || 0, likes: 0, views: 0
+    grad_idx: S.profile.grad_idx || 0, likes: 0, views: 0,
+    video_size: _pendingVideoFile ? _pendingVideoFile.size : 0
   };
+
+  // Show loading on publish button
+  const pubBtn = el('pub-btn');
+  const origTxt = pubBtn.innerHTML;
+  pubBtn.disabled = true;
+  pubBtn.innerHTML = '<div class="spinner" style="width:14px;height:14px;border-width:1.5px;margin:0 auto"></div>';
   el('upload-saving').style.display = 'block';
+
   try {
     const token = await getToken();
-    // Upload video if one was selected
     if (_pendingVideoFile) {
       try {
         const videoUrl = await uploadProjectVideo(token);
@@ -1771,16 +1814,20 @@ async function saveProject(status) {
     const rows = await db('/projects', 'POST', proj, token);
     const saved = (rows && rows[0]) ? rows[0] : Object.assign({id: 'local_' + Date.now()}, proj);
     S.projects.unshift(saved);
-    // Clear form
     ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(fid => { const f = document.getElementById(fid); if (f) f.value = ''; });
     el('upreview').innerHTML = '';
     clearVideoUpload();
     showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
     switchDash('projects', el('dnav-projects'));
     updatePlanUI();
+    refreshStorageBar();
     if (status === 'published') loadFeed();
   } catch(e) { showToast('Error: ' + e.message); }
-  finally { el('upload-saving').style.display = 'none'; }
+  finally {
+    pubBtn.disabled = false;
+    pubBtn.innerHTML = origTxt;
+    el('upload-saving').style.display = 'none';
+  }
 }
 
 async function renderMyProjects() {
@@ -2069,33 +2116,10 @@ function showPage(id, projId) {
 // Restore page from hash on load / back-forward
 function restoreFromHash() {
   const hash = location.hash.replace('#/', '').split('?')[0].toLowerCase();
-  if (HASH_PAGES.includes(hash) && hash !== 'splash') {
-    if ((hash === 'dashboard' || hash === 'profile') && !S.user) {
-      showPage('feed'); return;
-    }
+  if (HASH_PAGES.includes(hash)) {
+    // Don't show protected pages before session is known
+    if ((hash === 'dashboard' || hash === 'profile') && !S.user) return;
     showPage(hash);
-  } else if (!hash || hash === '') {
-    // No hash — use sessionStorage last page or default to feed
-    let last = '';
-    try { last = sessionStorage.getItem('tl_lastpage') || ''; } catch(e) {}
-    if (last && HASH_PAGES.includes(last) && last !== 'splash') {
-      if ((last === 'dashboard' || last === 'profile') && !S.user) {
-        showPage('feed');
-      } else {
-        showPage(last);
-      }
-    } else {
-      // True first visit — show feed by default (skip splash on refresh)
-      const isFirstEverVisit = (() => {
-        try { return !localStorage.getItem('tl_visited'); } catch(e) { return true; }
-      })();
-      if (isFirstEverVisit) {
-        try { localStorage.setItem('tl_visited', '1'); } catch(e) {}
-        // Show splash only on genuine first visit
-      } else {
-        showPage('feed');
-      }
-    }
   }
 }
 
@@ -2192,10 +2216,12 @@ window.handleVideoDrop    = handleVideoDrop;
 window.clearVideoUpload   = clearVideoUpload;
 window.handleAvatarSelect = handleAvatarSelect;
 window.handleAvatarDrop   = handleAvatarDrop;
+window.refreshStorageBar  = refreshStorageBar;
 
 // ── START ────────────────────────────────────────────
 boot();
-// restoreFromHash is now called inside restoreSession() after session is known
+// Restore page from URL hash after boot (session may not be ready for protected pages)
+setTimeout(restoreFromHash, 350);
 
 })(); // end IIFE
 </script>
