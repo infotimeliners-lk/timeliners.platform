@@ -1,8 +1,30 @@
 <!DOCTYPE html>
-<html><head>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Timeliners</title>
 <script>
-  var seg = location.pathname.replace(/^\/[^/]*\//, '').replace(/^\//, '');
-  sessionStorage.setItem('tl_redirect', seg);
-  window.location = location.origin + location.pathname.replace(/\/[^/]*$/, '/');
+// GitHub Pages SPA redirect trick
+// When someone visits timeliners.lk/itzkaveesha, GitHub Pages serves this 404.html
+// We grab the path segment and redirect back to index.html with it stored in sessionStorage
+(function(){
+  var seg = location.pathname
+    .replace(/^\/[^/]*\//, '') // strip repo name if using username.github.io/repo
+    .replace(/^\//, '')        // strip leading slash
+    .split('/')[0];            // take first segment only
+
+  if (seg && seg !== 'index.html' && seg !== '404.html') {
+    try { sessionStorage.setItem('tl_redirect', seg); } catch(e){}
+  }
+
+  // Redirect to root index.html
+  var root = location.href
+    .replace(location.pathname, '/')
+    .replace(location.search, '')
+    .replace(location.hash, '');
+  window.location.replace(root);
+})();
 </script>
-</head></html>
+</head>
+<body></body>
+</html>
