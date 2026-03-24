@@ -434,6 +434,48 @@ html.light .jf-sel{color:var(--t1)}
 
 <div class="toast" id="toast"><span class="toast-ico">✦</span><span id="tmsg"></span></div>
 
+<!-- ── INSTANT HASH REDIRECT — runs before any paint ── -->
+<script>
+(function(){
+  var hash = location.hash.replace('#/','').split('?')[0].toLowerCase();
+  var pages = ['feed','jobs','pricing','faq','profile','dashboard','project'];
+  if (pages.indexOf(hash) !== -1) {
+    // Remove active from splash immediately so it never flashes
+    document.addEventListener('DOMContentLoaded', function() {
+      var splash = document.getElementById('page-splash');
+      if (splash) { splash.classList.remove('active'); splash.style.display = 'none'; }
+      var target = document.getElementById('page-' + hash);
+      if (target) { target.classList.add('active'); }
+      var nav = document.getElementById('main-nav');
+      if (nav) nav.style.display = 'flex';
+    });
+  } else {
+    // No hash — check sessionStorage for last page
+    var last = '';
+    try { last = sessionStorage.getItem('tl_lastpage') || ''; } catch(e){}
+    if (last && pages.indexOf(last) !== -1 && last !== 'splash') {
+      document.addEventListener('DOMContentLoaded', function() {
+        var splash = document.getElementById('page-splash');
+        if (splash) { splash.classList.remove('active'); splash.style.display = 'none'; }
+        // Don't show protected pages — boot() will handle session then redirect
+        if (last !== 'dashboard' && last !== 'profile') {
+          var target = document.getElementById('page-' + last);
+          if (target) { target.classList.add('active'); }
+          var nav = document.getElementById('main-nav');
+          if (nav) nav.style.display = 'flex';
+        } else {
+          // Show feed as safe fallback for protected pages until session loads
+          var feed = document.getElementById('page-feed');
+          if (feed) { feed.classList.add('active'); }
+          var nav = document.getElementById('main-nav');
+          if (nav) nav.style.display = 'flex';
+        }
+      });
+    }
+  }
+})();
+</script>
+
 <!-- ══ AUTH MODAL — only appears when Sign In is clicked ══ -->
 <div id="auth-overlay" onclick="if(event.target===this)closeAuth()">
   <div class="auth-box">
@@ -628,10 +670,6 @@ html.light .jf-sel{color:var(--t1)}
         <button class="prof-edit-btn" id="p-edit-btn" style="display:none" onclick="showPage('dashboard')">
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>
           Edit Profile
-        </button>
-        <button class="prof-edit-btn" onclick="copyProfileLink()" style="margin-top:.4rem">
-          <svg width="11" height="11" viewBox="0 0 13 13" fill="none"><circle cx="10" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="10" cy="10.5" r="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="3" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/><path d="M4.4 7.3l4.2 2.5M8.6 3.2L4.4 5.7" stroke="currentColor" stroke-width="1.1"/></svg>
-          Share Portfolio
         </button>
 
         <hr class="prof-card-divider">
@@ -1060,12 +1098,7 @@ function el(id) {
     checked: false, href: '', onclick: null
   };
 }
-// ── DB HELPER — auto-detects tl_ prefix vs no prefix ──
-// On first call, detects which naming convention your Supabase
-// uses (profiles vs tl_profiles) and remembers it forever.
-const DB_STATE = { prefix: null }; // null = not yet detected
-
-async function dbRaw(path, method = 'GET', body = null, token = null) {
+async function db(path, method = 'GET', body = null, token = null) {
   const r = await fetch(SB_URL + '/rest/v1' + path, {
     method,
     headers: {
@@ -1079,33 +1112,6 @@ async function dbRaw(path, method = 'GET', body = null, token = null) {
   const txt = await r.text();
   if (!r.ok) throw new Error(txt || r.status);
   return txt ? JSON.parse(txt) : null;
-}
-
-async function db(path, method = 'GET', body = null, token = null) {
-  // If we already know the prefix, use it directly
-  if (DB_STATE.prefix !== null) {
-    const p = DB_STATE.prefix ? path.replace(/^\/(profiles|projects)/, '/tl_$1') : path;
-    return dbRaw(p, method, body, token);
-  }
-  // First call: try without prefix first
-  try {
-    const result = await dbRaw(path, method, body, token);
-    DB_STATE.prefix = false; // no prefix works
-    return result;
-  } catch(e) {
-    // If schema cache error, try with tl_ prefix
-    const errTxt = e.message || '';
-    if (errTxt.includes('PGRST205') || errTxt.includes('schema cache') || errTxt.includes('tl_profiles') || errTxt.includes('does not exist')) {
-      try {
-        const altPath = path.replace(/^\/(profiles|projects)/, '/tl_$1');
-        const result  = await dbRaw(altPath, method, body, token);
-        DB_STATE.prefix = true; // tl_ prefix works
-        console.info('Timeliners: using tl_ table prefix');
-        return result;
-      } catch(e2) { throw e2; }
-    }
-    throw e;
-  }
 }
 
 // ── STATE ────────────────────────────────────────────
@@ -1169,14 +1175,21 @@ function boot() {
 async function restoreSession() {
   try {
     const { data: { session } } = await sb.auth.getSession();
-    if (!session) return;
+    if (!session) {
+      // No session — still need to restore hash routing
+      restoreFromHash();
+      return;
+    }
     S.session = session;
     S.user    = session.user;
     await loadProfile();
     tryLocalProfile();
     applyLoggedIn();
+    // Now session is known — safe to restore protected pages
+    restoreFromHash();
   } catch(e) {
     console.warn('Session restore:', e.message);
+    restoreFromHash(); // still restore routing even on error
   }
 }
 
@@ -2027,7 +2040,7 @@ function showPage(id, projId) {
   if (nl) nl.classList.add('active');
   closeMob();
   // Update URL hash
-  if (id !== 'splash') { pushHash(id); trackPage(id); }
+  if (id !== 'splash') pushHash(id);
   if (id === 'feed')      renderFeed();
   if (id === 'jobs')      renderJobs();
   if (id === 'project' && projId) openProject(projId);
@@ -2055,28 +2068,35 @@ function showPage(id, projId) {
 
 // Restore page from hash on load / back-forward
 function restoreFromHash() {
-  const raw  = location.hash.replace('#/', '').split('?')[0].toLowerCase();
-  const hash = HASH_PAGES.includes(raw) ? raw : '';
-  if (hash && hash !== 'splash') {
-    // Don't show protected pages before session is known
+  const hash = location.hash.replace('#/', '').split('?')[0].toLowerCase();
+  if (HASH_PAGES.includes(hash) && hash !== 'splash') {
     if ((hash === 'dashboard' || hash === 'profile') && !S.user) {
       showPage('feed'); return;
     }
     showPage(hash);
-  } else if (!hash) {
-    // No hash at all — land on feed (skip splash on refresh)
-    const lastPage = (() => { try { return sessionStorage.getItem('tl_lastpage'); } catch(e){ return null; } })();
-    if (lastPage && HASH_PAGES.includes(lastPage) && lastPage !== 'splash') {
-      if ((lastPage === 'dashboard' || lastPage === 'profile') && !S.user) { showPage('feed'); return; }
-      showPage(lastPage);
+  } else if (!hash || hash === '') {
+    // No hash — use sessionStorage last page or default to feed
+    let last = '';
+    try { last = sessionStorage.getItem('tl_lastpage') || ''; } catch(e) {}
+    if (last && HASH_PAGES.includes(last) && last !== 'splash') {
+      if ((last === 'dashboard' || last === 'profile') && !S.user) {
+        showPage('feed');
+      } else {
+        showPage(last);
+      }
+    } else {
+      // True first visit — show feed by default (skip splash on refresh)
+      const isFirstEverVisit = (() => {
+        try { return !localStorage.getItem('tl_visited'); } catch(e) { return true; }
+      })();
+      if (isFirstEverVisit) {
+        try { localStorage.setItem('tl_visited', '1'); } catch(e) {}
+        // Show splash only on genuine first visit
+      } else {
+        showPage('feed');
+      }
     }
-    // else: stay on splash (first visit)
   }
-}
-
-// Save last visited page so refresh lands there
-function trackPage(id) {
-  try { if (id !== 'splash') sessionStorage.setItem('tl_lastpage', id); } catch(e) {}
 }
 
 // Back/forward browser navigation
@@ -2129,25 +2149,7 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ── SHARE / COPY PROFILE LINK ────────────────────────
-function copyProfileLink() {
-  const p = S.viewingProfile || S.profile;
-  const handle = p?.username;
-  const link = handle
-    ? window.location.origin + window.location.pathname + '#/profile/@' + handle
-    : window.location.origin + window.location.pathname + '#/profile';
-  navigator.clipboard.writeText(link).then(
-    () => showToast('✓ Profile link copied!'),
-    () => {
-      // Fallback for browsers that block clipboard
-      const inp = document.createElement('input');
-      inp.value = link; document.body.appendChild(inp);
-      inp.select(); document.execCommand('copy');
-      document.body.removeChild(inp);
-      showToast('✓ Profile link copied!');
-    }
-  );
-}
+// ── EXPOSE to HTML onclick handlers ──────────────────
 // Everything inside the IIFE is private. These assignments
 // put only what's needed onto window so onclick="" works.
 window.openAuth      = openAuth;
@@ -2178,12 +2180,6 @@ window.requestUpgrade= requestUpgrade;
 window.selectCover   = selectCover;
 window.handleFileSelect = handleFileSelect;
 window.handleDrop    = handleDrop;
-window.handleVideoDrop  = handleVideoDrop;
-window.handleVideoSelect= handleVideoSelect;
-window.clearVideoUpload = clearVideoUpload;
-window.handleAvatarSelect = handleAvatarSelect;
-window.handleAvatarDrop   = handleAvatarDrop;
-window.copyProfileLink  = copyProfileLink;
 window.switchPTab    = switchPTab;
 window.refreshProfile = refreshProfile;
 window.renderJobs    = renderJobs;
@@ -2199,8 +2195,7 @@ window.handleAvatarDrop   = handleAvatarDrop;
 
 // ── START ────────────────────────────────────────────
 boot();
-// Restore page from URL hash after boot (session may not be ready for protected pages)
-setTimeout(restoreFromHash, 350);
+// restoreFromHash is now called inside restoreSession() after session is known
 
 })(); // end IIFE
 </script>
