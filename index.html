@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ac:#FE730A;--acl:rgba(254,115,10,.1);
-  --bg:#0a0a0a;--bg2:#131313;--bg3:#1b1b1b;--bg4:#232323;
-  --w:#fff;--t1:rgba(255,255,255,.92);--t2:rgba(255,255,255,.65);--t3:rgba(255,255,255,.38);
-  --brd:rgba(255,255,255,.06);--brd2:rgba(255,255,255,.11);--brd3:rgba(255,255,255,.2);
+  --ac:#FE730A;--acl:rgba(254,115,10,.08);
+  --bg:#f0f0f0;--bg2:#fff;--bg3:#f5f5f5;--bg4:#ebebeb;
+  --w:#111;--t1:rgba(0,0,0,.88);--t2:rgba(0,0,0,.58);--t3:rgba(0,0,0,.38);
+  --brd:rgba(0,0,0,.07);--brd2:rgba(0,0,0,.13);--brd3:rgba(0,0,0,.22);
   --r:8px;--rlg:12px;--rxl:18px;
   --fm:'Poppins',sans-serif;--fd:'Bebas Neue',sans-serif;--tr:all .18s cubic-bezier(.4,0,.2,1);
 }
-html.light{
+html{  /* always light */
   --ac:#FE730A;--acl:rgba(254,115,10,.08);
   --bg:#f0f0f0;--bg2:#fff;--bg3:#f5f5f5;--bg4:#ebebeb;
   --w:#111;--t1:rgba(0,0,0,.88);--t2:rgba(0,0,0,.58);--t3:rgba(0,0,0,.38);
@@ -63,9 +63,10 @@ html.light #main-nav{background:rgba(245,245,245,.97)}
 .nl{font-size:.88rem;color:var(--t2);padding:.34rem .88rem;border-radius:50px;transition:var(--tr);border:none;background:none}.nl:hover{color:var(--t1);background:rgba(255,255,255,.05)}.nl.active{color:var(--w);font-weight:500}
 .nav-right{display:flex;align-items:center;gap:.5rem}
 .nav-cta{background:var(--ac);color:white;font-size:.84rem;font-weight:500;padding:.42rem 1.1rem;border-radius:50px;border:none;transition:var(--tr)}.nav-cta:hover{background:#e55e00}
+.nav-pro{background:linear-gradient(135deg,#FE730A,#ff6b00);color:white;font-size:.75rem;font-weight:600;padding:.32rem .85rem;border-radius:50px;border:none;transition:var(--tr);cursor:pointer;display:none}.nav-pro:hover{opacity:.88}
 .nav-user{display:flex;align-items:center;gap:.45rem;padding:.3rem .55rem;border-radius:50px;border:1px solid var(--brd2);transition:var(--tr)}.nav-user:hover{border-color:var(--brd3);background:var(--bg3)}
 .nav-av{width:26px;height:26px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:white;flex-shrink:0}
-.nav-uname{font-size:.78rem;font-weight:500;color:var(--t1)}
+.nav-uname{font-size:.78rem;font-weight:500;color:var(--t1);cursor:pointer}
 .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--brd2);background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0}.theme-btn:hover{border-color:var(--ac);background:var(--acl)}
 .ham{display:none;flex-direction:column;gap:4px;background:none;border:none;padding:4px}.ham span{display:block;width:20px;height:1.5px;background:var(--t1);border-radius:2px}
 #mob{display:none;position:fixed;top:56px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--brd);z-index:999;padding:.75rem 24px}
@@ -153,7 +154,7 @@ html.light .fsrch input{color:var(--t1)}
 .prof-av-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:white}
 .prof-card-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:.9rem}
 .prof-badge{background:var(--ac);color:white;font-size:.44rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:.15rem .55rem;border-radius:50px;flex-shrink:0}
-.prof-name{font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:.12rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;cursor:default}
+.prof-name{font-size:1.15rem;font-weight:700;color:var(--t1);margin-bottom:.12rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
 .prof-role-city{font-size:.78rem;color:var(--t2);margin-bottom:.22rem}
 .prof-handle-line{font-size:.7rem;color:var(--t3);margin-bottom:.95rem;font-style:italic}
 /* Stats row in card */
@@ -432,56 +433,37 @@ html.light .jf-sel{color:var(--t1)}
 </head>
 <body>
 
-<div class="toast" id="toast"><span class="toast-ico">✦</span><span id="tmsg"></span></div>
-
-<!-- ── INSTANT ROUTING — prevents splash flash on refresh ── -->
+<!-- ── INSTANT ROUTING — prevents splash flash, handles 404 username redirects ── -->
 <script>
 (function(){
-  // Handle redirect from 404.html (GitHub Pages SPA trick)
-  var redirectSeg = '';
-  try { redirectSeg = sessionStorage.getItem('tl_redirect') || ''; sessionStorage.removeItem('tl_redirect'); } catch(e){}
+  // Handle redirect from 404.html (GitHub Pages username URL trick)
+  var uRedir='';
+  try{uRedir=sessionStorage.getItem('tl_redirect')||'';sessionStorage.removeItem('tl_redirect');}catch(e){}
+  if(uRedir){try{sessionStorage.setItem('tl_username_redirect',uRedir);}catch(e){}}
 
-  var knownPages = ['feed','jobs','pricing','faq','profile','dashboard','project'];
-  var h = location.hash.replace('#/','');
-  var seg = (redirectSeg || h.split('/')[0]).toLowerCase();
-  var isKnownPage = knownPages.indexOf(seg) !== -1;
+  var known=['feed','jobs','pricing','faq','profile','dashboard','project'];
+  var h=location.hash.replace('#/','');
+  var seg=(h.split('/')[0]||'').toLowerCase();
+  var hasKnownHash=known.indexOf(seg)!==-1;
+  var visited=false;try{visited=!!localStorage.getItem('tl_visited');}catch(e){}
+  var lastSeg='';try{lastSeg=(sessionStorage.getItem('tl_last')||'').split('|')[0];}catch(e){}
 
-  // If we have a username redirect from 404.html, store it for boot to handle
-  if (redirectSeg && !isKnownPage && redirectSeg.length > 0) {
-    try { sessionStorage.setItem('tl_username_redirect', redirectSeg); } catch(e){}
-    isKnownPage = false; // will be handled after session loads
-  }
-
-  var shouldHideSplash = false;
-
-  if (isKnownPage) {
-    shouldHideSplash = true;
-  } else {
-    // Check if returning visitor
-    var visited = false;
-    try { visited = !!localStorage.getItem('tl_visited'); } catch(e){}
-    var lastPage = '';
-    try { lastPage = (sessionStorage.getItem('tl_last') || '').split('|')[0]; } catch(e){}
-    if (visited && lastPage && knownPages.indexOf(lastPage) !== -1) {
-      shouldHideSplash = true;
-      seg = lastPage;
-    }
-  }
-
-  if (shouldHideSplash) {
-    document.addEventListener('DOMContentLoaded', function(){
-      var splash = document.getElementById('page-splash');
-      if (splash) { splash.classList.remove('active'); splash.style.display = 'none'; }
-      var nav = document.getElementById('main-nav');
-      if (nav) nav.style.display = 'flex';
-      // Show a safe placeholder page immediately (boot will properly init it)
-      var safeSeg = (seg === 'dashboard' || seg === 'profile') ? 'feed' : seg;
-      var target = document.getElementById('page-' + safeSeg);
-      if (target) target.classList.add('active');
+  var shouldSkipSplash = hasKnownHash||uRedir||(visited&&lastSeg&&known.indexOf(lastSeg)!==-1);
+  if(shouldSkipSplash){
+    document.addEventListener('DOMContentLoaded',function(){
+      var s=document.getElementById('page-splash');
+      if(s){s.classList.remove('active');s.style.display='none';}
+      var nav=document.getElementById('main-nav');
+      if(nav)nav.style.display='flex';
+      // Show safe placeholder (boot() will correctly re-init)
+      var safe=uRedir?'feed':(hasKnownHash&&seg!=='dashboard'&&seg!=='profile'?seg:(lastSeg&&lastSeg!=='dashboard'&&lastSeg!=='profile'?lastSeg:'feed'));
+      var t=document.getElementById('page-'+safe);
+      if(t)t.classList.add('active');
     });
   }
 })();
 </script>
+<div class="toast" id="toast"><span class="toast-ico">✦</span><span id="tmsg"></span></div>
 
 <!-- ══ AUTH MODAL — only appears when Sign In is clicked ══ -->
 <div id="auth-overlay" onclick="if(event.target===this)closeAuth()">
@@ -543,9 +525,7 @@ html.light .jf-sel{color:var(--t1)}
   <div class="spl-glow"></div><div class="spl-glow2"></div>
   <nav class="spl-nav">
     <div class="spl-brand">Timeliners</div>
-    <div style="display:flex;align-items:center;gap:.75rem">
-      <button class="theme-btn" id="spl-theme-btn" onclick="toggleTheme()"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="3" stroke="var(--t1)" stroke-width="1.3" fill="none"/><path d="M7.5 1.5V3M7.5 12v1.5M1.5 7.5H3M12 7.5h1.5M3.2 3.2l1 1M10.8 10.8l1 1M10.8 3.2l-1 1M4.2 10.8l-1 1" stroke="var(--t1)" stroke-width="1.3" stroke-linecap="round"/></svg></button>
-    </div>
+
   </nav>
   <div class="spl-body">
     <div class="spl-tag">Sri Lanka's #1 Portfolio Platform for Editors</div>
@@ -587,8 +567,8 @@ html.light .jf-sel{color:var(--t1)}
         <div class="nav-av" id="nav-av-el"><span id="nav-initials">?</span></div>
         <span class="nav-uname" id="nav-uname-el"></span>
       </div>
+      <button class="nav-pro nav-li" id="nav-pro-btn" onclick="switchDash('account',document.getElementById('dnav-account'));showPage('dashboard');setTimeout(()=>switchAccTab('pro'),80)" style="display:none">★ Join Pro</button>
       <button class="nav-cta nav-lo" onclick="openAuth('in')">Sign In</button>
-      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="3" stroke="var(--t1)" stroke-width="1.3" fill="none"/><path d="M7.5 1.5V3M7.5 12v1.5M1.5 7.5H3M12 7.5h1.5M3.2 3.2l1 1M10.8 10.8l1 1M10.8 3.2l-1 1M4.2 10.8l-1 1" stroke="var(--t1)" stroke-width="1.3" stroke-linecap="round"/></svg></button>
       <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -762,7 +742,7 @@ html.light .jf-sel{color:var(--t1)}
         </div>
         <button class="pv-like" id="pv-like-btn" onclick="toggleProjLike()"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>Like this project</button>
         <button class="pv-hire" id="pv-hire-btn"><svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".85"/></svg>Hire This Editor</button>
-        <button class="pv-like" id="pv-edit-btn" style="display:none;margin-top:.4rem"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Edit Project</button>
+        <button class="pv-like" id="pv-edit-btn" style="display:none;margin-top:.4rem;gap:.4rem" onclick="openEditProject()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Edit Project</button>
         <div class="pv-author-mini">
           <div class="pv-author-av"><div id="pv-sb-av" style="width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:white">?</div></div>
           <div style="font-size:.87rem;font-weight:600;color:var(--t1);margin-bottom:.14rem" id="pv-sb-name">—</div>
@@ -775,10 +755,10 @@ html.light .jf-sel{color:var(--t1)}
 </div>
 
 <!-- ══ EDIT PROJECT MODAL ══ -->
-<div id="edit-proj-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);z-index:3000;display:none;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)closeEditProject()">
-  <div style="background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--rxl);padding:2rem;width:100%;max-width:540px;position:relative;max-height:90vh;overflow-y:auto;animation:popIn .22s cubic-bezier(.4,0,.2,1)">
-    <button onclick="closeEditProject()" style="position:absolute;top:.9rem;right:.9rem;width:28px;height:28px;border-radius:50%;border:1px solid var(--brd2);background:var(--bg3);color:var(--t1);font-size:1rem;display:flex;align-items:center;justify-content:center;cursor:pointer">×</button>
-    <div style="font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:1.2rem">Edit Project</div>
+<div id="edit-proj-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);z-index:3000;display:none;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)closeEditProject()">
+  <div style="background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--rxl);padding:2rem;width:100%;max-width:520px;position:relative;max-height:90vh;overflow-y:auto;animation:popIn .22s cubic-bezier(.4,0,.2,1)">
+    <button onclick="closeEditProject()" style="position:absolute;top:.9rem;right:.9rem;width:28px;height:28px;border-radius:50%;border:1px solid var(--brd2);background:var(--bg3);color:var(--t1);font-size:1rem;display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1">×</button>
+    <div style="font-size:.92rem;font-weight:600;color:var(--t1);margin-bottom:1.2rem">Edit Project</div>
     <input type="hidden" id="ep-proj-id">
     <div class="df"><label class="dl">Title</label><input class="di" id="ep-proj-title" type="text"></div>
     <div class="d2col">
@@ -788,10 +768,7 @@ html.light .jf-sel{color:var(--t1)}
     <div class="df"><label class="dl">Description</label><textarea class="dta" id="ep-proj-desc" style="min-height:80px"></textarea></div>
     <div class="df"><label class="dl">Tags (comma separated)</label><input class="di" id="ep-proj-tags" type="text"></div>
     <div class="df"><label class="dl">YouTube / Showreel Link</label><input class="di" id="ep-proj-yt" type="text" placeholder="https://youtube.com/..."></div>
-    <div class="df">
-      <label class="dl">Status</label>
-      <select class="dsel" id="ep-proj-status"><option value="published">Published</option><option value="draft">Draft</option></select>
-    </div>
+    <div class="df"><label class="dl">Status</label><select class="dsel" id="ep-proj-status"><option value="published">Published</option><option value="draft">Draft</option></select></div>
     <div style="display:flex;gap:.58rem;margin-top:.5rem">
       <button class="dsave" id="ep-proj-save-btn" onclick="saveEditProject()">Save Changes</button>
       <button class="dbtn-o" onclick="closeEditProject()">Cancel</button>
@@ -946,19 +923,13 @@ html.light .jf-sel{color:var(--t1)}
             </div>
             <div class="df"><label class="dl">Description</label><textarea class="dta" id="up-desc" placeholder="Describe the project, tools used, and your role..."></textarea></div>
             <div class="df"><label class="dl">Tags (comma separated)</label><input class="di" id="up-tags" type="text" placeholder="After Effects, Brand, Logo Animation"></div>
-            <!-- Project Video Upload -->
+            <!-- Multi-video Upload -->
             <div class="df">
-              <label class="dl">Project Video <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· up to 100 MB (free tier)</span></label>
-              <div class="upload-zone" id="video-upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleVideoDrop(event)">
-                <input type="file" accept="video/*" id="video-file-input" onchange="handleVideoSelect(this)">
-                <div class="upload-ico">🎬</div>
-                <div class="upload-lbl" id="video-upload-lbl">Drop video here or click to upload</div>
-                <div class="upload-hint">MP4, MOV, WEBM · max 100 MB</div>
-                <div id="video-preview-wrap" style="display:none;margin-top:.75rem">
-                  <video id="video-preview" controls style="width:100%;border-radius:8px;max-height:200px;background:#000"></video>
-                  <button onclick="clearVideoUpload()" style="margin-top:.38rem;font-size:.7rem;color:rgba(239,68,68,.7);background:none;border:none;cursor:pointer">✕ Remove video</button>
-                </div>
-              </div>
+              <label class="dl">Project Videos <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· add up to 5 videos · 100 MB total (free)</span></label>
+              <div id="video-list" style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.45rem"></div>
+              <button type="button" id="add-video-btn" onclick="addVideoSlot()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.65rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr)" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
+                🎬 Add Video
+              </button>
               <div id="video-upload-progress" style="display:none;margin-top:.45rem">
                 <div style="background:var(--brd2);border-radius:4px;height:4px;overflow:hidden">
                   <div id="video-progress-bar" style="height:100%;background:var(--ac);width:0%;transition:width .2s"></div>
@@ -966,17 +937,9 @@ html.light .jf-sel{color:var(--t1)}
                 <div style="font-size:.64rem;color:var(--t3);margin-top:.22rem" id="video-progress-txt">Uploading...</div>
               </div>
             </div>
-            <!-- Cover Image -->
-            <div class="df"><label class="dl">Cover Image <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· optional if video uploaded</span></label>
-              <div class="upload-zone" id="upload-zone" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleDrop(event)">
-                <input type="file" accept="image/*" multiple onchange="handleFileSelect(this)">
-                <div class="upload-ico">📁</div>
-                <div class="upload-lbl">Drop images here or click to upload</div>
-                <div class="upload-hint">PNG, JPG, WEBP · max 5 MB each</div>
-                <div class="upreview" id="upreview"></div>
-              </div>
-            </div>
+
             <div class="df"><label class="dl">YouTube / Showreel Link</label><input class="di" id="up-yt" type="text" placeholder="https://youtube.com/..."></div>
+            <div id="storage-bar-wrap" style="display:none;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.72rem .9rem;margin-bottom:.75rem"></div>
             <div style="display:flex;gap:.58rem;align-items:center;flex-wrap:wrap;margin-top:.4rem">
               <button class="dsave" id="pub-btn" onclick="saveProject('published')">Publish Project →</button>
               <button class="dbtn-o" onclick="saveProject('draft')">Save as Draft</button>
@@ -1376,6 +1339,9 @@ function applyLoggedIn() {
     navAv.innerHTML = '<span id="nav-initials">' + (p?.initials || (S.user?.email?.[0] || '?').toUpperCase()) + '</span>';
   }
   el('nav-uname-el').textContent = p?.username ? '@' + p.username : (p?.name?.split(' ')[0] || 'Account');
+  // Show Join Pro button for free users
+  const proBtnEl = el('nav-pro-btn');
+  if (proBtnEl) proBtnEl.style.display = (!p?.plan || p?.plan === 'free') ? 'inline-flex' : 'none';
 }
 function applyLoggedOut() {
   document.querySelectorAll('.nav-li').forEach(e => e.style.display = 'none');
@@ -1487,73 +1453,73 @@ function quickLike(btn) { btn.style.background = 'rgba(239,68,68,.6)'; showToast
 // ── PROJECT VIEW ─────────────────────────────────────
 function openProject(id) {
   const p = S.projects.find(x => x.id === id);
-  if (!p) { return; }
-  S.currentProject = p;
+  if (!p) return;
+  S._currentProject = p;
   const bg = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
   const CAT = {motion:'Motion Graphics',video:'Video Edit',graphic:'Graphic Design',social:'Reels & Shorts',film:'Film / Cinematic','3d':'3D & VFX',longform:'Long-form',wedding:'Wedding & Events'};
   el('pv-cat').textContent         = CAT[p.cat] || p.cat;
   el('pv-title').textContent       = p.title;
-  el('pv-author-av').style.background = bg;
-  el('pv-author-av').textContent   = p.author_init || '?';
+  // Author avatar pill
+  const avPh = el('pv-author-av');
+  if (p.author_avatar) {
+    avPh.innerHTML = '<img src="' + p.author_avatar + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    avPh.style.background = 'transparent';
+  } else {
+    avPh.innerHTML = p.author_init || '?';
+    avPh.style.background = bg;
+  }
   el('pv-author-name').textContent = p.author_name || '—';
   el('pv-date').textContent        = p.year || '';
   el('pv-tags').innerHTML = (p.tags || []).map(t => '<span class="pv-htag">' + t + '</span>').join('');
-
-  // Cover / video area — show actual video if available
+  // Cover area — show video if available
   const covBox = el('pv-cover');
   if (p.video_url) {
-    covBox.innerHTML = '<video src="' + p.video_url + '" controls playsinline style="width:100%;height:100%;object-fit:contain;border-radius:var(--rxl);background:#000"></video>';
+    covBox.innerHTML = '<video src="' + p.video_url + '" controls playsinline style="width:100%;height:100%;object-fit:contain;background:#000;border-radius:var(--rxl)"></video>';
+    covBox.style.background = '#000';
+    covBox.style.fontSize = '';
+    covBox.style.color = '';
   } else if (p.cover_url) {
     covBox.innerHTML = '<img src="' + p.cover_url + '" style="width:100%;height:100%;object-fit:cover">';
     covBox.style.background = '';
-    covBox.style.color = '';
-    covBox.style.fontSize = '';
   } else {
-    covBox.innerHTML = '';
+    covBox.innerHTML = p.author_init || '?';
     covBox.style.background = bg + '18';
     covBox.style.color = bg + '55';
     covBox.style.fontSize = '4rem';
     covBox.style.fontWeight = '700';
-    covBox.textContent = p.author_init || '?';
   }
-
-  el('pv-desc').textContent   = p.description || 'No description provided.';
-  el('pv-views').textContent  = p.views || 0;
-  el('pv-likes-n').textContent= p.likes || 0;
-
-  // Author sidebar — show avatar image if available
-  const sbAvEl = el('pv-sb-av');
+  el('pv-desc').textContent    = p.description || 'No description provided.';
+  el('pv-views').textContent   = p.views || 0;
+  el('pv-likes-n').textContent = p.likes || 0;
+  // Sidebar author — show real avatar
+  const sbAv = el('pv-sb-av');
   if (p.author_avatar) {
-    sbAvEl.innerHTML = '<img src="' + p.author_avatar + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
-    sbAvEl.style.background = '';
+    sbAv.innerHTML = '<img src="' + p.author_avatar + '" style="width:46px;height:46px;object-fit:cover;border-radius:50%">';
+    sbAv.style.background = 'transparent';
   } else {
-    sbAvEl.innerHTML = p.author_init || '?';
-    sbAvEl.style.background = bg;
+    sbAv.textContent = p.author_init || '?';
+    sbAv.style.background = bg;
   }
   el('pv-sb-name').textContent = p.author_name || '—';
   el('pv-sb-role').textContent = CAT[p.cat] || p.cat;
-
-  // Like button
+  // Like btn reset
   el('pv-like-btn').classList.remove('liked');
   el('pv-like-btn').innerHTML = '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>Like this project';
-
-  // Hire button
-  el('pv-hire-btn').onclick = () => showPage('profile', p.user_id);
-
-  // View portfolio
+  // Hire btn — open WA if available
+  el('pv-hire-btn').onclick = () => {
+    if (p.author_wa) window.open('https://wa.me/' + p.author_wa.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent('Hi ' + p.author_name + ', I saw your project "' + p.title + '" on Timeliners.'), '_blank');
+    else showToast("Contact this editor via their profile.");
+  };
+  // View portfolio — navigate by username if available
   const vpBtn = el('pv-view-profile-btn');
   if (vpBtn) vpBtn.onclick = () => showPage('profile', p.user_id);
-
-  // Author pill
   const pill = document.querySelector('.pv-author-pill');
   if (pill) pill.onclick = () => showPage('profile', p.user_id);
-
-  // Edit button — only show if this is the logged-in user's project
+  // Edit button — only for own projects
   const editBtn = el('pv-edit-btn');
   if (editBtn) {
-    const isOwn = S.profile && (p.user_id === S.profile.id);
+    const isOwn = S.profile && p.user_id === S.profile.id;
     editBtn.style.display = isOwn ? 'flex' : 'none';
-    if (isOwn) editBtn.onclick = () => openEditProject(p);
   }
 }
 
@@ -1564,63 +1530,6 @@ function toggleProjLike() {
     ? '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" fill="#ef4444" stroke="#ef4444" stroke-width="1.1"/></svg>Liked!'
     : '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>Like this project';
   showToast(liked ? 'Liked!' : 'Like removed');
-}
-
-// ── EDIT PROJECT ──────────────────────────────────────
-function openEditProject(p) {
-  el('ep-proj-id').value     = p.id;
-  el('ep-proj-title').value  = p.title || '';
-  el('ep-proj-cat').value    = p.cat   || 'video';
-  el('ep-proj-year').value   = p.year  || '';
-  el('ep-proj-desc').value   = p.description || '';
-  el('ep-proj-tags').value   = (p.tags || []).join(', ');
-  el('ep-proj-yt').value     = p.yt_link || '';
-  el('ep-proj-status').value = p.status || 'published';
-  const ov = el('edit-proj-overlay');
-  ov.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function closeEditProject() {
-  el('edit-proj-overlay').style.display = 'none';
-  document.body.style.overflow = '';
-}
-
-async function saveEditProject() {
-  const id = el('ep-proj-id').value;
-  if (!id || !S.profile) return;
-  const btn = el('ep-proj-save-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<div class="spinner" style="width:14px;height:14px;border-width:1.5px;margin:0 auto"></div>';
-  const updates = {
-    title:       el('ep-proj-title').value.trim(),
-    cat:         el('ep-proj-cat').value,
-    year:        el('ep-proj-year').value,
-    description: el('ep-proj-desc').value,
-    tags:        el('ep-proj-tags').value.split(',').map(t => t.trim()).filter(Boolean),
-    yt_link:     el('ep-proj-yt').value,
-    status:      el('ep-proj-status').value
-  };
-  try {
-    const token = await getToken();
-    await db('/projects?id=eq.' + id, 'PATCH', updates, token);
-    // Update local state
-    const idx = S.projects.findIndex(p => p.id === id);
-    if (idx !== -1) Object.assign(S.projects[idx], updates);
-    closeEditProject();
-    showToast('✓ Project updated!');
-    // Refresh project view if still on it
-    if (S.currentProject && S.currentProject.id === id) {
-      Object.assign(S.currentProject, updates);
-      openProject(id);
-    }
-    loadFeed();
-  } catch(e) {
-    showToast('Error: ' + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = 'Save Changes';
-  }
 }
 
 // ── DASHBOARD ────────────────────────────────────────
@@ -1671,12 +1580,14 @@ function refreshDash() {
   }
   document.querySelectorAll('.copt').forEach((el, i) => el.classList.toggle('sel', i === (p.cover_idx || 0)));
   const isFree = !p.plan || p.plan === 'free';
-  el('upload-gate').style.display     = isFree ? 'block' : 'none';
-  el('pub-btn').disabled              = isFree;
-  el('upload-sub-txt').textContent    = isFree
-    ? 'You can save drafts on the Free plan. Upgrade to publish publicly.'
+  el('upload-gate').style.display  = 'none';
+  el('pub-btn').disabled           = false;
+  el('upload-sub-txt').textContent = isFree
+    ? 'Free plan · 100 MB total video storage. Upgrade for unlimited.'
     : 'Share your work with the Timeliners community.';
-  el('gate-banner').style.display     = isFree ? 'block' : 'none';
+  el('gate-banner').style.display  = 'none';
+  el('st-projs-hint').textContent  = '';
+  if (isFree) refreshStorageBar();
 }
 
 function updatePlanUI() {
@@ -1754,32 +1665,41 @@ async function uploadAvatar(token) {
 // ── SAVE PROFILE ────────────────────────────────────
 async function saveProfile() {
   if (!S.profile) return;
-  const name = el('ep-name').value || S.profile.name;
-  const n    = name.trim().split(' ');
-  const rawUsername = (el('ep-username').value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
-  const updates = {
-    name, role: el('ep-role').value,
-    city: el('ep-city').value, exp: el('ep-exp').value,
-    bio:  el('ep-bio').value,  skills: el('ep-skills').value,
-    wa:   el('ep-wa').value,   ig: el('ep-ig').value,
-    yt:   el('ep-yt').value,   web: el('ep-web').value,
-    username: rawUsername || undefined,
-    initials: ((n[0]?.[0] || '') + (n[1]?.[0] || '')).toUpperCase() || '?'
-  };
+  const btn = document.querySelector('#dash-panel-editprofile .dsave');
+  const orig = btn ? btn.innerHTML : 'Save Profile';
+  if (btn) { btn.disabled = true; btn.innerHTML = '<div class="spinner" style="width:14px;height:14px;border-width:1.5px;display:inline-block;vertical-align:middle;margin-right:4px"></div> Saving...'; }
   try {
-    const token = await getToken();
-    // Upload avatar if one was selected
-    if (_pendingAvatarFile) {
+    const name = (el('ep-name').value || S.profile.name || '').trim();
+    const n = name.split(' ');
+    const rawUn = (el('ep-username').value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
+    // Username uniqueness check
+    if (rawUn && rawUn !== S.profile.username) {
       try {
-        const avatarUrl = await uploadAvatar(token);
-        if (avatarUrl) updates.avatar_url = avatarUrl;
-      } catch(avErr) { showToast('⚠️ ' + avErr.message + ' — profile saved without photo.'); }
+        const ex = await db('/profiles?username=eq.' + rawUn + '&select=id', 'GET', null, SB_KEY);
+        if (ex && ex.length && ex[0].id !== S.profile.id) { showToast('⚠️ @' + rawUn + ' is taken.'); return; }
+      } catch(e) {}
+    }
+    const updates = {
+      name,
+      role: el('ep-role').value, city: el('ep-city').value,
+      exp:  el('ep-exp').value,  bio:  el('ep-bio').value,
+      skills: el('ep-skills').value,
+      wa: el('ep-wa').value, ig: el('ep-ig').value,
+      yt: el('ep-yt').value, web: el('ep-web').value,
+      username: rawUn || S.profile.username || null,
+      initials: ((n[0]?.[0] || '') + (n[1]?.[0] || '')).toUpperCase() || S.profile.initials || '?'
+    };
+    const token = await getToken();
+    if (_pendingAvatarFile) {
+      try { const url = await uploadAvatar(token); if (url) updates.avatar_url = url; }
+      catch(avErr) { showToast('⚠️ ' + avErr.message); }
     }
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', updates, token);
     Object.assign(S.profile, updates);
     try { localStorage.setItem('tl_lp_' + S.profile.id, JSON.stringify(S.profile)); } catch(e) {}
     applyLoggedIn(); showToast('✓ Profile saved!');
   } catch(e) { showToast('Error: ' + e.message); }
+  finally { if (btn) { btn.disabled = false; btn.innerHTML = orig; } }
 }
 
 async function saveAccountDetails() {
@@ -1808,60 +1728,95 @@ async function changePassword() {
   } catch(e) { showToast('Error: ' + e.message); }
 }
 
-// ── VIDEO UPLOAD ─────────────────────────────────────
-let _pendingVideoFile = null;
+// ── MULTI-VIDEO UPLOAD ───────────────────────────────
+const _pendingVideos = []; // array of File objects
 
-function handleVideoSelect(input) {
-  if (!input.files || !input.files[0]) return;
-  processVideoFile(input.files[0]);
-}
-function handleVideoDrop(e) {
-  e.preventDefault();
-  el('video-upload-zone').classList.remove('drag');
-  const f = e.dataTransfer?.files?.[0];
-  if (f) processVideoFile(f);
-}
-function processVideoFile(f) {
-  const MAX = 100 * 1024 * 1024; // 100 MB
-  if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-  if (f.size > MAX) { showToast('Video must be under 100 MB for the free tier.'); return; }
-  _pendingVideoFile = f;
-  const url = URL.createObjectURL(f);
-  const vprev = document.getElementById('video-preview');
-  if (vprev) { vprev.src = url; }
-  el('video-preview-wrap').style.display = 'block';
-  el('video-upload-lbl').textContent = f.name;
-}
-function clearVideoUpload() {
-  _pendingVideoFile = null;
-  const vprev = document.getElementById('video-preview');
-  if (vprev) vprev.src = '';
-  el('video-preview-wrap').style.display = 'none';
-  el('video-upload-lbl').textContent = 'Drop video here or click to upload';
-  const inp = document.getElementById('video-file-input');
-  if (inp) inp.value = '';
+function addVideoSlot() {
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'video/*'; inp.style.display = 'none';
+  document.body.appendChild(inp);
+  inp.onchange = () => {
+    const f = inp.files[0];
+    document.body.removeChild(inp);
+    if (!f) return;
+    if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
+    if (f.size > 100 * 1024 * 1024) { showToast('Each video must be under 100 MB.'); return; }
+    if (_pendingVideos.length >= 5) { showToast('Max 5 videos per project.'); return; }
+    _pendingVideos.push(f);
+    renderVideoList();
+  };
+  inp.click();
 }
 
-async function uploadProjectVideo(token) {
-  if (!_pendingVideoFile || !S.profile) return null;
-  const safeName = _pendingVideoFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-  const path = S.profile.id + '/' + Date.now() + '_' + safeName;
-  const progressBar = el('video-progress-bar');
-  const progressTxt = el('video-progress-txt');
+function renderVideoList() {
+  const list = document.getElementById('video-list');
+  if (!list) return;
+  list.innerHTML = _pendingVideos.map((f, i) =>
+    '<div style="display:flex;align-items:center;gap:.55rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.5rem .75rem">' +
+      '<span style="font-size:.8rem;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🎬 ' + f.name + '</span>' +
+      '<span style="font-size:.7rem;color:var(--t3)">' + (f.size/1024/1024).toFixed(1) + ' MB</span>' +
+      '<button onclick="removeVideo(' + i + ')" style="background:none;border:none;color:rgba(239,68,68,.6);cursor:pointer;font-size:.8rem;padding:0 2px">✕</button>' +
+    '</div>'
+  ).join('');
+}
+
+function removeVideo(idx) {
+  _pendingVideos.splice(idx, 1);
+  renderVideoList();
+}
+
+function clearAllVideos() {
+  _pendingVideos.length = 0;
+  renderVideoList();
+}
+
+// Keep old stubs for backward compat
+function handleVideoSelect() {}
+function handleVideoDrop(e) { e.preventDefault(); }
+function clearVideoUpload() { clearAllVideos(); }
+
+async function uploadProjectVideos(token, projId) {
+  if (!_pendingVideos.length || !S.profile) return [];
+  const urls = [];
   const progressWrap = el('video-upload-progress');
+  const progressBar  = el('video-progress-bar');
+  const progressTxt  = el('video-progress-txt');
   if (progressWrap) progressWrap.style.display = 'block';
-  // Upload using Supabase JS SDK (supports progress)
-  const { data, error } = await sb.storage.from('project-videos').upload(path, _pendingVideoFile, {
-    contentType: _pendingVideoFile.type,
-    upsert: false
-  });
-  if (error) { if (progressWrap) progressWrap.style.display = 'none'; throw new Error('Video upload failed: ' + error.message); }
-  if (progressBar) { progressBar.style.width = '100%'; }
-  if (progressTxt) progressTxt.textContent = 'Upload complete!';
-  setTimeout(() => { if (progressWrap) progressWrap.style.display = 'none'; if (progressBar) progressBar.style.width = '0%'; }, 1500);
-  const { data: urlData } = sb.storage.from('project-videos').getPublicUrl(path);
-  _pendingVideoFile = null;
-  return urlData?.publicUrl || null;
+  for (let i = 0; i < _pendingVideos.length; i++) {
+    const f = _pendingVideos[i];
+    if (progressTxt) progressTxt.textContent = 'Uploading video ' + (i+1) + ' of ' + _pendingVideos.length + '...';
+    const path = S.profile.id + '/' + projId + '_v' + i + '_' + f.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const { error } = await sb.storage.from('project-videos').upload(path, f, { contentType: f.type, upsert: false });
+    if (error) { showToast('⚠️ Video ' + (i+1) + ' failed: ' + error.message); continue; }
+    if (progressBar) progressBar.style.width = Math.round((i+1)/_pendingVideos.length*100) + '%';
+    const { data: ud } = sb.storage.from('project-videos').getPublicUrl(path);
+    if (ud?.publicUrl) urls.push(ud.publicUrl);
+  }
+  setTimeout(() => { if (progressWrap) progressWrap.style.display='none'; if (progressBar) progressBar.style.width='0%'; }, 1500);
+  return urls;
+}
+
+const FREE_STORAGE_LIMIT = 100 * 1024 * 1024;
+function fmtBytes(b) { return b>=1048576?(b/1048576).toFixed(1)+' MB':(b/1024).toFixed(0)+' KB'; }
+async function getUsedStorage() {
+  if (!S.profile) return 0;
+  try {
+    const token = await getToken();
+    const rows = await db('/projects?user_id=eq.'+S.profile.id+'&select=video_size','GET',null,token)||[];
+    return rows.reduce((s,p)=>s+(Number(p.video_size)||0),0);
+  } catch(e){ return 0; }
+}
+async function refreshStorageBar() {
+  const wrap = document.getElementById('storage-bar-wrap');
+  if (!wrap||!S.profile) return;
+  const isFree = !S.profile.plan||S.profile.plan==='free';
+  if (!isFree){wrap.style.display='none';return;}
+  const used = await getUsedStorage();
+  const pct = Math.min(100,(used/FREE_STORAGE_LIMIT)*100);
+  const left = FREE_STORAGE_LIMIT-used;
+  const col = pct>85?'#ef4444':pct>60?'#f59e0b':'var(--ac)';
+  wrap.style.display='block';
+  wrap.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:.3rem"><span style="font-size:.6rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">Free Storage</span><span style="font-size:.68rem;font-weight:600;color:'+(pct>85?'#ef4444':'var(--t2)')+'">'+fmtBytes(used)+' / 100 MB</span></div><div style="background:var(--bg4);border-radius:4px;height:5px;overflow:hidden"><div style="height:100%;background:'+col+';width:'+pct.toFixed(1)+'%;transition:width .4s;border-radius:4px"></div></div><div style="font-size:.63rem;color:'+(pct>85?'#f59e0b':'var(--t3)')+';margin-top:.25rem">'+(pct>85?'⚠️ ':'')+fmtBytes(left)+' remaining</div>';
 }
 
 // ── SAVE PROJECT ────────────────────────────────────
@@ -1870,44 +1825,49 @@ async function saveProject(status) {
   if (!S.profile) { showToast('Please sign in first.'); return; }
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
-  if (status === 'published' && (!S.profile.plan || S.profile.plan === 'free')) {
-    showToast('Upgrade to publish publicly.');
-    switchDash('account', el('dnav-account'));
-    setTimeout(() => switchAccTab('pro'), 80); return;
+  if (_pendingVideos.length && (!S.profile.plan||S.profile.plan==='free')) {
+    const used = await getUsedStorage();
+    const newSize = _pendingVideos.reduce((s,f)=>s+f.size,0);
+    if (used+newSize>FREE_STORAGE_LIMIT){showToast('⚠️ Storage full — 100 MB limit. Upgrade for unlimited.');return;}
   }
   const proj = {
     user_id: S.profile.id, title, cat: el('up-cat').value,
-    tags: el('up-tags').value.split(',').map(t => t.trim()).filter(Boolean),
+    tags: el('up-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
     description: el('up-desc').value,
-    year: el('up-year').value || String(new Date().getFullYear()),
+    year: el('up-year').value||String(new Date().getFullYear()),
     yt_link: el('up-yt').value, status,
-    author_name: S.profile.name, author_init: S.profile.initials || '?',
-    author_avatar: S.profile.avatar_url || null,
-    grad_idx: S.profile.grad_idx || 0, likes: 0, views: 0
+    author_name: S.profile.name, author_init: S.profile.initials||'?',
+    author_avatar: S.profile.avatar_url||null,
+    grad_idx: S.profile.grad_idx||0, likes:0, views:0,
+    video_size: _pendingVideos.reduce((s,f)=>s+f.size,0)
   };
-  el('upload-saving').style.display = 'block';
+  const pubBtn = el('pub-btn');
+  const origTxt = pubBtn.innerHTML;
+  pubBtn.disabled=true; pubBtn.innerHTML='<div class="spinner" style="width:14px;height:14px;border-width:1.5px;margin:0 auto"></div>';
+  el('upload-saving').style.display='block';
   try {
     const token = await getToken();
-    // Upload video if one was selected
-    if (_pendingVideoFile) {
+    const rows = await db('/projects','POST',proj,token);
+    const saved = (rows&&rows[0])?rows[0]:Object.assign({id:'local_'+Date.now()},proj);
+    if (_pendingVideos.length) {
       try {
-        const videoUrl = await uploadProjectVideo(token);
-        if (videoUrl) proj.video_url = videoUrl;
-      } catch(vErr) { showToast('⚠️ ' + vErr.message + ' — project saved without video.'); }
+        const videoUrls = await uploadProjectVideos(token, saved.id);
+        if (videoUrls.length) {
+          const upd = {video_url:videoUrls[0],video_urls:videoUrls};
+          await db('/projects?id=eq.'+saved.id,'PATCH',upd,token);
+          Object.assign(saved,upd);
+        }
+      } catch(vErr){showToast('⚠️ Video upload issue: '+vErr.message);}
     }
-    const rows = await db('/projects', 'POST', proj, token);
-    const saved = (rows && rows[0]) ? rows[0] : Object.assign({id: 'local_' + Date.now()}, proj);
     S.projects.unshift(saved);
-    // Clear form
-    ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(fid => { const f = document.getElementById(fid); if (f) f.value = ''; });
-    el('upreview').innerHTML = '';
-    clearVideoUpload();
-    showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
-    switchDash('projects', el('dnav-projects'));
-    updatePlanUI();
-    if (status === 'published') loadFeed();
-  } catch(e) { showToast('Error: ' + e.message); }
-  finally { el('upload-saving').style.display = 'none'; }
+    ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(fid=>{const f=document.getElementById(fid);if(f)f.value='';});
+    clearAllVideos();
+    showToast(status==='draft'?'Draft saved!':'🎉 Project published!');
+    switchDash('projects',el('dnav-projects'));
+    updatePlanUI(); refreshStorageBar();
+    if(status==='published') loadFeed();
+  } catch(e){showToast('Error: '+e.message);}
+  finally{pubBtn.disabled=false;pubBtn.innerHTML=origTxt;el('upload-saving').style.display='none';}
 }
 
 async function renderMyProjects() {
@@ -1934,7 +1894,7 @@ async function renderMyProjects() {
       '<td>' + (p.likes || 0) + '</td>' +
       '<td>' + (p.views || 0) + '</td>' +
       '<td><span class="tbadge ' + p.status + '">' + p.status + '</span></td>' +
-      '<td onclick="event.stopPropagation()"><button class="tdel" onclick="deleteProject(\'' + p.id + '\')">Delete</button></td>' +
+      '<td onclick="event.stopPropagation()"><button class="dbtn-o" style="font-size:.65rem;padding:.18rem .45rem;margin-right:.25rem" onclick="openEditProjectById(\'' + p.id + '\')">' + 'Edit</button><button class="tdel" onclick="deleteProject(\'' + p.id + '\')">' + 'Delete</button></td>' +
     '</tr>'
   ).join('');
 }
@@ -2042,19 +2002,13 @@ function renderProfileProjects(prof) {
 function buildProfilePCard(p) {
   const bg = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
   const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',graphic:'Design',social:'Social',longform:'Long-form',wedding:'Wedding',shorts:'Shorts'};
-  let thumbInner = '';
-  if (p.video_url) {
-    thumbInner = '<video src="' + p.video_url + '" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>' +
-      '<div class="prof-pcard-play"><div class="prof-pcard-play-ico"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>';
-  } else if (p.cover_url) {
-    thumbInner = '<img src="' + p.cover_url + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">' +
-      '<div class="prof-pcard-play"><div class="prof-pcard-play-ico"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>';
-  } else {
-    thumbInner = '<div class="prof-pcard-ph" style="background:' + bg + '18;position:absolute;inset:0;display:flex;align-items:center;justify-content:center">' + (p.author_init||'?') + '</div>' +
-      '<div class="prof-pcard-play"><div class="prof-pcard-play-ico"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>';
-  }
   return '<div class="prof-pcard" onclick="showPage(\'project\',\'' + p.id + '\')">' +
-    '<div class="prof-pcard-thumb" style="position:relative">' + thumbInner + '</div>' +
+    '<div class="prof-pcard-thumb">' +
+      (p.cover_url
+        ? '<img src="' + p.cover_url + '">'
+        : '<div class="prof-pcard-ph" style="background:' + bg + '18">' + (p.author_init||'?') + '</div>') +
+      '<div class="prof-pcard-play"><div class="prof-pcard-play-ico"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>' +
+    '</div>' +
     '<div class="prof-pcard-info">' +
       '<div class="prof-pcard-title">' + p.title + '</div>' +
       '<div class="prof-pcard-meta">' +
@@ -2153,156 +2107,6 @@ function openWA(msg) {
 // ── NAVIGATION + HASH ROUTING ────────────────────────
 el('main-nav').style.display = 'none';
 
-const HASH_PAGES = ['feed','jobs','pricing','faq','profile','dashboard','project'];
-
-// ── CLEAN URL ROUTING ─────────────────────────────────
-// Uses history.pushState for clean URLs like timeliners.lk/itzkaveesha
-// GitHub Pages serves 404.html for unknown paths — we use a trick to redirect back
-
-function getCleanPath() {
-  // Strip leading slash, get first segment
-  return location.pathname.replace(/^\/[^/]*\//, '').replace(/^\//, '');
-}
-
-function pushCleanUrl(path) {
-  const base = location.pathname.includes('index.html')
-    ? location.pathname.replace('index.html', '')
-    : location.pathname.replace(/\/[^/]*$/, '/').replace(/\/$/, '') + '/';
-  const url = base + path;
-  if (location.pathname !== url && location.pathname + location.search !== url) {
-    history.pushState({path}, '', url);
-  }
-}
-
-function pushHash(id, extra) {
-  // Fallback hash for pages that aren't username profiles
-  const h = '#/' + id + (extra ? '/' + extra : '');
-  if (location.hash !== h) history.pushState(null, '', h);
-}
-
-function showPage(id, projOrUserId) {
-  if (id === 'dashboard' && !S.user) { openAuth('in'); return; }
-  if (id === 'profile' && !S.user && !projOrUserId) { openAuth('in'); return; }
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const pg = el('page-' + id);
-  if (pg) pg.classList.add('active');
-  window.scrollTo(0, 0);
-  el('main-nav').style.display = id === 'splash' ? 'none' : 'flex';
-  document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
-  const nl = el('nav-' + id);
-  if (nl) nl.classList.add('active');
-  closeMob();
-  // Save for refresh persistence
-  try { if (id !== 'splash') sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); } catch(e) {}
-  // Update URL
-  if (id !== 'splash') pushHash(id, projOrUserId);
-  if (id === 'feed')      renderFeed();
-  if (id === 'jobs')      renderJobs();
-  if (id === 'project' && projOrUserId) openProject(projOrUserId);
-  if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
-  if (id === 'profile') {
-    if (projOrUserId) {
-      db('/profiles?id=eq.' + projOrUserId + '&select=*').then(rows => {
-        if (rows && rows.length) {
-          const prof = rows[0];
-          refreshProfile(prof);
-          // Update URL to clean username-based URL
-          if (prof.username) {
-            const base = location.href.split('#')[0].split('?')[0];
-            const cleanUrl = base.replace(/\/(index\.html)?$/, '/') + prof.username;
-            history.replaceState({username: prof.username}, '', cleanUrl);
-          }
-        } else if (S.profile) refreshProfile(S.profile);
-      }).catch(() => { if (S.profile) refreshProfile(S.profile); });
-    } else {
-      refreshProfile(S.profile);
-      // Update URL to own clean profile URL
-      if (S.profile?.username) {
-        const base = location.href.split('#')[0].split('?')[0];
-        const cleanUrl = base.replace(/\/(index\.html)?$/, '/') + S.profile.username;
-        history.replaceState({username: S.profile.username}, '', cleanUrl);
-      }
-    }
-  }
-  document.querySelectorAll('.pcard-video').forEach(v => {
-    try { if (id !== 'feed') v.pause(); } catch(e) {}
-  });
-}
-
-// Load profile by username — for direct links like timeliners.lk/itzkaveesha
-async function showProfileByUsername(username) {
-  if (!username) return;
-  try {
-    const rows = await db('/profiles?username=eq.' + username + '&select=*', 'GET', null, SB_KEY);
-    if (rows && rows.length) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      el('page-profile').classList.add('active');
-      el('main-nav').style.display = 'flex';
-      window.scrollTo(0, 0);
-      document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
-      const nl = el('nav-profile'); if (nl) nl.classList.add('active');
-      refreshProfile(rows[0]);
-    } else {
-      showPage('feed');
-      showToast('@' + username + ' not found.');
-    }
-  } catch(e) { showPage('feed'); }
-}
-
-function restoreFromHash() {
-  // Check for username redirect from 404.html (clean URL visit)
-  try {
-    const usernameRedirect = sessionStorage.getItem('tl_username_redirect');
-    if (usernameRedirect) {
-      sessionStorage.removeItem('tl_username_redirect');
-      showProfileByUsername(usernameRedirect);
-      return;
-    }
-  } catch(e) {}
-
-  const raw   = location.hash.replace('#/', '');
-  const parts = raw.split('/');
-  const seg   = parts[0].toLowerCase();
-  const sub   = parts[1] || '';
-
-  if (seg === 'u' && sub) { showProfileByUsername(sub); return; }
-  if (HASH_PAGES.includes(seg) && seg !== 'splash') {
-    if ((seg === 'dashboard' || seg === 'profile') && !S.user) { showPage('feed'); return; }
-    showPage(seg, sub || undefined); return;
-  }
-
-  // Use sessionStorage last page
-  try {
-    const last = sessionStorage.getItem('tl_last') || '';
-    const [lastPage, lastSub] = last.split('|');
-    if (lastPage && HASH_PAGES.includes(lastPage) && lastPage !== 'splash') {
-      if ((lastPage === 'dashboard' || lastPage === 'profile') && !S.user) {
-        showPage('feed'); return;
-      }
-      showPage(lastPage, lastSub || undefined); return;
-    }
-  } catch(e) {}
-
-  // First-visit detection
-  try {
-    if (localStorage.getItem('tl_visited')) { showPage('feed'); }
-    else { localStorage.setItem('tl_visited', '1'); }
-  } catch(e) {}
-}
-
-window.addEventListener('hashchange', () => {
-  const raw  = location.hash.replace('#/', '');
-  const parts = raw.split('/');
-  const seg  = parts[0].toLowerCase();
-  const sub  = parts[1] || '';
-  if (seg === 'u' && sub) { showProfileByUsername(sub); return; }
-  if (HASH_PAGES.includes(seg)) showPage(seg, sub || undefined);
-});
-
-window.addEventListener('popstate', (e) => {
-  if (e.state?.username) showProfileByUsername(e.state.username);
-});
-
 // Hover-to-play video cards
 document.addEventListener('mouseover', e => {
   const v = e.target.closest('.pcard')?.querySelector('.pcard-video');
@@ -2347,18 +2151,185 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+// ── EDIT PROJECT ─────────────────────────────────────
+function openEditProject() {
+  const p = S._currentProject; if (!p) return;
+  el('ep-proj-id').value     = p.id;
+  el('ep-proj-title').value  = p.title||'';
+  el('ep-proj-cat').value    = p.cat||'video';
+  el('ep-proj-year').value   = p.year||'';
+  el('ep-proj-desc').value   = p.description||'';
+  el('ep-proj-tags').value   = (p.tags||[]).join(', ');
+  el('ep-proj-yt').value     = p.yt_link||'';
+  el('ep-proj-status').value = p.status||'published';
+  el('edit-proj-overlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function openEditProjectById(id) {
+  S._currentProject = S.projects.find(x=>x.id===id);
+  openEditProject();
+}
+function closeEditProject() {
+  el('edit-proj-overlay').style.display='none';
+  document.body.style.overflow='';
+}
+async function saveEditProject() {
+  const id = el('ep-proj-id').value; if(!id||!S.profile) return;
+  const btn = el('ep-proj-save-btn');
+  btn.disabled=true; btn.innerHTML='<div class="spinner" style="width:14px;height:14px;border-width:1.5px;margin:0 auto"></div>';
+  const updates = {
+    title:el('ep-proj-title').value.trim(), cat:el('ep-proj-cat').value,
+    year:el('ep-proj-year').value, description:el('ep-proj-desc').value,
+    tags:el('ep-proj-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    yt_link:el('ep-proj-yt').value, status:el('ep-proj-status').value
+  };
+  try {
+    const token = await getToken();
+    await db('/projects?id=eq.'+id,'PATCH',updates,token);
+    const idx = S.projects.findIndex(p=>p.id===id);
+    if(idx!==-1) Object.assign(S.projects[idx],updates);
+    if(S._currentProject&&S._currentProject.id===id) Object.assign(S._currentProject,updates);
+    closeEditProject();
+    showToast('✓ Project updated!');
+    loadFeed();
+  } catch(e){showToast('Error: '+e.message);}
+  finally{btn.disabled=false;btn.innerHTML='Save Changes';}
+}
+
 // ── COPY PROFILE LINK ────────────────────────────────
 function copyProfileLink() {
-  const p = S.viewingProfile || S.profile;
-  const base = location.origin + location.pathname.replace(/\/(index\.html)?$/, '/');
-  const link = p?.username ? base + p.username : base + '#/profile';
+  const p = S.viewingProfile||S.profile;
+  const base = location.origin + location.pathname.replace(/(index\.html)?$/,'');
+  const link = p?.username ? base+p.username : base+'#/profile';
   try {
     navigator.clipboard.writeText(link).then(
-      () => showToast('✓ Copied: ' + (p?.username ? 'timeliners.lk/' + p.username : 'profile link')),
-      () => { const i = document.createElement('input'); i.value = link; document.body.appendChild(i); i.select(); document.execCommand('copy'); document.body.removeChild(i); showToast('✓ Profile link copied!'); }
+      ()=>showToast('✓ Copied: '+(p?.username?'timeliners.lk/'+p.username:'profile link')),
+      ()=>{const i=document.createElement('input');i.value=link;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i);showToast('✓ Profile link copied!');}
     );
-  } catch(e) { showToast(link); }
+  } catch(e){showToast(link);}
 }
+
+// ── PROFILE BY USERNAME ───────────────────────────────
+async function showProfileByUsername(username) {
+  if(!username) return;
+  try {
+    const rows = await db('/profiles?username=eq.'+encodeURIComponent(username)+'&select=*','GET',null,SB_KEY);
+    if(rows&&rows.length){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      el('page-profile').classList.add('active');
+      el('main-nav').style.display='flex';
+      window.scrollTo(0,0);
+      document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active'));
+      const nl=el('nav-profile');if(nl)nl.classList.add('active');
+      S.viewingProfile = rows[0];
+      refreshProfile(rows[0]);
+      try{sessionStorage.setItem('tl_last','profile|'+rows[0].id);}catch(e){}
+    } else {
+      // Username not found — show feed, don't show error on refresh
+      showPage('feed');
+    }
+  } catch(e){ showPage('feed'); }
+}
+
+// ── ROUTING ───────────────────────────────────────────
+const HASH_PAGES = ['feed','jobs','pricing','faq','profile','dashboard','project'];
+
+function pushCleanUrl(username) {
+  const base = location.origin + location.pathname.replace(/(\/index\.html)?$/, '/');
+  history.pushState({username}, '', base + username);
+}
+
+function pushHash(id, extra) {
+  const h = '#/' + id + (extra ? '/' + extra : '');
+  if (location.hash !== h) history.pushState(null, '', h);
+}
+
+function showPage(id, projOrUserId) {
+  if (id==='dashboard'&&!S.user){openAuth('in');return;}
+  if (id==='profile'&&!S.user&&!projOrUserId){openAuth('in');return;}
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg=el('page-'+id); if(pg) pg.classList.add('active');
+  window.scrollTo(0,0);
+  el('main-nav').style.display = id==='splash'?'none':'flex';
+  document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active'));
+  const nl=el('nav-'+id); if(nl) nl.classList.add('active');
+  closeMob();
+  try{if(id!=='splash')sessionStorage.setItem('tl_last',id+(projOrUserId?'|'+projOrUserId:''));}catch(e){}
+  if(id!=='splash') pushHash(id, projOrUserId);
+  if(id==='feed')      renderFeed();
+  if(id==='jobs')      renderJobs();
+  if(id==='project'&&projOrUserId) openProject(projOrUserId);
+  if(id==='dashboard'){refreshDash();updatePlanUI();}
+  if(id==='profile'){
+    if(projOrUserId){
+      // projOrUserId is a user_id — fetch and show their profile
+      db('/profiles?id=eq.'+projOrUserId+'&select=*').then(rows=>{
+        if(rows&&rows.length){
+          S.viewingProfile=rows[0];
+          refreshProfile(rows[0]);
+          // Update URL to clean username link
+          if(rows[0].username){
+            const base=location.origin+location.pathname.replace(/(\/index\.html)?$/,'/');
+            history.replaceState({username:rows[0].username},'',base+rows[0].username);
+          }
+        } else if(S.profile) refreshProfile(S.profile);
+      }).catch(()=>{if(S.profile)refreshProfile(S.profile);});
+    } else {
+      S.viewingProfile=S.profile;
+      refreshProfile(S.profile);
+      if(S.profile?.username){
+        const base=location.origin+location.pathname.replace(/(\/index\.html)?$/,'/');
+        history.replaceState({username:S.profile.username},'',base+S.profile.username);
+      }
+    }
+  }
+  document.querySelectorAll('.pcard-video').forEach(v=>{try{if(id!=='feed')v.pause();}catch(e){}});
+}
+
+function restoreFromHash() {
+  // Check for username redirect from 404.html
+  try{
+    const uRedir=sessionStorage.getItem('tl_username_redirect');
+    if(uRedir){sessionStorage.removeItem('tl_username_redirect');showProfileByUsername(uRedir);return;}
+  }catch(e){}
+
+  const raw=location.hash.replace('#/','');
+  const parts=raw.split('/');
+  const seg=parts[0].toLowerCase();
+  const sub=parts[1]||'';
+
+  if(seg==='u'&&sub){showProfileByUsername(sub);return;}
+  if(HASH_PAGES.includes(seg)&&seg!=='splash'){
+    if((seg==='dashboard'||seg==='profile')&&!S.user){showPage('feed');return;}
+    showPage(seg,sub||undefined);return;
+  }
+
+  try{
+    const last=sessionStorage.getItem('tl_last')||'';
+    const[lp,ls]=last.split('|');
+    if(lp&&HASH_PAGES.includes(lp)&&lp!=='splash'){
+      if((lp==='dashboard'||lp==='profile')&&!S.user){showPage('feed');return;}
+      showPage(lp,ls||undefined);return;
+    }
+  }catch(e){}
+
+  try{
+    if(localStorage.getItem('tl_visited'))showPage('feed');
+    else localStorage.setItem('tl_visited','1');
+  }catch(e){}
+}
+
+window.addEventListener('hashchange',()=>{
+  const raw=location.hash.replace('#/','');
+  const parts=raw.split('/');
+  const seg=parts[0].toLowerCase();
+  const sub=parts[1]||'';
+  if(seg==='u'&&sub){showProfileByUsername(sub);return;}
+  if(HASH_PAGES.includes(seg))showPage(seg,sub||undefined);
+});
+window.addEventListener('popstate',(e)=>{
+  if(e.state?.username)showProfileByUsername(e.state.username);
+});
 
 // ── EXPOSE to HTML onclick handlers ──────────────────
 // Everything inside the IIFE is private. These assignments
@@ -2396,18 +2367,22 @@ window.refreshProfile = refreshProfile;
 window.renderJobs    = renderJobs;
 window.toggleFaq     = toggleFaq;
 window.openWA        = openWA;
-window.showProfileByUsername = showProfileByUsername;
-window.openEditProject  = openEditProject;
-window.closeEditProject = closeEditProject;
-window.saveEditProject  = saveEditProject;
-window.copyProfileLink  = copyProfileLink;
 
 // ── EXPOSE EXTRA HELPERS ─────────────────────────────
-window.handleVideoSelect  = handleVideoSelect;
-window.handleVideoDrop    = handleVideoDrop;
-window.clearVideoUpload   = clearVideoUpload;
-window.handleAvatarSelect = handleAvatarSelect;
-window.handleAvatarDrop   = handleAvatarDrop;
+window.handleVideoSelect    = handleVideoSelect;
+window.handleVideoDrop      = handleVideoDrop;
+window.clearVideoUpload     = clearVideoUpload;
+window.handleAvatarSelect   = handleAvatarSelect;
+window.handleAvatarDrop     = handleAvatarDrop;
+window.addVideoSlot         = addVideoSlot;
+window.removeVideo          = removeVideo;
+window.refreshStorageBar    = refreshStorageBar;
+window.showProfileByUsername = showProfileByUsername;
+window.copyProfileLink      = copyProfileLink;
+window.openEditProject      = openEditProject;
+window.openEditProjectById  = openEditProjectById;
+window.closeEditProject     = closeEditProject;
+window.saveEditProject      = saveEditProject;
 
 // ── START ────────────────────────────────────────────
 boot();
