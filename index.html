@@ -520,17 +520,19 @@ html.light .jf-sel{color:var(--t1)}
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z" stroke="#FE730A" stroke-width="1.5"/><path d="M2 6l10 7 10-7" stroke="#FE730A" stroke-width="1.5" stroke-linecap="round"/></svg>
     </div>
     <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.35rem">Check your email</div>
-    <div style="font-size:.82rem;color:var(--t2);margin-bottom:.2rem">We sent a 6-digit verification code to</div>
+    <div style="font-size:.82rem;color:var(--t2);margin-bottom:.2rem">We sent an 8-digit verification code to</div>
     <div style="font-size:.85rem;font-weight:600;color:var(--ac);margin-bottom:1.5rem" id="otp-email-display">—</div>
 
-    <!-- 6 digit boxes -->
-    <div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.1rem" id="otp-boxes">
+    <!-- 8 digit boxes -->
+    <div style="display:flex;gap:.32rem;justify-content:center;margin-bottom:1.1rem" id="otp-boxes">
       <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,0)" onkeydown="otpKey(event,0)">
       <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,1)" onkeydown="otpKey(event,1)">
       <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,2)" onkeydown="otpKey(event,2)">
       <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,3)" onkeydown="otpKey(event,3)">
       <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,4)" onkeydown="otpKey(event,4)">
       <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,5)" onkeydown="otpKey(event,5)">
+      <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,6)" onkeydown="otpKey(event,6)">
+      <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,7)" onkeydown="otpKey(event,7)">
     </div>
 
     <div id="otp-err" style="font-size:.77rem;color:#ef4444;margin-bottom:.75rem;display:none;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:.4rem .7rem"></div>
@@ -550,9 +552,9 @@ html.light .jf-sel{color:var(--t1)}
 
 <style>
 .otp-digit {
-  width: 44px; height: 52px;
-  text-align: center; font-size: 1.4rem; font-weight: 700;
-  border: 1.5px solid var(--brd2); border-radius: 10px;
+  width: 38px; height: 46px;
+  text-align: center; font-size: 1.25rem; font-weight: 700;
+  border: 1.5px solid var(--brd2); border-radius: 8px;
   background: var(--bg3); color: var(--t1);
   outline: none; transition: border-color .15s, box-shadow .15s;
   font-family: var(--fm);
@@ -1218,6 +1220,10 @@ function boot() {
 // ── SESSION ──────────────────────────────────────────
 async function restoreSession() {
   try {
+    // If URL is a username path (no hash), clean it to root so routing works correctly
+    if (!location.hash && location.pathname !== '/' && !location.pathname.endsWith('index.html')) {
+      history.replaceState(null, '', '/#/feed');
+    }
     const { data: { session } } = await sb.auth.getSession();
     if (!session) {
       // Clear any stale local data from a previous account
@@ -1412,14 +1418,14 @@ function otpInput(input, idx) {
   input.value = input.value.replace(/[^0-9]/g, '');
   input.classList.toggle('filled', input.value !== '');
   // Auto-advance
-  if (input.value && idx < 5) {
+  if (input.value && idx < 7) {
     const boxes = document.querySelectorAll('.otp-digit');
     boxes[idx + 1].focus();
   }
-  // Auto-submit when all 6 filled
+  // Auto-submit when all 8 filled
   const boxes = document.querySelectorAll('.otp-digit');
   const code = Array.from(boxes).map(b => b.value).join('');
-  if (code.length === 6) verifyOtp();
+  if (code.length === 8) verifyOtp();
 }
 
 function otpKey(event, idx) {
@@ -1439,20 +1445,20 @@ function otpKey(event, idx) {
 document.addEventListener('paste', function(e) {
   const active = document.activeElement;
   if (!active || !active.classList.contains('otp-digit')) return;
-  const text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '').slice(0,6);
+  const text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '').slice(0,8);
   if (!text) return;
   e.preventDefault();
   const boxes = document.querySelectorAll('.otp-digit');
   text.split('').forEach((ch, i) => {
     if (boxes[i]) { boxes[i].value = ch; boxes[i].classList.add('filled'); }
   });
-  if (text.length === 6) verifyOtp();
+  if (text.length === 8) verifyOtp();
 });
 
 async function verifyOtp() {
   const boxes = document.querySelectorAll('.otp-digit');
   const code  = Array.from(boxes).map(b => b.value).join('');
-  if (code.length < 6) { showOtpErr('Please enter all 6 digits.'); return; }
+  if (code.length < 8) { showOtpErr('Please enter all 8 digits.'); return; }
   if (!_otpPendingProfile) { showOtpErr('Session expired. Please sign up again.'); return; }
 
   const btn = el('otp-verify-btn');
@@ -1490,8 +1496,10 @@ async function verifyOtp() {
     _otpPendingProfile = null;
     if (_otpResendTimer) clearInterval(_otpResendTimer);
 
-    // Close OTP modal, go to dashboard
+    // Close OTP modal, clean URL, go to dashboard
     el('otp-overlay').style.display = 'none';
+    // Reset URL to root so no stale username path causes issues
+    history.replaceState(null, '', location.origin + '/#/dashboard');
     applyLoggedIn();
     showPage('dashboard');
     showToast('🎉 Welcome to Timeliners, ' + fn + '!');
@@ -2487,8 +2495,9 @@ function showPage(id, projOrUserId) {
           S.viewingProfile = prof;
           refreshProfile(prof);
           if (prof.username) {
-            const base = location.origin + location.pathname.replace(/(\/index\.html)?$/, '/');
-            history.replaceState({ un: prof.username }, '', base + prof.username);
+            // Always build from site root to avoid URL doubling (e.g. /user/user/user)
+            const root = location.origin + '/';
+            history.replaceState({ un: prof.username }, '', root + prof.username);
           }
         }
       }).catch(e => console.warn('Profile load:', e));
