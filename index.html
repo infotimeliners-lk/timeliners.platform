@@ -713,7 +713,7 @@ html.light .jf-sel{color:var(--t1)}
     <div class="pv-eyebrow" id="pv-cat">—</div>
     <h1 class="pv-h" id="pv-title">—</h1>
     <div class="pv-meta">
-      <div class="pv-author-pill" onclick="showPage('profile')">
+      <div class="pv-author-pill" id="pv-author-pill">
         <div class="pv-av"><div class="pv-av-ph" id="pv-author-av" style="background:#FE730A">?</div></div>
         <span style="font-size:.8rem;font-weight:500;color:var(--t1)" id="pv-author-name">—</span>
       </div>
@@ -740,7 +740,7 @@ html.light .jf-sel{color:var(--t1)}
           <div class="pv-author-av"><div id="pv-sb-av" style="width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:white">?</div></div>
           <div style="font-size:.87rem;font-weight:600;color:var(--t1);margin-bottom:.14rem" id="pv-sb-name">—</div>
           <div style="font-size:.7rem;color:var(--t2);margin-bottom:.72rem" id="pv-sb-role">—</div>
-          <button class="btn btn-o btn-sm" id="pv-view-profile-btn" onclick="showPage('profile')">View Portfolio</button>
+          <button class="btn btn-o btn-sm" id="pv-view-profile-btn">View Portfolio</button>
         </div>
       </div>
     </div>
@@ -840,6 +840,10 @@ html.light .jf-sel{color:var(--t1)}
               <div class="df"><label class="dl">New Password</label><input class="di" id="acc-pw-new" type="password" placeholder="Min. 8 characters"></div>
               <div class="df"><label class="dl">Confirm Password</label><input class="di" id="acc-pw-cf" type="password" placeholder="Repeat new password"></div>
               <button class="dsave" onclick="changePassword()">Update Password</button>
+            </div>
+            <div class="dcard">
+              <div class="dcard-h" style="color:rgba(254,115,10,.8)">Troubleshoot</div><div class="dcard-sub">If your profile shows wrong data, re-sync it.</div>
+              <button style="background:rgba(254,115,10,.08);border:1px solid rgba(254,115,10,.22);color:var(--ac);border-radius:var(--r);padding:.54rem 1.05rem;font-size:.79rem;transition:var(--tr)" onclick="resyncProfile()">🔄 Re-sync My Account</button>
             </div>
             <div class="dcard">
               <div class="dcard-h" style="color:rgba(239,68,68,.75)">Danger Zone</div><div class="dcard-sub">Permanent and irreversible actions.</div>
@@ -1248,12 +1252,21 @@ async function handleSignIn() {
     if (error) throw error;
     S.session = data.session;
     S.user    = data.user;
+    // Always wipe any stale profile from a previous session / different account
+    S.profile = null;
+    try {
+      Object.keys(localStorage)
+        .filter(k => k.startsWith('tl_lp_'))
+        .forEach(k => localStorage.removeItem(k));
+    } catch(e) {}
     await loadProfile();
-    tryLocalProfile();
     applyLoggedIn();
     closeAuth();
-    showPage('dashboard');
-    showToast('Welcome back, ' + (S.profile?.name?.split(' ')[0] || '') + '!');
+    showPage('feed');
+    const firstName = (S.profile?.name || '').split(' ')[0] || S.user.email.split('@')[0];
+    showToast('Welcome back, ' + firstName + '!');
+    // Show dashboard details after a moment so profile data is visible
+    setTimeout(() => { if (S.profile) refreshDash(); }, 400);
   } catch(e) {
     const m = (e.message || '').toLowerCase();
     if (m.includes('invalid') || m.includes('credentials') || m.includes('wrong') || m.includes('password')) {
@@ -1289,7 +1302,17 @@ async function handleSignUp() {
       wa: '', ig: '', yt: '', web: '', views: 0, likes: 0
     };
     try {
-      await db('/profiles', 'POST', profile, data.session?.access_token || SB_KEY);
+      // Use upsert so re-registering the same email doesn't create a ghost profile
+      const token = data.session?.access_token || SB_KEY;
+      // First check if profile already exists
+      const existing = await db('/profiles?id=eq.' + data.user.id + '&select=id,name,username,plan', 'GET', null, token).catch(() => null);
+      if (existing && existing.length) {
+        // Profile exists — this is a re-registration or session issue. Just load it.
+        S.profile = existing[0];
+        await loadProfile(); // get full profile
+      } else {
+        await db('/profiles', 'POST', profile, token);
+      }
     } catch(dbErr) {
       console.warn('profiles insert error, saving locally:', dbErr.message);
       try { localStorage.setItem('tl_lp_' + data.user.id, JSON.stringify(profile)); } catch(le) {}
@@ -1312,9 +1335,20 @@ async function handleSignUp() {
 
 async function handleSignOut() {
   await sb.auth.signOut().catch(() => {});
-  S.user = S.profile = S.session = null;
+  S.user = S.profile = S.session = S.viewingProfile = null;
+  S.projects = [];
+  // Clear all local profile caches
+  try {
+    Object.keys(localStorage)
+      .filter(k => k.startsWith('tl_lp_') || k === 'tl_visited')
+      .forEach(k => localStorage.removeItem(k));
+    sessionStorage.removeItem('tl_last');
+    sessionStorage.removeItem('tl_redirect');
+    sessionStorage.removeItem('tl_username_redirect');
+  } catch(e) {}
   applyLoggedOut();
-  showPage('feed');
+  loadFeed(); // reload feed fresh (no user context)
+  showPage('splash');
   showToast('Signed out.');
 }
 
@@ -1324,7 +1358,35 @@ async function loadProfile() {
   try {
     const token = await getToken();
     const rows = await db('/profiles?id=eq.' + S.user.id + '&select=*', 'GET', null, token);
-    if (rows && rows.length) S.profile = rows[0];
+    if (rows && rows.length) {
+      S.profile = rows[0];
+      return;
+    }
+    // Profile row missing — create it now from auth metadata
+    const meta = S.user.user_metadata || {};
+    const email = S.user.email || '';
+    const name  = meta.name || meta.full_name || email.split('@')[0] || 'User';
+    const parts = name.trim().split(' ');
+    const initials = ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase() || name[0].toUpperCase();
+    const newProfile = {
+      id: S.user.id, email, name,
+      role: meta.role || 'Video Editor',
+      initials, username: null,
+      grad_idx: 0, cover_idx: 0,
+      city: 'Colombo', plan: 'free',
+      bio: '', exp: '', skills: '',
+      wa: '', ig: '', yt: '', web: '',
+      views: 0, likes: 0
+    };
+    try {
+      await db('/profiles', 'POST', newProfile, token);
+      S.profile = newProfile;
+      console.log('Auto-created missing profile for', email);
+    } catch(insertErr) {
+      // If insert fails (maybe row exists but RLS hides it), try service-key read
+      console.warn('Profile auto-create failed:', insertErr.message);
+      S.profile = newProfile; // use temp profile so app doesn't break
+    }
   } catch(e) {
     console.warn('Profile load error:', e.message);
   }
@@ -1356,9 +1418,17 @@ function applyLoggedOut() {
 async function loadFeed() {
   try {
     const rows = await db('/projects?status=eq.published&select=*&order=created_at.desc');
-    S.projects = (rows && rows.length) ? rows : DEMO;
+    if (rows && rows.length) {
+      // Replace feed projects but keep any private drafts the current user has
+      const myDrafts = S.user
+        ? S.projects.filter(p => p.user_id === S.user.id && p.status === 'draft')
+        : [];
+      S.projects = [...rows, ...myDrafts];
+    } else {
+      S.projects = DEMO;
+    }
   } catch(e) {
-    S.projects = DEMO;
+    if (!S.projects.length) S.projects = DEMO;
     if (e.message && (e.message.includes('relation') || e.message.includes('42P01') || e.message.includes('does not exist') || e.message.includes('schema cache'))) {
       showDbNotice();
     }
@@ -1507,11 +1577,17 @@ function openProject(id) {
   // Hire btn
   el('pv-hire-btn').onclick = () => showPage('profile', p.user_id);
 
-  // View portfolio — navigates to owner profile (URL becomes /username)
+  // View portfolio — navigates to project author's profile
   const vpBtn = el('pv-view-profile-btn');
-  if (vpBtn) vpBtn.onclick = () => showPage('profile', p.user_id);
-  const pill = document.querySelector('.pv-author-pill');
-  if (pill) pill.onclick = () => showPage('profile', p.user_id);
+  if (vpBtn) vpBtn.onclick = () => {
+    if (p.user_id) showPage('profile', p.user_id);
+    else if (p.author_name) showProfileByName(p.author_name);
+  };
+  const pill = document.getElementById('pv-author-pill');
+  if (pill) pill.onclick = () => {
+    if (p.user_id) showPage('profile', p.user_id);
+    else if (p.author_name) showProfileByName(p.author_name);
+  };
 
   // Edit btn — own projects only
   const editBtn = el('pv-edit-btn');
@@ -1839,7 +1915,10 @@ async function saveProject(status) {
     showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
     switchDash('projects', el('dnav-projects'));
     updatePlanUI(); refreshStorageBar();
-    if (status === 'published') loadFeed();
+    // Always reload feed so the new project appears immediately
+    await loadFeed();
+    // If profile is open, refresh it too
+    if (S.profile) renderProfileProjects(S.profile);
   } catch(e) { showToast('Error: ' + e.message); }
   finally { pubBtn.disabled = false; pubBtn.innerHTML = origTxt; el('upload-saving').style.display = 'none'; }
 }
@@ -1957,12 +2036,19 @@ function renderProfileProjects(prof) {
   let allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
   if (!allProjs.length) {
     // Fetch from DB in case S.projects only has demo/other data
-    db('/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc', 'GET', null, SB_KEY)
+    // Fetch published for everyone; also fetch drafts if viewing own profile
+    const isOwnFetch = S.user && p.id === S.user.id;
+    const fetchUrl = isOwnFetch
+      ? '/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc'
+      : '/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc';
+    const fetchToken = isOwnFetch ? (S.session?.access_token || SB_KEY) : SB_KEY;
+    db(fetchUrl, 'GET', null, fetchToken)
       .then(rows => {
         if (rows && rows.length) {
-          // Merge into S.projects without duplicates
           rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
-          _renderProfileProjectsUI(p, rows, isOwn);
+          // For public view, only show published
+          const visible = isOwnFetch ? rows : rows.filter(r => r.status === 'published');
+          _renderProfileProjectsUI(p, visible, isOwn);
         } else { _renderProfileProjectsUI(p, [], isOwn); }
       }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
     return; // will render async above
@@ -2129,32 +2215,28 @@ function showPage(id, projOrUserId) {
   if (id === 'project' && projOrUserId) openProject(projOrUserId);
   if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
   if (id === 'profile') {
-    if (projOrUserId && projOrUserId !== (S.profile && S.profile.id)) {
-      // Viewing someone else's profile by user_id
-      db('/profiles?id=eq.' + projOrUserId + '&select=*').then(rows => {
+    const loadAndShow = (uid) => {
+      return db('/profiles?id=eq.' + uid + '&select=*', 'GET', null, SB_KEY).then(rows => {
         if (rows && rows.length) {
-          S.viewingProfile = rows[0];
-          refreshProfile(rows[0]);
-          if (rows[0].username) {
+          const prof = rows[0];
+          const isOwn = S.user && prof.id === S.user.id;
+          if (isOwn) { S.profile = prof; applyLoggedIn(); }
+          S.viewingProfile = prof;
+          refreshProfile(prof);
+          if (prof.username) {
             const base = location.origin + location.pathname.replace(/(\/index\.html)?$/, '/');
-            history.replaceState({ un: rows[0].username }, '', base + rows[0].username);
+            history.replaceState({ un: prof.username }, '', base + prof.username);
           }
-        } else if (S.profile) { S.viewingProfile = S.profile; refreshProfile(S.profile); }
-      }).catch(() => { if (S.profile) { S.viewingProfile = S.profile; refreshProfile(S.profile); } });
-    } else {
-      // Always reload own profile fresh from DB to avoid stale/wrong account data
-      if (S.user) {
-        loadProfile().then(() => {
-          if (S.profile) {
-            S.viewingProfile = S.profile;
-            refreshProfile(S.profile);
-            if (S.profile.username) {
-              const base = location.origin + location.pathname.replace(/(\/index\.html)?$/, '/');
-              history.replaceState({ un: S.profile.username }, '', base + S.profile.username);
-            }
-          }
-        });
-      }
+        }
+      }).catch(e => console.warn('Profile load:', e));
+    };
+
+    if (projOrUserId) {
+      // Navigate to a specific user's profile (could be own or someone else's)
+      loadAndShow(projOrUserId);
+    } else if (S.user) {
+      // "My Portfolio" — always load own profile fresh
+      loadAndShow(S.user.id);
     }
   }
   document.querySelectorAll('.pcard-video').forEach(v => { try { if (id !== 'feed') v.pause(); } catch(e) {} });
@@ -2296,6 +2378,20 @@ window.switchDash    = switchDash;
 window.switchAccTab  = switchAccTab;
 window.saveProfile   = saveProfile;
 window.saveAccountDetails = saveAccountDetails;
+
+// Re-sync profile from Supabase (fixes missing/wrong profile issues)
+async function resyncProfile() {
+  if (!S.user) { showToast('Not signed in.'); return; }
+  showToast('Re-syncing your account...');
+  S.profile = null;
+  try { localStorage.removeItem('tl_lp_' + S.user.id); } catch(e) {}
+  await loadProfile();
+  applyLoggedIn();
+  refreshDash();
+  updatePlanUI();
+  showToast('✓ Account synced! Name: ' + (S.profile?.name || S.user.email));
+}
+window.resyncProfile = resyncProfile;
 window.changePassword= changePassword;
 window.saveProject   = saveProject;
 window.deleteProject = deleteProject;
@@ -2464,6 +2560,25 @@ window.clearVideoUpload   = clearVideoUpload;
 window.handleAvatarSelect = handleAvatarSelect;
 window.handleAvatarDrop   = handleAvatarDrop;
 window.showProfileByUsername = showProfileByUsername;
+
+// Fallback: look up profile by author name (for demo data without user_id)
+async function showProfileByName(name) {
+  if (!name) return;
+  try {
+    const rows = await db('/profiles?name=eq.' + encodeURIComponent(name) + '&select=*', 'GET', null, SB_KEY);
+    if (rows && rows.length) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      el('page-profile').classList.add('active');
+      el('main-nav').style.display = 'flex';
+      window.scrollTo(0, 0);
+      S.viewingProfile = rows[0];
+      refreshProfile(rows[0]);
+    } else {
+      showToast('Profile not found.');
+    }
+  } catch(e) { showToast('Could not load profile.'); }
+}
+window.showProfileByName = showProfileByName;
 window.copyProfileLink    = copyProfileLink;
 window.openEditProject    = openEditProject;
 window.openEditProjectById = openEditProjectById;
