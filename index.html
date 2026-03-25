@@ -1676,59 +1676,69 @@ async function changePassword() {
 }
 
 // ── VIDEO UPLOAD ─────────────────────────────────────
-let _pendingVideoFile = null;
+// ── VIDEO UPLOAD — handled by multi-video system below ──
+const _pendingVideos = []; // array of File objects — defined early so saveProject can use it
+const FREE_STORAGE_LIMIT = 100 * 1024 * 1024;
+function fmtBytes(b){return b>=1048576?(b/1048576).toFixed(1)+' MB':(b/1024).toFixed(0)+' KB';}
 
-function handleVideoSelect(input) {
-  if (!input.files || !input.files[0]) return;
-  processVideoFile(input.files[0]);
+function addVideoSlot(){
+  const inp=document.createElement('input');inp.type='file';inp.accept='video/*';inp.style.display='none';
+  document.body.appendChild(inp);
+  inp.onchange=()=>{
+    const f=inp.files[0];document.body.removeChild(inp);
+    if(!f)return;
+    if(!f.type.startsWith('video/')){showToast('Please select a video file.');return;}
+    if(f.size>100*1024*1024){showToast('Each video must be under 100 MB.');return;}
+    if(_pendingVideos.length>=5){showToast('Max 5 videos per project.');return;}
+    _pendingVideos.push(f);renderVideoList();
+  };
+  inp.click();
 }
-function handleVideoDrop(e) {
-  e.preventDefault();
-  el('video-upload-zone').classList.remove('drag');
-  const f = e.dataTransfer?.files?.[0];
-  if (f) processVideoFile(f);
+function renderVideoList(){
+  const list=document.getElementById('video-list');if(!list)return;
+  list.innerHTML=_pendingVideos.map((f,i)=>
+    '<div style="display:flex;align-items:center;gap:.55rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.5rem .75rem">'+
+    '<span style="font-size:.8rem;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🎬 '+f.name+'</span>'+
+    '<span style="font-size:.7rem;color:var(--t3)">'+(f.size/1024/1024).toFixed(1)+' MB</span>'+
+    '<button onclick="removeVideo('+i+')" style="background:none;border:none;color:rgba(239,68,68,.7);cursor:pointer;font-size:.9rem;padding:0 2px">✕</button></div>'
+  ).join('');
 }
-function processVideoFile(f) {
-  const MAX = 100 * 1024 * 1024; // 100 MB
-  if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-  if (f.size > MAX) { showToast('Video must be under 100 MB for the free tier.'); return; }
-  _pendingVideoFile = f;
-  const url = URL.createObjectURL(f);
-  const vprev = document.getElementById('video-preview');
-  if (vprev) { vprev.src = url; }
-  el('video-preview-wrap').style.display = 'block';
-  el('video-upload-lbl').textContent = f.name;
-}
-function clearVideoUpload() {
-  _pendingVideoFile = null;
-  const vprev = document.getElementById('video-preview');
-  if (vprev) vprev.src = '';
-  el('video-preview-wrap').style.display = 'none';
-  el('video-upload-lbl').textContent = 'Drop video here or click to upload';
-  const inp = document.getElementById('video-file-input');
-  if (inp) inp.value = '';
+function removeVideo(idx){_pendingVideos.splice(idx,1);renderVideoList();}
+function clearAllVideos(){_pendingVideos.length=0;renderVideoList();}
+function handleVideoSelect(){}
+function handleVideoDrop(e){e.preventDefault();}
+function clearVideoUpload(){clearAllVideos();}
+
+async function uploadProjectVideos(token,projId){
+  if(!_pendingVideos.length)return[];
+  const urls=[];
+  const pw=el('video-upload-progress'),pb=el('video-progress-bar'),pt=el('video-progress-txt');
+  if(pw)pw.style.display='block';
+  for(let i=0;i<_pendingVideos.length;i++){
+    const f=_pendingVideos[i];
+    if(pt)pt.textContent='Uploading video '+(i+1)+' of '+_pendingVideos.length+'...';
+    const path=S.profile.id+'/'+projId+'_v'+i+'_'+f.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const{error}=await sb.storage.from('project-videos').upload(path,f,{contentType:f.type,upsert:false});
+    if(error){showToast('⚠️ Video '+(i+1)+' failed: '+error.message);continue;}
+    if(pb)pb.style.width=Math.round((i+1)/_pendingVideos.length*100)+'%';
+    const{data:ud}=sb.storage.from('project-videos').getPublicUrl(path);
+    if(ud?.publicUrl)urls.push(ud.publicUrl);
+  }
+  setTimeout(()=>{if(pw)pw.style.display='none';if(pb)pb.style.width='0%';},1500);
+  return urls;
 }
 
-async function uploadProjectVideo(token) {
-  if (!_pendingVideoFile || !S.profile) return null;
-  const safeName = _pendingVideoFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-  const path = S.profile.id + '/' + Date.now() + '_' + safeName;
-  const progressBar = el('video-progress-bar');
-  const progressTxt = el('video-progress-txt');
-  const progressWrap = el('video-upload-progress');
-  if (progressWrap) progressWrap.style.display = 'block';
-  // Upload using Supabase JS SDK (supports progress)
-  const { data, error } = await sb.storage.from('project-videos').upload(path, _pendingVideoFile, {
-    contentType: _pendingVideoFile.type,
-    upsert: false
-  });
-  if (error) { if (progressWrap) progressWrap.style.display = 'none'; throw new Error('Video upload failed: ' + error.message); }
-  if (progressBar) { progressBar.style.width = '100%'; }
-  if (progressTxt) progressTxt.textContent = 'Upload complete!';
-  setTimeout(() => { if (progressWrap) progressWrap.style.display = 'none'; if (progressBar) progressBar.style.width = '0%'; }, 1500);
-  const { data: urlData } = sb.storage.from('project-videos').getPublicUrl(path);
-  _pendingVideoFile = null;
-  return urlData?.publicUrl || null;
+async function getUsedStorage(){
+  if(!S.profile)return 0;
+  try{const token=await getToken();const rows=await db('/projects?user_id=eq.'+S.profile.id+'&select=video_size','GET',null,token)||[];return rows.reduce((s,p)=>s+(Number(p.video_size)||0),0);}catch(e){return 0;}
+}
+async function refreshStorageBar(){
+  const wrap=document.getElementById('storage-bar-wrap');if(!wrap||!S.profile)return;
+  const isFree=!S.profile.plan||S.profile.plan==='free';if(!isFree){wrap.style.display='none';return;}
+  const used=await getUsedStorage();const pct=Math.min(100,(used/FREE_STORAGE_LIMIT)*100);
+  const left=FREE_STORAGE_LIMIT-used;const col=pct>85?'#ef4444':pct>60?'#f59e0b':'var(--ac)';
+  wrap.style.display='block';
+  wrap.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:.3rem"><span style="font-size:.6rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">Free Storage</span><span style="font-size:.68rem;font-weight:600;color:'+(pct>85?'#ef4444':'var(--t2)')+'">'+fmtBytes(used)+' / 100 MB</span></div><div style="background:var(--bg4);border-radius:4px;height:5px;overflow:hidden"><div style="height:100%;background:'+col+';width:'+pct.toFixed(1)+'%;transition:width .4s;border-radius:4px"></div></div><div style="font-size:.63rem;color:'+(pct>85?'#f59e0b':'var(--t3)')+';margin-top:.25rem">'+(pct>85?'⚠️ ':'')+fmtBytes(left)+' remaining</div>';
 }
 
 // ── SAVE PROJECT ────────────────────────────────────
@@ -2144,71 +2154,6 @@ window.addEventListener('hashchange',()=>{
   if(HASH_PAGES.includes(seg))showPage(seg,sub||undefined);
 });
 window.addEventListener('popstate',(e)=>{if(e.state?.un)showProfileByUsername(e.state.un);});
-
-// ── MULTI-VIDEO UPLOAD ───────────────────────────────
-const _pendingVideos=[];
-function addVideoSlot(){
-  const inp=document.createElement('input');inp.type='file';inp.accept='video/*';inp.style.display='none';
-  document.body.appendChild(inp);
-  inp.onchange=()=>{
-    const f=inp.files[0];document.body.removeChild(inp);
-    if(!f)return;
-    if(!f.type.startsWith('video/')){showToast('Please select a video file.');return;}
-    if(f.size>100*1024*1024){showToast('Each video must be under 100 MB.');return;}
-    if(_pendingVideos.length>=5){showToast('Max 5 videos per project.');return;}
-    _pendingVideos.push(f);renderVideoList();
-  };
-  inp.click();
-}
-function renderVideoList(){
-  const list=document.getElementById('video-list');if(!list)return;
-  list.innerHTML=_pendingVideos.map((f,i)=>
-    '<div style="display:flex;align-items:center;gap:.55rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.5rem .75rem">'+
-    '<span style="font-size:.8rem;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🎬 '+f.name+'</span>'+
-    '<span style="font-size:.7rem;color:var(--t3)">'+(f.size/1024/1024).toFixed(1)+' MB</span>'+
-    '<button onclick="removeVideo('+i+')" style="background:none;border:none;color:rgba(239,68,68,.7);cursor:pointer;font-size:.9rem;padding:0 2px">✕</button></div>'
-  ).join('');
-}
-function removeVideo(idx){_pendingVideos.splice(idx,1);renderVideoList();}
-function clearAllVideos(){_pendingVideos.length=0;renderVideoList();}
-function handleVideoSelect(){}
-function handleVideoDrop(e){e.preventDefault();}
-function clearVideoUpload(){clearAllVideos();}
-
-async function uploadProjectVideos(token,projId){
-  if(!_pendingVideos.length)return[];
-  const urls=[];
-  const pw=el('video-upload-progress'),pb=el('video-progress-bar'),pt=el('video-progress-txt');
-  if(pw)pw.style.display='block';
-  for(let i=0;i<_pendingVideos.length;i++){
-    const f=_pendingVideos[i];
-    if(pt)pt.textContent='Uploading video '+(i+1)+' of '+_pendingVideos.length+'...';
-    const path=S.profile.id+'/'+projId+'_v'+i+'_'+f.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-    const{error}=await sb.storage.from('project-videos').upload(path,f,{contentType:f.type,upsert:false});
-    if(error){showToast('⚠️ Video '+(i+1)+' failed: '+error.message);continue;}
-    if(pb)pb.style.width=Math.round((i+1)/_pendingVideos.length*100)+'%';
-    const{data:ud}=sb.storage.from('project-videos').getPublicUrl(path);
-    if(ud?.publicUrl)urls.push(ud.publicUrl);
-  }
-  setTimeout(()=>{if(pw)pw.style.display='none';if(pb)pb.style.width='0%';},1500);
-  return urls;
-}
-
-// ── STORAGE HELPERS ──────────────────────────────────
-const FREE_STORAGE_LIMIT=100*1024*1024;
-function fmtBytes(b){return b>=1048576?(b/1048576).toFixed(1)+' MB':(b/1024).toFixed(0)+' KB';}
-async function getUsedStorage(){
-  if(!S.profile)return 0;
-  try{const token=await getToken();const rows=await db('/projects?user_id=eq.'+S.profile.id+'&select=video_size','GET',null,token)||[];return rows.reduce((s,p)=>s+(Number(p.video_size)||0),0);}catch(e){return 0;}
-}
-async function refreshStorageBar(){
-  const wrap=document.getElementById('storage-bar-wrap');if(!wrap||!S.profile)return;
-  const isFree=!S.profile.plan||S.profile.plan==='free';if(!isFree){wrap.style.display='none';return;}
-  const used=await getUsedStorage();const pct=Math.min(100,(used/FREE_STORAGE_LIMIT)*100);
-  const left=FREE_STORAGE_LIMIT-used;const col=pct>85?'#ef4444':pct>60?'#f59e0b':'var(--ac)';
-  wrap.style.display='block';
-  wrap.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:.3rem"><span style="font-size:.6rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">Free Storage</span><span style="font-size:.68rem;font-weight:600;color:'+(pct>85?'#ef4444':'var(--t2)')+'">'+fmtBytes(used)+' / 100 MB</span></div><div style="background:var(--bg4);border-radius:4px;height:5px;overflow:hidden"><div style="height:100%;background:'+col+';width:'+pct.toFixed(1)+'%;transition:width .4s;border-radius:4px"></div></div><div style="font-size:.63rem;color:'+(pct>85?'#f59e0b':'var(--t3)')+';margin-top:.25rem">'+(pct>85?'⚠️ ':'')+fmtBytes(left)+' remaining</div>';
-}
 
 // ── EDIT PROJECT ─────────────────────────────────────
 function openEditProject(){
