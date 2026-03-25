@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TimeLiners</title>
+<title>Timeliners — For Editors</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -219,7 +219,7 @@ html.light .fsrch input{color:var(--t1)}
 .pv-htags{display:flex;gap:.3rem;flex-wrap:wrap}
 .pv-htag{font-size:.62rem;padding:.2rem .62rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2)}
 .pv-cover{max-width:960px;margin:1.3rem auto;padding:0 24px}
-.pv-cover-box{width:100%;border-radius:var(--rxl);overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:700}
+.pv-cover-box{width:100%;border-radius:var(--rxl);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:700;min-height:200px}
 .pv-body{max-width:960px;margin:0 auto;padding:1.3rem 24px 4rem;display:grid;grid-template-columns:1fr 240px;gap:2.2rem;align-items:start}
 .pv-desc{font-size:.9rem;color:var(--t2);line-height:2;margin-bottom:1.2rem}
 .pv-side{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1.1rem;position:sticky;top:68px}
@@ -441,11 +441,8 @@ html.light .jf-sel{color:var(--t1)}
   var seg=(h.split('/')[0]||'').toLowerCase();
   var hasHash=known.indexOf(seg)!==-1;
   var visited=false;try{visited=!!localStorage.getItem('tl_visited');}catch(e){}
-  // Also skip splash if a Supabase session exists (logged-in user)
-  var hasSbSession=false;try{hasSbSession=Object.keys(localStorage).some(function(k){return k.indexOf('sb-')!==-1||k.indexOf('supabase.auth')!==-1;});}catch(e){}
   var lastSeg='';try{lastSeg=(sessionStorage.getItem('tl_last')||'').split('|')[0];}catch(e){}
-  // Skip splash if: has a hash route, username redirect, already visited before, or logged in
-  var skip=hasHash||!!uRedir||visited||hasSbSession;
+  var skip=hasHash||!!uRedir; // only skip splash for direct hash links or username redirects
   if(skip){
     document.addEventListener('DOMContentLoaded',function(){
       var s=document.getElementById('page-splash');
@@ -1555,13 +1552,39 @@ function openProject(id) {
   }
   el('pv-author-name').textContent = p.author_name || '—';
 
-  // Main cover box — video > cover image > placeholder
+  // Main cover — multi-video player with adaptive aspect ratio
   const cov = el('pv-cover');
-  if (p.video_url) {
-    cov.innerHTML = '<video src="' + p.video_url + '" controls playsinline style="width:100%;height:100%;object-fit:contain;background:#000;border-radius:inherit"></video>';
-    cov.style.background = '#000'; cov.style.fontSize = ''; cov.style.color = '';
+  const videoList = (p.video_urls && p.video_urls.length) ? p.video_urls : (p.video_url ? [p.video_url] : []);
+  if (videoList.length) {
+    let playerHtml = '';
+    if (videoList.length === 1) {
+      playerHtml = '<div id="pv-player-wrap" style="width:100%;border-radius:var(--rxl);overflow:hidden;background:#000">' +
+        '<video id="pv-main-video" src="' + videoList[0] + '" controls playsinline style="width:100%;display:block" onloadedmetadata="adaptVideoAspect(this)"></video>' +
+        '</div>';
+    } else {
+      const tabs = videoList.map((u, i) =>
+        '<button onclick="switchProjVideo(' + i + ',this)" style="font-size:.72rem;padding:.28rem .72rem;border-radius:50px;border:1px solid ' + (i===0?'var(--ac)':'var(--brd2)') + ';background:' + (i===0?'var(--ac)':'var(--bg3)') + ';color:' + (i===0?'white':'var(--t2)') + ';cursor:pointer;transition:all .15s">Video ' + (i+1) + '</button>'
+      ).join('');
+      playerHtml = '<div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.55rem">' + tabs + '</div>' +
+        '<div id="pv-player-wrap" style="width:100%;border-radius:var(--rxl);overflow:hidden;background:#000">' +
+        '<video id="pv-main-video" src="' + videoList[0] + '" controls playsinline style="width:100%;display:block" onloadedmetadata="adaptVideoAspect(this)"></video>' +
+        '</div>';
+    }
+    cov.innerHTML = playerHtml;
+    window._pvVideos = videoList;
+    cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
+  } else if (p.yt_link) {
+    const ytMatch = p.yt_link.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+    const ytId = ytMatch ? ytMatch[1] : null;
+    if (ytId) {
+      cov.innerHTML = '<div style="width:100%;border-radius:var(--rxl);overflow:hidden;aspect-ratio:16/9"><iframe src="https://www.youtube.com/embed/' + ytId + '" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" style="width:100%;height:100%;display:block"></iframe></div>';
+      cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
+    } else {
+      cov.innerHTML = p.author_init || '?';
+      cov.style.background = bg + '18'; cov.style.color = bg + '55'; cov.style.fontSize = '4rem'; cov.style.fontWeight = '700';
+    }
   } else if (p.cover_url) {
-    cov.innerHTML = '<img src="' + p.cover_url + '" style="width:100%;height:100%;object-fit:cover">';
+    cov.innerHTML = '<img src="' + p.cover_url + '" style="width:100%;border-radius:var(--rxl);display:block;object-fit:cover">';
     cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
   } else {
     cov.innerHTML = p.author_init || '?';
@@ -1985,7 +2008,10 @@ async function renderMyProjects() {
       '<td>' + (p.likes || 0) + '</td>' +
       '<td>' + (p.views || 0) + '</td>' +
       '<td><span class="tbadge ' + p.status + '">' + p.status + '</span></td>' +
-      '<td onclick="event.stopPropagation()"><button class="tdel" onclick="deleteProject(\'' + p.id + '\')">Delete</button></td>' +
+      '<td onclick="event.stopPropagation()" style="display:flex;gap:.35rem;align-items:center">' +
+        '<button class="tdel" style="background:rgba(254,115,10,.08);border-color:rgba(254,115,10,.22);color:var(--ac)" onclick="openEditProjectById(\'' + p.id + '\')">Edit</button>' +
+        '<button class="tdel" onclick="deleteProject(\'' + p.id + '\')">Delete</button>' +
+      '</td>' +
     '</tr>'
   ).join('');
 }
@@ -2247,7 +2273,6 @@ function showPage(id, projOrUserId) {
   const nl = el('nav-' + id); if (nl) nl.classList.add('active');
   closeMob();
   try { if (id !== 'splash') sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); } catch(e) {}
-  try { if (id !== 'splash') localStorage.setItem('tl_visited', '1'); } catch(e) {}
   if (id !== 'splash') pushHash(id, projOrUserId);
   if (id === 'feed')      renderFeed();
   if (id === 'jobs')      renderJobs();
@@ -2459,8 +2484,22 @@ function openEditProject() {
   document.body.style.overflow = 'hidden';
 }
 function openEditProjectById(id) {
-  S._currentProject = S.projects.find(x => x.id === id);
-  openEditProject();
+  let proj = S.projects.find(x => x.id === id);
+  if (proj) {
+    S._currentProject = proj;
+    openEditProject();
+  } else {
+    // Not in memory — fetch from DB then open
+    getToken().then(token =>
+      db('/projects?id=eq.' + id + '&select=*', 'GET', null, token)
+    ).then(rows => {
+      if (rows && rows[0]) {
+        S._currentProject = rows[0];
+        S.projects.push(rows[0]);
+        openEditProject();
+      } else { showToast('Could not load project.'); }
+    }).catch(() => showToast('Could not load project.'));
+  }
 }
 function closeEditProject() {
   el('edit-proj-overlay').style.display = 'none';
@@ -2626,6 +2665,43 @@ window.saveEditProject    = saveEditProject;
 window.addVideoSlot       = addVideoSlot;
 window.removeVideo        = removeVideo;
 window.refreshStorageBar  = refreshStorageBar;
+
+// ── ADAPTIVE VIDEO PLAYER ────────────────────────────
+window.adaptVideoAspect = function(video) {
+  video.onloadedmetadata = null; // prevent re-fire
+  const w = video.videoWidth;
+  const h = video.videoHeight;
+  if (!w || !h) return;
+  const ratio = w / h;
+  // Cap portrait videos at a max height so they don't fill the whole screen
+  if (ratio < 1) {
+    // Portrait (9:16 etc.) — constrain width so it doesn't stretch
+    const maxH = Math.min(window.innerHeight * 0.72, 680);
+    video.style.maxHeight = maxH + 'px';
+    video.style.width = 'auto';
+    video.style.margin = '0 auto';
+    const wrap = video.parentElement;
+    if (wrap) { wrap.style.display = 'flex'; wrap.style.justifyContent = 'center'; wrap.style.background = '#000'; }
+  } else {
+    // Landscape or square — full width
+    video.style.width = '100%';
+    video.style.maxHeight = '';
+  }
+};
+
+window.switchProjVideo = function(idx, btn) {
+  const vids = window._pvVideos;
+  if (!vids || !vids[idx]) return;
+  const v = document.getElementById('pv-main-video');
+  if (v) { v.src = vids[idx]; v.load(); v.onloadedmetadata = function(){ window.adaptVideoAspect(v); }; }
+  // Update tab styles
+  const tabs = btn.parentElement.querySelectorAll('button');
+  tabs.forEach((b, i) => {
+    b.style.background = i === idx ? 'var(--ac)' : 'var(--bg3)';
+    b.style.color = i === idx ? 'white' : 'var(--t2)';
+    b.style.borderColor = i === idx ? 'var(--ac)' : 'var(--brd2)';
+  });
+};
 
 // ── START ────────────────────────────────────────────
 boot();
