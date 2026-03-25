@@ -23,31 +23,34 @@ input,textarea,select{font-family:var(--fm)}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:99px}
 .page{display:none;min-height:100vh}.page.active{display:block}
 /* SPLASH */
-#page-splash{min-height:100vh;display:flex;flex-direction:column;background:var(--bg);position:relative;overflow:hidden}
-.spl-glow{position:absolute;top:-15%;right:-5%;width:600px;height:600px;background:radial-gradient(circle,rgba(254,115,10,.13) 0%,transparent 65%);pointer-events:none}
-.spl-glow2{position:absolute;bottom:-10%;left:-5%;width:400px;height:400px;background:radial-gradient(circle,rgba(254,115,10,.06) 0%,transparent 65%);pointer-events:none}
-.spl-nav{border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;padding:.95rem 2rem;position:relative;z-index:2}
-.spl-brand{font-weight:700;font-size:1.05rem;color:var(--w)}
-.spl-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 24px;position:relative;z-index:2}
-.spl-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.6rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--ac);border:1px solid rgba(254,115,10,.28);padding:.3rem .9rem;border-radius:50px;margin-bottom:2.4rem}
-.spl-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ac);animation:blink 2s ease-in-out infinite}
+#page-splash{min-height:100vh;display:flex;flex-direction:column;background:#f5f5f3;position:relative;overflow:hidden}
+.spl-glow{position:absolute;top:-10%;right:-5%;width:700px;height:700px;background:radial-gradient(circle,rgba(254,115,10,.11) 0%,transparent 60%);pointer-events:none}
+.spl-glow2{position:absolute;bottom:-15%;left:-8%;width:500px;height:500px;background:radial-gradient(circle,rgba(254,115,10,.06) 0%,transparent 60%);pointer-events:none}
+.spl-nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;position:relative;z-index:2}
+.spl-brand{font-weight:700;font-size:1.05rem;color:#111;letter-spacing:-.2px}
+.spl-nav-right{display:flex;align-items:center;gap:.55rem}
+.spl-signin-btn{font-size:.82rem;font-weight:500;color:#555;background:none;border:1px solid rgba(0,0,0,.14);border-radius:50px;padding:.38rem 1rem;cursor:pointer;transition:all .16s}
+.spl-signin-btn:hover{border-color:rgba(0,0,0,.28);color:#111}
+.spl-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem 24px 2rem;position:relative;z-index:2}
+.spl-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.58rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--ac);border:1px solid rgba(254,115,10,.3);padding:.32rem 1rem;border-radius:50px;margin-bottom:2.2rem;background:rgba(254,115,10,.04)}
+.spl-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ac);animation:blink 2s ease-in-out infinite;flex-shrink:0}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25;transform:scale(1.4)}}
-.spl-h{font-size:clamp(2.8rem,6vw,5.2rem);font-weight:700;line-height:1.06;letter-spacing:-.6px;color:var(--t1);margin-bottom:1.4rem;max-width:760px}
+.spl-h{font-size:clamp(3rem,7vw,5.8rem);font-weight:700;line-height:1.04;letter-spacing:-.8px;color:#111;margin-bottom:1.3rem;max-width:800px}
 .spl-h em{color:var(--ac);font-style:normal;display:block}
-.spl-sub{font-size:.95rem;color:var(--t2);max-width:440px;margin:0 auto 3.2rem;line-height:1.85}
-.spl-cards{display:flex;gap:.85rem;justify-content:center;flex-wrap:wrap}
-.spl-card{display:flex;align-items:center;gap:.9rem;padding:1rem 1.5rem;border-radius:var(--rlg);border:1px solid var(--brd2);min-width:220px;background:var(--bg3);transition:var(--tr)}
-.spl-card:hover{border-color:var(--ac);background:var(--bg4);transform:translateY(-3px);box-shadow:0 12px 32px rgba(254,115,10,.1)}
-.spl-card-outline{background:transparent;border-color:rgba(254,115,10,.3)}.spl-card-outline:hover{background:var(--acl)}
-.spl-ico{width:36px;height:36px;border-radius:var(--r);background:var(--acl);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.spl-lbl{font-size:.56rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3);margin-bottom:.15rem}
-.spl-ttl{font-size:.88rem;font-weight:600;color:var(--t1)}
-.spl-preview{margin-top:3.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;max-width:860px;width:100%;opacity:.45;pointer-events:none}
-.sprev{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);overflow:hidden}
-.sprev-thumb{height:76px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:rgba(255,255,255,.22)}
-.sprev-body{padding:.58rem .7rem}
-.sprev-name{font-size:.68rem;font-weight:500;color:var(--t1);margin-bottom:.12rem}
-.sprev-role{font-size:.58rem;color:var(--t3)}
+.spl-sub{font-size:.95rem;color:#555;max-width:460px;margin:0 auto 3rem;line-height:1.9}
+.spl-cards{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+.spl-card{display:flex;align-items:center;gap:.9rem;padding:1rem 1.6rem;border-radius:14px;border:1px solid rgba(0,0,0,.1);min-width:230px;background:#fff;transition:all .18s cubic-bezier(.4,0,.2,1);box-shadow:0 2px 12px rgba(0,0,0,.06);cursor:pointer}
+.spl-card:hover{border-color:var(--ac);transform:translateY(-3px);box-shadow:0 14px 36px rgba(254,115,10,.13)}
+.spl-card-outline{background:rgba(254,115,10,.03);border-color:rgba(254,115,10,.25)}.spl-card-outline:hover{background:rgba(254,115,10,.06)}
+.spl-ico{width:38px;height:38px;border-radius:10px;background:rgba(254,115,10,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.spl-lbl{font-size:.54rem;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:#aaa;margin-bottom:.18rem}
+.spl-ttl{font-size:.9rem;font-weight:600;color:#111;text-align:left}
+.spl-preview{margin-top:4rem;display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;max-width:880px;width:100%;opacity:.5;pointer-events:none}
+.sprev{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.sprev-thumb{height:80px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.15rem;color:rgba(255,255,255,.25)}
+.sprev-body{padding:.6rem .75rem}
+.sprev-name{font-size:.7rem;font-weight:500;color:#111;margin-bottom:.12rem}
+.sprev-role{font-size:.6rem;color:#aaa}
 /* NAV */
 #main-nav{display:none;position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(14,14,14,.96);backdrop-filter:blur(18px);border-bottom:1px solid var(--brd);height:56px;align-items:center}
 html.light #main-nav{background:rgba(245,245,245,.97)}
@@ -439,7 +442,7 @@ html.light .jf-sel{color:var(--t1)}
   var hasHash=known.indexOf(seg)!==-1;
   var visited=false;try{visited=!!localStorage.getItem('tl_visited');}catch(e){}
   var lastSeg='';try{lastSeg=(sessionStorage.getItem('tl_last')||'').split('|')[0];}catch(e){}
-  var skip=hasHash||!!uRedir||(visited&&lastSeg&&known.indexOf(lastSeg)!==-1);
+  var skip=hasHash||!!uRedir; // only skip splash for direct hash links or username redirects
   if(skip){
     document.addEventListener('DOMContentLoaded',function(){
       var s=document.getElementById('page-splash');
@@ -513,8 +516,8 @@ html.light .jf-sel{color:var(--t1)}
   <div class="spl-glow"></div><div class="spl-glow2"></div>
   <nav class="spl-nav">
     <div class="spl-brand">Timeliners</div>
-    <div style="display:flex;align-items:center;gap:.75rem">
-      <button class="theme-btn" id="spl-theme-btn" onclick="toggleTheme()"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="3" stroke="var(--t1)" stroke-width="1.3" fill="none"/><path d="M7.5 1.5V3M7.5 12v1.5M1.5 7.5H3M12 7.5h1.5M3.2 3.2l1 1M10.8 10.8l1 1M10.8 3.2l-1 1M4.2 10.8l-1 1" stroke="var(--t1)" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+    <div class="spl-nav-right">
+      <button class="spl-signin-btn" onclick="openAuth('in')">Sign In</button>
     </div>
   </nav>
   <div class="spl-body">
@@ -532,10 +535,10 @@ html.light .jf-sel{color:var(--t1)}
       </button>
     </div>
     <div class="spl-preview">
-      <div class="sprev"><div class="sprev-thumb" style="background:linear-gradient(135deg,#1a1a1a,#FE730A18)">NK</div><div class="sprev-body"><div class="sprev-name">Commercial Showreel 2024</div><div class="sprev-role">Video Edit · 3:42</div></div></div>
-      <div class="sprev"><div class="sprev-thumb" style="background:linear-gradient(135deg,#1a1a1a,#7C3AED18)">RP</div><div class="sprev-body"><div class="sprev-name">Brand Motion — Ceylon Tea</div><div class="sprev-role">Motion Graphics · 1:58</div></div></div>
-      <div class="sprev"><div class="sprev-thumb" style="background:linear-gradient(135deg,#1a1a1a,#0EA5E918)">DW</div><div class="sprev-body"><div class="sprev-name">Documentary — Fishermen of Negombo</div><div class="sprev-role">Film · 12:34</div></div></div>
-      <div class="sprev"><div class="sprev-thumb" style="background:linear-gradient(135deg,#1a1a1a,#DC262618)">KF</div><div class="sprev-body"><div class="sprev-name">IG Reels — Fashion Brand</div><div class="sprev-role">Shorts & Reels</div></div></div>
+      <div class="sprev"><div class="sprev-thumb" style="background:linear-gradient(135deg,#e8e0d8,#f5c9a0)">NK</div><div class="sprev-body"><div class="sprev-name">Commercial Showreel 2024</div><div class="sprev-role">Video Edit · 3:42</div></div></div>
+      <div class="sprev"><div class="sprev-thumb" style="background:linear-gradient(135deg,#ddd5f0,#c9b8f0)">RP</div><div class="sprev-body"><div class="sprev-name">Brand Motion — Ceylon Tea</div><div class="sprev-role">Motion Graphics · 1:58</div></div></div>
+      <div class="sprev"><div class="sprev-thumb" style="background:linear-gradient(135deg,#d0e8f5,#a8d4f0)">DW</div><div class="sprev-body"><div class="sprev-name">Documentary — Fishermen of Negombo</div><div class="sprev-role">Film · 12:34</div></div></div>
+      <div class="sprev"><div class="sprev-thumb" style="background:linear-gradient(135deg,#f5d0d0,#f0a8a8)">KF</div><div class="sprev-body"><div class="sprev-name">IG Reels — Fashion Brand</div><div class="sprev-role">Shorts & Reels</div></div></div>
     </div>
   </div>
 </div>
@@ -559,7 +562,6 @@ html.light .jf-sel{color:var(--t1)}
       </div>
       <button class="nav-pro nav-li" id="nav-pro-btn" onclick="showPage('dashboard');setTimeout(()=>{switchDash('account',document.getElementById('dnav-account'));switchAccTab('pro');},80)" style="display:none">★ Join Pro</button>
       <button class="nav-cta nav-lo" onclick="openAuth('in')">Sign In</button>
-      <button class="theme-btn" id="theme-btn" onclick="toggleTheme()"><svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="3" stroke="var(--t1)" stroke-width="1.3" fill="none"/><path d="M7.5 1.5V3M7.5 12v1.5M1.5 7.5H3M12 7.5h1.5M3.2 3.2l1 1M10.8 10.8l1 1M10.8 3.2l-1 1M4.2 10.8l-1 1" stroke="var(--t1)" stroke-width="1.3" stroke-linecap="round"/></svg></button>
       <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -1161,13 +1163,27 @@ function boot() {
 async function restoreSession() {
   try {
     const { data: { session } } = await sb.auth.getSession();
-    if (!session) { restoreFromHash(); return; }
+    if (!session) {
+      // Clear any stale local data from a previous account
+      S.user = S.session = S.profile = null;
+      try { Object.keys(localStorage).filter(k=>k.startsWith('tl_lp_')).forEach(k=>localStorage.removeItem(k)); } catch(e) {}
+      restoreFromHash(); return;
+    }
     S.session = session;
     S.user    = session.user;
+    // Always clear any cached profile to avoid showing wrong account data
+    S.profile = null;
+    try { localStorage.removeItem('tl_lp_' + S.user.id); } catch(e) {}
     await loadProfile();
-    tryLocalProfile();
     applyLoggedIn();
-    restoreFromHash(); // session now known — safe to restore protected pages
+    // Logged-in users skip the splash and go to feed (or last page)
+    const lastPg = (() => { try { return (sessionStorage.getItem('tl_last')||'').split('|')[0]; } catch(e){ return ''; } })();
+    const KNOWN = ['feed','jobs','pricing','faq','profile','dashboard','project'];
+    if (lastPg && KNOWN.includes(lastPg) && lastPg !== 'dashboard' && lastPg !== 'profile') {
+      showPage(lastPg);
+    } else {
+      showPage('feed');
+    }
   } catch(e) {
     console.warn('Session restore:', e.message);
     restoreFromHash();
@@ -1385,7 +1401,7 @@ function buildCard(p) {
   // Thumbnail: video > cover image > placeholder
   let thumbHtml = '';
   if (p.video_url) {
-    thumbHtml = '<video class="pcard-video" src="' + p.video_url + '" muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
+    thumbHtml = '<video class="pcard-video" src="' + p.video_url + '#t=0.001" muted loop playsinline preload="metadata"' + (p.cover_url ? ' poster="' + p.cover_url + '"' : '') + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
   } else if (p.cover_url) {
     thumbHtml = '<img src="' + p.cover_url + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">';
   } else {
@@ -1937,8 +1953,25 @@ function renderProfileProjects(prof) {
   const p = prof || S.viewingProfile || S.profile;
   if (!p) return;
   const isOwn = S.profile && p.id === S.profile.id;
-  const allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
+  // Try to get projects from in-memory list first; if empty or wrong user, fetch from DB
+  let allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
+  if (!allProjs.length) {
+    // Fetch from DB in case S.projects only has demo/other data
+    db('/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc', 'GET', null, SB_KEY)
+      .then(rows => {
+        if (rows && rows.length) {
+          // Merge into S.projects without duplicates
+          rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
+          _renderProfileProjectsUI(p, rows, isOwn);
+        } else { _renderProfileProjectsUI(p, [], isOwn); }
+      }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
+    return; // will render async above
+  }
 
+  _renderProfileProjectsUI(p, allProjs, isOwn);
+}
+
+function _renderProfileProjectsUI(p, allProjs, isOwn) {
   // Stats
   el('pstat-proj').textContent  = allProjs.length;
   el('pstat-likes').textContent = p.likes || 0;
@@ -2096,24 +2129,31 @@ function showPage(id, projOrUserId) {
   if (id === 'project' && projOrUserId) openProject(projOrUserId);
   if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
   if (id === 'profile') {
-    if (projOrUserId) {
+    if (projOrUserId && projOrUserId !== (S.profile && S.profile.id)) {
+      // Viewing someone else's profile by user_id
       db('/profiles?id=eq.' + projOrUserId + '&select=*').then(rows => {
         if (rows && rows.length) {
           S.viewingProfile = rows[0];
           refreshProfile(rows[0]);
-          // Update URL to clean username link
           if (rows[0].username) {
             const base = location.origin + location.pathname.replace(/(\/index\.html)?$/, '/');
             history.replaceState({ un: rows[0].username }, '', base + rows[0].username);
           }
-        } else if (S.profile) refreshProfile(S.profile);
-      }).catch(() => { if (S.profile) refreshProfile(S.profile); });
+        } else if (S.profile) { S.viewingProfile = S.profile; refreshProfile(S.profile); }
+      }).catch(() => { if (S.profile) { S.viewingProfile = S.profile; refreshProfile(S.profile); } });
     } else {
-      S.viewingProfile = S.profile;
-      refreshProfile(S.profile);
-      if (S.profile?.username) {
-        const base = location.origin + location.pathname.replace(/(\/index\.html)?$/, '/');
-        history.replaceState({ un: S.profile.username }, '', base + S.profile.username);
+      // Always reload own profile fresh from DB to avoid stale/wrong account data
+      if (S.user) {
+        loadProfile().then(() => {
+          if (S.profile) {
+            S.viewingProfile = S.profile;
+            refreshProfile(S.profile);
+            if (S.profile.username) {
+              const base = location.origin + location.pathname.replace(/(\/index\.html)?$/, '/');
+              history.replaceState({ un: S.profile.username }, '', base + S.profile.username);
+            }
+          }
+        });
       }
     }
   }
@@ -2172,11 +2212,14 @@ function restoreFromHash() {
     }
   } catch(e) {}
 
-  // First-visit detection
+  // If logged in and was on a valid page, restore it. Otherwise show splash.
   try {
-    if (localStorage.getItem('tl_visited')) showPage('feed');
-    else localStorage.setItem('tl_visited', '1'); // stay on splash first time
+    const lp = (sessionStorage.getItem('tl_last') || '').split('|')[0];
+    if (S.user && lp && HASH_PAGES.includes(lp) && lp !== 'splash') {
+      showPage(lp); return;
+    }
   } catch(e) {}
+  // Default: show splash (logged-in users will be redirected by restoreSession)
 }
 
 window.addEventListener('hashchange', () => {
@@ -2214,18 +2257,11 @@ function closeMob()  { el('mob').style.display = 'none'; }
 // ── THEME ────────────────────────────────────────────
 const MOON = '<svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M12.5 9.5A6 6 0 015.5 2.5a6 6 0 000 10A6 6 0 0012.5 9.5z" stroke="var(--t1)" stroke-width="1.3" fill="none"/></svg>';
 const SUN  = '<svg width="14" height="14" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="3" stroke="var(--t1)" stroke-width="1.3" fill="none"/><path d="M7.5 1.5V3M7.5 12v1.5M1.5 7.5H3M12 7.5h1.5M3.2 3.2l1 1M10.8 10.8l1 1M10.8 3.2l-1 1M4.2 10.8l-1 1" stroke="var(--t1)" stroke-width="1.3" stroke-linecap="round"/></svg>';
-function toggleTheme() {
-  const light = document.documentElement.classList.toggle('light');
-  try { localStorage.setItem('tl_theme', light ? 'light' : 'dark'); } catch(e) {}
-  document.querySelectorAll('#theme-btn,#spl-theme-btn').forEach(b => b.innerHTML = light ? MOON : SUN);
-}
+function toggleTheme() { /* dark mode removed */ }
 function initTheme() {
-  try {
-    if (localStorage.getItem('tl_theme') === 'light') {
-      document.documentElement.classList.add('light');
-      document.querySelectorAll('#theme-btn,#spl-theme-btn').forEach(b => b.innerHTML = MOON);
-    }
-  } catch(e) {}
+  // Light mode is the only mode — clear any stored dark preference
+  try { localStorage.removeItem('tl_theme'); } catch(e) {}
+  document.documentElement.classList.add('light');
 }
 
 // ── TOAST ────────────────────────────────────────────
