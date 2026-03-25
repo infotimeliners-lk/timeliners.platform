@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TimeLiners</title>
+<title>Timeliners — For Editors</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -441,8 +441,11 @@ html.light .jf-sel{color:var(--t1)}
   var seg=(h.split('/')[0]||'').toLowerCase();
   var hasHash=known.indexOf(seg)!==-1;
   var visited=false;try{visited=!!localStorage.getItem('tl_visited');}catch(e){}
+  // Also skip splash if a Supabase session exists (logged-in user)
+  var hasSbSession=false;try{hasSbSession=Object.keys(localStorage).some(function(k){return k.indexOf('sb-')!==-1||k.indexOf('supabase.auth')!==-1;});}catch(e){}
   var lastSeg='';try{lastSeg=(sessionStorage.getItem('tl_last')||'').split('|')[0];}catch(e){}
-  var skip=hasHash||!!uRedir; // only skip splash for direct hash links or username redirects
+  // Skip splash if: has a hash route, username redirect, already visited before, or logged in
+  var skip=hasHash||!!uRedir||visited||hasSbSession;
   if(skip){
     document.addEventListener('DOMContentLoaded',function(){
       var s=document.getElementById('page-splash');
@@ -1950,25 +1953,8 @@ async function saveProject(status) {
     showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
     switchDash('projects', el('dnav-projects'));
     updatePlanUI(); refreshStorageBar();
-    // Reload feed — but preserve the video_url/cover_url we already know about
-    // because DB replication lag may not have them yet
+    // Always reload feed so the new project appears immediately
     await loadFeed();
-    // After loadFeed overwrites S.projects from DB, merge back any local data we have
-    // (video_url, cover_url) that the DB row may not have returned yet
-    if (saved.id && !saved.id.startsWith('local_')) {
-      const idx = S.projects.findIndex(p => p.id === saved.id);
-      if (idx !== -1) {
-        if (saved.video_url && !S.projects[idx].video_url) S.projects[idx].video_url = saved.video_url;
-        if (saved.cover_url && !S.projects[idx].cover_url) S.projects[idx].cover_url = saved.cover_url;
-        if (saved.video_urls && !S.projects[idx].video_urls) S.projects[idx].video_urls = saved.video_urls;
-      } else {
-        // Project not in DB response yet — put it back
-        S.projects.unshift(saved);
-      }
-      renderFeed();
-    }
-    // Second fetch after a short delay to catch any replication lag
-    setTimeout(async () => { await loadFeed(); if (S.profile) renderProfileProjects(S.profile); }, 2000);
     // If profile is open, refresh it too
     if (S.profile) renderProfileProjects(S.profile);
   } catch(e) { showToast('Error: ' + e.message); }
@@ -2084,38 +2070,29 @@ function renderProfileProjects(prof) {
   const p = prof || S.viewingProfile || S.profile;
   if (!p) return;
   const isOwn = S.profile && p.id === S.profile.id;
-  const isOwnFetch = S.user && p.id === S.user.id;
-  // Always fetch from DB for own profile so new uploads appear immediately
-  // For other profiles, use in-memory if available
-  const inMemory = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
-  if (!isOwnFetch && inMemory.length) {
-    _renderProfileProjectsUI(p, inMemory, isOwn);
-    return;
+  // Try to get projects from in-memory list first; if empty or wrong user, fetch from DB
+  let allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
+  if (!allProjs.length) {
+    // Fetch from DB in case S.projects only has demo/other data
+    // Fetch published for everyone; also fetch drafts if viewing own profile
+    const isOwnFetch = S.user && p.id === S.user.id;
+    const fetchUrl = isOwnFetch
+      ? '/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc'
+      : '/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc';
+    const fetchToken = isOwnFetch ? (S.session?.access_token || SB_KEY) : SB_KEY;
+    db(fetchUrl, 'GET', null, fetchToken)
+      .then(rows => {
+        if (rows && rows.length) {
+          rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
+          // For public view, only show published
+          const visible = isOwnFetch ? rows : rows.filter(r => r.status === 'published');
+          _renderProfileProjectsUI(p, visible, isOwn);
+        } else { _renderProfileProjectsUI(p, [], isOwn); }
+      }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
+    return; // will render async above
   }
-  const fetchUrl = isOwnFetch
-    ? '/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc'
-    : '/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc';
-  const fetchToken = isOwnFetch ? (S.session?.access_token || SB_KEY) : SB_KEY;
-  // Show in-memory immediately while fetching
-  if (inMemory.length) _renderProfileProjectsUI(p, inMemory, isOwn);
-  db(fetchUrl, 'GET', null, fetchToken)
-    .then(rows => {
-      if (rows && rows.length) {
-        rows.forEach(r => {
-          const existing = S.projects.find(x => x.id === r.id);
-          if (existing) {
-            // Preserve local video_url if DB doesn't have it yet
-            if (existing.video_url && !r.video_url) r.video_url = existing.video_url;
-            if (existing.cover_url && !r.cover_url) r.cover_url = existing.cover_url;
-            Object.assign(existing, r);
-          } else {
-            S.projects.push(r);
-          }
-        });
-        const visible = isOwnFetch ? rows : rows.filter(r => r.status === 'published');
-        _renderProfileProjectsUI(p, visible, isOwn);
-      } else { _renderProfileProjectsUI(p, [], isOwn); }
-    }).catch(() => _renderProfileProjectsUI(p, inMemory.length ? inMemory : [], isOwn));
+
+  _renderProfileProjectsUI(p, allProjs, isOwn);
 }
 
 function _renderProfileProjectsUI(p, allProjs, isOwn) {
@@ -2270,6 +2247,7 @@ function showPage(id, projOrUserId) {
   const nl = el('nav-' + id); if (nl) nl.classList.add('active');
   closeMob();
   try { if (id !== 'splash') sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); } catch(e) {}
+  try { if (id !== 'splash') localStorage.setItem('tl_visited', '1'); } catch(e) {}
   if (id !== 'splash') pushHash(id, projOrUserId);
   if (id === 'feed')      renderFeed();
   if (id === 'jobs')      renderJobs();
