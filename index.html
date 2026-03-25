@@ -35,6 +35,7 @@ input,textarea,select{font-family:var(--fm)}
 .spl-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.58rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--ac);border:1px solid rgba(254,115,10,.3);padding:.32rem 1rem;border-radius:50px;margin-bottom:2.2rem;background:rgba(254,115,10,.04)}
 .spl-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--ac);animation:blink 2s ease-in-out infinite;flex-shrink:0}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25;transform:scale(1.4)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 .spl-h{font-size:clamp(3rem,7vw,5.8rem);font-weight:700;line-height:1.04;letter-spacing:-.8px;color:#111;margin-bottom:1.3rem;max-width:800px}
 .spl-h em{color:var(--ac);font-style:normal;display:block}
 .spl-sub{font-size:.95rem;color:#555;max-width:460px;margin:0 auto 3rem;line-height:1.9}
@@ -59,11 +60,11 @@ html.light #main-nav{background:rgba(245,245,245,.97)}
 .nav-mid{display:flex;gap:.1rem}
 .nl{font-size:.88rem;color:var(--t2);padding:.34rem .88rem;border-radius:50px;transition:var(--tr);border:none;background:none}.nl:hover{color:var(--t1);background:rgba(255,255,255,.05)}.nl.active{color:var(--w);font-weight:500}
 .nav-right{display:flex;align-items:center;gap:.5rem}
-.nav-cta{background:var(--ac);color:white;font-size:.84rem;font-weight:500;padding:.42rem 1.1rem;border-radius:50px;border:none;transition:var(--tr)}.nav-cta:hover{background:#e55e00}
+.nav-cta{background:transparent;color:var(--t1);font-size:.84rem;font-weight:500;padding:.42rem 1.1rem;border-radius:50px;border:1.5px solid var(--brd2);transition:var(--tr)}.nav-cta:hover{border-color:var(--brd3);background:var(--bg3)}
 .nav-user{display:flex;align-items:center;gap:.45rem;padding:.3rem .55rem;border-radius:50px;border:1px solid var(--brd2);transition:var(--tr)}.nav-user:hover{border-color:var(--brd3);background:var(--bg3)}
 .nav-av{width:26px;height:26px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:700;color:white;flex-shrink:0}
 .nav-uname{font-size:.78rem;font-weight:500;color:var(--t1);cursor:pointer}
-.nav-pro{background:var(--ac);color:white;font-size:.75rem;font-weight:600;padding:.32rem .85rem;border-radius:50px;border:none;cursor:pointer;display:none;align-items:center;gap:.28rem;transition:var(--tr)}.nav-pro:hover{background:#e55e00}
+.nav-pro{background:var(--ac);color:white;font-size:.75rem;font-weight:600;padding:.38rem 1rem;border-radius:50px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.28rem;transition:var(--tr)}.nav-pro:hover{background:#e55e00;transform:translateY(-1px)}
 .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--brd2);background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0}.theme-btn:hover{border-color:var(--ac);background:var(--acl)}
 .ham{display:none;flex-direction:column;gap:4px;background:none;border:none;padding:4px}.ham span{display:block;width:20px;height:1.5px;background:var(--t1);border-radius:2px}
 #mob{display:none;position:fixed;top:56px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--brd);z-index:999;padding:.75rem 24px}
@@ -219,7 +220,7 @@ html.light .fsrch input{color:var(--t1)}
 .pv-htags{display:flex;gap:.3rem;flex-wrap:wrap}
 .pv-htag{font-size:.62rem;padding:.2rem .62rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2)}
 .pv-cover{max-width:960px;margin:1.3rem auto;padding:0 24px}
-.pv-cover-box{width:100%;border-radius:var(--rxl);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:700;min-height:200px}
+.pv-cover-box{width:100%;border-radius:var(--rxl);overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:700}
 .pv-body{max-width:960px;margin:0 auto;padding:1.3rem 24px 4rem;display:grid;grid-template-columns:1fr 240px;gap:2.2rem;align-items:start}
 .pv-desc{font-size:.9rem;color:var(--t2);line-height:2;margin-bottom:1.2rem}
 .pv-side{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1.1rem;position:sticky;top:68px}
@@ -511,6 +512,55 @@ html.light .jf-sel{color:var(--t1)}
   </div>
 </div>
 
+<!-- ══ OTP VERIFICATION MODAL ══ -->
+<div id="otp-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:4000;display:none;align-items:center;justify-content:center;padding:1rem">
+  <div class="auth-box" style="text-align:center;max-width:380px;animation:popIn .22s cubic-bezier(.4,0,.2,1)">
+    <div class="auth-brand">Time<span>liners</span></div>
+    <div style="width:52px;height:52px;border-radius:50%;background:rgba(254,115,10,.1);border:1px solid rgba(254,115,10,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z" stroke="#FE730A" stroke-width="1.5"/><path d="M2 6l10 7 10-7" stroke="#FE730A" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div>
+    <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.35rem">Check your email</div>
+    <div style="font-size:.82rem;color:var(--t2);margin-bottom:.2rem">We sent a 6-digit verification code to</div>
+    <div style="font-size:.85rem;font-weight:600;color:var(--ac);margin-bottom:1.5rem" id="otp-email-display">—</div>
+
+    <!-- 6 digit boxes -->
+    <div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.1rem" id="otp-boxes">
+      <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,0)" onkeydown="otpKey(event,0)">
+      <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,1)" onkeydown="otpKey(event,1)">
+      <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,2)" onkeydown="otpKey(event,2)">
+      <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,3)" onkeydown="otpKey(event,3)">
+      <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,4)" onkeydown="otpKey(event,4)">
+      <input class="otp-digit" type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" oninput="otpInput(this,5)" onkeydown="otpKey(event,5)">
+    </div>
+
+    <div id="otp-err" style="font-size:.77rem;color:#ef4444;margin-bottom:.75rem;display:none;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:.4rem .7rem"></div>
+
+    <button class="auth-btn" id="otp-verify-btn" onclick="verifyOtp()" style="margin-bottom:.85rem">Verify Email</button>
+
+    <div style="font-size:.78rem;color:var(--t2)">
+      Didn't get the code?
+      <a id="otp-resend-btn" onclick="resendOtp()" style="color:var(--ac);font-weight:500;cursor:pointer">Resend</a>
+      <span id="otp-timer" style="color:var(--t3)"></span>
+    </div>
+    <div style="margin-top:.75rem;font-size:.73rem;color:var(--t3)">
+      Wrong email? <a onclick="cancelOtp()" style="color:var(--t2);cursor:pointer;text-decoration:underline">Go back</a>
+    </div>
+  </div>
+</div>
+
+<style>
+.otp-digit {
+  width: 44px; height: 52px;
+  text-align: center; font-size: 1.4rem; font-weight: 700;
+  border: 1.5px solid var(--brd2); border-radius: 10px;
+  background: var(--bg3); color: var(--t1);
+  outline: none; transition: border-color .15s, box-shadow .15s;
+  font-family: var(--fm);
+}
+.otp-digit:focus { border-color: var(--ac); box-shadow: 0 0 0 3px rgba(254,115,10,.12); }
+.otp-digit.filled { border-color: var(--ac); background: rgba(254,115,10,.04); }
+</style>
+
 <!-- ══ SPLASH ══ -->
 <div class="page active" id="page-splash">
   <div class="spl-glow"></div><div class="spl-glow2"></div>
@@ -556,11 +606,11 @@ html.light .jf-sel{color:var(--t1)}
       <button class="nl nav-li" id="nav-dashboard" onclick="showPage('dashboard')" style="display:none">Dashboard</button>
     </div>
     <div class="nav-right">
+      <button class="nav-pro" id="nav-pro-btn" onclick="S&&S.user?showPage('dashboard')&&setTimeout(()=>{switchDash('account',document.getElementById('dnav-account'));switchAccTab('pro');},80):showPage('pricing')">★ Join Pro</button>
       <div class="nav-user nav-li" id="nav-user-btn" onclick="showPage('dashboard')" style="display:none">
         <div class="nav-av" id="nav-av-el"><span id="nav-initials">?</span></div>
         <span class="nav-uname" id="nav-uname-el"></span>
       </div>
-      <button class="nav-pro nav-li" id="nav-pro-btn" onclick="showPage('dashboard');setTimeout(()=>{switchDash('account',document.getElementById('dnav-account'));switchAccTab('pro');},80)" style="display:none">★ Join Pro</button>
       <button class="nav-cta nav-lo" onclick="openAuth('in')">Sign In</button>
       <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
     </div>
@@ -604,7 +654,7 @@ html.light .jf-sel{color:var(--t1)}
     <div class="pgrid" id="feed-grid"><div class="loading-state"><div class="spinner"></div><div style="font-size:.73rem;color:var(--t3)">Loading projects...</div></div></div>
     <div class="nores" id="feed-nores">No projects match your search.</div>
   </div>
-  <div class="cta-strip"><div class="c"><div class="cta-inner">
+  <div class="cta-strip" id="feed-cta-strip"><div class="c"><div class="cta-inner" id="feed-cta-inner">
     <div style="position:relative;z-index:1"><h3>Ready to show your edits?</h3><p>Create a free account and build your editor portfolio today.</p></div>
     <button class="btn btn-white" onclick="openAuth('up')">Start Free →</button>
   </div></div></div>
@@ -640,6 +690,18 @@ html.light .jf-sel{color:var(--t1)}
           <div class="prof-stat-box"><span class="prof-stat-n" id="pstat-proj">0</span><span class="prof-stat-l">Projects</span></div>
           <div class="prof-stat-box"><span class="prof-stat-n" id="pstat-likes">0</span><span class="prof-stat-l">Likes</span></div>
           <div class="prof-stat-box"><span class="prof-stat-n" id="pstat-views">0</span><span class="prof-stat-l">Views</span></div>
+        </div>
+
+        <!-- About / Bio — shown inline before hire button -->
+        <div id="prof-bio-sec" style="display:none;margin-bottom:1rem">
+          <div class="prof-section-lbl">About</div>
+          <div class="prof-bio-txt" id="pfullbio-el" style="font-size:.82rem;color:var(--t2);line-height:1.85;margin-top:.35rem">—</div>
+        </div>
+
+        <!-- About / Bio — shown inline in card if set -->
+        <div id="prof-bio-inline" style="display:none;margin-bottom:.9rem">
+          <div class="prof-section-lbl">About</div>
+          <div class="prof-bio-txt" id="pfullbio-el" style="font-size:.82rem;color:var(--t2);line-height:1.75">—</div>
         </div>
 
         <!-- Hire + Edit buttons -->
@@ -685,14 +747,8 @@ html.light .jf-sel{color:var(--t1)}
       </div>
     </div>
 
-    <!-- RIGHT: About + Projects -->
+    <!-- RIGHT: Projects -->
     <div class="prof-right">
-      <!-- About / Bio -->
-      <div class="prof-right-sec" id="prof-bio-sec" style="display:none">
-        <div class="prof-right-sec-h">About</div>
-        <div class="prof-bio-txt" id="pfullbio-el">—</div>
-      </div>
-
       <!-- Projects -->
       <div class="prof-right-sec">
         <div class="prof-right-sec-h">Projects</div>
@@ -760,7 +816,6 @@ html.light .jf-sel{color:var(--t1)}
     </div>
     <div class="df"><label class="dl">Description</label><textarea class="dta" id="ep-proj-desc" style="min-height:80px"></textarea></div>
     <div class="df"><label class="dl">Tags (comma separated)</label><input class="di" id="ep-proj-tags" type="text"></div>
-    <div class="df"><label class="dl">YouTube / Showreel Link</label><input class="di" id="ep-proj-yt" type="text" placeholder="https://youtube.com/..."></div>
     <div class="df"><label class="dl">Status</label><select class="dsel" id="ep-proj-status"><option value="published">Published</option><option value="draft">Draft</option></select></div>
     <div style="display:flex;gap:.58rem;margin-top:.5rem">
       <button class="dsave" id="ep-proj-save-btn" onclick="saveEditProject()">Save Changes</button>
@@ -934,7 +989,6 @@ html.light .jf-sel{color:var(--t1)}
                 <div style="font-size:.64rem;color:var(--t3);margin-top:.22rem" id="video-progress-txt">Uploading...</div>
               </div>
             </div>
-            <div class="df"><label class="dl">YouTube / Showreel Link</label><input class="di" id="up-yt" type="text" placeholder="https://youtube.com/..."></div>
             <div id="storage-bar-wrap" style="display:none;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.72rem .9rem;margin-bottom:.75rem"></div>
             <div style="display:flex;gap:.58rem;align-items:center;flex-wrap:wrap;margin-top:.4rem">
               <button class="dsave" id="pub-btn" onclick="saveProject('published')">Publish Project →</button>
@@ -996,10 +1050,6 @@ html.light .jf-sel{color:var(--t1)}
             </div>
             <div class="df"><label class="dl">Bio</label><textarea class="dta" id="ep-bio" placeholder="Tell clients about yourself..."></textarea></div>
             <div class="df"><label class="dl">Skills (comma separated)</label><input class="di" id="ep-skills" type="text" placeholder="After Effects, Cinema 4D, Premiere Pro"></div>
-          </div>
-          <div class="dcard">
-            <div class="dcard-h">Portfolio Cover</div><div class="dcard-sub">Choose a gradient for your profile header.</div>
-            <div class="cover-picker" id="cover-picker"></div>
           </div>
           <div class="dcard">
             <div class="dcard-h">Social Links</div><div class="dcard-sub">Help clients reach you.</div>
@@ -1279,6 +1329,10 @@ async function handleSignIn() {
   } finally { setAuthBusy('si-btn', false); }
 }
 
+// ── OTP STATE ────────────────────────────────────────
+let _otpPendingProfile = null;
+let _otpResendTimer = null;
+
 async function handleSignUp() {
   const fn   = el('su-fn').value.trim();
   const ln   = el('su-ln').value.trim();
@@ -1293,37 +1347,25 @@ async function handleSignUp() {
     const { data, error } = await sb.auth.signUp({ email, password: pw });
     if (error) throw error;
     if (!data.user) throw new Error('Sign up failed — please try again.');
-    S.session = data.session;
-    S.user    = data.user;
-    const profile = {
-      id: data.user.id, email, name: fn + ' ' + ln, role: spec,
+
+    // Store pending profile — will be saved AFTER OTP verified
+    _otpPendingProfile = {
+      id: data.user.id, email,
+      name: fn + ' ' + ln, role: spec,
       initials: (fn[0] + ln[0]).toUpperCase(),
-      username: rawUn || undefined,
+      username: rawUn || null,
       grad_idx: Math.floor(Math.random() * GRADS.length), cover_idx: 0,
       city: 'Colombo', plan: 'free', bio: '', exp: '', skills: '',
-      wa: '', ig: '', yt: '', web: '', views: 0, likes: 0
+      wa: '', ig: '', yt: '', web: '', views: 0, likes: 0,
+      _session: data.session,
+      _user: data.user,
+      _fn: fn
     };
-    try {
-      // Use upsert so re-registering the same email doesn't create a ghost profile
-      const token = data.session?.access_token || SB_KEY;
-      // First check if profile already exists
-      const existing = await db('/profiles?id=eq.' + data.user.id + '&select=id,name,username,plan', 'GET', null, token).catch(() => null);
-      if (existing && existing.length) {
-        // Profile exists — this is a re-registration or session issue. Just load it.
-        S.profile = existing[0];
-        await loadProfile(); // get full profile
-      } else {
-        await db('/profiles', 'POST', profile, token);
-      }
-    } catch(dbErr) {
-      console.warn('profiles insert error, saving locally:', dbErr.message);
-      try { localStorage.setItem('tl_lp_' + data.user.id, JSON.stringify(profile)); } catch(le) {}
-    }
-    S.profile = profile;
-    applyLoggedIn();
+
+    // Close auth modal, open OTP modal
     closeAuth();
-    showPage('dashboard');
-    showToast('🎉 Welcome to Timeliners, ' + fn + '!');
+    openOtpModal(email);
+
   } catch(e) {
     const m = (e.message || '').toLowerCase();
     if (m.includes('already') || m.includes('duplicate') || m.includes('registered')) {
@@ -1333,6 +1375,169 @@ async function handleSignUp() {
       showAuthErr(e.message || 'Sign up failed. Please try again.');
     }
   } finally { setAuthBusy('su-btn', false); }
+}
+
+function openOtpModal(email) {
+  el('otp-email-display').textContent = email;
+  el('otp-err').style.display = 'none';
+  // Clear boxes
+  document.querySelectorAll('.otp-digit').forEach(i => { i.value = ''; i.classList.remove('filled'); });
+  el('otp-overlay').style.display = 'flex';
+  // Focus first box
+  setTimeout(() => { const boxes = document.querySelectorAll('.otp-digit'); if(boxes[0]) boxes[0].focus(); }, 100);
+  // Start resend timer (60s)
+  startOtpTimer();
+}
+
+function startOtpTimer() {
+  let secs = 60;
+  el('otp-resend-btn').style.pointerEvents = 'none';
+  el('otp-resend-btn').style.opacity = '.4';
+  el('otp-timer').textContent = ' (' + secs + 's)';
+  if (_otpResendTimer) clearInterval(_otpResendTimer);
+  _otpResendTimer = setInterval(() => {
+    secs--;
+    el('otp-timer').textContent = ' (' + secs + 's)';
+    if (secs <= 0) {
+      clearInterval(_otpResendTimer);
+      el('otp-resend-btn').style.pointerEvents = '';
+      el('otp-resend-btn').style.opacity = '1';
+      el('otp-timer').textContent = '';
+    }
+  }, 1000);
+}
+
+function otpInput(input, idx) {
+  // Only allow digits
+  input.value = input.value.replace(/[^0-9]/g, '');
+  input.classList.toggle('filled', input.value !== '');
+  // Auto-advance
+  if (input.value && idx < 5) {
+    const boxes = document.querySelectorAll('.otp-digit');
+    boxes[idx + 1].focus();
+  }
+  // Auto-submit when all 6 filled
+  const boxes = document.querySelectorAll('.otp-digit');
+  const code = Array.from(boxes).map(b => b.value).join('');
+  if (code.length === 6) verifyOtp();
+}
+
+function otpKey(event, idx) {
+  if (event.key === 'Backspace') {
+    const boxes = document.querySelectorAll('.otp-digit');
+    if (!boxes[idx].value && idx > 0) {
+      boxes[idx - 1].focus();
+      boxes[idx - 1].value = '';
+      boxes[idx - 1].classList.remove('filled');
+    }
+  }
+  // Allow paste on any box
+  if (event.key === 'v' && (event.ctrlKey || event.metaKey)) return;
+}
+
+// Handle paste into any digit box
+document.addEventListener('paste', function(e) {
+  const active = document.activeElement;
+  if (!active || !active.classList.contains('otp-digit')) return;
+  const text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '').slice(0,6);
+  if (!text) return;
+  e.preventDefault();
+  const boxes = document.querySelectorAll('.otp-digit');
+  text.split('').forEach((ch, i) => {
+    if (boxes[i]) { boxes[i].value = ch; boxes[i].classList.add('filled'); }
+  });
+  if (text.length === 6) verifyOtp();
+});
+
+async function verifyOtp() {
+  const boxes = document.querySelectorAll('.otp-digit');
+  const code  = Array.from(boxes).map(b => b.value).join('');
+  if (code.length < 6) { showOtpErr('Please enter all 6 digits.'); return; }
+  if (!_otpPendingProfile) { showOtpErr('Session expired. Please sign up again.'); return; }
+
+  const btn = el('otp-verify-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="width:15px;height:15px;border-width:1.5px;margin:0 auto"></div>';
+
+  try {
+    const { data, error } = await sb.auth.verifyOtp({
+      email: _otpPendingProfile.email,
+      token: code,
+      type: 'signup'
+    });
+    if (error) throw error;
+
+    // OTP verified — now save the profile to DB
+    S.session = data.session;
+    S.user    = data.user || _otpPendingProfile._user;
+
+    const profile = { ..._otpPendingProfile };
+    const fn = profile._fn;
+    delete profile._session; delete profile._user; delete profile._fn;
+
+    const token = data.session?.access_token || SB_KEY;
+    try {
+      const existing = await db('/profiles?id=eq.' + profile.id + '&select=id', 'GET', null, token).catch(() => null);
+      if (!existing || !existing.length) {
+        await db('/profiles', 'POST', profile, token);
+      }
+    } catch(dbErr) {
+      console.warn('profiles insert after OTP:', dbErr.message);
+      try { localStorage.setItem('tl_lp_' + profile.id, JSON.stringify(profile)); } catch(le) {}
+    }
+
+    S.profile = profile;
+    _otpPendingProfile = null;
+    if (_otpResendTimer) clearInterval(_otpResendTimer);
+
+    // Close OTP modal, go to dashboard
+    el('otp-overlay').style.display = 'none';
+    applyLoggedIn();
+    showPage('dashboard');
+    showToast('🎉 Welcome to Timeliners, ' + fn + '!');
+
+  } catch(e) {
+    const m = (e.message || '').toLowerCase();
+    if (m.includes('otp') || m.includes('invalid') || m.includes('expired') || m.includes('token')) {
+      showOtpErr('Incorrect or expired code. Try again or resend.');
+    } else {
+      showOtpErr(e.message || 'Verification failed. Please try again.');
+    }
+    // Shake boxes
+    el('otp-boxes').style.animation = 'none';
+    setTimeout(() => { el('otp-boxes').style.animation = 'shake .35s ease'; }, 10);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Verify Email';
+  }
+}
+
+async function resendOtp() {
+  if (!_otpPendingProfile) return;
+  try {
+    const { error } = await sb.auth.resend({ type: 'signup', email: _otpPendingProfile.email });
+    if (error) throw error;
+    showToast('Code resent to ' + _otpPendingProfile.email);
+    startOtpTimer();
+    // Clear boxes
+    document.querySelectorAll('.otp-digit').forEach(i => { i.value = ''; i.classList.remove('filled'); });
+    document.querySelectorAll('.otp-digit')[0]?.focus();
+  } catch(e) {
+    showOtpErr('Could not resend: ' + e.message);
+  }
+}
+
+function cancelOtp() {
+  el('otp-overlay').style.display = 'none';
+  _otpPendingProfile = null;
+  if (_otpResendTimer) clearInterval(_otpResendTimer);
+  openAuth('up');
+}
+
+function showOtpErr(msg) {
+  const e = el('otp-err');
+  e.textContent = msg;
+  e.style.display = 'block';
 }
 
 async function handleSignOut() {
@@ -1417,14 +1622,35 @@ function applyLoggedIn() {
     navAv.innerHTML = '<span id="nav-initials">' + (p?.initials || (S.user?.email?.[0] || '?').toUpperCase()) + '</span>';
   }
   el('nav-uname-el').textContent = p?.username ? '@' + p.username : (p?.name?.split(' ')[0] || 'Account');
-  // Show Join Pro button for free users
+  // Hide Join Pro button only for paid users
   const proBtnEl = document.getElementById('nav-pro-btn');
-  if (proBtnEl) proBtnEl.style.display = (!p?.plan || p?.plan === 'free') ? 'inline-flex' : 'none';
+  if (proBtnEl) proBtnEl.style.display = (p?.plan === 'standard' || p?.plan === 'vip') ? 'none' : 'inline-flex';
+  // Swap feed CTA to Pro upgrade message for signed-in free users
+  const ctaInner = document.getElementById('feed-cta-inner');
+  if (ctaInner) {
+    if (!p?.plan || p?.plan === 'free') {
+      ctaInner.innerHTML =
+        '<div style="position:relative;z-index:1"><h3>Go Pro & get discovered.</h3><p>Upgrade to Standard or VIP Pro to publish your portfolio and appear in the Discover feed.</p></div>' +
+        '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));switchAccTab(\'pro\');},80)">See Plans →</button>';
+    } else {
+      // Standard/VIP — show something useful like upload prompt
+      ctaInner.innerHTML =
+        '<div style="position:relative;z-index:1"><h3>Share your latest work.</h3><p>Upload a new project and let clients discover your talent.</p></div>' +
+        '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>switchDash(\'upload\',document.getElementById(\'dnav-upload\')),80)">Upload Project →</button>';
+    }
+  }
 }
 function applyLoggedOut() {
   document.querySelectorAll('.nav-li').forEach(e => e.style.display = 'none');
   document.querySelectorAll('.nav-lo').forEach(e => e.style.display = '');
   el('nav-user-btn').style.display = 'none';
+  // Reset feed CTA to default sign-up message
+  const ctaInner = document.getElementById('feed-cta-inner');
+  if (ctaInner) {
+    ctaInner.innerHTML =
+      '<div style="position:relative;z-index:1"><h3>Ready to show your edits?</h3><p>Create a free account and build your editor portfolio today.</p></div>' +
+      '<button class="btn btn-white" onclick="openAuth(\'up\')">Start Free →</button>';
+  }
 }
 
 // ── FEED ─────────────────────────────────────────────
@@ -1552,39 +1778,13 @@ function openProject(id) {
   }
   el('pv-author-name').textContent = p.author_name || '—';
 
-  // Main cover — multi-video player with adaptive aspect ratio
+  // Main cover box — video > cover image > placeholder
   const cov = el('pv-cover');
-  const videoList = (p.video_urls && p.video_urls.length) ? p.video_urls : (p.video_url ? [p.video_url] : []);
-  if (videoList.length) {
-    let playerHtml = '';
-    if (videoList.length === 1) {
-      playerHtml = '<div id="pv-player-wrap" style="width:100%;border-radius:var(--rxl);overflow:hidden;background:#000">' +
-        '<video id="pv-main-video" src="' + videoList[0] + '" controls playsinline style="width:100%;display:block" onloadedmetadata="adaptVideoAspect(this)"></video>' +
-        '</div>';
-    } else {
-      const tabs = videoList.map((u, i) =>
-        '<button onclick="switchProjVideo(' + i + ',this)" style="font-size:.72rem;padding:.28rem .72rem;border-radius:50px;border:1px solid ' + (i===0?'var(--ac)':'var(--brd2)') + ';background:' + (i===0?'var(--ac)':'var(--bg3)') + ';color:' + (i===0?'white':'var(--t2)') + ';cursor:pointer;transition:all .15s">Video ' + (i+1) + '</button>'
-      ).join('');
-      playerHtml = '<div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.55rem">' + tabs + '</div>' +
-        '<div id="pv-player-wrap" style="width:100%;border-radius:var(--rxl);overflow:hidden;background:#000">' +
-        '<video id="pv-main-video" src="' + videoList[0] + '" controls playsinline style="width:100%;display:block" onloadedmetadata="adaptVideoAspect(this)"></video>' +
-        '</div>';
-    }
-    cov.innerHTML = playerHtml;
-    window._pvVideos = videoList;
-    cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
-  } else if (p.yt_link) {
-    const ytMatch = p.yt_link.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
-    const ytId = ytMatch ? ytMatch[1] : null;
-    if (ytId) {
-      cov.innerHTML = '<div style="width:100%;border-radius:var(--rxl);overflow:hidden;aspect-ratio:16/9"><iframe src="https://www.youtube.com/embed/' + ytId + '" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" style="width:100%;height:100%;display:block"></iframe></div>';
-      cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
-    } else {
-      cov.innerHTML = p.author_init || '?';
-      cov.style.background = bg + '18'; cov.style.color = bg + '55'; cov.style.fontSize = '4rem'; cov.style.fontWeight = '700';
-    }
+  if (p.video_url) {
+    cov.innerHTML = '<video src="' + p.video_url + '" controls playsinline style="width:100%;height:100%;object-fit:contain;background:#000;border-radius:inherit"></video>';
+    cov.style.background = '#000'; cov.style.fontSize = ''; cov.style.color = '';
   } else if (p.cover_url) {
-    cov.innerHTML = '<img src="' + p.cover_url + '" style="width:100%;border-radius:var(--rxl);display:block;object-fit:cover">';
+    cov.innerHTML = '<img src="' + p.cover_url + '" style="width:100%;height:100%;object-fit:cover">';
     cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
   } else {
     cov.innerHTML = p.author_init || '?';
@@ -1938,7 +2138,7 @@ async function saveProject(status) {
     tags: el('up-tags').value.split(',').map(t => t.trim()).filter(Boolean),
     description: el('up-desc').value,
     year: el('up-year').value || String(new Date().getFullYear()),
-    yt_link: el('up-yt').value, status,
+    yt_link: '', status,
     author_name: S.profile.name || '',
     author_init: S.profile.initials || (S.profile.name ? S.profile.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : '?'),
     author_avatar: S.profile.avatar_url || null,
@@ -1971,7 +2171,7 @@ async function saveProject(status) {
       if (full && full[0]) Object.assign(saved, full[0]);
     } catch(e) {}
     S.projects.unshift(saved);
-    ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(fid => { const f = document.getElementById(fid); if (f) f.value = ''; });
+    ['up-title','up-desc','up-tags','up-year'].forEach(fid => { const f = document.getElementById(fid); if (f) f.value = ''; });
     clearAllVideos();
     showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
     switchDash('projects', el('dnav-projects'));
@@ -2008,10 +2208,7 @@ async function renderMyProjects() {
       '<td>' + (p.likes || 0) + '</td>' +
       '<td>' + (p.views || 0) + '</td>' +
       '<td><span class="tbadge ' + p.status + '">' + p.status + '</span></td>' +
-      '<td onclick="event.stopPropagation()" style="display:flex;gap:.35rem;align-items:center">' +
-        '<button class="tdel" style="background:rgba(254,115,10,.08);border-color:rgba(254,115,10,.22);color:var(--ac)" onclick="openEditProjectById(\'' + p.id + '\')">Edit</button>' +
-        '<button class="tdel" onclick="deleteProject(\'' + p.id + '\')">Delete</button>' +
-      '</td>' +
+      '<td onclick="event.stopPropagation()"><button class="tdel" onclick="deleteProject(\'' + p.id + '\')">Delete</button></td>' +
     '</tr>'
   ).join('');
 }
@@ -2058,12 +2255,14 @@ function refreshProfile(profileData) {
   el('pexp-el').textContent       = p.exp  || '—';
   el('pcity-el').textContent      = p.city || '—';
 
-  // Bio section
-  const bioSec = document.getElementById('prof-bio-sec');
+  // Bio — now shown inline in the card before Hire Me
+  const bioInline = document.getElementById('prof-bio-inline');
   if (p.bio) {
     el('pfullbio-el').textContent = p.bio;
-    if (bioSec) bioSec.style.display = 'block';
-  } else { if (bioSec) bioSec.style.display = 'none'; }
+    if (bioInline) bioInline.style.display = 'block';
+  } else {
+    if (bioInline) bioInline.style.display = 'none';
+  }
 
   // Skills
   const SW_COLS = {'After Effects':'#9b59b6','Premiere Pro':'#e74c3c','Final Cut Pro':'#f1c40f','DaVinci Resolve':'#e67e22','CapCut':'#3498db','Blender':'#f39c12','Cinema 4D':'#2ecc71','Figma':'#e91e63','Illustrator':'#ff9800','Photoshop':'#2196f3'};
@@ -2484,22 +2683,8 @@ function openEditProject() {
   document.body.style.overflow = 'hidden';
 }
 function openEditProjectById(id) {
-  let proj = S.projects.find(x => x.id === id);
-  if (proj) {
-    S._currentProject = proj;
-    openEditProject();
-  } else {
-    // Not in memory — fetch from DB then open
-    getToken().then(token =>
-      db('/projects?id=eq.' + id + '&select=*', 'GET', null, token)
-    ).then(rows => {
-      if (rows && rows[0]) {
-        S._currentProject = rows[0];
-        S.projects.push(rows[0]);
-        openEditProject();
-      } else { showToast('Could not load project.'); }
-    }).catch(() => showToast('Could not load project.'));
-  }
+  S._currentProject = S.projects.find(x => x.id === id);
+  openEditProject();
 }
 function closeEditProject() {
   el('edit-proj-overlay').style.display = 'none';
@@ -2665,43 +2850,6 @@ window.saveEditProject    = saveEditProject;
 window.addVideoSlot       = addVideoSlot;
 window.removeVideo        = removeVideo;
 window.refreshStorageBar  = refreshStorageBar;
-
-// ── ADAPTIVE VIDEO PLAYER ────────────────────────────
-window.adaptVideoAspect = function(video) {
-  video.onloadedmetadata = null; // prevent re-fire
-  const w = video.videoWidth;
-  const h = video.videoHeight;
-  if (!w || !h) return;
-  const ratio = w / h;
-  // Cap portrait videos at a max height so they don't fill the whole screen
-  if (ratio < 1) {
-    // Portrait (9:16 etc.) — constrain width so it doesn't stretch
-    const maxH = Math.min(window.innerHeight * 0.72, 680);
-    video.style.maxHeight = maxH + 'px';
-    video.style.width = 'auto';
-    video.style.margin = '0 auto';
-    const wrap = video.parentElement;
-    if (wrap) { wrap.style.display = 'flex'; wrap.style.justifyContent = 'center'; wrap.style.background = '#000'; }
-  } else {
-    // Landscape or square — full width
-    video.style.width = '100%';
-    video.style.maxHeight = '';
-  }
-};
-
-window.switchProjVideo = function(idx, btn) {
-  const vids = window._pvVideos;
-  if (!vids || !vids[idx]) return;
-  const v = document.getElementById('pv-main-video');
-  if (v) { v.src = vids[idx]; v.load(); v.onloadedmetadata = function(){ window.adaptVideoAspect(v); }; }
-  // Update tab styles
-  const tabs = btn.parentElement.querySelectorAll('button');
-  tabs.forEach((b, i) => {
-    b.style.background = i === idx ? 'var(--ac)' : 'var(--bg3)';
-    b.style.color = i === idx ? 'white' : 'var(--t2)';
-    b.style.borderColor = i === idx ? 'var(--ac)' : 'var(--brd2)';
-  });
-};
 
 // ── START ────────────────────────────────────────────
 boot();
