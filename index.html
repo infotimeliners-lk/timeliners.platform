@@ -1251,7 +1251,8 @@ async function restoreSession() {
       if (KNOWN.includes(seg) && seg !== 'splash') {
         showPage(seg, sub || undefined);
       } else {
-        showPage('feed');
+        // Logged-in users always land on dashboard by default
+        showPage('dashboard');
       }
     }
   } catch(e) {
@@ -1328,10 +1329,9 @@ async function handleSignIn() {
     await loadProfile();
     applyLoggedIn();
     closeAuth();
-    showPage('feed');
+    showPage('dashboard');
     const firstName = (S.profile?.name || '').split(' ')[0] || S.user.email.split('@')[0];
     showToast('Welcome back, ' + firstName + '!');
-    // Show dashboard details after a moment so profile data is visible
     setTimeout(() => { if (S.profile) refreshDash(); }, 400);
   } catch(e) {
     const m = (e.message || '').toLowerCase();
@@ -1500,11 +1500,18 @@ async function verifyOtp() {
       try { localStorage.setItem('tl_lp_' + profile.id, JSON.stringify(profile)); } catch(le) {}
     }
 
-    S.profile = profile;
+    // Load the full saved profile from DB so dashboard has correct data
+    try {
+      const rows = await db('/profiles?id=eq.' + profile.id + '&select=*', 'GET', null, token);
+      if (rows && rows[0]) S.profile = rows[0];
+      else S.profile = profile;
+    } catch(e) { S.profile = profile; }
+
     _otpPendingProfile = null;
     if (_otpResendTimer) clearInterval(_otpResendTimer);
 
-    // Close OTP modal, go to dashboard
+    // Clean URL, close OTP modal, go to dashboard
+    history.replaceState(null, '', '/#/dashboard');
     el('otp-overlay').style.display = 'none';
     applyLoggedIn();
     showPage('dashboard');
@@ -1608,7 +1615,7 @@ async function loadProfile() {
       city: 'Colombo', plan: 'free',
       bio: '', exp: '', skills: '',
       wa: '', ig: '', yt: '', web: '',
-      views: 0, likes: 0
+      views: 0, likes: 0, data: {}
     };
     try {
       await db('/profiles', 'POST', newProfile, token);
@@ -2512,8 +2519,11 @@ function showPage(id, projOrUserId) {
           S.viewingProfile = prof;
           refreshProfile(prof);
           if (prof.username) {
-            // Keep hash-based URL — don't replace with /username path which breaks refresh
-            history.replaceState({ un: prof.username }, '', '/#/profile/' + prof.id);
+            // Show clean username URL
+            history.replaceState({ un: prof.username }, '', '/' + prof.username);
+          } else {
+            // No username yet — keep clean hash, don't expose UUID in URL
+            history.replaceState(null, '', '/#/profile');
           }
         }
       }).catch(e => console.warn('Profile load:', e));
