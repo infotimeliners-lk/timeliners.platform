@@ -1950,8 +1950,25 @@ async function saveProject(status) {
     showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
     switchDash('projects', el('dnav-projects'));
     updatePlanUI(); refreshStorageBar();
-    // Always reload feed so the new project appears immediately
+    // Reload feed — but preserve the video_url/cover_url we already know about
+    // because DB replication lag may not have them yet
     await loadFeed();
+    // After loadFeed overwrites S.projects from DB, merge back any local data we have
+    // (video_url, cover_url) that the DB row may not have returned yet
+    if (saved.id && !saved.id.startsWith('local_')) {
+      const idx = S.projects.findIndex(p => p.id === saved.id);
+      if (idx !== -1) {
+        if (saved.video_url && !S.projects[idx].video_url) S.projects[idx].video_url = saved.video_url;
+        if (saved.cover_url && !S.projects[idx].cover_url) S.projects[idx].cover_url = saved.cover_url;
+        if (saved.video_urls && !S.projects[idx].video_urls) S.projects[idx].video_urls = saved.video_urls;
+      } else {
+        // Project not in DB response yet — put it back
+        S.projects.unshift(saved);
+      }
+      renderFeed();
+    }
+    // Second fetch after a short delay to catch any replication lag
+    setTimeout(async () => { await loadFeed(); if (S.profile) renderProfileProjects(S.profile); }, 2000);
     // If profile is open, refresh it too
     if (S.profile) renderProfileProjects(S.profile);
   } catch(e) { showToast('Error: ' + e.message); }
@@ -2067,29 +2084,38 @@ function renderProfileProjects(prof) {
   const p = prof || S.viewingProfile || S.profile;
   if (!p) return;
   const isOwn = S.profile && p.id === S.profile.id;
-  // Try to get projects from in-memory list first; if empty or wrong user, fetch from DB
-  let allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
-  if (!allProjs.length) {
-    // Fetch from DB in case S.projects only has demo/other data
-    // Fetch published for everyone; also fetch drafts if viewing own profile
-    const isOwnFetch = S.user && p.id === S.user.id;
-    const fetchUrl = isOwnFetch
-      ? '/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc'
-      : '/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc';
-    const fetchToken = isOwnFetch ? (S.session?.access_token || SB_KEY) : SB_KEY;
-    db(fetchUrl, 'GET', null, fetchToken)
-      .then(rows => {
-        if (rows && rows.length) {
-          rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
-          // For public view, only show published
-          const visible = isOwnFetch ? rows : rows.filter(r => r.status === 'published');
-          _renderProfileProjectsUI(p, visible, isOwn);
-        } else { _renderProfileProjectsUI(p, [], isOwn); }
-      }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
-    return; // will render async above
+  const isOwnFetch = S.user && p.id === S.user.id;
+  // Always fetch from DB for own profile so new uploads appear immediately
+  // For other profiles, use in-memory if available
+  const inMemory = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
+  if (!isOwnFetch && inMemory.length) {
+    _renderProfileProjectsUI(p, inMemory, isOwn);
+    return;
   }
-
-  _renderProfileProjectsUI(p, allProjs, isOwn);
+  const fetchUrl = isOwnFetch
+    ? '/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc'
+    : '/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc';
+  const fetchToken = isOwnFetch ? (S.session?.access_token || SB_KEY) : SB_KEY;
+  // Show in-memory immediately while fetching
+  if (inMemory.length) _renderProfileProjectsUI(p, inMemory, isOwn);
+  db(fetchUrl, 'GET', null, fetchToken)
+    .then(rows => {
+      if (rows && rows.length) {
+        rows.forEach(r => {
+          const existing = S.projects.find(x => x.id === r.id);
+          if (existing) {
+            // Preserve local video_url if DB doesn't have it yet
+            if (existing.video_url && !r.video_url) r.video_url = existing.video_url;
+            if (existing.cover_url && !r.cover_url) r.cover_url = existing.cover_url;
+            Object.assign(existing, r);
+          } else {
+            S.projects.push(r);
+          }
+        });
+        const visible = isOwnFetch ? rows : rows.filter(r => r.status === 'published');
+        _renderProfileProjectsUI(p, visible, isOwn);
+      } else { _renderProfileProjectsUI(p, [], isOwn); }
+    }).catch(() => _renderProfileProjectsUI(p, inMemory.length ? inMemory : [], isOwn));
 }
 
 function _renderProfileProjectsUI(p, allProjs, isOwn) {
