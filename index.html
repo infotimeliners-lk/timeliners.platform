@@ -1091,13 +1091,15 @@ function el(id) {
   };
 }
 async function db(path, method = 'GET', body = null, token = null) {
+  // Always return representation so we get the full inserted/updated row back
+  const prefer = method === 'DELETE' ? 'return=minimal' : 'return=representation,resolution=merge-duplicates';
   const r = await fetch(SB_URL + '/rest/v1' + path, {
     method,
     headers: {
       'apikey': SB_KEY,
       'Authorization': 'Bearer ' + (token || SB_KEY),
       'Content-Type': 'application/json',
-      'Prefer': method === 'GET' ? 'return=representation' : 'return=minimal,resolution=merge-duplicates'
+      'Prefer': prefer
     },
     body: body ? JSON.stringify(body) : undefined
   });
@@ -1337,7 +1339,7 @@ async function handleSignOut() {
   await sb.auth.signOut().catch(() => {});
   S.user = S.profile = S.session = S.viewingProfile = null;
   S.projects = [];
-  // Clear all local profile caches
+  // Clear all local caches
   try {
     Object.keys(localStorage)
       .filter(k => k.startsWith('tl_lp_') || k === 'tl_visited')
@@ -1347,8 +1349,19 @@ async function handleSignOut() {
     sessionStorage.removeItem('tl_username_redirect');
   } catch(e) {}
   applyLoggedOut();
-  loadFeed(); // reload feed fresh (no user context)
-  showPage('splash');
+  // Reset and show splash properly — no blank screen
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = '';
+  });
+  const splash = el('page-splash');
+  splash.style.display = '';
+  splash.style.opacity = '1';
+  splash.classList.add('active');
+  el('main-nav').style.display = 'none';
+  window.scrollTo(0, 0);
+  history.replaceState(null, '', location.pathname);
+  loadFeed();
   showToast('Signed out.');
 }
 
@@ -1776,6 +1789,22 @@ async function saveProfile() {
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', updates, token);
     Object.assign(S.profile, updates);
     try { localStorage.setItem('tl_lp_' + S.profile.id, JSON.stringify(S.profile)); } catch(e) {}
+    // Sync author_avatar + author_name on all existing projects for this user
+    try {
+      await db('/projects?user_id=eq.' + S.profile.id, 'PATCH', {
+        author_name: updates.name || S.profile.name,
+        author_init: updates.initials || S.profile.initials,
+        author_avatar: updates.avatar_url || S.profile.avatar_url || null
+      }, token);
+      // Update in-memory projects too
+      S.projects.forEach(p => {
+        if (p.user_id === S.profile.id) {
+          p.author_name   = updates.name   || S.profile.name;
+          p.author_init   = updates.initials || S.profile.initials;
+          p.author_avatar = updates.avatar_url || S.profile.avatar_url || null;
+        }
+      });
+    } catch(syncErr) { console.warn('Project author sync:', syncErr.message); }
     applyLoggedIn();
     showToast('✓ Profile saved!');
   } catch(e) { showToast('Error: ' + e.message); }
@@ -1884,7 +1913,8 @@ async function saveProject(status) {
     description: el('up-desc').value,
     year: el('up-year').value || String(new Date().getFullYear()),
     yt_link: el('up-yt').value, status,
-    author_name: S.profile.name, author_init: S.profile.initials || '?',
+    author_name: S.profile.name || '',
+    author_init: S.profile.initials || (S.profile.name ? S.profile.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : '?'),
     author_avatar: S.profile.avatar_url || null,
     grad_idx: S.profile.grad_idx || 0, likes: 0, views: 0,
     video_size: _pendingVideos.reduce((s, f) => s + f.size, 0)
@@ -1909,6 +1939,11 @@ async function saveProject(status) {
         }
       } catch(vErr) { showToast('⚠️ Video upload issue: ' + vErr.message); }
     }
+    // Re-fetch the full saved project from DB to get all columns (video_url, cover_url etc.)
+    try {
+      const full = await db('/projects?id=eq.' + saved.id + '&select=*', 'GET', null, token);
+      if (full && full[0]) Object.assign(saved, full[0]);
+    } catch(e) {}
     S.projects.unshift(saved);
     ['up-title','up-desc','up-tags','up-yt','up-year'].forEach(fid => { const f = document.getElementById(fid); if (f) f.value = ''; });
     clearAllVideos();
