@@ -309,7 +309,9 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .tbadge.published{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.2)}
 .tbadge.draft{background:var(--bg4);color:var(--t3);border:1px solid var(--brd)}
 .tdel{font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid rgba(239,68,68,.22);background:transparent;color:rgba(239,68,68,.55);transition:var(--tr)}.tdel:hover{border-color:rgba(239,68,68,.55);color:#ef4444;background:rgba(239,68,68,.07)}
-/* cover picker removed */
+/* Cover picker */
+.cover-picker{display:flex;gap:.42rem;flex-wrap:wrap;margin-bottom:.82rem}
+.copt{width:40px;height:24px;border-radius:5px;border:2px solid transparent;transition:var(--tr)}.copt:hover{transform:scale(1.1)}.copt.sel{border-color:white;box-shadow:0 0 0 2px var(--ac)}
 /* Shared */
 .btn{display:inline-flex;align-items:center;gap:.38rem;font-family:var(--fm);font-weight:500;font-size:.85rem;padding:.58rem 1.2rem;border-radius:50px;border:none;transition:var(--tr)}
 .btn-p{background:var(--ac);color:white}.btn-p:hover{background:#e55e00;transform:translateY(-1px)}
@@ -439,15 +441,22 @@ html.light .jf-sel{color:var(--t1)}
   var h=location.hash.replace('#/','');
   var seg=(h.split('/')[0]||'').toLowerCase();
   var hasHash=known.indexOf(seg)!==-1;
-  var visited=false;try{visited=!!localStorage.getItem('tl_visited');}catch(e){}
-  var lastSeg='';try{lastSeg=(sessionStorage.getItem('tl_last')||'').split('|')[0];}catch(e){}
-  var skip=hasHash||!!uRedir; // only skip splash for direct hash links or username redirects
+  // Also detect username paths like /itskaveesha
+  var isUsernamePath = location.pathname !== '/' && !location.pathname.match(/\.(html|js|css|png|ico|svg)$/);
+  var skip=hasHash||!!uRedir||isUsernamePath;
   if(skip){
     document.addEventListener('DOMContentLoaded',function(){
       var s=document.getElementById('page-splash');
       if(s){s.classList.remove('active');s.style.display='none';}
-      document.getElementById('main-nav').style.display='flex';
-      var safe=uRedir?'feed':(hasHash&&seg!=='dashboard'&&seg!=='profile'?seg:(lastSeg&&lastSeg!=='dashboard'&&lastSeg!=='profile'?lastSeg:'feed'));
+      var nav=document.getElementById('main-nav');
+      if(nav) nav.style.display='flex';
+      // For username paths, show feed as placeholder while JS loads the profile
+      if(isUsernamePath){
+        var feed=document.getElementById('page-feed');
+        if(feed) feed.classList.add('active');
+        return;
+      }
+      var safe=uRedir?'feed':(hasHash&&seg!=='dashboard'&&seg!=='profile'?seg:'feed');
       var t=document.getElementById('page-'+safe);if(t)t.classList.add('active');
     });
   }
@@ -1208,31 +1217,47 @@ const JOBS = [
 // ── BOOT ─────────────────────────────────────────────
 function boot() {
   initTheme();
+  buildCoverPicker();
   applyLoggedOut();
   restoreSession();
   loadFeed();
-  renderJobs().catch(()=>{});
+  renderJobs();
 }
 
 // ── SESSION ──────────────────────────────────────────
 async function restoreSession() {
   try {
-    // Clean up username-path URLs (e.g. /itskaveesha) — redirect to hash routing
+    // If URL is a username path like /itskaveesha, extract and store the username
+    // then redirect to root so hash routing works correctly
+    let pendingUsername = null;
     if (location.pathname !== '/' && !location.pathname.match(/\.(html|js|css|png|ico|svg)$/)) {
-      history.replaceState(null, '', '/#/feed');
+      const pathUsername = location.pathname.replace(/^\//, '').split('/')[0];
+      if (pathUsername) pendingUsername = pathUsername;
+      history.replaceState(null, '', '/');
     }
+
     const { data: { session } } = await sb.auth.getSession();
+
     if (!session) {
       S.user = S.session = S.profile = null;
       try { Object.keys(localStorage).filter(k=>k.startsWith('tl_lp_')).forEach(k=>localStorage.removeItem(k)); } catch(e) {}
+      // If we had a username path, show that profile
+      if (pendingUsername) { showProfileByUsername(pendingUsername); return; }
       restoreFromHash(); return;
     }
+
     S.session = session;
     S.user    = session.user;
     S.profile = null;
     try { localStorage.removeItem('tl_lp_' + S.user.id); } catch(e) {}
     await loadProfile();
     applyLoggedIn();
+
+    // If we came from a username URL path, show that profile
+    if (pendingUsername) {
+      showProfileByUsername(pendingUsername); return;
+    }
+
     // Restore the page the user was on — including project and profile pages
     const lastRaw = (() => { try { return sessionStorage.getItem('tl_last') || ''; } catch(e){ return ''; } })();
     const [lastPg, lastSub] = lastRaw.split('|');
@@ -1240,7 +1265,6 @@ async function restoreSession() {
     if (lastPg && KNOWN.includes(lastPg)) {
       showPage(lastPg, lastSub || undefined);
     } else {
-      // Also try to restore from current hash
       const raw = location.hash.replace('#/', '');
       const parts = raw.split('/');
       const seg = parts[0].toLowerCase();
@@ -1248,7 +1272,6 @@ async function restoreSession() {
       if (KNOWN.includes(seg) && seg !== 'splash') {
         showPage(seg, sub || undefined);
       } else {
-        // Logged-in users always land on dashboard by default
         showPage('dashboard');
       }
     }
@@ -1640,10 +1663,9 @@ function applyLoggedIn() {
     navAv.innerHTML = '<span id="nav-initials">' + (p?.initials || (S.user?.email?.[0] || '?').toUpperCase()) + '</span>';
   }
   el('nav-uname-el').textContent = p?.username ? '@' + p.username : (p?.name?.split(' ')[0] || 'Account');
-  // Hide Join Pro button only for actually paid users
+  // Hide Join Pro button only for paid users
   const proBtnEl = document.getElementById('nav-pro-btn');
-  const isPaidActive = (p?.plan === 'standard' || p?.plan === 'vip') && p?.pay_status === 'paid';
-  if (proBtnEl) proBtnEl.style.display = isPaidActive ? 'none' : 'inline-flex';
+  if (proBtnEl) proBtnEl.style.display = (p?.plan === 'standard' || p?.plan === 'vip') ? 'none' : 'inline-flex';
   // Swap feed CTA to Pro upgrade message for signed-in free users
   const ctaInner = document.getElementById('feed-cta-inner');
   if (ctaInner) {
@@ -1677,20 +1699,11 @@ async function loadFeed() {
   try {
     const rows = await db('/projects?status=eq.published&select=*&order=created_at.desc');
     if (rows && rows.length) {
+      // Replace feed projects but keep any private drafts the current user has
       const myDrafts = S.user
         ? S.projects.filter(p => p.user_id === S.user.id && p.status === 'draft')
         : [];
-      // Fetch hidden profile IDs to exclude their projects
-      let hiddenIds = new Set();
-      try {
-        const hp = await db('/profiles?hidden=eq.true&select=id');
-        if (hp) hp.forEach(p => hiddenIds.add(p.id));
-      } catch(e) {}
-      // Filter out hidden profiles' projects and explicitly hidden projects
-      S.projects = [
-        ...rows.filter(p => !hiddenIds.has(p.user_id) && !p.hidden),
-        ...myDrafts
-      ];
+      S.projects = [...rows, ...myDrafts];
     } else {
       S.projects = DEMO;
     }
@@ -1903,17 +1916,15 @@ function switchAccTab(id) {
 
 function refreshDash() {
   const p = S.profile; if (!p) return;
-  // Pending or overdue payment = treated as free regardless of plan field
-  const effectivePlan = (p.pay_status === 'pending' || p.pay_status === 'overdue') ? 'free' : (p.plan || 'free');
   const planLabel = {free:'Free Plan', standard:'Standard Plan', vip:'VIP Pro Plan'};
   el('dash-h').textContent   = 'Welcome back, ' + (p.name?.split(' ')[0] || '');
-  el('dash-sub').textContent = (planLabel[effectivePlan] || 'Free Plan') + ' · Manage your portfolio and account.';
+  el('dash-sub').textContent = (planLabel[p.plan] || 'Free Plan') + ' · Manage your portfolio and account.';
   el('st-views').textContent = p.views || 0;
   el('st-likes').textContent = p.likes || 0;
-  el('st-plan').textContent  = effectivePlan === 'vip' ? 'VIP Pro' : effectivePlan === 'standard' ? 'Standard' : 'Free';
+  el('st-plan').textContent  = p.plan === 'vip' ? 'VIP Pro' : p.plan === 'standard' ? 'Standard' : 'Free';
   el('acc-name').value       = p.name || '';
   el('acc-email').value      = p.email || '';
-  el('acc-plan-disp').value  = planLabel[effectivePlan] || 'Free Plan';
+  el('acc-plan-disp').value  = planLabel[p.plan] || 'Free Plan';
   el('ep-name').value   = p.name    || '';
   el('ep-role').value   = p.role    || '';
   el('ep-city').value   = p.city    || '';
@@ -1933,7 +1944,8 @@ function refreshDash() {
     avPrev.style.background = GCOLS[p.grad_idx || 0];
     avPrev.textContent = p.initials || '?';
   }
-  const isFree = effectivePlan === 'free';
+  document.querySelectorAll('.copt').forEach((el, i) => el.classList.toggle('sel', i === (p.cover_idx || 0)));
+  const isFree = !p.plan || p.plan === 'free';
   el('upload-gate').style.display  = 'none';
   el('pub-btn').disabled           = false;
   el('upload-sub-txt').textContent = isFree
@@ -1945,9 +1957,7 @@ function refreshDash() {
 }
 
 function updatePlanUI() {
-  const p = S.profile;
-  // Pending or overdue = free regardless of stored plan
-  const plan = (p?.pay_status === 'pending' || p?.pay_status === 'overdue') ? 'free' : (p?.plan || 'free');
+  const plan = S.profile?.plan || 'free';
   el('pb-free').className = 'plan-btn plan-btn-cur';
   el('pb-free').textContent = 'Current Plan';
   el('pb-std').className  = 'plan-btn plan-btn-p';
@@ -1969,7 +1979,7 @@ function updatePlanUI() {
   } else {
     el('pc-free').classList.add('current');
   }
-  const mine = S.projects.filter(proj => S.profile && proj.user_id === S.profile.id);
+  const mine = S.projects.filter(p => S.profile && p.user_id === S.profile.id);
   el('st-projs').textContent = mine.length;
   el('st-projs-hint').textContent = plan === 'free' ? '(drafts only)' : '';
 }
@@ -2167,9 +2177,8 @@ async function saveProject(status) {
   if (!S.profile) { showToast('Please sign in first.'); return; }
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
-  // Storage check for free users (pending/overdue treated as free)
-  const effectiveUploadPlan = (S.profile.pay_status === 'pending' || S.profile.pay_status === 'overdue') ? 'free' : (S.profile.plan || 'free');
-  if (_pendingVideos.length && effectiveUploadPlan === 'free') {
+  // Storage check for free users
+  if (_pendingVideos.length && (!S.profile.plan || S.profile.plan === 'free')) {
     const used = await getUsedStorage();
     const newSize = _pendingVideos.reduce((s, f) => s + f.size, 0);
     if (used + newSize > FREE_STORAGE_LIMIT) {
@@ -2412,6 +2421,19 @@ function switchPTab(id, btn) { /* kept for backward compat — no-op */ }
 
 
 
+// ── COVER PICKER ─────────────────────────────────────
+function buildCoverPicker() {
+  el('cover-picker').innerHTML = GRADS.map((g, i) =>
+    '<div class="copt' + (i === 0 ? ' sel' : '') + '" style="background:' + g + '" onclick="selectCover(' + i + ',this)"></div>'
+  ).join('');
+}
+function selectCover(idx, btn) {
+  document.querySelectorAll('.copt').forEach(e => e.classList.remove('sel')); btn.classList.add('sel');
+  if (S.profile) S.profile.cover_idx = idx;
+  const covEl = document.getElementById('pcov-el');
+  if (covEl) covEl.style.background = GRADS[idx];
+}
+
 // ── FILE UPLOAD PREVIEW ──────────────────────────────
 function handleFileSelect(input) { showPreviews(input.files); }
 function handleDrop(e) { e.preventDefault(); el('upload-zone').classList.remove('drag'); showPreviews(e.dataTransfer.files); }
@@ -2430,101 +2452,38 @@ function showPreviews(files) {
 }
 
 // ── JOBS ─────────────────────────────────────────────
-async function renderJobs() {
+function renderJobs() {
   const grid  = el('jobs-grid');
   const nores = el('jobs-nores');
   if (!grid) return;
   const type = el('jf-type') ? el('jf-type').value : '';
   const cat  = el('jf-cat')  ? el('jf-cat').value  : '';
   const loc  = el('jf-loc')  ? el('jf-loc').value  : '';
-
-  let list = [];
-  // Try Supabase jobs table first
-  try {
-    const rows = await db('/jobs?hidden=eq.false&select=*&order=created_at.desc').catch(() => null);
-    if (rows && rows.length) {
-      list = rows.map(j => ({
-        id: j.id, company: j.company, role: j.title,
-        desc: j.description || j.desc || '',
-        type: (j.type || '').toLowerCase().replace(/[\s-]/g, ''),
-        cat: j.tags ? j.tags.split(',')[0].trim().toLowerCase() : 'video',
-        loc: (j.location || 'colombo').toLowerCase().split('/')[0].trim(),
-        salary: j.budget || 'Negotiable',
-        posted: fmtDateRelative(j.created_at),
-        apply: j.apply, feature: j.feature
-      }));
-    }
-  } catch(e) {}
-
-  // Fallback: localStorage jobs from admin
-  if (!list.length) {
-    try {
-      const stored = JSON.parse(localStorage.getItem('tl_jobs_v2') || '[]');
-      list = stored.filter(j => !j.hidden).map(j => ({
-        id: j.id, company: j.company, role: j.title,
-        desc: j.description || j.desc || '',
-        type: (j.type || '').toLowerCase().replace(/[\s-]/g, ''),
-        cat: 'video', loc: (j.location || 'colombo').toLowerCase(),
-        salary: j.budget || 'Negotiable',
-        posted: fmtDateRelative(j.created_at || j.posted),
-        apply: j.apply, feature: j.feature
-      }));
-    } catch(e) {}
-  }
-
-  // Final fallback: hardcoded JOBS array
-  if (!list.length) list = JOBS;
-
-  // Apply filters
-  list = list.filter(j =>
-    (!type || j.type === type || j.type.replace(/[-\s]/g,'') === type.replace(/[-\s]/g,'')) &&
-    (!cat  || j.cat === cat) &&
-    (!loc  || j.loc === loc || j.loc.includes(loc))
-  );
-
+  const list = JOBS.filter(j => (!type || j.type === type) && (!cat || j.cat === cat) && (!loc || j.loc === loc));
   if (!list.length) { grid.innerHTML = ''; nores && nores.classList.add('show'); return; }
   nores && nores.classList.remove('show');
   const CL = {video:'Video Editing',motion:'Motion Design',social:'Social Media',graphic:'Graphic Design','3d':'3D & VFX',photo:'Photography'};
-  const TL = {fulltime:'Full-time','full-time':'Full-time',parttime:'Part-time','part-time':'Part-time',freelance:'Freelance',remote:'Remote',contract:'Contract',internship:'Internship'};
-  grid.innerHTML = list.map(j => {
-    const applyClick = j.apply
-      ? `window.open('https://wa.me/'+('${(j.apply||'').replace(/[^0-9]/g,'')}').replace(/[^0-9]/g,'')+'?text='+encodeURIComponent('Applying for ${(j.role||'').replace(/'/g,'')} at ${(j.company||'').replace(/'/g,'')}'),'_blank')`
-      : `openWA('Applying for ${(j.role||'').replace(/'/g,'')} at ${(j.company||'').replace(/'/g,'')}')`;
-    return '<div class="jcard">' +
+  const TL = {'full-time':'Full-time','part-time':'Part-time',freelance:'Freelance',remote:'Remote'};
+  grid.innerHTML = list.map(j =>
+    '<div class="jcard">' +
       '<div class="jcard-top">' +
-        '<div class="jcard-logo">' + (j.company||'?')[0] + '</div>' +
+        '<div class="jcard-logo">' + j.company[0] + '</div>' +
         '<div style="flex:1;min-width:0"><div class="jcard-co">' + j.company + '</div><div class="jcard-title">' + j.role + '</div></div>' +
       '</div>' +
-      '<div class="jcard-desc">' + (j.desc||'') + '</div>' +
+      '<div class="jcard-desc">' + j.desc + '</div>' +
       '<div class="jcard-tags">' +
-        '<span class="jtag jtag-type">' + (TL[j.type] || j.type || 'Full-time') + '</span>' +
-        '<span class="jtag jtag-loc">' + (j.loc || 'Colombo') + '</span>' +
-        (j.cat ? '<span class="jtag jtag-cat">' + (CL[j.cat] || j.cat) + '</span>' : '') +
-        (j.feature === 'featured' ? '<span class="jtag" style="background:rgba(246,128,2,.15);color:#FE730A">Featured</span>' : '') +
-        (j.feature === 'urgent' ? '<span class="jtag" style="background:rgba(239,68,68,.12);color:#ef4444">Urgent</span>' : '') +
+        '<span class="jtag jtag-type">' + (TL[j.type] || j.type) + '</span>' +
+        '<span class="jtag jtag-loc">'  + j.loc + '</span>' +
+        '<span class="jtag jtag-cat">'  + (CL[j.cat] || j.cat) + '</span>' +
       '</div>' +
       '<div class="jcard-bot">' +
-        '<div><div class="jcard-salary">' + (j.salary||'Negotiable') + '</div>' +
-          '<div class="jcard-posted"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.5" stroke="rgba(255,255,255,.2)" stroke-width=".9"/><path d="M4.5 2.8V4.5l1 1" stroke="#FE730A" stroke-width=".85" stroke-linecap="round"/></svg> ' + j.posted + '</div>' +
+        '<div><div class="jcard-salary">' + j.salary + '</div>' +
+          '<div class="jcard-posted"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.5" stroke="rgba(255,255,255,.2)" stroke-width=".9" fill="none"/><path d="M4.5 2.8V4.5l1 1" stroke="#FE730A" stroke-width=".85" stroke-linecap="round" fill="none"/></svg> ' + j.posted + '</div>' +
         '</div>' +
-        '<button class="japply" onclick="' + applyClick + '">Apply <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5h5M5.5 2.5l2 2-2 2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+        '<button class="japply" onclick="openWA(\'Applying for ' + j.role + ' at ' + j.company + '\')">Apply <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5h5M5.5 2.5l2 2-2 2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
       '</div>' +
-    '</div>';
-  }).join('');
-}
-
-function fmtDateRelative(iso) {
-  if (!iso) return 'Recently';
-  try {
-    const diff = Date.now() - new Date(iso).getTime();
-    const days = Math.floor(diff / 86400000);
-    if (days === 0) return 'Today';
-    if (days === 1) return '1 day ago';
-    if (days < 7) return days + ' days ago';
-    if (days < 14) return '1 week ago';
-    if (days < 30) return Math.floor(days/7) + ' weeks ago';
-    return Math.floor(days/30) + ' months ago';
-  } catch(e) { return 'Recently'; }
+    '</div>'
+  ).join('');
 }
 
 // ── FAQ ──────────────────────────────────────────────
@@ -2567,7 +2526,7 @@ function showPage(id, projOrUserId) {
   try { if (id !== 'splash') sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); } catch(e) {}
   if (id !== 'splash') pushHash(id, projOrUserId);
   if (id === 'feed')      renderFeed();
-  if (id === 'jobs')      renderJobs().catch(()=>{});
+  if (id === 'jobs')      renderJobs();
   if (id === 'project' && projOrUserId) openProject(projOrUserId);
   if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
   if (id === 'profile') {
@@ -2580,12 +2539,12 @@ function showPage(id, projOrUserId) {
           S.viewingProfile = prof;
           refreshProfile(prof);
           if (prof.username) {
-            // Show clean username URL
+            // Use /username path — restoreSession now handles this correctly on refresh
             history.replaceState({ un: prof.username }, '', '/' + prof.username);
           } else {
-            // No username yet — keep clean hash, don't expose UUID in URL
             history.replaceState(null, '', '/#/profile');
           }
+          try { sessionStorage.setItem('tl_last', 'profile|' + prof.id); } catch(e) {}
         }
       }).catch(e => console.warn('Profile load:', e));
     };
@@ -2755,7 +2714,7 @@ window.changePassword= changePassword;
 window.saveProject   = saveProject;
 window.deleteProject = deleteProject;
 window.requestUpgrade= requestUpgrade;
-// selectCover removed
+window.selectCover   = selectCover;
 window.handleFileSelect = handleFileSelect;
 window.handleDrop    = handleDrop;
 window.switchPTab    = switchPTab;
