@@ -306,7 +306,7 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .ptbl-th{width:36px;height:26px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:white}
 .tbl-tit{font-weight:500;color:var(--t1)}
 .tbadge{font-size:.49rem;font-weight:600;letter-spacing:.8px;padding:.11rem .4rem;border-radius:50px;text-transform:uppercase}
-.tbadge.published{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.2)}
+.tbadge.published{background:rgba(254,115,10,.12);color:var(--ac);border:1px solid rgba(254,115,10,.2)}
 .tbadge.draft{background:var(--bg4);color:var(--t3);border:1px solid var(--brd)}
 .tdel{font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid rgba(239,68,68,.22);background:transparent;color:rgba(239,68,68,.55);transition:var(--tr)}.tdel:hover{border-color:rgba(239,68,68,.55);color:#ef4444;background:rgba(239,68,68,.07)}
 /* Cover picker */
@@ -427,6 +427,20 @@ html.light .jf-sel{color:var(--t1)}
 .faq-cta-box{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1.5rem;text-align:center;margin-top:2.5rem}
 .faq-cta-box h4{font-size:.92rem;font-weight:600;color:var(--t1);margin-bottom:.3rem}
 .faq-cta-box p{font-size:.78rem;color:var(--t2);margin-bottom:.95rem;line-height:1.7}
+/* ── EXPANDABLE PRICING FEATURE ROWS ── */
+.pc-feat-row{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .5rem;padding:.52rem 0;border-bottom:0.5px solid var(--brd);cursor:pointer;position:relative}
+.pc-feat-row:last-of-type{border-bottom:none}
+.pc-feat-check{font-size:.72rem;width:14px;text-align:center;flex-shrink:0;color:#1D9E75;font-weight:700}
+.pc-feat-check.pro{color:var(--ac)}
+.pc-feat-check.locked{color:var(--t3)}
+.pc-feat-name{font-size:.78rem;font-weight:500;color:var(--t1);flex:1;min-width:100px}
+.pc-feat-name.locked{color:var(--t2);font-weight:400}
+.pc-feat-val{font-size:.66rem;color:var(--t3);flex-shrink:0}
+.pc-feat-chev{font-size:.68rem;color:var(--t3);flex-shrink:0;transition:transform .15s;margin-left:auto}
+.pc-feat-row.open .pc-feat-chev{transform:rotate(90deg)}
+.pc-feat-desc{display:none;width:100%;font-size:.72rem;color:var(--t2);line-height:1.55;padding:.3rem 0 .1rem 1.2rem}
+.pc-feat-row.open .pc-feat-desc{display:block}
+
 </style>
 </head>
 <body>
@@ -684,9 +698,10 @@ html.light .jf-sel{color:var(--t1)}
       <div class="prof-card-body">
         <div class="prof-card-top">
           <div class="prof-av-float" id="pav-wrap"><div class="prof-av-ph" id="pav-ph" style="background:#FE730A">?</div></div>
-          <span class="prof-badge" id="pbadge-el" style="display:none">VIP Pro</span>
+          <span id="pbadge-el" style="display:none;background:var(--ac);color:white;font-size:.6rem;font-weight:600;padding:.18rem .55rem .18rem .4rem;border-radius:50px;display:none;align-items:center;gap:.28rem;flex-shrink:0"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,6.5 7.5,2.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified</span>
         </div>
         <div class="prof-name" id="pname-el">—</div>
+        <span id="pname-verified" style="display:none;margin-top:2px"></span>
         <div class="prof-role-city" id="prole-el">—</div>
         <div class="prof-handle-line" id="pusername-el" style="display:none"></div>
 
@@ -776,7 +791,7 @@ html.light .jf-sel{color:var(--t1)}
     <div class="pv-meta">
       <div class="pv-author-pill" id="pv-author-pill">
         <div class="pv-av"><div class="pv-av-ph" id="pv-author-av" style="background:#FE730A">?</div></div>
-        <span style="font-size:.8rem;font-weight:500;color:var(--t1)" id="pv-author-name">—</span>
+        <span style="font-size:.8rem;font-weight:500;color:var(--t1)" id="pv-author-name">—</span><span id="pv-author-verified" style="display:none;margin-left:4px;width:14px;height:14px;border-radius:50%;background:var(--ac);display:none;align-items:center;justify-content:center;flex-shrink:0"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3,5.5 6.5,2" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </div>
       <span style="font-size:.72rem;color:var(--t3)" id="pv-date">—</span>
     </div>
@@ -843,6 +858,7 @@ html.light .jf-sel{color:var(--t1)}
         <button class="dni" id="dnav-upload" onclick="switchDash('upload',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M4 4L7 1l3 3M2 11h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Upload Project</button>
         <button class="dni" id="dnav-projects" onclick="switchDash('projects',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>My Projects</button>
         <button class="dni" id="dnav-editprofile" onclick="switchDash('editprofile',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg></div>Edit Profile</button>
+        <button class="dni" id="dnav-analytics" onclick="switchDash('analytics',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-4 2.5 2 3-5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Analytics</button>
         <hr class="dndiv">
         <button class="dni" onclick="showPage('profile')"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>View Portfolio</button>
         <button class="dni" onclick="handleSignOut()" style="color:rgba(239,68,68,.6)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M9.5 4.5L13 7l-3.5 2.5M13 7H5" stroke="rgba(239,68,68,.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Sign Out</button>
@@ -869,7 +885,7 @@ html.light .jf-sel{color:var(--t1)}
           </div>
           <div class="gate-banner" id="gate-banner">
             <h3>🔒 Your portfolio is private</h3>
-            <p>On the <strong>Free plan</strong>, your work is saved but not visible to the public. Upgrade to <strong>Standard or VIP Pro</strong> to publish your portfolio and appear in the Discover feed.</p>
+            <p>On the <strong>Free plan</strong>, your work is saved but not visible to the public. Upgrade to <strong>Pro</strong> to publish your portfolio and appear in the Discover feed.</p>
             <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">See Plans →</button>
           </div>
         </div>
@@ -913,50 +929,48 @@ html.light .jf-sel{color:var(--t1)}
 
           <!-- Join Pro pane -->
           <div class="acc-pane" id="acc-pane-pro">
-            <div class="dcard" style="margin-bottom:1.05rem"><div class="dcard-h">Choose Your Plan</div><div class="dcard-sub">Upgrade to publish your work publicly and get promoted to clients across Sri Lanka.</div></div>
-            <div class="plan-grid">
+            <div class="dcard" style="margin-bottom:1.05rem"><div class="dcard-h">Choose Your Plan</div><div class="dcard-sub">Upgrade to publish your work publicly and get discovered by clients across Sri Lanka.</div></div>
+            <!-- Billing toggle -->
+            <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:1.1rem">
+              <div style="display:flex;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.18rem;gap:.12rem">
+                <button id="dtog-monthly" onclick="setDashBilling('monthly')" style="padding:.35rem .9rem;border-radius:50px;border:1px solid var(--brd);font-family:var(--fm);font-size:.76rem;font-weight:500;cursor:pointer;background:var(--bg2);color:var(--t1);transition:all .15s">Monthly</button>
+                <button id="dtog-yearly" onclick="setDashBilling('yearly')" style="padding:.35rem .9rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.76rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .15s">Yearly</button>
+              </div>
+              <span id="dtog-save" style="display:none;font-size:.68rem;font-weight:600;background:rgba(22,163,74,.12);color:#16a34a;padding:.18rem .6rem;border-radius:50px">2 months free</span>
+            </div>
+            <div class="plan-grid" style="grid-template-columns:1fr 1fr">
               <!-- Free -->
               <div class="plan-c" id="pc-free">
-                <div class="plan-name">Starter</div>
+                <div class="plan-name">Free</div>
                 <div class="plan-price">Free</div><div class="plan-period">Forever</div>
                 <ul class="plan-feats">
                   <li><span class="pchk">✓</span>Account &amp; dashboard</li>
-                  <li><span class="pchk">✓</span>Save projects as drafts</li>
-                  <li><span class="pchk">✓</span>Private profile page</li>
-                  <li class="no"><span class="pchk">×</span>Public portfolio</li>
-                  <li class="no"><span class="pchk">×</span>Appear in Discover</li>
+                  <li><span class="pchk">✓</span>Up to 3 projects</li>
+                  <li><span class="pchk">✓</span>250 MB storage</li>
+                  <li><span class="pchk">✓</span>Public profile page</li>
+                  <li><span class="pchk">✓</span>Search &amp; discovery</li>
+                  <li class="no"><span class="pchk">×</span>Verified badge</li>
                   <li class="no"><span class="pchk">×</span>Analytics</li>
+                  <li class="no"><span class="pchk">×</span>Hire Me button</li>
                 </ul>
                 <button class="plan-btn plan-btn-cur" id="pb-free">Current Plan</button>
               </div>
-              <!-- Standard -->
-              <div class="plan-c featured" id="pc-std">
+              <!-- Pro -->
+              <div class="plan-c featured" id="pc-pro">
                 <div class="plan-pop">Most Popular</div>
-                <div class="plan-name">Standard</div>
-                <div class="plan-price">1,990<span> LKR/mo</span></div><div class="plan-period">Per month</div>
+                <div class="plan-name">Pro</div>
+                <div class="plan-price" id="dash-pro-price">2,490<span> LKR/mo</span></div>
+                <div class="plan-period" id="dash-pro-period">Per month</div>
                 <ul class="plan-feats">
-                  <li><span class="pchk">✓</span>Everything in Free</li>
-                  <li><span class="pchk">✓</span>Public portfolio page</li>
-                  <li><span class="pchk">✓</span>Appear in Discover feed</li>
                   <li><span class="pchk">✓</span>Unlimited projects</li>
-                  <li><span class="pchk">✓</span>Analytics &amp; engagement</li>
-                  <li><span class="pchk">✓</span>VIP badge</li>
+                  <li><span class="pchk">✓</span>5 GB storage</li>
+                  <li><span class="pchk">✓</span>Priority in search</li>
+                  <li><span class="pchk">✓</span>Verified badge</li>
+                  <li><span class="pchk">✓</span>Analytics &amp; stats</li>
+                  <li><span class="pchk">✓</span>Social links</li>
+                  <li><span class="pchk">✓</span>Hire Me button</li>
                 </ul>
-                <button class="plan-btn plan-btn-p" id="pb-std" onclick="requestUpgrade('standard')">Upgrade — 1,990 LKR/mo</button>
-              </div>
-              <!-- VIP Pro -->
-              <div class="plan-c" id="pc-vip">
-                <div class="plan-name">VIP Pro</div>
-                <div class="plan-price">4,990<span> LKR/mo</span></div><div class="plan-period">Per month · All inclusive</div>
-                <ul class="plan-feats">
-                  <li><span class="pchk">✓</span>Everything in Standard</li>
-                  <li><span class="pchk">✓</span>Instagram &amp; Facebook promo</li>
-                  <li><span class="pchk">✓</span>TikTok channel feature</li>
-                  <li><span class="pchk">✓</span>Priority homepage placement</li>
-                  <li><span class="pchk">✓</span>Monthly performance report</li>
-                  <li><span class="pchk">✓</span>Dedicated account manager</li>
-                </ul>
-                <button class="plan-btn" id="pb-vip" onclick="requestUpgrade('vip')">Upgrade — 4,990 LKR/mo</button>
+                <button class="plan-btn plan-btn-p" id="pb-pro" onclick="requestUpgrade('pro')">Upgrade — 2,490 LKR/mo</button>
               </div>
             </div>
             <div style="text-align:center;font-size:.67rem;color:var(--t3);margin-top:.5rem">Activated manually after WhatsApp confirmation · Bank transfer or WhatsApp Pay</div>
@@ -967,7 +981,7 @@ html.light .jf-sel{color:var(--t1)}
         <div class="dash-panel" id="dash-panel-upload">
           <div class="gate-banner" id="upload-gate" style="display:none">
             <h3>🔒 Upgrade to publish projects</h3>
-            <p>Free accounts can save drafts only. Upgrade to <strong>Standard or VIP Pro</strong> to publish your projects publicly and appear in the Discover feed.</p>
+            <p>Free accounts can save drafts only. Upgrade to <strong>Pro</strong> to publish your projects publicly and appear in the Discover feed.</p>
             <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">See Plans →</button>
           </div>
           <div class="dcard">
@@ -1066,6 +1080,101 @@ html.light .jf-sel{color:var(--t1)}
           </div>
         </div>
 
+
+        <!-- ANALYTICS -->
+        <div class="dash-panel" id="dash-panel-analytics">
+
+          <!-- PRO content -->
+          <div id="analytics-pro-content">
+
+            <!-- Top stat cards -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.85rem">
+              <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.1rem">
+                <div style="font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);margin-bottom:.45rem">Profile Views</div>
+                <div style="font-size:1.55rem;font-weight:700;color:var(--t1);line-height:1" id="an-views">—</div>
+                <div style="height:2px;background:var(--brd);border-radius:2px;margin-top:.65rem"><div style="height:2px;background:var(--ac);border-radius:2px;width:60%"></div></div>
+              </div>
+              <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.1rem">
+                <div style="font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);margin-bottom:.45rem">Total Likes</div>
+                <div style="font-size:1.55rem;font-weight:700;color:var(--t1);line-height:1" id="an-likes">—</div>
+                <div style="height:2px;background:var(--brd);border-radius:2px;margin-top:.65rem"><div style="height:2px;background:var(--ac);border-radius:2px;width:40%"></div></div>
+              </div>
+              <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.1rem">
+                <div style="font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);margin-bottom:.45rem">Hire Me Clicks</div>
+                <div style="font-size:1.55rem;font-weight:700;color:var(--t1);line-height:1" id="an-hire">—</div>
+                <div style="height:2px;background:var(--brd);border-radius:2px;margin-top:.65rem"><div style="height:2px;background:var(--ac);border-radius:2px;width:25%"></div></div>
+              </div>
+              <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.1rem">
+                <div style="font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.8px;color:var(--t3);margin-bottom:.45rem">Social Clicks</div>
+                <div style="font-size:1.55rem;font-weight:700;color:var(--t1);line-height:1" id="an-social">—</div>
+                <div style="height:2px;background:var(--brd);border-radius:2px;margin-top:.65rem"><div style="height:2px;background:var(--ac);border-radius:2px;width:35%"></div></div>
+              </div>
+            </div>
+
+            <!-- Middle: engagement bars + top project -->
+            <div style="display:grid;grid-template-columns:1fr 340px;gap:.85rem;margin-bottom:.85rem">
+              <div class="dcard">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+                  <div><div class="dcard-h" style="margin-bottom:.1rem">Engagement Overview</div><div class="dcard-sub">How people interact with your profile</div></div>
+                </div>
+                <div id="an-engagement"></div>
+              </div>
+              <div class="dcard">
+                <div class="dcard-h" style="margin-bottom:.15rem">Top Project</div>
+                <div class="dcard-sub" style="margin-bottom:.85rem">Your most viewed project</div>
+                <div id="an-top-proj"></div>
+              </div>
+            </div>
+
+            <!-- Project performance table -->
+            <div class="dcard">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem">
+                <div><div class="dcard-h" style="margin-bottom:.1rem">Project Performance</div><div class="dcard-sub">Sorted by most viewed</div></div>
+              </div>
+              <div style="overflow-x:auto">
+                <table class="proj-tbl">
+                  <thead><tr>
+                    <th>Project</th><th>Views</th><th>Likes</th><th>Category</th><th>Status</th>
+                  </tr></thead>
+                  <tbody id="an-proj-tbody">
+                    <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--t3);font-size:.78rem">Loading...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- FREE gate: blurred behind upgrade prompt -->
+          <div id="analytics-free-gate" style="display:none;position:relative;min-height:420px">
+            <div style="filter:blur(6px);pointer-events:none;user-select:none;opacity:.45">
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-bottom:.85rem">
+                <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.1rem"><div style="font-size:.6rem;font-weight:600;text-transform:uppercase;color:var(--t3);margin-bottom:.4rem">Profile Views</div><div style="font-size:1.55rem;font-weight:700;color:var(--t1)">284</div></div>
+                <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.1rem"><div style="font-size:.6rem;font-weight:600;text-transform:uppercase;color:var(--t3);margin-bottom:.4rem">Total Likes</div><div style="font-size:1.55rem;font-weight:700;color:var(--t1)">47</div></div>
+                <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.1rem"><div style="font-size:.6rem;font-weight:600;text-transform:uppercase;color:var(--t3);margin-bottom:.4rem">Hire Me Clicks</div><div style="font-size:1.55rem;font-weight:700;color:var(--t1)">12</div></div>
+                <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.1rem"><div style="font-size:.6rem;font-weight:600;text-transform:uppercase;color:var(--t3);margin-bottom:.4rem">Social Clicks</div><div style="font-size:1.55rem;font-weight:700;color:var(--t1)">31</div></div>
+              </div>
+              <div class="dcard">
+                <div class="dcard-h" style="margin-bottom:.65rem">Project Performance</div>
+                <table class="proj-tbl"><thead><tr><th>Project</th><th>Views</th><th>Likes</th></tr></thead>
+                <tbody>
+                  <tr><td>My First Edit</td><td>142</td><td>23</td></tr>
+                  <tr><td>Brand Reel 2024</td><td>98</td><td>18</td></tr>
+                  <tr><td>Wedding Highlight</td><td>44</td><td>6</td></tr>
+                </tbody></table>
+              </div>
+            </div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+              <div style="background:var(--bg2);border:1px solid rgba(254,115,10,.3);border-radius:var(--rlg);padding:2rem 2.5rem;text-align:center;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.15)">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="margin-bottom:.75rem"><path d="M4 24l6-8 5 4 6-10 4 4" stroke="var(--ac)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="1" width="30" height="30" rx="8" stroke="rgba(254,115,10,.2)" stroke-width="1.5"/></svg>
+                <div style="font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">Analytics is Pro only</div>
+                <div style="font-size:.78rem;color:var(--t2);line-height:1.7;margin-bottom:1rem">See real views, likes, Hire Me clicks and social taps. Upgrade to unlock your full analytics dashboard.</div>
+                <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">Upgrade to Pro →</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div><!-- end panels -->
     </div><!-- end dash-grid -->
   </div><!-- end dash-wrap -->
@@ -1663,16 +1772,16 @@ function applyLoggedIn() {
   el('nav-uname-el').textContent = p?.username ? '@' + p.username : (p?.name?.split(' ')[0] || 'Account');
   // Hide Join Pro button only for paid users
   const proBtnEl = document.getElementById('nav-pro-btn');
-  if (proBtnEl) proBtnEl.style.display = (p?.plan === 'standard' || p?.plan === 'vip') ? 'none' : 'inline-flex';
+  if (proBtnEl) proBtnEl.style.display = (p?.plan === 'pro' || p?.plan === 'standard' || p?.plan === 'vip') ? 'none' : 'inline-flex';
   // Swap feed CTA to Pro upgrade message for signed-in free users
   const ctaInner = document.getElementById('feed-cta-inner');
+  const isPaid = p?.plan === 'pro' || p?.plan === 'standard' || p?.plan === 'vip';
   if (ctaInner) {
-    if (!p?.plan || p?.plan === 'free') {
+    if (!isPaid) {
       ctaInner.innerHTML =
-        '<div style="position:relative;z-index:1"><h3>Go Pro & get discovered.</h3><p>Upgrade to Standard or VIP Pro to publish your portfolio and appear in the Discover feed.</p></div>' +
+        '<div style="position:relative;z-index:1"><h3>Go Pro &amp; get discovered.</h3><p>Upgrade to Pro to publish your portfolio and appear in the Discover feed.</p></div>' +
         '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));switchAccTab(\'pro\');},80)">See Plans →</button>';
     } else {
-      // Standard/VIP — show something useful like upload prompt
       ctaInner.innerHTML =
         '<div style="position:relative;z-index:1"><h3>Share your latest work.</h3><p>Upload a new project and let clients discover your talent.</p></div>' +
         '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>switchDash(\'upload\',document.getElementById(\'dnav-upload\')),80)">Upload Project →</button>';
@@ -1702,6 +1811,18 @@ async function loadFeed() {
         ? S.projects.filter(p => p.user_id === S.user.id && p.status === 'draft')
         : [];
       S.projects = [...rows, ...myDrafts];
+      // Tag each project with its author's plan for priority sorting
+      try {
+        const authorIds = [...new Set(rows.map(p => p.user_id).filter(Boolean))];
+        if (authorIds.length) {
+          const profiles = await db('/profiles?id=in.(' + authorIds.join(',') + ')&select=id,plan', 'GET', null, SB_KEY).catch(() => []);
+          if (profiles && profiles.length) {
+            const planMap = {};
+            profiles.forEach(p => { planMap[p.id] = p.plan || 'free'; });
+            S.projects.forEach(p => { p._authorPlan = planMap[p.user_id] || 'free'; });
+          }
+        }
+      } catch(e) {}
     } else {
       S.projects = DEMO;
     }
@@ -1733,6 +1854,15 @@ function renderFeed() {
   if (S.search) list = list.filter(p => (p.title + (p.author_name || '') + (p.tags || []).join(' ')).toLowerCase().includes(S.search));
   if (S.sort === 'popular') list = list.slice().sort((a, b) => b.likes - a.likes);
   else if (S.sort === 'views') list = list.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
+  else {
+    // Default (newest) — Pro projects get a small priority boost
+    list = list.slice().sort((a, b) => {
+      const aIsPro = a._authorPlan === 'pro' || a._authorPlan === 'standard' || a._authorPlan === 'vip' ? 1 : 0;
+      const bIsPro = b._authorPlan === 'pro' || b._authorPlan === 'standard' || b._authorPlan === 'vip' ? 1 : 0;
+      if (bIsPro !== aIsPro) return bIsPro - aIsPro;
+      return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+    });
+  }
   el('feed-count').textContent = list.length + ' project' + (list.length !== 1 ? 's' : '');
   if (!list.length) { grid.innerHTML = ''; nores.classList.add('show'); return; }
   nores.classList.remove('show');
@@ -1778,6 +1908,9 @@ function buildCard(p) {
       '<div class="pcard-meta">' +
         avHtml +
         '<span class="pcard-author">' + (p.author_name || 'Unknown') + '</span>' +
+        (p._authorPlan === 'pro' || p._authorPlan === 'standard' || p._authorPlan === 'vip'
+          ? '<span title="Verified Pro" style="display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:var(--ac);flex-shrink:0"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3,5.5 6.5,2" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+          : '') +
         '<span style="opacity:.25">·</span>' +
         '<span style="font-size:.63rem;color:var(--t3);text-transform:capitalize">' + (p.cat || '') + '</span>' +
       '</div>' +
@@ -1827,6 +1960,12 @@ function openProject(id) {
     avEl.style.background = bg;
   }
   el('pv-author-name').textContent = p.author_name || '—';
+  // Verified tick in project view
+  const pvVerified = document.getElementById('pv-author-verified');
+  if (pvVerified) {
+    const authorIsPro = p._authorPlan === 'pro' || p._authorPlan === 'standard' || p._authorPlan === 'vip';
+    pvVerified.style.display = authorIsPro ? 'inline-flex' : 'none';
+  }
 
   // Main cover box — video > cover image > placeholder
   const cov = el('pv-cover');
@@ -1903,6 +2042,7 @@ function switchDash(id, btn) {
   el('dash-panel-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
   if (id === 'projects') renderMyProjects();
+  if (id === 'analytics') loadAnalytics();
 }
 
 function switchAccTab(id) {
@@ -1914,12 +2054,12 @@ function switchAccTab(id) {
 
 function refreshDash() {
   const p = S.profile; if (!p) return;
-  const planLabel = {free:'Free Plan', standard:'Standard Plan', vip:'VIP Pro Plan'};
+  const planLabel = {free:'Free Plan', pro:'Pro Plan', standard:'Standard Plan', vip:'VIP Pro Plan'};
   el('dash-h').textContent   = 'Welcome back, ' + (p.name?.split(' ')[0] || '');
   el('dash-sub').textContent = (planLabel[p.plan] || 'Free Plan') + ' · Manage your portfolio and account.';
   el('st-views').textContent = p.views || 0;
   el('st-likes').textContent = p.likes || 0;
-  el('st-plan').textContent  = p.plan === 'vip' ? 'VIP Pro' : p.plan === 'standard' ? 'Standard' : 'Free';
+  el('st-plan').textContent  = p.plan === 'vip' ? 'VIP Pro' : p.plan === 'standard' ? 'Standard' : p.plan === 'pro' ? 'Pro' : 'Free';
   el('acc-name').value       = p.name || '';
   el('acc-email').value      = p.email || '';
   el('acc-plan-disp').value  = planLabel[p.plan] || 'Free Plan';
@@ -1947,47 +2087,107 @@ function refreshDash() {
   el('upload-gate').style.display  = 'none';
   el('pub-btn').disabled           = false;
   el('upload-sub-txt').textContent = isFree
-    ? 'Free plan · 100 MB total video storage. Upgrade for unlimited.'
-    : 'Share your work with the Timeliners community.';
+    ? 'Free plan · 250 MB total video storage. Upgrade to Pro for 5 GB.'
+    : 'Pro plan · 5 GB video storage.';
   el('gate-banner').style.display  = 'none';
   el('st-projs-hint').textContent  = '';
-  if (isFree) refreshStorageBar();
+  refreshStorageBar();
 }
 
 function updatePlanUI() {
   const plan = S.profile?.plan || 'free';
-  el('pb-free').className = 'plan-btn plan-btn-cur';
-  el('pb-free').textContent = 'Current Plan';
-  el('pb-std').className  = 'plan-btn plan-btn-p';
-  el('pb-std').textContent = 'Upgrade — 1,990 LKR/mo';
-  el('pb-std').onclick = () => requestUpgrade('standard');
-  el('pb-vip').className  = 'plan-btn';
-  el('pb-vip').textContent = 'Upgrade — 4,990 LKR/mo';
-  el('pb-vip').onclick = () => requestUpgrade('vip');
-  ['free','std','vip'].forEach(k => el('pc-' + k).classList.remove('current'));
-  if (plan === 'standard') {
-    el('pc-std').classList.add('current');
-    el('pb-free').className = 'plan-btn'; el('pb-free').textContent = 'Downgrade';
-    el('pb-std').className = 'plan-btn plan-btn-cur'; el('pb-std').textContent = 'Current Plan'; el('pb-std').onclick = null;
-  } else if (plan === 'vip') {
-    el('pc-vip').classList.add('current');
-    el('pb-free').className = 'plan-btn'; el('pb-free').textContent = 'Downgrade';
-    el('pb-std').className = 'plan-btn'; el('pb-std').textContent = 'Downgrade'; el('pb-std').onclick = null;
-    el('pb-vip').className = 'plan-btn plan-btn-cur'; el('pb-vip').textContent = 'Current Plan'; el('pb-vip').onclick = null;
-  } else {
-    el('pc-free').classList.add('current');
+  const isPro = plan === 'pro' || plan === 'standard' || plan === 'vip';
+
+  // Reset free button
+  const pbFree = document.getElementById('pb-free');
+  if (pbFree) { pbFree.className = isPro ? 'plan-btn' : 'plan-btn plan-btn-cur'; pbFree.textContent = isPro ? 'Downgrade' : 'Current Plan'; }
+
+  // Pro button
+  const pbPro = document.getElementById('pb-pro');
+  const pcPro = document.getElementById('pc-pro');
+  if (pbPro) {
+    if (isPro) {
+      pbPro.className = 'plan-btn plan-btn-cur'; pbPro.textContent = 'Current Plan'; pbPro.onclick = null;
+      if (pcPro) pcPro.classList.add('current');
+    } else {
+      pbPro.className = 'plan-btn plan-btn-p'; pbPro.textContent = 'Upgrade — 2,490 LKR/mo'; pbPro.onclick = () => requestUpgrade('pro');
+      if (pcPro) pcPro.classList.remove('current');
+    }
   }
+
+  // Legacy std/vip refs (kept for backward compat)
+  ['pb-std','pb-vip'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
+  ['pc-std','pc-vip'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('current'); });
+  const pcFree = document.getElementById('pc-free');
+  if (pcFree) pcFree.classList.toggle('current', !isPro);
+
   const mine = S.projects.filter(p => S.profile && p.user_id === S.profile.id);
   el('st-projs').textContent = mine.length;
-  el('st-projs-hint').textContent = plan === 'free' ? '(drafts only)' : '';
+  el('st-projs-hint').textContent = !isPro ? '(free plan)' : '';
 }
 
 function requestUpgrade(plan) {
-  const msg = plan === 'standard'
-    ? "Hi, I'd like to upgrade to Standard (1,990 LKR/mo). My email: " + (S.profile?.email || '')
-    : "Hi, I'd like to upgrade to VIP Pro (4,990 LKR/mo). My email: " + (S.profile?.email || '');
+  const yearly = plan === 'pro_yearly';
+  const planKey = yearly ? 'pro' : plan;
+  const price = yearly ? '24,900 LKR/year (2 months free)' : plan === 'pro' ? '2,490 LKR/mo' : plan === 'standard' ? '1,990 LKR/mo' : '4,990 LKR/mo';
+  const label = planKey === 'pro' ? 'Pro' : planKey === 'standard' ? 'Standard' : 'VIP Pro';
+  const msg = "Hi, I'd like to upgrade to " + label + " (" + price + "). My email: " + (S.profile?.email || '');
   window.open('https://wa.me/94771873449?text=' + encodeURIComponent(msg), '_blank');
   showToast('Opening WhatsApp to upgrade!');
+}
+
+// Pricing page billing toggle
+function setPricingBilling(mode) {
+  const btnM = document.getElementById('ptog-monthly');
+  const btnY = document.getElementById('ptog-yearly');
+  const save  = document.getElementById('ptog-save');
+  const price = document.getElementById('pp-price') || document.getElementById('pc-pro-price');
+  const period= document.getElementById('pp-period') || document.getElementById('pc-pro-period');
+  const btn   = document.getElementById('pp-btn') || document.getElementById('pc-pro-btn');
+  if (!btnM) return;
+  if (mode === 'monthly') {
+    btnM.style.background = 'var(--bg2)'; btnM.style.color = 'var(--t1)'; btnM.style.border = '1px solid var(--brd)';
+    btnY.style.background = 'transparent'; btnY.style.color = 'var(--t2)'; btnY.style.border = 'none';
+    save.style.display = 'none';
+    if (price)  { price.innerHTML = '<span style="font-size:.85rem;font-weight:400;color:var(--t2)">LKR </span>2,490<span style="font-size:.8rem;font-weight:400;color:var(--t2)" id="pp-period"> / month</span>'; }
+    // period handled in price innerHTML
+    if (btn)    { btn.textContent = 'Subscribe — 2,490 LKR/mo'; }
+    if (btn)    btn.onclick = () => openWA('Pro plan (2,490 LKR/month)');
+  } else {
+    btnY.style.background = 'var(--bg2)'; btnY.style.color = 'var(--t1)'; btnY.style.border = '1px solid var(--brd)';
+    btnM.style.background = 'transparent'; btnM.style.color = 'var(--t2)'; btnM.style.border = 'none';
+    save.style.display = 'inline';
+    if (price)  { price.innerHTML = '<span style="font-size:.85rem;font-weight:400;color:var(--t2)">LKR </span>2,075<span style="font-size:.8rem;font-weight:400;color:var(--t2)" id="pp-period"> / mo &nbsp;<span style=\"font-size:.7rem;color:var(--t3)\">billed LKR 24,900/yr</span></span>'; }
+    // period handled in price innerHTML
+    if (btn)    { btn.textContent = 'Subscribe — LKR 24,900/yr'; }
+    if (btn)    btn.onclick = () => requestUpgrade('pro_yearly');
+  }
+}
+
+// Dashboard billing toggle
+function setDashBilling(mode) {
+  const btnM  = document.getElementById('dtog-monthly');
+  const btnY  = document.getElementById('dtog-yearly');
+  const save  = document.getElementById('dtog-save');
+  const price = document.getElementById('dash-pro-price');
+  const period= document.getElementById('dash-pro-period');
+  const btn   = document.getElementById('pb-pro');
+  if (!btnM) return;
+  if (mode === 'monthly') {
+    btnM.style.background = 'var(--bg2)'; btnM.style.color = 'var(--t1)'; btnM.style.border = '1px solid var(--brd)';
+    btnY.style.background = 'transparent'; btnY.style.color = 'var(--t2)'; btnY.style.border = 'none';
+    save.style.display = 'none';
+    if (price)  price.innerHTML  = '2,490<span> LKR/mo</span>';
+    if (period) period.textContent = 'Per month';
+    if (btn && btn.className.includes('plan-btn-p')) { btn.textContent = 'Upgrade — 2,490 LKR/mo'; btn.onclick = () => requestUpgrade('pro'); }
+  } else {
+    btnY.style.background = 'var(--bg2)'; btnY.style.color = 'var(--t1)'; btnY.style.border = '1px solid var(--brd)';
+    btnM.style.background = 'transparent'; btnM.style.color = 'var(--t2)'; btnM.style.border = 'none';
+    save.style.display = 'inline';
+    if (price)  price.innerHTML  = '2,075<span> LKR/mo</span>';
+    if (period) period.innerHTML = 'billed LKR 24,900/yr';
+    if (btn && btn.className.includes('plan-btn-p')) { btn.textContent = 'Upgrade — LKR 24,900/yr'; btn.onclick = () => requestUpgrade('pro_yearly'); }
+  }
 }
 
 // ── AVATAR (PROFILE PICTURE) UPLOAD ─────────────────
@@ -2175,12 +2375,28 @@ async function saveProject(status) {
   if (!S.profile) { showToast('Please sign in first.'); return; }
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
-  // Storage check for free users
-  if (_pendingVideos.length && (!S.profile.plan || S.profile.plan === 'free')) {
+
+  // Project count limit for free users
+  const isPaidUser = S.profile.plan === 'pro' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
+  if (!isPaidUser && status === 'published') {
+    const token = await getToken();
+    const existing = await db('/projects?user_id=eq.' + S.profile.id + '&status=eq.published&select=id', 'GET', null, token).catch(() => []);
+    if (existing && existing.length >= 3) {
+      showToast('⚠️ Free plan limit: 3 published projects. Upgrade to Pro for unlimited.');
+      switchDash('account', document.getElementById('dnav-account'));
+      setTimeout(() => switchAccTab('pro'), 80);
+      return;
+    }
+  }
+  // Storage check
+  if (_pendingVideos.length) {
+    const storageLimit = isPaidUser ? PRO_STORAGE_LIMIT : FREE_STORAGE_LIMIT;
     const used = await getUsedStorage();
     const newSize = _pendingVideos.reduce((s, f) => s + f.size, 0);
-    if (used + newSize > FREE_STORAGE_LIMIT) {
-      showToast('⚠️ Storage full — free plan limit is 100 MB. Upgrade for unlimited.'); return;
+    if (used + newSize > storageLimit) {
+      const limitLabel = isPaidUser ? '5 GB' : '250 MB';
+      showToast('⚠️ Storage full — ' + (isPaidUser ? 'Pro' : 'free') + ' plan limit is ' + limitLabel + '.' + (!isPaidUser ? ' Upgrade to Pro for 5 GB.' : ''));
+      return;
     }
   }
   const proj = {
@@ -2258,7 +2474,14 @@ async function renderMyProjects() {
       '<td>' + (p.likes || 0) + '</td>' +
       '<td>' + (p.views || 0) + '</td>' +
       '<td><span class="tbadge ' + p.status + '">' + p.status + '</span></td>' +
-      '<td onclick="event.stopPropagation()"><button class="tdel" onclick="deleteProject(\'' + p.id + '\')">Delete</button></td>' +
+      '<td onclick="event.stopPropagation()" style="display:flex;gap:.35rem">' +
+        '<button style="font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor=\'var(--ac)\';this.style.color=\'var(--ac)\'' + '" onmouseout="this.style.borderColor=\'var(--brd2)\';this.style.color=\'var(--t2)\'" onclick="openEditProjectById(\'' + p.id + '\')">' +
+          'Edit' +
+        '</button>' +
+        '<button class="tdel" onclick="deleteProject(\'' + p.id + '\')">' +
+          'Delete' +
+        '</button>' +
+      '</td>' +
     '</tr>'
   ).join('');
 }
@@ -2292,7 +2515,16 @@ function refreshProfile(profileData) {
   if (covEl) covEl.style.background = meshGrad;
   el('pname-el').textContent      = p.name || '—';
   const badge = el('pbadge-el');
-  badge.style.display = p.plan === 'vip' ? 'inline' : 'none';
+  const isPaidPlan = p.plan === 'pro' || p.plan === 'standard' || p.plan === 'vip';
+  badge.style.display = isPaidPlan ? 'inline-flex' : 'none';
+  // Verified tick next to name
+  const nameVerified = document.getElementById('pname-verified');
+  if (nameVerified) {
+    nameVerified.style.display = isPaidPlan ? 'inline-flex' : 'none';
+    nameVerified.innerHTML = isPaidPlan
+      ? '<span style="display:inline-flex;align-items:center;gap:.25rem;font-size:.68rem;font-weight:500;color:var(--ac)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" fill="var(--ac)"/><polyline points="3,6 5,8 9,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified</span>'
+      : '';
+  }
   el('prole-el').textContent      = (p.role || 'Video Editor') + ' · ' + (p.city || 'Sri Lanka');
 
   // Username / shareable handle
@@ -2322,18 +2554,62 @@ function refreshProfile(profileData) {
     return '<span class="sw-badge"><span class="sw-dot" style="background:' + col + '"></span>' + s + '</span>';
   }).join('') || '<span style="font-size:.72rem;color:var(--t3)">No tools added yet.</span>';
 
-  // Socials
+  // Socials — Pro only (show links; for free users hide and show upgrade nudge)
   const wa = el('pwa-link'), ig = el('pig-link'), yt = el('pyt-link'), nl = el('pno-links');
-  let has = false;
-  if (p.wa) { wa.style.display='flex'; wa.href='https://wa.me/'+p.wa.replace(/[^0-9]/g,''); has=true; } else wa.style.display='none';
-  if (p.ig) { ig.style.display='flex'; ig.href=p.ig; has=true; } else ig.style.display='none';
-  if (p.yt) { yt.style.display='flex'; yt.href=p.yt; has=true; } else yt.style.display='none';
-  nl.style.display = has ? 'none' : 'inline';
+  const socialsRow = document.getElementById('prof-socials-row');
+  const profIsPro = p.plan === 'pro' || p.plan === 'standard' || p.plan === 'vip';
+  const profIsOwn = S.profile && p.id === S.profile.id;
 
-  // Hire button
-  el('p-hire-btn').onclick = p.wa
-    ? () => window.open('https://wa.me/' + p.wa.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent('Hi ' + p.name + ', I found your profile on Timeliners and would love to hire you for a project.'), '_blank')
-    : () => showToast("This editor hasn't added a contact method yet.");
+  if (!profIsPro) {
+    // Free user — hide all links, show upgrade nudge (only to owner)
+    wa.style.display = 'none'; ig.style.display = 'none'; yt.style.display = 'none';
+    nl.style.display = 'none';
+    let lockNote = document.getElementById('socials-lock-note');
+    if (!lockNote) {
+      lockNote = document.createElement('span');
+      lockNote.id = 'socials-lock-note';
+      lockNote.style.cssText = 'font-size:.72rem;color:var(--t3)';
+      if (socialsRow) socialsRow.appendChild(lockNote);
+    }
+    lockNote.innerHTML = profIsOwn
+      ? '🔒 <a style="color:var(--ac);cursor:pointer" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));switchAccTab(\'pro\');},80)">Upgrade to Pro</a> to add social links'
+      : 'Social links available on Pro';
+  } else {
+    // Pro — remove any lock note, show links normally
+    const existingLock = document.getElementById('socials-lock-note');
+    if (existingLock) existingLock.remove();
+    let has = false;
+    if (p.wa) { wa.style.display='flex'; wa.href='https://wa.me/'+p.wa.replace(/[^0-9]/g,''); has=true; } else wa.style.display='none';
+    if (p.ig) { ig.style.display='flex'; ig.href=p.ig; has=true; } else ig.style.display='none';
+    if (p.yt) { yt.style.display='flex'; yt.href=p.yt; has=true; } else yt.style.display='none';
+    nl.style.display = has ? 'none' : 'inline';
+  }
+
+  // Hire Me button — Pro only
+  const hireBtn = el('p-hire-btn');
+  if (!profIsPro) {
+    if (profIsOwn) {
+      // Owner sees a locked version with upgrade CTA
+      hireBtn.style.opacity = '0.45';
+      hireBtn.style.cursor = 'not-allowed';
+      hireBtn.onclick = () => {
+        showPage('dashboard');
+        setTimeout(() => { switchDash('account', document.getElementById('dnav-account')); switchAccTab('pro'); }, 80);
+      };
+      hireBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg> Hire Me <span style="font-size:.6rem;opacity:.8">(Pro only)</span>';
+    } else {
+      // Visitor — hide the button entirely
+      hireBtn.style.display = 'none';
+    }
+  } else {
+    hireBtn.style.display = 'flex';
+    hireBtn.style.opacity = '1';
+    hireBtn.style.cursor = 'pointer';
+    hireBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg> Hire Me';
+    hireBtn.onclick = p.wa
+      ? () => window.open('https://wa.me/' + p.wa.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent('Hi ' + p.name + ', I found your profile on Timeliners and would love to hire you for a project.'), '_blank')
+      : () => showToast("This editor hasn't added a contact method yet.");
+  }
 
   // Edit button — only show to owner
   el('p-edit-btn').style.display = isOwn ? 'flex' : 'none';
@@ -2371,10 +2647,34 @@ function renderProfileProjects(prof) {
 }
 
 function _renderProfileProjectsUI(p, allProjs, isOwn) {
-  // Stats
+  // Stats — views/likes visible to all; analytics section gated for Pro
   el('pstat-proj').textContent  = allProjs.length;
   el('pstat-likes').textContent = p.likes || 0;
-  el('pstat-views').textContent = p.views || 0;
+
+  // Views stat — Pro only; free users see locked state
+  const statViewsBox = document.getElementById('pstat-views');
+  const statViewsEl  = document.getElementById('pstat-views-val') || el('pstat-views');
+  const profileIsPro = p.plan === 'pro' || p.plan === 'standard' || p.plan === 'vip';
+  const viewingIsOwn = S.profile && p.id === S.profile.id;
+
+  if (!profileIsPro) {
+    // Show locked icon instead of number
+    el('pstat-views').textContent = '—';
+    const parentBox = el('pstat-views').closest('.prof-stat-box');
+    if (parentBox) {
+      parentBox.title = 'Analytics available on Pro';
+      parentBox.style.opacity = '0.5';
+      parentBox.style.cursor = viewingIsOwn ? 'pointer' : 'default';
+      if (viewingIsOwn) parentBox.onclick = () => {
+        showPage('dashboard');
+        setTimeout(() => { switchDash('account', document.getElementById('dnav-account')); switchAccTab('pro'); }, 80);
+      };
+    }
+  } else {
+    el('pstat-views').textContent = p.views || 0;
+    const parentBox = el('pstat-views').closest('.prof-stat-box');
+    if (parentBox) { parentBox.style.opacity = '1'; parentBox.style.cursor = 'default'; parentBox.onclick = null; parentBox.title = ''; }
+  }
 
   const grid  = document.getElementById('profile-proj-grid');
   const nores = el('pnores');
@@ -2713,10 +3013,109 @@ window.changePassword= changePassword;
 window.saveProject   = saveProject;
 window.deleteProject = deleteProject;
 window.requestUpgrade= requestUpgrade;
+window.setPricingBilling = setPricingBilling;
+window.setDashBilling    = setDashBilling;
 window.selectCover   = selectCover;
 window.handleFileSelect = handleFileSelect;
 window.handleDrop    = handleDrop;
 window.switchPTab    = switchPTab;
+
+// ── ANALYTICS ─────────────────────────────────────────
+async function loadAnalytics() {
+  if (!S.profile) return;
+  const isPro = S.profile.plan === 'pro' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
+  const proEl  = document.getElementById('analytics-pro-content');
+  const freeEl = document.getElementById('analytics-free-gate');
+  if (!proEl || !freeEl) return;
+
+  if (!isPro) {
+    proEl.style.display  = 'none';
+    freeEl.style.display = 'block';
+    return;
+  }
+  proEl.style.display  = 'block';
+  freeEl.style.display = 'none';
+
+  try {
+    const token = await getToken();
+    const projs = await db('/projects?user_id=eq.' + S.profile.id + '&select=*&order=views.desc', 'GET', null, token) || [];
+    const totalViews = projs.reduce((s, p) => s + (p.views || 0), 0);
+    const totalLikes = projs.reduce((s, p) => s + (p.likes || 0), 0);
+
+    document.getElementById('an-views').textContent  = (S.profile.views || totalViews || 0).toLocaleString();
+    document.getElementById('an-likes').textContent  = totalLikes.toLocaleString();
+    document.getElementById('an-hire').textContent   = S.profile.hire_clicks  || '—';
+    document.getElementById('an-social').textContent = S.profile.social_clicks || '—';
+
+    const tbody = document.getElementById('an-proj-tbody');
+    const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',social:'Social',longform:'Long-form',wedding:'Wedding'};
+    const maxViews = Math.max(...projs.map(x => x.views || 0), 1);
+
+    if (!projs.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--t3);font-size:.78rem">No projects yet.</td></tr>';
+    } else {
+      tbody.innerHTML = projs.map(function(p) {
+        const bar = Math.round((p.views || 0) / maxViews * 100);
+        const statusCls = p.status === 'published' ? 'published' : 'draft';
+        return '<tr style="cursor:pointer" onclick="openProject(\'' + p.id + '\')">' +
+          '<td><div style="display:flex;align-items:center;gap:.55rem">' +
+            '<div style="width:4px;height:32px;border-radius:2px;background:var(--ac);opacity:' + (0.25 + bar / 160) + ';flex-shrink:0"></div>' +
+            '<span style="font-weight:500;color:var(--t1)">' + (p.title || 'Untitled') + '</span>' +
+          '</div></td>' +
+          '<td style="font-weight:600;color:var(--t1)">' + (p.views || 0).toLocaleString() + '</td>' +
+          '<td>' + (p.likes || 0) + '</td>' +
+          '<td style="text-transform:capitalize">' + (CAT[p.cat] || p.cat || '—') + '</td>' +
+          '<td><span class="tbadge ' + statusCls + '">' + (p.status || 'draft') + '</span></td>' +
+        '</tr>';
+      }).join('');
+    }
+
+    const top = projs[0];
+    const topEl = document.getElementById('an-top-proj');
+    const GCOLS2 = ['#FE730A','#7C3AED','#0EA5E9','#16A34A','#DC2626','#D97706'];
+    if (top) {
+      const bg = GCOLS2[top.grad_idx % GCOLS2.length] || '#FE730A';
+      topEl.innerHTML =
+        '<div style="border-radius:var(--r);overflow:hidden;aspect-ratio:16/9;background:' + bg + '18;display:flex;align-items:center;justify-content:center;margin-bottom:.65rem;cursor:pointer" onclick="openProject(\'' + top.id + '\')">' +
+          (top.cover_url ? '<img src="' + top.cover_url + '" style="width:100%;height:100%;object-fit:cover">' :
+           '<span style="font-size:.85rem;font-weight:600;color:' + bg + '">' + (top.author_init || '?') + '</span>') +
+        '</div>' +
+        '<div style="font-size:.85rem;font-weight:600;color:var(--t1);margin-bottom:.22rem">' + (top.title || 'Untitled') + '</div>' +
+        '<div style="font-size:.72rem;color:var(--t2)">' + (top.views || 0) + ' views · ' + (top.likes || 0) + ' likes</div>';
+    } else {
+      topEl.innerHTML = '<div style="font-size:.78rem;color:var(--t3)">No published projects yet.</div>';
+    }
+
+    const engEl = document.getElementById('an-engagement');
+    const engRows = [
+      ['Profile views',    S.profile.views         || 0],
+      ['Project likes',    totalLikes                   ],
+      ['Hire Me clicks',   S.profile.hire_clicks   || 0],
+      ['Social link taps', S.profile.social_clicks || 0],
+    ];
+    const maxVal = Math.max.apply(null, engRows.map(function(r){ return r[1]; }).concat([1]));
+    engEl.innerHTML = engRows.map(function(row) {
+      const label = row[0], val = row[1];
+      const pct = Math.round(val / maxVal * 100);
+      const opacity = 0.35 + (pct / 100) * 0.65;
+      return '<div style="margin-bottom:.85rem">' +
+        '<div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.3rem">' +
+          '<span style="color:var(--t2)">' + label + '</span>' +
+          '<span style="font-weight:600;color:var(--t1)">' + val.toLocaleString() + '</span>' +
+        '</div>' +
+        '<div style="background:var(--bg4);border-radius:99px;height:6px;overflow:hidden">' +
+          '<div style="height:6px;border-radius:99px;background:var(--ac);opacity:' + opacity.toFixed(2) + ';width:' + pct + '%;transition:width .5s"></div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+  } catch(e) {
+    const tbody = document.getElementById('an-proj-tbody');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--t3);font-size:.78rem">Could not load data.</td></tr>';
+  }
+}
+window.loadAnalytics = loadAnalytics;
+
 window.refreshProfile = refreshProfile;
 window.renderJobs    = renderJobs;
 window.toggleFaq     = toggleFaq;
@@ -2839,7 +3238,8 @@ async function uploadProjectVideos(token, projId) {
 }
 
 // ── STORAGE HELPERS ──────────────────────────────────
-const FREE_STORAGE_LIMIT = 100 * 1024 * 1024;
+const FREE_STORAGE_LIMIT = 250 * 1024 * 1024;  // 250 MB
+const PRO_STORAGE_LIMIT  = 5 * 1024 * 1024 * 1024; // 5 GB
 function fmtBytes(b) { return b >= 1048576 ? (b/1048576).toFixed(1)+' MB' : (b/1024).toFixed(0)+' KB'; }
 async function getUsedStorage() {
   if (!S.profile) return 0;
@@ -2852,22 +3252,23 @@ async function getUsedStorage() {
 async function refreshStorageBar() {
   const wrap = document.getElementById('storage-bar-wrap');
   if (!wrap || !S.profile) return;
-  const isFree = !S.profile.plan || S.profile.plan === 'free';
-  if (!isFree) { wrap.style.display = 'none'; return; }
+  const isPaidUser = S.profile.plan === 'pro' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
+  const storageLimit = isPaidUser ? PRO_STORAGE_LIMIT : FREE_STORAGE_LIMIT;
+  const limitLabel   = isPaidUser ? '5 GB' : '250 MB';
   const used = await getUsedStorage();
-  const pct  = Math.min(100, (used/FREE_STORAGE_LIMIT)*100);
-  const left = FREE_STORAGE_LIMIT - used;
+  const pct  = Math.min(100, (used / storageLimit) * 100);
+  const left = storageLimit - used;
   const col  = pct > 85 ? '#ef4444' : pct > 60 ? '#f59e0b' : 'var(--ac)';
   wrap.style.display = 'block';
   wrap.innerHTML =
     '<div style="display:flex;justify-content:space-between;margin-bottom:.3rem">' +
-      '<span style="font-size:.6rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">Free Storage</span>' +
-      '<span style="font-size:.68rem;font-weight:600;color:'+(pct>85?'#ef4444':'var(--t2)')+'">'+fmtBytes(used)+' / 100 MB</span>' +
+      '<span style="font-size:.6rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">' + (isPaidUser ? 'Pro' : 'Free') + ' Storage</span>' +
+      '<span style="font-size:.68rem;font-weight:600;color:' + (pct > 85 ? '#ef4444' : 'var(--t2)') + '">' + fmtBytes(used) + ' / ' + limitLabel + '</span>' +
     '</div>' +
     '<div style="background:var(--bg4);border-radius:4px;height:5px;overflow:hidden">' +
-      '<div style="height:100%;background:'+col+';width:'+pct.toFixed(1)+'%;transition:width .4s;border-radius:4px"></div>' +
+      '<div style="height:100%;background:' + col + ';width:' + pct.toFixed(1) + '%;transition:width .4s;border-radius:4px"></div>' +
     '</div>' +
-    '<div style="font-size:.63rem;color:'+(pct>85?'#f59e0b':'var(--t3)')+';margin-top:.25rem">'+(pct>85?'⚠️ ':'')+fmtBytes(left)+' remaining</div>';
+    '<div style="font-size:.63rem;color:' + (pct > 85 ? '#f59e0b' : 'var(--t3)') + ';margin-top:.25rem">' + (pct > 85 ? '\u26a0\ufe0f ' : '') + fmtBytes(left) + ' remaining' + (!isPaidUser ? ' \u00b7 <a style=\"color:var(--ac);cursor:pointer\" onclick=\"switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)\">Upgrade for 5 GB</a>' : '') + '</div>';
 }
 
 // ── EXPOSE EXTRA HELPERS ─────────────────────────────
@@ -2959,92 +3360,75 @@ boot();
   <div class="pricing-wrap">
     <div class="pricing-eyebrow">Pricing</div>
     <h2 class="pricing-h">Simple, Transparent <span>Pricing</span></h2>
-    <p class="pricing-sub">Start free and upgrade when you're ready to go public. No hidden fees, no contracts.</p>
+    <p class="pricing-sub">Start free and upgrade when you're ready to get hired. No hidden fees, no contracts.</p>
 
-    <div class="pricing-grid">
+    <!-- Billing toggle -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:.75rem;margin-bottom:2.5rem">
+      <div style="display:flex;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.22rem;gap:.15rem">
+        <button id="ptog-monthly" onclick="setPricingBilling('monthly')" style="padding:.42rem 1.1rem;border-radius:50px;border:1px solid var(--brd);font-family:var(--fm);font-size:.8rem;font-weight:500;cursor:pointer;background:var(--bg2);color:var(--t1);transition:all .15s">Monthly</button>
+        <button id="ptog-yearly" onclick="setPricingBilling('yearly')" style="padding:.42rem 1.1rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.8rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .15s">Yearly</button>
+      </div>
+      <span id="ptog-save" style="display:none;font-size:.72rem;font-weight:600;background:rgba(22,163,74,.12);color:#16a34a;padding:.22rem .7rem;border-radius:50px">2 months free</span>
+    </div>
+
+    <div class="pricing-grid" style="grid-template-columns:repeat(2,1fr);max-width:720px;margin-left:auto;margin-right:auto">
       <!-- Free -->
       <div class="pc">
-        <div class="pc-name">Starter</div>
-        <div class="pc-price">Free<span></span></div>
-        <div class="pc-period">Forever</div>
+        <div class="pc-name">Free</div>
+        <div class="pc-price" style="font-size:2.4rem">0<span> LKR</span></div>
+        <div class="pc-period">Forever · No credit card needed</div>
         <div class="pc-divider"></div>
-        <div class="pc-desc">Get a feel for the platform and set up your account.</div>
+        <div class="pc-desc">Enough to get started and show your work.</div>
         <ul class="pc-feats">
           <li><span class="pc-chk">✓</span>Account &amp; dashboard</li>
-          <li><span class="pc-chk">✓</span>Save up to 3 draft projects</li>
-          <li><span class="pc-chk">✓</span>Private profile page</li>
-          <li><span class="pc-chk">✓</span>Browse Discover &amp; Jobs</li>
-          <li class="no"><span class="pc-chk">×</span>Public portfolio</li>
-          <li class="no"><span class="pc-chk">×</span>Appear in Discover</li>
-          <li class="no"><span class="pc-chk">×</span>Analytics</li>
-          <li class="no"><span class="pc-chk">×</span>Social media promotion</li>
+          <li><span class="pc-chk">✓</span>Up to 3 projects</li>
+          <li><span class="pc-chk">✓</span>250 MB video storage</li>
+          <li><span class="pc-chk">✓</span>Public profile page</li>
+          <li><span class="pc-chk">✓</span>Search &amp; discovery</li>
+          <li class="no"><span class="pc-chk">×</span>Verified badge</li>
+          <li class="no"><span class="pc-chk">×</span>Analytics &amp; stats</li>
+          <li class="no"><span class="pc-chk">×</span>Social links</li>
+          <li class="no"><span class="pc-chk">×</span>Hire Me button</li>
         </ul>
         <button class="pc-btn pc-btn-free" onclick="openAuth('up')">Get Started Free</button>
       </div>
-      <!-- Standard -->
+      <!-- Pro -->
       <div class="pc pc-feat">
         <div class="pc-pop">Most Popular</div>
-        <div class="pc-name">Standard</div>
-        <div class="pc-price">1,990<span> LKR</span></div>
-        <div class="pc-period">Per month</div>
+        <div class="pc-name">Pro</div>
+        <div class="pc-price" id="pp-price" style="font-size:2.4rem">2,490<span> LKR</span></div>
+        <div class="pc-period" id="pp-period">Per month</div>
         <div class="pc-divider"></div>
-        <div class="pc-desc">Full portfolio for serious creatives who want to be found.</div>
+        <div class="pc-desc">For creatives serious about getting seen and hired.</div>
         <ul class="pc-feats">
-          <li><span class="pc-chk">✓</span>Everything in Free</li>
-          <li><span class="pc-chk">✓</span>Public portfolio page</li>
-          <li><span class="pc-chk">✓</span>Appear in Discover feed</li>
           <li><span class="pc-chk">✓</span>Unlimited projects</li>
-          <li><span class="pc-chk">✓</span>Analytics &amp; engagement stats</li>
-          <li><span class="pc-chk">✓</span>VIP badge on profile</li>
-          <li><span class="pc-chk">✓</span>Priority search ranking</li>
-          <li class="no"><span class="pc-chk">×</span>Social media promotion</li>
+          <li><span class="pc-chk">✓</span>5 GB video storage</li>
+          <li><span class="pc-chk">✓</span>Public profile page</li>
+          <li><span class="pc-chk">✓</span>Priority in search</li>
+          <li><span class="pc-chk">✓</span>Verified badge</li>
+          <li><span class="pc-chk">✓</span>Analytics &amp; stats</li>
+          <li><span class="pc-chk">✓</span>Social links (Instagram, WhatsApp…)</li>
+          <li><span class="pc-chk">✓</span>Hire Me button</li>
         </ul>
-        <button class="pc-btn pc-btn-std" onclick="openWA('Standard plan (1,990 LKR/month)')">Subscribe — 1,990 LKR/mo</button>
-      </div>
-      <!-- VIP Pro -->
-      <div class="pc">
-        <div class="pc-name">VIP Pro</div>
-        <div class="pc-price">4,990<span> LKR</span></div>
-        <div class="pc-period">Per month · All inclusive</div>
-        <div class="pc-divider"></div>
-        <div class="pc-desc">Maximum exposure with social media promotion included.</div>
-        <ul class="pc-feats">
-          <li><span class="pc-chk">✓</span>Everything in Standard</li>
-          <li><span class="pc-chk">✓</span>Instagram &amp; Facebook feature</li>
-          <li><span class="pc-chk">✓</span>TikTok channel feature</li>
-          <li><span class="pc-chk">✓</span>Homepage priority placement</li>
-          <li><span class="pc-chk">✓</span>Monthly performance report</li>
-          <li><span class="pc-chk">✓</span>Dedicated account manager</li>
-          <li><span class="pc-chk">✓</span>Direct client introductions</li>
-          <li><span class="pc-chk">✓</span>Early access to new features</li>
-        </ul>
-        <button class="pc-btn pc-btn-vip" onclick="openWA('VIP Pro plan (4,990 LKR/month)')">Subscribe — 4,990 LKR/mo</button>
+        <button class="pc-btn pc-btn-std" id="pp-btn" onclick="openWA('Pro plan (2,490 LKR/month)')">Subscribe — 2,490 LKR/mo</button>
       </div>
     </div>
     <p class="pricing-note">Activated manually after WhatsApp confirmation · Bank transfer or WhatsApp Pay accepted</p>
 
-    <!-- Comparison table -->
     <div class="pricing-compare">
       <h3>Full Feature Comparison</h3>
       <table class="compare-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th>Free</th>
-            <th>Standard</th>
-            <th>VIP Pro</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Feature</th><th>Free</th><th>Pro</th></tr></thead>
         <tbody>
-          <tr><td>Dashboard &amp; account</td><td class="ct-yes">✓</td><td class="ct-yes">✓</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Save draft projects</td><td>Up to 3</td><td class="ct-yes">Unlimited</td><td class="ct-yes">Unlimited</td></tr>
-          <tr><td>Public portfolio page</td><td class="ct-no">—</td><td class="ct-yes">✓</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Appear in Discover feed</td><td class="ct-no">—</td><td class="ct-yes">✓</td><td class="ct-yes">✓</td></tr>
-          <tr><td>VIP badge on profile</td><td class="ct-no">—</td><td class="ct-yes">✓</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Analytics &amp; stats</td><td class="ct-no">—</td><td class="ct-yes">✓</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Social media promotion</td><td class="ct-no">—</td><td class="ct-no">—</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Monthly performance report</td><td class="ct-no">—</td><td class="ct-no">—</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Dedicated account manager</td><td class="ct-no">—</td><td class="ct-no">—</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Dashboard &amp; account</td><td class="ct-yes">✓</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Projects</td><td>Up to 3</td><td class="ct-yes">Unlimited</td></tr>
+          <tr><td>Video storage</td><td>250 MB</td><td class="ct-yes">5 GB</td></tr>
+          <tr><td>Public profile page</td><td class="ct-yes">✓</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Search &amp; discovery</td><td>Standard</td><td class="ct-yes">Priority</td></tr>
+          <tr><td>Verified badge</td><td class="ct-no">—</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Analytics &amp; stats</td><td class="ct-no">—</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Social links</td><td class="ct-no">—</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Hire Me button</td><td class="ct-no">—</td><td class="ct-yes">✓</td></tr>
         </tbody>
       </table>
     </div>
@@ -3087,7 +3471,7 @@ boot();
 
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">What's the difference between the plans?<div class="faq-ico">+</div></div>
-      <div class="faqa">Free: private account, save up to 3 drafts, browse everything. Standard (1,990 LKR/mo): public portfolio, appear in Discover, unlimited projects, analytics, VIP badge. VIP Pro (4,990 LKR/mo): everything in Standard plus monthly social media promotion on our Instagram, Facebook and TikTok, a monthly performance report, and a dedicated account manager.</div>
+      <div class="faqa">Free: public profile, up to 3 projects, 250 MB storage, search &amp; discovery. Pro (2,490 LKR/mo): unlimited projects, 5 GB storage, priority search ranking, verified badge, analytics &amp; stats, social links, and a Hire Me button. You can also pay yearly (LKR 24,900/yr) to save 2 months.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How does payment work?<div class="faq-ico">+</div></div>
