@@ -431,7 +431,7 @@ html.light .jf-sel{color:var(--t1)}
 </head>
 <body>
 
-<!-- INSTANT ROUTING: hides splash on refresh, handles username redirects from 404.html -->
+<!-- INSTANT ROUTING: hides splash on refresh, handles username paths and hash routing -->
 <script>
 (function(){
   var uRedir='';
@@ -441,23 +441,19 @@ html.light .jf-sel{color:var(--t1)}
   var h=location.hash.replace('#/','');
   var seg=(h.split('/')[0]||'').toLowerCase();
   var hasHash=known.indexOf(seg)!==-1;
-  // Also detect username paths like /itskaveesha
-  var isUsernamePath = location.pathname !== '/' && !location.pathname.match(/\.(html|js|css|png|ico|svg)$/);
-  var skip=hasHash||!!uRedir||isUsernamePath;
+  // Detect username paths like /itskaveesha
+  var isUsernamePath=location.pathname!=='/'&&!location.pathname.match(/\.(html|js|css|png|ico|svg)$/);
+  // Also skip splash if user was previously on a page (returning visitor)
+  var lastSeg='';try{lastSeg=(sessionStorage.getItem('tl_last')||'').split('|')[0];}catch(e){}
+  var hasLastPage=lastSeg&&known.indexOf(lastSeg)!==-1;
+  var skip=hasHash||!!uRedir||isUsernamePath||hasLastPage;
   if(skip){
     document.addEventListener('DOMContentLoaded',function(){
       var s=document.getElementById('page-splash');
       if(s){s.classList.remove('active');s.style.display='none';}
-      var nav=document.getElementById('main-nav');
-      if(nav) nav.style.display='flex';
-      // For username paths, show feed as placeholder while JS loads the profile
-      if(isUsernamePath){
-        var feed=document.getElementById('page-feed');
-        if(feed) feed.classList.add('active');
-        return;
-      }
-      var safe=uRedir?'feed':(hasHash&&seg!=='dashboard'&&seg!=='profile'?seg:'feed');
-      var t=document.getElementById('page-'+safe);if(t)t.classList.add('active');
+      var nav=document.getElementById('main-nav');if(nav)nav.style.display='flex';
+      // Show feed as placeholder — restoreSession will route correctly
+      var feed=document.getElementById('page-feed');if(feed)feed.classList.add('active');
     });
   }
 })();
@@ -1227,12 +1223,11 @@ function boot() {
 // ── SESSION ──────────────────────────────────────────
 async function restoreSession() {
   try {
-    // If URL is a username path like /itskaveesha, extract and store the username
-    // then redirect to root so hash routing works correctly
+    // Extract username from path like /itskaveesha before resetting URL
     let pendingUsername = null;
     if (location.pathname !== '/' && !location.pathname.match(/\.(html|js|css|png|ico|svg)$/)) {
-      const pathUsername = location.pathname.replace(/^\//, '').split('/')[0];
-      if (pathUsername) pendingUsername = pathUsername;
+      const slug = location.pathname.replace(/^\//, '').split('/')[0];
+      if (slug) pendingUsername = slug;
       history.replaceState(null, '', '/');
     }
 
@@ -1241,7 +1236,6 @@ async function restoreSession() {
     if (!session) {
       S.user = S.session = S.profile = null;
       try { Object.keys(localStorage).filter(k=>k.startsWith('tl_lp_')).forEach(k=>localStorage.removeItem(k)); } catch(e) {}
-      // If we had a username path, show that profile
       if (pendingUsername) { showProfileByUsername(pendingUsername); return; }
       restoreFromHash(); return;
     }
@@ -1253,28 +1247,32 @@ async function restoreSession() {
     await loadProfile();
     applyLoggedIn();
 
-    // If we came from a username URL path, show that profile
+    // Username path takes priority — show that profile
     if (pendingUsername) {
       showProfileByUsername(pendingUsername); return;
     }
 
-    // Restore the page the user was on — including project and profile pages
+    // Restore from current hash first (e.g. /#/dashboard on refresh)
+    const raw = location.hash.replace('#/', '');
+    const parts = raw.split('/');
+    const hashSeg = parts[0].toLowerCase();
+    const hashSub = parts[1] || '';
+    const KNOWN = ['feed','jobs','pricing','faq','profile','dashboard','project'];
+
+    if (KNOWN.includes(hashSeg) && hashSeg !== 'splash') {
+      showPage(hashSeg, hashSub || undefined); return;
+    }
+
+    // Then try sessionStorage last page
     const lastRaw = (() => { try { return sessionStorage.getItem('tl_last') || ''; } catch(e){ return ''; } })();
     const [lastPg, lastSub] = lastRaw.split('|');
-    const KNOWN = ['feed','jobs','pricing','faq','profile','dashboard','project'];
     if (lastPg && KNOWN.includes(lastPg)) {
-      showPage(lastPg, lastSub || undefined);
-    } else {
-      const raw = location.hash.replace('#/', '');
-      const parts = raw.split('/');
-      const seg = parts[0].toLowerCase();
-      const sub = parts[1] || '';
-      if (KNOWN.includes(seg) && seg !== 'splash') {
-        showPage(seg, sub || undefined);
-      } else {
-        showPage('dashboard');
-      }
+      showPage(lastPg, lastSub || undefined); return;
     }
+
+    // Default for logged-in users: dashboard
+    showPage('dashboard');
+
   } catch(e) {
     console.warn('Session restore:', e.message);
     restoreFromHash();
@@ -2539,12 +2537,12 @@ function showPage(id, projOrUserId) {
           S.viewingProfile = prof;
           refreshProfile(prof);
           if (prof.username) {
-            // Use /username path — restoreSession now handles this correctly on refresh
+            // Show clean username URL
             history.replaceState({ un: prof.username }, '', '/' + prof.username);
           } else {
+            // No username yet — keep clean hash, don't expose UUID in URL
             history.replaceState(null, '', '/#/profile');
           }
-          try { sessionStorage.setItem('tl_last', 'profile|' + prof.id); } catch(e) {}
         }
       }).catch(e => console.warn('Profile load:', e));
     };
@@ -2619,7 +2617,8 @@ function restoreFromHash() {
       showPage(lp); return;
     }
   } catch(e) {}
-  // Default: show splash (logged-in users will be redirected by restoreSession)
+  // Default: if logged in go to dashboard, else show splash
+  if (S.user) { showPage('dashboard'); } 
 }
 
 window.addEventListener('hashchange', () => {
