@@ -503,7 +503,6 @@ a,button{cursor:pointer;font-family:var(--fm)}
             <div class="card mb2">
               <div class="card-hd"><div class="card-title">Links & Skills</div></div>
               <div class="card-bd">
-                <div class="fg"><label class="fl">Avatar Colour</label><div class="av-picker" id="av-grad-picker"></div></div>
                 <div class="fg"><label class="fl">Skills (press Enter to add)</label><div class="tags-wrap" id="tags-wrap" onclick="document.getElementById('tag-input').focus()"><input class="tags-inp" id="tag-input" placeholder="After Effects, Premiere Pro…" onkeydown="handleTagKey(event)"></div></div>
                 <div class="frow"><div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="f-wa" placeholder="+94 77 xxx xxxx"></div><div class="fg"><label class="fl">Instagram</label><input class="fi" id="f-ig" placeholder="@handle"></div></div>
                 <div class="fg"><label class="fl">YouTube / Video Links (one per line)</label><textarea class="fta" id="f-yt" placeholder="https://youtube.com/watch?v=..." style="min-height:60px"></textarea></div>
@@ -1185,9 +1184,14 @@ function cyclePlan(id) {
 async function toggleHideProfile(id) {
   const p=_profiles.find(x=>x.id===id); if(!p) return;
   const hidden=!p.hidden;
-  await updateProfile(id,{hidden});
-  toast((p.name||'User')+' '+(hidden?'hidden from Discover':'visible on Discover')+' ✓');
-  renderAll();
+  try {
+    await sb('/profiles?id=eq.'+id,'PATCH',{hidden});
+    p.hidden=hidden;
+    renderAll();
+    toast((p.name||'User')+' '+(hidden?'hidden from site':'visible on site')+' ✓');
+  } catch(e) {
+    toast('Hide failed: '+e.message+' — check Supabase RLS policies','err');
+  }
 }
 
 // ═══════════════════════════════════════
@@ -1247,10 +1251,14 @@ function confirmDeleteProject(id, title) {
 async function toggleHideProject(id) {
   const p=_projects.find(x=>x.id===id); if(!p) return;
   const hidden=!p.hidden;
-  await sb('/projects?id=eq.'+id,'PATCH',{hidden});
-  p.hidden=hidden;
-  renderProjects();
-  toast((p.title||'Project')+' '+(hidden?'hidden from site':'visible on site')+' ✓');
+  try {
+    await sb('/projects?id=eq.'+id,'PATCH',{hidden});
+    p.hidden=hidden;
+    renderProjects();
+    toast((p.title||'Project')+' '+(hidden?'hidden from site':'visible on site')+' ✓');
+  } catch(e) {
+    toast('Hide failed: '+e.message+' — check Supabase RLS policies','err');
+  }
 }
 
 // ═══════════════════════════════════════
@@ -1541,9 +1549,14 @@ async function saveProfile() {
 }
 
 async function updateProfile(id, updates) {
-  await sb('/profiles?id=eq.'+id,'PATCH',updates);
-  const p=_profiles.find(x=>x.id===id);
-  if(p) Object.assign(p,updates);
+  try {
+    await sb('/profiles?id=eq.'+id,'PATCH',updates);
+    const p=_profiles.find(x=>x.id===id);
+    if(p) Object.assign(p,updates);
+  } catch(e) {
+    toast('Update failed: '+e.message,'err');
+    throw e;
+  }
 }
 
 function resetForm() {
