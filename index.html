@@ -17,6 +17,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--fm);background:var(--bg);color:var(--t1);overflow-x:hidden}
+a{text-decoration:none}
 a,button{cursor:pointer}
 button{font-family:var(--fm)}
 input,textarea,select{font-family:var(--fm)}
@@ -58,7 +59,7 @@ html.light #main-nav{background:rgba(245,245,245,.97)}
 .nav-c{width:100%;max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:100%}
 .nav-brand{font-weight:700;font-size:1.1rem;color:var(--w);cursor:pointer}
 .nav-mid{display:flex;gap:.1rem}
-.nl{font-size:.88rem;color:var(--t2);padding:.34rem .88rem;border-radius:50px;transition:var(--tr);border:none;background:none}.nl:hover{color:var(--t1);background:rgba(255,255,255,.05)}.nl.active{color:var(--w);font-weight:500}
+.nl{font-size:.88rem;color:var(--t2);padding:.34rem .88rem;border-radius:50px;transition:var(--tr);border:none;background:none;text-decoration:none;cursor:pointer}.nl:hover{color:var(--t1);background:rgba(255,255,255,.05)}.nl.active{color:var(--w);font-weight:500}
 .nav-right{display:flex;align-items:center;gap:.5rem}
 .nav-cta{background:transparent;color:var(--t1);font-size:.84rem;font-weight:500;padding:.42rem 1.1rem;border-radius:50px;border:1.5px solid var(--brd2);transition:var(--tr)}.nav-cta:hover{border-color:var(--brd3);background:var(--bg3)}
 .nav-user{display:flex;align-items:center;gap:.45rem;padding:.3rem .55rem;border-radius:50px;border:1px solid var(--brd2);transition:var(--tr)}.nav-user:hover{border-color:var(--brd3);background:var(--bg3)}
@@ -99,7 +100,8 @@ html.light .ai{color:var(--t1)}
 .feed-lbl{font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
 .feed-right{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
 .ftabs{display:flex;gap:.2rem;flex-wrap:wrap}
-.ftab{font-size:.82rem;padding:.3rem .88rem;border-radius:50px;border:1px solid var(--brd);background:transparent;color:var(--t2);transition:var(--tr)}.ftab:hover{border-color:var(--brd2);color:var(--t1)}.ftab.active{background:var(--ac);color:white;border-color:var(--ac);font-weight:500}
+.ftab{font-size:.82rem;padding:.3rem .88rem;border-radius:50px;border:1px solid var(--brd);background:transparent;color:var(--t2);transition:var(--tr);text-decoration:none;cursor:pointer}.ftab:hover{border-color:var(--brd2);color:var(--t1)}.ftab.active{background:var(--ac);color:white;border-color:var(--ac);font-weight:500}
+.pcard *{pointer-events:none}.pcard .pcard-ov-like{pointer-events:auto}
 .fsrch{display:flex;align-items:center;gap:.5rem;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.28rem .85rem;min-width:185px;transition:var(--tr)}.fsrch:focus-within{border-color:var(--brd2)}
 .fsrch input{border:none;outline:none;font-size:.84rem;color:var(--t1);background:transparent;width:100%}.fsrch input::placeholder{color:var(--t3)}
 html.light .fsrch input{color:var(--t1)}
@@ -109,7 +111,7 @@ html.light .fsrch input{color:var(--t1)}
 .sort-sel{border:1px solid var(--brd);border-radius:var(--r);background:var(--bg3);color:var(--t1);font-size:.76rem;padding:.26rem .55rem;outline:none}
 /* Project cards - cinematic video style */
 .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem}
-.pcard{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);overflow:hidden;transition:var(--tr);position:relative;cursor:pointer}
+.pcard{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);overflow:hidden;transition:var(--tr);position:relative;cursor:pointer;text-decoration:none;display:block;color:inherit}
 .pcard:hover{border-color:var(--brd2);transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,.65)}
 /* Cinematic 16:9 thumbnail */
 .pcard-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg3)}
@@ -166,7 +168,10 @@ html.light .fsrch input{color:var(--t1)}
 .sw-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 /* Social links in card */
 .prof-social-row{display:flex;gap:.45rem;margin-top:1rem;flex-wrap:wrap}
-.prof-soc-btn{display:inline-flex;align-items:center;gap:.38rem;font-size:.72rem;font-weight:500;padding:.42rem .85rem;border-radius:50px;border:1px solid var(--brd2);background:var(--bg3);color:var(--t2);transition:var(--tr);text-decoration:none}.prof-soc-btn:hover{border-color:var(--ac);color:var(--ac)}
+.prof-soc-btn{display:inline-flex;align-items:center;gap:.38rem;font-size:.72rem;font-weight:600;padding:.44rem .9rem;border-radius:50px;border:1.5px solid transparent;background:var(--bg3);color:var(--t1);transition:var(--tr);text-decoration:none}.prof-soc-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.prof-soc-wa{border-color:rgba(37,211,102,.3);color:#25D366}.prof-soc-wa:hover{background:rgba(37,211,102,.08);border-color:#25D366}
+.prof-soc-ig{border-color:rgba(225,48,108,.3);color:#E1306C}.prof-soc-ig:hover{background:rgba(225,48,108,.08);border-color:#E1306C}
+.prof-soc-yt{border-color:rgba(255,0,0,.3);color:#FF0000}.prof-soc-yt:hover{background:rgba(255,0,0,.08);border-color:#FF0000}
 /* Hire button */
 .prof-hire-btn{width:100%;padding:.68rem;border-radius:10px;border:none;background:var(--ac);color:white;font-size:.85rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:.45rem;transition:var(--tr);margin-top:1rem}.prof-hire-btn:hover{background:#e55e00;transform:translateY(-1px)}
 .prof-edit-btn{width:100%;padding:.6rem;border-radius:10px;border:1px solid var(--brd2);background:transparent;color:var(--t2);font-size:.82rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.4rem;transition:var(--tr);margin-top:.5rem}.prof-edit-btn:hover{border-color:var(--brd3);color:var(--t1)}
@@ -183,7 +188,7 @@ html.light .fsrch input{color:var(--t1)}
 .prof-bio-txt{font-size:.84rem;color:var(--t2);line-height:1.9}
 /* Projects in profile — compact cards */
 .prof-proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
-.prof-pcard{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;overflow:hidden;cursor:pointer;transition:var(--tr)}.prof-pcard:hover{border-color:var(--brd2);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.5)}
+.prof-pcard{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;overflow:hidden;cursor:pointer;transition:var(--tr);text-decoration:none;display:block;color:inherit}.prof-pcard:hover{border-color:var(--brd2);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.5)}.prof-pcard *{pointer-events:none}
 .prof-pcard-thumb{aspect-ratio:16/9;position:relative;background:var(--bg4);display:flex;align-items:center;justify-content:center}
 .prof-pcard-ph{font-family:var(--fd);font-size:2.2rem;color:rgba(255,255,255,.1)}
 .prof-pcard-thumb img{width:100%;height:100%;object-fit:cover}
@@ -220,7 +225,7 @@ html.light .fsrch input{color:var(--t1)}
 .pv-htags{display:flex;gap:.3rem;flex-wrap:wrap}
 .pv-htag{font-size:.62rem;padding:.2rem .62rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2)}
 .pv-cover{max-width:960px;margin:1.3rem auto;padding:0 24px}
-.pv-cover-box{width:100%;border-radius:var(--rxl);overflow:hidden;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:700}
+.pv-cover-box{width:100%;border-radius:var(--rxl);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:700;min-height:120px}
 .pv-body{max-width:960px;margin:0 auto;padding:1.3rem 24px 4rem;display:grid;grid-template-columns:1fr 240px;gap:2.2rem;align-items:start}
 .pv-desc{font-size:.9rem;color:var(--t2);line-height:2;margin-bottom:1.2rem}
 .pv-side{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1.1rem;position:sticky;top:68px}
@@ -239,7 +244,7 @@ html.light .fsrch input{color:var(--t1)}
 .dash-sub{font-size:.82rem;color:var(--t2);margin-bottom:1.7rem}
 .dash-grid{display:grid;grid-template-columns:215px 1fr;gap:1.5rem;align-items:start}
 .dash-nav{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:.5rem;position:sticky;top:68px}
-.dni{display:flex;align-items:center;gap:.55rem;padding:.56rem .7rem;border-radius:var(--r);font-size:.83rem;color:var(--t2);transition:var(--tr);border:none;background:transparent;width:100%;text-align:left}.dni:hover{background:var(--bg3);color:var(--t1)}.dni.active{background:var(--acl);color:var(--ac);font-weight:500}
+.dni{display:flex;align-items:center;gap:.55rem;padding:.56rem .7rem;border-radius:var(--r);font-size:.83rem;color:var(--t2);transition:var(--tr);border:none;background:transparent;width:100%;text-align:left;text-decoration:none;cursor:pointer}.dni:hover{background:var(--bg3);color:var(--t1)}.dni.active{background:var(--acl);color:var(--ac);font-weight:500}
 .dni-ico{width:19px;height:19px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .dndiv{border:none;border-top:1px solid var(--brd);margin:.45rem .7rem}
 .dash-panel{display:none}.dash-panel.active{display:block}
@@ -334,9 +339,10 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .fbrand{font-weight:700;font-size:1rem;color:var(--w);margin-bottom:.45rem}
 .fdesc{font-size:.83rem;color:var(--t2);line-height:1.85;max-width:195px}
 .fct{font-size:.6rem;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;color:var(--t3);margin-bottom:.65rem}
-.flink{display:block;font-size:.85rem;color:var(--t2);margin-bottom:.36rem;transition:var(--tr)}.flink:hover{color:var(--ac)}
+.flink{display:block;font-size:.85rem;color:var(--t2);margin-bottom:.36rem;transition:var(--tr);text-decoration:none}.flink:hover{color:var(--ac)}
 .fbot{border-top:1px solid var(--brd);padding-top:.88rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.85rem}
 .fcopy{font-size:.75rem;color:var(--t2)}
+.tag-chip{display:inline-flex;align-items:center;gap:.25rem;background:rgba(254,115,10,.1);border:1px solid rgba(254,115,10,.25);color:var(--ac);font-size:.72rem;font-weight:500;padding:.14rem .5rem;border-radius:50px;white-space:nowrap;margin:.08rem}.tag-chip-x{cursor:pointer;font-size:.85rem;line-height:1;opacity:.7;margin-left:.1rem}.tag-chip-x:hover{opacity:1}
 .toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--bg2);border:1px solid var(--brd2);color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:250px}.toast.show{transform:translateY(0);opacity:1}.toast-ico{color:var(--ac)}
 /* Responsive */
 @media(max-width:1100px){.pgrid{grid-template-columns:repeat(3,1fr)}.ppgrid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:repeat(2,1fr)}}
@@ -455,12 +461,13 @@ html.light .jf-sel{color:var(--t1)}
   var h=location.hash.replace('#/','');
   var seg=(h.split('/')[0]||'').toLowerCase();
   var hasHash=known.indexOf(seg)!==-1;
-  // Detect username paths like /itskaveesha
   var isUsernamePath=location.pathname!=='/'&&!location.pathname.match(/\.(html|js|css|png|ico|svg)$/);
-  // Also skip splash if user was previously on a page (returning visitor)
   var lastSeg='';try{lastSeg=(sessionStorage.getItem('tl_last')||'').split('|')[0];}catch(e){}
   var hasLastPage=lastSeg&&known.indexOf(lastSeg)!==-1;
-  var skip=hasHash||!!uRedir||isUsernamePath||hasLastPage;
+  // Also skip splash for returning visitors (localStorage) and logged-in users (Supabase session)
+  var visited=false;try{visited=!!localStorage.getItem('tl_visited');}catch(e){}
+  var hasSbSession=false;try{var _k=Object.keys(localStorage);for(var _i=0;_i<_k.length;_i++){if(_k[_i].indexOf('sb-')!==-1||_k[_i].indexOf('supabase.auth')!==-1){hasSbSession=true;break;}}}catch(e){}
+  var skip=hasHash||!!uRedir||isUsernamePath||hasLastPage||visited||hasSbSession;
   if(skip){
     document.addEventListener('DOMContentLoaded',function(){
       var s=document.getElementById('page-splash');
@@ -509,7 +516,7 @@ html.light .jf-sel{color:var(--t1)}
       <div class="af"><label class="al">Username <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· your @handle</span></label><input class="ai" type="text" id="su-username" placeholder="yourname (letters, numbers, _)"></div>
       <div class="af"><label class="al">Email</label><input class="ai" type="email" id="su-email" placeholder="you@example.com"></div>
       <div class="af"><label class="al">Specialty</label>
-        <select class="ai" id="su-spec">
+        <select class="ai" id="su-spec" onchange="document.getElementById('su-spec-other').style.display=this.value==='other'?'block':'none'">
           <option value="">Select your specialty</option>
           <option>Video Editor</option>
           <option>Motion Graphics Artist</option>
@@ -520,7 +527,9 @@ html.light .jf-sel{color:var(--t1)}
           <option>Documentary Editor</option>
           <option>3D &amp; VFX Artist</option>
           <option>Content Creator</option>
+          <option value="other">Other — I'll type it in</option>
         </select>
+        <input class="ai" id="su-spec-other" type="text" placeholder="Type your specialty..." style="display:none;margin-top:.45rem">
       </div>
       <div class="af"><label class="al">Password</label><input class="ai" type="password" id="su-pw" placeholder="Min. 8 characters"></div>
       <button class="auth-btn" id="su-btn" onclick="handleSignUp()">Create Free Account</button>
@@ -615,33 +624,33 @@ html.light .jf-sel{color:var(--t1)}
 <!-- ══ MAIN NAV ══ -->
 <nav id="main-nav">
   <div class="nav-c">
-    <div class="nav-brand" onclick="showPage('feed')">Timeliners</div>
+    <a class="nav-brand" href="#/feed" onclick="event.preventDefault();showPage('feed')" style="text-decoration:none">Timeliners</a>
     <div class="nav-mid">
-      <button class="nl" id="nav-feed" onclick="showPage('feed')">Discover</button>
-      <button class="nl" id="nav-jobs" onclick="showPage('jobs')">Jobs</button>
-      <button class="nl" id="nav-pricing" onclick="showPage('pricing')">Pricing</button>
-      <button class="nl" id="nav-faq" onclick="showPage('faq')">FAQ</button>
-      <button class="nl nav-li" id="nav-profile" onclick="showPage('profile')" style="display:none">My Portfolio</button>
-      <button class="nl nav-li" id="nav-dashboard" onclick="showPage('dashboard')" style="display:none">Dashboard</button>
+      <a class="nl" id="nav-feed" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
+      <a class="nl" id="nav-jobs" href="#/jobs" onclick="event.preventDefault();showPage('jobs')">Jobs</a>
+      <a class="nl" id="nav-pricing" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a>
+      <a class="nl" id="nav-faq" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
+      <a class="nl nav-li" id="nav-profile" href="#/profile" onclick="event.preventDefault();showPage('profile')" style="display:none">My Portfolio</a>
+      <a class="nl nav-li" id="nav-dashboard" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard')" style="display:none">Dashboard</a>
     </div>
     <div class="nav-right">
       <button class="nav-pro" id="nav-pro-btn" onclick="S&&S.user?showPage('dashboard')&&setTimeout(()=>{switchDash('account',document.getElementById('dnav-account'));switchAccTab('pro');},80):showPage('pricing')">★ Join Pro</button>
-      <div class="nav-user nav-li" id="nav-user-btn" onclick="showPage('dashboard')" style="display:none">
+      <a class="nav-user nav-li" id="nav-user-btn" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard')" style="display:none;text-decoration:none">
         <div class="nav-av" id="nav-av-el"><span id="nav-initials">?</span></div>
         <span class="nav-uname" id="nav-uname-el"></span>
-      </div>
+      </a>
       <button class="nav-cta nav-lo" onclick="openAuth('in')">Sign In</button>
       <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
 <div id="mob">
-  <a onclick="showPage('feed');closeMob()">Discover</a>
-  <a onclick="showPage('jobs');closeMob()">Jobs</a>
-  <a onclick="showPage('pricing');closeMob()">Pricing</a>
-  <a onclick="showPage('faq');closeMob()">FAQ</a>
-  <a class="nav-li" onclick="showPage('profile');closeMob()" style="display:none">My Portfolio</a>
-  <a class="nav-li" onclick="showPage('dashboard');closeMob()" style="display:none">Dashboard</a>
+  <a href="#/feed" onclick="event.preventDefault();showPage('feed');closeMob()">Discover</a>
+  <a href="#/jobs" onclick="event.preventDefault();showPage('jobs');closeMob()">Jobs</a>
+  <a href="#/pricing" onclick="event.preventDefault();showPage('pricing');closeMob()">Pricing</a>
+  <a href="#/faq" onclick="event.preventDefault();showPage('faq');closeMob()">FAQ</a>
+  <a class="nav-li" href="#/profile" onclick="event.preventDefault();showPage('profile');closeMob()" style="display:none">My Portfolio</a>
+  <a class="nav-li" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard');closeMob()" style="display:none">Dashboard</a>
   <a class="nav-lo" onclick="openAuth('in');closeMob()">Sign In</a>
   <a class="nav-li" onclick="handleSignOut();closeMob()" style="display:none;color:rgba(239,68,68,.6)">Sign Out</a>
 </div>
@@ -652,13 +661,13 @@ html.light .jf-sel{color:var(--t1)}
     <div class="feed-lbl">Discover Work</div>
     <div class="feed-right">
       <div class="ftabs">
-        <button class="ftab active" onclick="filterFeed('all',this)">All</button>
-        <button class="ftab" onclick="filterFeed('longform',this)">Long-form</button>
-        <button class="ftab" onclick="filterFeed('shorts',this)">Shorts & Reels</button>
-        <button class="ftab" onclick="filterFeed('motion',this)">Motion</button>
-        <button class="ftab" onclick="filterFeed('video',this)">Video</button>
-        <button class="ftab" onclick="filterFeed('social',this)">Social</button>
-        <button class="ftab" onclick="filterFeed('film',this)">Film</button>
+        <a class="ftab active" href="#/feed" onclick="event.preventDefault();filterFeed('all',this)">All</a>
+        <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('longform',this)">Long-form</a>
+        <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('shorts',this)">Shorts & Reels</a>
+        <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('motion',this)">Motion</a>
+        <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('video',this)">Video</a>
+        <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('social',this)">Social</a>
+        <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('film',this)">Film</a>
       </div>
       <div class="fsrch"><svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><circle cx="4.5" cy="4.5" r="3.2" stroke="rgba(255,255,255,.18)" stroke-width="1.1"/><path d="M7.2 7.2l2.3 2.3" stroke="#FE730A" stroke-width="1.2" stroke-linecap="round"/></svg>
         <input type="text" placeholder="Search projects, creatives..." oninput="searchFeed(this.value)">
@@ -698,9 +707,8 @@ html.light .jf-sel{color:var(--t1)}
       <div class="prof-card-body">
         <div class="prof-card-top">
           <div class="prof-av-float" id="pav-wrap"><div class="prof-av-ph" id="pav-ph" style="background:#FE730A">?</div></div>
-          <span id="pbadge-el" style="display:none;background:var(--ac);color:white;font-size:.6rem;font-weight:600;padding:.18rem .55rem .18rem .4rem;border-radius:50px;display:none;align-items:center;gap:.28rem;flex-shrink:0"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,6.5 7.5,2.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified</span>
         </div>
-        <div class="prof-name" id="pname-el">—</div>
+        <div class="prof-name" id="pname-el">—<span id="pbadge-el" style="display:none;background:var(--ac);color:white;font-size:.6rem;font-weight:600;padding:.18rem .55rem .18rem .4rem;border-radius:50px;align-items:center;gap:.28rem;flex-shrink:0;margin-left:.4rem"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,6.5 7.5,2.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified</span></div>
         <span id="pname-verified" style="display:none;margin-top:2px"></span>
         <div class="prof-role-city" id="prole-el">—</div>
         <div class="prof-handle-line" id="pusername-el" style="display:none"></div>
@@ -737,11 +745,11 @@ html.light .jf-sel{color:var(--t1)}
         <hr class="prof-card-divider">
 
         <!-- Info rows -->
-        <div class="prof-info-row">
+        <div class="prof-info-row" id="prow-exp">
           <div class="prof-info-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="5" r="2.5" stroke="var(--t3)" stroke-width="1.1" fill="none"/><path d="M1.5 11c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4" stroke="var(--t3)" stroke-width="1.1" stroke-linecap="round" fill="none"/></svg></div>
           <div><div class="prof-info-lbl">Experience</div><div class="prof-info-txt" id="pexp-el">—</div></div>
         </div>
-        <div class="prof-info-row">
+        <div class="prof-info-row" id="prow-city">
           <div class="prof-info-ico"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C4.1 1 2.5 2.6 2.5 4.5c0 3 3.5 6.5 3.5 6.5s3.5-3.5 3.5-6.5C9.5 2.6 7.9 1 6 1z" stroke="var(--t3)" stroke-width="1.1" fill="none"/><circle cx="6" cy="4.5" r="1" fill="var(--t3)"/></svg></div>
           <div><div class="prof-info-lbl">Location</div><div class="prof-info-txt" id="pcity-el">—</div></div>
         </div>
@@ -753,14 +761,14 @@ html.light .jf-sel{color:var(--t1)}
         <!-- Social links -->
         <div class="prof-section-lbl" style="margin-top:1rem">Contact & Socials</div>
         <div class="prof-social-row" id="prof-socials-row">
-          <a class="prof-soc-btn" id="pwa-link" style="display:none" target="_blank">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="#25D366"/></svg>WhatsApp
+          <a class="prof-soc-btn prof-soc-wa" id="pwa-link" style="display:none" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="#25D366"/></svg>WhatsApp
           </a>
-          <a class="prof-soc-btn" id="pig-link" style="display:none" target="_blank">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><rect x="1" y="1" width="10" height="10" rx="3" stroke="#E1306C" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="2.2" stroke="#E1306C" stroke-width="1.1" fill="none"/></svg>Instagram
+          <a class="prof-soc-btn prof-soc-ig" id="pig-link" style="display:none" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5.5" stroke="#E1306C" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4.5" stroke="#E1306C" stroke-width="2" fill="none"/><circle cx="17.5" cy="6.5" r="1.2" fill="#E1306C"/></svg>Instagram
           </a>
-          <a class="prof-soc-btn" id="pyt-link" style="display:none" target="_blank">
-            <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><rect x=".5" y=".5" width="12" height="9" rx="2.2" stroke="#FF0000" stroke-width="1" fill="none"/><path d="M5 3l3.5 2L5 7V3z" fill="#FF0000"/></svg>YouTube
+          <a class="prof-soc-btn prof-soc-yt" id="pyt-link" style="display:none" target="_blank">
+            <svg width="15" height="11" viewBox="0 0 24 17" fill="none"><path d="M23.5 2.6S23.2.8 22.4.1C21.4-.9 20.3-.9 19.8-.9 16.5-1 12-1 12-1s-4.5 0-7.8.1C3.7-.9 2.6-.9 1.6.1.8.8.5 2.6.5 2.6S.2 4.7.2 6.8v2c0 2.1.3 4.2.3 4.2s.3 1.8 1.1 2.5c1 1 2.4.9 3 1C6.7 16.8 12 17 12 17s4.5 0 7.8-.2c.5-.1 1.6-.1 2.6-1.1.8-.7 1.1-2.5 1.1-2.5s.3-2.1.3-4.2v-2c0-2.1-.3-4.2-.3-4.2z" fill="#FF0000"/><path d="M9.7 11.5V5l6.5 3.3-6.5 3.2z" fill="white"/></svg>YouTube
           </a>
           <span id="pno-links" style="font-size:.72rem;color:var(--t3)">No links added.</span>
         </div>
@@ -809,7 +817,7 @@ html.light .jf-sel{color:var(--t1)}
           <div class="pv-stat"><span class="pv-stat-n" id="pv-views">0</span><span class="pv-stat-l">Views</span></div>
           <div class="pv-stat"><span class="pv-stat-n" id="pv-likes-n">0</span><span class="pv-stat-l">Likes</span></div>
         </div>
-        <button class="pv-like" id="pv-like-btn" onclick="toggleProjLike()"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>Like this project</button>
+        <button class="pv-like" id="pv-like-btn" onclick="toggleProjLike()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M4 13V6M1.5 7v5.5a.5.5 0 00.5.5H3a1 1 0 001-1V7H1.5zM4 6l2.5-5a1.5 1.5 0 011.5 1.5v2H11a1 1 0 011 1l-1 5a1 1 0 01-1 1H4V6z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Like this project</button>
         <button class="pv-hire" id="pv-hire-btn"><svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".85"/></svg>Hire This Editor</button>
         <button class="pv-like" id="pv-edit-btn" style="display:none;margin-top:.4rem;gap:.4rem" onclick="openEditProject()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Edit Project</button>
         <div class="pv-author-mini">
@@ -835,8 +843,38 @@ html.light .jf-sel{color:var(--t1)}
       <div class="df"><label class="dl">Year</label><input class="di" id="ep-proj-year" type="text"></div>
     </div>
     <div class="df"><label class="dl">Description</label><textarea class="dta" id="ep-proj-desc" style="min-height:80px"></textarea></div>
-    <div class="df"><label class="dl">Tags (comma separated)</label><input class="di" id="ep-proj-tags" type="text"></div>
+    <div class="df">
+      <label class="dl">Tags <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· press Enter to add, click × to remove</span></label>
+      <div id="ep-tags-wrap" style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;padding:.42rem .6rem;border:1px solid var(--brd2);border-radius:var(--r);background:var(--bg3);min-height:38px;cursor:text;transition:border-color .15s" onclick="document.getElementById('ep-tags-input').focus()">
+        <span id="ep-tags-chips"></span>
+        <input id="ep-tags-input" type="text" placeholder="Add a tag..." style="border:none;outline:none;background:transparent;font-size:.84rem;color:var(--t1);min-width:100px;flex:1;font-family:var(--fm);padding:0" onkeydown="handleEpTagKey(event)">
+      </div>
+      <input type="hidden" id="ep-proj-tags">
+    </div>
     <div class="df"><label class="dl">Status</label><select class="dsel" id="ep-proj-status"><option value="published">Published</option><option value="draft">Draft</option></select></div>
+
+    <!-- Video section -->
+    <div class="df">
+      <label class="dl">Videos <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· add or replace</span></label>
+      <div id="ep-video-current" style="font-size:.75rem;color:#22c55e;margin-bottom:.45rem;display:none;align-items:center;gap:.3rem">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" fill="#22c55e"/><polyline points="2.5,5 4,6.5 7.5,3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Video already uploaded
+      </div>
+      <div id="ep-video-list" style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.4rem"></div>
+      <button type="button" onclick="epPickVideo()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.6rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr);text-align:left" id="ep-video-btn" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
+        + Add Video (MP4, MOV — up to 250 MB each)
+      </button>
+      <div id="ep-video-progress" style="display:none;margin-top:.45rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.6rem .8rem">
+        <div style="display:flex;justify-content:space-between;margin-bottom:.35rem">
+          <span style="font-size:.68rem;font-weight:600;color:var(--t1)" id="ep-video-progress-label">Uploading video...</span>
+          <span id="ep-video-pct" style="font-size:.65rem;color:var(--ac);font-weight:600">0%</span>
+        </div>
+        <div style="background:var(--bg4);border-radius:50px;height:5px;overflow:hidden">
+          <div id="ep-video-bar" style="height:100%;background:linear-gradient(90deg,var(--ac),#ff9a3c);width:0%;transition:width .15s;border-radius:50px"></div>
+        </div>
+      </div>
+    </div>
+
     <div style="display:flex;gap:.58rem;margin-top:.5rem">
       <button class="dsave" id="ep-proj-save-btn" onclick="saveEditProject()">Save Changes</button>
       <button class="dbtn-o" onclick="closeEditProject()">Cancel</button>
@@ -853,15 +891,15 @@ html.light .jf-sel{color:var(--t1)}
 
       <!-- Sidebar nav -->
       <div class="dash-nav">
-        <button class="dni active" id="dnav-overview" onclick="switchDash('overview',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></div>Overview</button>
-        <button class="dni" id="dnav-account" onclick="switchDash('account',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></div>Account</button>
-        <button class="dni" id="dnav-upload" onclick="switchDash('upload',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M4 4L7 1l3 3M2 11h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Upload Project</button>
-        <button class="dni" id="dnav-projects" onclick="switchDash('projects',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>My Projects</button>
-        <button class="dni" id="dnav-editprofile" onclick="switchDash('editprofile',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg></div>Edit Profile</button>
-        <button class="dni" id="dnav-analytics" onclick="switchDash('analytics',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-4 2.5 2 3-5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Analytics</button>
+        <a class="dni active" id="dnav-overview" href="#/dashboard" onclick="event.preventDefault();switchDash('overview',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></div>Overview</a>
+        <a class="dni" id="dnav-account" href="#/dashboard" onclick="event.preventDefault();switchDash('account',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></div>Account</a>
+        <a class="dni" id="dnav-upload" href="#/dashboard" onclick="event.preventDefault();switchDash('upload',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M4 4L7 1l3 3M2 11h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Upload Project</a>
+        <a class="dni" id="dnav-projects" href="#/dashboard" onclick="event.preventDefault();switchDash('projects',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>My Projects</a>
+        <a class="dni" id="dnav-editprofile" href="#/dashboard" onclick="event.preventDefault();switchDash('editprofile',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg></div>Edit Profile</a>
+        <a class="dni" id="dnav-analytics" href="#/dashboard" onclick="event.preventDefault();switchDash('analytics',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-4 2.5 2 3-5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Analytics</a>
         <hr class="dndiv">
-        <button class="dni" onclick="showPage('profile')"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>View Portfolio</button>
-        <button class="dni" onclick="handleSignOut()" style="color:rgba(239,68,68,.6)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M9.5 4.5L13 7l-3.5 2.5M13 7H5" stroke="rgba(239,68,68,.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Sign Out</button>
+        <a class="dni" href="#/profile" onclick="event.preventDefault();showPage('profile')"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>View Portfolio</a>
+        <a class="dni" href="#" onclick="event.preventDefault();handleSignOut()" style="color:rgba(239,68,68,.6)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M9.5 4.5L13 7l-3.5 2.5M13 7H5" stroke="rgba(239,68,68,.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Sign Out</a>
       </div>
 
       <!-- Panels -->
@@ -993,19 +1031,30 @@ html.light .jf-sel{color:var(--t1)}
               <div class="df"><label class="dl">Year</label><input class="di" id="up-year" type="text" placeholder="2024"></div>
             </div>
             <div class="df"><label class="dl">Description</label><textarea class="dta" id="up-desc" placeholder="Describe the project, tools used, and your role..."></textarea></div>
-            <div class="df"><label class="dl">Tags (comma separated)</label><input class="di" id="up-tags" type="text" placeholder="After Effects, Brand, Logo Animation"></div>
+            <div class="df">
+              <label class="dl">Tags <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· press Enter to add</span></label>
+              <div id="up-tags-wrap" style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;padding:.42rem .6rem;border:1px solid var(--brd2);border-radius:var(--r);background:var(--bg3);min-height:38px;cursor:text;transition:border-color .15s" onclick="document.getElementById('up-tags-input').focus()">
+                <span id="up-tags-chips"></span>
+                <input id="up-tags-input" type="text" placeholder="Add a tag..." style="border:none;outline:none;background:transparent;font-size:.84rem;color:var(--t1);min-width:120px;flex:1;font-family:var(--fm);padding:0" onkeydown="handleTagKey(event)">
+              </div>
+              <input type="hidden" id="up-tags">
+            </div>
             <!-- Multi-video Upload -->
             <div class="df">
-              <label class="dl">Project Videos <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· up to 5 videos · 100 MB total (free)</span></label>
+              <label class="dl">Project Videos</label>
               <div id="video-list" style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.45rem"></div>
               <button type="button" onclick="addVideoSlot()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.65rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr)" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
                 🎬 Add Video (MP4, MOV, WEBM)
               </button>
-              <div id="video-upload-progress" style="display:none;margin-top:.45rem">
-                <div style="background:var(--brd2);border-radius:4px;height:4px;overflow:hidden">
-                  <div id="video-progress-bar" style="height:100%;background:var(--ac);width:0%;transition:width .2s"></div>
+              <div id="video-upload-progress" style="display:none;margin-top:.6rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem .9rem">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem">
+                  <span style="font-size:.68rem;font-weight:600;color:var(--t1)">Uploading video...</span>
+                  <span id="video-progress-txt" style="font-size:.65rem;color:var(--ac);font-weight:600">0%</span>
                 </div>
-                <div style="font-size:.64rem;color:var(--t3);margin-top:.22rem" id="video-progress-txt">Uploading...</div>
+                <div style="background:var(--bg4);border-radius:50px;height:6px;overflow:hidden">
+                  <div id="video-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--ac),#ff9a3c);width:0%;transition:width .15s ease;border-radius:50px"></div>
+                </div>
+                <div style="font-size:.62rem;color:var(--t3);margin-top:.3rem">Please keep this tab open while uploading</div>
               </div>
             </div>
             <div id="storage-bar-wrap" style="display:none;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.72rem .9rem;margin-bottom:.75rem"></div>
@@ -1068,7 +1117,14 @@ html.light .jf-sel{color:var(--t1)}
               <div class="df"><label class="dl">Experience</label><input class="di" id="ep-exp" type="text" placeholder="6 years"></div>
             </div>
             <div class="df"><label class="dl">Bio</label><textarea class="dta" id="ep-bio" placeholder="Tell clients about yourself..."></textarea></div>
-            <div class="df"><label class="dl">Skills (comma separated)</label><input class="di" id="ep-skills" type="text" placeholder="After Effects, Cinema 4D, Premiere Pro"></div>
+            <div class="df">
+              <label class="dl">Skills <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· press Enter to add, click to remove</span></label>
+              <div id="ep-skills-wrap" style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;padding:.42rem .6rem;border:1px solid var(--brd2);border-radius:var(--r);background:var(--bg3);min-height:38px;cursor:text;transition:border-color .15s" onclick="document.getElementById('ep-skills-input').focus()">
+                <span id="ep-skills-chips"></span>
+                <input id="ep-skills-input" type="text" placeholder="After Effects, Premiere Pro..." style="border:none;outline:none;background:transparent;font-size:.84rem;color:var(--t1);min-width:130px;flex:1;font-family:var(--fm);padding:0" onkeydown="handleSkillKey(event)">
+              </div>
+              <input type="hidden" id="ep-skills">
+            </div>
           </div>
           <div class="dcard">
             <div class="dcard-h">Social Links</div><div class="dcard-sub">Help clients reach you.</div>
@@ -1306,18 +1362,7 @@ const DEMO = [
   {id:'d8',title:'Corporate Brand Film — Hemas',cat:'video',video_type:'long',duration:'4:05',tags:['Premiere Pro','Corporate'],description:'Full production brand film for Hemas Holdings. Director-level edit ownership.',author_name:'Ishara Gunawardena',author_init:'IG',grad_idx:7,likes:143,views:1300,year:'2024',status:'published'},
 ];
 
-const JOBS = [
-  {id:1,company:'Leo Burnett Colombo',role:'Senior Video Editor',desc:'TV commercials, digital campaigns and brand films for leading Sri Lankan and international clients.',type:'full-time',cat:'video',loc:'colombo',salary:'LKR 80K–120K/mo',posted:'2 days ago'},
-  {id:2,company:'Framelab Studio',role:'Motion Graphics Designer',desc:'Boutique motion studio creating content for streaming platforms and brands. Strong After Effects skills required.',type:'freelance',cat:'motion',loc:'remote',salary:'LKR 50K–80K/mo',posted:'4 days ago'},
-  {id:3,company:'Shopper Media',role:'Social Media Video Creator',desc:'Create engaging short-form video for Instagram, TikTok and YouTube for retail clients.',type:'part-time',cat:'social',loc:'colombo',salary:'LKR 35K–55K/mo',posted:'1 week ago'},
-  {id:4,company:'Ceylon Digital',role:'Brand Film Director / Editor',desc:'Documentary-style brand films for corporate clients. Full production ownership from brief to delivery.',type:'freelance',cat:'video',loc:'remote',salary:'Project-based',posted:'1 week ago'},
-  {id:5,company:'Hashtag Media',role:'3D Motion Designer',desc:'Create 3D animations for product launches and social campaigns. Blender or C4D required.',type:'full-time',cat:'3d',loc:'colombo',salary:'LKR 70K–100K/mo',posted:'2 weeks ago'},
-  {id:6,company:'Pixel & Co',role:'Graphic Designer — Social Assets',desc:'Scroll-stopping thumbnails and branded templates for a fast-growing YouTube channel.',type:'part-time',cat:'graphic',loc:'remote',salary:'LKR 25K–40K/mo',posted:'2 weeks ago'},
-  {id:7,company:'Waveform Productions',role:'Videographer & Editor',desc:'Wedding, event and corporate shoots. Must own a camera rig. Editing in Premiere Pro required.',type:'freelance',cat:'video',loc:'galle',salary:'Project-based',posted:'3 days ago'},
-  {id:8,company:'ViralSL',role:'Content Creator — TikTok & Reels',desc:'Create 5–10 short videos per week for multiple brand accounts. Strong CapCut skills needed.',type:'remote',cat:'social',loc:'remote',salary:'LKR 40K–60K/mo',posted:'5 days ago'},
-  {id:9,company:'Studio Kade',role:'Brand Identity Designer',desc:'Logo, visual identity and brand guidelines for startups and SMEs. Illustrator and Figma skills essential.',type:'freelance',cat:'graphic',loc:'colombo',salary:'Project-based',posted:'6 days ago'},
-  {id:10,company:'Kandy Media House',role:'Junior Video Editor',desc:'Assist senior editors on commercial and documentary projects. Adobe Premiere essential.',type:'full-time',cat:'video',loc:'kandy',salary:'LKR 40K–60K/mo',posted:'1 week ago'},
-];
+const JOBS = [];
 
 // ── BOOT ─────────────────────────────────────────────
 function boot() {
@@ -1325,8 +1370,7 @@ function boot() {
   buildCoverPicker();
   applyLoggedOut();
   restoreSession();
-  loadFeed();
-  renderJobs();
+  loadJobs();
 }
 
 // ── SESSION ──────────────────────────────────────────
@@ -1337,7 +1381,7 @@ async function restoreSession() {
     if (location.pathname !== '/' && !location.pathname.match(/\.(html|js|css|png|ico|svg)$/)) {
       const slug = location.pathname.replace(/^\//, '').split('/')[0];
       if (slug) pendingUsername = slug;
-      history.replaceState(null, '', '/');
+      try{history.replaceState(null,'','/')}catch(e){};
     }
 
     const { data: { session } } = await sb.auth.getSession();
@@ -1346,7 +1390,10 @@ async function restoreSession() {
       S.user = S.session = S.profile = null;
       try { Object.keys(localStorage).filter(k=>k.startsWith('tl_lp_')).forEach(k=>localStorage.removeItem(k)); } catch(e) {}
       if (pendingUsername) { showProfileByUsername(pendingUsername); return; }
-      restoreFromHash(); return;
+      restoreFromHash();
+      // Load feed in background after routing is decided
+      loadFeed();
+      return;
     }
 
     S.session = session;
@@ -1369,18 +1416,23 @@ async function restoreSession() {
     const KNOWN = ['feed','jobs','pricing','faq','profile','dashboard','project'];
 
     if (KNOWN.includes(hashSeg) && hashSeg !== 'splash') {
-      showPage(hashSeg, hashSub || undefined); return;
+      showPage(hashSeg, hashSub || undefined);
+      loadFeed();
+      return;
     }
 
     // Then try sessionStorage last page
     const lastRaw = (() => { try { return sessionStorage.getItem('tl_last') || ''; } catch(e){ return ''; } })();
     const [lastPg, lastSub] = lastRaw.split('|');
     if (lastPg && KNOWN.includes(lastPg)) {
-      showPage(lastPg, lastSub || undefined); return;
+      showPage(lastPg, lastSub || undefined);
+      loadFeed();
+      return;
     }
 
     // Default for logged-in users: dashboard
     showPage('dashboard');
+    loadFeed();
 
   } catch(e) {
     console.warn('Session restore:', e.message);
@@ -1479,7 +1531,8 @@ async function handleSignUp() {
   const ln   = el('su-ln').value.trim();
   const rawUn= (el('su-username').value || '').trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
   const email= el('su-email').value.trim().toLowerCase();
-  const spec = el('su-spec').value;
+  const specRaw = el('su-spec').value;
+  const spec = specRaw === 'other' ? (el('su-spec-other').value.trim() || '') : specRaw;
   const pw   = el('su-pw').value;
   if (!fn || !ln || !email || !spec || !pw) { showAuthErr('Please fill in all fields.'); return; }
   if (pw.length < 8) { showAuthErr('Password must be at least 8 characters.'); return; }
@@ -1638,7 +1691,7 @@ async function verifyOtp() {
     if (_otpResendTimer) clearInterval(_otpResendTimer);
 
     // Clean URL, close OTP modal, go to dashboard
-    history.replaceState(null, '', '/#/dashboard');
+    try { history.replaceState(null, '', '/#/dashboard'); } catch(e) {}
     el('otp-overlay').style.display = 'none';
     applyLoggedIn();
     showPage('dashboard');
@@ -1713,7 +1766,7 @@ async function handleSignOut() {
   splash.classList.add('active');
   el('main-nav').style.display = 'none';
   window.scrollTo(0, 0);
-  history.replaceState(null, '', location.pathname);
+  try { history.replaceState(null, '', location.pathname); } catch(e) {}
   loadFeed();
   showToast('Signed out.');
 }
@@ -1891,7 +1944,7 @@ function buildCard(p) {
     ? '<img src="' + p.author_avatar + '" style="width:17px;height:17px;border-radius:50%;object-fit:cover;flex-shrink:0">'
     : '<div class="pcard-av" style="background:' + bg + '"><span style="font-size:.4rem">' + (p.author_init || '?') + '</span></div>';
 
-  return '<div class="pcard" onclick="showPage(\'project\',\'' + p.id + '\')">' +
+  return '<a class="pcard" href="#/project/' + p.id + '" onclick="event.preventDefault();showPage(\'project\',\'' + p.id + '\')">' +
     (p.featured ? '<div class="pcard-feat">Featured</div>' : '') +
     '<div class="pcard-thumb" style="position:relative">' +
       thumbHtml +
@@ -1899,9 +1952,7 @@ function buildCard(p) {
       '<div class="pcard-play"><div class="pcard-play-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>' +
       '<span class="pcard-type ' + typeClass + '">' + typeLabel + '</span>' +
       (p.duration ? '<span class="pcard-duration">' + p.duration + '</span>' : '') +
-      '<button class="pcard-ov-like" onclick="event.stopPropagation();quickLike(this)" title="Like">' +
-        '<svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="white" stroke-width="1.2" fill="none"/></svg>' +
-      '</button>' +
+      '</div>' +
     '</div>' +
     '<div class="pcard-body">' +
       '<div class="pcard-title">' + p.title + '</div>' +
@@ -1916,10 +1967,10 @@ function buildCard(p) {
       '</div>' +
       '<div class="pcard-foot">' +
         '<div class="pcard-tags">' + tags + '</div>' +
-        '<div class="pcard-likes"><svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.2" fill="none"/></svg>' + (p.likes || 0) + '</div>' +
+        '<div class="pcard-likes"><svg width="10" height="10" viewBox="0 0 14 14" fill="none"><path d="M4 13V6M1.5 7v5.5a.5.5 0 00.5.5H3a1 1 0 001-1V7H1.5zM4 6l2.5-5a1.5 1.5 0 011.5 1.5v2H11a1 1 0 011 1l-1 5a1 1 0 01-1 1H4V6z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>' + (p.likes || 0) + '</div>' +
       '</div>' +
     '</div>' +
-  '</div>';
+  '</a>';
 }
 
 function filterFeed(cat, btn) { S.filter = cat; document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderFeed(); }
@@ -1929,19 +1980,32 @@ function quickLike(btn) { btn.style.background = 'rgba(239,68,68,.6)'; showToast
 
 // ── PROJECT VIEW ─────────────────────────────────────
 function openProject(id) {
-  const p = S.projects.find(x => x.id === id);
-  if (!p) {
-    // On refresh S.projects is empty — fetch from DB
-    db('/projects?id=eq.' + id + '&select=*', 'GET', null, SB_KEY).then(rows => {
-      if (rows && rows[0]) {
-        S.projects.push(rows[0]);
-        openProject(id);
-      } else {
-        showPage('feed');
+  // Always fetch fresh from DB to get latest video_url, cover_url etc.
+  const token = (S.session?.access_token) || SB_KEY;
+  db('/projects?id=eq.' + id + '&select=*', 'GET', null, token).then(rows => {
+    if (rows && rows[0]) {
+      const idx = S.projects.findIndex(x => x.id === id);
+      if (idx !== -1) Object.assign(S.projects[idx], rows[0]);
+      else S.projects.push(rows[0]);
+      _renderProject(rows[0]);
+      // Track view — don't count own project views
+      const isOwn = S.profile && rows[0].user_id === S.profile.id;
+      if (!isOwn) {
+        const newViews = (rows[0].views || 0) + 1;
+        db('/projects?id=eq.' + id, 'PATCH', { views: newViews }).catch(() => {});
+        el('pv-views').textContent = newViews;
       }
-    }).catch(() => showPage('feed'));
-    return;
-  }
+    } else {
+      const p = S.projects.find(x => x.id === id);
+      if (p) _renderProject(p); else showPage('feed');
+    }
+  }).catch(() => {
+    const p = S.projects.find(x => x.id === id);
+    if (p) _renderProject(p); else showPage('feed');
+  });
+}
+
+function _renderProject(p) {
   S._currentProject = p;
   const bg  = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
   const CAT = {motion:'Motion Graphics',video:'Video Edit',graphic:'Graphic Design',social:'Reels & Shorts',film:'Film / Cinematic','3d':'3D & VFX',longform:'Long-form',wedding:'Wedding & Events'};
@@ -1967,13 +2031,47 @@ function openProject(id) {
     pvVerified.style.display = authorIsPro ? 'inline-flex' : 'none';
   }
 
-  // Main cover box — video > cover image > placeholder
+  // Main cover box — multi-video with adaptive aspect ratio
   const cov = el('pv-cover');
-  if (p.video_url) {
-    cov.innerHTML = '<video src="' + p.video_url + '" controls playsinline style="width:100%;height:100%;object-fit:contain;background:#000;border-radius:inherit"></video>';
+  const videoList = (p.video_urls && p.video_urls.length) ? p.video_urls : (p.video_url ? [p.video_url] : []);
+
+  if (videoList.length) {
+    // Remove old fixed aspect ratio — let video dictate size
     cov.style.background = '#000'; cov.style.fontSize = ''; cov.style.color = '';
+
+    if (videoList.length === 1) {
+      // Single video — full width, adaptive height
+      cov.innerHTML =
+        '<div style="width:100%;border-radius:var(--rxl);overflow:hidden;background:#000;position:relative">' +
+          '<video id="pv-main-video" src="' + videoList[0] + '" controls playsinline preload="metadata"' +
+          ' style="width:100%;display:block;max-height:70vh;background:#000"' +
+          ' onloadedmetadata="window._adaptPvVideo(this)"></video>' +
+        '</div>';
+    } else {
+      // Multiple videos side by side
+      const items = videoList.map((u, i) =>
+        '<div style="flex:1;min-width:0;border-radius:10px;overflow:hidden;background:#000">' +
+          '<video src="' + u + '" controls playsinline preload="metadata" muted' +
+          ' style="width:100%;display:block;max-height:65vh;background:#000"' +
+          ' onloadedmetadata="window._adaptPvVideo(this)"></video>' +
+        '</div>'
+      ).join('');
+      cov.innerHTML = '<div style="display:flex;gap:.5rem;border-radius:var(--rxl);overflow:hidden;background:#000">' + items + '</div>';
+    }
+    cov.style.background = '';
+  } else if (p.yt_link) {
+    const ytMatch = p.yt_link.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+    const ytId = ytMatch ? ytMatch[1] : null;
+    if (ytId) {
+      cov.innerHTML = '<div style="width:100%;border-radius:var(--rxl);overflow:hidden;aspect-ratio:16/9"><iframe src="https://www.youtube.com/embed/' + ytId + '?autoplay=0" frameborder="0" allowfullscreen allow="encrypted-media" style="width:100%;height:100%;display:block"></iframe></div>';
+      cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
+    } else {
+      cov.innerHTML = p.author_init || '?';
+      cov.style.background = bg + '18'; cov.style.color = bg + '55';
+      cov.style.fontSize = '4rem'; cov.style.fontWeight = '700';
+    }
   } else if (p.cover_url) {
-    cov.innerHTML = '<img src="' + p.cover_url + '" style="width:100%;height:100%;object-fit:cover">';
+    cov.innerHTML = '<img src="' + p.cover_url + '" style="width:100%;border-radius:var(--rxl);display:block;object-fit:cover">';
     cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
   } else {
     cov.innerHTML = p.author_init || '?';
@@ -1997,13 +2095,35 @@ function openProject(id) {
   el('pv-sb-name').textContent = p.author_name || '—';
   el('pv-sb-role').textContent = CAT[p.cat]    || p.cat;
 
-  // Like btn reset
+  // Like btn — hide on own projects
   const lb = el('pv-like-btn');
-  lb.classList.remove('liked');
-  lb.innerHTML = '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>Like this project';
+  const isOwnProject = S.profile && p.user_id === S.profile.id;
+  lb.style.display = isOwnProject ? 'none' : '';
+  if (!isOwnProject) {
+    const likedKey = 'tl_liked_' + p.id;
+    let wasLiked = false;
+    try { wasLiked = !!localStorage.getItem(likedKey); } catch(e) {}
+    lb.classList.toggle('liked', wasLiked);
+    lb.innerHTML = wasLiked
+      ? '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M4 13V6M1.5 7v5.5a.5.5 0 00.5.5H3a1 1 0 001-1V7H1.5zM4 6l2.5-5a1.5 1.5 0 011.5 1.5v2H11a1 1 0 011 1l-1 5a1 1 0 01-1 1H4V6z" stroke="var(--ac)" stroke-width="1.1" stroke-linejoin="round" fill="rgba(254,115,10,.15)"/></svg>Liked!'
+      : '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M4 13V6M1.5 7v5.5a.5.5 0 00.5.5H3a1 1 0 001-1V7H1.5zM4 6l2.5-5a1.5 1.5 0 011.5 1.5v2H11a1 1 0 011 1l-1 5a1 1 0 01-1 1H4V6z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Like this project';
+  }
 
-  // Hire btn
-  el('pv-hire-btn').onclick = () => showPage('profile', p.user_id);
+  // Hire btn — track click
+  el('pv-hire-btn').onclick = () => {
+    showPage('profile', p.user_id);
+    // Increment hire_clicks on the author's profile
+    if (p.user_id) {
+      db('/profiles?id=eq.' + p.user_id, 'GET', null, SB_KEY).then(rows => {
+        if (rows && rows[0]) {
+          const newClicks = (rows[0].hire_clicks || 0) + 1;
+          db('/profiles?id=eq.' + p.user_id, 'PATCH', { hire_clicks: newClicks }).catch(() => {});
+          // Update local profile if it's our own
+          if (S.profile && p.user_id === S.profile.id) S.profile.hire_clicks = newClicks;
+        }
+      }).catch(() => {});
+    }
+  };
 
   // View portfolio — navigates to project author's profile
   const vpBtn = el('pv-view-profile-btn');
@@ -2028,11 +2148,35 @@ function openProject(id) {
 
 function toggleProjLike() {
   const btn = el('pv-like-btn');
-  const liked = btn.classList.toggle('liked');
-  btn.innerHTML = liked
-    ? '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" fill="#ef4444" stroke="#ef4444" stroke-width="1.1"/></svg>Liked!'
-    : '<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M6 10.5S1.5 7 1.5 4A2.1 2.1 0 016 3.5c.28-.46.78-.85 1.25-.85A2.1 2.1 0 019.5 4.75C9.5 8 6 10.5 6 10.5z" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>Like this project';
-  showToast(liked ? 'Liked!' : 'Like removed');
+  const p = S._currentProject;
+  if (!p) return;
+
+  // Check localStorage to prevent spam/re-like
+  const likedKey = 'tl_liked_' + p.id;
+  const alreadyLiked = btn.classList.contains('liked');
+  const newLiked = !alreadyLiked;
+
+  btn.classList.toggle('liked', newLiked);
+  btn.innerHTML = newLiked
+    ? '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M4 13V6M1.5 7v5.5a.5.5 0 00.5.5H3a1 1 0 001-1V7H1.5zM4 6l2.5-5a1.5 1.5 0 011.5 1.5v2H11a1 1 0 011 1l-1 5a1 1 0 01-1 1H4V6z" stroke="var(--ac)" stroke-width="1.1" stroke-linejoin="round" fill="rgba(254,115,10,.15)"/></svg>Liked!'
+    : '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M4 13V6M1.5 7v5.5a.5.5 0 00.5.5H3a1 1 0 001-1V7H1.5zM4 6l2.5-5a1.5 1.5 0 011.5 1.5v2H11a1 1 0 011 1l-1 5a1 1 0 01-1 1H4V6z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Like this project';
+
+  // Update likes count in DB
+  const currentLikes = p.likes || 0;
+  const newLikes = newLiked ? currentLikes + 1 : Math.max(0, currentLikes - 1);
+  p.likes = newLikes;
+  el('pv-likes-n').textContent = newLikes;
+
+  // Persist to DB
+  db('/projects?id=eq.' + p.id, 'PATCH', { likes: newLikes }).catch(() => {});
+
+  // Remember in localStorage so it persists across sessions
+  try {
+    if (newLiked) localStorage.setItem(likedKey, '1');
+    else localStorage.removeItem(likedKey);
+  } catch(e) {}
+
+  showToast(newLiked ? 'Liked!' : 'Like removed');
 }
 
 // ── DASHBOARD ────────────────────────────────────────
@@ -2042,7 +2186,20 @@ function switchDash(id, btn) {
   el('dash-panel-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
   if (id === 'projects') renderMyProjects();
-  if (id === 'analytics') loadAnalytics();
+  if (id === 'analytics') {
+    loadAnalytics();
+    // Auto-refresh every 30s while on analytics tab
+    clearInterval(window._analyticsTimer);
+    window._analyticsTimer = setInterval(() => {
+      if (document.getElementById('dash-panel-analytics').classList.contains('active')) {
+        loadAnalytics();
+      } else {
+        clearInterval(window._analyticsTimer);
+      }
+    }, 30000);
+  } else {
+    clearInterval(window._analyticsTimer);
+  }
 }
 
 function switchAccTab(id) {
@@ -2068,7 +2225,15 @@ function refreshDash() {
   el('ep-city').value   = p.city    || '';
   el('ep-exp').value    = p.exp     || '';
   el('ep-bio').value    = p.bio     || '';
-  el('ep-skills').value = p.skills  || '';
+  // Populate skills as chips
+  const existingSkills = (p.skills || '').split(',').map(s=>s.trim()).filter(Boolean);
+  el('ep-skills').value = existingSkills.join(',');
+  const skChips = document.getElementById('ep-skills-chips');
+  if (skChips) {
+    skChips.innerHTML = existingSkills.map(s =>
+      '<span class="tag-chip" style="background:rgba(0,0,0,.06);border-color:var(--brd2);color:var(--t1)">' + s + '<span class="tag-chip-x" onclick="window.removeSkill(this,\'' + s.replace(/'/g,"\\'") + '\')">×</span></span>'
+    ).join('');
+  }
   el('ep-wa').value     = p.wa      || '';
   el('ep-ig').value     = p.ig      || '';
   el('ep-yt').value     = p.yt      || '';
@@ -2423,13 +2588,18 @@ async function saveProject(status) {
     // Upload videos using the saved project ID
     if (_pendingVideos.length) {
       try {
+        el('upload-saving').textContent = 'Uploading video...';
         const videoUrls = await uploadProjectVideos(token, saved.id);
         if (videoUrls.length) {
-          const upd = { video_url: videoUrls[0], video_urls: videoUrls };
-          await db('/projects?id=eq.' + saved.id, 'PATCH', upd, token);
-          Object.assign(saved, upd);
+          await patchProjectVideo(saved.id, videoUrls, token);
+          Object.assign(saved, { video_url: videoUrls[0], video_urls: videoUrls });        } else {
+          showToast('⚠️ Video upload failed — check your connection and try again.');
         }
-      } catch(vErr) { showToast('⚠️ Video upload issue: ' + vErr.message); }
+      } catch(vErr) {
+        showToast('⚠️ Video upload error: ' + vErr.message);
+        console.error('Video upload error:', vErr);
+      }
+      el('upload-saving').textContent = 'Saving...';
     }
     // Re-fetch the full saved project from DB to get all columns (video_url, cover_url etc.)
     try {
@@ -2438,6 +2608,8 @@ async function saveProject(status) {
     } catch(e) {}
     S.projects.unshift(saved);
     ['up-title','up-desc','up-tags','up-year'].forEach(fid => { const f = document.getElementById(fid); if (f) f.value = ''; });
+    const chipsEl = document.getElementById('up-tags-chips'); if (chipsEl) chipsEl.innerHTML = '';
+    const tagInp  = document.getElementById('up-tags-input'); if (tagInp) tagInp.value = '';
     clearAllVideos();
     showToast(status === 'draft' ? 'Draft saved!' : '🎉 Project published!');
     switchDash('projects', el('dnav-projects'));
@@ -2464,10 +2636,10 @@ async function renderMyProjects() {
   el('st-projs').textContent = projs.length;
   if (!projs.length) { empty.style.display = 'block'; tbody.innerHTML = ''; return; }
   empty.style.display = 'none';
-  tbody.innerHTML = projs.map(p =>
-    '<tr onclick="openProject(\'' + p.id + '\')">' +
-      '<td style="display:flex;align-items:center;gap:.58rem;min-width:155px">' +
-        '<div class="ptbl-th" style="background:' + (GCOLS[p.grad_idx % GCOLS.length]) + '">' + (p.author_init || '?') + '</div>' +
+  tbody.innerHTML = projs.map(p => {
+    return '<tr onclick="openProject(\'' + p.id + '\')">' +
+      '<td style="display:flex;align-items:center;gap:.55rem;min-width:155px">' +
+        '<span style="width:7px;height:7px;border-radius:50%;background:var(--ac);flex-shrink:0;display:inline-block"></span>' +
         '<span class="tbl-tit">' + p.title + '</span>' +
       '</td>' +
       '<td style="text-transform:capitalize">' + (p.cat || '—') + '</td>' +
@@ -2475,24 +2647,38 @@ async function renderMyProjects() {
       '<td>' + (p.views || 0) + '</td>' +
       '<td><span class="tbadge ' + p.status + '">' + p.status + '</span></td>' +
       '<td onclick="event.stopPropagation()" style="display:flex;gap:.35rem">' +
-        '<button style="font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor=\'var(--ac)\';this.style.color=\'var(--ac)\'' + '" onmouseout="this.style.borderColor=\'var(--brd2)\';this.style.color=\'var(--t2)\'" onclick="openEditProjectById(\'' + p.id + '\')">' +
+        '<button style="font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor=\'var(--ac)\';this.style.color=\'var(--ac)\'" onmouseout="this.style.borderColor=\'var(--brd2)\';this.style.color=\'var(--t2)\'" onclick="openEditProjectById(\'' + p.id + '\')">' +
           'Edit' +
         '</button>' +
         '<button class="tdel" onclick="deleteProject(\'' + p.id + '\')">' +
           'Delete' +
         '</button>' +
       '</td>' +
-    '</tr>'
-  ).join('');
+    '</tr>';
+  }).join('');
 }
 
 async function deleteProject(id) {
   if (!confirm('Delete this project? This cannot be undone.')) return;
   try {
     const token = await getToken();
+    // Get video URLs before deleting so we can delete from storage too
+    const proj = S.projects.find(p => p.id === id);
     await db('/projects?id=eq.' + id, 'DELETE', null, token);
     S.projects = S.projects.filter(p => p.id !== id);
-    renderMyProjects(); showToast('Project deleted.');
+    // Also delete videos from storage
+    if (proj) {
+      const urls = (proj.video_urls && proj.video_urls.length) ? proj.video_urls : (proj.video_url ? [proj.video_url] : []);
+      for (const url of urls) {
+        try {
+          const path = url.split('/project-videos/')[1];
+          if (path) await sb.storage.from('project-videos').remove([decodeURIComponent(path)]);
+        } catch(e) {}
+      }
+    }
+    renderMyProjects();
+    refreshStorageBar();
+    showToast('Project deleted.');
   } catch(e) { showToast('Error: ' + e.message); }
 }
 
@@ -2525,17 +2711,17 @@ function refreshProfile(profileData) {
       ? '<span style="display:inline-flex;align-items:center;gap:.25rem;font-size:.68rem;font-weight:500;color:var(--ac)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" fill="var(--ac)"/><polyline points="3,6 5,8 9,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified</span>'
       : '';
   }
-  el('prole-el').textContent      = (p.role || 'Video Editor') + ' · ' + (p.city || 'Sri Lanka');
-
-  // Username / shareable handle
-  const uline = el('pusername-el');
-  if (p.username) {
-    uline.textContent  = '@' + p.username;
-    uline.style.display = 'block';
-  } else { uline.style.display = 'none'; }
-
-  el('pexp-el').textContent       = p.exp  || '—';
-  el('pcity-el').textContent      = p.city || '—';
+  // Role — only show city if it's set
+  el('prole-el').textContent = p.city
+    ? (p.role || 'Video Editor') + ' · ' + p.city
+    : (p.role || 'Video Editor');
+  // Hide exp/location rows if empty
+  const expRow = document.getElementById('prow-exp');
+  const cityRow = document.getElementById('prow-city');
+  if (expRow)  expRow.style.display  = p.exp  ? '' : 'none';
+  if (cityRow) cityRow.style.display = p.city ? '' : 'none';
+  el('pexp-el').textContent  = p.exp  || '';
+  el('pcity-el').textContent = p.city || '';
 
   // Bio — now shown inline in the card before Hire Me
   const bioInline = document.getElementById('prof-bio-inline');
@@ -2606,10 +2792,33 @@ function refreshProfile(profileData) {
     hireBtn.style.opacity = '1';
     hireBtn.style.cursor = 'pointer';
     hireBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg> Hire Me';
-    hireBtn.onclick = p.wa
-      ? () => window.open('https://wa.me/' + p.wa.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent('Hi ' + p.name + ', I found your profile on Timeliners and would love to hire you for a project.'), '_blank')
-      : () => showToast("This editor hasn't added a contact method yet.");
+    hireBtn.onclick = () => {
+      // Track hire click (only if not own profile)
+      if (!profIsOwn) {
+        db('/profiles?id=eq.' + p.id, 'GET', null, SB_KEY).then(rows => {
+          if (rows && rows[0]) {
+            db('/profiles?id=eq.' + p.id, 'PATCH', { hire_clicks: (rows[0].hire_clicks || 0) + 1 }).catch(() => {});
+          }
+        }).catch(() => {});
+      }
+      if (p.wa) window.open('https://wa.me/' + p.wa.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent('Hi ' + p.name + ', I found your profile on Timeliners and would love to hire you for a project.'), '_blank');
+      else showToast("This editor hasn't added a contact method yet.");
+    };
   }
+
+  // Track social link taps (only if not own profile)
+  [el('pwa-link'), el('pig-link'), el('pyt-link')].forEach(link => {
+    if (!link) return;
+    link.addEventListener('click', () => {
+      if (!profIsOwn) {
+        db('/profiles?id=eq.' + p.id, 'GET', null, SB_KEY).then(rows => {
+          if (rows && rows[0]) {
+            db('/profiles?id=eq.' + p.id, 'PATCH', { social_clicks: (rows[0].social_clicks || 0) + 1 }).catch(() => {});
+          }
+        }).catch(() => {});
+      }
+    }, { once: true });
+  });
 
   // Edit button — only show to owner
   el('p-edit-btn').style.display = isOwn ? 'flex' : 'none';
@@ -2700,7 +2909,7 @@ function buildProfilePCard(p) {
   } else {
     thumbInner = '<div class="prof-pcard-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:' + bg + '18">' + (p.author_init||'?') + '</div>';
   }
-  return '<div class="prof-pcard" onclick="showPage(\'project\',\'' + p.id + '\')">' +
+  return '<a class="prof-pcard" href="#/project/' + p.id + '" onclick="event.preventDefault();showPage(\'project\',\'' + p.id + '\')">' +
     '<div class="prof-pcard-thumb" style="position:relative">' +
       thumbInner +
       '<div class="prof-pcard-play"><div class="prof-pcard-play-ico"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>' +
@@ -2712,7 +2921,7 @@ function buildProfilePCard(p) {
         (p.likes ? '<span>· ' + p.likes + ' likes</span>' : '') +
       '</div>' +
     '</div>' +
-  '</div>';
+  '</a>';
 }
 
 function switchPTab(id, btn) { /* kept for backward compat — no-op */ }
@@ -2750,38 +2959,86 @@ function showPreviews(files) {
 }
 
 // ── JOBS ─────────────────────────────────────────────
+let _jobsData = null;
+
+async function loadJobs() {
+  try {
+    let rows = null;
+    try {
+      rows = await db('/jobs?select=*&order=created_at.desc', 'GET', null, SB_KEY);
+    } catch(e) {
+      rows = await db('/jobs?select=*', 'GET', null, SB_KEY);
+    }
+    _jobsData = rows || [];
+  } catch(e) {
+    _jobsData = [];
+  }
+  renderJobs();
+}
+
 function renderJobs() {
   const grid  = el('jobs-grid');
   const nores = el('jobs-nores');
   if (!grid) return;
-  const type = el('jf-type') ? el('jf-type').value : '';
-  const cat  = el('jf-cat')  ? el('jf-cat').value  : '';
-  const loc  = el('jf-loc')  ? el('jf-loc').value  : '';
-  const list = JOBS.filter(j => (!type || j.type === type) && (!cat || j.cat === cat) && (!loc || j.loc === loc));
+  const source = _jobsData || [];
+  const typeF = (el('jf-type') ? el('jf-type').value : '').toLowerCase();
+  const catF  = (el('jf-cat')  ? el('jf-cat').value  : '').toLowerCase();
+  const locF  = (el('jf-loc')  ? el('jf-loc').value  : '').toLowerCase();
+
+  const list = source.filter(j => {
+    if (j.hidden === true || j.hidden === 'true') return false;
+    const jType = (j.type || '').toLowerCase().replace(/[-\s]/g,'');
+    const jLoc  = (j.location || '').toLowerCase();
+    const jTags = (j.tags || '').toLowerCase();
+    const typeMatch = !typeF || jType.includes(typeF.replace(/[-\s]/g,''));
+    const locMatch  = !locF  || jLoc.includes(locF);
+    const catMatch  = !catF  || jTags.includes(catF);
+    return typeMatch && locMatch && catMatch;
+  });
+
   if (!list.length) { grid.innerHTML = ''; nores && nores.classList.add('show'); return; }
   nores && nores.classList.remove('show');
-  const CL = {video:'Video Editing',motion:'Motion Design',social:'Social Media',graphic:'Graphic Design','3d':'3D & VFX',photo:'Photography'};
-  const TL = {'full-time':'Full-time','part-time':'Part-time',freelance:'Freelance',remote:'Remote'};
-  grid.innerHTML = list.map(j =>
-    '<div class="jcard">' +
+
+  grid.innerHTML = list.map(j => {
+    const company = j.company || '';
+    const role    = j.title || '';
+    const desc    = j.description || j.desc || '';
+    const type2   = j.type || '';
+    const loc2    = j.location || '';
+    const salary  = j.budget || '';
+    const tags    = j.tags ? j.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
+    const hidden  = j.hidden === true || j.hidden === 'true';
+    if (hidden) return ''; // skip hidden jobs
+    let posted = '';
+    if (j.created_at) {
+      const days = Math.floor((Date.now() - new Date(j.created_at)) / 86400000);
+      posted = days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days + ' days ago';
+    }
+    const applyLink = j.apply || '';
+    const tagsHtml = tags.slice(0,3).map(t => '<span class="jtag jtag-cat">' + t + '</span>').join('');
+    return '<div class="jcard">' +
       '<div class="jcard-top">' +
-        '<div class="jcard-logo">' + j.company[0] + '</div>' +
-        '<div style="flex:1;min-width:0"><div class="jcard-co">' + j.company + '</div><div class="jcard-title">' + j.role + '</div></div>' +
+        '<div class="jcard-logo">' + (company[0]||'?') + '</div>' +
+        '<div style="flex:1;min-width:0"><div class="jcard-co">' + company + '</div><div class="jcard-title">' + role + '</div></div>' +
       '</div>' +
-      '<div class="jcard-desc">' + j.desc + '</div>' +
+      (desc ? '<div class="jcard-desc">' + desc + '</div>' : '') +
       '<div class="jcard-tags">' +
-        '<span class="jtag jtag-type">' + (TL[j.type] || j.type) + '</span>' +
-        '<span class="jtag jtag-loc">'  + j.loc + '</span>' +
-        '<span class="jtag jtag-cat">'  + (CL[j.cat] || j.cat) + '</span>' +
+        (type2 ? '<span class="jtag jtag-type">' + type2 + '</span>' : '') +
+        (loc2  ? '<span class="jtag jtag-loc">'  + loc2  + '</span>' : '') +
+        tagsHtml +
       '</div>' +
       '<div class="jcard-bot">' +
-        '<div><div class="jcard-salary">' + j.salary + '</div>' +
-          '<div class="jcard-posted"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.5" stroke="rgba(255,255,255,.2)" stroke-width=".9" fill="none"/><path d="M4.5 2.8V4.5l1 1" stroke="#FE730A" stroke-width=".85" stroke-linecap="round" fill="none"/></svg> ' + j.posted + '</div>' +
+        '<div>' +
+          (salary ? '<div class="jcard-salary">' + salary + '</div>' : '') +
+          (posted ? '<div class="jcard-posted"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3.5" stroke="rgba(255,255,255,.2)" stroke-width=".9" fill="none"/><path d="M4.5 2.8V4.5l1 1" stroke="#FE730A" stroke-width=".85" stroke-linecap="round" fill="none"/></svg> ' + posted + '</div>' : '') +
         '</div>' +
-        '<button class="japply" onclick="openWA(\'Applying for ' + j.role + ' at ' + j.company + '\')">Apply <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5h5M5.5 2.5l2 2-2 2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+        (applyLink
+          ? '<a href="' + applyLink + '" target="_blank" class="japply">Apply <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5h5M5.5 2.5l2 2-2 2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></a>'
+          : '<button class="japply" onclick="openWA(\'Applying for ' + role.replace(/'/g,"\\'") + ' at ' + company.replace(/'/g,"\\'") + '\')">Apply <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5h5M5.5 2.5l2 2-2 2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+        ) +
       '</div>' +
-    '</div>'
-  ).join('');
+    '</div>';
+  }).filter(Boolean).join('');
 }
 
 // ── FAQ ──────────────────────────────────────────────
@@ -2808,7 +3065,7 @@ const HASH_PAGES = ['feed','jobs','pricing','faq','profile','dashboard','project
 
 function pushHash(id, extra) {
   const h = '#/' + id + (extra ? '/' + extra : '');
-  if (location.hash !== h) history.pushState(null, '', h);
+  try { if (location.hash !== h) history.pushState(null, '', h); } catch(e) {}
 }
 
 function showPage(id, projOrUserId) {
@@ -2822,9 +3079,10 @@ function showPage(id, projOrUserId) {
   const nl = el('nav-' + id); if (nl) nl.classList.add('active');
   closeMob();
   try { if (id !== 'splash') sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); } catch(e) {}
+  try { if (id !== 'splash') localStorage.setItem('tl_visited', '1'); } catch(e) {}
   if (id !== 'splash') pushHash(id, projOrUserId);
   if (id === 'feed')      renderFeed();
-  if (id === 'jobs')      renderJobs();
+  if (id === 'jobs')      { if (_jobsData) renderJobs(); else loadJobs(); }
   if (id === 'project' && projOrUserId) openProject(projOrUserId);
   if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
   if (id === 'profile') {
@@ -2838,10 +3096,10 @@ function showPage(id, projOrUserId) {
           refreshProfile(prof);
           if (prof.username) {
             // Show clean username URL
-            history.replaceState({ un: prof.username }, '', '/' + prof.username);
+            try { history.replaceState({ un: prof.username }, '', '/' + prof.username); } catch(e) {}
           } else {
             // No username yet — keep clean hash, don't expose UUID in URL
-            history.replaceState(null, '', '/#/profile');
+            try { history.replaceState(null, '', '/#/profile'); } catch(e) {}
           }
         }
       }).catch(e => console.warn('Profile load:', e));
@@ -2918,7 +3176,8 @@ function restoreFromHash() {
     }
   } catch(e) {}
   // Default: if logged in go to dashboard, else show splash
-  if (S.user) { showPage('dashboard'); } 
+  if (S.user) { showPage('dashboard'); }
+  loadFeed();
 }
 
 window.addEventListener('hashchange', () => {
@@ -3038,14 +3297,18 @@ async function loadAnalytics() {
 
   try {
     const token = await getToken();
+    // Always fetch fresh profile to get latest hire_clicks, social_clicks, views
+    const freshProfile = await db('/profiles?id=eq.' + S.profile.id + '&select=*', 'GET', null, token);
+    if (freshProfile && freshProfile[0]) Object.assign(S.profile, freshProfile[0]);
+
     const projs = await db('/projects?user_id=eq.' + S.profile.id + '&select=*&order=views.desc', 'GET', null, token) || [];
     const totalViews = projs.reduce((s, p) => s + (p.views || 0), 0);
     const totalLikes = projs.reduce((s, p) => s + (p.likes || 0), 0);
 
     document.getElementById('an-views').textContent  = (S.profile.views || totalViews || 0).toLocaleString();
     document.getElementById('an-likes').textContent  = totalLikes.toLocaleString();
-    document.getElementById('an-hire').textContent   = S.profile.hire_clicks  || '—';
-    document.getElementById('an-social').textContent = S.profile.social_clicks || '—';
+    document.getElementById('an-hire').textContent   = (S.profile.hire_clicks  != null ? S.profile.hire_clicks  : 0).toLocaleString();
+    document.getElementById('an-social').textContent = (S.profile.social_clicks != null ? S.profile.social_clicks : 0).toLocaleString();
 
     const tbody = document.getElementById('an-proj-tbody');
     const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',social:'Social',longform:'Long-form',wedding:'Wedding'};
@@ -3074,12 +3337,24 @@ async function loadAnalytics() {
     const topEl = document.getElementById('an-top-proj');
     const GCOLS2 = ['#FE730A','#7C3AED','#0EA5E9','#16A34A','#DC2626','#D97706'];
     if (top) {
-      const bg = GCOLS2[top.grad_idx % GCOLS2.length] || '#FE730A';
+      const bg = GCOLS2[(top.grad_idx || 0) % GCOLS2.length] || '#FE730A';
+      const videoUrl = top.video_url || (top.video_urls && top.video_urls[0]);
+      let thumbContent;
+      if (top.cover_url) {
+        thumbContent = '<img src="' + top.cover_url + '" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">';
+      } else if (videoUrl) {
+        thumbContent = '<video src="' + videoUrl + '#t=0.5" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" preload="metadata" muted playsinline></video>';
+      } else {
+        thumbContent = '<div style="position:absolute;inset:0;background:linear-gradient(135deg,' + bg + '33,' + bg + '11);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem">' +
+          '<div style="width:36px;height:36px;border-radius:50%;background:' + bg + '22;display:flex;align-items:center;justify-content:center">' +
+          '<svg width="14" height="14" viewBox="0 0 14 12" fill="none"><rect x="1" y="1.5" width="12" height="9" rx="2" stroke="' + bg + '" stroke-width="1.1" fill="none"/><path d="M5.5 4.5l3.5 2-3.5 2V4.5z" fill="' + bg + '"/></svg></div>' +
+          '<span style="font-size:.72rem;font-weight:600;color:' + bg + ';text-align:center;padding:0 .5rem">' + (top.title || 'Untitled') + '</span>' +
+          '</div>';
+      }
       topEl.innerHTML =
-        '<div style="border-radius:var(--r);overflow:hidden;aspect-ratio:16/9;background:' + bg + '18;display:flex;align-items:center;justify-content:center;margin-bottom:.65rem;cursor:pointer" onclick="openProject(\'' + top.id + '\')">' +
-          (top.cover_url ? '<img src="' + top.cover_url + '" style="width:100%;height:100%;object-fit:cover">' :
-           '<span style="font-size:.85rem;font-weight:600;color:' + bg + '">' + (top.author_init || '?') + '</span>') +
-        '</div>' +
+        '<a href="#/project/' + top.id + '" onclick="event.preventDefault();openProject(\'' + top.id + '\')" style="display:block;border-radius:var(--r);overflow:hidden;aspect-ratio:16/9;background:' + bg + '18;position:relative;margin-bottom:.65rem;cursor:pointer;text-decoration:none">' +
+          thumbContent +
+        '</a>' +
         '<div style="font-size:.85rem;font-weight:600;color:var(--t1);margin-bottom:.22rem">' + (top.title || 'Untitled') + '</div>' +
         '<div style="font-size:.72rem;color:var(--t2)">' + (top.views || 0) + ' views · ' + (top.likes || 0) + ' likes</div>';
     } else {
@@ -3118,6 +3393,148 @@ window.loadAnalytics = loadAnalytics;
 
 window.refreshProfile = refreshProfile;
 window.renderJobs    = renderJobs;
+window.loadJobs      = loadJobs;
+window.epPickVideo   = window.epPickVideo; // defined below
+window.epClearVideo  = window.epClearVideo;
+
+window._epPendingVideos = [];
+
+window.epPickVideo = function() {
+  if (window._epPendingVideos.length >= 5) { showToast('Max 5 videos per project.'); return; }
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = 'video/mp4,video/quicktime,video/webm,video/*'; inp.style.display = 'none';
+  document.body.appendChild(inp);
+  inp.onchange = () => {
+    const f = inp.files[0]; document.body.removeChild(inp);
+    if (!f) return;
+    if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
+    if (f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB.'); return; }
+    window._epPendingVideos.push(f);
+    epRenderVideoList();
+  };
+  inp.click();
+};
+
+window.epRemoveVideo = function(idx) {
+  window._epPendingVideos.splice(idx, 1);
+  epRenderVideoList();
+};
+
+window.epClearVideo = function() {
+  window._epPendingVideos = [];
+  epRenderVideoList();
+};
+
+function epRenderVideoList() {
+  const list = document.getElementById('ep-video-list');
+  if (!list) return;
+  list.innerHTML = window._epPendingVideos.map((f, i) =>
+    '<div style="display:flex;align-items:center;gap:.5rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.4rem .65rem">' +
+      '<svg width="12" height="10" viewBox="0 0 14 12" fill="none"><rect x="1" y="1.5" width="12" height="9" rx="2" stroke="var(--ac)" stroke-width="1.1" fill="none"/><path d="M5.5 4.5l3.5 2-3.5 2V4.5z" fill="var(--ac)"/></svg>' +
+      '<span style="font-size:.75rem;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + f.name + '</span>' +
+      '<span style="font-size:.68rem;color:var(--t3);flex-shrink:0">' + (f.size/1024/1024).toFixed(1) + ' MB</span>' +
+      '<span onclick="epRemoveVideo(' + i + ')" style="color:rgba(239,68,68,.7);cursor:pointer;font-size:1rem;line-height:1;flex-shrink:0">×</span>' +
+    '</div>'
+  ).join('');
+}
+
+// ── ADAPTIVE VIDEO PLAYER ────────────────────────────
+window._adaptPvVideo = function(video) {
+  const w = video.videoWidth, h = video.videoHeight;
+  if (!w || !h) return;
+  const ratio = w / h;
+  if (ratio < 0.75) {
+    // Portrait (9:16 etc.) — cap height so it doesn't fill screen
+    const maxH = Math.min(window.innerHeight * 0.68, 600);
+    video.style.maxHeight = maxH + 'px';
+    video.style.width = 'auto';
+    video.style.margin = '0 auto';
+    const wrap = video.parentElement;
+    if (wrap) { wrap.style.display = 'flex'; wrap.style.justifyContent = 'center'; }
+  } else {
+    // Landscape or square
+    video.style.width = '100%';
+    video.style.maxHeight = '70vh';
+  }
+};
+
+// ── TAG INPUT ────────────────────────────────────────
+window.handleTagKey = function(e) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const input  = e.target;
+    const val    = input.value.replace(/,/g,'').trim();
+    if (!val) return;
+    const hidden = document.getElementById('up-tags');
+    const chips  = document.getElementById('up-tags-chips');
+    if (!chips || !hidden) return;
+    const existing = hidden.value ? hidden.value.split(',').map(t=>t.trim()).filter(Boolean) : [];
+    if (existing.includes(val)) { input.value = ''; return; }
+    existing.push(val);
+    hidden.value = existing.join(',');
+    const chip = document.createElement('span');
+    chip.className = 'tag-chip';
+    chip.innerHTML = val + '<span class="tag-chip-x" onclick="window.removeTag(this,\'' + val.replace(/'/g,"\\'") + '\')">×</span>';
+    chips.appendChild(chip);
+    input.value = '';
+  } else if (e.key === 'Backspace' && !e.target.value) {
+    const chips  = document.getElementById('up-tags-chips');
+    const hidden = document.getElementById('up-tags');
+    if (!chips || !hidden) return;
+    const last = chips.lastElementChild;
+    if (last) {
+      const tags = hidden.value.split(',').filter(Boolean);
+      tags.pop();
+      hidden.value = tags.join(',');
+      last.remove();
+    }
+  }
+};
+
+window.removeTag = function(x, val) {
+  const hidden = document.getElementById('up-tags');
+  if (hidden) hidden.value = hidden.value.split(',').filter(t => t.trim() !== val).join(',');
+  if (x.parentElement) x.parentElement.remove();
+};
+
+// Edit project tags chip handler
+function makeChipHandler(inputId, chipsId, hiddenId, chipStyle) {
+  return function(e) {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const val = e.target.value.replace(/,/g,'').trim();
+      if (!val) return;
+      const hidden = document.getElementById(hiddenId);
+      const chips  = document.getElementById(chipsId);
+      if (!hidden || !chips) return;
+      const existing = hidden.value ? hidden.value.split(',').map(t=>t.trim()).filter(Boolean) : [];
+      if (existing.includes(val)) { e.target.value = ''; return; }
+      existing.push(val);
+      hidden.value = existing.join(',');
+      const chip = document.createElement('span');
+      chip.className = 'tag-chip';
+      if (chipStyle) chip.style.cssText = chipStyle;
+      chip.innerHTML = val + '<span class="tag-chip-x" onclick="window.removeChip(this,\'' + hiddenId + '\',\'' + val.replace(/'/g,"\\'") + '\')">×</span>';
+      chips.appendChild(chip);
+      e.target.value = '';
+    } else if (e.key === 'Backspace' && !e.target.value) {
+      const chips  = document.getElementById(chipsId);
+      const hidden = document.getElementById(hiddenId);
+      if (!chips || !hidden) return;
+      const last = chips.lastElementChild;
+      if (last) { const tags = hidden.value.split(',').filter(Boolean); tags.pop(); hidden.value = tags.join(','); last.remove(); }
+    }
+  };
+}
+window.handleEpTagKey  = makeChipHandler('ep-tags-input',   'ep-tags-chips',   'ep-proj-tags', '');
+window.handleSkillKey  = makeChipHandler('ep-skills-input', 'ep-skills-chips', 'ep-skills',    'background:rgba(0,0,0,.06);border-color:var(--brd2);color:var(--t1)');
+window.removeChip = function(x, hiddenId, val) {
+  const hidden = document.getElementById(hiddenId);
+  if (hidden) hidden.value = hidden.value.split(',').filter(t => t.trim() !== val).join(',');
+  if (x.parentElement) x.parentElement.remove();
+};
+window.removeEpTag  = (x, val) => window.removeChip(x, 'ep-proj-tags', val);
+window.removeSkill  = (x, val) => window.removeChip(x, 'ep-skills', val);
 window.toggleFaq     = toggleFaq;
 window.openWA        = openWA;
 
@@ -3129,9 +3546,39 @@ function openEditProject() {
   el('ep-proj-cat').value    = p.cat   || 'video';
   el('ep-proj-year').value   = p.year  || '';
   el('ep-proj-desc').value   = p.description || '';
-  el('ep-proj-tags').value   = (p.tags || []).join(', ');
+  // Populate tags as chips
+  const existingTags = Array.isArray(p.tags) ? p.tags : (p.tags || '').split(',').map(t=>t.trim()).filter(Boolean);
+  el('ep-proj-tags').value = existingTags.join(',');
+  const epChips = document.getElementById('ep-tags-chips');
+  if (epChips) {
+    epChips.innerHTML = existingTags.map(t =>
+      '<span class="tag-chip">' + t + '<span class="tag-chip-x" onclick="window.removeEpTag(this,\'' + t.replace(/'/g,"\\'") + '\')">×</span></span>'
+    ).join('');
+  }
   el('ep-proj-yt').value     = p.yt_link || '';
   el('ep-proj-status').value = p.status || 'published';
+  // Show existing videos
+  const curVid = document.getElementById('ep-video-current');
+  if (curVid) {
+    const existingUrls = (p.video_urls && p.video_urls.length) ? p.video_urls : (p.video_url ? [p.video_url] : []);
+    if (existingUrls.length) {
+      curVid.style.display = 'block';
+      curVid.innerHTML = existingUrls.map((u, i) => {
+        // Extract filename from URL
+        const fname = decodeURIComponent(u.split('/').pop().split('?')[0]).replace(/^[^_]+_[^_]+_[^_]+_/, '');
+        return '<div style="display:flex;align-items:center;gap:.5rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.4rem .65rem;margin-bottom:.35rem">' +
+          '<svg width="12" height="10" viewBox="0 0 14 12" fill="none"><rect x="1" y="1.5" width="12" height="9" rx="2" stroke="#22c55e" stroke-width="1.1" fill="none"/><path d="M5.5 4.5l3.5 2-3.5 2V4.5z" fill="#22c55e"/></svg>' +
+          '<span style="font-size:.75rem;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + fname + '</span>' +
+          '<svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="4.5" fill="#22c55e"/><polyline points="2.5,5 4,6.5 7.5,3" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '</div>';
+      }).join('');
+    } else {
+      curVid.style.display = 'none';
+    }
+  }
+  // Reset new video picker
+  window._epPendingVideos = [];
+  epRenderVideoList();
   el('edit-proj-overlay').style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
@@ -3142,6 +3589,9 @@ function openEditProjectById(id) {
 function closeEditProject() {
   el('edit-proj-overlay').style.display = 'none';
   document.body.style.overflow = '';
+  // Clear chip inputs
+  const ec = document.getElementById('ep-tags-chips'); if (ec) ec.innerHTML = '';
+  const ei = document.getElementById('ep-tags-input'); if (ei) ei.value = '';
 }
 async function saveEditProject() {
   const id = el('ep-proj-id').value;
@@ -3160,6 +3610,51 @@ async function saveEditProject() {
   };
   try {
     const token = await getToken();
+    // Upload new videos and APPEND to existing ones
+    if (window._epPendingVideos && window._epPendingVideos.length) {
+      const prog = document.getElementById('ep-video-progress');
+      const bar  = document.getElementById('ep-video-bar');
+      const pct  = document.getElementById('ep-video-pct');
+      const lbl  = document.getElementById('ep-video-progress-label');
+      if (prog) prog.style.display = 'block';
+      const uploadedUrls = [];
+      for (let i = 0; i < window._epPendingVideos.length; i++) {
+        const f = window._epPendingVideos[i];
+        if (lbl) lbl.textContent = window._epPendingVideos.length > 1
+          ? 'Uploading video ' + (i+1) + ' of ' + window._epPendingVideos.length + '...'
+          : 'Uploading video...';
+        const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+        const path = S.profile.id + '/' + id + '_edit_' + Date.now() + '_' + safeName;
+        const uploadUrl = SB_URL + '/storage/v1/object/project-videos/' + path;
+        try {
+          await uploadFileXHR(uploadUrl, f, {
+            'Authorization': 'Bearer ' + token,
+            'apikey': SB_KEY,
+            'Content-Type': f.type || 'video/mp4',
+            'x-upsert': 'true',
+            'Cache-Control': '3600'
+          }, (p2) => {
+            const overall = ((i + p2) / window._epPendingVideos.length) * 100;
+            if (bar) bar.style.width = overall.toFixed(1) + '%';
+            if (pct) pct.textContent = Math.round(overall) + '%';
+          });
+          const { data: ud } = sb.storage.from('project-videos').getPublicUrl(path);
+          if (ud?.publicUrl) uploadedUrls.push(ud.publicUrl);
+        } catch(vErr) { showToast('Video ' + (i+1) + ' failed: ' + vErr.message); }
+      }
+      if (uploadedUrls.length) {
+        // APPEND new videos to existing ones
+        const existing = S._currentProject;
+        const existingUrls = (existing?.video_urls && existing.video_urls.length)
+          ? existing.video_urls
+          : (existing?.video_url ? [existing.video_url] : []);
+        const allUrls = [...existingUrls, ...uploadedUrls];
+        updates.video_url = allUrls[0];
+        try { updates.video_urls = allUrls; } catch(e) {}
+      }
+      if (prog) { prog.style.display = 'none'; if (bar) bar.style.width = '0%'; }
+      window._epPendingVideos = [];
+    }
     await db('/projects?id=eq.' + id, 'PATCH', updates, token);
     const idx = S.projects.findIndex(p => p.id === id);
     if (idx !== -1) Object.assign(S.projects[idx], updates);
@@ -3167,6 +3662,8 @@ async function saveEditProject() {
     closeEditProject();
     showToast('✓ Project updated!');
     loadFeed();
+    // Refresh project view if open
+    if (updates.video_url && S._currentProject) openProject(id);
   } catch(e) { showToast('Error: ' + e.message); }
   finally { btn.disabled = false; btn.innerHTML = 'Save Changes'; }
 }
@@ -3188,52 +3685,135 @@ function copyProfileLink() {
 const _pendingVideos = [];
 function addVideoSlot() {
   const inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'video/*'; inp.style.display = 'none';
+  inp.type = 'file'; inp.accept = 'video/mp4,video/quicktime,video/webm,video/mov,video/*'; inp.style.display = 'none';
   document.body.appendChild(inp);
   inp.onchange = () => {
     const f = inp.files[0]; document.body.removeChild(inp);
     if (!f) return;
     if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-    if (f.size > 100 * 1024 * 1024) { showToast('Each video must be under 100 MB.'); return; }
+    if (f.size > 250 * 1024 * 1024) { showToast('Each video must be under 250 MB.'); return; }
     if (_pendingVideos.length >= 5)  { showToast('Max 5 videos per project.'); return; }
     _pendingVideos.push(f);
     renderVideoList();
   };
   inp.click();
 }
+
 function renderVideoList() {
   const list = document.getElementById('video-list');
   if (!list) return;
-  list.innerHTML = _pendingVideos.map((f, i) =>
-    '<div style="display:flex;align-items:center;gap:.55rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.5rem .75rem">' +
-      '<span style="font-size:.8rem;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">🎬 ' + f.name + '</span>' +
-      '<span style="font-size:.7rem;color:var(--t3)">' + (f.size/1024/1024).toFixed(1) + ' MB</span>' +
-      '<button onclick="removeVideo(' + i + ')" style="background:none;border:none;color:rgba(239,68,68,.7);cursor:pointer;font-size:.9rem;padding:0 2px">✕</button>' +
-    '</div>'
-  ).join('');
+  list.innerHTML = _pendingVideos.map((f, i) => {
+    const mb = (f.size / 1024 / 1024).toFixed(1);
+    return '<div style="display:flex;align-items:center;gap:.55rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.5rem .75rem">' +
+      '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="2" stroke="var(--ac)" stroke-width="1.1" fill="none"/><path d="M5.5 5l3 2-3 2V5z" fill="var(--ac)"/></svg>' +
+      '<span style="font-size:.8rem;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + f.name + '</span>' +
+      '<span style="font-size:.7rem;color:var(--t3);flex-shrink:0">' + mb + ' MB</span>' +
+      '<button onclick="removeVideo(' + i + ')" style="background:none;border:none;color:rgba(239,68,68,.7);cursor:pointer;font-size:1rem;padding:0 2px;line-height:1" title="Remove">×</button>' +
+    '</div>';
+  }).join('');
 }
+
 function removeVideo(idx) { _pendingVideos.splice(idx, 1); renderVideoList(); }
 function clearAllVideos() { _pendingVideos.length = 0; renderVideoList(); }
 function handleVideoSelect() {}
 function handleVideoDrop(e) { e.preventDefault(); }
 function clearVideoUpload() { clearAllVideos(); }
 
+async function patchProjectVideo(projId, videoUrls, token) {
+  // Always save video_url first (guaranteed column)
+  try {
+    await db('/projects?id=eq.' + projId, 'PATCH', { video_url: videoUrls[0] }, token);
+  } catch(e) {
+    console.error('PATCH video_url failed:', e.message);
+    throw e;
+  }
+  // Then try to also save video_urls array (may not exist yet)
+  if (videoUrls.length > 1) {
+    try {
+      await db('/projects?id=eq.' + projId, 'PATCH', { video_urls: videoUrls }, token);
+    } catch(e) {
+      console.warn('video_urls column not found — run: ALTER TABLE projects ADD COLUMN IF NOT EXISTS video_urls JSONB;');
+    }
+  }
+}
+
+// Upload a single file via XHR for real byte-level progress
+function uploadFileXHR(url, file, headers, onProgress) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    Object.entries(headers).forEach(([k, v]) => xhr.setRequestHeader(k, v));
+    xhr.upload.onprogress = e => { if (e.lengthComputable && onProgress) onProgress(e.loaded / e.total); };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { resolve(JSON.parse(xhr.responseText)); } catch(e) { resolve({}); }
+      } else {
+        reject(new Error('Upload failed: ' + xhr.status + ' ' + xhr.responseText));
+      }
+    };
+    xhr.onerror = () => reject(new Error('Network error during upload'));
+    xhr.send(file);
+  });
+}
+
 async function uploadProjectVideos(token, projId) {
   if (!_pendingVideos.length) return [];
   const urls = [];
-  const pw = el('video-upload-progress'), pb = el('video-progress-bar'), pt = el('video-progress-txt');
+
+  // Progress UI elements
+  const pw  = el('video-upload-progress');
+  const pb  = el('video-progress-bar');
+  const pt  = el('video-progress-txt');
   if (pw) pw.style.display = 'block';
+
   for (let i = 0; i < _pendingVideos.length; i++) {
     const f = _pendingVideos[i];
-    if (pt) pt.textContent = 'Uploading video ' + (i+1) + ' of ' + _pendingVideos.length + '...';
-    const path = S.profile.id + '/' + projId + '_v' + i + '_' + f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const { error } = await sb.storage.from('project-videos').upload(path, f, { contentType: f.type, upsert: false });
-    if (error) { showToast('⚠️ Video ' + (i+1) + ' failed: ' + error.message); continue; }
-    if (pb) pb.style.width = Math.round((i+1)/_pendingVideos.length*100) + '%';
-    const { data: ud } = sb.storage.from('project-videos').getPublicUrl(path);
-    if (ud?.publicUrl) urls.push(ud.publicUrl);
+    const totalFiles = _pendingVideos.length;
+    const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const path = S.profile.id + '/' + projId + '_v' + i + '_' + Date.now() + '_' + safeName;
+    const uploadUrl = SB_URL + '/storage/v1/object/project-videos/' + path;
+
+    const updateProgress = (filePct) => {
+      // Overall progress = (files done + current file pct) / total files
+      const overall = ((i + filePct) / totalFiles) * 100;
+      if (pb) pb.style.width = overall.toFixed(1) + '%';
+      if (pt) {
+        const pctLabel = Math.round(filePct * 100);
+        pt.textContent = totalFiles > 1
+          ? 'Video ' + (i+1) + ' of ' + totalFiles + ' — ' + pctLabel + '%'
+          : 'Uploading — ' + pctLabel + '%';
+      }
+    };
+
+    updateProgress(0);
+
+    try {
+      await uploadFileXHR(uploadUrl, f, {
+        'Authorization': 'Bearer ' + token,
+        'apikey': SB_KEY,
+        'Content-Type': f.type || 'video/mp4',
+        'x-upsert': 'true',
+        'Cache-Control': '3600'
+      }, updateProgress);
+
+      updateProgress(1);
+
+      const { data: ud } = sb.storage.from('project-videos').getPublicUrl(path);
+      if (ud?.publicUrl) urls.push(ud.publicUrl);
+    } catch(err) {
+      showToast('Video ' + (i+1) + ' failed — ' + err.message);
+      console.error('Video upload error:', err);
+    }
   }
-  setTimeout(() => { if (pw) pw.style.display='none'; if (pb) pb.style.width='0%'; }, 1500);
+
+  // Final state
+  if (pb) pb.style.width = '100%';
+  if (pt) pt.textContent = urls.length === _pendingVideos.length ? 'Upload complete!' : urls.length + ' of ' + _pendingVideos.length + ' uploaded';
+  setTimeout(() => {
+    if (pw) pw.style.display = 'none';
+    if (pb) pb.style.width = '0%';
+  }, 2000);
+
   return urls;
 }
 
@@ -3349,9 +3929,9 @@ boot();
   </div></div></div>
   <footer><div class="c" style="padding-top:1.9rem;padding-bottom:1.2rem"><div class="fgr">
     <div><div class="fbrand">Timeliners</div><div class="fdesc">Sri Lanka's creative portfolio platform.</div></div>
-    <div><div class="fct">Platform</div><a class="flink" onclick="showPage('feed')">Discover</a><a class="flink" onclick="showPage('jobs')">Jobs</a><a class="flink" onclick="showPage('pricing')">Pricing</a></div>
-    <div><div class="fct">Company</div><a class="flink" onclick="showPage('faq')">FAQ</a><a class="flink" onclick="openAuth('up')">Create Portfolio</a></div>
-    <div><div class="fct">Connect</div><a class="flink" onclick="openWA('General')">WhatsApp</a><a class="flink">Instagram</a><a class="flink">TikTok</a></div>
+    <div><div class="fct">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/jobs" onclick="event.preventDefault();showPage('jobs')">Jobs</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div>
+    <div><div class="fct">Company</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="#/feed" onclick="event.preventDefault();openAuth('up')">Create Portfolio</a></div>
+    <div><div class="fct">Connect</div><a class="flink" href="https://wa.me/94771873449" target="_blank">WhatsApp</a><a class="flink" href="https://instagram.com" target="_blank">Instagram</a><a class="flink" href="https://tiktok.com" target="_blank">TikTok</a></div>
   </div><div class="fbot"><div class="fcopy">© 2025 Timeliners. All rights reserved.</div></div></div></footer>
 </div>
 
@@ -3435,9 +4015,9 @@ boot();
   </div>
   <footer><div class="c" style="padding-top:1.9rem;padding-bottom:1.2rem"><div class="fgr">
     <div><div class="fbrand">Timeliners</div><div class="fdesc">Sri Lanka's creative portfolio platform.</div></div>
-    <div><div class="fct">Platform</div><a class="flink" onclick="showPage('feed')">Discover</a><a class="flink" onclick="showPage('jobs')">Jobs</a><a class="flink" onclick="showPage('pricing')">Pricing</a></div>
-    <div><div class="fct">Company</div><a class="flink" onclick="showPage('faq')">FAQ</a><a class="flink" onclick="openAuth('up')">Create Portfolio</a></div>
-    <div><div class="fct">Connect</div><a class="flink" onclick="openWA('General')">WhatsApp</a><a class="flink">Instagram</a></div>
+    <div><div class="fct">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/jobs" onclick="event.preventDefault();showPage('jobs')">Jobs</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div>
+    <div><div class="fct">Company</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="#/feed" onclick="event.preventDefault();openAuth('up')">Create Portfolio</a></div>
+    <div><div class="fct">Connect</div><a class="flink" href="https://wa.me/94771873449" target="_blank">WhatsApp</a><a class="flink" href="https://instagram.com" target="_blank">Instagram</a></div>
   </div><div class="fbot"><div class="fcopy">© 2025 Timeliners. All rights reserved.</div></div></div></footer>
 </div>
 
