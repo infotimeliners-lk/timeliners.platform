@@ -3464,10 +3464,29 @@ window.showForgotPassword  = showForgotPassword;
 window.closeForgotPassword = closeForgotPassword;
 window.sendPasswordReset   = sendPasswordReset;
 
-function showResetPasswordModal() {
+async function showResetPasswordModal() {
   el('reset-pw-overlay').style.display = 'flex';
   el('reset-pw-input').value = '';
   el('reset-pw-err').style.display = 'none';
+
+  // Extract token from URL hash and set session
+  try {
+    // Supabase puts tokens after the last # in the URL
+    const fullHash = location.href.split('#').slice(1).join('#');
+    const params = new URLSearchParams(fullHash.replace(/^[^?&]*[?&]?/, '').split('#').pop());
+    // Try all hash segments for the token
+    let accessToken, refreshToken;
+    location.href.split('#').forEach(seg => {
+      const p = new URLSearchParams(seg);
+      if (p.get('access_token')) accessToken = p.get('access_token');
+      if (p.get('refresh_token')) refreshToken = p.get('refresh_token');
+    });
+    if (accessToken && refreshToken) {
+      await sb.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+    }
+  } catch(e) {
+    console.warn('Token exchange error:', e.message);
+  }
 }
 async function confirmPasswordReset() {
   const pw = el('reset-pw-input').value;
