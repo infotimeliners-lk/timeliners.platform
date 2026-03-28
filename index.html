@@ -1505,8 +1505,17 @@ async function restoreSession() {
     const hashSub = parts[1] || '';
     const KNOWN = ['feed','jobs','pricing','faq','profile','dashboard','project'];
 
-    // Check for password reset flow
-    if (hashSeg === 'reset-password' || location.hash.includes('type=recovery')) {
+    // Check for password reset flow or errors
+    if (location.hash.includes('error=access_denied') || location.hash.includes('error_code=otp_expired')) {
+      try { history.replaceState(null, '', '/#/feed'); } catch(e) {}
+      loadFeed();
+      setTimeout(() => {
+        openAuth('in');
+        showAuthErr('Your reset link has expired. Please request a new one.');
+      }, 500);
+      return;
+    }
+    if (hashSeg === 'reset-password' || location.hash.includes('type=recovery') || location.hash.includes('access_token=')) {
       showResetPasswordModal();
       loadFeed();
       return;
@@ -3301,6 +3310,22 @@ async function showProfileByUsername(username) {
 }
 
 function restoreFromHash() {
+  // Handle password reset link (has access_token in hash)
+  if (location.hash.includes('access_token=') && location.hash.includes('type=recovery')) {
+    showResetPasswordModal();
+    return;
+  }
+
+  // Handle expired reset link
+  if (location.hash.includes('error=access_denied') || location.hash.includes('error_code=otp_expired')) {
+    try { history.replaceState(null, '', '/'); } catch(e) {}
+    setTimeout(() => {
+      openAuth('in');
+      showAuthErr('Your reset link has expired. Please request a new one using "Forgot password?".');
+    }, 300);
+    return;
+  }
+
   // Username redirect from 404.html / _redirects
   try {
     const uRedir = sessionStorage.getItem('tl_username_redirect') || sessionStorage.getItem('tl_redirect');
@@ -3454,14 +3479,25 @@ async function confirmPasswordReset() {
   el('reset-pw-err').style.display = 'none';
   setAuthBusy('reset-pw-btn', true);
   try {
+    // Supabase auto-detects the recovery token from URL hash
     const { error } = await sb.auth.updateUser({ password: pw });
     if (error) throw error;
     el('reset-pw-overlay').style.display = 'none';
-    try { history.replaceState(null, '', '/#/feed'); } catch(e) {}
+    try { history.replaceState(null, '', '/'); } catch(e) {}
     showToast('✓ Password updated! You are now signed in.');
-    showPage('dashboard');
+    // Reload session
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      S.session = session;
+      S.user = session.user;
+      await loadProfile();
+      applyLoggedIn();
+      showPage('dashboard');
+    } else {
+      openAuth('in');
+    }
   } catch(e) {
-    el('reset-pw-err').textContent = e.message || 'Failed to update password.';
+    el('reset-pw-err').textContent = e.message || 'Failed to update password. Try requesting a new reset link.';
     el('reset-pw-err').style.display = 'block';
   } finally { setAuthBusy('reset-pw-btn', false); }
 }
