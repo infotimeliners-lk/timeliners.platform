@@ -498,6 +498,7 @@ html.light .jf-sel{color:var(--t1)}
       <div class="auth-sub-txt">Sign in to your Timeliners account.</div>
       <div class="af"><label class="al">Email</label><input class="ai" type="email" id="si-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')handleSignIn()"></div>
       <div class="af"><label class="al">Password</label><input class="ai" type="password" id="si-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')handleSignIn()"></div>
+      <div style="text-align:right;margin-top:-.3rem;margin-bottom:.5rem"><a onclick="showForgotPassword()" style="font-size:.73rem;color:var(--ac);cursor:pointer">Forgot password?</a></div>
       <button class="auth-btn" id="si-btn" onclick="handleSignIn()">Sign In</button>
       <div class="auth-foot-txt">No account? <a onclick="switchAuthTab('up')">Create one free →</a></div>
     </div>
@@ -538,6 +539,45 @@ html.light .jf-sel{color:var(--t1)}
   </div>
 </div>
 
+<!-- ══ FORGOT PASSWORD MODAL ══ -->
+<div id="forgot-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:4000;display:none;align-items:center;justify-content:center;padding:1rem">
+  <div class="auth-box" style="text-align:center;max-width:380px;animation:popIn .22s cubic-bezier(.4,0,.2,1)">
+    <div class="auth-brand">Time<span>liners</span></div>
+    <div style="width:52px;height:52px;border-radius:50%;background:rgba(254,115,10,.1);border:1px solid rgba(254,115,10,.25);display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="#FE730A" stroke-width="1.5" fill="none"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#FE730A" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div>
+    <div id="forgot-step-1">
+      <div style="font-size:1rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">Reset Password</div>
+      <div style="font-size:.78rem;color:var(--t2);margin-bottom:1.2rem">Enter your email and we'll send you a reset link.</div>
+      <div class="af"><label class="al">Email</label><input class="ai" type="email" id="forgot-email" placeholder="you@email.com" onkeydown="if(event.key==='Enter')sendPasswordReset()"></div>
+      <div id="forgot-err" style="display:none;color:#ef4444;font-size:.73rem;margin-bottom:.5rem;text-align:left"></div>
+      <button class="auth-btn" id="forgot-btn" onclick="sendPasswordReset()">Send Reset Link</button>
+      <div class="auth-foot-txt"><a onclick="closeForgotPassword()" style="cursor:pointer">← Back to Sign In</a></div>
+    </div>
+    <div id="forgot-step-2" style="display:none">
+      <div style="font-size:1rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">Check your email</div>
+      <div style="font-size:.78rem;color:var(--t2);margin-bottom:.9rem">We sent a password reset link to <strong id="forgot-email-display"></strong>. Click the link in the email to set a new password.</div>
+      <div style="font-size:.71rem;color:var(--t3);background:var(--bg3);border-radius:6px;padding:.4rem .65rem;text-align:left;margin-bottom:1rem">
+        📁 Can't find it? Check your <strong>spam or junk folder</strong> — sometimes it ends up there.
+      </div>
+      <div style="font-size:.75rem;color:var(--t2);margin-bottom:1rem">Didn't get it? <a onclick="document.getElementById('forgot-step-2').style.display='none';document.getElementById('forgot-step-1').style.display='block'" style="color:var(--ac);cursor:pointer;font-weight:500">Try again →</a></div>
+      <button class="auth-btn" onclick="closeForgotPassword()">Back to Sign In</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESET PASSWORD MODAL ══ -->
+<div id="reset-pw-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:4000;display:none;align-items:center;justify-content:center;padding:1rem">
+  <div class="auth-box" style="text-align:center;max-width:380px;animation:popIn .22s cubic-bezier(.4,0,.2,1)">
+    <div class="auth-brand">Time<span>liners</span></div>
+    <div style="font-size:1rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">Set New Password</div>
+    <div style="font-size:.78rem;color:var(--t2);margin-bottom:1.2rem">Choose a new password for your account.</div>
+    <div class="af"><label class="al">New Password</label><input class="ai" type="password" id="reset-pw-input" placeholder="Min. 8 characters" onkeydown="if(event.key==='Enter')confirmPasswordReset()"></div>
+    <div id="reset-pw-err" style="display:none;color:#ef4444;font-size:.73rem;margin-bottom:.5rem;text-align:left"></div>
+    <button class="auth-btn" id="reset-pw-btn" onclick="confirmPasswordReset()">Update Password</button>
+  </div>
+</div>
+
 <!-- ══ OTP VERIFICATION MODAL ══ -->
 <div id="otp-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:4000;display:none;align-items:center;justify-content:center;padding:1rem">
   <div class="auth-box" style="text-align:center;max-width:380px;animation:popIn .22s cubic-bezier(.4,0,.2,1)">
@@ -570,7 +610,10 @@ html.light .jf-sel{color:var(--t1)}
       <a id="otp-resend-btn" onclick="resendOtp()" style="color:var(--ac);font-weight:500;cursor:pointer">Resend</a>
       <span id="otp-timer" style="color:var(--t3)"></span>
     </div>
-    <div style="margin-top:.75rem;font-size:.73rem;color:var(--t3)">
+    <div style="margin-top:.55rem;font-size:.71rem;color:var(--t3);background:var(--bg3);border-radius:6px;padding:.4rem .65rem;text-align:left">
+      📁 Can't find it? Check your <strong>spam or junk folder</strong> — sometimes it ends up there.
+    </div>
+    <div style="margin-top:.5rem;font-size:.73rem;color:var(--t3)">
       Wrong email? <a onclick="cancelOtp()" style="color:var(--t2);cursor:pointer;text-decoration:underline">Go back</a>
     </div>
   </div>
@@ -961,7 +1004,7 @@ html.light .jf-sel{color:var(--t1)}
             </div>
             <div class="dcard">
               <div class="dcard-h" style="color:rgba(239,68,68,.75)">Danger Zone</div><div class="dcard-sub">Permanent and irreversible actions.</div>
-              <button style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#ef4444;border-radius:var(--r);padding:.54rem 1.05rem;font-size:.79rem;transition:var(--tr)" onmouseover="this.style.background='rgba(239,68,68,.18)'" onmouseout="this.style.background='rgba(239,68,68,.1)'" onclick="showToast('Contact support to delete your account.')">Delete My Account</button>
+              <button style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#ef4444;border-radius:var(--r);padding:.54rem 1.05rem;font-size:.79rem;transition:var(--tr)" onmouseover="this.style.background='rgba(239,68,68,.18)'" onmouseout="this.style.background='rgba(239,68,68,.1)'" onclick="deleteMyAccount()">Delete My Account</button>
             </div>
           </div>
 
@@ -1369,8 +1412,42 @@ function boot() {
   initTheme();
   buildCoverPicker();
   applyLoggedOut();
+
+  // Listen for auth changes — handles deleted accounts, session expiry, sign out from other tabs
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT' || (!session && S.user)) {
+      // Account deleted or session invalidated externally
+      S.user = S.session = S.profile = null;
+      try { Object.keys(localStorage).filter(k => k.startsWith('tl_')).forEach(k => localStorage.removeItem(k)); } catch(e) {}
+      applyLoggedOut();
+      showPage('feed');
+      if (event === 'SIGNED_OUT' && document.visibilityState !== undefined) {
+        // Only show toast if page is visible (not on initial load)
+      }
+    }
+  });
+
   restoreSession();
   loadJobs();
+
+  // Check session validity every 60s — catches externally deleted accounts
+  setInterval(async () => {
+    if (!S.user) return;
+    try {
+      const { data: { session } } = await sb.auth.getSession().catch(() => ({ data: { session: null } }));
+      if (!session) throw new Error('no session');
+      // Also check if profile still exists in DB
+      const rows = await db('/profiles?id=eq.' + S.user.id + '&select=id', 'GET', null, SB_KEY);
+      if (!rows || !rows.length) throw new Error('account deleted');
+    } catch(e) {
+      await sb.auth.signOut().catch(() => {});
+      S.user = S.session = S.profile = null;
+      try { Object.keys(localStorage).filter(k => k.startsWith('tl_')).forEach(k => localStorage.removeItem(k)); } catch(e2) {}
+      applyLoggedOut();
+      showPage('feed');
+      showToast('Your session has ended. Please sign in again.');
+    }
+  }, 60000);
 }
 
 // ── SESSION ──────────────────────────────────────────
@@ -1400,6 +1477,19 @@ async function restoreSession() {
     S.user    = session.user;
     S.profile = null;
     try { localStorage.removeItem('tl_lp_' + S.user.id); } catch(e) {}
+
+    // Check if profile still exists — account may have been deleted
+    const profileCheck = await db('/profiles?id=eq.' + S.user.id + '&select=id', 'GET', null, SB_KEY).catch(() => null);
+    if (!profileCheck || !profileCheck.length) {
+      await sb.auth.signOut().catch(() => {});
+      S.user = S.session = S.profile = null;
+      try { Object.keys(localStorage).filter(k => k.startsWith('tl_')).forEach(k => localStorage.removeItem(k)); } catch(e) {}
+      applyLoggedOut();
+      restoreFromHash();
+      loadFeed();
+      return;
+    }
+
     await loadProfile();
     applyLoggedIn();
 
@@ -1414,6 +1504,13 @@ async function restoreSession() {
     const hashSeg = parts[0].toLowerCase();
     const hashSub = parts[1] || '';
     const KNOWN = ['feed','jobs','pricing','faq','profile','dashboard','project'];
+
+    // Check for password reset flow
+    if (hashSeg === 'reset-password' || location.hash.includes('type=recovery')) {
+      showResetPasswordModal();
+      loadFeed();
+      return;
+    }
 
     if (KNOWN.includes(hashSeg) && hashSeg !== 'splash') {
       showPage(hashSeg, hashSub || undefined);
@@ -1538,6 +1635,14 @@ async function handleSignUp() {
   if (pw.length < 8) { showAuthErr('Password must be at least 8 characters.'); return; }
   clearAuthErr(); setAuthBusy('su-btn', true);
   try {
+    // Check if email already exists in profiles
+    const existing = await db('/profiles?email=eq.' + encodeURIComponent(email) + '&select=id', 'GET', null, SB_KEY).catch(() => null);
+    if (existing && existing.length) {
+      showAuthErr('An account with that email already exists. Sign in instead.');
+      setAuthBusy('su-btn', false);
+      return;
+    }
+
     const { data, error } = await sb.auth.signUp({ email, password: pw });
     if (error) throw error;
     if (!data.user) throw new Error('Sign up failed — please try again.');
@@ -1690,6 +1795,15 @@ async function verifyOtp() {
     _otpPendingProfile = null;
     if (_otpResendTimer) clearInterval(_otpResendTimer);
 
+    // Send welcome email via Edge Function (fire and forget)
+    try {
+      fetch(SB_URL + '/functions/v1/send-welcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ email: S.user.email, name: fn })
+      }).catch(() => {});
+    } catch(e) {}
+
     // Clean URL, close OTP modal, go to dashboard
     try { history.replaceState(null, '', '/#/dashboard'); } catch(e) {}
     el('otp-overlay').style.display = 'none';
@@ -1739,6 +1853,48 @@ function showOtpErr(msg) {
   const e = el('otp-err');
   e.textContent = msg;
   e.style.display = 'block';
+}
+
+async function deleteMyAccount() {
+  if (!S.profile || !S.user) return;
+  const confirmed = confirm('Are you sure you want to permanently delete your account?\n\nThis will delete your profile, all projects and videos. This cannot be undone.');
+  if (!confirmed) return;
+  const confirmed2 = confirm('Last chance — this is permanent. Delete everything?');
+  if (!confirmed2) return;
+  try {
+    const token = await getToken();
+    // Delete all projects first (videos in storage)
+    const projs = await db('/projects?user_id=eq.' + S.profile.id + '&select=*', 'GET', null, token) || [];
+    for (const p of projs) {
+      const urls = (p.video_urls && p.video_urls.length) ? p.video_urls : (p.video_url ? [p.video_url] : []);
+      for (const url of urls) {
+        try {
+          const path = url.split('/project-videos/')[1];
+          if (path) await sb.storage.from('project-videos').remove([decodeURIComponent(path)]);
+        } catch(e) {}
+      }
+    }
+    // Delete avatar from storage
+    if (S.profile.avatar_url) {
+      try {
+        const path = S.profile.avatar_url.split('/avatars/')[1];
+        if (path) await sb.storage.from('avatars').remove([decodeURIComponent(path)]);
+      } catch(e) {}
+    }
+    // Delete projects from DB
+    await db('/projects?user_id=eq.' + S.profile.id, 'DELETE', null, token).catch(() => {});
+    // Delete profile from DB (trigger will delete auth user too)
+    await db('/profiles?id=eq.' + S.profile.id, 'DELETE', null, token);
+    // Sign out
+    await sb.auth.signOut();
+    S.user = S.session = S.profile = null;
+    try { Object.keys(localStorage).filter(k => k.startsWith('tl_')).forEach(k => localStorage.removeItem(k)); } catch(e) {}
+    applyLoggedOut();
+    showPage('feed');
+    showToast('Your account has been deleted.');
+  } catch(e) {
+    showToast('Error deleting account: ' + e.message);
+  }
 }
 
 async function handleSignOut() {
@@ -2711,6 +2867,14 @@ function refreshProfile(profileData) {
       ? '<span style="display:inline-flex;align-items:center;gap:.25rem;font-size:.68rem;font-weight:500;color:var(--ac)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5.5" fill="var(--ac)"/><polyline points="3,6 5,8 9,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Verified</span>'
       : '';
   }
+  // Username below name
+  const uline = el('pusername-el');
+  if (p.username) {
+    uline.textContent = '@' + p.username;
+    uline.style.display = 'block';
+  } else {
+    uline.style.display = 'none';
+  }
   // Role — only show city if it's set
   el('prole-el').textContent = p.city
     ? (p.role || 'Video Editor') + ' · ' + p.city
@@ -3061,7 +3225,7 @@ function openWA(msg) {
 el('main-nav').style.display = 'none';
 
 // ── ROUTING ───────────────────────────────────────────
-const HASH_PAGES = ['feed','jobs','pricing','faq','profile','dashboard','project'];
+const HASH_PAGES = ['feed','jobs','pricing','faq','profile','dashboard','project','reset-password'];
 
 function pushHash(id, extra) {
   const h = '#/' + id + (extra ? '/' + extra : '');
@@ -3238,7 +3402,71 @@ window.closeAuth     = closeAuth;
 window.switchAuthTab = switchAuthTab;
 window.handleSignIn  = handleSignIn;
 window.handleSignUp  = handleSignUp;
-window.handleSignOut = handleSignOut;
+window.handleSignOut   = handleSignOut;
+window.deleteMyAccount = deleteMyAccount;
+
+function showForgotPassword() {
+  closeAuth();
+  el('forgot-email').value = el('si-email')?.value || '';
+  el('forgot-err').style.display = 'none';
+  el('forgot-step-1').style.display = 'block';
+  el('forgot-step-2').style.display = 'none';
+  el('forgot-overlay').style.display = 'flex';
+}
+function closeForgotPassword() {
+  el('forgot-overlay').style.display = 'none';
+  openAuth('in');
+}
+async function sendPasswordReset() {
+  const email = el('forgot-email').value.trim();
+  if (!email) { el('forgot-err').textContent = 'Please enter your email.'; el('forgot-err').style.display = 'block'; return; }
+  el('forgot-err').style.display = 'none';
+  setAuthBusy('forgot-btn', true);
+  try {
+    const { error } = await sb.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://timeliners.lk/#/reset-password'
+    });
+    if (error) throw error;
+    el('forgot-email-display').textContent = email;
+    el('forgot-step-1').style.display = 'none';
+    el('forgot-step-2').style.display = 'block';
+  } catch(e) {
+    el('forgot-err').textContent = e.message || 'Something went wrong. Try again.';
+    el('forgot-err').style.display = 'block';
+  } finally { setAuthBusy('forgot-btn', false); }
+}
+window.showForgotPassword  = showForgotPassword;
+window.closeForgotPassword = closeForgotPassword;
+window.sendPasswordReset   = sendPasswordReset;
+
+function showResetPasswordModal() {
+  el('reset-pw-overlay').style.display = 'flex';
+  el('reset-pw-input').value = '';
+  el('reset-pw-err').style.display = 'none';
+}
+async function confirmPasswordReset() {
+  const pw = el('reset-pw-input').value;
+  if (!pw || pw.length < 8) {
+    el('reset-pw-err').textContent = 'Password must be at least 8 characters.';
+    el('reset-pw-err').style.display = 'block';
+    return;
+  }
+  el('reset-pw-err').style.display = 'none';
+  setAuthBusy('reset-pw-btn', true);
+  try {
+    const { error } = await sb.auth.updateUser({ password: pw });
+    if (error) throw error;
+    el('reset-pw-overlay').style.display = 'none';
+    try { history.replaceState(null, '', '/#/feed'); } catch(e) {}
+    showToast('✓ Password updated! You are now signed in.');
+    showPage('dashboard');
+  } catch(e) {
+    el('reset-pw-err').textContent = e.message || 'Failed to update password.';
+    el('reset-pw-err').style.display = 'block';
+  } finally { setAuthBusy('reset-pw-btn', false); }
+}
+window.showResetPasswordModal = showResetPasswordModal;
+window.confirmPasswordReset   = confirmPasswordReset;
 window.showPage      = showPage;
 window.enterPage     = enterPage;
 window.toggleTheme   = toggleTheme;
