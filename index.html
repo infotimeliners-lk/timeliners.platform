@@ -2088,7 +2088,7 @@ async function db(path, method = 'GET', body = null, token = null) {
 
 // ── STATE ────────────────────────────────────────────
 const S = {
-  user: null, session: null, profile: null,
+  user: null, session: null, profile: null, loginTime: null,
   projects: [], filter: 'all', search: '', sort: 'newest'
 };
 
@@ -2139,6 +2139,8 @@ function boot() {
   // Check session validity every 60s · catches externally deleted accounts
   setInterval(async () => {
     if (!S.user) return;
+    // Grace period: skip profile check for 2 min after login/signup to avoid false logouts on new accounts
+    if (S.loginTime && (Date.now() - S.loginTime) < 120000) return;
     try {
       const { data: { session } } = await sb.auth.getSession().catch(() => ({ data: { session: null } }));
       if (!session) throw new Error('no session');
@@ -2310,6 +2312,7 @@ async function handleSignIn() {
     if (error) throw error;
     S.session = data.session;
     S.user    = data.user;
+    S.loginTime = Date.now();
     // Always wipe any stale profile from a previous session / different account
     S.profile = null;
     try {
@@ -2501,6 +2504,7 @@ async function verifyOtp() {
     // OTP verified · now save the profile to DB
     S.session = data.session;
     S.user    = data.user || _otpPendingProfile._user;
+    S.loginTime = Date.now();
 
     const profile = { ..._otpPendingProfile };
     const fn = profile._fn;
