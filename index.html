@@ -2861,7 +2861,17 @@ function renderFeed() {
   const grid  = el('feed-grid');
   const nores = el('feed-nores');
   if (!grid) return;
-  let list = S.projects.filter(p => p.status === 'published');
+  // Build per-user project counts to enforce free plan limit in feed
+  const userProjCount = {};
+  let list = S.projects.filter(p => {
+    if (p.status !== 'published') return false;
+    const plan = p._authorPlan || 'free';
+    const isPaid = plan === 'pro' || plan === 'pro-yearly' || plan === 'pro_yearly' || plan === 'standard' || plan === 'vip';
+    if (isPaid) return true;
+    // Free user: only show first 3 projects in feed
+    userProjCount[p.user_id] = (userProjCount[p.user_id] || 0) + 1;
+    return userProjCount[p.user_id] <= 3;
+  });
   if (S.filter !== 'all') list = list.filter(p => p.cat === S.filter);
   if (S.search) list = list.filter(p => (p.title + (p.author_name || '') + (p.tags || []).join(' ')).toLowerCase().includes(S.search));
   if (S.sort === 'popular') list = list.slice().sort((a, b) => b.likes - a.likes);
@@ -3539,9 +3549,9 @@ function handleVideoDrop(e) {
 }
 function processVideoFile(f) {
   const isPaidUser = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
-  const MAX = isPaidUser ? (5 * 1024 * 1024 * 1024) : (250 * 1024 * 1024);
   if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-  if (f.size > MAX) { showToast('Video must be under ' + (isPaidUser ? '5 GB' : '250 MB') + '.'); return; }
+  // Free users: 250MB per file limit. Pro: no per-file limit, only total storage matters.
+  if (!isPaidUser && f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
   _pendingVideoFile = f;
   const url = URL.createObjectURL(f);
   const vprev = document.getElementById('video-preview');
@@ -3923,11 +3933,17 @@ function renderProfileProjects(prof) {
   if (!p) return;
   const isOwn = S.profile && p.id === S.profile.id;
   // Try to get projects from in-memory list first; if empty or wrong user, fetch from DB
+  const isOwnFetch = S.user && p.id === S.user.id;
+  const isPaidProfile = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
+
+  // Helper to filter projects for public view — free users only show first 3
+  function filterForPublic(rows) {
+    const published = rows.filter(r => r.status === 'published');
+    return isPaidProfile ? published : published.slice(0, 3);
+  }
+
   let allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
   if (!allProjs.length) {
-    // Fetch from DB in case S.projects only has demo/other data
-    // Fetch published for everyone; also fetch drafts if viewing own profile
-    const isOwnFetch = S.user && p.id === S.user.id;
     const fetchUrl = isOwnFetch
       ? '/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc'
       : '/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc';
@@ -3936,24 +3952,16 @@ function renderProfileProjects(prof) {
       .then(rows => {
         if (rows && rows.length) {
           rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
-          // For public view: only show published. For own view: show all but mark locked ones
-          const isOwnerPaid = isOwnFetch && S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
-          const visible = isOwnFetch
-            ? rows  // owner sees all
-            : rows.filter((r, i) => {
-                // Public sees: published projects, but only first 3 if user is on free plan
-                if (r.status !== 'published') return false;
-                const authorPlan = r.author_plan || 'free';
-                const isPaidAuthor = authorPlan === 'pro' || authorPlan === 'pro-yearly' || authorPlan === 'pro_yearly' || authorPlan === 'standard' || authorPlan === 'vip';
-                return isPaidAuthor || i < 3;
-              });
+          const visible = isOwnFetch ? rows : filterForPublic(rows);
           _renderProfileProjectsUI(p, visible, isOwn);
         } else { _renderProfileProjectsUI(p, [], isOwn); }
       }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
-    return; // will render async above
+    return;
   }
 
-  _renderProfileProjectsUI(p, allProjs, isOwn);
+  // Also apply filter when serving from cache
+  const visible = isOwnFetch ? allProjs : filterForPublic(allProjs);
+  _renderProfileProjectsUI(p, visible, isOwn);
 }
 
 function _renderProfileProjectsUI(p, allProjs, isOwn) {
@@ -4236,6 +4244,9 @@ async function showProfileByUsername(username) {
       // Only highlight My Portfolio tab if viewing own profile
       if (S.user && rows[0].id === S.user.id) {
         const nl = el('nav-profile'); if (nl) nl.classList.add('active');
+      } else {
+        // Viewing someone else — remove all nav highlights
+        document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
       }
       S.viewingProfile = rows[0];
       refreshProfile(rows[0]);
@@ -4853,7 +4864,8 @@ window.epPickVideo = function() {
     const f = inp.files[0]; document.body.removeChild(inp);
     if (!f) return;
     if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-    if (f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB.'); return; }
+    var _epIsPaid = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
+    if (!_epIsPaid && f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
     window._epPendingVideos.push(f);
     epRenderVideoList();
   };
@@ -5284,7 +5296,8 @@ function addVideoSlot() {
     const f = inp.files[0]; document.body.removeChild(inp);
     if (!f) return;
     if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-    if (f.size > 250 * 1024 * 1024) { showToast('Each video must be under 250 MB.'); return; }
+    var _avIsPaid = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
+    if (!_avIsPaid && f.size > 250 * 1024 * 1024) { showToast('Each video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
     if (_pendingVideos.length >= 5)  { showToast('Max 5 videos per project.'); return; }
     _pendingVideos.push(f);
     renderVideoList();
