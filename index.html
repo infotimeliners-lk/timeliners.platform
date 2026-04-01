@@ -2382,8 +2382,8 @@ async function handleSignUp() {
     if (error) throw error;
     if (!data.user) throw new Error('Sign up failed · please try again.');
 
-    // If email is already confirmed, Supabase returns a user but identities is empty and no OTP is sent
-    if (data.user.identities && data.user.identities.length === 0) {
+    // If email is already confirmed, Supabase returns user with confirmed_at set but sends no OTP
+    if (data.user.confirmed_at || data.user.email_confirmed_at) {
       showAuthErr('An account with that email already exists. Sign in instead.');
       switchAuthTab('in');
       setAuthBusy('su-btn', false);
