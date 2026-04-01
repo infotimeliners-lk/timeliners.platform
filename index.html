@@ -2363,13 +2363,7 @@ async function handleSignUp() {
     if (error) throw error;
     if (!data.user) throw new Error('Sign up failed · please try again.');
 
-    // If email is already confirmed, Supabase returns user with confirmed_at set but sends no OTP
-    if (data.user.confirmed_at || data.user.email_confirmed_at) {
-      showAuthErr('An account with that email already exists. Sign in instead.');
-      switchAuthTab('in');
-      setAuthBusy('su-btn', false);
-      return;
-    }
+
 
     // Store pending profile · will be saved AFTER OTP verified
     _otpPendingProfile = {
@@ -2520,7 +2514,8 @@ async function verifyOtp() {
       grad_idx:  profileData.grad_idx || 0,
       cover_idx: profileData.cover_idx || 0,
       views:     0,
-      likes:     0
+      likes:     0,
+      data:      {}
     };
 
     // Insert profile — show exact error if it fails
