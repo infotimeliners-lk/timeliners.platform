@@ -3710,28 +3710,25 @@ async function renderMyProjects() {
   if (!projs.length) { empty.style.display = 'block'; tbody.innerHTML = ''; return; }
   empty.style.display = 'none';
   const isPaidUser = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
-  tbody.innerHTML = projs.map((p, i) => {
-    const isLocked = !isPaidUser && i >= 3;
-    return '<tr onclick="' + (isLocked ? '' : "openProject('" + p.id + "')") + '" style="' + (isLocked ? 'opacity:.5;cursor:default' : '') + '">' +
+  tbody.innerHTML = projs.map(function(p, i) {
+    var isLocked = !isPaidUser && i >= 3;
+    var dot = isLocked ? '#ccc' : 'var(--ac)';
+    var rowStyle = isLocked ? 'opacity:.5;cursor:default' : '';
+    var lockedBadge = isLocked ? '<span style="font-size:.55rem;background:#f3f4f6;border:1px solid #e5e7eb;color:#999;padding:.1rem .4rem;border-radius:4px;margin-left:.35rem">Locked</span>' : '';
+    var actions = isLocked
+      ? '<span style="font-size:.69rem;color:var(--t3)">Upgrade to unlock</span>'
+      : '<button style="font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer" onclick="openEditProjectById(\'' + p.id + '\')">Edit</button><button class="tdel" onclick="deleteProject(\'' + p.id + '\')">Delete</button>';
+    var onclick = isLocked ? '' : 'openProject(\'' + p.id + '\')';
+    return '<tr onclick="' + onclick + '" style="' + rowStyle + '">' +
       '<td style="display:flex;align-items:center;gap:.55rem;min-width:155px">' +
-        '<span style="width:7px;height:7px;border-radius:50%;background:' + (isLocked ? '#ccc' : 'var(--ac)') + ';flex-shrink:0;display:inline-block"></span>' +
-        '<span class="tbl-tit">' + p.title + '</span>' +
-        (isLocked ? '<span style="font-size:.55rem;background:#f3f4f6;border:1px solid #e5e7eb;color:#999;padding:.1rem .4rem;border-radius:4px;margin-left:.35rem">Locked · Upgrade</span>' : '') +
+        '<span style="width:7px;height:7px;border-radius:50%;background:' + dot + ';flex-shrink:0;display:inline-block"></span>' +
+        '<span class="tbl-tit">' + p.title + '</span>' + lockedBadge +
       '</td>' +
       '<td style="text-transform:capitalize">' + (p.cat || '—') + '</td>' +
       '<td>' + (p.likes || 0) + '</td>' +
       '<td>' + (p.views || 0) + '</td>' +
       '<td><span class="tbadge ' + (isLocked ? 'draft' : p.status) + '">' + (isLocked ? 'locked' : p.status) + '</span></td>' +
-      '<td onclick="event.stopPropagation()" style="display:flex;gap:.35rem">' +
-        (isLocked ? '<span style="font-size:.69rem;color:var(--t3)">Pro only</span>' :
-          '<button style="font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'" onclick="openEditProjectById('' + p.id + '')">' +
-            'Edit' +
-          '</button>' +
-          '<button class="tdel" onclick="deleteProject('' + p.id + '')">' +
-            'Delete' +
-          '</button>'
-        ) +
-      '</td>' +
+      '<td onclick="event.stopPropagation()" style="display:flex;gap:.35rem">' + actions + '</td>' +
     '</tr>';
   }).join('');
 }
