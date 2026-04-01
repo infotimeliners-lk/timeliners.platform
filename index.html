@@ -2518,16 +2518,28 @@ async function verifyOtp() {
     const fn = profile._fn;
     delete profile._session; delete profile._user; delete profile._fn;
 
-    // Build DB row — write key fields as flat columns AND inside data jsonb for readability
+    // Build DB row — all flat columns, no jsonb
     const { id: profileId, username: profileUsername, ...profileData } = profile;
     const dbRow = {
-      id:       profileId,
-      username: profileUsername || null,
-      name:     profileData.name || null,
-      email:    profileData.email || null,
-      wa:       profileData.wa || null,
-      plan:     profileData.plan || 'free',
-      data:     profileData
+      id:        profileId,
+      username:  profileUsername || null,
+      name:      profileData.name || null,
+      email:     profileData.email || null,
+      role:      profileData.role || null,
+      initials:  profileData.initials || null,
+      city:      profileData.city || 'Colombo',
+      plan:      'free',
+      bio:       profileData.bio || '',
+      exp:       profileData.exp || '',
+      skills:    profileData.skills || '',
+      wa:        profileData.wa || '',
+      ig:        profileData.ig || '',
+      yt:        profileData.yt || '',
+      web:       profileData.web || '',
+      grad_idx:  profileData.grad_idx || 0,
+      cover_idx: profileData.cover_idx || 0,
+      views:     0,
+      likes:     0
     };
 
     // Retry profile insert up to 3 times — token may not be ready instantly after OTP
@@ -2689,18 +2701,17 @@ async function handleSignOut() {
 }
 
 // ── PROFILE ──────────────────────────────────────────
-// Merge data jsonb fields into the top-level profile object
+// Normalize profile row — flat columns only, data jsonb ignored
 function mergeProfileRow(row) {
   if (!row) return row;
-  const { data, ...rest } = row;
-  return { ...rest, ...(data || {}) };
+  return row;
 }
 
 async function loadProfile() {
   if (!S.user) return;
   try {
     const token = await getToken();
-    const rows = await db('/profiles?id=eq.' + S.user.id + '&select=*', 'GET', null, token);
+    const rows = await db('/profiles?id=eq.' + S.user.id + '&select=*', 'GET', null, SB_KEY);
     if (rows && rows.length) {
       S.profile = mergeProfileRow(rows[0]);
       return;
@@ -2722,13 +2733,17 @@ async function loadProfile() {
       views: 0, likes: 0
     };
     const dbRow = {
-      id:       S.user.id,
-      username: null,
-      name:     profileData.name || null,
-      email:    profileData.email || null,
-      wa:       profileData.wa || null,
-      plan:     'free',
-      data:     profileData
+      id:        S.user.id,
+      username:  null,
+      name:      profileData.name || null,
+      email:     profileData.email || null,
+      role:      profileData.role || null,
+      initials:  profileData.initials || null,
+      city:      'Colombo',
+      plan:      'free',
+      bio:       '', exp: '', skills: '',
+      wa:        '', ig: '', yt: '', web: '',
+      grad_idx:  0, cover_idx: 0, views: 0, likes: 0
     };
     try {
       await db('/profiles', 'POST', dbRow, SB_KEY);
@@ -3459,21 +3474,25 @@ async function saveProfile() {
       try { const url = await uploadAvatar(token); if (url) dataUpdates.avatar_url = url; }
       catch(avErr) { showToast('' + avErr.message); }
     }
-    // Write flat columns for readability in Supabase + data jsonb for full profile
-    const existingData = S.profile.data || {};
-    const mergedData = { ...existingData, ...dataUpdates };
+    // Write all flat columns directly
     const dbPatch = {
       username: newUsername,
       name:     dataUpdates.name || null,
-      email:    S.profile.email || null,
-      wa:       dataUpdates.wa || null,
-      plan:     S.profile.plan || 'free',
-      data:     mergedData
+      role:     dataUpdates.role || null,
+      city:     dataUpdates.city || null,
+      exp:      dataUpdates.exp || '',
+      bio:      dataUpdates.bio || '',
+      skills:   dataUpdates.skills || '',
+      wa:       dataUpdates.wa || '',
+      ig:       dataUpdates.ig || '',
+      yt:       dataUpdates.yt || '',
+      web:      dataUpdates.web || '',
+      initials: dataUpdates.initials || null,
+      avatar_url: dataUpdates.avatar_url || S.profile.avatar_url || null
     };
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', dbPatch, token);
     const updates = { ...dataUpdates, username: newUsername };
     Object.assign(S.profile, updates);
-    S.profile.data = mergedData;
     try { localStorage.setItem('tl_lp_' + S.profile.id, JSON.stringify(S.profile)); } catch(e) {}
     // Sync author_avatar + author_name on all existing projects for this user
     try {
