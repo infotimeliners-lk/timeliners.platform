@@ -2518,26 +2518,34 @@ async function verifyOtp() {
     const fn = profile._fn;
     delete profile._session; delete profile._user; delete profile._fn;
 
+    // Build DB row — id & username are top-level columns, everything else goes in data jsonb
+    const { id: profileId, username: profileUsername, ...profileData } = profile;
+    const dbRow = {
+      id: profileId,
+      username: profileUsername || null,
+      data: profileData
+    };
+
     // Retry profile insert up to 3 times — token may not be ready instantly after OTP
     for (let attempt = 1; attempt <= 3; attempt++) {
       try {
         if (attempt > 1) await new Promise(r => setTimeout(r, attempt * 800));
-        const existing = await db('/profiles?id=eq.' + profile.id + '&select=id', 'GET', null, SB_KEY).catch(() => null);
+        const existing = await db('/profiles?id=eq.' + profileId + '&select=id', 'GET', null, SB_KEY).catch(() => null);
         if (existing && existing.length) break; // already exists
-        await db('/profiles', 'POST', profile, SB_KEY);
+        await db('/profiles', 'POST', dbRow, SB_KEY);
         break;
       } catch(dbErr) {
         console.warn('profiles insert attempt ' + attempt + ':', dbErr.message);
         if (attempt === 3) {
-          try { localStorage.setItem('tl_lp_' + profile.id, JSON.stringify(profile)); } catch(le) {}
+          try { localStorage.setItem('tl_lp_' + profileId, JSON.stringify(profile)); } catch(le) {}
         }
       }
     }
 
     // Load the full saved profile from DB so dashboard has correct data
     try {
-      const rows = await db('/profiles?id=eq.' + profile.id + '&select=*', 'GET', null, SB_KEY);
-      if (rows && rows[0]) S.profile = rows[0];
+      const rows = await db('/profiles?id=eq.' + profileId + '&select=*', 'GET', null, SB_KEY);
+      if (rows && rows[0]) S.profile = mergeProfileRow(rows[0]);
       else S.profile = profile;
     } catch(e) { S.profile = profile; }
 
@@ -2677,13 +2685,20 @@ async function handleSignOut() {
 }
 
 // ── PROFILE ──────────────────────────────────────────
+// Merge data jsonb fields into the top-level profile object
+function mergeProfileRow(row) {
+  if (!row) return row;
+  const { data, ...rest } = row;
+  return { ...rest, ...(data || {}) };
+}
+
 async function loadProfile() {
   if (!S.user) return;
   try {
     const token = await getToken();
     const rows = await db('/profiles?id=eq.' + S.user.id + '&select=*', 'GET', null, token);
     if (rows && rows.length) {
-      S.profile = rows[0];
+      S.profile = mergeProfileRow(rows[0]);
       return;
     }
     // Profile row missing · create it now from auth metadata
@@ -2692,24 +2707,24 @@ async function loadProfile() {
     const name  = meta.name || meta.full_name || email.split('@')[0] || 'User';
     const parts = name.trim().split(' ');
     const initials = ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase() || name[0].toUpperCase();
-    const newProfile = {
-      id: S.user.id, email, name,
+    const profileData = {
+      email, name,
       role: meta.role || 'Video Editor',
-      initials, username: null,
+      initials,
       grad_idx: 0, cover_idx: 0,
       city: 'Colombo', plan: 'free',
       bio: '', exp: '', skills: '',
       wa: '', ig: '', yt: '', web: '',
-      views: 0, likes: 0, data: {}
+      views: 0, likes: 0
     };
+    const dbRow = { id: S.user.id, username: null, data: profileData };
     try {
-      await db('/profiles', 'POST', newProfile, token);
-      S.profile = newProfile;
+      await db('/profiles', 'POST', dbRow, SB_KEY);
+      S.profile = { id: S.user.id, username: null, ...profileData };
       console.log('Auto-created missing profile for', email);
     } catch(insertErr) {
-      // If insert fails (maybe row exists but RLS hides it), try service-key read
       console.warn('Profile auto-create failed:', insertErr.message);
-      S.profile = newProfile; // use temp profile so app doesn't break
+      S.profile = { id: S.user.id, username: null, ...profileData };
     }
   } catch(e) {
     console.warn('Profile load error:', e.message);
@@ -3413,7 +3428,7 @@ async function saveProfile() {
         if (ex && ex.length && ex[0].id !== S.profile.id) { showToast('@' + rawUn + ' is already taken.'); return; }
       } catch(e) {}
     }
-    const updates = {
+    const dataUpdates = {
       name,
       role:     el('ep-role').value,
       city:     el('ep-city').value,
@@ -3424,16 +3439,24 @@ async function saveProfile() {
       ig:       el('ep-ig').value,
       yt:       el('ep-yt').value,
       web:      el('ep-web').value,
-      username: rawUn || S.profile.username || null,
       initials: ((n[0]?.[0] || '') + (n[1]?.[0] || '')).toUpperCase() || S.profile.initials || '?'
     };
+    const newUsername = rawUn || S.profile.username || null;
     const token = await getToken();
     if (_pendingAvatarFile) {
-      try { const url = await uploadAvatar(token); if (url) updates.avatar_url = url; }
+      try { const url = await uploadAvatar(token); if (url) dataUpdates.avatar_url = url; }
       catch(avErr) { showToast('' + avErr.message); }
     }
-    await db('/profiles?id=eq.' + S.profile.id, 'PATCH', updates, token);
+    // Merge existing data jsonb with new values, write username top-level
+    const existingData = S.profile.data || {};
+    const dbPatch = {
+      username: newUsername,
+      data: { ...existingData, ...dataUpdates }
+    };
+    await db('/profiles?id=eq.' + S.profile.id, 'PATCH', dbPatch, token);
+    const updates = { ...dataUpdates, username: newUsername };
     Object.assign(S.profile, updates);
+    S.profile.data = dbPatch.data;
     try { localStorage.setItem('tl_lp_' + S.profile.id, JSON.stringify(S.profile)); } catch(e) {}
     // Sync author_avatar + author_name on all existing projects for this user
     try {
