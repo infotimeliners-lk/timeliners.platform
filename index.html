@@ -2136,25 +2136,18 @@ function boot() {
   restoreSession();
   loadJobs();
 
-  // Check session validity every 60s · catches externally deleted accounts
+  // Check session validity every 60s · catches expired sessions only
   setInterval(async () => {
     if (!S.user) return;
-    // Grace period: skip profile check for 2 min after login/signup to avoid false logouts on new accounts
-    if (S.loginTime && (Date.now() - S.loginTime) < 120000) return;
     try {
       const { data: { session } } = await sb.auth.getSession().catch(() => ({ data: { session: null } }));
-      if (!session) throw new Error('no session');
-      // Also check if profile still exists in DB
-      const rows = await db('/profiles?id=eq.' + S.user.id + '&select=id', 'GET', null, SB_KEY);
-      if (!rows || !rows.length) throw new Error('account deleted');
-    } catch(e) {
-      await sb.auth.signOut().catch(() => {});
-      S.user = S.session = S.profile = null;
-      try { Object.keys(localStorage).filter(k => k.startsWith('tl_')).forEach(k => localStorage.removeItem(k)); } catch(e2) {}
-      applyLoggedOut();
-      showPage('feed');
-      showToast('Your session has ended. Please sign in again.');
-    }
+      if (!session) {
+        S.user = S.session = S.profile = null;
+        applyLoggedOut();
+        showPage('feed');
+        showToast('Your session has ended. Please sign in again.');
+      }
+    } catch(e) {}
   }, 60000);
 }
 
@@ -2185,18 +2178,6 @@ async function restoreSession() {
     S.user    = session.user;
     S.profile = null;
     try { localStorage.removeItem('tl_lp_' + S.user.id); } catch(e) {}
-
-    // Check if profile still exists · account may have been deleted
-    const profileCheck = await db('/profiles?id=eq.' + S.user.id + '&select=id', 'GET', null, SB_KEY).catch(() => null);
-    if (!profileCheck || !profileCheck.length) {
-      await sb.auth.signOut().catch(() => {});
-      S.user = S.session = S.profile = null;
-      try { Object.keys(localStorage).filter(k => k.startsWith('tl_')).forEach(k => localStorage.removeItem(k)); } catch(e) {}
-      applyLoggedOut();
-      restoreFromHash();
-      loadFeed();
-      return;
-    }
 
     await loadProfile();
     applyLoggedIn();
@@ -2542,23 +2523,29 @@ async function verifyOtp() {
       likes:     0
     };
 
-    // Retry profile insert up to 3 times — token may not be ready instantly after OTP
+    // Insert profile — show exact error if it fails
+    let insertError = null;
     for (let attempt = 1; attempt <= 3; attempt++) {
       try {
-        if (attempt > 1) await new Promise(r => setTimeout(r, attempt * 800));
+        if (attempt > 1) await new Promise(r => setTimeout(r, attempt * 1000));
         const existing = await db('/profiles?id=eq.' + profileId + '&select=id', 'GET', null, SB_KEY).catch(() => null);
-        if (existing && existing.length) break; // already exists
+        if (existing && existing.length) { insertError = null; break; }
         await db('/profiles', 'POST', dbRow, SB_KEY);
+        insertError = null;
         break;
       } catch(dbErr) {
-        console.warn('profiles insert attempt ' + attempt + ':', dbErr.message);
-        if (attempt === 3) {
-          try { localStorage.setItem('tl_lp_' + profileId, JSON.stringify(profile)); } catch(le) {}
-        }
+        insertError = dbErr.message;
+        console.error('profiles insert attempt ' + attempt + ' failed:', dbErr.message);
       }
     }
 
-    // Load the full saved profile from DB so dashboard has correct data
+    if (insertError) {
+      // Show the actual error so we know what's wrong
+      showToast('Profile save failed: ' + insertError);
+      return;
+    }
+
+    // Load the full saved profile from DB
     try {
       const rows = await db('/profiles?id=eq.' + profileId + '&select=*', 'GET', null, SB_KEY);
       if (rows && rows[0]) S.profile = mergeProfileRow(rows[0]);
