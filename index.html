@@ -3538,9 +3538,10 @@ function handleVideoDrop(e) {
   if (f) processVideoFile(f);
 }
 function processVideoFile(f) {
-  const MAX = 250 * 1024 * 1024; // 250 MB
+  const isPaidUser = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
+  const MAX = isPaidUser ? (5 * 1024 * 1024 * 1024) : (250 * 1024 * 1024);
   if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-  if (f.size > MAX) { showToast('Video must be under 250 MB.'); return; }
+  if (f.size > MAX) { showToast('Video must be under ' + (isPaidUser ? '5 GB' : '250 MB') + '.'); return; }
   _pendingVideoFile = f;
   const url = URL.createObjectURL(f);
   const vprev = document.getElementById('video-preview');
@@ -3587,19 +3588,22 @@ async function saveProject(status) {
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
 
-  // Project count limit for free users
+  // Plan check
   const isPaidUser = S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
+
+  // Free plan: max 3 NEW uploads. Existing projects beyond 3 stay locked, not deleted.
   if (!isPaidUser && status === 'published') {
     const token = await getToken();
     const existing = await db('/projects?user_id=eq.' + S.profile.id + '&status=eq.published&select=id', 'GET', null, token).catch(() => []);
-    if (existing && existing.length >= 3) {
-      showToast('Free plan limit: 3 published projects. Upgrade to Pro for unlimited.');
+    const visibleCount = existing ? existing.filter(p => !p.locked).length : 0;
+    if (visibleCount >= 3) {
+      showToast('Free plan limit: 3 projects. Upgrade to Pro for unlimited.');
       switchDash('account', document.getElementById('dnav-account'));
       setTimeout(() => switchAccTab('pro'), 80);
       return;
     }
   }
-  // Storage check
+  // Storage check — free: 250MB total, pro: 5GB total
   if (_pendingVideos.length) {
     const storageLimit = isPaidUser ? PRO_STORAGE_LIMIT : FREE_STORAGE_LIMIT;
     const used = await getUsedStorage();
@@ -3705,23 +3709,28 @@ async function renderMyProjects() {
   el('st-projs').textContent = projs.length;
   if (!projs.length) { empty.style.display = 'block'; tbody.innerHTML = ''; return; }
   empty.style.display = 'none';
-  tbody.innerHTML = projs.map(p => {
-    return '<tr onclick="openProject(\'' + p.id + '\')">' +
+  const isPaidUser = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
+  tbody.innerHTML = projs.map((p, i) => {
+    const isLocked = !isPaidUser && i >= 3;
+    return '<tr onclick="' + (isLocked ? '' : "openProject('" + p.id + "')") + '" style="' + (isLocked ? 'opacity:.5;cursor:default' : '') + '">' +
       '<td style="display:flex;align-items:center;gap:.55rem;min-width:155px">' +
-        '<span style="width:7px;height:7px;border-radius:50%;background:var(--ac);flex-shrink:0;display:inline-block"></span>' +
+        '<span style="width:7px;height:7px;border-radius:50%;background:' + (isLocked ? '#ccc' : 'var(--ac)') + ';flex-shrink:0;display:inline-block"></span>' +
         '<span class="tbl-tit">' + p.title + '</span>' +
+        (isLocked ? '<span style="font-size:.55rem;background:#f3f4f6;border:1px solid #e5e7eb;color:#999;padding:.1rem .4rem;border-radius:4px;margin-left:.35rem">Locked · Upgrade</span>' : '') +
       '</td>' +
       '<td style="text-transform:capitalize">' + (p.cat || '—') + '</td>' +
       '<td>' + (p.likes || 0) + '</td>' +
       '<td>' + (p.views || 0) + '</td>' +
-      '<td><span class="tbadge ' + p.status + '">' + p.status + '</span></td>' +
+      '<td><span class="tbadge ' + (isLocked ? 'draft' : p.status) + '">' + (isLocked ? 'locked' : p.status) + '</span></td>' +
       '<td onclick="event.stopPropagation()" style="display:flex;gap:.35rem">' +
-        '<button style="font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor=\'var(--ac)\';this.style.color=\'var(--ac)\'" onmouseout="this.style.borderColor=\'var(--brd2)\';this.style.color=\'var(--t2)\'" onclick="openEditProjectById(\'' + p.id + '\')">' +
-          'Edit' +
-        '</button>' +
-        '<button class="tdel" onclick="deleteProject(\'' + p.id + '\')">' +
-          'Delete' +
-        '</button>' +
+        (isLocked ? '<span style="font-size:.69rem;color:var(--t3)">Pro only</span>' :
+          '<button style="font-size:.69rem;padding:.2rem .5rem;border-radius:4px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'" onclick="openEditProjectById('' + p.id + '')">' +
+            'Edit' +
+          '</button>' +
+          '<button class="tdel" onclick="deleteProject('' + p.id + '')">' +
+            'Delete' +
+          '</button>'
+        ) +
       '</td>' +
     '</tr>';
   }).join('');
@@ -3930,8 +3939,17 @@ function renderProfileProjects(prof) {
       .then(rows => {
         if (rows && rows.length) {
           rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
-          // For public view, only show published
-          const visible = isOwnFetch ? rows : rows.filter(r => r.status === 'published');
+          // For public view: only show published. For own view: show all but mark locked ones
+          const isOwnerPaid = isOwnFetch && S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
+          const visible = isOwnFetch
+            ? rows  // owner sees all
+            : rows.filter((r, i) => {
+                // Public sees: published projects, but only first 3 if user is on free plan
+                if (r.status !== 'published') return false;
+                const authorPlan = r.author_plan || 'free';
+                const isPaidAuthor = authorPlan === 'pro' || authorPlan === 'pro-yearly' || authorPlan === 'pro_yearly' || authorPlan === 'standard' || authorPlan === 'vip';
+                return isPaidAuthor || i < 3;
+              });
           _renderProfileProjectsUI(p, visible, isOwn);
         } else { _renderProfileProjectsUI(p, [], isOwn); }
       }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
@@ -4218,7 +4236,10 @@ async function showProfileByUsername(username) {
       el('main-nav').style.display = 'flex';
       window.scrollTo(0, 0);
       document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
-      const nl = el('nav-profile'); if (nl) nl.classList.add('active');
+      // Only highlight My Portfolio tab if viewing own profile
+      if (S.user && rows[0].id === S.user.id) {
+        const nl = el('nav-profile'); if (nl) nl.classList.add('active');
+      }
       S.viewingProfile = rows[0];
       refreshProfile(rows[0]);
       try { sessionStorage.setItem('tl_last', 'profile|' + rows[0].id); } catch(e) {}
