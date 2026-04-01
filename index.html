@@ -4152,6 +4152,9 @@ function showPage(id, projOrUserId) {
   if (id === 'dashboard' && !S.user) { openAuth('in'); return; }
   if (id === 'profile'   && !S.user && !projOrUserId) { openAuth('in'); return; }
   document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('page-enter'); });
+  // Always hide splash explicitly when navigating away from it
+  const splash = el('page-splash');
+  if (id !== 'splash' && splash) { splash.style.display = 'none'; }
   const pg = el('page-' + id);
   if (pg) {
     pg.classList.add('active');
