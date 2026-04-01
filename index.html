@@ -2518,12 +2518,22 @@ async function verifyOtp() {
     const fn = profile._fn;
     delete profile._session; delete profile._user; delete profile._fn;
 
-    // Build DB row — id & username are top-level columns, everything else goes in data jsonb
+    // Build DB row — write key fields as flat columns AND inside data jsonb for readability
     const { id: profileId, username: profileUsername, ...profileData } = profile;
     const dbRow = {
-      id: profileId,
-      username: profileUsername || null,
-      data: profileData
+      id:        profileId,
+      username:  profileUsername || null,
+      name:      profileData.name || null,
+      email:     profileData.email || null,
+      role:      profileData.role || null,
+      city:      profileData.city || 'Colombo',
+      plan:      profileData.plan || 'free',
+      initials:  profileData.initials || null,
+      grad_idx:  profileData.grad_idx || 0,
+      cover_idx: profileData.cover_idx || 0,
+      views:     0,
+      likes:     0,
+      data:      profileData
     };
 
     // Retry profile insert up to 3 times — token may not be ready instantly after OTP
@@ -2717,7 +2727,18 @@ async function loadProfile() {
       wa: '', ig: '', yt: '', web: '',
       views: 0, likes: 0
     };
-    const dbRow = { id: S.user.id, username: null, data: profileData };
+    const dbRow = {
+      id:       S.user.id,
+      username: null,
+      name:     profileData.name || null,
+      email:    profileData.email || null,
+      role:     profileData.role || null,
+      city:     profileData.city || 'Colombo',
+      plan:     'free',
+      initials: profileData.initials || null,
+      grad_idx: 0, cover_idx: 0, views: 0, likes: 0,
+      data:     profileData
+    };
     try {
       await db('/profiles', 'POST', dbRow, SB_KEY);
       S.profile = { id: S.user.id, username: null, ...profileData };
@@ -3447,16 +3468,22 @@ async function saveProfile() {
       try { const url = await uploadAvatar(token); if (url) dataUpdates.avatar_url = url; }
       catch(avErr) { showToast('' + avErr.message); }
     }
-    // Merge existing data jsonb with new values, write username top-level
+    // Write flat columns for readability in Supabase + data jsonb for full profile
     const existingData = S.profile.data || {};
+    const mergedData = { ...existingData, ...dataUpdates };
     const dbPatch = {
-      username: newUsername,
-      data: { ...existingData, ...dataUpdates }
+      username:  newUsername,
+      name:      dataUpdates.name || null,
+      email:     S.profile.email || null,
+      role:      dataUpdates.role || null,
+      city:      dataUpdates.city || null,
+      initials:  dataUpdates.initials || null,
+      data:      mergedData
     };
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', dbPatch, token);
     const updates = { ...dataUpdates, username: newUsername };
     Object.assign(S.profile, updates);
-    S.profile.data = dbPatch.data;
+    S.profile.data = mergedData;
     try { localStorage.setItem('tl_lp_' + S.profile.id, JSON.stringify(S.profile)); } catch(e) {}
     // Sync author_avatar + author_name on all existing projects for this user
     try {
