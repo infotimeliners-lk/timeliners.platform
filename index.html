@@ -2382,6 +2382,14 @@ async function handleSignUp() {
     if (error) throw error;
     if (!data.user) throw new Error('Sign up failed · please try again.');
 
+    // If email is already confirmed, Supabase returns a user but identities is empty and no OTP is sent
+    if (data.user.identities && data.user.identities.length === 0) {
+      showAuthErr('An account with that email already exists. Sign in instead.');
+      switchAuthTab('in');
+      setAuthBusy('su-btn', false);
+      return;
+    }
+
     // Store pending profile · will be saved AFTER OTP verified
     _otpPendingProfile = {
       id: data.user.id, email,
