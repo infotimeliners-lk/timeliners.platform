@@ -3240,13 +3240,23 @@ function refreshDash() {
     ovBadge.style.border = isPro ? 'none' : '1px solid var(--brd2)';
   }
 
-  // Stats
-  const myProjs = S.projects.filter(proj => proj.user_id === p.id || proj.author_name === p.name);
-  const totalViews = myProjs.reduce((s, proj) => s + (proj.views || 0), 0);
-  const totalLikes = myProjs.reduce((s, proj) => s + (proj.likes || 0), 0);
-  const ovProjs = document.getElementById('ov-projs'); if (ovProjs) ovProjs.textContent = myProjs.length;
-  const ovViews = document.getElementById('ov-views'); if (ovViews) ovViews.textContent = totalViews;
-  const ovLikes = document.getElementById('ov-likes'); if (ovLikes) ovLikes.textContent = totalLikes;
+  // Stats — fetch directly from DB so they're always accurate
+  const ovProjs = document.getElementById('ov-projs');
+  const ovViews = document.getElementById('ov-views');
+  const ovLikes = document.getElementById('ov-likes');
+  db('/projects?user_id=eq.' + p.id + '&select=id,views,likes,status', 'GET', null, SB_KEY).then(projs => {
+    if (!projs) return;
+    const totalViews = projs.reduce((s, proj) => s + (proj.views || 0), 0);
+    const totalLikes = projs.reduce((s, proj) => s + (proj.likes || 0), 0);
+    if (ovProjs) ovProjs.textContent = projs.length;
+    if (ovViews) ovViews.textContent = totalViews;
+    if (ovLikes) ovLikes.textContent = totalLikes;
+  }).catch(() => {
+    const myProjs = S.projects.filter(proj => proj.user_id === p.id);
+    if (ovProjs) ovProjs.textContent = myProjs.length;
+    if (ovViews) ovViews.textContent = myProjs.reduce((s, proj) => s + (proj.views || 0), 0);
+    if (ovLikes) ovLikes.textContent = myProjs.reduce((s, proj) => s + (proj.likes || 0), 0);
+  });
 
   // Storage bar
   refreshOverviewStorage(p);
@@ -5455,16 +5465,23 @@ function uploadFileXHR(url, file, headers, onProgress) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url, true);
+    xhr.timeout = 0; // no timeout for large files
     Object.entries(headers).forEach(([k, v]) => xhr.setRequestHeader(k, v));
-    xhr.upload.onprogress = e => { if (e.lengthComputable && onProgress) onProgress(e.loaded / e.total); };
+    xhr.upload.onprogress = e => {
+      if (e.lengthComputable && onProgress) onProgress(e.loaded / e.total);
+    };
+    xhr.upload.onerror = () => reject(new Error('Upload network error (upload phase)'));
+    xhr.upload.onabort = () => reject(new Error('Upload aborted'));
     xhr.onload = () => {
+      console.log('XHR onload status:', xhr.status, xhr.responseText.substring(0, 200));
       if (xhr.status >= 200 && xhr.status < 300) {
         try { resolve(JSON.parse(xhr.responseText)); } catch(e) { resolve({}); }
       } else {
-        reject(new Error('Upload failed: ' + xhr.status + ' ' + xhr.responseText));
+        reject(new Error('Upload failed ' + xhr.status + ': ' + xhr.responseText.substring(0, 300)));
       }
     };
-    xhr.onerror = () => reject(new Error('Network error during upload'));
+    xhr.onerror = () => reject(new Error('Upload network error (response phase)'));
+    xhr.ontimeout = () => reject(new Error('Upload timed out'));
     xhr.send(file);
   });
 }
@@ -5501,15 +5518,37 @@ async function uploadProjectVideos(token, projId) {
     updateProgress(0);
 
     try {
-      await uploadFileXHR(uploadUrl, f, {
-        'Authorization': 'Bearer ' + token,
-        'apikey': SB_KEY,
-        'Content-Type': f.type || 'video/mp4',
-        'x-upsert': 'true',
-        'Cache-Control': '3600'
-      }, updateProgress);
+      // Try with user token first, fall back to SB_KEY if it fails
+      let uploadToken = token;
+      let uploadResult = null;
+      let uploadErr = null;
+      
+      try {
+        uploadResult = await uploadFileXHR(uploadUrl, f, {
+          'Authorization': 'Bearer ' + uploadToken,
+          'apikey': SB_KEY,
+          'Content-Type': f.type || 'video/mp4',
+          'x-upsert': 'true',
+          'Cache-Control': '3600'
+        }, updateProgress);
+      } catch(firstErr) {
+        showToast('Retrying upload with anon key...');
+        console.warn('First upload attempt failed:', firstErr.message, '— retrying with SB_KEY');
+        uploadResult = await uploadFileXHR(uploadUrl.replace(projId + '_v' + i, projId + '_v' + i + '_r'), f, {
+          'Authorization': 'Bearer ' + SB_KEY,
+          'apikey': SB_KEY,
+          'Content-Type': f.type || 'video/mp4',
+          'x-upsert': 'true',
+          'Cache-Control': '3600'
+        }, updateProgress);
+        // Update path for public URL
+        const newPath = S.profile.id + '/' + projId + '_v' + i + '_r_' + Date.now() + '_' + safeName;
+        const { data: ud2 } = sb.storage.from('project-videos').getPublicUrl(newPath);
+        if (ud2?.publicUrl) { urls.push(ud2.publicUrl); continue; }
+      }
 
       updateProgress(1);
+      showToast('DEBUG: Upload XHR done, status ok');
 
       const { data: ud } = sb.storage.from('project-videos').getPublicUrl(path);
       if (ud?.publicUrl) urls.push(ud.publicUrl);
