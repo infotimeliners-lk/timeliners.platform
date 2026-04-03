@@ -410,20 +410,20 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 /* Plan cards */
 .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.72rem;margin-bottom:.85rem;align-items:start}
 .plan-c{border-radius:var(--rlg);padding:1.25rem;border:1px solid var(--brd);background:var(--bg3);position:relative;transition:var(--tr)}
-.plan-c.current{border-color:rgba(34,197,94,.32);background:rgba(34,197,94,.04)}
+.plan-c.current{border-color:rgba(254,115,10,.25);background:rgba(254,115,10,.03)}
 .plan-c.featured{border:none;background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);box-shadow:0 12px 40px rgba(254,115,10,.3);overflow:visible;margin-top:20px;position:relative}
 .plan-pop{position:absolute;top:-20px;left:18px;background:#d95e00;color:white;font-size:.56rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:.28rem .85rem;border-radius:7px 7px 0 0;white-space:nowrap}
 .plan-name{font-size:.55rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:.6rem}.plan-c.featured .plan-name{color:rgba(255,255,255,.7)}
 .plan-price{font-size:1.65rem;font-weight:700;color:var(--t1);line-height:1;margin-bottom:.16rem}.plan-c.featured .plan-price{color:white}
 .plan-price span{font-size:.73rem;font-weight:400;color:var(--t3)}.plan-c.featured .plan-price span{color:rgba(255,255,255,.7)}
 .plan-period{font-size:.66rem;color:var(--t3);margin-bottom:.8rem}.plan-c.featured .plan-period{color:rgba(255,255,255,.65)}
-.plan-feats{list-style:none;margin-bottom:1.05rem}
+.plan-feats{list-style:none;margin-bottom:1.05rem;flex:1}
 .plan-feats li{font-size:.77rem;color:var(--t2);padding:.22rem 0;display:flex;gap:.4rem;align-items:flex-start;line-height:1.5}.plan-c.featured .plan-feats li{color:rgba(255,255,255,.9)}
 .plan-feats li.no{color:var(--t3)}
 .pchk{color:var(--ac);font-weight:600;flex-shrink:0;display:inline-flex;align-items:center}.plan-feats li.no .pchk{color:var(--t3)}.plan-c.featured .pchk{color:white}
 .plan-btn{width:100%;padding:.6rem;border-radius:var(--r);font-family:var(--fm);font-weight:500;font-size:.82rem;border:1px solid var(--brd2);background:var(--bg4);color:var(--t1);transition:var(--tr)}.plan-btn:hover{border-color:var(--brd3)}
 .plan-btn-p{background:white;border-color:white;color:#d95e00;font-weight:600}.plan-btn-p:hover{background:rgba(255,255,255,.9)}
-.plan-btn-cur{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.22);color:#22c55e;cursor:default}
+.plan-btn-cur{background:rgba(254,115,10,.08);border-color:rgba(254,115,10,.2);color:var(--ac);cursor:default}
 /* Upload zone */
 .upload-zone{border:2px dashed var(--brd2);border-radius:var(--rlg);padding:1.9rem;text-align:center;position:relative;transition:var(--tr);background:var(--bg3)}
 .upload-zone:hover,.upload-zone.drag{border-color:var(--ac);background:var(--acl)}
@@ -577,7 +577,7 @@ html.light .jf-sel{color:var(--t1)}
 .compare-table td:first-child{text-align:left;color:var(--t1);font-weight:400}
 .compare-table tr:last-child td{border-bottom:none}
 .compare-table tr:hover td{background:var(--bg3)}
-.ct-yes{color:#22c55e;font-weight:700}
+.ct-yes{color:var(--ac);font-weight:700}
 .ct-no{color:var(--t3)}
 
 /* ── FAQ ── */
@@ -1694,9 +1694,9 @@ img, video, iframe, canvas { max-width: 100%; }
               </div>
               <span id="dtog-save" style="display:none;font-size:.68rem;font-weight:600;background:rgba(22,163,74,.12);color:#16a34a;padding:.18rem .6rem;border-radius:50px">2 months free</span>
             </div>
-            <div class="plan-grid" style="grid-template-columns:1fr 1fr;align-items:start">
+            <div class="plan-grid" style="grid-template-columns:1fr 1fr;align-items:stretch">
               <!-- Free -->
-              <div class="plan-c" id="pc-free" style="margin-top:20px">
+              <div class="plan-c" id="pc-free" style="display:flex;flex-direction:column">
                 <div class="plan-name">Free</div>
                 <div class="plan-price">Free</div><div class="plan-period">Forever</div>
                 <ul class="plan-feats">
@@ -1709,10 +1709,10 @@ img, video, iframe, canvas { max-width: 100%; }
                   <li class="no"><span class="pchk">×</span>Analytics</li>
                   <li class="no"><span class="pchk">×</span>Hire Me button</li>
                 </ul>
-                <button class="plan-btn plan-btn-cur" id="pb-free">Current Plan</button>
+                <button class="plan-btn plan-btn-cur" id="pb-free" style="margin-top:auto">Current Plan</button>
               </div>
               <!-- Pro -->
-              <div class="plan-c featured" id="pc-pro" style="border:none;background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);box-shadow:0 12px 40px rgba(254,115,10,.3);margin-top:20px">
+              <div class="plan-c featured" id="pc-pro" style="border:none;background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);box-shadow:0 12px 40px rgba(254,115,10,.3);margin-top:-8px;display:flex;flex-direction:column">
                 <div class="plan-pop">Most Popular</div>
                 <div class="plan-name" style="color:rgba(255,255,255,.7)">Pro</div>
                 <div class="plan-price" id="dash-pro-price" style="color:white">2,490<span style="color:rgba(255,255,255,.7)"> LKR/mo</span></div>
@@ -1726,7 +1726,7 @@ img, video, iframe, canvas { max-width: 100%; }
                   <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Social links</li>
                   <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hire Me button</li>
                 </ul>
-                <button class="plan-btn" id="pb-pro" onclick="requestUpgrade('pro')" style="background:white;color:#d95e00;font-weight:600;border:none">Upgrade · 2,490 LKR/mo</button>
+                <button class="plan-btn" id="pb-pro" onclick="requestUpgrade('pro')" style="background:white;color:#d95e00;font-weight:600;border:none;margin-top:auto">Upgrade · 2,490 LKR/mo</button>
               </div>
             </div>
             <div style="text-align:center;font-size:.67rem;color:var(--t3);margin-top:.5rem">Activated manually after WhatsApp confirmation · Bank transfer only</div>
@@ -2782,7 +2782,7 @@ function applyLoggedIn() {
   if (ctaInner) {
     if (!isPaid) {
       ctaInner.innerHTML =
-        '<div style="position:relative;z-index:1"><h3>Go Pro.</h3><p>Unlock unlimited projects, verified badge, analytics, social links and a Hire Me button.</p></div>' +
+        '<div style="position:relative;z-index:1"><h3>Try the Pro experience.</h3><p>Unlimited projects, verified badge, analytics, social links and a Hire Me button.</p></div>' +
         '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));switchAccTab(\'pro\');},80)">See Plans <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
     } else {
       ctaInner.innerHTML =
@@ -4794,7 +4794,7 @@ async function loadAnalytics() {
         '<div style="font-size:.85rem;font-weight:600;color:var(--t1);margin-bottom:.22rem">' + (top.title || 'Untitled') + '</div>' +
         '<div style="font-size:.72rem;color:var(--t2);display:flex;gap:.6rem">' +
           '<span>' + (top.views || 0) + ' views</span>' +
-          '<span>♥ ' + (top.likes || 0) + ' likes</span>' +
+          '<span style="display:inline-flex;align-items:center;gap:3px"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 9C5.5 9 1 6.2 1 3.5A2.5 2.5 0 0 1 5.5 2.2 2.5 2.5 0 0 1 10 3.5C10 6.2 5.5 9 5.5 9Z" fill="#FE730A" stroke="#FE730A" stroke-width=".8"/></svg>' + (top.likes || 0) + ' likes</span>' +
         '</div>';
     } else {
       topEl.innerHTML = '<div style="font-size:.78rem;color:var(--t3)">No published projects yet.</div>';
@@ -5133,7 +5133,7 @@ function openEditProject() {
       curVid.innerHTML = remaining.map((u, i) => {
         const fname = decodeURIComponent(u.split('/').pop().split('?')[0]).replace(/^[^_]+_[^_]+_[^_]+_/, '');
         return '<div style="display:flex;align-items:center;gap:.5rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.4rem .65rem">' +
-          '<svg width="12" height="10" viewBox="0 0 14 12" fill="none"><rect x="1" y="1.5" width="12" height="9" rx="2" stroke="#22c55e" stroke-width="1.1" fill="none"/><path d="M5.5 4.5l3.5 2-3.5 2V4.5z" fill="#22c55e"/></svg>' +
+          '<svg width="12" height="10" viewBox="0 0 14 12" fill="none"><rect x="1" y="1.5" width="12" height="9" rx="2" stroke="var(--ac)" stroke-width="1.1" fill="none"/><path d="M5.5 4.5l3.5 2-3.5 2V4.5z" fill="var(--ac)"/></svg>' +
           '<span style="font-size:.75rem;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + fname + '">' + fname + '</span>' +
           '<button type="button" onclick="window._epRemoveExistingVideo(\'' + u.replace(/'/g,"\'") + '\')" title="Remove video" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#ef4444;border-radius:6px;padding:.18rem .45rem;font-size:.72rem;cursor:pointer;font-family:var(--fm);flex-shrink:0;white-space:nowrap">Remove</button>' +
         '</div>';
@@ -5641,7 +5641,7 @@ async function refreshStorageBar() {
     '<div style="background:var(--bg4);border-radius:4px;height:5px;overflow:hidden">' +
       '<div style="height:100%;background:' + col + ';width:' + pct.toFixed(1) + '%;transition:width .4s;border-radius:4px"></div>' +
     '</div>' +
-    '<div style="font-size:.63rem;color:' + (pct > 85 ? '#f59e0b' : 'var(--t3)') + ';margin-top:.25rem">' + (pct > 85 ? '\u26a0\ufe0f ' : '') + fmtBytes(left) + ' remaining' + (!isPaidUser ? ' \u00b7 <a style=\"color:var(--ac);cursor:pointer\" onclick=\"switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)\">Upgrade for 5 GB</a>' : '') + '</div>';
+    '<div style="font-size:.63rem;color:' + (pct > 85 ? '#f59e0b' : 'var(--t3)') + ';margin-top:.25rem">' + (pct > 85 ? '<svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px"><path d="M5.5 1.5L9.5 9H1.5L5.5 1.5Z" stroke="#f59e0b" stroke-width="1.2" stroke-linejoin="round" fill="none"/><line x1="5.5" y1="5" x2="5.5" y2="7" stroke="#f59e0b" stroke-width="1.2" stroke-linecap="round"/><circle cx="5.5" cy="8.2" r=".4" fill="#f59e0b"/></svg>' : '') + fmtBytes(left) + ' remaining' + (!isPaidUser ? ' \u00b7 <a style=\"color:var(--ac);cursor:pointer\" onclick=\"switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)\">Upgrade for 5 GB</a>' : '') + '</div>';
 }
 
 // ── EXPOSE EXTRA HELPERS ─────────────────────────────
