@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TimeLiners Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ac:#FE730A;--acl:rgba(254,115,10,.07);--ach:rgba(254,115,10,.12);
+  --bg:#f0f2f5;--bg2:#ffffff;--bg3:#f5f6f8;--bg4:#e8eaed;
+  --t1:rgba(0,0,0,.85);--t2:rgba(0,0,0,.5);--t3:rgba(0,0,0,.32);
+  --brd:rgba(0,0,0,.06);--brd2:rgba(0,0,0,.10);--brd3:rgba(0,0,0,.18);
+  --red:#dc2626;--redl:rgba(220,38,38,.07);--redb:rgba(220,38,38,.18);
+  --grn:#16a34a;--grnl:rgba(22,163,74,.07);--grnb:rgba(22,163,74,.18);
+  --amb:#d97706;--ambl:rgba(217,119,6,.07);--ambb:rgba(217,119,6,.18);
+  --r:10px;--rlg:14px;--fw:220px;--fw-col:60px;
+  --fm:'Poppins',sans-serif;--mono:'DM Mono',monospace;
+  --sh:0 1px 3px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.06);
+  --sh2:0 2px 8px rgba(0,0,0,.06),0 12px 32px rgba(0,0,0,.08);
+  --sb-transition: width .22s cubic-bezier(.4,0,.2,1), transform .28s cubic-bezier(.4,0,.2,1);
+}
+html,body{height:100%;width:100%;margin:0;padding:0;font-family:var(--fm);font-size:14px;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--t1);overflow:hidden;position:fixed;inset:0}
+html,body,#app{width:100vw;height:100vh}
+button,a{cursor:pointer;font-family:var(--fm)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:99px}
+::-webkit-scrollbar-track{background:transparent}
+::selection{background:rgba(254,115,10,.2);color:var(--t1)}
+
+/* ── LOGIN ─────────────────────────────────────────────── */
+#login{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.lw{width:360px}
+.lw h1{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.8rem;letter-spacing:-.5px;color:var(--t1);margin-bottom:.25rem}
+.lw h1 span{color:var(--ac)}
+.lw p{font-size:.84rem;color:var(--t2);margin-bottom:2.2rem;line-height:1.6}
+.lf{margin-bottom:.75rem}
+.ll{display:block;font-size:.58rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.28rem}
+.li{width:100%;padding:.6rem .9rem;background:var(--bg2);border:1.5px solid var(--brd2);border-radius:var(--r);font-size:.88rem;color:var(--t1);outline:none;transition:border-color .15s;font-family:var(--fm)}
+.li:focus{border-color:var(--ac)}
+.lbtn{width:100%;padding:.72rem;border-radius:50px;border:none;background:var(--ac);color:#fff;font-size:.88rem;font-weight:600;margin-top:.5rem;transition:all .2s;box-shadow:0 3px 14px rgba(254,115,10,.28)}
+.lbtn:hover{background:#e55e00;box-shadow:0 5px 20px rgba(254,115,10,.4)}
+.lerr{font-size:.75rem;color:var(--red);margin-top:.55rem;display:none;background:var(--redl);border:1px solid var(--redb);border-radius:8px;padding:.38rem .75rem}
+
+/* ── SHELL ──────────────────────────────────────────────── */
+#app{display:none;position:fixed;inset:0;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh}
+#app.on{display:flex}
+
+/* ── SIDEBAR ────────────────────────────────────────────── */
+.sb{width:var(--fw);background:#fff;border-right:1px solid var(--brd);display:flex;flex-direction:column;flex-shrink:0;height:100vh;position:fixed;left:0;top:0;overflow:hidden;z-index:100;transition:var(--sb-transition)}
+.sb.collapsed{width:var(--fw-col)}
+.sb-top{padding:1.1rem .85rem .9rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;min-height:58px;flex-shrink:0}
+.sb-brand{overflow:hidden;flex:1;min-width:0;transition:opacity .15s}
+.sb-logo{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.3px;color:var(--ac);line-height:1;white-space:nowrap}
+.sb-tag{font-size:.56rem;font-weight:500;letter-spacing:1.4px;text-transform:uppercase;color:var(--t3);margin-top:.22rem;white-space:nowrap}
+.sb.collapsed .sb-brand{opacity:0;width:0;flex:0}
+/* Toggle button */
+.sb-toggle{width:26px;height:26px;border-radius:7px;border:1.5px solid var(--brd2);background:var(--bg2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:all .15s;flex-shrink:0}
+.sb-toggle:hover{background:var(--bg3);color:var(--t1);border-color:var(--brd3)}
+.sb-toggle svg{transition:transform .22s cubic-bezier(.4,0,.2,1)}
+.sb.collapsed .sb-toggle svg{transform:rotate(180deg)}
+/* Nav */
+.sb-nav{padding:.45rem .6rem .8rem;flex:1;overflow-y:auto;overflow-x:hidden}
+.sb-sec{font-size:.6rem;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--t3);padding:.18rem .45rem;margin-top:1.4rem;margin-bottom:.35rem;white-space:nowrap;overflow:hidden;transition:opacity .15s}
+.sb.collapsed .sb-sec{opacity:0;height:0;margin:0;padding:0;font-size:0;line-height:0;border:0;overflow:hidden}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.52rem .45rem;border-radius:10px;font-size:.83rem;font-weight:500;color:var(--t2);cursor:pointer;transition:all .15s;user-select:none;border:none;background:none;width:100%;text-align:left;letter-spacing:-.1px;white-space:nowrap;position:relative}
+.sb-link:hover{background:var(--bg3);color:var(--t1)}
+.sb-link.active{background:var(--acl);color:var(--ac);font-weight:600}
+/* Icon box */
+.sb-link-ico{width:30px;height:30px;min-width:30px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.sb-link.active .sb-link-ico{background:var(--ach)}
+.sb-link:hover .sb-link-ico{background:var(--bg4)}
+.sb-link svg{flex-shrink:0}
+.sb-link-label{overflow:hidden;transition:opacity .15s .05s,max-width .22s;max-width:160px}
+.sb.collapsed .sb-link-label{opacity:0;max-width:0;transition:opacity .08s,max-width .22s}
+.sb-cnt{margin-left:auto;font-size:.58rem;font-weight:700;padding:.06rem .42rem;border-radius:99px;min-width:20px;text-align:center;line-height:2;background:var(--bg3);color:var(--t3);border:1px solid var(--brd);flex-shrink:0;transition:opacity .15s}
+.sb.collapsed .sb-cnt{opacity:0;width:0;padding:0;margin:0;min-width:0;overflow:hidden;border:none}
+.sb-link.active .sb-cnt{background:var(--ach);color:var(--ac);border-color:rgba(254,115,10,.2)}
+.sb-cnt.al{background:var(--redl);color:var(--red);border-color:var(--redb)}
+/* Collapsed dot badge */
+.sb.collapsed .sb-link[data-has-alert="true"]::after{content:'';position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid #fff}
+/* Bottom */
+.sb-bottom{padding:.75rem .6rem 1.2rem;border-top:1px solid var(--brd);flex-shrink:0}
+.sb-user{display:flex;align-items:center;gap:.65rem;padding:.55rem .5rem;border-radius:10px;background:var(--bg3);cursor:default;overflow:hidden}
+.sb-user-info{overflow:hidden;min-width:0;transition:opacity .15s,max-width .22s;max-width:140px}
+.sb.collapsed .sb-user-info{opacity:0;max-width:0}
+.sb-user-actions{flex-shrink:0;transition:opacity .15s,max-width .22s;max-width:40px}
+.sb.collapsed .sb-user-actions{opacity:0;max-width:0;overflow:hidden}
+.sb-av{width:30px;height:30px;min-width:30px;border-radius:8px;background:linear-gradient(135deg,var(--ac),#ff9a3c);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0}
+/* Collapsed: center the toggle button in the header */
+.sb.collapsed .sb-top{justify-content:center;padding:1rem 0}
+/* Collapsed: nuclear centering - grid places icon dead center */
+.sb.collapsed .sb-nav{padding:.4rem 0 .6rem;overflow-x:hidden;display:flex;flex-direction:column;align-items:center}
+.sb.collapsed .sb-link{display:flex !important;align-items:center !important;justify-content:center !important;padding:.45rem 0 !important;width:52px !important;margin:2px auto !important;gap:0 !important;border-radius:12px !important}
+.sb.collapsed .sb-link.active{background:none !important}
+.sb.collapsed .sb-link.active .sb-link-ico{background:var(--acl);color:var(--ac)}
+.sb.collapsed .sb-link.active .sb-link-ico svg{color:var(--ac)}
+.sb.collapsed .sb-link:hover{background:none !important}
+.sb.collapsed .sb-link:hover .sb-link-ico{background:var(--bg4)}
+.sb.collapsed .sb-link-ico{margin:0 !important;width:34px !important;height:34px !important;border-radius:10px !important}
+/* Collapsed: center avatar */
+.sb.collapsed .sb-bottom{padding:.6rem 0 1rem;display:flex;justify-content:center;border-top:1px solid var(--brd)}
+.sb.collapsed .sb-user{justify-content:center;padding:0;background:transparent;border-radius:0;gap:0}
+
+/* ── MAIN ───────────────────────────────────────────────── */
+.main{margin-left:var(--fw);flex:1;overflow-y:auto;height:100vh;min-height:0;background:var(--bg);transition:margin-left .22s cubic-bezier(.4,0,.2,1)}
+.sb.collapsed~.main,.main.sb-collapsed{margin-left:var(--fw-col)}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);padding:.85rem 2.5rem;display:flex;align-items:center;justify-content:space-between}
+.tb-l{display:flex;align-items:center;gap:.75rem}.tb-l h2{font-size:1.15rem;font-weight:700;color:var(--t1);letter-spacing:-.4px}
+.tb-l p{font-size:.72rem;color:var(--t3);margin-top:.08rem}
+.tb-r{display:flex;align-items:center;gap:.45rem}
+.pw{padding:2rem 2.5rem;max-width:1100px;margin:0 auto}
+
+/* ── PANES ──────────────────────────────────────────────── */
+.pane{display:none}.pane.active{display:block}
+
+/* ── BUTTONS ────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:.32rem;font-size:.8rem;font-weight:500;padding:.44rem .95rem;border-radius:50px;border:none;cursor:pointer;transition:all .18s cubic-bezier(.4,0,.2,1);white-space:nowrap;font-family:var(--fm)}
+.btn-p{background:var(--ac);color:#fff;box-shadow:0 2px 10px rgba(254,115,10,.25)}.btn-p:hover{background:#e55e00;box-shadow:0 4px 16px rgba(254,115,10,.35);transform:translateY(-1px)}
+.btn-g{background:var(--bg2);color:var(--t2);border:1.5px solid var(--brd2);box-shadow:0 1px 4px rgba(0,0,0,.05)}.btn-g:hover{color:var(--t1);border-color:var(--brd3);background:var(--bg3)}
+.btn-r{background:var(--redl);color:var(--red);border:1.5px solid var(--redb)}.btn-r:hover{background:rgba(220,38,38,.12)}
+.btn-grn{background:var(--grnl);color:var(--grn);border:1.5px solid var(--grnb)}.btn-grn:hover{background:rgba(22,163,74,.12)}
+.btn-amb{background:var(--ambl);color:var(--amb);border:1.5px solid var(--ambb)}
+.btn-refresh{background:var(--bg2);color:var(--t2);border:1.5px solid var(--brd2);box-shadow:0 1px 4px rgba(0,0,0,.05)}.btn-refresh:hover{color:var(--t1);border-color:var(--brd3);background:var(--bg3)}
+.btn-sm{font-size:.76rem;padding:.36rem .82rem}
+.btn-xs{font-size:.7rem;padding:.22rem .62rem;border-radius:50px}
+
+/* ── STATS ──────────────────────────────────────────────── */
+.stats{display:grid;gap:.85rem;margin-bottom:1.4rem}
+.stats-4{grid-template-columns:repeat(4,1fr)}
+.stats-3{grid-template-columns:repeat(3,1fr)}
+.stat{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:1.4rem 1.5rem;box-shadow:none;transition:all .2s cubic-bezier(.4,0,.2,1)}.stat:hover{box-shadow:0 4px 20px rgba(0,0,0,.07);transform:translateY(-2px)}
+.stat-l{font-size:.52rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);margin-bottom:.7rem}
+.stat-v{font-size:2rem;font-weight:700;letter-spacing:-1px;color:var(--t1);line-height:1;margin-bottom:.22rem}
+.stat-s{font-size:.71rem;color:var(--t3);margin-top:.06rem}
+.stat-s.g{color:var(--grn)}.stat-s.r{color:var(--red)}
+
+/* ── CARDS ──────────────────────────────────────────────── */
+.card{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;overflow:hidden;box-shadow:none}
+.ch{padding:1.1rem 1.4rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+.ch h3{font-size:.88rem;font-weight:700;color:var(--t1);letter-spacing:-.15px}
+.ch p{font-size:.7rem;color:var(--t3);margin-top:.05rem}
+.cb{padding:1.2rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.1rem}
+.mb{margin-bottom:1.1rem}
+
+/* ── TABLE ──────────────────────────────────────────────── */
+.tw{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:.81rem}
+.tbl th{font-size:.6rem;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:rgba(0,0,0,.45);padding:.7rem 1.1rem;border-bottom:1.5px solid var(--brd);text-align:left;white-space:nowrap;background:var(--bg3)}
+.tbl td{padding:.85rem 1.1rem;border-bottom:1px solid var(--brd);vertical-align:middle;color:var(--t2)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover td{background:var(--bg3)}
+.tc{font-weight:600;color:var(--t1);font-size:.83rem}
+.ts{font-size:.69rem;color:var(--t3);margin-top:.06rem}
+
+/* ── BADGES ─────────────────────────────────────────────── */
+.b{display:inline-flex;align-items:center;font-size:.6rem;font-weight:600;padding:.18rem .55rem;border-radius:50px;white-space:nowrap;border:1px solid;letter-spacing:.2px}
+.b-pro{background:var(--grnl);color:var(--grn);border-color:var(--grnb)}
+.b-free{background:var(--bg3);color:var(--t3);border-color:var(--brd2)}
+.b-paid{background:var(--grnl);color:var(--grn);border-color:var(--grnb)}
+.b-overdue{background:var(--redl);color:var(--red);border-color:var(--redb)}
+.b-pending{background:var(--ambl);color:var(--amb);border-color:var(--ambb)}
+.b-down{background:var(--redl);color:var(--red);border-color:var(--redb)}
+.b-ok{background:var(--grnl);color:var(--grn);border-color:var(--grnb)}
+.b-soon{background:var(--ambl);color:var(--amb);border-color:var(--ambb)}
+.b-pub{background:var(--ach);color:var(--ac);border-color:rgba(254,115,10,.25)}
+.b-draft{background:var(--bg3);color:var(--t3);border-color:var(--brd2)}
+
+/* ── AVATAR ─────────────────────────────────────────────── */
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+
+/* ── MODAL ──────────────────────────────────────────────── */
+.ov{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.25);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:flex-start;justify-content:center;padding:1.5rem;overflow-y:auto}
+.ov.open{display:flex}
+.mbox{background:var(--bg2);border:1px solid var(--brd);border-radius:20px;padding:1.5rem;width:100%;max-width:540px;margin:auto;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.12);animation:mup .18s cubic-bezier(.4,0,.2,1)}
+@keyframes mup{from{transform:translateY(-10px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mx{position:absolute;top:.9rem;right:.9rem;width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1px solid var(--brd);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:1rem;line-height:1;transition:all .15s}
+.mx:hover{background:var(--redl);color:var(--red);border-color:var(--redb)}
+.mt{font-size:.95rem;font-weight:700;color:var(--t1);margin-bottom:.15rem}
+.ms{font-size:.74rem;color:var(--t3);margin-bottom:1.25rem}
+
+/* ── FORMS ──────────────────────────────────────────────── */
+.fg{margin-bottom:.75rem}
+.fl{display:block;font-size:.55rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.25rem}
+.fi,.fta{width:100%;padding:.58rem .88rem;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:var(--r);font-size:.85rem;color:var(--t1);outline:none;transition:border-color .15s;font-family:var(--fm)}
+.fi:focus,.fta:focus{border-color:var(--ac);background:var(--bg2)}
+.fta{min-height:80px;resize:vertical}
+.fi::placeholder,.fta::placeholder{color:var(--t3)}
+.fi option{background:var(--bg2);color:var(--t1)}
+.fr2{display:grid;grid-template-columns:1fr 1fr;gap:.72rem}
+
+/* ── TABS ───────────────────────────────────────────────── */
+.tabs{display:flex;gap:.12rem;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.2rem;width:fit-content;margin-bottom:.9rem}
+.tab{font-size:.76rem;font-weight:400;padding:.3rem .88rem;cursor:pointer;color:var(--t3);background:none;border:none;border-radius:50px;transition:all .15s;font-family:var(--fm)}
+.tab.active{color:var(--t1);background:var(--bg2);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+/* ── TOAST ──────────────────────────────────────────────── */
+.toast{position:fixed;bottom:1.4rem;right:1.4rem;background:var(--t1);color:#f8f7f5;padding:.6rem 1rem;border-radius:50px;font-size:.8rem;font-weight:500;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.18);transform:translateY(8px);opacity:0;transition:all .22s cubic-bezier(.4,0,.2,1);pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.err{background:var(--red)}
+
+/* ── EMPTY ──────────────────────────────────────────────── */
+.empty{padding:2.8rem;text-align:center;color:var(--t3);font-size:.82rem}
+
+/* ── JOB CARD ───────────────────────────────────────────── */
+.jcard{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:.95rem 1.05rem;box-shadow:var(--sh);transition:all .18s}.jcard:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
+.jbadge{display:inline-flex;font-size:.58rem;font-weight:700;padding:.12rem .45rem;border-radius:50px;text-transform:uppercase;letter-spacing:.5px}
+.jb-featured{background:rgba(217,119,6,.1);color:#d97706;border:1px solid rgba(217,119,6,.2)}
+.jb-urgent{background:var(--redl);color:var(--red);border:1px solid var(--redb)}
+.jb-normal{background:var(--bg3);color:var(--t3);border:1px solid var(--brd)}
+.jb-exp{background:var(--redl);color:var(--red);border:1px solid var(--redb);font-size:.56rem}
+
+/* ── REV ROW ─────────────────────────────────────────────── */
+.rrow{display:grid;grid-template-columns:130px 1fr 1fr 1fr 100px;align-items:center;gap:.7rem;padding:.78rem .2rem;border-bottom:1px solid var(--brd);font-size:.82rem}
+.rrow:last-child{border-bottom:none}
+
+/* ── NOTIFY CHIP ─────────────────────────────────────────── */
+.notify-chip{display:inline-flex;align-items:center;gap:.28rem;font-size:.67rem;font-weight:600;padding:.2rem .58rem;border-radius:50px;cursor:pointer;border:none;transition:all .15s}
+.nc-soon{background:var(--ambl);color:var(--amb);border:1px solid var(--ambb)}
+.nc-overdue{background:var(--redl);color:var(--red);border:1px solid var(--redb)}
+.nc-soon:hover,.nc-overdue:hover{opacity:.75;transform:translateY(-1px)}
+
+/* ── PAY-SECTION ─────────────────────────────────────────── */
+.pay-section-hd{font-size:.52rem;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);padding:.5rem 0 .3rem;border-bottom:1px solid var(--brd);margin-bottom:.5rem}
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+
+/* Tablet: 768px - 1024px */
+@media(max-width:1024px){
+  :root{--fw:200px}
+  .pw{padding:1.4rem 1.6rem}
+  .topbar{padding:.8rem 1.6rem}
+  .stats-4{grid-template-columns:repeat(2,1fr)}
+  .g2{grid-template-columns:1fr}
+  .stat-v{font-size:1.7rem}
+  .tbl th,.tbl td{padding:.65rem .8rem}
+  .tb-l h2{font-size:1rem}
+}
+
+/* Mobile sidebar toggle */
+@media(max-width:768px){
+  :root{--fw:0px;--fw-col:0px}
+  .sb{transform:translateX(-260px);width:260px!important;transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:none}
+  .sb.open{transform:translateX(0);box-shadow:0 8px 40px rgba(0,0,0,.18)}
+  /* On mobile, always show full sidebar when open */
+  .sb.open .sb-brand{opacity:1;width:auto;flex:1}
+  .sb.open .sb-link-label{opacity:1;max-width:160px}
+  .sb.open .sb-cnt{opacity:1;width:auto;padding:.06rem .42rem;min-width:20px;overflow:visible;border:1px solid var(--brd);margin-left:auto}
+  .sb.open .sb-sec{opacity:1;height:auto;margin-top:1.4rem;margin-bottom:.35rem;padding:.18rem .45rem}
+  .sb.open .sb-user-info{opacity:1;max-width:140px}
+  .sb.open .sb-user-actions{opacity:1;max-width:40px}
+  .sb.open .sb-link{justify-content:flex-start;padding:.52rem .45rem;width:100%}
+  .sb.open .sb-user{justify-content:flex-start;padding:.55rem .5rem}
+  /* Hide toggle button on mobile (use hamburger instead) */
+  .sb-toggle{display:none}
+  .main,.main.sb-collapsed{margin-left:0}
+  .topbar{padding:.75rem 1rem}
+  .pw{padding:1rem}
+  .stats-4{grid-template-columns:repeat(2,1fr);gap:.6rem}
+  .g2{grid-template-columns:1fr}
+  .stat{padding:1rem 1.1rem}
+  .stat-v{font-size:1.5rem}
+  .tbl{font-size:.78rem}
+  .tbl th{font-size:.52rem;padding:.55rem .7rem}
+  .tbl td{padding:.7rem .7rem}
+  .tb-r{gap:.3rem}
+  .btn-sm{font-size:.72rem;padding:.32rem .7rem}
+  .tb-l h2{font-size:.92rem}
+  .hamburger{display:flex}
+  #mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:99;backdrop-filter:blur(2px)}
+  #mob-overlay.on{display:block}
+  .ch{flex-wrap:wrap;gap:.5rem}
+  .tabs{flex-wrap:wrap}
+}
+
+/* Mobile small: under 480px */
+@media(max-width:480px){
+  .stats-4{grid-template-columns:1fr 1fr}
+  .fr2{grid-template-columns:1fr}
+  .mbox{padding:1.1rem;border-radius:16px}
+  .btn-xs{font-size:.65rem;padding:.18rem .48rem}
+  .tbl th:nth-child(n+5),.tbl td:nth-child(n+5){display:none}
+  .pw{padding:.75rem}
+}
+
+/* Hamburger button - hidden on desktop */
+.hamburger{display:none;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;border:1.5px solid var(--brd2);background:var(--bg2);cursor:pointer;flex-shrink:0;color:var(--t2);transition:all .15s}
+.hamburger:hover{background:var(--bg3);color:var(--t1)}
+
+/* ── COLLAPSED TOOLTIPS ──────────────────────────────────── */
+.sb.collapsed .sb-link{position:relative}
+.sb.collapsed .sb-link::before{
+  content: attr(data-label);
+  position:absolute;left:calc(var(--fw-col) + 6px);top:50%;transform:translateY(-50%);
+  background:#1a1a1a;color:#fff;font-size:.74rem;font-weight:500;
+  padding:.3rem .7rem;border-radius:8px;white-space:nowrap;
+  pointer-events:none;opacity:0;z-index:200;
+  transition:opacity .12s;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+.sb.collapsed .sb-link:hover::before{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="lw" style="background:#fff;border:1px solid var(--brd);border-radius:20px;padding:2.4rem 2.2rem;box-shadow:0 4px 24px rgba(0,0,0,.07);width:360px">
+    <h1><span>TimeLiners</span> <span style="font-weight:400;font-size:1.1rem;color:var(--t2);vertical-align:middle">Finance</span></h1>
+    <p>Sign in to manage payments & jobs</p>
+    <div class="lf"><label class="ll">Email</label><input class="li" id="l-user" type="email" placeholder="info.timeliners@gmail.com" autocomplete="username"></div>
+    <div class="lf"><label class="ll">Password</label><input class="li" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+    <div class="lerr" id="l-err">Incorrect email or password</div>
+    <button class="lbtn" onclick="doLogin()">Sign in</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <nav class="sb" id="sidebar">
+    <div class="sb-top">
+      <div class="sb-brand">
+        <div class="sb-logo">TimeLiners</div>
+        <div class="sb-tag">Finance & Jobs</div>
+      </div>
+      <button class="sb-toggle" onclick="toggleDesktopSidebar()" title="Toggle sidebar" aria-label="Toggle sidebar">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-sec">Members</div>
+      <button class="sb-link active" onclick="nav('payments',this)" id="nav-payments" data-label="Payments">
+        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="3.5" width="13" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M1 6.5h13" stroke="currentColor" stroke-width="1.3"/><rect x="3" y="9" width="3" height="1.2" rx=".5" fill="currentColor"/></svg></div>
+        <span class="sb-link-label">Payments</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
+      </button>
+      <div class="sb-sec">Platform</div>
+      <button class="sb-link" onclick="nav('jobs',this)" id="nav-jobs" data-label="Jobs">
+        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="4.5" width="13" height="9" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 4.5V3.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+        <span class="sb-link-label">Jobs</span> <span class="sb-cnt" id="sb-jb">0</span>
+      </button>
+      <div class="sb-sec">Finance</div>
+      <button class="sb-link" onclick="nav('revenue',this)" id="nav-revenue" data-label="Revenue">
+        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 11.5L5 7.5l3 2.5L12 4.5l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span class="sb-link-label">Revenue</span>
+      </button>
+    </div>
+    <div class="sb-bottom">
+      <div class="sb-user">
+        <div class="sb-av"><img src="tab-logo.png" alt="TL" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.style.display='none';this.parentNode.innerHTML='TL'"></div>
+        <div class="sb-user-info" style="flex:1;min-width:0"><div style="font-size:.82rem;font-weight:600;color:var(--t1);letter-spacing:-.1px;white-space:nowrap">Admin</div><div style="font-size:.67rem;color:var(--t3);white-space:nowrap">TimeLiners</div></div>
+        <div class="sb-user-actions">
+          <button onclick="logout()" style="background:none;border:none;color:var(--t3);display:flex;padding:.2rem;transition:color .15s;cursor:pointer;border-radius:6px" title="Sign out">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2H3a1 1 0 00-1 1v8a1 1 0 001 1h2M9.5 9.5L12 7l-2.5-2.5M12 7H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main">
+
+    <!-- PAYMENTS -->
+    <div id="pane-payments" class="pane active">
+      <div class="topbar" id="topbar">
+        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()" id="hamburger"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Payments</h2><p id="pay-sync">Loading…</p></div>
+        <div class="tb-r">
+          <button class="btn btn-g btn-sm" onclick="openMsgTemplates()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l6 4 6-4" stroke="currentColor" stroke-width="1.2"/></svg> Messages</button>
+          <button class="btn btn-refresh btn-sm" onclick="refreshAll()">Refresh</button>
+          <button class="btn btn-p btn-sm" onclick="openPayModal()">+ Add Payment</button>
+        </div>
+      </div>
+      <div class="pw">
+        <div id="pay-missing-alert" style="display:none;margin-bottom:.85rem;font-size:.78rem;padding:.6rem .9rem;border-radius:var(--r);border:1px solid var(--ambb);background:var(--ambl);color:var(--amb);line-height:1.6"></div>
+        <div class="stats stats-4 mb" id="pay-stats"></div>
+
+        <!-- FREE MEMBERS -->
+        <div class="card mb">
+          <div class="ch">
+            <div><h3>Free Members</h3><p id="free-sub">—</p></div>
+          </div>
+          <div class="tw">
+            <table class="tbl">
+              <thead><tr><th>#</th><th>Member</th><th>Email</th><th>WhatsApp</th><th>Joined</th><th>Actions</th></tr></thead>
+              <tbody id="free-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PRO MEMBERS -->
+        <div class="card mb">
+          <div class="ch">
+            <div><h3>Pro Members</h3><p id="pro-sub">—</p></div>
+            <div style="display:flex;gap:.38rem">
+              <div class="tabs" style="margin-bottom:0">
+                <button class="tab active" onclick="switchProTab('all',this)">All</button>
+                <button class="tab" onclick="switchProTab('paid',this)">Paid</button>
+                <button class="tab" onclick="switchProTab('overdue',this)">Overdue</button>
+                <button class="tab" onclick="switchProTab('downgraded',this)">Downgraded</button>
+              </div>
+            </div>
+          </div>
+          <div class="tw">
+            <table class="tbl">
+              <thead><tr><th>#</th><th>Member</th><th>Plan</th><th>Amount</th><th>Paid</th><th>Expires</th><th>Days Left</th><th>Status</th><th>Notify</th><th>Actions</th></tr></thead>
+              <tbody id="pro-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOBS -->
+    <div id="pane-jobs" class="pane">
+      <div class="topbar" id="topbar">
+        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Jobs</h2><p id="job-sub">Job board listings</p></div>
+        <div class="tb-r">
+          <button class="btn btn-g btn-sm" onclick="cleanExpiredJobs()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M5 4V2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5V4M11 4l-.7 7.3a1 1 0 01-1 .7H4.7a1 1 0 01-1-.7L3 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Clean Expired</button>
+          <button class="btn btn-p btn-sm" onclick="openJobM()">+ Post Job</button>
+        </div>
+      </div>
+      <div class="pw">
+        <div id="jobs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.72rem"></div>
+      </div>
+    </div>
+
+    <!-- REVENUE -->
+    <div id="pane-revenue" class="pane">
+      <div class="topbar" id="topbar">
+        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Revenue</h2><p>Income, expenses &amp; profit · from March 2026</p></div>
+        <div class="tb-r">
+          <button class="btn btn-p btn-sm" onclick="openExpModal()">+ Add Expense</button>
+        </div>
+      </div>
+      <div class="pw">
+        <div class="stats stats-4 mb" id="rev-stats"></div>
+        <div class="g2">
+          <div class="card"><div class="ch"><h3>Revenue per month</h3></div><div class="cb"><canvas id="chart-rev" height="180"></canvas></div></div>
+          <div class="card"><div class="ch"><h3>Revenue vs Expenses vs Profit</h3></div><div class="cb"><canvas id="chart-exp" height="180"></canvas></div></div>
+        </div>
+        <div class="card mb">
+          <div class="ch"><h3>Monthly breakdown</h3><p>Starting March 2026</p></div>
+          <div style="padding:.6rem 1.05rem">
+            <div style="display:grid;grid-template-columns:120px 1fr 1fr 1fr 100px;gap:.7rem;padding:.4rem 0;border-bottom:1px solid var(--brd);font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t2)">
+              <div>Month</div><div>Revenue</div><div>Expenses</div><div>Net Profit</div><div></div>
+            </div>
+            <div id="rev-rows"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL: EDIT MEMBER (plan/wa/email) -->
+<div class="ov" id="ov-member"><div class="mbox">
+  <button class="mx" onclick="closeM('ov-member')">×</button>
+  <div class="mt" id="mm-t">Edit Member</div>
+  <div class="ms" id="mm-s">Update plan, WhatsApp, and email</div>
+  <input type="hidden" id="mm-id">
+  <div class="fg"><label class="fl">Plan</label>
+    <select class="fi" id="mm-plan">
+      <option value="free">Free</option>
+      <option value="pro">Pro Monthly — LKR 2,490/mo</option>
+      <option value="pro-yearly">Pro Yearly — LKR 2,075/mo</option>
+    </select>
+  </div>
+  <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="mm-wa" placeholder="+94 77 xxx xxxx"></div>
+  <div class="fg"><label class="fl">Email</label><input class="fi" id="mm-email" placeholder="user@email.com" type="email"></div>
+  <div style="display:flex;gap:.42rem;margin-top:.4rem">
+    <button class="btn btn-p" style="flex:1" onclick="saveMember()">Save Changes</button>
+    <button class="btn btn-g" onclick="closeM('ov-member')">Cancel</button>
+  </div>
+</div></div>
+
+<!-- MODAL: ADD/RENEW PAYMENT -->
+<div class="ov" id="ov-pay"><div class="mbox">
+  <button class="mx" onclick="closeM('ov-pay')">×</button>
+  <div class="mt" id="pay-mt">Add Payment</div>
+  <div class="ms" id="pay-ms">Enter TL number — auto-fills member info</div>
+  <input type="hidden" id="pay-uid">
+  <div class="fr2">
+    <div class="fg"><label class="fl">TL Number</label><input class="fi" id="pay-tl" placeholder="TL-001" style="font-family:var(--mono)" oninput="tlLookup()"></div>
+    <div class="fg"><label class="fl">Paid Date</label><input class="fi" id="pay-date" type="date"></div>
+  </div>
+  <div class="fg"><label class="fl">Plan</label>
+    <select class="fi" id="pay-plan">
+      <option value="pro">Pro Monthly — LKR 2,490 · 30 days</option>
+      <option value="pro-yearly">Pro Yearly — LKR 2,075/mo · 365 days</option>
+    </select>
+  </div>
+  <div class="fg"><label class="fl">WhatsApp (optional override)</label><input class="fi" id="pay-wa" placeholder="+94 77 xxx xxxx"></div>
+  <div class="fg"><label class="fl">Notes</label><input class="fi" id="pay-notes" placeholder="Cash, bank transfer…"></div>
+  <div id="pay-msg" style="display:none;font-size:.75rem;padding:.45rem .72rem;border-radius:6px;margin-bottom:.7rem"></div>
+  <div style="display:flex;gap:.42rem">
+    <button class="btn btn-p" style="flex:1" id="pay-submit-btn" onclick="submitPayment()">Add Payment</button>
+    <button class="btn btn-g" onclick="closeM('ov-pay')">Cancel</button>
+  </div>
+</div></div>
+
+<!-- MODAL: EXPENSE -->
+<div class="ov" id="ov-exp"><div class="mbox">
+  <button class="mx" onclick="closeM('ov-exp')">×</button>
+  <div class="mt">Add Expense</div>
+  <div class="ms">Log a cost for a specific month</div>
+  <div class="fr2">
+    <div class="fg"><label class="fl">Month</label><input class="fi" id="exp-month" type="month"></div>
+    <div class="fg"><label class="fl">Amount (LKR)</label><input class="fi" id="exp-amt" type="number" placeholder="5000"></div>
+  </div>
+  <div class="fg"><label class="fl">Description</label><input class="fi" id="exp-desc" placeholder="Domain, hosting, ads…"></div>
+  <div style="display:flex;gap:.42rem;margin-top:.4rem">
+    <button class="btn btn-p" style="flex:1" onclick="saveExp()">Save</button>
+    <button class="btn btn-g" onclick="closeM('ov-exp')">Cancel</button>
+  </div>
+</div></div>
+
+<!-- MODAL: JOB -->
+<div class="ov" id="ov-job"><div class="mbox" style="max-width:580px">
+  <button class="mx" onclick="closeM('ov-job')">×</button>
+  <div class="mt" id="mj-t">Post a Job</div>
+  <div class="ms">Add a listing to the jobs board</div>
+  <input type="hidden" id="mj-id">
+  <div class="fr2">
+    <div class="fg"><label class="fl">Job Title</label><input class="fi" id="mj-title" placeholder="Video Editor"></div>
+    <div class="fg"><label class="fl">Company</label><input class="fi" id="mj-company" placeholder="Brand Name"></div>
+  </div>
+  <div class="fr2">
+    <div class="fg"><label class="fl">Type</label>
+      <select class="fi" id="mj-type"><option>Full-time</option><option>Part-time</option><option>Freelance</option><option>Contract</option><option>Internship</option></select>
+    </div>
+    <div class="fg"><label class="fl">Location</label><input class="fi" id="mj-loc" placeholder="Colombo / Remote"></div>
+  </div>
+  <div class="fg"><label class="fl">Budget / Salary</label><input class="fi" id="mj-budget" placeholder="LKR 50k–80k / project-based"></div>
+  <div class="fg"><label class="fl">Description</label><textarea class="fta" id="mj-desc" placeholder="Role details, requirements, how to apply…"></textarea></div>
+  <div class="fr2">
+    <div class="fg"><label class="fl">Apply Via</label><input class="fi" id="mj-apply" placeholder="+94 77 xxx or email"></div>
+    <div class="fg"><label class="fl">Tags (comma separated)</label><input class="fi" id="mj-tags" placeholder="After Effects, Premiere"></div>
+  </div>
+  <div class="fr2">
+    <div class="fg"><label class="fl">Feature Level</label>
+      <select class="fi" id="mj-feature"><option value="normal">Normal</option><option value="featured">Featured</option><option value="urgent">Urgent</option></select>
+    </div>
+    <div class="fg"><label class="fl">Expires On</label><input class="fi" id="mj-expires" type="date" placeholder="Leave blank = no expiry"></div>
+  </div>
+  <div class="fg"><label class="fl">Visibility</label>
+    <select class="fi" id="mj-hide"><option value="false">Visible</option><option value="true">Hidden</option></select>
+  </div>
+  <div style="display:flex;gap:.42rem;margin-top:.4rem">
+    <button class="btn btn-p" style="flex:1" onclick="saveJob()">Save Job</button>
+    <button class="btn btn-g" onclick="closeM('ov-job')">Cancel</button>
+  </div>
+</div></div>
+
+<!-- MODAL: EDIT PAID DATE -->
+<div class="ov" id="ov-editdate"><div class="mbox" style="max-width:380px">
+  <button class="mx" onclick="closeM('ov-editdate')">×</button>
+  <div class="mt">Edit Paid Date</div>
+  <div class="ms">Changing the date recalculates expiry automatically</div>
+  <input type="hidden" id="ed-id">
+  <input type="hidden" id="ed-plan">
+  <div class="fg"><label class="fl">Paid Date</label><input class="fi" id="ed-date" type="date" oninput="previewExpiry()"></div>
+  <div id="ed-preview" style="font-size:.75rem;padding:.45rem .72rem;border-radius:6px;background:var(--bg3);color:var(--t2);margin-bottom:.8rem">New expiry will appear here</div>
+  <div style="display:flex;gap:.42rem">
+    <button class="btn btn-p" style="flex:1" onclick="savePayDate()">Save</button>
+    <button class="btn btn-g" onclick="closeM('ov-editdate')">Cancel</button>
+  </div>
+</div></div>
+
+<!-- MODAL: MONTH DETAIL -->
+<div class="ov" id="ov-month"><div class="mbox" style="max-width:560px">
+  <button class="mx" onclick="closeM('ov-month')">×</button>
+  <div class="mt" id="mo-title">Month</div>
+  <div class="ms" id="mo-sub"></div>
+  <div id="mo-body" style="max-height:70vh;overflow-y:auto"></div>
+  <div style="margin-top:1rem"><button class="btn btn-g" style="width:100%" onclick="closeM('ov-month')">Close</button></div>
+</div></div>
+
+<!-- MODAL: MESSAGE TEMPLATES -->
+<div class="ov" id="ov-msgtpl"><div class="mbox" style="max-width:620px">
+  <button class="mx" onclick="closeM('ov-msgtpl')">×</button>
+  <div class="mt">Message Templates</div>
+  <div class="ms">Edit the WhatsApp messages sent for each situation. Use {name} and {plan} as placeholders.</div>
+  <div style="display:flex;gap:.08rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.16rem;width:fit-content;margin-bottom:1rem">
+    <button class="tab active" id="tpl-tab-expiring" onclick="switchTplTab('expiring',this)">3-day warning</button>
+    <button class="tab" id="tpl-tab-week" onclick="switchTplTab('week',this)">7-day warning</button>
+    <button class="tab" id="tpl-tab-expired" onclick="switchTplTab('expired',this)">Just expired</button>
+    <button class="tab" id="tpl-tab-downgrade" onclick="switchTplTab('downgrade',this)">Downgrade</button>
+  </div>
+  <div class="fg">
+    <label class="fl" id="tpl-label">Template</label>
+    <textarea class="fta" id="tpl-body" style="min-height:160px;font-size:.82rem;line-height:1.6"></textarea>
+  </div>
+  <div style="font-size:.72rem;color:var(--t3);margin-bottom:.9rem">Placeholders: <code style="background:var(--bg3);padding:.1rem .3rem;border-radius:4px">{name}</code> = member name &nbsp; <code style="background:var(--bg3);padding:.1rem .3rem;border-radius:4px">{plan}</code> = plan label &nbsp; <code style="background:var(--bg3);padding:.1rem .3rem;border-radius:4px">{days}</code> = days number</div>
+  <div style="display:flex;gap:.42rem">
+    <button class="btn btn-p" style="flex:1" onclick="saveTpl()">Save Template</button>
+    <button class="btn btn-g" onclick="resetTpl()">Reset to Default</button>
+    <button class="btn btn-g" onclick="closeM('ov-msgtpl')">Close</button>
+  </div>
+  <div style="margin-top:1rem;border-top:1px solid var(--brd);padding-top:.9rem">
+    <div style="font-size:.62rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);margin-bottom:.6rem">Quick Send</div>
+    <div style="display:flex;gap:.38rem;flex-wrap:wrap">
+      <button class="btn btn-r btn-sm" onclick="closeM('ov-msgtpl');notifyOverdue()"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1.5a4 4 0 014 4v2.5l1 2H2l1-2V5.5a4 4 0 014-4zM5.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Notify Overdue</button>
+      <button class="btn btn-g btn-sm" onclick="closeM('ov-msgtpl');notifyExpiring(3)"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3.5l2 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> 3-day</button>
+      <button class="btn btn-g btn-sm" onclick="closeM('ov-msgtpl');notifyExpiring(7)"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3.5l2 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> 7-day</button>
+    </div>
+  </div>
+</div></div>
+
+<!-- MODAL: WA MESSAGE PREVIEW -->
+<div class="ov" id="ov-wa"><div class="mbox" style="max-width:460px">
+  <button class="mx" onclick="closeM('ov-wa')">×</button>
+  <div class="mt">WhatsApp Message</div>
+  <div class="ms" id="wa-sub">Preview before sending</div>
+  <div id="wa-msg-preview" style="background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.9rem 1rem;font-size:.84rem;color:var(--t1);line-height:1.6;white-space:pre-wrap;margin-bottom:1rem"></div>
+  <div style="display:flex;gap:.42rem">
+    <button class="btn btn-p" style="flex:1" id="wa-send-btn">Open WhatsApp</button>
+    <button class="btn btn-g" onclick="closeM('ov-wa')">Cancel</button>
+  </div>
+</div></div>
+
+<div id="mob-overlay" onclick="closeSidebar()"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const SB='https://xilhrpbqdqocpwxaigvy.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
+const CK='tl_fin_creds', EK='tl_exp2';
+const DEF={user:'info.timeliners@gmail.com',pass:'Almost@17'};
+const PL={free:'Free',pro:'Pro Monthly','pro-yearly':'Pro Yearly',standard:'Pro Monthly',vip:'Pro Monthly'};
+const PP={free:0,pro:2490,'pro-yearly':2075,standard:2490,vip:2490};
+const PLAN_DAYS={pro:30,'pro-yearly':365,standard:30,vip:30};
+const AVC=['#FE730A','#3b82f6','#8b5cf6','#ec4899','#10b981','#f59e0b','#06b6d4','#6366f1'];
+// Revenue starts from March 2026
+const REV_START='2026-03';
+
+let _pf=[],_py=[],_jb=[],_proTab='all',_rc=null,_ec=null;
+
+// ─── SUPABASE ─────────────────────────────────────────────────────────────────
+async function sb(path,method='GET',body=null){
+  const headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'};
+  const r=await fetch(SB+'/rest/v1'+path,{method,headers,body:body?JSON.stringify(body):undefined});
+  const t=await r.text();
+  if(!r.ok){let msg=t;try{msg=JSON.parse(t).message||t;}catch(e){}throw new Error(msg||String(r.status));}
+  return t?JSON.parse(t):null;
+}
+
+async function loadData(){
+  const[a,b,c]=await Promise.all([
+    sb('/profiles?select=*&order=created_at.desc'),
+    sb('/payments?select=*&order=paid_date.desc').catch(()=>[]),
+    sb('/jobs?select=*&order=created_at.desc').catch(()=>[])
+  ]);
+  _pf=a||[];_py=b||[];_jb=c||[];
+  await syncOverdueStatus();
+}
+
+// Sync payment + profile statuses based on expires_date — writes to Supabase
+async function syncOverdueStatus(){
+  const today=new Date();
+  today.setHours(0,0,0,0);
+
+  for(const p of _py){
+    if(!p.expires_date) continue;
+    const exp=new Date(p.expires_date);
+    exp.setHours(0,0,0,0);
+    const daysLeft=Math.ceil((exp-today)/86400000);
+
+    // paid → overdue when expired
+    if(p.pay_status==='paid' && daysLeft<0){
+      try{
+        await sb('/payments?id=eq.'+p.id,'PATCH',{pay_status:'overdue'});
+        await sb('/profiles?id=eq.'+p.user_id,'PATCH',{pay_status:'overdue'});
+        p.pay_status='overdue';
+        const pf=_pf.find(x=>x.id===p.user_id);
+        if(pf) pf.pay_status='overdue';
+      }catch(e){console.warn('overdue sync failed',e.message);}
+    }
+
+    // overdue → downgraded after 7 days, delete payment, set profile to free
+    if(p.pay_status==='overdue' && daysLeft<-7){
+      try{
+        await sb('/profiles?id=eq.'+p.user_id,'PATCH',{plan:'free',pay_status:'downgraded'});
+        await sb('/payments?id=eq.'+p.id,'DELETE');
+        const pf=_pf.find(x=>x.id===p.user_id);
+        if(pf){pf.plan='free';pf.pay_status='downgraded';}
+        p._deleted=true;
+      }catch(e){console.warn('downgrade sync failed',e.message);}
+    }
+  }
+
+  // Remove deleted payment records from local array
+  _py=_py.filter(p=>!p._deleted);
+}
+
+// ─── AUTH ─────────────────────────────────────────────────────────────────────
+function getCreds(){try{return JSON.parse(localStorage.getItem(CK)||'null')||DEF;}catch(e){return DEF;}}
+function doLogin(){
+  const u=document.getElementById('l-user').value.trim();
+  const p=document.getElementById('l-pass').value;
+  const c=getCreds();
+  if(u===c.user&&p===c.pass){
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').classList.add('on');
+    initApp();
+  }else{
+    const e=document.getElementById('l-err');
+    e.style.display='block';
+    document.getElementById('l-pass').value='';
+    setTimeout(()=>e.style.display='none',3000);
+  }
+}
+function logout(){
+  document.getElementById('app').classList.remove('on');
+  document.getElementById('login').style.display='flex';
+  document.getElementById('l-pass').value='';
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function initApp(){
+  try{
+    await loadData();
+    renderAll();
+    document.getElementById('pay-sync').textContent='Last synced: '+new Date().toLocaleTimeString();
+  }catch(e){
+    toast('Supabase error: '+e.message,1);
+    document.getElementById('pay-sync').textContent='Connection failed';
+  }
+}
+async function refreshAll(){
+  toast('Refreshing…');
+  try{
+    await loadData();renderAll();
+    document.getElementById('pay-sync').textContent='Last synced: '+new Date().toLocaleTimeString();
+    toast('Done ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
+function renderAll(){rPayments();rJobs();rRevenue();rSidebar();}
+
+function nav(id,el){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sb-link').forEach(l=>l.classList.remove('active'));
+  const pane=document.getElementById('pane-'+id);if(pane)pane.classList.add('active');
+  if(el)el.classList.add('active');
+  closeSidebar();
+}
+
+function rSidebar(){
+  document.getElementById('sb-jb').textContent=_jb.filter(j=>!j.hidden).length;
+  const al=_py.filter(p=>p.pay_status==='overdue'||p.pay_status==='downgraded').length;
+  const e=document.getElementById('sb-pa');e.textContent=al;e.style.display=al?'':'none';
+}
+
+// ─── HELPERS ──────────────────────────────────────────────────────────────────
+function fmt(d){if(!d)return'—';return new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit'});}
+function avatar(p,sz=28){
+  const s=sz+'px',br=Math.round(sz*.25)+'px',fs=Math.round(sz*.35)+'px';
+  if(p&&p.avatar_url)return`<div class="av" style="width:${s};height:${s};border-radius:${br}"><img src="${p.avatar_url}" onerror="this.parentElement.innerHTML='${((p&&(p.name||p.username||'?'))||'?').charAt(0).toUpperCase()}'"></div>`;
+  const col=AVC[(p&&p.grad_idx)||0]||AVC[0];
+  const init=(p&&(p.name||p.username||'?'))||'?';
+  return`<div class="av" style="width:${s};height:${s};border-radius:${br};background:${col};font-size:${fs}">${init.charAt(0).toUpperCase()}</div>`;
+}
+function plBdg(plan){
+  const c=(plan==='pro'||plan==='standard'||plan==='vip'||plan==='pro-yearly')?'pro':'free';
+  return`<span class="b b-${c}">${PL[plan||'free']||plan||'Free'}</span>`;
+}
+function pyBdg(s){
+  const m={paid:'paid',overdue:'overdue',pending:'pending',downgraded:'down'};
+  return`<span class="b b-${m[s]||'pending'}">${s||'pending'}</span>`;
+}
+function toast(msg,err=0){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.className='toast'+(err?' err':'');t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);
+}
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+function mno(p){
+  if(p&&p.member_no)return p.member_no;
+  const s=[..._pf].sort((a,b)=>new Date(a.created_at||0)-new Date(b.created_at||0));
+  const i=s.findIndex(x=>x.id===p.id);
+  return i===-1?'—':'TL-'+String(i+1).padStart(3,'0');
+}
+function findByTL(tl){
+  const up=tl.trim().toUpperCase();
+  let pf=_pf.find(p=>p.member_no&&p.member_no.toUpperCase()===up);
+  if(pf)return pf;
+  return _pf.find(p=>mno(p).toUpperCase()===up)||null;
+}
+function calcExpiry(paidDate,plan){
+  const d=new Date(paidDate);
+  d.setDate(d.getDate()+(PLAN_DAYS[plan]||30));
+  return d.toISOString().split('T')[0];
+}
+function isPro(plan){return plan==='pro'||plan==='pro-yearly'||plan==='standard'||plan==='vip';}
+
+// ─── FREE MEMBERS TABLE ───────────────────────────────────────────────────────
+function rFreeMembers(){
+  // Free = profile plan is free/null AND no active payment record
+  const withActivePay=new Set(_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue').map(p=>p.user_id));
+  const free=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
+  document.getElementById('free-sub').textContent=free.length+' free members';
+  const tb=document.getElementById('free-tbody');
+  if(!free.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty">No free members</div></td></tr>`;return;}
+  tb.innerHTML=free.map(p=>{
+    const mn=mno(p);
+    return`<tr>
+      <td><span style="font-family:var(--mono);font-size:.73rem;color:var(--t3)">${mn}</span></td>
+      <td><div style="display:flex;align-items:center;gap:.56rem">${avatar(p)}<div><div class="tc">${p.name||p.username||'—'}</div></div></div></td>
+      <td style="font-size:.79rem;color:var(--t2)">${p.email||'—'}</td>
+      <td style="font-size:.79rem;color:var(--t2)">${p.wa||'—'}</td>
+      <td style="font-size:.77rem;color:var(--t3)">${fmt(p.created_at)}</td>
+      <td><div style="display:flex;gap:.28rem">
+        <button class="btn btn-g btn-xs" onclick="openEditMember('${p.id}')">Edit</button>
+        <button class="btn btn-p btn-xs" onclick="quickMakePro('${p.id}')">Make Pro</button>
+      </div></td>
+    </tr>`;}).join('');
+}
+
+// Quick shortcut to open payment modal pre-linked to free member
+function quickMakePro(userId){
+  const pf=_pf.find(x=>x.id===userId);if(!pf)return;
+  const mn=mno(pf);
+  document.getElementById('pay-tl').value=mn;
+  document.getElementById('pay-uid').value=userId;
+  document.getElementById('pay-wa').value=pf.wa||'';
+  document.getElementById('pay-notes').value='';
+  document.getElementById('pay-plan').value='pro';
+  document.getElementById('pay-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('pay-mt').textContent='Make Pro — '+(pf.name||pf.username||mn);
+  document.getElementById('pay-ms').textContent='Set plan and paid date to activate';
+  const m=document.getElementById('pay-msg');
+  m.textContent='Upgrading: '+(pf.name||pf.username||mn);
+  m.style.cssText='display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
+  document.getElementById('pay-submit-btn').textContent='Confirm & Make Pro';
+  openM('ov-pay');
+}
+
+// ─── PRO MEMBERS TABLE ────────────────────────────────────────────────────────
+function switchProTab(tab,el){
+  _proTab=tab;
+  document.querySelectorAll('#pane-payments .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  rProMembers();
+}
+
+function rProMembers(){
+  const now=Date.now();
+  // Show payment records where profile is pro, OR payment is overdue/downgraded
+  const proProfileIds=new Set(_pf.filter(p=>isPro(p.plan)).map(p=>p.id));
+  let proData=_py.filter(p=>proProfileIds.has(p.user_id)||p.pay_status==='overdue'||p.pay_status==='downgraded');
+  // Also include pro profiles that don't have a payment record
+  const proProfiles=_pf.filter(p=>isPro(p.plan));
+  const withPayment=new Set(_py.map(p=>p.user_id));
+  const noPayProfile=proProfiles.filter(p=>!withPayment.has(p.id));
+
+  if(_proTab==='paid')proData=proData.filter(p=>p.pay_status==='paid');
+  else if(_proTab==='overdue')proData=proData.filter(p=>p.pay_status==='overdue');
+  else if(_proTab==='downgraded')proData=proData.filter(p=>p.pay_status==='downgraded');
+
+  proData.sort((a,b)=>{
+    const oa=a.pay_status==='overdue'||a.pay_status==='downgraded'?0:1;
+    const ob=b.pay_status==='overdue'||b.pay_status==='downgraded'?0:1;
+    if(oa!==ob)return oa-ob;
+    const da=a.expires_date?Math.ceil((new Date(a.expires_date)-now)/86400000):999;
+    const db=b.expires_date?Math.ceil((new Date(b.expires_date)-now)/86400000):999;
+    return da-db;
+  });
+
+  const paid=_py.filter(p=>p.pay_status==='paid'&&isPro(p.plan)).length;
+  const over=_py.filter(p=>p.pay_status==='overdue').length;
+  const down=_py.filter(p=>p.pay_status==='downgraded').length;
+  document.getElementById('pro-sub').textContent=`${paid} paid · ${over} overdue · ${down} downgraded`;
+
+  // Missing payment alert
+  const ma=document.getElementById('pay-missing-alert');
+  if(noPayProfile.length>0&&_proTab==='all'){
+    ma.style.display='block';
+    ma.innerHTML='⚠ <strong>'+noPayProfile.length+' pro member'+( noPayProfile.length>1?'s have':' has')+' no payment record:</strong> '+
+      noPayProfile.map(p=>`<span style="font-weight:600;color:var(--t1)">${p.name||p.username||'?'}</span>`).join(', ')+
+      ' &nbsp;<button class="btn btn-g btn-xs" onclick="autoFillMissing()" style="margin-left:.4rem;border-color:var(--ambb);color:var(--amb)">Auto-create records</button>';
+  }else{ma.style.display='none';}
+
+  const tb=document.getElementById('pro-tbody');
+  if(!proData.length){tb.innerHTML=`<tr><td colspan="10"><div class="empty">No pro members in this view</div></td></tr>`;return;}
+
+  tb.innerHTML=proData.map(p=>{
+    const pf=_pf.find(x=>x.id===p.user_id)||{};
+    const days=p.expires_date?Math.ceil((new Date(p.expires_date)-now)/86400000):null;
+    const wa=p.wa||pf.wa;
+    const mn=mno(pf);
+
+    // Notify chip logic
+    let notifyChip='';
+    if(p.pay_status==='paid'&&days!==null&&days<=3&&days>=0){
+      notifyChip=`<button class="notify-chip nc-soon" onclick="previewWA('${wa||''}','${(pf.name||'').replace(/'/g,"\\'")}',${days},'${p.plan}','expiring')">💬 ${days}d left</button>`;
+    }else if(p.pay_status==='overdue'||(days!==null&&days<0&&days>=-7)){
+      notifyChip=`<button class="notify-chip nc-overdue" onclick="previewWA('${wa||''}','${(pf.name||'').replace(/'/g,"\\'")}',${days||0},'${p.plan}','expired')">💬 Expired</button>`;
+    }else if(p.pay_status==='downgraded'||(days!==null&&days<-7)){
+      notifyChip=`<button class="notify-chip nc-overdue" onclick="previewWA('${wa||''}','${(pf.name||'').replace(/'/g,"\\'")}',${days||0},'${p.plan}','downgrade')">💬 Downgraded</button>`;
+    }else if(wa&&days!==null&&days<=7&&days>3){
+      notifyChip=`<button class="notify-chip nc-soon" onclick="previewWA('${wa||''}','${(pf.name||'').replace(/'/g,"\\'")}',${days},'${p.plan}','week')">💬 7d left</button>`;
+    }
+
+    const dColor=days===null?'var(--t2)':days<0?'var(--red)':days<=7?'var(--amb)':'var(--t1)';
+    return`<tr style="border-left:${(p.pay_status==='overdue'||p.pay_status==='downgraded')?'3px solid var(--red)':'3px solid transparent'}">
+      <td><span style="font-family:var(--mono);font-size:.73rem;color:var(--t3)">${mn}</span></td>
+      <td><div style="display:flex;align-items:center;gap:.56rem">${avatar(pf)}<div><div class="tc">${pf.name||pf.username||'—'}</div><div class="ts">${pf.email||'—'}</div></div></div></td>
+      <td>${plBdg(p.plan)}</td>
+      <td style="font-family:var(--mono);font-size:.79rem;font-weight:500">LKR ${(p.amount||PP[p.plan]||0).toLocaleString()}</td>
+      <td style="font-size:.78rem;color:var(--t2)">${fmt(p.paid_date)}</td>
+      <td style="font-size:.78rem;color:var(--t2)">${fmt(p.expires_date)}</td>
+      <td style="font-family:var(--mono);font-size:.78rem;color:${dColor};font-weight:600">${days!==null?days+'d':'—'}</td>
+      <td>${pyBdg(p.pay_status)}</td>
+      <td>${notifyChip||'<span style="color:var(--t3);font-size:.75rem">—</span>'}</td>
+      <td><div style="display:flex;gap:.25rem">
+        <button class="btn btn-grn btn-xs" onclick="openRenewPay('${p.user_id}','${p.plan}')">Renew</button>
+        <button class="btn btn-g btn-xs" onclick="openEditPayDate('${p.id}','${p.paid_date}','${p.plan}')">Date</button>
+        <button class="btn btn-g btn-xs" onclick="openEditMember('${p.user_id}')">Edit</button>
+        <button class="btn btn-r btn-xs" onclick="delPayment('${p.id}')">Del</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function rPayments(){
+  const now=Date.now();
+  const proM=_py.filter(p=>p.plan==='pro'&&p.pay_status==='paid').length;
+  const proY=_py.filter(p=>p.plan==='pro-yearly'&&p.pay_status==='paid').length;
+  const over=_py.filter(p=>p.pay_status==='overdue').length;
+  const down=_py.filter(p=>p.pay_status==='downgraded').length;
+  document.getElementById('pay-stats').innerHTML=`
+    <div class="stat"><div class="stat-l">Monthly Revenue</div><div class="stat-v">LKR ${(proM*2490+proY*2075).toLocaleString()}</div><div class="stat-s">from active subscriptions</div></div>
+    <div class="stat"><div class="stat-l">Pro Monthly</div><div class="stat-v">${proM}</div><div class="stat-s g">active paid</div></div>
+    <div class="stat"><div class="stat-l">Pro Yearly</div><div class="stat-v">${proY}</div><div class="stat-s g">active paid</div></div>
+    <div class="stat"><div class="stat-l">Overdue / Down</div><div class="stat-v" style="color:${over+down?'var(--red)':'var(--t1)'}">${over+down}</div><div class="stat-s ${over+down?'r':''}">need attention</div></div>`;
+  rFreeMembers();
+  rProMembers();
+}
+
+// ─── EDIT MEMBER (plan / wa / email) ─────────────────────────────────────────
+function openEditMember(userId){
+  const p=_pf.find(x=>x.id===userId);if(!p)return;
+  document.getElementById('mm-id').value=userId;
+  document.getElementById('mm-plan').value=isPro(p.plan)?(p.plan==='pro-yearly'?'pro-yearly':'pro'):'free';
+  document.getElementById('mm-wa').value=p.wa||'';
+  document.getElementById('mm-email').value=p.email||'';
+  document.getElementById('mm-t').textContent='Edit — '+(p.name||p.username||mno(p));
+  document.getElementById('mm-s').textContent='Update plan, WhatsApp number or email';
+  openM('ov-member');
+}
+async function saveMember(){
+  const id=document.getElementById('mm-id').value;if(!id)return;
+  const newPlan=document.getElementById('mm-plan').value;
+  const wa=document.getElementById('mm-wa').value.trim()||null;
+  const email=document.getElementById('mm-email').value.trim()||null;
+  const p=_pf.find(x=>x.id===id);if(!p)return;
+  const body={plan:newPlan};
+  if(wa!==null)body.wa=wa;
+  if(email!==null)body.email=email;
+  try{
+    await sb('/profiles?id=eq.'+id,'PATCH',body);
+    Object.assign(p,body);
+    renderAll();closeM('ov-member');toast('Member updated ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
+
+// ─── PAYMENT MODAL ────────────────────────────────────────────────────────────
+function tlLookup(){
+  const tl=document.getElementById('pay-tl').value.trim();
+  if(!tl)return;
+  const pf=findByTL(tl);
+  const m=document.getElementById('pay-msg');
+  if(pf){
+    document.getElementById('pay-uid').value=pf.id;
+    document.getElementById('pay-wa').value=document.getElementById('pay-wa').value||pf.wa||'';
+    m.textContent='Found: '+(pf.name||pf.username||tl);
+    m.style.cssText='display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
+  }else if(tl.length>=4){
+    document.getElementById('pay-uid').value='';
+    m.textContent='Member '+tl+' not found';
+    m.style.cssText='display:block;background:var(--redl);color:var(--red);border:1px solid var(--redb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
+  }
+}
+function openPayModal(){
+  document.getElementById('pay-tl').value='';
+  document.getElementById('pay-uid').value='';
+  document.getElementById('pay-wa').value='';
+  document.getElementById('pay-notes').value='';
+  document.getElementById('pay-plan').value='pro';
+  document.getElementById('pay-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('pay-mt').textContent='Add Payment';
+  document.getElementById('pay-ms').textContent='Enter TL number — auto-fills member info';
+  document.getElementById('pay-submit-btn').textContent='Add Payment';
+  const m=document.getElementById('pay-msg');m.style.display='none';
+  openM('ov-pay');
+}
+function openRenewPay(userId,currentPlan){
+  const pf=_pf.find(x=>x.id===userId);if(!pf)return;
+  const mn=mno(pf);
+  document.getElementById('pay-tl').value=mn;
+  document.getElementById('pay-uid').value=userId;
+  document.getElementById('pay-wa').value=pf.wa||'';
+  document.getElementById('pay-notes').value='Renewal';
+  document.getElementById('pay-plan').value=currentPlan||'pro';
+  document.getElementById('pay-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('pay-mt').textContent='Renew — '+(pf.name||pf.username||mn);
+  document.getElementById('pay-ms').textContent='Creates a new payment record and resets expiry';
+  document.getElementById('pay-submit-btn').textContent='Confirm Renewal';
+  const m=document.getElementById('pay-msg');
+  m.textContent='Renewing: '+(pf.name||pf.username||mn);
+  m.style.cssText='display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
+  openM('ov-pay');
+}
+async function submitPayment(){
+  const tl=document.getElementById('pay-tl').value.trim();
+  const date=document.getElementById('pay-date').value;
+  const plan=document.getElementById('pay-plan').value;
+  const wa=document.getElementById('pay-wa').value.trim();
+  const notes=document.getElementById('pay-notes').value.trim();
+  const m=document.getElementById('pay-msg');
+  if(!date){toast('Enter a paid date',1);return;}
+  let pf=null;
+  const presetUid=document.getElementById('pay-uid').value;
+  if(presetUid){pf=_pf.find(x=>x.id===presetUid);}
+  if(!pf&&tl){pf=findByTL(tl);}
+  if(!pf){
+    m.textContent='Member not found. Check TL number.';
+    m.style.cssText='display:block;background:var(--redl);color:var(--red);border:1px solid var(--redb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
+    return;
+  }
+  m.textContent='Processing…';
+  m.style.cssText='display:block;background:var(--ambl);color:var(--amb);border:1px solid var(--ambb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
+  try{
+    const payBody={user_id:pf.id,plan,amount:PP[plan]||2490,paid_date:date,pay_status:'paid',notes:notes||null,wa:wa||pf.wa||null,member_no:mno(pf)};
+    const r=await sb('/payments','POST',payBody);
+    if(r&&r[0])_py.unshift(r[0]);
+    const profileUpdate={plan,pay_status:'paid',pay_due:calcExpiry(date,plan)};
+    if(wa)profileUpdate.wa=wa;
+    await sb('/profiles?id=eq.'+pf.id,'PATCH',profileUpdate);
+    const localPf=_pf.find(x=>x.id===pf.id);
+    if(localPf)Object.assign(localPf,profileUpdate);
+    renderAll();closeM('ov-pay');
+    toast((pf.name||tl)+' payment recorded ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
+async function delPayment(id){
+  if(!confirm('Delete this payment record?'))return;
+  try{
+    await sb('/payments?id=eq.'+id,'DELETE');
+    _py=_py.filter(p=>p.id!==id);
+    renderAll();toast('Payment deleted ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
+
+// ─── EDIT PAID DATE ───────────────────────────────────────────────────────────
+function openEditPayDate(id, paidDate, plan){
+  document.getElementById('ed-id').value=id;
+  document.getElementById('ed-plan').value=plan;
+  document.getElementById('ed-date').value=paidDate||new Date().toISOString().split('T')[0];
+  previewExpiry();
+  openM('ov-editdate');
+}
+function previewExpiry(){
+  const date=document.getElementById('ed-date').value;
+  const plan=document.getElementById('ed-plan').value;
+  if(!date)return;
+  const exp=calcExpiry(date,plan);
+  const days=PLAN_DAYS[plan]||30;
+  document.getElementById('ed-preview').textContent='New expiry: '+exp+' ('+days+' days from paid date)';
+}
+async function savePayDate(){
+  const id=document.getElementById('ed-id').value;
+  const date=document.getElementById('ed-date').value;
+  const plan=document.getElementById('ed-plan').value;
+  if(!date){toast('Pick a date',1);return;}
+  const newExpiry=calcExpiry(date,plan);
+  try{
+    await sb('/payments?id=eq.'+id,'PATCH',{paid_date:date,pay_status:'paid'});
+    const p=_py.find(x=>x.id===id);
+    if(p){p.paid_date=date;p.expires_date=newExpiry;p.pay_status='paid';}
+    if(p) await sb('/profiles?id=eq.'+p.user_id,'PATCH',{pay_status:'paid',pay_due:newExpiry}).catch(()=>{});
+    renderAll();closeM('ov-editdate');toast('Date updated ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
+
+// ─── MONTH DETAIL MODAL ───────────────────────────────────────────────────────
+function openMonthDetail(mo){
+  const exps=getExps();
+  const label=new Date(mo+'-01').toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+  document.getElementById('mo-title').textContent=label;
+  const income=_py.filter(p=>p.paid_date&&p.paid_date.slice(0,7)===mo);
+  const totalIncome=income.reduce((s,p)=>s+(p.amount||PP[p.plan]||0),0);
+  const monthExps=exps[mo]||[];
+  const totalExp=monthExps.reduce((s,e)=>s+e.a,0);
+  const profit=totalIncome-totalExp;
+  document.getElementById('mo-sub').textContent='LKR '+totalIncome.toLocaleString()+' income · LKR '+totalExp.toLocaleString()+' expenses · Net: LKR '+profit.toLocaleString();
+  let html='';
+  html+='<div style="font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--grn);margin-bottom:.5rem;padding-bottom:.35rem;border-bottom:1px solid var(--brd)">Income</div>';
+  if(income.length){
+    html+=income.map(p=>{
+      const pf=_pf.find(x=>x.id===p.user_id)||{};
+      return'<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--brd)">'+
+        '<div><div style="font-size:.83rem;font-weight:600;color:var(--t1)">'+(pf.name||pf.username||'—')+'</div>'+
+        '<div style="font-size:.72rem;color:var(--t3)">'+(PL[p.plan]||p.plan)+' · Paid '+fmt(p.paid_date)+'</div></div>'+
+        '<div style="font-family:var(--mono);font-weight:600;color:var(--grn)">LKR '+(p.amount||PP[p.plan]||0).toLocaleString()+'</div>'+
+      '</div>';
+    }).join('');
+  }else{
+    html+='<div style="color:var(--t3);font-size:.8rem;padding:.5rem 0">No payments this month</div>';
+  }
+  html+='<div style="font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--red);margin:.9rem 0 .5rem;padding-bottom:.35rem;border-bottom:1px solid var(--brd)">Expenses</div>';
+  if(monthExps.length){
+    html+=monthExps.map(e=>{
+      return'<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--brd)">'+
+        '<div style="font-size:.83rem;color:var(--t1)">'+e.d+'</div>'+
+        '<div style="font-family:var(--mono);font-weight:600;color:var(--red)">LKR '+e.a.toLocaleString()+'</div>'+
+      '</div>';
+    }).join('');
+  }else{
+    html+='<div style="color:var(--t3);font-size:.8rem;padding:.5rem 0">No expenses logged</div>';
+  }
+  const pc=profit>=0?'var(--grn)':'var(--red)';
+  const pl=profit>=0?'var(--grnl)':'var(--redl)';
+  const pb=profit>=0?'var(--grnb)':'var(--redb)';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:1rem">'+
+    '<div style="background:var(--grnl);border:1px solid var(--grnb);border-radius:var(--r);padding:.7rem;text-align:center"><div style="font-size:.6rem;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem">Income</div><div style="font-size:1rem;font-weight:700;color:var(--grn)">LKR '+totalIncome.toLocaleString()+'</div></div>'+
+    '<div style="background:var(--redl);border:1px solid var(--redb);border-radius:var(--r);padding:.7rem;text-align:center"><div style="font-size:.6rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem">Expenses</div><div style="font-size:1rem;font-weight:700;color:var(--red)">LKR '+totalExp.toLocaleString()+'</div></div>'+
+    '<div style="background:'+pl+';border:1px solid '+pb+';border-radius:var(--r);padding:.7rem;text-align:center"><div style="font-size:.6rem;font-weight:700;color:'+pc+';text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem">Net Profit</div><div style="font-size:1rem;font-weight:700;color:'+pc+'">LKR '+profit.toLocaleString()+'</div></div>'+
+  '</div>';
+  document.getElementById('mo-body').innerHTML=html;
+  openM('ov-month');
+}
+
+async function autoFillMissing(){
+  const proProfiles=_pf.filter(p=>isPro(p.plan));
+  const missing=proProfiles.filter(p=>!_py.some(py=>py.user_id===p.id));
+  if(!missing.length){toast('All pro members have payment records ✓');return;}
+  if(!confirm('Create payment records for '+missing.length+' member'+(missing.length>1?'s':'')+' using today as paid date?'))return;
+  let created=0;
+  for(const p of missing){
+    const plan=p.plan==='pro-yearly'?'pro-yearly':'pro';
+    const today=new Date().toISOString().split('T')[0];
+    const body={user_id:p.id,plan,amount:PP[plan]||2490,paid_date:today,pay_status:'paid',notes:'Backfilled from profile',wa:p.wa||null,member_no:mno(p)};
+    try{const r=await sb('/payments','POST',body);if(r&&r[0]){_py.unshift(r[0]);created++;}}catch(e){console.warn('Backfill failed',e.message);}
+  }
+  toast(created+' record'+(created!==1?'s':'')+' created ✓');
+  renderAll();
+}
+
+// ─── WHATSAPP MESSAGES ────────────────────────────────────────────────────────
+// ─── MESSAGE TEMPLATES ───────────────────────────────────────────────────────
+const TPL_KEY='tl_msg_tpl';
+const TPL_DEFAULTS={
+  expiring:`Hi {name} 👋
+
+Your TimeLiners {plan} subscription expires in {days} day(s)!
+
+Reply to this message if you're going to renew and we'll sort it out right away 🎬`,
+  week:`Hi {name} 👋
+
+Just a reminder — your TimeLiners {plan} subscription expires in {days} days.
+
+Renew soon to keep your portfolio live! 🎬`,
+  expired:`Hi {name} 👋
+
+Your TimeLiners {plan} subscription has expired.
+
+Don't worry — you have 7 days before your account is downgraded to the free plan. Renew now to stay active! 🎬
+
+Reply here to renew.`,
+  downgrade:`Hi {name} 👋
+
+Your TimeLiners {plan} subscription expired {days} days ago.
+
+If you've already renewed, ignore this. If not, we'll unfortunately need to downgrade your account to free.
+
+Reply here to renew and keep your portfolio live! 🎬`
+};
+const TPL_LABELS={expiring:'3-day warning (≤3 days left)',week:'7-day warning (4-7 days left)',expired:'Just expired (0 to -7 days)',downgrade:'Downgrade warning (7+ days overdue)'};
+let _curTplType='expiring';
+
+function getTpls(){try{return JSON.parse(localStorage.getItem(TPL_KEY)||'{}')}catch(e){return{};}}
+function saveTpls(o){localStorage.setItem(TPL_KEY,JSON.stringify(o));}
+function getTpl(type){const t=getTpls();return t[type]||TPL_DEFAULTS[type]||'';}
+
+function openMsgTemplates(){
+  _curTplType='expiring';
+  document.querySelectorAll('#ov-msgtpl .tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tpl-tab-expiring').classList.add('active');
+  loadTplIntoEditor('expiring');
+  openM('ov-msgtpl');
+}
+function switchTplTab(type,el){
+  _curTplType=type;
+  document.querySelectorAll('#ov-msgtpl .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  loadTplIntoEditor(type);
+}
+function loadTplIntoEditor(type){
+  document.getElementById('tpl-label').textContent=TPL_LABELS[type]||type;
+  document.getElementById('tpl-body').value=getTpl(type);
+}
+function saveTpl(){
+  const t=getTpls();
+  t[_curTplType]=document.getElementById('tpl-body').value;
+  saveTpls(t);
+  toast('Template saved ✓');
+}
+function resetTpl(){
+  const t=getTpls();
+  delete t[_curTplType];
+  saveTpls(t);
+  loadTplIntoEditor(_curTplType);
+  toast('Reset to default ✓');
+}
+
+function buildWAMsg(name,daysLeft,plan,type){
+  const planLabel=PL[plan]||'Pro';
+  const n=name||'there';
+  const daysAbs=Math.abs(daysLeft||0);
+  let tpl=getTpl(type);
+  return tpl
+    .replace(/{name}/g,n)
+    .replace(/{plan}/g,planLabel)
+    .replace(/{days}/g,String(daysAbs));
+}
+
+function previewWA(wa,name,daysLeft,plan,type){
+  if(!wa){toast('No WhatsApp number on file',1);return;}
+  const msg=buildWAMsg(name,daysLeft,plan,type);
+  document.getElementById('wa-msg-preview').textContent=msg;
+  document.getElementById('wa-sub').textContent='To: '+wa;
+  const btn=document.getElementById('wa-send-btn');
+  btn.onclick=()=>{
+    const num=wa.replace(/[^0-9]/g,'');
+    window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank');
+    closeM('ov-wa');
+  };
+  openM('ov-wa');
+}
+
+function notifyExpiring(days){
+  const now=Date.now();
+  const cutoff=now+(days*86400000);
+  const targets=_py.filter(p=>{
+    if(p.pay_status!=='paid')return false;
+    if(!p.expires_date)return false;
+    const exp=new Date(p.expires_date).getTime();
+    return exp>now&&exp<=cutoff;
+  });
+  if(!targets.length){toast('No one expiring within '+days+' days ✓');return;}
+  const withWa=targets.filter(p=>{const pf=_pf.find(x=>x.id===p.user_id)||{};return !!(p.wa||pf.wa);});
+  if(!withWa.length){toast('None have WhatsApp numbers',1);return;}
+  if(!confirm('Send WhatsApp reminders to '+withWa.length+' member'+(withWa.length>1?'s':'')+' expiring in '+days+' days?'))return;
+  withWa.forEach((p,i)=>{
+    setTimeout(()=>{
+      const pf=_pf.find(x=>x.id===p.user_id)||{};
+      const wa=(p.wa||pf.wa).replace(/[^0-9]/g,'');
+      const dLeft=Math.ceil((new Date(p.expires_date)-Date.now())/86400000);
+      const msg=buildWAMsg(pf.name||pf.username||'',dLeft,p.plan,dLeft<=3?'expiring':'week');
+      window.open('https://wa.me/'+wa+'?text='+encodeURIComponent(msg),'_blank');
+    },i*700);
+  });
+  toast('Opening '+withWa.length+' WhatsApp chats…');
+}
+
+function notifyOverdue(){
+  const targets=_py.filter(p=>p.pay_status==='overdue'||p.pay_status==='downgraded');
+  if(!targets.length){toast('No overdue members ✓');return;}
+  const withWa=targets.filter(p=>{const pf=_pf.find(x=>x.id===p.user_id)||{};return !!(p.wa||pf.wa);});
+  if(!withWa.length){toast('None have WhatsApp numbers',1);return;}
+  if(!confirm('Send renewal reminders to '+withWa.length+' overdue member'+(withWa.length>1?'s':'')+' ?'))return;
+  withWa.forEach((p,i)=>{
+    setTimeout(()=>{
+      const pf=_pf.find(x=>x.id===p.user_id)||{};
+      const wa=(p.wa||pf.wa).replace(/[^0-9]/g,'');
+      const dLeft=p.expires_date?Math.ceil((new Date(p.expires_date)-Date.now())/86400000):null;
+      const type=p.pay_status==='downgraded'?'downgrade':(dLeft!==null&&dLeft<-7?'downgrade':'expired');
+      const msg=buildWAMsg(pf.name||pf.username||'',dLeft,p.plan,type);
+      window.open('https://wa.me/'+wa+'?text='+encodeURIComponent(msg),'_blank');
+    },i*700);
+  });
+  toast('Opening '+withWa.length+' WhatsApp chats…');
+}
+
+// ─── JOBS ─────────────────────────────────────────────────────────────────────
+function rJobs(){
+  const now=new Date();
+  const g=document.getElementById('jobs-grid');
+  const active=_jb.filter(j=>!j.expires_on||new Date(j.expires_on)>=now);
+  const expired=_jb.filter(j=>j.expires_on&&new Date(j.expires_on)<now);
+  document.getElementById('job-sub').textContent=active.length+' active · '+expired.length+' expired';
+
+  if(!_jb.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">No jobs posted yet</div>';return;}
+  g.innerHTML=[...active,...expired].map(j=>{
+    const exp=j.expires_on?new Date(j.expires_on):null;
+    const isExp=exp&&exp<now;
+    const daysToExp=exp?Math.ceil((exp-now)/86400000):null;
+    let expTag='';
+    if(isExp){expTag=`<span class="jbadge jb-exp">Expired ${fmt(j.expires_on)}</span>`;}
+    else if(daysToExp!==null&&daysToExp<=3){expTag=`<span class="jbadge jb-urgent">Expires in ${daysToExp}d</span>`;}
+    else if(daysToExp!==null){expTag=`<span class="b b-draft" style="font-size:.6rem">Exp ${fmt(j.expires_on)}</span>`;}
+    return`<div class="jcard" style="${(j.hidden||isExp)?'opacity:.5':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.45rem">
+        <div>
+          <div style="font-size:.63rem;font-weight:500;color:var(--t3);text-transform:uppercase;letter-spacing:.5px">${j.company||'—'}</div>
+          <div style="font-size:.9rem;font-weight:600;color:var(--t1);margin:.1rem 0">${j.title||'—'}</div>
+        </div>
+        <span class="jbadge jb-${j.feature||'normal'}">${j.feature||'normal'}</span>
+      </div>
+      <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.45rem">
+        <span class="b b-draft">${j.type||'—'}</span>
+        <span class="b b-draft">${j.location||'—'}</span>
+        ${j.budget?`<span class="b b-draft">${j.budget}</span>`:''}
+        ${expTag}
+      </div>
+      <div style="font-size:.77rem;color:var(--t2);line-height:1.5;margin-bottom:.7rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${j.desc||'—'}</div>
+      <div style="display:flex;gap:.3rem;border-top:1px solid var(--brd);padding-top:.62rem">
+        <button class="btn btn-g btn-xs" onclick="openJobM('${j.id}')">Edit</button>
+        <button class="btn btn-g btn-xs" onclick="hideJob('${j.id}')">${j.hidden?'Show':'Hide'}</button>
+        <button class="btn btn-r btn-xs" onclick="delJob('${j.id}','${(j.title||'').replace(/'/g,"\\'")}')">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openJobM(id){
+  const j=id?_jb.find(x=>x.id===id):null;
+  document.getElementById('mj-id').value=id||'';
+  document.getElementById('mj-t').textContent=j?'Edit Job':'Post a Job';
+  document.getElementById('mj-title').value=j?j.title||'':'';
+  document.getElementById('mj-company').value=j?j.company||'':'';
+  document.getElementById('mj-type').value=j?j.type||'Full-time':'Full-time';
+  document.getElementById('mj-loc').value=j?j.location||'':'';
+  document.getElementById('mj-budget').value=j?j.budget||'':'';
+  document.getElementById('mj-desc').value=j?j.desc||'':'';
+  document.getElementById('mj-apply').value=j?j.apply||'':'';
+  document.getElementById('mj-tags').value=j?j.tags||'':'';
+  document.getElementById('mj-feature').value=j?j.feature||'normal':'normal';
+  document.getElementById('mj-hide').value=j&&j.hidden?'true':'false';
+  document.getElementById('mj-expires').value=j?j.expires_on||'':'';
+  openM('ov-job');
+}
+async function saveJob(){
+  const id=document.getElementById('mj-id').value;
+  const body={
+    title:document.getElementById('mj-title').value,
+    company:document.getElementById('mj-company').value,
+    type:document.getElementById('mj-type').value,
+    location:document.getElementById('mj-loc').value,
+    budget:document.getElementById('mj-budget').value,
+    desc:document.getElementById('mj-desc').value,
+    apply:document.getElementById('mj-apply').value,
+    tags:document.getElementById('mj-tags').value,
+    feature:document.getElementById('mj-feature').value,
+    hidden:document.getElementById('mj-hide').value==='true',
+    expires_on:document.getElementById('mj-expires').value||null
+  };
+  try{
+    if(id){await sb('/jobs?id=eq.'+id,'PATCH',body);const j=_jb.find(x=>x.id===id);if(j)Object.assign(j,body);}
+    else{const r=await sb('/jobs','POST',body);if(r&&r[0])_jb.unshift(r[0]);}
+    rJobs();closeM('ov-job');toast('Job saved ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
+async function hideJob(id){
+  const j=_jb.find(x=>x.id===id);if(!j)return;const h=!j.hidden;
+  try{await sb('/jobs?id=eq.'+id,'PATCH',{hidden:h});j.hidden=h;rJobs();toast('Done ✓');}
+  catch(e){toast('Error: '+e.message,1);}
+}
+async function delJob(id,t){
+  if(!confirm('Delete "'+t+'"?'))return;
+  try{await sb('/jobs?id=eq.'+id,'DELETE');_jb=_jb.filter(j=>j.id!==id);rJobs();toast('Deleted ✓');}
+  catch(e){toast('Error: '+e.message,1);}
+}
+async function cleanExpiredJobs(){
+  const now=new Date();
+  const expired=_jb.filter(j=>j.expires_on&&new Date(j.expires_on)<now);
+  if(!expired.length){toast('No expired jobs ✓');return;}
+  if(!confirm('Hide '+expired.length+' expired job'+(expired.length>1?'s':'')+' from the board?'))return;
+  for(const j of expired){
+    try{await sb('/jobs?id=eq.'+j.id,'PATCH',{hidden:true});j.hidden=true;}catch(e){}
+  }
+  rJobs();toast(expired.length+' expired job'+(expired.length>1?'s':'')+' hidden ✓');
+}
+
+// ─── REVENUE ──────────────────────────────────────────────────────────────────
+function getExps(){try{return JSON.parse(localStorage.getItem(EK)||'{}')}catch(e){return{};}}
+function saveExps(o){localStorage.setItem(EK,JSON.stringify(o));}
+function openExpModal(){
+  document.getElementById('exp-month').value=new Date().toISOString().slice(0,7);
+  document.getElementById('exp-amt').value='';
+  document.getElementById('exp-desc').value='';
+  openM('ov-exp');
+}
+function saveExp(){
+  const m=document.getElementById('exp-month').value;
+  const a=parseFloat(document.getElementById('exp-amt').value)||0;
+  const d=document.getElementById('exp-desc').value;
+  if(!m||!a){toast('Enter month and amount',1);return;}
+  const e=getExps();if(!e[m])e[m]=[];e[m].push({a,d,id:Date.now()});
+  saveExps(e);rRevenue();closeM('ov-exp');toast('Expense added ✓');
+}
+
+function rRevenue(){
+  const exps=getExps();
+  const mm={};
+
+  // Build months from REV_START to today
+  const start=new Date(REV_START+'-01');
+  const today=new Date();
+  let cur=new Date(start);
+  while(cur<=today){
+    const key=cur.toISOString().slice(0,7);
+    mm[key]={r:0,e:0};
+    cur.setMonth(cur.getMonth()+1);
+  }
+
+  // Fill revenue from payments
+  _py.filter(p=>p.pay_status==='paid'&&p.paid_date).forEach(p=>{
+    const mo=p.paid_date.slice(0,7);
+    if(mo>=REV_START){
+      if(!mm[mo])mm[mo]={r:0,e:0};
+      mm[mo].r+=(p.amount||PP[p.plan]||2490);
+    }
+  });
+  // Fill expenses
+  Object.keys(exps).forEach(mo=>{
+    if(mo>=REV_START){
+      if(!mm[mo])mm[mo]={r:0,e:0};
+      mm[mo].e=(exps[mo]||[]).reduce((s,e)=>s+e.a,0);
+    }
+  });
+
+  const months=Object.keys(mm).sort();
+  const tm=today.toISOString().slice(0,7);
+  const rTm=mm[tm]?.r||0,eTm=mm[tm]?.e||0,pTm=rTm-eTm;
+  const rAll=months.reduce((s,m)=>s+(mm[m]?.r||0),0);
+  const eAll=months.reduce((s,m)=>s+(mm[m]?.e||0),0);
+
+  document.getElementById('rev-stats').innerHTML=`
+    <div class="stat"><div class="stat-l">This Month</div><div class="stat-v">LKR ${rTm.toLocaleString()}</div><div class="stat-s ${pTm>=0?'g':'r'}">Profit: LKR ${pTm.toLocaleString()}</div></div>
+    <div class="stat"><div class="stat-l">Total Revenue</div><div class="stat-v">LKR ${rAll.toLocaleString()}</div><div class="stat-s">since Mar 2026</div></div>
+    <div class="stat"><div class="stat-l">Total Expenses</div><div class="stat-v">LKR ${eAll.toLocaleString()}</div><div class="stat-s">all logged costs</div></div>
+    <div class="stat"><div class="stat-l">Net Profit</div><div class="stat-v" style="color:${(rAll-eAll)>=0?'var(--grn)':'var(--red)'}">LKR ${(rAll-eAll).toLocaleString()}</div><div class="stat-s">revenue − expenses</div></div>`;
+
+  document.getElementById('rev-rows').innerHTML=months.slice().reverse().map(mo=>{
+    const r=mm[mo].r,e=mm[mo].e,pr=r-e;
+    const expDetail=(exps[mo]||[]).map(ex=>`${ex.d}: LKR ${ex.a}`).join('\n');
+    const label=new Date(mo+'-01').toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+    return`<div class="rrow" onclick="openMonthDetail('${mo}')" style="cursor:pointer;transition:background .12s" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background=''">
+      <div style="font-weight:500;color:var(--t1)">${label}</div>
+      <div style="color:var(--grn);font-weight:500">${r?'LKR '+r.toLocaleString():'—'}</div>
+      <div style="color:var(--red)">${e?'LKR '+e.toLocaleString():'—'}</div>
+      <div style="font-weight:600;color:${pr>=0?'var(--grn)':'var(--red)'}">${(r||e)?'LKR '+pr.toLocaleString():'—'}</div>
+      <div style="font-size:.7rem;color:var(--t3)">View detail →</div>
+    </div>`;
+  }).join('')||'<div class="empty">No data yet</div>';
+
+  const lbs=months.map(m=>new Date(m+'-01').toLocaleDateString('en-GB',{month:'short'}));
+  const rD=months.map(m=>mm[m]?.r||0);
+  const eD=months.map(m=>mm[m]?.e||0);
+  const pD=months.map(m=>(mm[m]?.r||0)-(mm[m]?.e||0));
+  const baseOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(254,115,10,.85)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',cornerRadius:8,padding:10}},scales:{x:{grid:{display:false},ticks:{color:'rgba(0,0,0,.4)',font:{size:11}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'rgba(0,0,0,.4)',font:{size:11},callback:v=>'LKR '+v.toLocaleString()}}}};
+  if(_rc)_rc.destroy();if(_ec)_ec.destroy();
+  _rc=new Chart(document.getElementById('chart-rev'),{type:'bar',data:{labels:lbs,datasets:[{data:rD,backgroundColor:'rgba(254,115,10,.85)',borderRadius:5,borderSkipped:false}]},options:baseOpts});
+  _ec=new Chart(document.getElementById('chart-exp'),{type:'bar',data:{labels:lbs,datasets:[{data:rD,backgroundColor:'rgba(254,115,10,.3)',borderRadius:4,borderSkipped:false,label:'Revenue'},{data:eD,backgroundColor:'rgba(220,38,38,.55)',borderRadius:4,borderSkipped:false,label:'Expenses'},{data:pD,backgroundColor:'rgba(22,163,74,.65)',borderRadius:4,borderSkipped:false,label:'Profit'}]},options:{...baseOpts,plugins:{...baseOpts.plugins,legend:{display:true,position:'bottom',labels:{color:'rgba(0,0,0,.4)',font:{size:11},padding:12,boxWidth:8,usePointStyle:true}}}}});
+}
+
+// ─── BOOT ─────────────────────────────────────────────────────────────────────
+// ─── SIDEBAR TOGGLE ────────────────────────────────────────────────────────────
+const SB_KEY = 'tl_sb_collapsed';
+function toggleDesktopSidebar(){
+  const sb = document.getElementById('sidebar');
+  const main = document.querySelector('.main');
+  const collapsed = sb.classList.toggle('collapsed');
+  main.style.marginLeft = collapsed ? 'var(--fw-col)' : 'var(--fw)';
+  localStorage.setItem(SB_KEY, collapsed ? '1' : '0');
+}
+function initSidebarState(){
+  // Only apply on desktop (>768px)
+  if(window.innerWidth <= 768) return;
+  const sb = document.getElementById('sidebar');
+  const main = document.querySelector('.main');
+  if(localStorage.getItem(SB_KEY) === '1'){
+    sb.classList.add('collapsed');
+    main.style.marginLeft = 'var(--fw-col)';
+  }
+}
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('mob-overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('on');
+}
+function closeSidebar(){
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('mob-overlay');
+  sb.classList.remove('open');
+  ov.classList.remove('on');
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+  document.getElementById('l-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('l-pass').focus();});
+  document.getElementById('pay-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('exp-month').value=new Date().toISOString().slice(0,7);
+  // Seed March 2026 expenses if not already present
+  seedMarchExpenses();
+  // Restore sidebar state
+  initSidebarState();
+});
+
+function seedMarchExpenses(){
+  const e=getExps();
+  if(e['2026-03']&&e['2026-03'].length>=3) return; // already seeded
+  e['2026-03']=[
+    {a:7875, d:'Supabase Pro (Subscription)', id:1743206400001},
+    {a:2834, d:'Netlify Pro (Subscription)',  id:1743206400002},
+    {a:9745, d:'Claude AI Pro (Subscription)',id:1743206400003}
+  ];
+  saveExps(e);
+}
+</script>
+</body>
+</html>
