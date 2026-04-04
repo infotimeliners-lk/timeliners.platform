@@ -389,7 +389,8 @@ html.light .fsrch input{color:var(--t1)}
 .di,.dta,.dsel{width:100%;padding:.56rem .86rem;border:1px solid var(--brd2);border-radius:var(--r);font-size:.85rem;color:var(--t1);background:var(--bg3);outline:none;transition:var(--tr);resize:vertical;text-align:left;-webkit-appearance:none;appearance:none}
 .di:focus,.dta:focus,.dsel:focus{border-color:var(--ac)}
 html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
-.dta{min-height:86px}
+.dta{min-height:130px;resize:vertical}
+.dta.auto-grow{resize:none;overflow:hidden}
 .d2col{display:grid;grid-template-columns:1fr 1fr;gap:.68rem}
 .dsave{background:var(--ac);color:white;border:none;border-radius:var(--r);padding:.58rem 1.35rem;font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.4rem;transition:var(--tr)}.dsave:hover{background:#e55e00}.dsave:disabled{opacity:.5;cursor:not-allowed}
 .dbtn-o{background:transparent;color:var(--t1);border:1px solid var(--brd2);border-radius:var(--r);padding:.54rem 1.05rem;font-size:.81rem;transition:var(--tr)}.dbtn-o:hover{border-color:var(--brd3)}
@@ -618,6 +619,12 @@ html.light .jf-sel{color:var(--t1)}
 .an-live-dot{width:6px;height:6px;border-radius:50%;background:#FE730A;animation:blink 2s ease-in-out infinite;flex-shrink:0}
 .an-refresh-btn{display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:500;color:var(--t2);background:var(--bg2);border:1px solid var(--brd2);border-radius:50px;padding:.28rem .8rem;cursor:pointer;transition:.18s;font-family:var(--fm)}.an-refresh-btn:hover{border-color:var(--ac);color:var(--ac);background:rgba(254,115,10,.05)}
 .an-refresh-btn svg{transition:transform .4s}.an-refresh-btn:active svg{transform:rotate(360deg)}
+.an-refresh-btn.spinning svg{animation:an-spin .7s linear infinite}
+@keyframes an-spin{to{transform:rotate(360deg)}}
+.an-range-tabs{display:flex;gap:.3rem;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.25rem}
+.an-range-tab{border:none;background:transparent;font-family:var(--fm);font-size:.7rem;font-weight:500;color:var(--t2);padding:.28rem .75rem;border-radius:50px;cursor:pointer;transition:.18s;white-space:nowrap}
+.an-range-tab:hover{color:var(--t1)}
+.an-range-tab.active{background:var(--bg2);color:var(--ac);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .an-up{background:rgba(254,115,10,.12);color:#FE730A}
 .an-stat-val{font-size:1.55rem;font-weight:750;color:var(--t1);line-height:1;letter-spacing:-.02em;margin-bottom:.28rem}
 .an-stat-lbl{font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.65rem}
@@ -811,6 +818,8 @@ img, video, svg { max-width: 100%; }
   .an-stat-lbl { font-size: .54rem; margin-bottom: .4rem; }
   .an-charts-row { grid-template-columns: 1fr; gap: .55rem; }
   .an-bottom-row { flex-direction: column; gap: .55rem; }
+  .an-range-tabs { flex-wrap: wrap; border-radius: 12px; }
+  .an-range-tab { font-size: .65rem; padding: .22rem .6rem; }
   .proj-tbl th, .proj-tbl td { font-size: .7rem; padding: .38rem .45rem; }
 
   /* 9. JOBS — center headings + post button */
@@ -886,39 +895,36 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 img, video, iframe, canvas { max-width: 100%; }
 
 /* ══ INTRO LOADER ══ */
-#intro-loader{
+#intro-loader{display:none!important}
+
+/* ══ PAGE REFRESH LOADER ══ */
+#tl-page-loader{
   position:fixed;inset:0;z-index:9999;
   background:#f8f7f5;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;
-  transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.65rem;
+  opacity:1;
+  transition:opacity .3s ease;
+  pointer-events:all;
 }
-#intro-loader.hide{opacity:0;transform:translateY(-20px);pointer-events:none}
-#intro-loader.gone{display:none}
-.intro-avatar{
-  width:62px;height:62px;border-radius:16px;overflow:hidden;
-  opacity:0;transform:translateY(16px) scale(.9);
-  animation:introAv .5s cubic-bezier(.34,1.56,.64,1) .1s forwards;
-  box-shadow:0 8px 30px rgba(254,115,10,.2);
+/* Hidden by default — inline script removes this class instantly on refresh */
+#tl-page-loader.tl-hidden{
+  opacity:0;pointer-events:none;display:none!important;
 }
-.intro-avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.intro-wordmark{
-  font-family:'Poppins',sans-serif;font-weight:700;font-size:1.3rem;
+#tl-page-loader.tl-fading{
+  opacity:0;pointer-events:none;
+}
+.tl-loader-word{
+  font-family:'Poppins',sans-serif;font-weight:700;font-size:1.25rem;
   color:#FE730A;letter-spacing:-.02em;
-  opacity:0;transform:translateY(8px);
-  animation:introUp .45s cubic-bezier(.4,0,.2,1) .3s forwards;
 }
-.intro-bar-wrap{
-  width:44px;height:2px;background:rgba(254,115,10,.12);border-radius:99px;overflow:hidden;
-  opacity:0;animation:introFade .25s ease .5s forwards;
+.tl-loader-bar-wrap{width:40px;height:2px;background:rgba(254,115,10,.12);border-radius:99px;overflow:hidden}
+.tl-loader-bar{height:100%;width:0%;background:#FE730A;border-radius:99px}
+.tl-loader-bar.running{animation:tlBarFill 1.6s cubic-bezier(.4,0,.6,1) forwards}
+@keyframes tlBarFill{
+  0%{width:0%}
+  65%{width:82%}
+  100%{width:100%}
 }
-.intro-bar{
-  height:100%;width:0%;background:#FE730A;border-radius:99px;
-  animation:introProgress .7s cubic-bezier(.4,0,.2,1) .52s forwards;
-}
-@keyframes introAv{to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes introUp{to{opacity:1;transform:translateY(0)}}
-@keyframes introFade{to{opacity:1}}
-@keyframes introProgress{to{width:100%}}
 
 /* ══ SPLASH content entrance ══ */
 #page-splash .spl-nav{opacity:0;transform:translateY(-12px)}
@@ -943,14 +949,29 @@ img, video, iframe, canvas { max-width: 100%; }
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-<!-- ══ INTRO LOADER ══ -->
-<div id="intro-loader">
-  <div class="intro-avatar">
-    <img src="web_avatar.png" alt="TimeLiners" onerror="this.parentElement.style.display='none'">
-  </div>
-  <div class="intro-wordmark">TimeLiners</div>
-  <div class="intro-bar-wrap"><div class="intro-bar"></div></div>
+<!-- ══ PAGE REFRESH LOADER — rendered first, hidden instantly if not a refresh ══ -->
+<div id="tl-page-loader">
+  <div class="tl-loader-word">TimeLiners</div>
+  <div class="tl-loader-bar-wrap"><div class="tl-loader-bar" id="tl-loader-bar"></div></div>
 </div>
+<script>
+(function(){
+  // Hide loader immediately if this is NOT a browser refresh
+  var isReload = false;
+  try {
+    var nav = performance.getEntriesByType('navigation')[0];
+    isReload = nav ? nav.type === 'reload' : (performance.navigation && performance.navigation.type === 1);
+  } catch(e){}
+  if (!isReload) {
+    var ldr = document.getElementById('tl-page-loader');
+    if (ldr) { ldr.classList.add('tl-hidden'); }
+  } else {
+    // It IS a refresh — start bar animation immediately
+    var bar = document.getElementById('tl-loader-bar');
+    if (bar) bar.classList.add('running');
+  }
+})();
+</script>
 
 <!-- INSTANT ROUTING: hides splash on refresh, handles username paths and hash routing -->
 <script>
@@ -1765,7 +1786,7 @@ img, video, iframe, canvas { max-width: 100%; }
 </div></div>
               <div class="df"><label class="dl">Year</label><input class="di" id="up-year" type="text" placeholder="2024"></div>
             </div>
-            <div class="df"><label class="dl">Description</label><textarea class="dta" id="up-desc" placeholder="Describe the project, tools used, and your role..."></textarea></div>
+    <div class="df"><label class="dl">Description</label><textarea class="dta" id="up-desc" placeholder="Describe the project, tools used, and your role..." style="min-height:140px"></textarea></div>
             <div class="df">
               <label class="dl">Tags <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· press Enter to add</span></label>
               <div id="up-tags-wrap" style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;padding:.42rem .6rem;border:1px solid var(--brd2);border-radius:var(--r);background:var(--bg3);min-height:38px;cursor:text;transition:border-color .15s" onclick="document.getElementById('up-tags-input').focus()">
@@ -1895,54 +1916,59 @@ img, video, iframe, canvas { max-width: 100%; }
 
           <!-- PRO content -->
           <div id="analytics-pro-content">
-            <div style="display:flex;align-items:center;justify-content:flex-end;gap:.5rem;margin-bottom:.5rem">
-              <span class="an-live-badge"><span class="an-live-dot"></span>Live</span>
-              <button class="an-refresh-btn" onclick="loadAnalytics()" title="Refresh analytics">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-                Refresh
-              </button>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.85rem;flex-wrap:wrap">
+              <div class="an-range-tabs" id="an-range-tabs">
+                <button class="an-range-tab active" data-range="7" onclick="setAnalyticsRange(7,this)">7 days</button>
+                <button class="an-range-tab" data-range="30" onclick="setAnalyticsRange(30,this)">30 days</button>
+                <button class="an-range-tab" data-range="90" onclick="setAnalyticsRange(90,this)">90 days</button>
+                <button class="an-range-tab" data-range="365" onclick="setAnalyticsRange(365,this)">Year</button>
+                <button class="an-range-tab" data-range="0" onclick="setAnalyticsRange(0,this)">All time</button>
+              </div>
+              <div style="display:flex;align-items:center;gap:.5rem">
+                <span class="an-live-badge"><span class="an-live-dot"></span>Live</span>
+                <button class="an-refresh-btn" onclick="loadAnalytics()" title="Refresh analytics">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                  Refresh
+                </button>
+              </div>
             </div>
             <div class="an-stat-grid">
               <div class="an-stat-card">
                 <div class="an-stat-val" id="an-views">—</div>
-                <div class="an-stat-lbl">Profile Views</div>
+                <div class="an-stat-lbl">Project Views</div>
                 <div class="an-stat-bar"><div class="an-stat-fill" id="an-views-bar" style="width:60%;background:var(--ac)"></div></div>
               </div>
               <div class="an-stat-card">
-                
                 <div class="an-stat-val" id="an-likes">—</div>
                 <div class="an-stat-lbl">Total Likes</div>
                 <div class="an-stat-bar"><div class="an-stat-fill" id="an-likes-bar" style="width:40%;background:rgba(254,115,10,.5)"></div></div>
               </div>
               <div class="an-stat-card">
-                
                 <div class="an-stat-val" id="an-hire">—</div>
                 <div class="an-stat-lbl">Hire Me Clicks</div>
                 <div class="an-stat-bar"><div class="an-stat-fill" id="an-hire-bar" style="width:25%;background:rgba(254,115,10,.7)"></div></div>
               </div>
               <div class="an-stat-card">
-                
                 <div class="an-stat-val" id="an-projs-count">—</div>
                 <div class="an-stat-lbl">Published Projects</div>
                 <div class="an-stat-bar"><div class="an-stat-fill" id="an-projs-bar" style="width:55%;background:rgba(254,115,10,.4)"></div></div>
               </div>
             </div>
 
-            <div class="an-charts-row an-charts-3col">
+            <div class="an-charts-row" style="grid-template-columns:1fr 1fr">
               <div class="dcard an-chart-card">
-                <div class="dcard-h" style="margin-bottom:.2rem">Views Trend</div>
-                <div class="dcard-sub" style="margin-bottom:.8rem">Last 7 days</div>
-                <div style="position:relative;height:120px"><canvas id="an-views-chart"></canvas></div>
+                <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.15rem">
+                  <div class="dcard-h">Views Trend</div>
+                </div>
+                <div class="dcard-sub" id="an-views-range-lbl" style="margin-bottom:.8rem">Last 7 days</div>
+                <div style="position:relative;height:140px"><canvas id="an-views-chart"></canvas></div>
               </div>
               <div class="dcard an-chart-card">
-                <div class="dcard-h" style="margin-bottom:.2rem">Likes by Project</div>
-                <div class="dcard-sub" style="margin-bottom:.8rem">Per project breakdown</div>
-                <div style="position:relative;height:120px"><canvas id="an-likes-chart"></canvas></div>
-              </div>
-              <div class="dcard an-chart-card">
-                <div class="dcard-h" style="margin-bottom:.2rem">Hire Me Clicks</div>
-                <div class="dcard-sub" style="margin-bottom:.8rem">Last 7 days</div>
-                <div style="position:relative;height:120px"><canvas id="an-hire-chart"></canvas></div>
+                <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.15rem">
+                  <div class="dcard-h">Hire Me Clicks</div>
+                </div>
+                <div class="dcard-sub" id="an-hire-range-lbl" style="margin-bottom:.8rem">Last 7 days</div>
+                <div style="position:relative;height:140px"><canvas id="an-hire-chart"></canvas></div>
               </div>
             </div>
 
@@ -1973,7 +1999,7 @@ img, video, iframe, canvas { max-width: 100%; }
           <div id="analytics-free-gate" style="display:none;position:relative;min-height:420px">
             <div style="filter:blur(6px);pointer-events:none;user-select:none;opacity:.4">
               <div class="an-stat-grid">
-                <div class="an-stat-card"><div class="an-stat-val">284</div><div class="an-stat-lbl">Profile Views</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:72%;background:var(--ac)"></div></div></div>
+                <div class="an-stat-card"><div class="an-stat-val">284</div><div class="an-stat-lbl">Project Views</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:72%;background:var(--ac)"></div></div></div>
                 <div class="an-stat-card"><div class="an-stat-val">47</div><div class="an-stat-lbl">Total Likes</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:40%;background:rgba(254,115,10,.5)"></div></div></div>
                 <div class="an-stat-card"><div class="an-stat-val">12</div><div class="an-stat-lbl">Hire Me Clicks</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:25%;background:rgba(254,115,10,.7)"></div></div></div>
                 <div class="an-stat-card"><div class="an-stat-val">5</div><div class="an-stat-lbl">Projects</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:55%;background:rgba(254,115,10,.4)"></div></div></div>
@@ -2134,6 +2160,8 @@ function boot() {
   });
 
   restoreSession();
+  // Safety: always hide refresh loader within 4s even if session restore stalls
+  setTimeout(hideTlLoader, 4000);
   loadJobs();
 
   // Check session validity every 60s · catches expired sessions only
@@ -2153,6 +2181,7 @@ function boot() {
 
 // ── SESSION ──────────────────────────────────────────
 async function restoreSession() {
+  // Loader already shown instantly by inline script if this is a refresh
   try {
     // Extract username from path like /itskaveesha before resetting URL
     let pendingUsername = null;
@@ -2167,10 +2196,10 @@ async function restoreSession() {
     if (!session) {
       S.user = S.session = S.profile = null;
       try { Object.keys(localStorage).filter(k=>k.startsWith('tl_lp_')).forEach(k=>localStorage.removeItem(k)); } catch(e) {}
-      if (pendingUsername) { showProfileByUsername(pendingUsername); return; }
+      if (pendingUsername) { hideTlLoader(); showProfileByUsername(pendingUsername); return; }
       restoreFromHash();
-      // Load feed in background after routing is decided
       loadFeed();
+      hideTlLoader();
       return;
     }
 
@@ -2184,7 +2213,7 @@ async function restoreSession() {
 
     // Username path takes priority · show that profile
     if (pendingUsername) {
-      showProfileByUsername(pendingUsername); return;
+      hideTlLoader(); showProfileByUsername(pendingUsername); return;
     }
 
     // Restore from current hash first (e.g. /#/dashboard on refresh)
@@ -2202,17 +2231,20 @@ async function restoreSession() {
         openAuth('in');
         showAuthErr('Your reset link has expired. Please request a new one.');
       }, 500);
+      hideTlLoader();
       return;
     }
     if (hashSeg === 'reset-password' || location.hash.includes('type=recovery') || location.hash.includes('access_token=')) {
       showResetPasswordModal();
       loadFeed();
+      hideTlLoader();
       return;
     }
 
     if (KNOWN.includes(hashSeg) && hashSeg !== 'splash') {
       showPage(hashSeg, hashSub || undefined);
       loadFeed();
+      hideTlLoader();
       return;
     }
 
@@ -2222,15 +2254,18 @@ async function restoreSession() {
     if (lastPg && KNOWN.includes(lastPg)) {
       showPage(lastPg, lastSub || undefined);
       loadFeed();
+      hideTlLoader();
       return;
     }
 
     // Default for logged-in users: dashboard
     showPage('dashboard');
     loadFeed();
+    hideTlLoader();
 
   } catch(e) {
     console.warn('Session restore:', e.message);
+    hideTlLoader();
     restoreFromHash();
   }
 }
@@ -3024,15 +3059,14 @@ function _renderProject(p) {
   const videoList = (p.video_urls && p.video_urls.length) ? p.video_urls : (p.video_url ? [p.video_url] : []);
 
   if (videoList.length) {
-    // Remove old fixed aspect ratio · let video dictate size
-    cov.style.background = '#000'; cov.style.fontSize = ''; cov.style.color = '';
+    cov.style.background = ''; cov.style.fontSize = ''; cov.style.color = '';
 
     if (videoList.length === 1) {
-      // Single video · full width, adaptive height
+      // Single video — wrapper gets exact aspect-ratio once metadata loads, zero gaps
       cov.innerHTML =
-        '<div style="width:100%;border-radius:var(--rxl);overflow:hidden;background:#000;position:relative">' +
+        '<div id="pv-vid-wrap" style="width:100%;border-radius:var(--rxl);overflow:hidden;margin:0 auto">' +
           '<video id="pv-main-video" src="' + videoList[0] + '" controls controlsList="nodownload" playsinline preload="metadata"' +
-          ' style="width:100%;display:block;max-height:70vh;background:#000"' +
+          ' style="width:100%;display:block;visibility:hidden"' +
           ' onloadedmetadata="window._adaptPvVideo(this)"></video>' +
         '</div>';
     } else {
@@ -3116,6 +3150,7 @@ function _renderProject(p) {
         if (rows && rows[0]) {
           const newClicks = (rows[0].hire_clicks || 0) + 1;
           db('/profiles?id=eq.' + p.user_id, 'PATCH', { hire_clicks: newClicks }).catch(() => {});
+          logAnalyticsEvent(p.user_id, 'hire_click');
           // Update local profile if it's our own
           if (S.profile && p.user_id === S.profile.id) S.profile.hire_clicks = newClicks;
         }
@@ -3910,6 +3945,7 @@ function refreshProfile(profileData) {
         db('/profiles?id=eq.' + p.id, 'GET', null, SB_KEY).then(rows => {
           if (rows && rows[0]) {
             db('/profiles?id=eq.' + p.id, 'PATCH', { hire_clicks: (rows[0].hire_clicks || 0) + 1 }).catch(() => {});
+            logAnalyticsEvent(p.id, 'hire_click');
           }
         }).catch(() => {});
       }
@@ -4181,6 +4217,38 @@ function pushHash(id, extra) {
   try { if (location.hash !== h) history.pushState(null, '', h); } catch(e) {}
 }
 
+// ── PAGE TRANSITION LOADER (refresh only) ────────────
+let _tlLoaderTimer = null;
+
+function _isPageRefresh() {
+  try {
+    const nav = performance.getEntriesByType('navigation')[0];
+    if (nav) return nav.type === 'reload';
+    // Fallback for older browsers
+    return performance.navigation && performance.navigation.type === 1;
+  } catch(e) { return false; }
+}
+
+function showTlLoader() {
+  // Only called on actual refresh via restoreSession — bar already running from inline script
+  // This is a no-op now since loader starts visible on refresh; kept for safety
+}
+
+function hideTlLoader() {
+  const ldr = document.getElementById('tl-page-loader');
+  if (!ldr || ldr.classList.contains('tl-hidden')) return;
+  if (_tlLoaderTimer) { clearTimeout(_tlLoaderTimer); _tlLoaderTimer = null; }
+  // Smooth fade out
+  ldr.classList.add('tl-fading');
+  setTimeout(() => {
+    ldr.classList.add('tl-hidden');
+    ldr.classList.remove('tl-fading');
+  }, 320);
+}
+
+window.showTlLoader = showTlLoader;
+window.hideTlLoader = hideTlLoader;
+
 function showPage(id, projOrUserId) {
   if (id === 'dashboard' && !S.user) { openAuth('in'); return; }
   if (id === 'profile'   && !S.user && !projOrUserId) { openAuth('in'); return; }
@@ -4191,11 +4259,13 @@ function showPage(id, projOrUserId) {
   const pg = el('page-' + id);
   if (pg) {
     pg.classList.add('active');
-    // Trigger slide-up fade entrance (skip splash — it has its own animation)
     if (id !== 'splash') {
-      void pg.offsetWidth; // reflow
+      void pg.offsetWidth; // reflow to restart animation
       pg.classList.add('page-enter');
       pg.addEventListener('animationend', () => pg.classList.remove('page-enter'), { once: true });
+    } else {
+      void pg.offsetWidth;
+      setTimeout(() => pg.classList.add('spl-ready'), 80);
     }
   }
   window.scrollTo(0, 0);
@@ -4219,11 +4289,28 @@ function showPage(id, projOrUserId) {
           if (isOwn) { S.profile = prof; applyLoggedIn(); }
           S.viewingProfile = prof;
           refreshProfile(prof);
+          // Track profile view (only for non-owners)
+          if (!isOwn) {
+            // Use RPC for atomic increment (run the SQL below in Supabase once)
+            fetch(SB_URL + '/rest/v1/rpc/increment_profile_views', {
+              method: 'POST',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ profile_id: prof.id })
+            }).then(r => {
+              if (!r.ok) {
+                // RPC not created yet — use raw SQL via rpc/exec fallback
+                fetch(SB_URL + '/rest/v1/rpc/run_increment_views', {
+                  method: 'POST',
+                  headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ pid: prof.id })
+                }).catch(() => {});
+              }
+            }).catch(() => {});
+            logAnalyticsEvent(prof.id, 'view');
+          }
           if (prof.username) {
-            // Show clean username URL
             try { history.replaceState({ un: prof.username }, '', '/' + prof.username); } catch(e) {}
           } else {
-            // No username yet · keep clean hash, don't expose UUID in URL
             try { history.replaceState(null, '', '/#/profile'); } catch(e) {}
           }
         }
@@ -4260,6 +4347,24 @@ async function showProfileByUsername(username) {
       }
       S.viewingProfile = rows[0];
       refreshProfile(rows[0]);
+      // Track profile view (only for non-owners)
+      const isOwnV = S.user && rows[0].id === S.user.id;
+      if (!isOwnV) {
+        fetch(SB_URL + '/rest/v1/rpc/increment_profile_views', {
+          method: 'POST',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ profile_id: rows[0].id })
+        }).then(r => {
+          if (!r.ok) {
+            fetch(SB_URL + '/rest/v1/rpc/run_increment_views', {
+              method: 'POST',
+              headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+              body: JSON.stringify({ pid: rows[0].id })
+            }).catch(() => {});
+          }
+        }).catch(() => {});
+        logAnalyticsEvent(rows[0].id, 'view');
+      }
       try { sessionStorage.setItem('tl_last', 'profile|' + rows[0].id); } catch(e) {}
     } else {
       showPage('feed');
@@ -4370,31 +4475,6 @@ function enterPage(id) {
   setTimeout(() => { s.style.display = 'none'; showPage(id); }, 310);
 }
 
-/* ── INTRO LOADER ── */
-(function initIntroLoader() {
-  var loader = document.getElementById('intro-loader');
-  if (!loader) return;
-
-  // Check if this is a first-time or refreshed visit needing the intro
-  var splashPage = document.getElementById('page-splash');
-  var splashIsActive = splashPage && splashPage.classList.contains('active');
-
-  // Only show intro loader when splash is being shown
-  if (!splashIsActive) {
-    loader.style.display = 'none';
-    return;
-  }
-
-  // Total intro duration: ~1.55s then dismiss
-  setTimeout(function() {
-    loader.classList.add('hide');
-    setTimeout(function() {
-      loader.classList.add('gone');
-      // Now animate splash content in
-      if (splashPage) splashPage.classList.add('spl-ready');
-    }, 560);
-  }, 1200);
-})();
 
 function toggleMob() {
   const m = el('mob'), ov = el('mob-overlay');
@@ -4612,7 +4692,116 @@ window.handleFileSelect = handleFileSelect;
 window.handleDrop    = handleDrop;
 window.switchPTab    = switchPTab;
 
+// ── ANALYTICS EVENT LOGGER ────────────────────────────
+// Upserts a count row into analytics_events for today.
+// event_type: 'view' or 'hire_click'
+// user_id: the profile owner being viewed/clicked (not the viewer)
+function logAnalyticsEvent(userId, eventType) {
+  if (!userId) return;
+  const today = new Date().toISOString().slice(0, 10);
+  // Use upsert: if a row for (user_id, event_type, event_date) already exists, increment count
+  fetch(SB_URL + '/rest/v1/analytics_events', {
+    method: 'POST',
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'resolution=merge-duplicates,return=minimal'
+    },
+    body: JSON.stringify({
+      user_id: userId,
+      event_type: eventType,
+      event_date: today,
+      count: 1
+    })
+  }).catch(() => {});
+  // NOTE: for merge-duplicates upsert to increment, run this in Supabase SQL:
+  // CREATE OR REPLACE FUNCTION analytics_events_upsert()
+  // RETURNS TRIGGER AS $$
+  // BEGIN
+  //   INSERT INTO analytics_events(user_id,event_type,event_date,count)
+  //   VALUES(NEW.user_id,NEW.event_type,NEW.event_date,1)
+  //   ON CONFLICT(user_id,event_type,event_date)
+  //   DO UPDATE SET count = analytics_events.count + 1;
+  //   RETURN NULL;
+  // END;$$ LANGUAGE plpgsql SECURITY DEFINER;
+}
+window.logAnalyticsEvent = logAnalyticsEvent;
+
 // ── ANALYTICS ─────────────────────────────────────────
+// Current selected range in days (0 = all time)
+window._anRange = 7;
+
+function setAnalyticsRange(days, btn) {
+  window._anRange = days;
+  document.querySelectorAll('.an-range-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const lbl = days === 0 ? 'All time' : days === 365 ? 'This year' : 'Last ' + days + ' days';
+  const vLbl = document.getElementById('an-views-range-lbl');
+  const hLbl = document.getElementById('an-hire-range-lbl');
+  if (vLbl) vLbl.textContent = lbl;
+  if (hLbl) hLbl.textContent = lbl;
+  loadAnalytics();
+}
+window.setAnalyticsRange = setAnalyticsRange;
+
+// Build array of date labels + zero-filled counts for a given range
+function buildDateSeries(events, days) {
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  // Build a map from date-string → count from DB events
+  const map = {};
+  (events || []).forEach(function(e) { map[e.event_date] = (e.total || 0); });
+
+  if (days === 0) {
+    // All time: group by month, last 12 months or all available dates
+    const allDates = Object.keys(map).sort();
+    if (!allDates.length) {
+      // No data — show last 6 months empty
+      const labels = [], data = [];
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        labels.push(d.toLocaleString('default',{month:'short',year:'2-digit'}));
+        data.push(0);
+      }
+      return { labels, data };
+    }
+    // Group by month
+    const monthMap = {};
+    allDates.forEach(function(ds) {
+      const key = ds.slice(0,7); // YYYY-MM
+      monthMap[key] = (monthMap[key] || 0) + (map[ds] || 0);
+    });
+    const monthKeys = Object.keys(monthMap).sort();
+    return {
+      labels: monthKeys.map(function(k) {
+        const [y,m] = k.split('-');
+        return new Date(+y,+m-1,1).toLocaleString('default',{month:'short',year:'2-digit'});
+      }),
+      data: monthKeys.map(function(k) { return monthMap[k]; })
+    };
+  }
+
+  // Fixed-range: one point per day
+  const labels = [], data = [];
+  // For 90+ days, bucket into weeks
+  const bucket = days >= 90 ? 7 : 1;
+  let bucketLabels = [], bucketData = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    const ds = d.toISOString().slice(0,10);
+    bucketLabels.push(d.toLocaleDateString('default',{month:'short',day:'numeric'}));
+    bucketData.push(map[ds] || 0);
+  }
+  if (bucket === 1) return { labels: bucketLabels, data: bucketData };
+  // Merge into weekly buckets
+  for (let i = 0; i < bucketLabels.length; i += 7) {
+    labels.push(bucketLabels[i]);
+    data.push(bucketData.slice(i, i+7).reduce((a,b)=>a+b,0));
+  }
+  return { labels, data };
+}
+
 async function loadAnalytics() {
   if (!S.profile) return;
   const isPro = S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
@@ -4620,79 +4809,160 @@ async function loadAnalytics() {
   const freeEl = document.getElementById('analytics-free-gate');
   if (!proEl || !freeEl) return;
 
+  // Spin the refresh button while loading
+  const refreshBtn = document.querySelector('.an-refresh-btn');
+  if (refreshBtn) refreshBtn.classList.add('spinning');
+
   if (!isPro) {
     proEl.style.display  = 'none';
     freeEl.style.display = 'block';
+    if (refreshBtn) refreshBtn.classList.remove('spinning');
     return;
   }
   proEl.style.display  = 'block';
   freeEl.style.display = 'none';
 
+  const rangeDays = window._anRange || 7;
+
   try {
     const token = await getToken();
-    // Always fetch fresh profile to get latest hire_clicks, social_clicks, views
+    // Fetch fresh profile
     const freshProfile = await db('/profiles?id=eq.' + S.profile.id + '&select=*', 'GET', null, token);
     if (freshProfile && freshProfile[0]) Object.assign(S.profile, freshProfile[0]);
 
     const projs = await db('/projects?user_id=eq.' + S.profile.id + '&select=*&order=views.desc', 'GET', null, token) || [];
-    const totalViews = projs.reduce((s, p) => s + (p.views || 0), 0);
     const totalLikes = projs.reduce((s, p) => s + (p.likes || 0), 0);
+    const totalProjectViews = projs.reduce((s, p) => s + (p.views || 0), 0);
     const publishedCount = projs.filter(p => p.status === 'published').length;
 
-    document.getElementById('an-views').textContent      = (S.profile.views || totalViews || 0).toLocaleString();
-    document.getElementById('an-likes').textContent      = totalLikes.toLocaleString();
-    document.getElementById('an-hire').textContent       = (S.profile.hire_clicks  != null ? S.profile.hire_clicks  : 0).toLocaleString();
+    // ── Fetch analytics_events for this user ──
+    let dateFilter = '';
+    if (rangeDays > 0) {
+      const from = new Date(); from.setDate(from.getDate() - rangeDays);
+      dateFilter = '&event_date=gte.' + from.toISOString().slice(0,10);
+    }
+
+    let viewEvents = [], hireEvents = [];
+    try {
+      // Fetch per-day view events
+      const vRows = await db(
+        '/analytics_events?user_id=eq.' + S.profile.id + '&event_type=eq.view' + dateFilter + '&select=event_date,count&order=event_date.asc',
+        'GET', null, token
+      );
+      if (Array.isArray(vRows)) viewEvents = vRows.map(r => ({ event_date: r.event_date, total: r.count || 0 }));
+    } catch(e) { /* table may not exist yet */ }
+
+    try {
+      const hRows = await db(
+        '/analytics_events?user_id=eq.' + S.profile.id + '&event_type=eq.hire_click' + dateFilter + '&select=event_date,count&order=event_date.asc',
+        'GET', null, token
+      );
+      if (Array.isArray(hRows)) hireEvents = hRows.map(r => ({ event_date: r.event_date, total: r.count || 0 }));
+    } catch(e) { /* table may not exist yet */ }
+
+    // Totals shown in stat cards always use all-time totals
+    document.getElementById('an-views').textContent     = totalProjectViews.toLocaleString();
+    document.getElementById('an-likes').textContent     = totalLikes.toLocaleString();
+    document.getElementById('an-hire').textContent      = (S.profile.hire_clicks != null ? S.profile.hire_clicks : 0).toLocaleString();
     const projsCountEl = document.getElementById('an-projs-count');
     if (projsCountEl) projsCountEl.textContent = publishedCount;
 
     // Animate stat bars
     setTimeout(() => {
-      const maxV = Math.max(S.profile.views || totalViews || 1, 1);
+      const maxV = Math.max(totalProjectViews || 1, 1);
       const vBar = document.getElementById('an-views-bar');
       const lBar = document.getElementById('an-likes-bar');
       const hBar = document.getElementById('an-hire-bar');
       const pBar = document.getElementById('an-projs-bar');
-      if (vBar) vBar.style.width = Math.min(100, Math.round((S.profile.views || totalViews || 0) / Math.max(maxV, 1) * 100)) + '%';
-      if (lBar) lBar.style.width = Math.min(100, Math.round(totalLikes / Math.max(maxV, 1) * 100)) + '%';
-      if (hBar) hBar.style.width = Math.min(100, Math.round((S.profile.hire_clicks || 0) / Math.max(maxV, 1) * 300)) + '%';
+      if (vBar) vBar.style.width = '100%';
+      if (lBar) lBar.style.width = Math.min(100, Math.round(totalLikes / maxV * 100)) + '%';
+      if (hBar) hBar.style.width = Math.min(100, Math.round((S.profile.hire_clicks || 0) / maxV * 300)) + '%';
       if (pBar) pBar.style.width = Math.min(100, publishedCount * 12) + '%';
     }, 100);
 
     // ── Charts ──
-    const isDark = document.documentElement.classList.contains('dark');
-    const gridColor = isDark ? 'rgba(255,255,255,.06)' : 'rgba(0,0,0,.06)';
-    const tickColor = isDark ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.35)';
+    const gridColor = 'rgba(0,0,0,.06)';
+    const tickColor = 'rgba(0,0,0,.35)';
     const chartDefaults = {
       responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: {} } },
+      plugins: { legend: { display: false } },
       scales: {
-        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 } } },
-        y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 } }, beginAtZero: true }
+        x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, maxRotation: 45, maxTicksLimit: 10 } },
+        y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 }, precision: 0 }, beginAtZero: true }
       }
     };
 
-    // Views trend chart (last 7 days — simulated from total)
+    // ── Views Trend chart ──
     const viewsCtx = document.getElementById('an-views-chart');
     if (viewsCtx) {
       if (window._anViewsChart) window._anViewsChart.destroy();
-      const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-      const base = S.profile.views || totalViews || 0;
-      // Generate plausible daily spread from total
-      const seed = [0.1,0.12,0.15,0.13,0.18,0.17,0.15];
-      const viewData = seed.map(f => Math.round(base * f));
+      let series;
+
+      if (viewEvents.length > 0) {
+        // Real per-day data from analytics_events table
+        series = buildDateSeries(viewEvents, rangeDays);
+      } else {
+        // analytics_events table not set up yet — build a realistic approximation
+        // by distributing each project's real view count across days since it was created
+        series = buildDateSeries([], rangeDays);
+
+        const today = new Date(); today.setHours(0,0,0,0);
+        const rangeDaysEff = rangeDays === 0 ? 365 : rangeDays;
+        const rangeStart = new Date(today);
+        rangeStart.setDate(today.getDate() - (rangeDaysEff - 1));
+
+        // Build a map of date → views by spreading each project's views
+        // from its created_at date up to today using a growth curve
+        const dateMap = {};
+        series.labels.forEach((_, i) => {
+          const d = new Date(rangeStart);
+          d.setDate(rangeStart.getDate() + i);
+          dateMap[d.toISOString().slice(0, 10)] = 0;
+        });
+
+        projs.filter(p => p.status === 'published' && p.views > 0).forEach(p => {
+          const created = new Date(p.created_at || today);
+          created.setHours(0, 0, 0, 0);
+          const projViews = p.views || 0;
+
+          // Find all date keys from max(created, rangeStart) to today
+          const startD = created < rangeStart ? rangeStart : created;
+          const keys = Object.keys(dateMap).filter(k => new Date(k) >= startD);
+          if (!keys.length) {
+            // Project created before range — add all views to first day
+            const firstKey = Object.keys(dateMap)[0];
+            if (firstKey) dateMap[firstKey] = (dateMap[firstKey] || 0) + projViews;
+            return;
+          }
+          // Distribute views with a slight growth curve (more recent = slightly more)
+          const n = keys.length;
+          const weights = keys.map((_, i) => 0.5 + (i / n) * 0.5);
+          const wsum = weights.reduce((a, b) => a + b, 0);
+          keys.forEach((k, i) => {
+            dateMap[k] = (dateMap[k] || 0) + Math.round(projViews * weights[i] / wsum);
+          });
+        });
+
+        series.data = series.labels.map((_, i) => {
+          const d = new Date(rangeStart);
+          d.setDate(rangeStart.getDate() + i);
+          return dateMap[d.toISOString().slice(0, 10)] || 0;
+        });
+      }
+
       window._anViewsChart = new Chart(viewsCtx, {
         type: 'line',
         data: {
-          labels: days,
+          labels: series.labels,
           datasets: [{
-            data: viewData,
+            data: series.data,
             borderColor: '#FE730A',
             backgroundColor: 'rgba(254,115,10,.08)',
             borderWidth: 2.5,
             fill: true,
             tension: 0.4,
             pointBackgroundColor: '#FE730A',
-            pointRadius: 3,
+            pointRadius: series.data.length > 30 ? 0 : 3,
             pointHoverRadius: 5
           }]
         },
@@ -4700,56 +4970,50 @@ async function loadAnalytics() {
       });
     }
 
-    // Likes by project bar chart
-    const likesCtx = document.getElementById('an-likes-chart');
-    if (likesCtx && projs.length) {
-      if (window._anLikesChart) window._anLikesChart.destroy();
-      const top5 = projs.slice(0, 5);
-      const colors = ['#FE730A','rgba(254,115,10,.8)','rgba(254,115,10,.6)','rgba(254,115,10,.45)','rgba(254,115,10,.3)'];
-      window._anLikesChart = new Chart(likesCtx, {
-        type: 'bar',
-        data: {
-          labels: top5.map(p => p.title ? (p.title.length > 14 ? p.title.slice(0,14) + '…' : p.title) : 'Untitled'),
-          datasets: [{
-            data: top5.map(p => p.likes || 0),
-            backgroundColor: top5.map((_, i) => ['rgba(254,115,10,1)','rgba(254,115,10,.82)','rgba(254,115,10,.64)','rgba(254,115,10,.46)','rgba(254,115,10,.3)'][i % 5]),
-            borderRadius: 6,
-            borderSkipped: false
-          }]
-        },
-        options: { ...chartDefaults }
-      });
-    }
-
-    // Hire Me Clicks — real total, shown as a single bar (no per-day DB history available)
+    // ── Hire Me chart ──
     const hireCtx = document.getElementById('an-hire-chart');
     if (hireCtx) {
       if (window._anHireChart) window._anHireChart.destroy();
-      const hireTotal = S.profile.hire_clicks || 0;
+      let hireSeries;
+      if (hireEvents.length > 0) {
+        hireSeries = buildDateSeries(hireEvents, rangeDays);
+      } else {
+        // No per-day data — show flat line with total as hint
+        hireSeries = buildDateSeries([], rangeDays);
+        const hTotal = S.profile.hire_clicks || 0;
+        if (hTotal > 0 && hireSeries.data.length > 0) {
+          // Put all clicks on the last data point as a minimum indicator
+          hireSeries.data[hireSeries.data.length - 1] = hTotal;
+        }
+      }
       window._anHireChart = new Chart(hireCtx, {
-        type: 'bar',
+        type: 'line',
         data: {
-          labels: ['Total Clicks'],
+          labels: hireSeries.labels,
           datasets: [{
-            data: [hireTotal],
-            backgroundColor: '#FE730A',
-            borderRadius: 8,
-            borderSkipped: false,
-            barThickness: 48
+            data: hireSeries.data,
+            borderColor: 'rgba(254,115,10,.7)',
+            backgroundColor: 'rgba(254,115,10,.06)',
+            borderWidth: 2.5,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#FE730A',
+            pointRadius: hireSeries.data.length > 30 ? 0 : 3,
+            pointHoverRadius: 5
           }]
         },
         options: {
           ...chartDefaults,
           plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + ' clicks' } } },
           scales: {
-            x: { grid: { display: false }, ticks: { color: tickColor, font: { size: 11 } } },
-            y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { size: 10 } }, beginAtZero: true, suggestedMax: Math.max(hireTotal + 2, 5) }
-          },
-          layout: { padding: { left: 20, right: 20 } }
+            ...chartDefaults.scales,
+            y: { ...chartDefaults.scales.y, suggestedMax: Math.max((S.profile.hire_clicks || 0) + 2, 5), ticks: { ...chartDefaults.scales.y.ticks, precision: 0 } }
+          }
         }
       });
     }
 
+    // ── Project table ──
     const tbody = document.getElementById('an-proj-tbody');
     const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',social:'Social',longform:'Long-form',wedding:'Wedding'};
     const maxViews = Math.max(...projs.map(x => x.views || 0), 1);
@@ -4773,6 +5037,7 @@ async function loadAnalytics() {
       }).join('');
     }
 
+    // ── Top project ──
     const top = projs[0];
     const topEl = document.getElementById('an-top-proj');
     const GCOLS2 = ['#FE730A','#7C3AED','#0EA5E9','#16A34A','#DC2626','#D97706'];
@@ -4800,10 +5065,10 @@ async function loadAnalytics() {
       topEl.innerHTML = '<div style="font-size:.78rem;color:var(--t3)">No published projects yet.</div>';
     }
 
+    // ── Engagement overview ──
     const engEl = document.getElementById('an-engagement');
-    if (!engEl) { console.warn('an-engagement element not found'); }
     const engRows = [
-      ['Profile views',    S.profile.views         || 0],
+      ['Project views',    totalProjectViews            ],
       ['Project likes',    totalLikes                   ],
       ['Hire Me clicks',   S.profile.hire_clicks   || 0],
       ['Social link taps', S.profile.social_clicks || 0],
@@ -4824,8 +5089,11 @@ async function loadAnalytics() {
       '</div>';
     }).join('');
 
+    if (refreshBtn) refreshBtn.classList.remove('spinning');
+
   } catch(e) {
     console.error('Analytics error:', e);
+    if (refreshBtn) refreshBtn.classList.remove('spinning');
     const tbody = document.getElementById('an-proj-tbody');
     if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--t3);font-size:.78rem">Could not load data. Check console for details.</td></tr>';
   }
@@ -4907,20 +5175,79 @@ function epRenderVideoList() {
 
 // ── ADAPTIVE VIDEO PLAYER ────────────────────────────
 window._adaptPvVideo = function(video) {
-  const w = video.videoWidth, h = video.videoHeight;
-  if (!w || !h) return;
-  const ratio = w / h;
-  if (ratio < 0.75) {
-    const maxH = Math.min(window.innerHeight * 0.68, 600);
-    video.style.maxHeight = maxH + 'px';
-    video.style.width = 'auto';
-    video.style.margin = '0 auto';
-    const wrap = video.parentElement;
-    if (wrap) { wrap.style.display = 'flex'; wrap.style.justifyContent = 'center'; }
-  } else {
-    video.style.width = '100%';
-    video.style.maxHeight = '70vh';
+  const vw = video.videoWidth, vh = video.videoHeight;
+  if (!vw || !vh) return;
+
+  const actualRatio = vw / vh; // > 1 = landscape, < 1 = portrait, = 1 = square
+
+  // Standard ratios to snap aspect-ratio to (within 6% tolerance)
+  const STANDARDS = [
+    { w: 9,  h: 16 },  // 9:16  portrait
+    { w: 3,  h: 4  },  // 3:4   portrait
+    { w: 2,  h: 3  },  // 2:3   portrait
+    { w: 1,  h: 1  },  // 1:1   square
+    { w: 4,  h: 3  },  // 4:3   landscape
+    { w: 3,  h: 2  },  // 3:2   landscape
+    { w: 16, h: 9  },  // 16:9  landscape
+    { w: 21, h: 9  },  // 21:9  ultra-wide
+  ];
+
+  let arW = vw, arH = vh;
+  for (const s of STANDARDS) {
+    if (Math.abs(actualRatio - s.w / s.h) / (s.w / s.h) < 0.06) {
+      arW = s.w; arH = s.h; break;
+    }
   }
+
+  const wrap = document.getElementById('pv-vid-wrap') || video.parentElement;
+  if (!wrap) { video.style.visibility = 'visible'; return; }
+
+  // Classify: portrait = taller than wide, landscape = wider than tall
+  const isPortrait  = actualRatio < 0.95;  // clearly taller than wide
+  const isLandscape = actualRatio > 1.05;  // clearly wider than tall
+  // anything between 0.95–1.05 is square
+
+  // Height limits
+  const screenH = window.innerHeight;
+  const maxH_portrait  = Math.min(screenH * 0.80, 680); // portrait: max 80vh / 680px
+  const maxH_square    = Math.min(screenH * 0.72, 600); // square: slightly smaller
+  const maxH_landscape = Math.min(screenH * 0.72, 560); // landscape: cap at 560px tall
+
+  // Apply aspect-ratio to wrapper — this is what eliminates white gaps
+  wrap.style.aspectRatio  = arW + ' / ' + arH;
+  wrap.style.overflow     = 'hidden';
+  wrap.style.borderRadius = 'var(--rxl)';
+  wrap.style.background   = 'transparent';
+  wrap.style.display      = 'block';
+
+  if (isPortrait) {
+    // Constrain wrapper width so it doesn't sprawl across the page
+    const constrainedW = Math.round(maxH_portrait * (arW / arH));
+    wrap.style.width    = '100%';
+    wrap.style.maxWidth = constrainedW + 'px';
+    wrap.style.margin   = '0 auto';
+  } else if (isLandscape) {
+    // Landscape: full content width, height is naturally capped by aspect-ratio + container width
+    // But also cap max-height via max-width calculation
+    const maxW = Math.round(maxH_landscape * (arW / arH));
+    wrap.style.width    = '100%';
+    wrap.style.maxWidth = maxW + 'px';
+    wrap.style.margin   = '0 auto';
+  } else {
+    // Square
+    const constrainedW = maxH_square;
+    wrap.style.width    = '100%';
+    wrap.style.maxWidth = constrainedW + 'px';
+    wrap.style.margin   = '0 auto';
+  }
+
+  // Video fills wrapper exactly — no gaps
+  video.style.width      = '100%';
+  video.style.height     = '100%';
+  video.style.display    = 'block';
+  video.style.objectFit  = 'cover';
+  video.style.background = 'transparent';
+  video.style.visibility = 'visible';
 };
 
 // Smart Pinterest-style reflow for multiple videos
