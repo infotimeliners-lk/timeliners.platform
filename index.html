@@ -969,6 +969,18 @@ img, video, iframe, canvas { max-width: 100%; }
     // It IS a refresh — start bar animation immediately
     var bar = document.getElementById('tl-loader-bar');
     if (bar) bar.classList.add('running');
+    // Safety fallback: force-hide loader after 5s if restoreSession hangs
+    setTimeout(function(){
+      var ldr = document.getElementById('tl-page-loader');
+      if (ldr && !ldr.classList.contains('tl-hidden')) {
+        ldr.classList.add('tl-hidden');
+        // Also make sure feed page is visible
+        var feed = document.getElementById('page-feed');
+        if (feed && !document.querySelector('.page.active')) feed.classList.add('active');
+        var nav = document.getElementById('main-nav');
+        if (nav) nav.style.display = 'flex';
+      }
+    }, 5000);
   }
 })();
 </script>
@@ -2160,8 +2172,17 @@ function boot() {
   });
 
   restoreSession();
-  // Safety: always hide refresh loader within 4s even if session restore stalls
-  setTimeout(hideTlLoader, 4000);
+  // Safety: always hide loader and show feed within 2s if session restore stalls
+  setTimeout(() => {
+    hideTlLoader();
+    if (!document.querySelector('.page.active')) {
+      const feed = document.getElementById('page-feed');
+      if (feed) feed.classList.add('active');
+      const nav = document.getElementById('main-nav');
+      if (nav) nav.style.display = 'flex';
+    }
+    if (!S.projects.length) loadFeed();
+  }, 2000);
   loadJobs();
 
   // Check session validity every 60s · catches expired sessions only
