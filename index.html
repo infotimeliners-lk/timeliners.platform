@@ -1002,15 +1002,13 @@ img, video, iframe, canvas { max-width: 100%; }
   var visited=false;try{visited=!!localStorage.getItem('tl_visited');}catch(e){}
   var hasSbSession=false;try{var _k=Object.keys(localStorage);for(var _i=0;_i<_k.length;_i++){if(_k[_i].indexOf('sb-')!==-1||_k[_i].indexOf('supabase.auth')!==-1){hasSbSession=true;break;}}}catch(e){}
   var skip=hasHash||!!uRedir||isUsernamePath||hasLastPage||visited||hasSbSession;
-  if(skip){
-    document.addEventListener('DOMContentLoaded',function(){
-      var s=document.getElementById('page-splash');
-      if(s){s.classList.remove('active');s.style.display='none';}
-      var nav=document.getElementById('main-nav');if(nav)nav.style.display='flex';
-      // Show feed as placeholder · restoreSession will route correctly
-      var feed=document.getElementById('page-feed');if(feed)feed.classList.add('active');
-    });
-  }
+  // Always skip splash — go straight to feed for everyone
+  document.addEventListener('DOMContentLoaded',function(){
+    var s=document.getElementById('page-splash');
+    if(s){s.classList.remove('active');s.style.display='none';}
+    var nav=document.getElementById('main-nav');if(nav)nav.style.display='flex';
+    var feed=document.getElementById('page-feed');if(feed)feed.classList.add('active');
+  });
 })();
 </script>
 <div class="toast" id="toast"><span class="toast-ico"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><circle cx="3.5" cy="3.5" r="3.5" fill="var(--ac)"/></svg></span><span id="tmsg"></span></div>
@@ -1171,7 +1169,7 @@ img, video, iframe, canvas { max-width: 100%; }
 </style>
 
 <!-- ══ SPLASH ══ -->
-<div class="page active" id="page-splash">
+<div class="page" id="page-splash">
   <div class="spl-glow"></div><div class="spl-glow2"></div>
   <nav class="spl-nav">
     <div class="spl-brand" style="color:#FE730A">TimeLiners</div>
@@ -1329,15 +1327,7 @@ img, video, iframe, canvas { max-width: 100%; }
 <div class="page" id="page-feed">
   <div class="feed-bar"><div class="feed-bar-in">
     <div class="feed-lbl">Discover Work</div>
-    <div class="ftabs">
-      <a class="ftab active" href="#/feed" onclick="event.preventDefault();filterFeed('all',this)">All</a>
-      <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('longform',this)">Long-form</a>
-      <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('shorts',this)">Shorts & Reels</a>
-      <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('motion',this)">Motion</a>
-      <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('video',this)">Video</a>
-      <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('social',this)">Social</a>
-      <a class="ftab" href="#/feed" onclick="event.preventDefault();filterFeed('film',this)">Film</a>
-    </div>
+    <div></div>
     <div style="display:flex;justify-content:flex-end">
       <div class="fsrch"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink:0"><circle cx="5.5" cy="5.5" r="4" stroke="var(--t3)" stroke-width="1.4"/><path d="M8.5 8.5l3 3" stroke="var(--t3)" stroke-width="1.4" stroke-linecap="round"/></svg>
         <input type="text" placeholder="Search projects..." oninput="searchFeed(this.value)">
@@ -1347,13 +1337,32 @@ img, video, iframe, canvas { max-width: 100%; }
   <div class="feed-wrap">
     <div class="feed-head">
       <span class="feed-count" id="feed-count">Loading...</span>
-      <div style="display:flex;align-items:center;gap:.48rem;font-size:.73rem;color:var(--t2)">Sort:
-        <div class="sort-cdd" id="sort-cdd">
-          <div class="sort-cdd-btn" onclick="toggleSortCdd()"><span id="sort-cdd-lbl">Newest</span><svg class="sort-cdd-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="sort-cdd-menu">
-            <div class="sort-cdd-opt active" onclick="setSortCdd('newest','Newest')">Newest</div>
-            <div class="sort-cdd-opt" onclick="setSortCdd('popular','Most Liked')">Most Liked</div>
-            <div class="sort-cdd-opt" onclick="setSortCdd('views','Most Viewed')">Most Viewed</div>
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div style="display:flex;align-items:center;gap:.48rem;font-size:.73rem;color:var(--t2)">Filter:
+          <div class="sort-cdd" id="filter-cdd">
+            <button class="sort-cdd-btn" onclick="toggleFilterCdd()">
+              <span id="filter-cdd-label">All</span>
+              <svg class="sort-cdd-arrow" width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 4l3.5 3.5L9 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="sort-cdd-menu">
+              <div class="sort-cdd-opt active" onclick="filterFeedDd('all','All',this)">All</div>
+              <div class="sort-cdd-opt" onclick="filterFeedDd('longform','Long-form',this)">Long-form</div>
+              <div class="sort-cdd-opt" onclick="filterFeedDd('shorts','Shorts & Reels',this)">Shorts & Reels</div>
+              <div class="sort-cdd-opt" onclick="filterFeedDd('motion','Motion',this)">Motion</div>
+              <div class="sort-cdd-opt" onclick="filterFeedDd('video','Video',this)">Video</div>
+              <div class="sort-cdd-opt" onclick="filterFeedDd('social','Social',this)">Social</div>
+              <div class="sort-cdd-opt" onclick="filterFeedDd('film','Film',this)">Film</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:.48rem;font-size:.73rem;color:var(--t2)">Sort:
+          <div class="sort-cdd" id="sort-cdd">
+            <div class="sort-cdd-btn" onclick="toggleSortCdd()"><span id="sort-cdd-lbl">Newest</span><svg class="sort-cdd-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="sort-cdd-menu">
+              <div class="sort-cdd-opt active" onclick="setSortCdd('newest','Newest')">Newest</div>
+              <div class="sort-cdd-opt" onclick="setSortCdd('popular','Most Liked')">Most Liked</div>
+              <div class="sort-cdd-opt" onclick="setSortCdd('views','Most Viewed')">Most Viewed</div>
+            </div>
           </div>
         </div>
       </div>
@@ -3010,6 +3019,15 @@ function buildCard(p) {
 }
 
 function filterFeed(cat, btn) { S.filter = cat; document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderFeed(); }
+function toggleFilterCdd(){ document.getElementById('filter-cdd').classList.toggle('open'); }
+function filterFeedDd(cat, label, el){
+  S.filter = cat;
+  document.getElementById('filter-cdd-label').textContent = label;
+  document.querySelectorAll('#filter-cdd .sort-cdd-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('filter-cdd').classList.remove('open');
+  renderFeed();
+}
 function searchFeed(v) { S.search = v.toLowerCase().trim(); renderFeed(); }
 function sortFeed(v) { S.sort = v; renderFeed(); }
 function quickLike(btn) { btn.style.background = 'rgba(239,68,68,.6)'; showToast('Liked!'); setTimeout(() => btn.style.background = '', 700); }
@@ -4664,6 +4682,8 @@ window.toggleTheme   = toggleTheme;
 window.toggleMob     = toggleMob;
 window.closeMob      = closeMob;
 window.filterFeed    = filterFeed;
+window.toggleFilterCdd = toggleFilterCdd;
+window.filterFeedDd  = filterFeedDd;
 window.searchFeed    = searchFeed;
 window.sortFeed = sortFeed;
 window.toggleSortCdd = toggleSortCdd;
@@ -4682,6 +4702,10 @@ function setSortCdd(val, label) {
 document.addEventListener('click', e => {
   if (!e.target.closest('#sort-cdd')) {
     const el = document.getElementById('sort-cdd');
+    if (el) el.classList.remove('open');
+  }
+  if (!e.target.closest('#filter-cdd')) {
+    const el = document.getElementById('filter-cdd');
     if (el) el.classList.remove('open');
   }
 });
