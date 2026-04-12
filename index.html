@@ -311,20 +311,22 @@ html.light .fsrch input{color:var(--t1)}
 /* Details card */
 .prof-details-card{background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);border:none;border-radius:24px;box-shadow:0 4px 24px rgba(254,115,10,.22);margin-top:1.2rem;overflow:hidden}
 .prof-details-row{display:grid;grid-template-columns:1fr 1px 1fr}
-.prof-details-card .prof-section-lbl{color:rgba(255,255,255,.75)}
+.prof-details-card .prof-section-lbl{color:rgba(255,255,255,.75);justify-content:center}
+.prof-details-card .prof-section-lbl::after{display:none}
 .prof-details-card .prof-section-lbl::after{background:rgba(255,255,255,.2)}
 .prof-details-card .prof-details-divider{background:rgba(255,255,255,.2)}
-.prof-details-col{padding:1.6rem 1.8rem;color:#fff}
+.prof-details-col{padding:1.6rem 1.8rem;color:#fff;text-align:center;display:flex;flex-direction:column;align-items:center}
 .prof-details-divider{background:rgba(0,0,0,.06);width:1px;margin:1.2rem 0}
 .prof-meta-chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem}
 .prof-meta-chip{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;color:var(--t2);background:rgba(254,115,10,.07);border:1px solid rgba(254,115,10,.15);padding:.3rem .75rem;border-radius:50px;font-weight:500}
 
 /* Skills — gradient badges */
-.sw-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:600;padding:.5rem 1.1rem;border-radius:50px;margin:.2rem .2rem 0 0;color:#FE730A;letter-spacing:0;transition:.18s;border:1.5px solid #fff;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}.sw-badge:hover{box-shadow:0 4px 14px rgba(0,0,0,.15);transform:translateY(-1px)}
+.sw-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:600;padding:.5rem 1.1rem;border-radius:50px;color:#FE730A;letter-spacing:0;transition:.18s;border:1.5px solid #fff;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}.sw-badge:hover{box-shadow:0 4px 14px rgba(0,0,0,.15);transform:translateY(-1px)}
+#pskills-el{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem;margin-top:.2rem}
 .sw-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.55)}
 
 /* Socials */
-.prof-social-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.2rem}
+.prof-social-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.2rem;justify-content:center}
 .prof-soc-btn{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:600;padding:.5rem 1.1rem;border-radius:50px;border:1.5px solid #fff;background:#fff;color:#FE730A;transition:.18s;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.1)}.prof-soc-btn:hover{box-shadow:0 4px 14px rgba(0,0,0,.15);transform:translateY(-1px)}
 
 /* PROJECTS — 2 col, bigger */
@@ -1379,7 +1381,7 @@ img, video, iframe, canvas { max-width: 100%; }
     <div style="position:relative;z-index:1"><h3>Ready to show your edits?</h3><p>Create a free account and build your editor portfolio today.</p></div>
     <button class="btn btn-white" onclick="openAuth('up')">Start Free <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div></div></div>
-  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94771873449" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.facebook.com/timeliners.lk/" target="_blank" title="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#9df4f3fbf2b3e9f4f0f8f1f4f3f8efeeddfaf0fcf4f1b3fef2f0" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#a7cec9c1c889d3cecac2cbcec9c2d5d4e7c0cac6cecb89c4c8ca">Contact</a></div></div></div></footer>
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#9df4f3fbf2b3e9f4f0f8f1f4f3f8efeeddfaf0fcf4f1b3fef2f0" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#a7cec9c1c889d3cecac2cbcec9c2d5d4e7c0cac6cecb89c4c8ca">Contact</a></div></div></div></footer>
 </div>
 
 <!-- ══ PROFILE ══ -->
@@ -1473,10 +1475,14 @@ img, video, iframe, canvas { max-width: 100%; }
           </div>
         </div>
       </div>
+      <!-- Member since footer row -->
+      <div id="prof-member-since" style="text-align:center;padding:.75rem 1.8rem 1.2rem;color:rgba(255,255,255,.6);font-size:.72rem;font-weight:500;letter-spacing:.5px;display:none">
+        <span id="prof-member-since-txt"></span>
+      </div>
     </div>
 
   </div>
-  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94771873449" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.facebook.com/timeliners.lk/" target="_blank" title="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#9ff6f1f9f0b1ebf6f2faf3f6f1faedecdff8f2fef6f3b1fcf0f2" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#b2dbdcd4dd9cc6dbdfd7dedbdcd7c0c1f2d5dfd3dbde9cd1dddf">Contact</a></div></div></div></footer>
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#9ff6f1f9f0b1ebf6f2faf3f6f1faedecdff8f2fef6f3b1fcf0f2" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#b2dbdcd4dd9cc6dbdfd7dedbdcd7c0c1f2d5dfd3dbde9cd1dddf">Contact</a></div></div></div></footer>
 </div>
 
 <!-- ══ PROJECT VIEW ══ -->
@@ -2760,11 +2766,13 @@ async function handleSignOut() {
     p.style.display = '';
   });
   const splash = el('page-splash');
-  splash.style.display = '';
+  splash.style.display = 'flex';
   splash.style.opacity = '1';
   splash.classList.add('active');
+  splash.classList.remove('spl-ready');
   el('main-nav').style.display = 'none';
   window.scrollTo(0, 0);
+  requestAnimationFrame(() => { splash.classList.add('spl-ready'); });
   try { history.replaceState(null, '', location.pathname); } catch(e) {}
   loadFeed();
   showToast('Signed out.');
@@ -2915,11 +2923,11 @@ async function loadFeed() {
       try {
         const authorIds = [...new Set(rows.map(p => p.user_id).filter(Boolean))];
         if (authorIds.length) {
-          const profiles = await db('/profiles?id=in.(' + authorIds.join(',') + ')&select=id,plan', 'GET', null, SB_KEY).catch(() => []);
+          const profiles = await db('/profiles?id=in.(' + authorIds.join(',') + ')&select=id,plan,verified', 'GET', null, SB_KEY).catch(() => []);
           if (profiles && profiles.length) {
-            const planMap = {};
-            profiles.forEach(p => { planMap[p.id] = p.plan || 'free'; });
-            S.projects.forEach(p => { p._authorPlan = planMap[p.user_id] || 'free'; });
+            const planMap = {}; const verMap = {};
+            profiles.forEach(p => { planMap[p.id] = p.plan || 'free'; verMap[p.id] = !!p.verified; });
+            S.projects.forEach(p => { p._authorPlan = planMap[p.user_id] || 'free'; p._authorVerified = verMap[p.user_id] || false; });
           }
         }
       } catch(e) {}
@@ -2970,12 +2978,37 @@ function renderFeed() {
   if (S.sort === 'popular') list = list.slice().sort((a, b) => b.likes - a.likes);
   else if (S.sort === 'views') list = list.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
   else {
-    // Default (newest) · Pro projects get a small priority boost
+    // ── TimeLiners Feed Algorithm ──────────────────────────────
+    // Score = (engagement + base) × recency_decay × pro_boost × verified_boost
+    // Featured projects always pin to top.
+    const now = Date.now();
+    const score = p => {
+      // 1. Engagement score
+      const likes   = p.likes  || 0;
+      const views   = p.views  || 0;
+      const engagement = likes * 3 + views * 0.5;
+
+      // 2. Recency decay — older posts lose score gradually
+      //    hoursOld^0.6 means a 1hr post scores 1×, 24hr ≈ 0.27×, 7day ≈ 0.1×
+      const hoursOld = Math.max(1, (now - new Date(p.created_at || now)) / 3600000);
+      const recency  = 1 / Math.pow(hoursOld, 0.6);
+
+      // 3. Base score so new posts with 0 engagement still compete
+      const base = 5;
+
+      // 4. Plan boost
+      const isPro = p._authorPlan === 'pro' || p._authorPlan === 'pro-yearly' || p._authorPlan === 'pro_yearly' || p._authorPlan === 'standard' || p._authorPlan === 'vip';
+      const proBoost = isPro ? 1.8 : 1;
+
+      // 5. Verified boost (stacks with Pro)
+      const verifiedBoost = p._authorVerified ? 1.2 : 1;
+
+      return (engagement + base) * recency * proBoost * verifiedBoost;
+    };
     list = list.slice().sort((a, b) => {
-      const aIsPro = a._authorPlan === 'pro' || a._authorPlan === 'pro-yearly' || a._authorPlan === 'pro_yearly' || a._authorPlan === 'standard' || a._authorPlan === 'vip' ? 1 : 0;
-      const bIsPro = b._authorPlan === 'pro' || b._authorPlan === 'pro-yearly' || b._authorPlan === 'pro_yearly' || b._authorPlan === 'standard' || b._authorPlan === 'vip' ? 1 : 0;
-      if (bIsPro !== aIsPro) return bIsPro - aIsPro;
-      return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+      // Featured always first
+      if (b.featured !== a.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+      return score(b) - score(a);
     });
   }
   el('feed-count').textContent = list.length + ' project' + (list.length !== 1 ? 's' : '');
@@ -3956,6 +3989,23 @@ function refreshProfile(profileData) {
     return '<span class="sw-badge">' + s + '</span>';
   }).join('') || '<span style="font-size:.78rem;color:var(--t3)">No tools added yet.</span>';
 
+  // Member since / Founder badge
+  const memberSinceEl = document.getElementById('prof-member-since');
+  const memberSinceTxt = document.getElementById('prof-member-since-txt');
+  if (memberSinceEl && memberSinceTxt) {
+    if (p.username === 'itzkaveesha') {
+      memberSinceTxt.innerHTML = 'Founder &amp; Owner of TimeLiners';
+      memberSinceTxt.style.color = 'rgba(255,255,255,.9)';
+      memberSinceTxt.style.fontWeight = '600';
+      memberSinceEl.style.display = 'block';
+    } else if (p.created_at) {
+      const d = new Date(p.created_at);
+      const mon = d.toLocaleString('default', { month: 'long' });
+      memberSinceTxt.textContent = 'Member since ' + mon + ' ' + d.getFullYear();
+      memberSinceEl.style.display = 'block';
+    }
+  }
+
   // Socials · Pro only (show links; for free users hide and show upgrade nudge)
   const wa = el('pwa-link'), ig = el('pig-link'), yt = el('pyt-link'), nl = el('pno-links');
   const socialsRow = document.getElementById('prof-socials-row');
@@ -4274,7 +4324,7 @@ function openWA(msg) {
   const text = msg === 'General'
     ? 'Hey, I would like to learn more about Timeliners.'
     : "Hey, I'm interested in: " + msg;
-  window.open('https://wa.me/94771873449?text=' + encodeURIComponent(text), '_blank');
+  window.open('https://wa.me/94783408001?text=' + encodeURIComponent(text), '_blank');
 }
 
 // ── NAVIGATION + HASH ROUTING ────────────────────────
@@ -6177,7 +6227,7 @@ boot();
       </table>
     </div>
   </div>
-  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94771873449" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.facebook.com/timeliners.lk/" target="_blank" title="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#3b52555d54154f52565e5752555e49487b5c565a525715585456" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#4e27202821603a27232b2227202b3c3d0e29232f2722602d2123">Contact</a></div></div></div></footer>
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#3b52555d54154f52565e5752555e49487b5c565a525715585456" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#4e27202821603a27232b2227202b3c3d0e29232f2722602d2123">Contact</a></div></div></div></footer>
 </div>
 
 <!-- ══ FAQ ══ -->
@@ -6195,7 +6245,7 @@ boot();
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Is it free to create an account?<div class="faq-ico">+</div></div>
-      <div class="faqa">Yes · creating an account is completely free. Your free account includes a private dashboard, the ability to upload up to 3 live projects, and full access to browse the Discover feed and Jobs board.</div>
+      <div class="faqa">Yes · creating an account is completely free. Your free account includes a private dashboard, the ability to upload up to 3 live projects, and full access to browse the Discover feed.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How do I create an account?<div class="faq-ico">+</div></div>
@@ -6240,17 +6290,6 @@ boot();
       <div class="faqa">Yes. You can upload new projects, edit your profile details, change your cover image, and update your social links at any time from the Dashboard · no need to contact us.</div>
     </div>
 
-    <div class="faq-section-title">Jobs Board</div>
-
-    <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">How do I post a job?<div class="faq-ico">+</div></div>
-      <div class="faqa">Job posting is available on request. Click "Post a Job" on the Jobs page and it will open a WhatsApp message to our team. Send us the role title, company name, description, type (full-time, freelance, etc.) and location. We post it within 24 hours.</div>
-    </div>
-    <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">How do I apply for a job?<div class="faq-ico">+</div></div>
-      <div class="faqa">Click "Apply" on any job card. This opens a pre-filled WhatsApp message to the posting company so you can introduce yourself directly. We recommend linking your Timeliners portfolio in your message.</div>
-    </div>
-
     <div class="faq-cta-box">
       <h4>Still have questions?</h4>
       <p>We reply on WhatsApp within a few hours, every day.</p>
@@ -6260,4 +6299,4 @@ boot();
       </button>
     </div>
   </div>
-  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94771873449" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.facebook.com/timeliners.lk/" target="_blank" title="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#630a0d050c4d170a0e060f0a0d06111023040e020a0f4d000c0e" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#d5bcbbb3bafba1bcb8b0b9bcbb
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#630a0d050c4d170a0e060f0a0d06111023040e020a0f4d000c0e" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#4e27202821603a27232b2227202b3c3d0e29232f2722602d2123">Contact</a></div></div></div></footer>
