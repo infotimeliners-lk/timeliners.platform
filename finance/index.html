@@ -865,7 +865,21 @@ async function loadData(){
     sb('/profiles?select=*&order=created_at.desc'),
     sb('/payments?select=*&pay_status=in.(paid,overdue,downgraded)&order=paid_date.desc').catch(()=>[]),
   ]);
-  _pf=a||[];_py=b||[];
+  _pf=a||[];
+  // Deduplicate payments — keep only the latest paid record per user
+  const raw=b||[];
+  const byUser={};
+  for(const p of raw){
+    const uid=p.user_id;
+    if(!byUser[uid]){byUser[uid]=p;continue;}
+    // Prefer paid over other statuses, then latest paid_date
+    const cur=byUser[uid];
+    const pIsPaid=p.pay_status==='paid';
+    const cIsPaid=cur.pay_status==='paid';
+    if(pIsPaid&&!cIsPaid){byUser[uid]=p;}
+    else if(pIsPaid===cIsPaid&&p.paid_date>cur.paid_date){byUser[uid]=p;}
+  }
+  _py=Object.values(byUser);
   await loadSlips();
   await syncOverdueStatus();
 }
@@ -876,7 +890,7 @@ async function syncOverdueStatus(){
   today.setHours(0,0,0,0);
 
   for(const p of _py){
-    if(!p.expires_date) continue;
+    if(!p.expires_date||!p.paid_date) continue;
     const exp=new Date(p.expires_date);
     exp.setHours(0,0,0,0);
     const daysLeft=Math.ceil((exp-today)/86400000);
