@@ -227,6 +227,30 @@ button,a{cursor:pointer;font-family:var(--fm)}
 /* ── PAY-SECTION ─────────────────────────────────────────── */
 .pay-section-hd{font-size:.52rem;font-weight:600;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);padding:.5rem 0 .3rem;border-bottom:1px solid var(--brd);margin-bottom:.5rem}
 
+/* ── SLIP QUEUE ──────────────────────────────────────────── */
+.sq-card{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:1rem;transition:box-shadow .15s}
+.sq-card:hover{box-shadow:0 4px 18px rgba(0,0,0,.07)}
+.sq-thumb{width:72px;height:72px;min-width:72px;border-radius:10px;object-fit:cover;border:1px solid var(--brd2);cursor:pointer;background:var(--bg3)}
+.sq-thumb-pdf{width:72px;height:72px;min-width:72px;border-radius:10px;background:var(--bg3);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-size:1.8rem;cursor:pointer}
+.sq-meta{flex:1;min-width:0}
+.sq-name{font-size:.88rem;font-weight:700;color:var(--t1);margin-bottom:.18rem}
+.sq-detail{font-size:.74rem;color:var(--t2);margin-bottom:.5rem;line-height:1.55}
+.sq-actions{display:flex;gap:.38rem;flex-wrap:wrap}
+.sq-status{display:inline-flex;align-items:center;font-size:.6rem;font-weight:700;padding:.16rem .55rem;border-radius:50px;letter-spacing:.3px;border:1px solid}
+.sq-s-pending{background:var(--ambl);color:var(--amb);border-color:var(--ambb)}
+.sq-s-confirmed{background:var(--grnl);color:var(--grn);border-color:var(--grnb)}
+.sq-s-rejected{background:var(--redl);color:var(--red);border-color:var(--redb)}
+
+/* Slip lightbox */
+.slip-lb{display:none;position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.82);align-items:center;justify-content:center;padding:1.5rem}
+.slip-lb.open{display:flex}
+.slip-lb img{max-width:100%;max-height:88vh;border-radius:12px;box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.slip-lb-close{position:fixed;top:1rem;right:1rem;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.4rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(10px)}
+
+/* REJECT MODAL */
+.ov-reject{}
+
+
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 
 /* Tablet: 768px - 1024px */
@@ -333,14 +357,13 @@ button,a{cursor:pointer;font-family:var(--fm)}
     </div>
     <div class="sb-nav">
       <div class="sb-sec">Members</div>
-      <button class="sb-link active" onclick="nav('payments',this)" id="nav-payments" data-label="Payments">
-        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="3.5" width="13" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M1 6.5h13" stroke="currentColor" stroke-width="1.3"/><rect x="3" y="9" width="3" height="1.2" rx=".5" fill="currentColor"/></svg></div>
-        <span class="sb-link-label">Payments</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
+      <button class="sb-link active" onclick="nav('slips',this)" id="nav-slips" data-label="Slip Queue">
+        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1.5" y="1.5" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 5h6M4.5 7.5h6M4.5 10h3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+        <span class="sb-link-label">Slip Queue</span> <span class="sb-cnt al" id="sb-sq" style="display:none">0</span>
       </button>
-      <div class="sb-sec">Platform</div>
-      <button class="sb-link" onclick="nav('jobs',this)" id="nav-jobs" data-label="Jobs">
-        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="4.5" width="13" height="9" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 4.5V3.5a2 2 0 014 0v1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-        <span class="sb-link-label">Jobs</span> <span class="sb-cnt" id="sb-jb">0</span>
+      <button class="sb-link" onclick="nav('payments',this)" id="nav-payments" data-label="Payments">
+        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="3.5" width="13" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M1 6.5h13" stroke="currentColor" stroke-width="1.3"/><rect x="3" y="9" width="3" height="1.2" rx=".5" fill="currentColor"/></svg></div>
+        <span class="sb-link-label">Members</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
       </button>
       <div class="sb-sec">Finance</div>
       <button class="sb-link" onclick="nav('revenue',this)" id="nav-revenue" data-label="Revenue">
@@ -363,8 +386,31 @@ button,a{cursor:pointer;font-family:var(--fm)}
 
   <div class="main">
 
+    <!-- SLIP QUEUE -->
+    <div id="pane-slips" class="pane active">
+      <div class="topbar">
+        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Slip Queue</h2><p id="sq-sync">Loading…</p></div>
+        <div class="tb-r">
+          <div class="tabs" style="margin-bottom:0">
+            <button class="tab active" onclick="switchSlipTab('pending',this)">Pending</button>
+            <button class="tab" onclick="switchSlipTab('confirmed',this)">Confirmed</button>
+            <button class="tab" onclick="switchSlipTab('rejected',this)">Rejected</button>
+            <button class="tab" onclick="switchSlipTab('all',this)">All</button>
+          </div>
+          <button class="btn btn-refresh btn-sm" onclick="refreshAll()">Refresh</button>
+        </div>
+      </div>
+      <div class="pw">
+        <div class="stats stats-3 mb" id="sq-stats"></div>
+        <div class="card mb">
+          <div class="ch"><div><h3 id="sq-card-title">Pending Slips</h3><p id="sq-card-sub">—</p></div></div>
+          <div id="sq-list" style="padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.7rem"></div>
+        </div>
+      </div>
+    </div>
+
     <!-- PAYMENTS -->
-    <div id="pane-payments" class="pane active">
+    <div id="pane-payments" class="pane">
       <div class="topbar" id="topbar">
         <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()" id="hamburger"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Payments</h2><p id="pay-sync">Loading…</p></div>
         <div class="tb-r">
@@ -413,19 +459,6 @@ button,a{cursor:pointer;font-family:var(--fm)}
       </div>
     </div>
 
-    <!-- JOBS -->
-    <div id="pane-jobs" class="pane">
-      <div class="topbar" id="topbar">
-        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Jobs</h2><p id="job-sub">Job board listings</p></div>
-        <div class="tb-r">
-          <button class="btn btn-g btn-sm" onclick="cleanExpiredJobs()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M5 4V2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5V4M11 4l-.7 7.3a1 1 0 01-1 .7H4.7a1 1 0 01-1-.7L3 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Clean Expired</button>
-          <button class="btn btn-p btn-sm" onclick="openJobM()">+ Post Job</button>
-        </div>
-      </div>
-      <div class="pw">
-        <div id="jobs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:.72rem"></div>
-      </div>
-    </div>
 
     <!-- REVENUE -->
     <div id="pane-revenue" class="pane">
@@ -518,42 +551,6 @@ button,a{cursor:pointer;font-family:var(--fm)}
   </div>
 </div></div>
 
-<!-- MODAL: JOB -->
-<div class="ov" id="ov-job"><div class="mbox" style="max-width:580px">
-  <button class="mx" onclick="closeM('ov-job')">×</button>
-  <div class="mt" id="mj-t">Post a Job</div>
-  <div class="ms">Add a listing to the jobs board</div>
-  <input type="hidden" id="mj-id">
-  <div class="fr2">
-    <div class="fg"><label class="fl">Job Title</label><input class="fi" id="mj-title" placeholder="Video Editor"></div>
-    <div class="fg"><label class="fl">Company</label><input class="fi" id="mj-company" placeholder="Brand Name"></div>
-  </div>
-  <div class="fr2">
-    <div class="fg"><label class="fl">Type</label>
-      <select class="fi" id="mj-type"><option>Full-time</option><option>Part-time</option><option>Freelance</option><option>Contract</option><option>Internship</option></select>
-    </div>
-    <div class="fg"><label class="fl">Location</label><input class="fi" id="mj-loc" placeholder="Colombo / Remote"></div>
-  </div>
-  <div class="fg"><label class="fl">Budget / Salary</label><input class="fi" id="mj-budget" placeholder="LKR 50k–80k / project-based"></div>
-  <div class="fg"><label class="fl">Description</label><textarea class="fta" id="mj-desc" placeholder="Role details, requirements, how to apply…"></textarea></div>
-  <div class="fr2">
-    <div class="fg"><label class="fl">Apply Via</label><input class="fi" id="mj-apply" placeholder="+94 77 xxx or email"></div>
-    <div class="fg"><label class="fl">Tags (comma separated)</label><input class="fi" id="mj-tags" placeholder="After Effects, Premiere"></div>
-  </div>
-  <div class="fr2">
-    <div class="fg"><label class="fl">Feature Level</label>
-      <select class="fi" id="mj-feature"><option value="normal">Normal</option><option value="featured">Featured</option><option value="urgent">Urgent</option></select>
-    </div>
-    <div class="fg"><label class="fl">Expires On</label><input class="fi" id="mj-expires" type="date" placeholder="Leave blank = no expiry"></div>
-  </div>
-  <div class="fg"><label class="fl">Visibility</label>
-    <select class="fi" id="mj-hide"><option value="false">Visible</option><option value="true">Hidden</option></select>
-  </div>
-  <div style="display:flex;gap:.42rem;margin-top:.4rem">
-    <button class="btn btn-p" style="flex:1" onclick="saveJob()">Save Job</button>
-    <button class="btn btn-g" onclick="closeM('ov-job')">Cancel</button>
-  </div>
-</div></div>
 
 <!-- MODAL: EDIT PAID DATE -->
 <div class="ov" id="ov-editdate"><div class="mbox" style="max-width:380px">
@@ -610,6 +607,34 @@ button,a{cursor:pointer;font-family:var(--fm)}
   </div>
 </div></div>
 
+<!-- SLIP LIGHTBOX -->
+<div class="slip-lb" id="slip-lb" onclick="closeSlipLb()">
+  <button class="slip-lb-close" onclick="closeSlipLb()">×</button>
+  <img id="slip-lb-img" src="" alt="Payment slip">
+</div>
+
+<!-- MODAL: REJECT REASON -->
+<div class="ov" id="ov-reject"><div class="mbox" style="max-width:420px">
+  <button class="mx" onclick="closeM('ov-reject')">×</button>
+  <div class="mt">Reject Payment</div>
+  <div class="ms">A rejection email will be sent to the user with this reason.</div>
+  <input type="hidden" id="rej-id">
+  <div class="fg"><label class="fl">Rejection reason</label>
+    <select class="fi" id="rej-reason" onchange="updateRejOther()">
+      <option value="Incorrect amount transferred">Incorrect amount transferred</option>
+      <option value="Slip image unclear or unreadable">Slip image unclear or unreadable</option>
+      <option value="Transfer not yet received in our account">Transfer not yet received in our account</option>
+      <option value="Duplicate submission">Duplicate submission</option>
+      <option value="other">Other (type below)</option>
+    </select>
+  </div>
+  <div class="fg" id="rej-other-fg" style="display:none"><label class="fl">Custom reason</label><input class="fi" id="rej-other" placeholder="Describe the issue…"></div>
+  <div style="display:flex;gap:.42rem;margin-top:.4rem">
+    <button class="btn btn-r" style="flex:1" onclick="confirmReject()">Send Rejection</button>
+    <button class="btn btn-g" onclick="closeM('ov-reject')">Cancel</button>
+  </div>
+</div></div>
+
 <!-- MODAL: WA MESSAGE PREVIEW -->
 <div class="ov" id="ov-wa"><div class="mbox" style="max-width:460px">
   <button class="mx" onclick="closeM('ov-wa')">×</button>
@@ -638,7 +663,187 @@ const AVC=['#FE730A','#3b82f6','#8b5cf6','#ec4899','#10b981','#f59e0b','#06b6d4'
 // Revenue starts from March 2026
 const REV_START='2026-03';
 
-let _pf=[],_py=[],_jb=[],_proTab='all',_rc=null,_ec=null;
+let _pf=[],_py=[],_proTab='all',_rc=null,_ec=null;
+let _slips=[],_slipTab='pending';
+
+// ─── SLIP QUEUE ───────────────────────────────────────────────────────────────
+async function loadSlips(){
+  try{
+    // Load all payments that originated from a slip submission (have slip_url)
+    _slips=await sb('/payments?slip_url=not.is.null&order=submitted_at.desc&select=*')||[];
+  }catch(e){_slips=[];}
+}
+
+function switchSlipTab(tab,el){
+  _slipTab=tab;
+  document.querySelectorAll('#pane-slips .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  rSlips();
+}
+
+function rSlips(){
+  // For display: pending=pending, paid=confirmed, rejected=rejected
+  const displayStatus=s=>s.pay_status==='paid'?'confirmed':s.pay_status;
+  const filtered=_slipTab==='all'?_slips:_slips.filter(s=>displayStatus(s)===_slipTab);
+  const pending=_slips.filter(s=>s.pay_status==='pending').length;
+  const confirmed=_slips.filter(s=>s.pay_status==='paid').length;
+  const rejected=_slips.filter(s=>s.pay_status==='rejected').length;
+
+  document.getElementById('sq-stats').innerHTML=`
+    <div class="stat"><div class="stat-l">Pending Review</div><div class="stat-v" style="color:${pending?'var(--amb)':'var(--t1)'}">${pending}</div><div class="stat-s">awaiting your action</div></div>
+    <div class="stat"><div class="stat-l">Confirmed</div><div class="stat-v" style="color:var(--grn)">${confirmed}</div><div class="stat-s">activated as Pro</div></div>
+    <div class="stat"><div class="stat-l">Rejected</div><div class="stat-v" style="color:var(--red)">${rejected}</div><div class="stat-s">slip issues</div></div>`;
+
+  const titles={pending:'Pending Slips',confirmed:'Confirmed Payments',rejected:'Rejected Slips',all:'All Submissions'};
+  document.getElementById('sq-card-title').textContent=titles[_slipTab]||'Slips';
+  document.getElementById('sq-card-sub').textContent=filtered.length+' submission'+(filtered.length!==1?'s':'');
+  document.getElementById('sq-sync').textContent=pending+' pending · Last synced '+new Date().toLocaleTimeString();
+
+  // Update sidebar badge
+  const sqEl=document.getElementById('sb-sq');
+  sqEl.textContent=pending;sqEl.style.display=pending?'':'none';
+
+  const list=document.getElementById('sq-list');
+  if(!filtered.length){
+    list.innerHTML='<div class="empty">No submissions in this view</div>';
+    return;
+  }
+
+  list.innerHTML=filtered.map(s=>{
+    const pf=_pf.find(x=>x.id===s.user_id)||{};
+    const name=pf.name||pf.username||s.member_no||'Unknown';
+    const email=pf.email||'—';
+    const planLabel={pro:'Pro Monthly','pro-yearly':'Pro Yearly'}[s.plan]||s.plan||'—';
+    const amtLabel=s.amount?'LKR '+Number(s.amount).toLocaleString():'—';
+    const subDate=s.submitted_at?new Date(s.submitted_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
+    const isPdf=s.slip_url&&s.slip_url.toLowerCase().includes('.pdf');
+    const thumbHtml=s.slip_url
+      ?(isPdf
+        ?`<div class="sq-thumb-pdf" onclick="window.open('${s.slip_url}','_blank')" title="Open PDF">📄</div>`
+        :`<img class="sq-thumb" src="${s.slip_url}" onclick="openSlipLb('${s.slip_url}')" title="View slip" alt="Slip">`)
+      :'<div class="sq-thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:var(--t3)">📎</div>';
+
+    const ds=displayStatus(s);
+    const statusBadge=`<span class="sq-status sq-s-${ds}">${ds}</span>`;
+
+    let actions='';
+    if(s.pay_status==='pending'){
+      actions=`
+        <button class="btn btn-grn btn-xs" onclick="confirmSlip('${s.id}','${s.user_id}','${s.plan}',${s.amount},'${name.replace(/'/g,"\\'")}','${email}')">✓ Confirm</button>
+        <button class="btn btn-r btn-xs" onclick="openRejectModal('${s.id}','${name.replace(/'/g,"\\'")}','${email}')">✗ Reject</button>
+        ${s.slip_url?`<button class="btn btn-g btn-xs" onclick="${isPdf?"window.open('"+s.slip_url+"','_blank')":"openSlipLb('"+s.slip_url+"')"}">View Slip</button>`:''}`;
+    }else{
+      actions=s.slip_url?`<button class="btn btn-g btn-xs" onclick="${isPdf?"window.open('"+s.slip_url+"','_blank')":"openSlipLb('"+s.slip_url+"')"}">View Slip</button>`:'';
+    }
+
+    return`<div class="sq-card">
+      ${thumbHtml}
+      <div class="sq-meta">
+        <div class="sq-name">${avatar(pf,22)} &nbsp;${name} &nbsp;${statusBadge}</div>
+        <div class="sq-detail">
+          <strong>${planLabel}</strong> · ${amtLabel} &nbsp;·&nbsp; ${email}<br>
+          Submitted: ${subDate}${s.notes?'<br>Note: <em>'+s.notes+'</em>':''}
+        </div>
+        <div class="sq-actions">${actions}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openSlipLb(url){
+  document.getElementById('slip-lb-img').src=url;
+  document.getElementById('slip-lb').classList.add('open');
+}
+function closeSlipLb(){
+  document.getElementById('slip-lb').classList.remove('open');
+}
+
+async function confirmSlip(slipId,userId,plan,amount,name,email){
+  if(!confirm('Confirm payment from '+name+'?\nThis will activate their '+plan+' plan and send them a confirmation email.'))return;
+  toast('Confirming…');
+  try{
+    const today=new Date().toISOString().split('T')[0];
+    const PLAN_MAP={'pro':30,'pro-yearly':365};
+    const days=PLAN_MAP[plan]||30;
+    const expDate=new Date();expDate.setDate(expDate.getDate()+days);
+    const expires=expDate.toISOString().split('T')[0];
+
+    // 1. Delete any old payment records for this user (cleanup duplicates)
+    await sb('/payments?user_id=eq.'+userId+'&pay_status=eq.paid','DELETE').catch(()=>{});
+
+    // 2. Update the slip record to 'paid' (becomes the canonical payment record)
+    await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'paid',paid_date:today,notes:'Slip confirmed'});
+
+    // 3. Update profile to pro
+    await sb('/profiles?id=eq.'+userId,'PATCH',{plan:plan,pay_status:'paid',pay_due:expires});
+
+    // 4. Send confirmation email via Supabase Edge Function
+    try{
+      await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+        body:JSON.stringify({
+          type:'pro_confirmed',
+          email:email,
+          name:name,
+          plan:plan==='pro-yearly'?'Pro Yearly':'Pro Monthly',
+          expires:expires
+        })
+      });
+    }catch(emailErr){console.warn('Email send failed (non-critical):',emailErr);}
+
+    // Update local arrays
+    const slip=_slips.find(x=>x.id===slipId);
+    if(slip){slip.pay_status='paid';}
+    // Remove the slip from the slips array (it's now a regular payment)
+    _slips=_slips.filter(x=>x.id!==slipId);
+    const pf=_pf.find(x=>x.id===userId);
+    if(pf){pf.plan=plan;pf.pay_status='paid';pf.pay_due=expires;}
+
+    // Reload fresh data so Members view is correct
+    await loadData();
+    renderAll();
+    toast(name+' activated as Pro ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
+
+function openRejectModal(slipId,name,email){
+  document.getElementById('rej-id').value=slipId+'|'+name+'|'+email;
+  document.getElementById('rej-reason').value='Incorrect amount transferred';
+  document.getElementById('rej-other-fg').style.display='none';
+  openM('ov-reject');
+}
+function updateRejOther(){
+  const sel=document.getElementById('rej-reason').value;
+  document.getElementById('rej-other-fg').style.display=sel==='other'?'block':'none';
+}
+async function confirmReject(){
+  const raw=document.getElementById('rej-id').value.split('|');
+  const [slipId,name,email]=[raw[0],raw[1],raw[2]];
+  const selVal=document.getElementById('rej-reason').value;
+  const reason=selVal==='other'?document.getElementById('rej-other').value.trim():selVal;
+  if(!reason){toast('Enter a reason',1);return;}
+
+  toast('Rejecting…');
+  try{
+    await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'rejected'});
+
+    // Send rejection email
+    try{
+      await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+        body:JSON.stringify({type:'payment_rejected',email:email,name:name,reason:reason})
+      });
+    }catch(emailErr){console.warn('Email failed:',emailErr);}
+
+    const slip=_slips.find(x=>x.id===slipId);
+    if(slip)slip.pay_status='rejected';
+    closeM('ov-reject');
+    rSlips();
+    toast('Rejected & email sent ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
 
 // ─── SUPABASE ─────────────────────────────────────────────────────────────────
 async function sb(path,method='GET',body=null){
@@ -650,12 +855,12 @@ async function sb(path,method='GET',body=null){
 }
 
 async function loadData(){
-  const[a,b,c]=await Promise.all([
+  const[a,b]=await Promise.all([
     sb('/profiles?select=*&order=created_at.desc'),
-    sb('/payments?select=*&order=paid_date.desc').catch(()=>[]),
-    sb('/jobs?select=*&order=created_at.desc').catch(()=>[])
+    sb('/payments?select=*&pay_status=in.(paid,overdue,downgraded)&order=paid_date.desc').catch(()=>[]),
   ]);
-  _pf=a||[];_py=b||[];_jb=c||[];
+  _pf=a||[];_py=b||[];
+  await loadSlips();
   await syncOverdueStatus();
 }
 
@@ -725,7 +930,8 @@ async function initApp(){
   try{
     await loadData();
     renderAll();
-    document.getElementById('pay-sync').textContent='Last synced: '+new Date().toLocaleTimeString();
+    const t=new Date().toLocaleTimeString();
+    document.getElementById('pay-sync').textContent='Last synced: '+t;
   }catch(e){
     toast('Supabase error: '+e.message,1);
     document.getElementById('pay-sync').textContent='Connection failed';
@@ -739,7 +945,7 @@ async function refreshAll(){
     toast('Done ✓');
   }catch(e){toast('Error: '+e.message,1);}
 }
-function renderAll(){rPayments();rJobs();rRevenue();rSidebar();}
+function renderAll(){rSlips();rPayments();rRevenue();rSidebar();}
 
 function nav(id,el){
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
@@ -750,7 +956,6 @@ function nav(id,el){
 }
 
 function rSidebar(){
-  document.getElementById('sb-jb').textContent=_jb.filter(j=>!j.hidden).length;
   const al=_py.filter(p=>p.pay_status==='overdue'||p.pay_status==='downgraded').length;
   const e=document.getElementById('sb-pa');e.textContent=al;e.style.display=al?'':'none';
 }
@@ -1288,105 +1493,6 @@ function notifyOverdue(){
   toast('Opening '+withWa.length+' WhatsApp chats…');
 }
 
-// ─── JOBS ─────────────────────────────────────────────────────────────────────
-function rJobs(){
-  const now=new Date();
-  const g=document.getElementById('jobs-grid');
-  const active=_jb.filter(j=>!j.expires_on||new Date(j.expires_on)>=now);
-  const expired=_jb.filter(j=>j.expires_on&&new Date(j.expires_on)<now);
-  document.getElementById('job-sub').textContent=active.length+' active · '+expired.length+' expired';
-
-  if(!_jb.length){g.innerHTML='<div class="empty" style="grid-column:1/-1">No jobs posted yet</div>';return;}
-  g.innerHTML=[...active,...expired].map(j=>{
-    const exp=j.expires_on?new Date(j.expires_on):null;
-    const isExp=exp&&exp<now;
-    const daysToExp=exp?Math.ceil((exp-now)/86400000):null;
-    let expTag='';
-    if(isExp){expTag=`<span class="jbadge jb-exp">Expired ${fmt(j.expires_on)}</span>`;}
-    else if(daysToExp!==null&&daysToExp<=3){expTag=`<span class="jbadge jb-urgent">Expires in ${daysToExp}d</span>`;}
-    else if(daysToExp!==null){expTag=`<span class="b b-draft" style="font-size:.6rem">Exp ${fmt(j.expires_on)}</span>`;}
-    return`<div class="jcard" style="${(j.hidden||isExp)?'opacity:.5':''}">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.45rem">
-        <div>
-          <div style="font-size:.63rem;font-weight:500;color:var(--t3);text-transform:uppercase;letter-spacing:.5px">${j.company||'—'}</div>
-          <div style="font-size:.9rem;font-weight:600;color:var(--t1);margin:.1rem 0">${j.title||'—'}</div>
-        </div>
-        <span class="jbadge jb-${j.feature||'normal'}">${j.feature||'normal'}</span>
-      </div>
-      <div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.45rem">
-        <span class="b b-draft">${j.type||'—'}</span>
-        <span class="b b-draft">${j.location||'—'}</span>
-        ${j.budget?`<span class="b b-draft">${j.budget}</span>`:''}
-        ${expTag}
-      </div>
-      <div style="font-size:.77rem;color:var(--t2);line-height:1.5;margin-bottom:.7rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${j.desc||'—'}</div>
-      <div style="display:flex;gap:.3rem;border-top:1px solid var(--brd);padding-top:.62rem">
-        <button class="btn btn-g btn-xs" onclick="openJobM('${j.id}')">Edit</button>
-        <button class="btn btn-g btn-xs" onclick="hideJob('${j.id}')">${j.hidden?'Show':'Hide'}</button>
-        <button class="btn btn-r btn-xs" onclick="delJob('${j.id}','${(j.title||'').replace(/'/g,"\\'")}')">Delete</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function openJobM(id){
-  const j=id?_jb.find(x=>x.id===id):null;
-  document.getElementById('mj-id').value=id||'';
-  document.getElementById('mj-t').textContent=j?'Edit Job':'Post a Job';
-  document.getElementById('mj-title').value=j?j.title||'':'';
-  document.getElementById('mj-company').value=j?j.company||'':'';
-  document.getElementById('mj-type').value=j?j.type||'Full-time':'Full-time';
-  document.getElementById('mj-loc').value=j?j.location||'':'';
-  document.getElementById('mj-budget').value=j?j.budget||'':'';
-  document.getElementById('mj-desc').value=j?j.desc||'':'';
-  document.getElementById('mj-apply').value=j?j.apply||'':'';
-  document.getElementById('mj-tags').value=j?j.tags||'':'';
-  document.getElementById('mj-feature').value=j?j.feature||'normal':'normal';
-  document.getElementById('mj-hide').value=j&&j.hidden?'true':'false';
-  document.getElementById('mj-expires').value=j?j.expires_on||'':'';
-  openM('ov-job');
-}
-async function saveJob(){
-  const id=document.getElementById('mj-id').value;
-  const body={
-    title:document.getElementById('mj-title').value,
-    company:document.getElementById('mj-company').value,
-    type:document.getElementById('mj-type').value,
-    location:document.getElementById('mj-loc').value,
-    budget:document.getElementById('mj-budget').value,
-    desc:document.getElementById('mj-desc').value,
-    apply:document.getElementById('mj-apply').value,
-    tags:document.getElementById('mj-tags').value,
-    feature:document.getElementById('mj-feature').value,
-    hidden:document.getElementById('mj-hide').value==='true',
-    expires_on:document.getElementById('mj-expires').value||null
-  };
-  try{
-    if(id){await sb('/jobs?id=eq.'+id,'PATCH',body);const j=_jb.find(x=>x.id===id);if(j)Object.assign(j,body);}
-    else{const r=await sb('/jobs','POST',body);if(r&&r[0])_jb.unshift(r[0]);}
-    rJobs();closeM('ov-job');toast('Job saved ✓');
-  }catch(e){toast('Error: '+e.message,1);}
-}
-async function hideJob(id){
-  const j=_jb.find(x=>x.id===id);if(!j)return;const h=!j.hidden;
-  try{await sb('/jobs?id=eq.'+id,'PATCH',{hidden:h});j.hidden=h;rJobs();toast('Done ✓');}
-  catch(e){toast('Error: '+e.message,1);}
-}
-async function delJob(id,t){
-  if(!confirm('Delete "'+t+'"?'))return;
-  try{await sb('/jobs?id=eq.'+id,'DELETE');_jb=_jb.filter(j=>j.id!==id);rJobs();toast('Deleted ✓');}
-  catch(e){toast('Error: '+e.message,1);}
-}
-async function cleanExpiredJobs(){
-  const now=new Date();
-  const expired=_jb.filter(j=>j.expires_on&&new Date(j.expires_on)<now);
-  if(!expired.length){toast('No expired jobs ✓');return;}
-  if(!confirm('Hide '+expired.length+' expired job'+(expired.length>1?'s':'')+' from the board?'))return;
-  for(const j of expired){
-    try{await sb('/jobs?id=eq.'+j.id,'PATCH',{hidden:true});j.hidden=true;}catch(e){}
-  }
-  rJobs();toast(expired.length+' expired job'+(expired.length>1?'s':'')+' hidden ✓');
-}
 
 // ─── REVENUE ──────────────────────────────────────────────────────────────────
 function getExps(){try{return JSON.parse(localStorage.getItem(EK)||'{}')}catch(e){return{};}}
