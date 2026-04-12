@@ -444,14 +444,9 @@ async function sbPost(path,body){
   return r.json();
 }
 async function sbStorageUpload(bucket,filePath,file){
-  // Try up to 2 times in case of transient token issues
-  for(let attempt=0;attempt<2;attempt++){
-    const r=await fetch(SB_URL+'/storage/v1/object/'+bucket+'/'+filePath,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+_accessToken,'Content-Type':file.type,'x-upsert':'true'},body:file});
-    if(r.ok)return r.json();
-    const errText=await r.text();
-    if(attempt===0){await new Promise(res=>setTimeout(res,800));continue;}
-    throw new Error(errText);
-  }
+  const r=await fetch(SB_URL+'/storage/v1/object/'+bucket+'/'+filePath,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+_accessToken,'Content-Type':file.type,'x-upsert':'true'},body:file});
+  if(!r.ok)throw new Error(await r.text());
+  return r.json();
 }
 
 function toast(msg,type=''){
@@ -545,6 +540,12 @@ async function submitSlip(){
   sb2.className='status-box pending active';sb2.textContent='Uploading slip and submitting your request…';
 
   try{
+    // Delete any existing pending or rejected rows for this user before submitting new one
+    await fetch(SB_URL+'/rest/v1/payments?user_id=eq.'+_user.id+'&pay_status=in.(pending,rejected)',{
+      method:'DELETE',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+_accessToken}
+    }).catch(()=>{});
+
     const ext=_fileObj.name.split('.').pop();
     const filename='slip_'+_user.id+'_'+Date.now()+'.'+ext;
     let uploadErr=null;
