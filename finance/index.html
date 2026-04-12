@@ -773,16 +773,13 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
     const expDate=new Date();expDate.setDate(expDate.getDate()+days);
     const expires=expDate.toISOString().split('T')[0];
 
-    // 1. Delete any old payment records for this user (cleanup duplicates)
-    await sb('/payments?user_id=eq.'+userId+'&pay_status=eq.paid','DELETE').catch(()=>{});
+    // 1. Update the slip record to 'paid'
+    await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'paid',paid_date:today});
 
-    // 2. Update the slip record to 'paid' (becomes the canonical payment record)
-    await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'paid',paid_date:today,notes:'Slip confirmed'});
-
-    // 3. Update profile to pro
+    // 2. Update profile to pro
     await sb('/profiles?id=eq.'+userId,'PATCH',{plan:plan,pay_status:'paid',pay_due:expires});
 
-    // 4. Send confirmation email via Supabase Edge Function
+    // 3. Send confirmation email
     try{
       await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
         method:'POST',
@@ -797,14 +794,12 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
       });
     }catch(emailErr){console.warn('Email send failed (non-critical):',emailErr);}
 
-    // Update local arrays
+    // Update local state — keep slip in array, just update status
     const slip=_slips.find(x=>x.id===slipId);
     if(slip){slip.pay_status='paid';slip.paid_date=today;}
     const pf=_pf.find(x=>x.id===userId);
     if(pf){pf.plan=plan;pf.pay_status='paid';pf.pay_due=expires;}
 
-    // Reload fresh data so Members view is correct
-    await loadData();
     renderAll();
     toast(name+' activated as Pro ✓');
   }catch(e){toast('Error: '+e.message,1);}
@@ -832,13 +827,11 @@ async function confirmReject(){
     // Mark slip as rejected
     await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'rejected'});
 
-    // Reset profile back to free if user was incorrectly activated
+    // Reset profile back to free
     if(userId&&userId!=='undefined'){
       await sb('/profiles?id=eq.'+userId,'PATCH',{plan:'free',pay_status:null,pay_due:null}).catch(()=>{});
-      // Also delete any paid payment records for this user from slip confirmation
-      await sb('/payments?user_id=eq.'+userId+'&pay_status=eq.paid&slip_url=not.is.null','DELETE').catch(()=>{});
       const pf=_pf.find(x=>x.id===userId);
-      if(pf){pf.plan='free';pf.pay_status=null;}
+      if(pf){pf.plan='free';pf.pay_status=null;pf.pay_due=null;}
     }
 
     // Send rejection email
@@ -853,9 +846,8 @@ async function confirmReject(){
     const slip=_slips.find(x=>x.id===slipId);
     if(slip)slip.pay_status='rejected';
     closeM('ov-reject');
-    await loadData();
     renderAll();
-    toast('Rejected & account reset to free ✓');
+    toast('Rejected — account reset to free ✓');
   }catch(e){toast('Error: '+e.message,1);}
 }
 
