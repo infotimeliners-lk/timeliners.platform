@@ -727,13 +727,18 @@ function rSlips(){
     const statusBadge=`<span class="sq-status sq-s-${ds}">${ds}</span>`;
 
     let actions='';
+    const viewBtn=s.slip_url?`<button class="btn btn-g btn-xs" onclick="${isPdf?"window.open('"+s.slip_url+"','_blank')":"openSlipLb('"+s.slip_url+"')"}">View Slip</button>`:'';
     if(s.pay_status==='pending'){
       actions=`
         <button class="btn btn-grn btn-xs" onclick="confirmSlip('${s.id}','${s.user_id}','${s.plan}',${s.amount},'${name.replace(/'/g,"\\'")}','${email}')">✓ Confirm</button>
-        <button class="btn btn-r btn-xs" onclick="openRejectModal('${s.id}','${name.replace(/'/g,"\\'")}','${email}')">✗ Reject</button>
-        ${s.slip_url?`<button class="btn btn-g btn-xs" onclick="${isPdf?"window.open('"+s.slip_url+"','_blank')":"openSlipLb('"+s.slip_url+"')"}">View Slip</button>`:''}`;
+        <button class="btn btn-r btn-xs" onclick="openRejectModal('${s.id}','${name.replace(/'/g,"\\'")}','${email}','${s.user_id}')">✗ Reject</button>
+        ${viewBtn}`;
+    }else if(s.pay_status==='rejected'){
+      actions=`
+        <button class="btn btn-grn btn-xs" onclick="confirmSlip('${s.id}','${s.user_id}','${s.plan}',${s.amount},'${name.replace(/'/g,"\\'")}','${email}')">✓ Confirm Anyway</button>
+        ${viewBtn}`;
     }else{
-      actions=s.slip_url?`<button class="btn btn-g btn-xs" onclick="${isPdf?"window.open('"+s.slip_url+"','_blank')":"openSlipLb('"+s.slip_url+"')"}">View Slip</button>`:'';
+      actions=viewBtn;
     }
 
     return`<div class="sq-card">
@@ -794,9 +799,7 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
 
     // Update local arrays
     const slip=_slips.find(x=>x.id===slipId);
-    if(slip){slip.pay_status='paid';}
-    // Remove the slip from the slips array (it's now a regular payment)
-    _slips=_slips.filter(x=>x.id!==slipId);
+    if(slip){slip.pay_status='paid';slip.paid_date=today;}
     const pf=_pf.find(x=>x.id===userId);
     if(pf){pf.plan=plan;pf.pay_status='paid';pf.pay_due=expires;}
 
@@ -807,8 +810,8 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
   }catch(e){toast('Error: '+e.message,1);}
 }
 
-function openRejectModal(slipId,name,email){
-  document.getElementById('rej-id').value=slipId+'|'+name+'|'+email;
+function openRejectModal(slipId,name,email,userId){
+  document.getElementById('rej-id').value=slipId+'|'+name+'|'+email+'|'+(userId||'');
   document.getElementById('rej-reason').value='Incorrect amount transferred';
   document.getElementById('rej-other-fg').style.display='none';
   openM('ov-reject');
@@ -819,14 +822,24 @@ function updateRejOther(){
 }
 async function confirmReject(){
   const raw=document.getElementById('rej-id').value.split('|');
-  const [slipId,name,email]=[raw[0],raw[1],raw[2]];
+  const [slipId,name,email,userId]=[raw[0],raw[1],raw[2],raw[3]];
   const selVal=document.getElementById('rej-reason').value;
   const reason=selVal==='other'?document.getElementById('rej-other').value.trim():selVal;
   if(!reason){toast('Enter a reason',1);return;}
 
   toast('Rejecting…');
   try{
+    // Mark slip as rejected
     await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'rejected'});
+
+    // Reset profile back to free if user was incorrectly activated
+    if(userId&&userId!=='undefined'){
+      await sb('/profiles?id=eq.'+userId,'PATCH',{plan:'free',pay_status:null,pay_due:null}).catch(()=>{});
+      // Also delete any paid payment records for this user from slip confirmation
+      await sb('/payments?user_id=eq.'+userId+'&pay_status=eq.paid&slip_url=not.is.null','DELETE').catch(()=>{});
+      const pf=_pf.find(x=>x.id===userId);
+      if(pf){pf.plan='free';pf.pay_status=null;}
+    }
 
     // Send rejection email
     try{
@@ -840,8 +853,9 @@ async function confirmReject(){
     const slip=_slips.find(x=>x.id===slipId);
     if(slip)slip.pay_status='rejected';
     closeM('ov-reject');
-    rSlips();
-    toast('Rejected & email sent ✓');
+    await loadData();
+    renderAll();
+    toast('Rejected & account reset to free ✓');
   }catch(e){toast('Error: '+e.message,1);}
 }
 
