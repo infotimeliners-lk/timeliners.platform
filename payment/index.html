@@ -439,7 +439,7 @@ async function sbGet(path){
   return r.json();
 }
 async function sbPost(path,body){
-  const r=await fetch(SB_URL+'/rest/v1'+path,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+_accessToken,'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(body)});
+  const r=await fetch(SB_URL+'/rest/v1'+path,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+_accessToken,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=representation'},body:JSON.stringify(body)});
   if(!r.ok)throw new Error(await r.text());
   return r.json();
 }
