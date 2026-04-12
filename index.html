@@ -1008,6 +1008,13 @@ img, video, iframe, canvas { max-width: 100%; }
     if(s){s.classList.remove('active');s.style.display='none';}
     var nav=document.getElementById('main-nav');if(nav)nav.style.display='flex';
     var feed=document.getElementById('page-feed');if(feed)feed.classList.add('active');
+
+    // Auto-open auth modal if coming from payment.html
+    var authIntent=sessionStorage.getItem('tl_auth_intent');
+    if(authIntent){
+      sessionStorage.removeItem('tl_auth_intent');
+      setTimeout(function(){ openAuth(authIntent==='signup'?'up':'in'); },400);
+    }
   });
 })();
 </script>
@@ -2369,6 +2376,15 @@ async function handleSignIn() {
     await loadProfile();
     applyLoggedIn();
     closeAuth();
+
+    // If they came from payment.html to sign in, redirect back
+    const upgradeIntent = sessionStorage.getItem('tl_upgrade_intent');
+    if (upgradeIntent) {
+      sessionStorage.removeItem('tl_upgrade_intent');
+      window.location.href = 'payment.html?plan=' + upgradeIntent;
+      return;
+    }
+
     showPage('dashboard');
     const firstName = (S.profile?.name || '').split(' ')[0] || S.user.email.split('@')[0];
     showToast('Welcome back, ' + firstName + '!');
@@ -2628,6 +2644,15 @@ async function verifyOtp() {
     try { history.replaceState(null, '', '/#/dashboard'); } catch(e) {}
     el('otp-overlay').style.display = 'none';
     applyLoggedIn();
+
+    // If they came from payment.html, redirect back
+    const upgradeIntent = sessionStorage.getItem('tl_upgrade_intent');
+    if (upgradeIntent) {
+      sessionStorage.removeItem('tl_upgrade_intent');
+      window.location.href = 'payment.html?plan=' + upgradeIntent;
+      return;
+    }
+
     showPage('dashboard');
     showToast('Welcome to Timeliners, ' + fn + '!');
 
@@ -3419,14 +3444,18 @@ function updatePlanUI() {
 
 function requestUpgrade(plan) {
   const yearly = plan === 'pro_yearly' || plan === 'pro-yearly';
-  let msg;
-  if (yearly) {
-    msg = "Hi, I would like to purchase a Pro subscription (Yearly) on TimeLiners.";
-  } else {
-    msg = "Hi, I would like to purchase a Pro subscription (Monthly) on TimeLiners.";
+  if (!S.user) {
+    sessionStorage.setItem('tl_upgrade_intent', yearly ? 'yearly' : 'monthly');
+    openAuth('up');
+    showToast('Create an account first, then upgrade to Pro');
+    return;
   }
-  window.open('https://wa.me/94771873449?text=' + encodeURIComponent(msg), '_blank');
-  showToast('Opening WhatsApp to upgrade!');
+  const p = S.profile?.plan;
+  if (p === 'pro' || p === 'pro-yearly' || p === 'standard' || p === 'vip') {
+    showToast('You already have an active Pro plan');
+    return;
+  }
+  window.location.href = 'payment.html?plan=' + (yearly ? 'yearly' : 'monthly');
 }
 
 // Pricing page billing toggle
