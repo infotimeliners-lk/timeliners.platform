@@ -182,8 +182,8 @@ input,select,textarea{font-family:var(--fm)}
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-c">
-    <a href="/" class="nav-brand">TimeLiners</a>
-    <a href="/" class="nav-back">
+    <a href="../" class="nav-brand">TimeLiners</a>
+    <a href="../" class="nav-back">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2.5L4.5 7 9 11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Back
     </a>
@@ -444,9 +444,14 @@ async function sbPost(path,body){
   return r.json();
 }
 async function sbStorageUpload(bucket,filePath,file){
-  const r=await fetch(SB_URL+'/storage/v1/object/'+bucket+'/'+filePath,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+_accessToken,'Content-Type':file.type,'x-upsert':'true'},body:file});
-  if(!r.ok)throw new Error(await r.text());
-  return r.json();
+  // Try up to 2 times in case of transient token issues
+  for(let attempt=0;attempt<2;attempt++){
+    const r=await fetch(SB_URL+'/storage/v1/object/'+bucket+'/'+filePath,{method:'POST',headers:{'apikey':SB_KEY,'Authorization':'Bearer '+_accessToken,'Content-Type':file.type,'x-upsert':'true'},body:file});
+    if(r.ok)return r.json();
+    const errText=await r.text();
+    if(attempt===0){await new Promise(res=>setTimeout(res,800));continue;}
+    throw new Error(errText);
+  }
 }
 
 function toast(msg,type=''){
@@ -491,7 +496,7 @@ function copyAccount(){
 function goAuth(intent){
   sessionStorage.setItem('tl_auth_intent',intent);
   sessionStorage.setItem('tl_upgrade_intent',_plan);
-  window.location.href='/';
+  window.location.href='../';
 }
 
 function triggerUpload(){
