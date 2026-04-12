@@ -773,10 +773,7 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
     const expDate=new Date();expDate.setDate(expDate.getDate()+days);
     const expires=expDate.toISOString().split('T')[0];
 
-    // 1. Delete any OTHER payment rows for this user (duplicates/rejected ones)
-    await sb('/payments?user_id=eq.'+userId+'&id=neq.'+slipId,'DELETE').catch(()=>{});
-
-    // 2. Update the slip record to paid
+    // Update the slip record to paid — no DELETE needed, just update same row
     const pf0=_pf.find(x=>x.id===userId);
     const mnoPf=pf0?mno(pf0):null;
     await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'paid',paid_date:today,member_no:mnoPf});
@@ -834,10 +831,7 @@ async function confirmReject(){
 
   toast('Rejecting…');
   try{
-    // Delete ALL other payment rows for this user (the paid row created by confirmSlip)
-    await sb('/payments?user_id=eq.'+userId+'&id=neq.'+slipId,'DELETE').catch(()=>{});
-
-    // Mark slip as rejected
+    // Mark slip as rejected — update same row, no deletes
     await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'rejected'});
 
     // Reset profile back to free
@@ -870,12 +864,7 @@ async function confirmReject(){
 async function sb(path,method='GET',body=null){
   const headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'};
   if(method==='POST'){
-    // Use upsert for payments to prevent duplicate rows
-    if(path.startsWith('/payments')){
-      headers['Prefer']='resolution=merge-duplicates,return=representation';
-    } else {
-      headers['Prefer']='return=representation';
-    }
+    headers['Prefer']='return=representation';
   }
   const r=await fetch(SB+'/rest/v1'+path,{method,headers,body:body?JSON.stringify(body):undefined});
   const t=await r.text();
