@@ -773,10 +773,15 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
     const expDate=new Date();expDate.setDate(expDate.getDate()+days);
     const expires=expDate.toISOString().split('T')[0];
 
-    // 1. Update the slip record to 'paid'
-    await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'paid',paid_date:today});
+    // 1. Delete any OTHER payment rows for this user (duplicates/rejected ones)
+    await sb('/payments?user_id=eq.'+userId+'&id=neq.'+slipId,'DELETE').catch(()=>{});
 
-    // 2. Update profile to pro
+    // 2. Update the slip record to paid
+    const pf0=_pf.find(x=>x.id===userId);
+    const mnoPf=pf0?mno(pf0):null;
+    await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'paid',paid_date:today,member_no:mnoPf});
+
+    // 3. Update profile to pro
     await sb('/profiles?id=eq.'+userId,'PATCH',{plan:plan,pay_status:'paid',pay_due:expires});
 
     // 3. Send confirmation email
@@ -794,9 +799,14 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
       });
     }catch(emailErr){console.warn('Email send failed (non-critical):',emailErr);}
 
-    // Update local state — keep slip in array, just update status
+    // Update local state — remove duplicate rows, keep only this slip
+    _py=_py.filter(p=>p.user_id!==userId||p.id===slipId);
+    _slips=_slips.filter(s=>s.user_id!==userId||s.id===slipId);
     const slip=_slips.find(x=>x.id===slipId);
-    if(slip){slip.pay_status='paid';slip.paid_date=today;}
+    if(slip){slip.pay_status='paid';slip.paid_date=today;slip.member_no=mnoPf;}
+    // Add to _py so Members pane shows it and autoFillMissing doesn't create duplicate
+    const existsInPy=_py.find(x=>x.id===slipId);
+    if(!existsInPy&&slip){_py.unshift({...slip,pay_status:'paid',paid_date:today});}
     const pf=_pf.find(x=>x.id===userId);
     if(pf){pf.plan=plan;pf.pay_status='paid';pf.pay_due=expires;}
 
@@ -824,6 +834,9 @@ async function confirmReject(){
 
   toast('Rejecting…');
   try{
+    // Delete ALL other payment rows for this user (the paid row created by confirmSlip)
+    await sb('/payments?user_id=eq.'+userId+'&id=neq.'+slipId,'DELETE').catch(()=>{});
+
     // Mark slip as rejected
     await sb('/payments?id=eq.'+slipId,'PATCH',{pay_status:'rejected'});
 
@@ -845,6 +858,8 @@ async function confirmReject(){
 
     const slip=_slips.find(x=>x.id===slipId);
     if(slip)slip.pay_status='rejected';
+    // Remove deleted payment rows from local _py
+    _py=_py.filter(p=>p.user_id!==userId||p.id===slipId);
     closeM('ov-reject');
     renderAll();
     toast('Rejected — account reset to free ✓');
@@ -853,7 +868,15 @@ async function confirmReject(){
 
 // ─── SUPABASE ─────────────────────────────────────────────────────────────────
 async function sb(path,method='GET',body=null){
-  const headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'};
+  const headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'};
+  if(method==='POST'){
+    // Use upsert for payments to prevent duplicate rows
+    if(path.startsWith('/payments')){
+      headers['Prefer']='resolution=merge-duplicates,return=representation';
+    } else {
+      headers['Prefer']='return=representation';
+    }
+  }
   const r=await fetch(SB+'/rest/v1'+path,{method,headers,body:body?JSON.stringify(body):undefined});
   const t=await r.text();
   if(!r.ok){let msg=t;try{msg=JSON.parse(t).message||t;}catch(e){}throw new Error(msg||String(r.status));}
@@ -865,21 +888,7 @@ async function loadData(){
     sb('/profiles?select=*&order=created_at.desc'),
     sb('/payments?select=*&pay_status=in.(paid,overdue,downgraded)&order=paid_date.desc').catch(()=>[]),
   ]);
-  _pf=a||[];
-  // Deduplicate payments — keep only the latest paid record per user
-  const raw=b||[];
-  const byUser={};
-  for(const p of raw){
-    const uid=p.user_id;
-    if(!byUser[uid]){byUser[uid]=p;continue;}
-    // Prefer paid over other statuses, then latest paid_date
-    const cur=byUser[uid];
-    const pIsPaid=p.pay_status==='paid';
-    const cIsPaid=cur.pay_status==='paid';
-    if(pIsPaid&&!cIsPaid){byUser[uid]=p;}
-    else if(pIsPaid===cIsPaid&&p.paid_date>cur.paid_date){byUser[uid]=p;}
-  }
-  _py=Object.values(byUser);
+  _pf=a||[];_py=b||[];
   await loadSlips();
   await syncOverdueStatus();
 }
@@ -890,7 +899,7 @@ async function syncOverdueStatus(){
   today.setHours(0,0,0,0);
 
   for(const p of _py){
-    if(!p.expires_date||!p.paid_date) continue;
+    if(!p.expires_date) continue;
     const exp=new Date(p.expires_date);
     exp.setHours(0,0,0,0);
     const daysLeft=Math.ceil((exp-today)/86400000);
@@ -1075,14 +1084,8 @@ function switchProTab(tab,el){
 
 function rProMembers(){
   const now=Date.now();
-  // Show payment records where profile is pro, OR payment is overdue/downgraded
-  const proProfileIds=new Set(_pf.filter(p=>isPro(p.plan)).map(p=>p.id));
-  let proData=_py.filter(p=>proProfileIds.has(p.user_id)||p.pay_status==='overdue'||p.pay_status==='downgraded');
-  // Also include pro profiles that don't have a payment record
-  const proProfiles=_pf.filter(p=>isPro(p.plan));
-  const withPayment=new Set(_py.map(p=>p.user_id));
-  const noPayProfile=proProfiles.filter(p=>!withPayment.has(p.id));
-
+  // Only show confirmed paid/overdue/downgraded — never show pending or rejected
+  let proData=_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded');
   if(_proTab==='paid')proData=proData.filter(p=>p.pay_status==='paid');
   else if(_proTab==='overdue')proData=proData.filter(p=>p.pay_status==='overdue');
   else if(_proTab==='downgraded')proData=proData.filter(p=>p.pay_status==='downgraded');
@@ -1096,12 +1099,14 @@ function rProMembers(){
     return da-db;
   });
 
-  const paid=_py.filter(p=>p.pay_status==='paid'&&isPro(p.plan)).length;
+  const paid=_py.filter(p=>p.pay_status==='paid').length;
   const over=_py.filter(p=>p.pay_status==='overdue').length;
   const down=_py.filter(p=>p.pay_status==='downgraded').length;
   document.getElementById('pro-sub').textContent=`${paid} paid · ${over} overdue · ${down} downgraded`;
 
-  // Missing payment alert
+  // Missing payment alert — pro profiles with no payment record
+  const withPayment=new Set(_py.map(p=>p.user_id));
+  const noPayProfile=_pf.filter(p=>isPro(p.plan)&&!withPayment.has(p.id));
   const ma=document.getElementById('pay-missing-alert');
   if(noPayProfile.length>0&&_proTab==='all'){
     ma.style.display='block';
@@ -1262,7 +1267,8 @@ async function submitPayment(){
   m.style.cssText='display:block;background:var(--ambl);color:var(--amb);border:1px solid var(--ambb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
   try{
     const payBody={user_id:pf.id,plan,amount:PP[plan]||2490,paid_date:date,pay_status:'paid',notes:notes||null,wa:wa||pf.wa||null,member_no:mno(pf)};
-    const r=await sb('/payments','POST',payBody);
+    // Use upsert to avoid duplicate row — updates existing row if user already has one
+    const r=await fetch(SB+'/rest/v1/payments',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=representation'},body:JSON.stringify(payBody)}).then(r=>r.json());
     if(r&&r[0])_py.unshift(r[0]);
     const profileUpdate={plan,pay_status:'paid',pay_due:calcExpiry(date,plan)};
     if(wa)profileUpdate.wa=wa;
@@ -1362,19 +1368,7 @@ function openMonthDetail(mo){
 }
 
 async function autoFillMissing(){
-  const proProfiles=_pf.filter(p=>isPro(p.plan));
-  const missing=proProfiles.filter(p=>!_py.some(py=>py.user_id===p.id));
-  if(!missing.length){toast('All pro members have payment records ✓');return;}
-  if(!confirm('Create payment records for '+missing.length+' member'+(missing.length>1?'s':'')+' using today as paid date?'))return;
-  let created=0;
-  for(const p of missing){
-    const plan=p.plan==='pro-yearly'?'pro-yearly':'pro';
-    const today=new Date().toISOString().split('T')[0];
-    const body={user_id:p.id,plan,amount:PP[plan]||2490,paid_date:today,pay_status:'paid',notes:'Backfilled from profile',wa:p.wa||null,member_no:mno(p)};
-    try{const r=await sb('/payments','POST',body);if(r&&r[0]){_py.unshift(r[0]);created++;}}catch(e){console.warn('Backfill failed',e.message);}
-  }
-  toast(created+' record'+(created!==1?'s':'')+' created ✓');
-  renderAll();
+  toast('Auto-fill disabled — use slip queue to confirm payments');
 }
 
 // ─── WHATSAPP MESSAGES ────────────────────────────────────────────────────────
