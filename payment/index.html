@@ -182,8 +182,8 @@ input,select,textarea{font-family:var(--fm)}
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-c">
-    <a href="index.html" class="nav-brand">TimeLiners</a>
-    <a href="index.html" class="nav-back">
+    <a href="/" class="nav-brand">TimeLiners</a>
+    <a href="/" class="nav-back">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2.5L4.5 7 9 11.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Back
     </a>
@@ -491,7 +491,7 @@ function copyAccount(){
 function goAuth(intent){
   sessionStorage.setItem('tl_auth_intent',intent);
   sessionStorage.setItem('tl_upgrade_intent',_plan);
-  window.location.href='index.html';
+  window.location.href='/';
 }
 
 function triggerUpload(){
