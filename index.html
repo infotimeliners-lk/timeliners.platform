@@ -1364,10 +1364,10 @@ img, video, iframe, canvas { max-width: 100%; }
         </div>
         <div style="display:flex;align-items:center;gap:.48rem;font-size:.73rem;color:var(--t2)">Sort:
           <div class="sort-cdd" id="sort-cdd">
-            <div class="sort-cdd-btn" onclick="toggleSortCdd()"><span id="sort-cdd-lbl">Newest</span><svg class="sort-cdd-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="sort-cdd-btn" onclick="toggleSortCdd()"><span id="sort-cdd-lbl">Top Ranked</span><svg class="sort-cdd-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
             <div class="sort-cdd-menu">
-              <div class="sort-cdd-opt active" onclick="setSortCdd('newest','Newest')">Newest</div>
-              <div class="sort-cdd-opt" onclick="setSortCdd('popular','Most Liked')">Most Liked</div>
+              <div class="sort-cdd-opt active" onclick="setSortCdd('ranked','Top Ranked')">Top Ranked</div>
+              <div class="sort-cdd-opt" onclick="setSortCdd('newest','Newest')">Newest</div>
               <div class="sort-cdd-opt" onclick="setSortCdd('views','Most Viewed')">Most Viewed</div>
             </div>
           </div>
@@ -1570,7 +1570,7 @@ img, video, iframe, canvas { max-width: 100%; }
       <div id="ep-video-current" style="margin-bottom:.45rem;display:none;flex-direction:column;gap:.3rem"></div>
       <div id="ep-video-list" style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.4rem"></div>
       <button type="button" onclick="epPickVideo()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.6rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr);text-align:left" id="ep-video-btn" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
-        + Add Video (MP4, MOV · up to 250 MB each)
+        + Add Video (MP4, WEBM · up to 250 MB each)
       </button>
       <div id="ep-video-progress" style="display:none;margin-top:.45rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.6rem .8rem">
         <div style="display:flex;justify-content:space-between;margin-bottom:.35rem">
@@ -1832,7 +1832,7 @@ img, video, iframe, canvas { max-width: 100%; }
               <label class="dl">Project Videos</label>
               <div id="video-list" style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.45rem"></div>
               <button type="button" onclick="addVideoSlot()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.65rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr)" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
-                Add Video (MP4, MOV, WEBM)
+                Add Video (MP4, WEBM)
               </button>
               <div id="video-upload-progress" style="display:none;margin-top:.6rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem .9rem">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem">
@@ -2147,7 +2147,7 @@ async function db(path, method = 'GET', body = null, token = null) {
 // ── STATE ────────────────────────────────────────────
 const S = {
   user: null, session: null, profile: null, loginTime: null,
-  projects: [], filter: 'all', search: '', sort: 'newest'
+  projects: [], filter: 'all', search: '', sort: 'ranked'
 };
 
 // ── CONSTANTS ────────────────────────────────────────
@@ -2977,6 +2977,7 @@ function renderFeed() {
   if (S.search) list = list.filter(p => (p.title + (p.author_name || '') + (p.tags || []).join(' ')).toLowerCase().includes(S.search));
   if (S.sort === 'popular') list = list.slice().sort((a, b) => b.likes - a.likes);
   else if (S.sort === 'views') list = list.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
+  else if (S.sort === 'newest') list = list.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   else {
     // ── TimeLiners Feed Algorithm ──────────────────────────────
     // Score = (engagement + base) × recency_decay × pro_boost × verified_boost
@@ -2989,8 +2990,8 @@ function renderFeed() {
       const engagement = likes * 3 + views * 0.5;
 
       // 2. Recency decay — older posts lose score gradually
-      //    hoursOld^0.6 means a 1hr post scores 1×, 24hr ≈ 0.27×, 7day ≈ 0.1×
-      const hoursOld = Math.max(1, (now - new Date(p.created_at || now)) / 3600000);
+      //    hoursOld^0.6: floor=24h so brand-new posts don't spike. 24hr=1×, 7day≈0.27×, 30day≈0.1×
+      const hoursOld = Math.max(24, (now - new Date(p.created_at || now)) / 3600000);
       const recency  = 1 / Math.pow(hoursOld, 0.6);
 
       // 3. Base score so new posts with 0 engagement still compete
@@ -3699,6 +3700,8 @@ function handleVideoDrop(e) {
 function processVideoFile(f) {
   const isPaidUser = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
   if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
+  const allowedTypes = ['video/mp4', 'video/webm'];
+  if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
   // Free users: 250MB per file limit. Pro: no per-file limit, only total storage matters.
   if (!isPaidUser && f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
   _pendingVideoFile = f;
@@ -5263,12 +5266,14 @@ window._epPendingVideos = [];
 window.epPickVideo = function() {
   if (window._epPendingVideos.length >= 5) { showToast('Max 5 videos per project.'); return; }
   const inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'video/mp4,video/quicktime,video/webm,video/*'; inp.style.display = 'none';
+  inp.type = 'file'; inp.accept = 'video/mp4,video/webm'; inp.style.display = 'none';
   document.body.appendChild(inp);
   inp.onchange = () => {
     const f = inp.files[0]; document.body.removeChild(inp);
     if (!f) return;
     if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
+  const allowedTypes = ['video/mp4', 'video/webm'];
+  if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
     var _epIsPaid = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
     if (!_epIsPaid && f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
     window._epPendingVideos.push(f);
@@ -5754,12 +5759,14 @@ function copyProfileLink() {
 const _pendingVideos = [];
 function addVideoSlot() {
   const inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'video/mp4,video/quicktime,video/webm,video/mov,video/*'; inp.style.display = 'none';
+  inp.type = 'file'; inp.accept = 'video/mp4,video/webm'; inp.style.display = 'none';
   document.body.appendChild(inp);
   inp.onchange = () => {
     const f = inp.files[0]; document.body.removeChild(inp);
     if (!f) return;
     if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
+  const allowedTypes = ['video/mp4', 'video/webm'];
+  if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
     var _avIsPaid = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
     if (!_avIsPaid && f.size > 250 * 1024 * 1024) { showToast('Each video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
     if (_pendingVideos.length >= 5)  { showToast('Max 5 videos per project.'); return; }
