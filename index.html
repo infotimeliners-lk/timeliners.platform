@@ -946,6 +946,22 @@ img, video, iframe, canvas { max-width: 100%; }
 @keyframes pageEnter{
   from{opacity:0;transform:translateY(20px)}
   to{opacity:1;transform:translateY(0)}
+
+/* ── Profile Category Folders ── */
+.prof-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:700px){.prof-cat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.prof-cat-grid{grid-template-columns:repeat(2,1fr);gap:.6rem}}
+.prof-cat-folder{cursor:pointer;transition:all .2s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;align-items:flex-start}
+.prof-cat-folder:hover .prof-cat-folder-box{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.13)}
+.prof-cat-folder-box{width:100%;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:var(--bg3);border:1px solid rgba(0,0,0,.07);box-shadow:0 2px 8px rgba(0,0,0,.07);transition:all .2s cubic-bezier(.4,0,.2,1);position:relative}
+.prof-cat-folder-box img,.prof-cat-folder-box video{width:100%;height:100%;object-fit:cover;display:block}
+.prof-cat-folder-box-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg4),var(--bg3))}
+.prof-cat-folder-box-ph svg{opacity:.18}
+.prof-cat-folder-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 55%);pointer-events:none}
+.prof-cat-folder-info{padding:.55rem .1rem .1rem;width:100%}
+.prof-cat-folder-title{font-size:.8rem;font-weight:700;color:var(--t1);text-transform:capitalize;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.1rem}
+.prof-cat-folder-meta{font-size:.68rem;color:var(--t3)}
+.prof-cat-back{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:500;color:var(--t2);background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.3rem .8rem;cursor:pointer;margin-bottom:.9rem;transition:all .18s}.prof-cat-back:hover{color:var(--t1);border-color:var(--brd2)}
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -1437,8 +1453,19 @@ img, video, iframe, canvas { max-width: 100%; }
 
     <!-- PROJECTS -->
     <div class="prof-right-sec">
-      <div class="prof-right-sec-h">Projects</div>
-      <div class="prof-proj-grid" id="profile-proj-grid"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <div class="prof-right-sec-h" style="margin-bottom:0">Projects</div>
+        <div id="prof-tab-btns" style="display:flex;gap:.4rem;background:var(--bg3);border-radius:50px;padding:.18rem;border:1px solid var(--brd)">
+          <button id="ptab-all" onclick="switchProfileTab('all')" style="font-size:.75rem;font-weight:600;padding:.3rem .85rem;border-radius:50px;border:none;background:var(--ac);color:#fff;cursor:pointer;transition:all .18s">All</button>
+          <button id="ptab-cat" onclick="switchProfileTab('cat')" style="font-size:.75rem;font-weight:500;padding:.3rem .85rem;border-radius:50px;border:none;background:transparent;color:var(--t2);cursor:pointer;transition:all .18s">Categories</button>
+        </div>
+      </div>
+      <div id="profile-proj-grid-wrap">
+        <div class="prof-proj-grid" id="profile-proj-grid"></div>
+      </div>
+      <div id="profile-cat-grid-wrap" style="display:none">
+        <div id="profile-cat-grid"></div>
+      </div>
       <div class="prof-noproj" id="pnores" style="display:none">
         No published projects yet.
         <div style="margin-top:.8rem"><button class="btn btn-p btn-sm" id="pnores-upload-btn" style="display:none" onclick="showPage('dashboard');switchDash('upload',document.getElementById('dnav-upload'))">Upload a project <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
@@ -1540,15 +1567,16 @@ img, video, iframe, canvas { max-width: 100%; }
     <svg class="cdd-arrow" width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <div class="cdd-menu" style="width:100%">
-    <div class="cdd-opt selected" data-val="video" onclick="setCdd('ep-cat-cdd','video','Video Edit');document.getElementById('ep-proj-cat').value='video'">Video Edit</div>
-    <div class="cdd-opt" data-val="motion" onclick="setCdd('ep-cat-cdd','motion','Motion Graphics');document.getElementById('ep-proj-cat').value='motion'">Motion Graphics</div>
-    <div class="cdd-opt" data-val="film" onclick="setCdd('ep-cat-cdd','film','Film / Cinematic');document.getElementById('ep-proj-cat').value='film'">Film / Cinematic</div>
-    <div class="cdd-opt" data-val="social" onclick="setCdd('ep-cat-cdd','social','Reels / Shorts / TikTok');document.getElementById('ep-proj-cat').value='social'">Reels / Shorts / TikTok</div>
-    <div class="cdd-opt" data-val="longform" onclick="setCdd('ep-cat-cdd','longform','Long-form');document.getElementById('ep-proj-cat').value='longform'">Long-form</div>
-    <div class="cdd-opt" data-val="3d" onclick="setCdd('ep-cat-cdd','3d','3D &amp; VFX');document.getElementById('ep-proj-cat').value='3d'">3D &amp; VFX</div>
-    <div class="cdd-opt" data-val="wedding" onclick="setCdd('ep-cat-cdd','wedding','Wedding &amp; Events');document.getElementById('ep-proj-cat').value='wedding'">Wedding &amp; Events</div>
-    <div class="cdd-opt" data-val="other" onclick="setCdd('ep-cat-cdd','other','Other');document.getElementById('ep-proj-cat').value='other'">Other</div>
+    <div class="cdd-opt selected" data-val="video" onclick="setCdd('ep-cat-cdd','video','Video Edit');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='video'">Video Edit</div>
+    <div class="cdd-opt" data-val="motion" onclick="setCdd('ep-cat-cdd','motion','Motion Graphics');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='motion'">Motion Graphics</div>
+    <div class="cdd-opt" data-val="film" onclick="setCdd('ep-cat-cdd','film','Film / Cinematic');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='film'">Film / Cinematic</div>
+    <div class="cdd-opt" data-val="social" onclick="setCdd('ep-cat-cdd','social','Reels / Shorts / TikTok');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='social'">Reels / Shorts / TikTok</div>
+    <div class="cdd-opt" data-val="longform" onclick="setCdd('ep-cat-cdd','longform','Long-form');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='longform'">Long-form</div>
+    <div class="cdd-opt" data-val="3d" onclick="setCdd('ep-cat-cdd','3d','3D &amp; VFX');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='3d'">3D &amp; VFX</div>
+    <div class="cdd-opt" data-val="wedding" onclick="setCdd('ep-cat-cdd','wedding','Wedding &amp; Events');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='wedding'">Wedding &amp; Events</div>
+    <div class="cdd-opt" data-val="other" onclick="setCdd('ep-cat-cdd','other','Other · Type below');document.getElementById('ep-proj-cat').value='other';document.getElementById('ep-cat-custom-wrap').style.display='block'">Other</div>
   </div>
+  <div id="ep-cat-custom-wrap" style="display:none;margin-top:.5rem"><input class="di" id="ep-cat-custom" type="text" placeholder="e.g. Wedding Films, Documentary..." maxlength="40" oninput="document.getElementById('ep-proj-cat').value=this.value.trim()||'other'" style="font-size:.84rem"></div>
   <select class="cdd-hidden" id="ep-proj-cat"><option value="video">Video Edit</option><option value="motion">Motion Graphics</option><option value="film">Film / Cinematic</option><option value="social">Reels / Shorts / TikTok</option><option value="longform">Long-form</option><option value="3d">3D &amp; VFX</option><option value="wedding">Wedding &amp; Events</option><option value="other">Other</option></select>
 </div></div>
       <div class="df"><label class="dl">Year</label><input class="di" id="ep-proj-year" type="text"></div>
@@ -1805,15 +1833,16 @@ img, video, iframe, canvas { max-width: 100%; }
     <svg class="cdd-arrow" width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <div class="cdd-menu" style="width:100%">
-    <div class="cdd-opt selected" data-val="video" onclick="setCdd('up-cat-cdd','video','Video Edit');document.getElementById('up-cat').value='video'">Video Edit</div>
-    <div class="cdd-opt" data-val="motion" onclick="setCdd('up-cat-cdd','motion','Motion Graphics');document.getElementById('up-cat').value='motion'">Motion Graphics</div>
-    <div class="cdd-opt" data-val="film" onclick="setCdd('up-cat-cdd','film','Film / Cinematic');document.getElementById('up-cat').value='film'">Film / Cinematic</div>
-    <div class="cdd-opt" data-val="social" onclick="setCdd('up-cat-cdd','social','Reels / Shorts / TikTok');document.getElementById('up-cat').value='social'">Reels / Shorts / TikTok</div>
-    <div class="cdd-opt" data-val="longform" onclick="setCdd('up-cat-cdd','longform','Long-form');document.getElementById('up-cat').value='longform'">Long-form</div>
-    <div class="cdd-opt" data-val="3d" onclick="setCdd('up-cat-cdd','3d','3D &amp; VFX');document.getElementById('up-cat').value='3d'">3D &amp; VFX</div>
-    <div class="cdd-opt" data-val="wedding" onclick="setCdd('up-cat-cdd','wedding','Wedding &amp; Events');document.getElementById('up-cat').value='wedding'">Wedding &amp; Events</div>
-    <div class="cdd-opt" data-val="other" onclick="setCdd('up-cat-cdd','other','Other');document.getElementById('up-cat').value='other'">Other</div>
+    <div class="cdd-opt selected" data-val="video" onclick="setCdd('up-cat-cdd','video','Video Edit');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='video'">Video Edit</div>
+    <div class="cdd-opt" data-val="motion" onclick="setCdd('up-cat-cdd','motion','Motion Graphics');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='motion'">Motion Graphics</div>
+    <div class="cdd-opt" data-val="film" onclick="setCdd('up-cat-cdd','film','Film / Cinematic');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='film'">Film / Cinematic</div>
+    <div class="cdd-opt" data-val="social" onclick="setCdd('up-cat-cdd','social','Reels / Shorts / TikTok');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='social'">Reels / Shorts / TikTok</div>
+    <div class="cdd-opt" data-val="longform" onclick="setCdd('up-cat-cdd','longform','Long-form');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='longform'">Long-form</div>
+    <div class="cdd-opt" data-val="3d" onclick="setCdd('up-cat-cdd','3d','3D &amp; VFX');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='3d'">3D &amp; VFX</div>
+    <div class="cdd-opt" data-val="wedding" onclick="setCdd('up-cat-cdd','wedding','Wedding &amp; Events');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='wedding'">Wedding &amp; Events</div>
+    <div class="cdd-opt" data-val="other" onclick="setCdd('up-cat-cdd','other','Other · Type below');document.getElementById('up-cat').value='other';document.getElementById('up-cat-custom-wrap').style.display='block'">Other</div>
   </div>
+  <div id="up-cat-custom-wrap" style="display:none;margin-top:.5rem"><input class="di" id="up-cat-custom" type="text" placeholder="e.g. Wedding Films, Documentary..." maxlength="40" oninput="document.getElementById('up-cat').value=this.value.trim()||'other'" style="font-size:.84rem"></div>
   <select class="cdd-hidden" id="up-cat"><option value="video">Video Edit</option><option value="motion">Motion Graphics</option><option value="film">Film / Cinematic</option><option value="social">Reels / Shorts / TikTok</option><option value="longform">Long-form</option><option value="3d">3D &amp; VFX</option><option value="wedding">Wedding &amp; Events</option><option value="other">Other</option></select>
 </div></div>
               <div class="df"><label class="dl">Year</label><input class="di" id="up-year" type="text" placeholder="2024"></div>
@@ -2099,7 +2128,7 @@ img, video, iframe, canvas { max-width: 100%; }
   -- ALTER TABLE projects ADD COLUMN IF NOT EXISTS author_avatar TEXT;
 ══════════════════════════════════════════════════ -->
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 // ═══════════════════════════════════════════════════════
 //  TIMELINERS · main app script
@@ -3777,7 +3806,7 @@ async function saveProject(status) {
     }
   }
   const proj = {
-    user_id: S.profile.id, title, cat: el('up-cat').value,
+    user_id: S.profile.id, title, cat: (el('up-cat').value === 'other' ? (el('up-cat-custom') && el('up-cat-custom').value.trim() ? el('up-cat-custom').value.trim().toLowerCase() : 'other') : el('up-cat').value),
     tags: el('up-tags').value.split(',').map(t => t.trim()).filter(Boolean),
     description: el('up-desc').value,
     year: el('up-year').value || String(new Date().getFullYear()),
@@ -4112,26 +4141,32 @@ function renderProfileProjects(prof) {
     return isPaidProfile ? published : published.slice(0, 3);
   }
 
-  let allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
-  if (!allProjs.length) {
-    const fetchUrl = isOwnFetch
-      ? '/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc'
-      : '/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc';
-    const fetchToken = isOwnFetch ? (S.session?.access_token || SB_KEY) : SB_KEY;
-    db(fetchUrl, 'GET', null, fetchToken)
+  // Owner: always fetch fresh from DB to get ALL projects (feed cache may be capped)
+  if (isOwnFetch) {
+    const fetchToken = S.session?.access_token || SB_KEY;
+    db('/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc', 'GET', null, fetchToken)
       .then(rows => {
         if (rows && rows.length) {
           rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
-          const visible = isOwnFetch ? rows : filterForPublic(rows);
-          _renderProfileProjectsUI(p, visible, isOwn);
+          _renderProfileProjectsUI(p, rows, isOwn);
         } else { _renderProfileProjectsUI(p, [], isOwn); }
       }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
     return;
   }
 
-  // Also apply filter when serving from cache
-  const visible = isOwnFetch ? allProjs : filterForPublic(allProjs);
-  _renderProfileProjectsUI(p, visible, isOwn);
+  // Visitor: use cache or fetch
+  let allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
+  if (!allProjs.length) {
+    db('/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc', 'GET', null, SB_KEY)
+      .then(rows => {
+        if (rows && rows.length) {
+          rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
+          _renderProfileProjectsUI(p, filterForPublic(rows), isOwn);
+        } else { _renderProfileProjectsUI(p, [], isOwn); }
+      }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
+    return;
+  }
+  _renderProfileProjectsUI(p, filterForPublic(allProjs), isOwn);
 }
 
 function _renderProfileProjectsUI(p, allProjs, isOwn) {
@@ -4157,6 +4192,21 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
   const grid  = document.getElementById('profile-proj-grid');
   const nores = el('pnores');
   const noresBtn = el('pnores-upload-btn');
+  // Store for categories tab
+  _profAllProjs = allProjs;
+  _profTabState = 'all';
+  const allWrap = document.getElementById('profile-proj-grid-wrap');
+  const catWrap = document.getElementById('profile-cat-grid-wrap');
+  if (allWrap) allWrap.style.display = 'block';
+  if (catWrap) catWrap.style.display = 'none';
+  const btnAll = document.getElementById('ptab-all');
+  const btnCat = document.getElementById('ptab-cat');
+  if (btnAll) { btnAll.style.background = 'var(--ac)'; btnAll.style.color = '#fff'; btnAll.style.fontWeight = '600'; }
+  if (btnCat) { btnCat.style.background = 'transparent'; btnCat.style.color = 'var(--t2)'; btnCat.style.fontWeight = '500'; }
+  // Hide tabs if only 1 or 0 categories
+  const uniqueCats = [...new Set(allProjs.map(p => p.cat || 'other'))];
+  const tabBtns = document.getElementById('prof-tab-btns');
+  if (tabBtns) tabBtns.style.display = allProjs.length > 0 ? 'flex' : 'none';
   if (!allProjs.length) {
     if (grid) grid.innerHTML = '';
     nores.style.display = 'block';
@@ -4165,6 +4215,8 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
     nores.style.display = 'none';
     if (grid) grid.innerHTML = allProjs.map(buildProfilePCard).join('');
   }
+  // If categories tab is active, re-render with latest data
+  if (_profTabState === 'cat') renderCategoryFolders(_profAllProjs);
 }
 
 function buildProfilePCard(p) {
@@ -4198,6 +4250,55 @@ function buildProfilePCard(p) {
 }
 
 function switchPTab(id, btn) { /* kept for backward compat · no-op */ }
+// ── Profile Tabs: All / Categories ──────────────────────────
+let _profTabState = 'all';
+let _profAllProjs = [];
+
+function switchProfileTab(tab) {
+  _profTabState = tab;
+  const btnAll = document.getElementById('ptab-all');
+  const btnCat = document.getElementById('ptab-cat');
+  const allWrap = document.getElementById('profile-proj-grid-wrap');
+  const catWrap = document.getElementById('profile-cat-grid-wrap');
+  if (!btnAll || !btnCat) return;
+  if (tab === 'all') {
+    btnAll.style.background = 'var(--ac)'; btnAll.style.color = '#fff'; btnAll.style.fontWeight = '600';
+    btnCat.style.background = 'transparent'; btnCat.style.color = 'var(--t2)'; btnCat.style.fontWeight = '500';
+    if (allWrap) allWrap.style.display = 'block';
+    if (catWrap) catWrap.style.display = 'none';
+  } else {
+    btnCat.style.background = 'var(--ac)'; btnCat.style.color = '#fff'; btnCat.style.fontWeight = '600';
+    btnAll.style.background = 'transparent'; btnAll.style.color = 'var(--t2)'; btnAll.style.fontWeight = '500';
+    if (allWrap) allWrap.style.display = 'none';
+    if (catWrap) catWrap.style.display = 'block';
+    renderCategoryFolders(_profAllProjs); // always reset to folder grid, never drilled-in view
+  }
+}
+
+function renderCategoryFolders(projs) {
+  const wrap = document.getElementById('profile-cat-grid');
+  if (!wrap) return;
+  if (!projs || !projs.length) { wrap.innerHTML = '<div style="color:var(--t3);font-size:.82rem;padding:.5rem 0">No projects yet.</div>'; return; }
+  const groups = {};
+  projs.forEach(p => { const cat = p.cat || 'other'; if (!groups[cat]) groups[cat] = []; groups[cat].push(p); });
+  const CATNAMES = {motion:'Motion Graphics',video:'Video Edit',film:'Film / Cinematic','3d':'3D & VFX',social:'Reels & Shorts',longform:'Long-form',wedding:'Wedding & Events',other:'Other'};
+
+  const sections = Object.entries(groups).map(([cat, items]) => {
+    const label = CATNAMES[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
+    return '<div style="margin-bottom:1.8rem">' +
+      '<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem">' +
+        '<div style="font-size:.78rem;font-weight:700;color:var(--t1);text-transform:capitalize;letter-spacing:.01em">' + label + '</div>' +
+        '<div style="font-size:.68rem;font-weight:500;color:var(--t3);background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.1rem .5rem">' + items.length + '</div>' +
+      '</div>' +
+      '<div class="prof-proj-grid">' + items.map(buildProfilePCard).join('') + '</div>' +
+    '</div>';
+  }).join('');
+
+  wrap.innerHTML = sections;
+}
+
+window.switchProfileTab = switchProfileTab;
+
 
 
 
@@ -5565,7 +5666,7 @@ function openEditProject() {
   el('ep-proj-id').value     = p.id;
   el('ep-proj-title').value  = p.title || '';
   el('ep-proj-cat').value    = p.cat   || 'video';
-  (function(){var catMap={'video':'Video Edit','motion':'Motion Graphics','film':'Film / Cinematic','social':'Reels / Shorts / TikTok','longform':'Long-form','3d':'3D & VFX','wedding':'Wedding & Events','other':'Other'};var cat=p.cat||'video';var lbl=catMap[cat]||'Video Edit';setCdd('ep-cat-cdd',cat,lbl);})();
+  (function(){var catMap={'video':'Video Edit','motion':'Motion Graphics','film':'Film / Cinematic','social':'Reels / Shorts / TikTok','longform':'Long-form','3d':'3D & VFX','wedding':'Wedding & Events','other':'Other'};var cat=p.cat||'video';var isCustom=!catMap[cat];var lbl=isCustom?('Other · '+cat):catMap[cat]||'Video Edit';if(isCustom){setCdd('ep-cat-cdd','other',lbl);var cw=document.getElementById('ep-cat-custom-wrap');var ci=document.getElementById('ep-cat-custom');if(cw)cw.style.display='block';if(ci){ci.value=cat;document.getElementById('ep-proj-cat').value=cat;}}else{setCdd('ep-cat-cdd',cat,lbl);}})();
   el('ep-proj-year').value   = p.year  || '';
   el('ep-proj-desc').value   = p.description || '';
   // Populate tags as chips
