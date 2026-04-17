@@ -3779,6 +3779,7 @@ async function saveProject(status) {
   if (!S.profile) { showToast('Please sign in first.'); return; }
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
+  if (!_pendingVideos.length) { showToast('Please upload at least one video before publishing.'); return; }
 
   // Plan check
   const isPaidUser = S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
