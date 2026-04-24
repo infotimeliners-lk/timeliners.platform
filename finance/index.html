@@ -336,7 +336,7 @@ button,a{cursor:pointer;font-family:var(--fm)}
   <div class="lw" style="background:#fff;border:1px solid var(--brd);border-radius:20px;padding:2.4rem 2.2rem;box-shadow:0 4px 24px rgba(0,0,0,.07);width:360px">
     <h1><span>TimeLiners</span> <span style="font-weight:400;font-size:1.1rem;color:var(--t2);vertical-align:middle">Finance</span></h1>
     <p>Sign in to manage payments & jobs</p>
-    <div class="lf"><label class="ll">Email</label><input class="li" id="l-user" type="email" placeholder="info.timeliners@gmail.com" autocomplete="username"></div>
+    <div class="lf"><label class="ll">Email</label><input class="li" id="l-user" type="email" placeholder="Email" autocomplete="username"></div>
     <div class="lf"><label class="ll">Password</label><input class="li" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
     <div class="lerr" id="l-err">Incorrect email or password</div>
     <button class="lbtn" onclick="doLogin()">Sign in</button>
@@ -357,11 +357,7 @@ button,a{cursor:pointer;font-family:var(--fm)}
     </div>
     <div class="sb-nav">
       <div class="sb-sec">Members</div>
-      <button class="sb-link active" onclick="nav('slips',this)" id="nav-slips" data-label="Slip Queue">
-        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1.5" y="1.5" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 5h6M4.5 7.5h6M4.5 10h3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-        <span class="sb-link-label">Slip Queue</span> <span class="sb-cnt al" id="sb-sq" style="display:none">0</span>
-      </button>
-      <button class="sb-link" onclick="nav('payments',this)" id="nav-payments" data-label="Payments">
+      <button class="sb-link active" onclick="nav('payments',this)" id="nav-payments" data-label="Members">
         <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="3.5" width="13" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M1 6.5h13" stroke="currentColor" stroke-width="1.3"/><rect x="3" y="9" width="3" height="1.2" rx=".5" fill="currentColor"/></svg></div>
         <span class="sb-link-label">Members</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
       </button>
@@ -386,35 +382,13 @@ button,a{cursor:pointer;font-family:var(--fm)}
 
   <div class="main">
 
-    <!-- SLIP QUEUE -->
-    <div id="pane-slips" class="pane active">
-      <div class="topbar">
-        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Slip Queue</h2><p id="sq-sync">Loading…</p></div>
-        <div class="tb-r">
-          <div class="tabs" style="margin-bottom:0">
-            <button class="tab active" onclick="switchSlipTab('pending',this)">Pending</button>
-            <button class="tab" onclick="switchSlipTab('confirmed',this)">Confirmed</button>
-            <button class="tab" onclick="switchSlipTab('rejected',this)">Rejected</button>
-            <button class="tab" onclick="switchSlipTab('all',this)">All</button>
-          </div>
-          <button class="btn btn-refresh btn-sm" onclick="refreshAll()">Refresh</button>
-        </div>
-      </div>
-      <div class="pw">
-        <div class="stats stats-3 mb" id="sq-stats"></div>
-        <div class="card mb">
-          <div class="ch"><div><h3 id="sq-card-title">Pending Slips</h3><p id="sq-card-sub">—</p></div></div>
-          <div id="sq-list" style="padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.7rem"></div>
-        </div>
-      </div>
-    </div>
-
     <!-- PAYMENTS -->
-    <div id="pane-payments" class="pane">
+    <div id="pane-payments" class="pane active">
       <div class="topbar" id="topbar">
-        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()" id="hamburger"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Payments</h2><p id="pay-sync">Loading…</p></div>
+        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()" id="hamburger"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Members</h2><p id="pay-sync">Loading…</p></div>
         <div class="tb-r">
           <button class="btn btn-g btn-sm" onclick="openMsgTemplates()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l6 4 6-4" stroke="currentColor" stroke-width="1.2"/></svg> Messages</button>
+          <button class="btn btn-g btn-sm" onclick="openTestEmails()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 3.5h10M2 7h6M2 10.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="11" cy="10.5" r="2.2" stroke="currentColor" stroke-width="1.2"/><path d="M11 9.5v1l.7.7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg> Test Emails</button>
           <button class="btn btn-refresh btn-sm" onclick="refreshAll()">Refresh</button>
           <button class="btn btn-p btn-sm" onclick="openPayModal()">+ Add Payment</button>
         </div>
@@ -423,36 +397,31 @@ button,a{cursor:pointer;font-family:var(--fm)}
         <div id="pay-missing-alert" style="display:none;margin-bottom:.85rem;font-size:.78rem;padding:.6rem .9rem;border-radius:var(--r);border:1px solid var(--ambb);background:var(--ambl);color:var(--amb);line-height:1.6"></div>
         <div class="stats stats-4 mb" id="pay-stats"></div>
 
-        <!-- FREE MEMBERS -->
+        <!-- MEMBERS -->
         <div class="card mb">
           <div class="ch">
-            <div><h3>Free Members</h3><p id="free-sub">—</p></div>
-          </div>
-          <div class="tw">
-            <table class="tbl">
-              <thead><tr><th>#</th><th>Member</th><th>Email</th><th>WhatsApp</th><th>Joined</th><th>Actions</th></tr></thead>
-              <tbody id="free-tbody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- PRO MEMBERS -->
-        <div class="card mb">
-          <div class="ch">
-            <div><h3>Pro Members</h3><p id="pro-sub">—</p></div>
-            <div style="display:flex;gap:.38rem">
-              <div class="tabs" style="margin-bottom:0">
-                <button class="tab active" onclick="switchProTab('all',this)">All</button>
-                <button class="tab" onclick="switchProTab('paid',this)">Paid</button>
-                <button class="tab" onclick="switchProTab('overdue',this)">Overdue</button>
-                <button class="tab" onclick="switchProTab('downgraded',this)">Downgraded</button>
-              </div>
+            <div><h3>Members</h3><p id="mem-sub">—</p></div>
+            <div class="tabs" style="margin-bottom:0">
+              <button class="tab active" id="mem-tab-free" onclick="switchMemTab('free',this)">Free</button>
+              <button class="tab" id="mem-tab-pro" onclick="switchMemTab('pro',this)">Pro</button>
+              <button class="tab" id="mem-tab-all" onclick="switchMemTab('all',this)">All</button>
             </div>
           </div>
           <div class="tw">
-            <table class="tbl">
+            <!-- Free table -->
+            <table class="tbl" id="mem-tbl-free">
+              <thead><tr><th>#</th><th>Member</th><th>Email</th><th>WhatsApp</th><th>Joined</th><th>Actions</th></tr></thead>
+              <tbody id="free-tbody"></tbody>
+            </table>
+            <!-- Pro table -->
+            <table class="tbl" id="mem-tbl-pro" style="display:none">
               <thead><tr><th>#</th><th>Member</th><th>Plan</th><th>Amount</th><th>Paid</th><th>Expires</th><th>Days Left</th><th>Status</th><th>Notify</th><th>Actions</th></tr></thead>
               <tbody id="pro-tbody"></tbody>
+            </table>
+            <!-- All table -->
+            <table class="tbl" id="mem-tbl-all" style="display:none">
+              <thead><tr><th>#</th><th>Member</th><th>Plan</th><th>Email</th><th>WhatsApp</th><th>Joined / Paid</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="all-tbody"></tbody>
             </table>
           </div>
         </div>
@@ -663,7 +632,7 @@ const AVC=['#FE730A','#3b82f6','#8b5cf6','#ec4899','#10b981','#f59e0b','#06b6d4'
 // Revenue starts from March 2026
 const REV_START='2026-03';
 
-let _pf=[],_py=[],_proTab='all',_rc=null,_ec=null;
+let _pf=[],_py=[],_proTab='all',_memTab='free',_rc=null,_ec=null;
 let _slips=[],_slipTab='pending';
 
 // ─── SLIP QUEUE ───────────────────────────────────────────────────────────────
@@ -689,7 +658,8 @@ function rSlips(){
   const confirmed=_slips.filter(s=>s.pay_status==='paid').length;
   const rejected=_slips.filter(s=>s.pay_status==='rejected').length;
 
-  document.getElementById('sq-stats').innerHTML=`
+  const _sqst=document.getElementById('sq-stats');if(!_sqst)return;
+  _sqst.innerHTML=`
     <div class="stat"><div class="stat-l">Pending Review</div><div class="stat-v" style="color:${pending?'var(--amb)':'var(--t1)'}">${pending}</div><div class="stat-s">awaiting your action</div></div>
     <div class="stat"><div class="stat-l">Confirmed</div><div class="stat-v" style="color:var(--grn)">${confirmed}</div><div class="stat-s">activated as Pro</div></div>
     <div class="stat"><div class="stat-l">Rejected</div><div class="stat-v" style="color:var(--red)">${rejected}</div><div class="stat-s">slip issues</div></div>`;
@@ -878,7 +848,6 @@ async function loadData(){
     sb('/payments?select=*&pay_status=in.(paid,overdue,downgraded)&order=paid_date.desc').catch(()=>[]),
   ]);
   _pf=a||[];_py=b||[];
-  await loadSlips();
   await syncOverdueStatus();
 }
 
@@ -963,7 +932,7 @@ async function refreshAll(){
     toast('Done ✓');
   }catch(e){toast('Error: '+e.message,1);}
 }
-function renderAll(){rSlips();rPayments();rRevenue();rSidebar();}
+function renderAll(){rPayments();rRevenue();rSidebar();}
 
 function nav(id,el){
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
@@ -971,6 +940,7 @@ function nav(id,el){
   const pane=document.getElementById('pane-'+id);if(pane)pane.classList.add('active');
   if(el)el.classList.add('active');
   closeSidebar();
+  if(id==='revenue')setTimeout(rRevenue,50);
 }
 
 function rSidebar(){
@@ -1026,7 +996,7 @@ function rFreeMembers(){
   // Free = profile plan is free/null AND no active payment record
   const withActivePay=new Set(_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue').map(p=>p.user_id));
   const free=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
-  document.getElementById('free-sub').textContent=free.length+' free members';
+  const _fsub=document.getElementById('free-sub');if(_fsub)_fsub.textContent=free.length+' free members';
   const tb=document.getElementById('free-tbody');
   if(!free.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty">No free members</div></td></tr>`;return;}
   tb.innerHTML=free.map(p=>{
@@ -1091,7 +1061,7 @@ function rProMembers(){
   const paid=_py.filter(p=>p.pay_status==='paid').length;
   const over=_py.filter(p=>p.pay_status==='overdue').length;
   const down=_py.filter(p=>p.pay_status==='downgraded').length;
-  document.getElementById('pro-sub').textContent=`${paid} paid · ${over} overdue · ${down} downgraded`;
+  const _psub=document.getElementById('pro-sub');if(_psub)_psub.textContent=`${paid} paid · ${over} overdue · ${down} downgraded`;
 
   // Missing payment alert — pro profiles with no payment record
   const withPayment=new Set(_py.map(p=>p.user_id));
@@ -1146,6 +1116,87 @@ function rProMembers(){
   }).join('');
 }
 
+function switchMemTab(tab,el){
+  _memTab=tab;
+  document.querySelectorAll('#pane-payments .tabs .tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  const tblFree=document.getElementById('mem-tbl-free');
+  const tblPro=document.getElementById('mem-tbl-pro');
+  const tblAll=document.getElementById('mem-tbl-all');
+  tblFree.style.display=tab==='free'?'':'none';
+  tblPro.style.display=tab==='pro'?'':'none';
+  tblAll.style.display=tab==='all'?'':'none';
+  rMembers();
+}
+
+function rMembers(){
+  const withActivePay=new Set(_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue').map(p=>p.user_id));
+  const freeList=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
+  const totalFree=freeList.length;
+  const paid=_py.filter(p=>p.pay_status==='paid').length;
+  const over=_py.filter(p=>p.pay_status==='overdue').length;
+  const down=_py.filter(p=>p.pay_status==='downgraded').length;
+  const totalPro=paid+over+down;
+
+  const subMap={free:totalFree+' free',pro:paid+' paid · '+over+' overdue · '+down+' downgraded',all:(totalFree+totalPro)+' total'};
+  document.getElementById('mem-sub').textContent=subMap[_memTab]||'—';
+
+  if(_memTab==='free') rFreeMembers();
+  else if(_memTab==='pro') rProMembers();
+  else rAllMembers();
+}
+
+function rAllMembers(){
+  const withActivePay=new Set(_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue').map(p=>p.user_id));
+  const freeList=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
+  const tb=document.getElementById('all-tbody');
+  const allRows=[];
+
+  // Free rows
+  freeList.forEach(p=>{
+    const mn=mno(p);
+    allRows.push({sortKey:new Date(p.created_at||0).getTime()*-1, isPro:false, html:`<tr>
+      <td><span style="font-family:var(--mono);font-size:.73rem;color:var(--t3)">${mn}</span></td>
+      <td><div style="display:flex;align-items:center;gap:.56rem">${avatar(p)}<div><div class="tc">${p.name||p.username||'—'}</div></div></div></td>
+      <td><span class="b b-free">Free</span></td>
+      <td style="font-size:.79rem;color:var(--t2)">${p.email||'—'}</td>
+      <td style="font-size:.79rem;color:var(--t2)">${p.wa||'—'}</td>
+      <td style="font-size:.77rem;color:var(--t3)">${fmt(p.created_at)}</td>
+      <td>—</td>
+      <td><div style="display:flex;gap:.28rem">
+        <button class="btn btn-g btn-xs" onclick="openEditMember('${p.id}')">Edit</button>
+        <button class="btn btn-p btn-xs" onclick="quickMakePro('${p.id}')">Make Pro</button>
+      </div></td>
+    </tr>`});
+  });
+
+  // Pro rows
+  _py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded').forEach(p=>{
+    const pf=_pf.find(x=>x.id===p.user_id)||{};
+    const mn=mno(pf);
+    allRows.push({sortKey:0, isPro:true, html:`<tr style="border-left:${(p.pay_status==='overdue'||p.pay_status==='downgraded')?'3px solid var(--red)':'3px solid transparent'}">
+      <td><span style="font-family:var(--mono);font-size:.73rem;color:var(--t3)">${mn}</span></td>
+      <td><div style="display:flex;align-items:center;gap:.56rem">${avatar(pf)}<div><div class="tc">${pf.name||pf.username||'—'}</div></div></div></td>
+      <td>${plBdg(p.plan)}</td>
+      <td style="font-size:.79rem;color:var(--t2)">${pf.email||'—'}</td>
+      <td style="font-size:.79rem;color:var(--t2)">${pf.wa||p.wa||'—'}</td>
+      <td style="font-size:.78rem;color:var(--t2)">${fmt(p.paid_date)}</td>
+      <td>${pyBdg(p.pay_status)}</td>
+      <td><div style="display:flex;gap:.25rem">
+        <button class="btn btn-grn btn-xs" onclick="openRenewPay('${p.user_id}','${p.plan}')">Renew</button>
+        <button class="btn btn-g btn-xs" onclick="openEditMember('${p.user_id}')">Edit</button>
+        <button class="btn btn-r btn-xs" onclick="delPayment('${p.id}')">Del</button>
+      </div></td>
+    </tr>`});
+  });
+
+  // Pro first, then free sorted by join date
+  allRows.sort((a,b)=>a.isPro===b.isPro?a.sortKey-b.sortKey:(a.isPro?-1:1));
+  if(!allRows.length){tb.innerHTML=`<tr><td colspan="8"><div class="empty">No members</div></td></tr>`;return;}
+  tb.innerHTML=allRows.map(r=>r.html).join('');
+}
+
+
 function rPayments(){
   const now=Date.now();
   const proM=_py.filter(p=>p.plan==='pro'&&p.pay_status==='paid').length;
@@ -1157,8 +1208,7 @@ function rPayments(){
     <div class="stat"><div class="stat-l">Pro Monthly</div><div class="stat-v">${proM}</div><div class="stat-s g">active paid</div></div>
     <div class="stat"><div class="stat-l">Pro Yearly</div><div class="stat-v">${proY}</div><div class="stat-s g">active paid</div></div>
     <div class="stat"><div class="stat-l">Overdue / Down</div><div class="stat-v" style="color:${over+down?'var(--red)':'var(--t1)'}">${over+down}</div><div class="stat-s ${over+down?'r':''}">need attention</div></div>`;
-  rFreeMembers();
-  rProMembers();
+  rMembers();
 }
 
 // ─── EDIT MEMBER (plan / wa / email) ─────────────────────────────────────────
@@ -1264,6 +1314,21 @@ async function submitPayment(){
     await sb('/profiles?id=eq.'+pf.id,'PATCH',profileUpdate);
     const localPf=_pf.find(x=>x.id===pf.id);
     if(localPf)Object.assign(localPf,profileUpdate);
+    // Send pro_confirmed email
+    try{
+      const expires=calcExpiry(date,plan);
+      await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+        body:JSON.stringify({
+          type:'pro_confirmed',
+          email:pf.email||'',
+          name:pf.name||pf.username||'',
+          plan:plan==='pro-yearly'?'Pro Yearly':'Pro Monthly',
+          expires:expires
+        })
+      });
+    }catch(emailErr){console.warn('Email send failed (non-critical):',emailErr);}
     renderAll();closeM('ov-pay');
     toast((pf.name||tl)+' payment recorded ✓');
   }catch(e){toast('Error: '+e.message,1);}
@@ -1570,6 +1635,8 @@ function rRevenue(){
     </div>`;
   }).join('')||'<div class="empty">No data yet</div>';
 
+  const revPane=document.getElementById('pane-revenue');
+  if(!revPane||!revPane.classList.contains('active'))return;
   const lbs=months.map(m=>new Date(m+'-01').toLocaleDateString('en-GB',{month:'short'}));
   const rD=months.map(m=>mm[m]?.r||0);
   const eD=months.map(m=>mm[m]?.e||0);
@@ -1578,6 +1645,52 @@ function rRevenue(){
   if(_rc)_rc.destroy();if(_ec)_ec.destroy();
   _rc=new Chart(document.getElementById('chart-rev'),{type:'bar',data:{labels:lbs,datasets:[{data:rD,backgroundColor:'rgba(254,115,10,.85)',borderRadius:5,borderSkipped:false}]},options:baseOpts});
   _ec=new Chart(document.getElementById('chart-exp'),{type:'bar',data:{labels:lbs,datasets:[{data:rD,backgroundColor:'rgba(254,115,10,.3)',borderRadius:4,borderSkipped:false,label:'Revenue'},{data:eD,backgroundColor:'rgba(220,38,38,.55)',borderRadius:4,borderSkipped:false,label:'Expenses'},{data:pD,backgroundColor:'rgba(22,163,74,.65)',borderRadius:4,borderSkipped:false,label:'Profit'}]},options:{...baseOpts,plugins:{...baseOpts.plugins,legend:{display:true,position:'bottom',labels:{color:'rgba(0,0,0,.4)',font:{size:11},padding:12,boxWidth:8,usePointStyle:true}}}}});
+}
+
+
+// ─── TEST EMAILS ──────────────────────────────────────────────────────────────
+function openTestEmails(){
+  document.getElementById('test-email-msg').style.display='none';
+  openM('ov-test-email');
+}
+async function sendTestEmail(){
+  const email=document.getElementById('test-email-addr').value.trim();
+  const type=document.getElementById('test-email-type').value;
+  const msg=document.getElementById('test-email-msg');
+  if(!email){toast('Enter an email address',1);return;}
+
+  // Build a realistic test payload for each type
+  const today=new Date().toISOString().split('T')[0];
+  const in3=new Date(Date.now()+3*864e5).toISOString().split('T')[0];
+  const payloads={
+    pro_confirmed:{type,email,name:'Test User',plan:'Pro Monthly',expires:new Date(Date.now()+30*864e5).toISOString().split('T')[0]},
+    expiring_3day:{type,email,name:'Test User',plan:'Pro Monthly',days:3,expires:in3},
+    expired:{type,email,name:'Test User',plan:'Pro Monthly',days:0},
+    downgraded:{type,email,name:'Test User',plan:'Pro Monthly'},
+    payment_rejected:{type,email,name:'Test User',reason:'Incorrect amount transferred'}
+  };
+
+  msg.style.cssText='display:block;background:var(--ambl);color:var(--amb);border:1px solid var(--ambb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
+  msg.textContent='Sending…';
+
+  try{
+    const res=await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+      body:JSON.stringify(payloads[type]||{type,email,name:'Test User'})
+    });
+    const data=await res.json().catch(()=>({}));
+    if(res.ok){
+      msg.style.cssText='display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
+      msg.textContent='Sent! Check '+email+' inbox (check spam too).';
+    }else{
+      msg.style.cssText='display:block;background:var(--redl);color:var(--red);border:1px solid var(--redb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
+      msg.textContent='Failed: '+(data.error||data.message||res.status);
+    }
+  }catch(e){
+    msg.style.cssText='display:block;background:var(--redl);color:var(--red);border:1px solid var(--redb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
+    msg.textContent='Error: '+e.message;
+  }
 }
 
 // ─── BOOT ─────────────────────────────────────────────────────────────────────
@@ -1635,5 +1748,32 @@ function seedMarchExpenses(){
   saveExps(e);
 }
 </script>
+
+<!-- TEST EMAILS MODAL -->
+<div class="ov" id="ov-test-email"><div class="mbox" style="max-width:420px">
+  <button class="mx" onclick="closeM('ov-test-email')">×</button>
+  <h3 style="font-size:1rem;font-weight:700;margin-bottom:.25rem">Test Emails</h3>
+  <p style="font-size:.78rem;color:var(--t2);margin-bottom:1.2rem">Send a test email to yourself to verify each email type is working.</p>
+  <div class="fg" style="margin-bottom:1rem">
+    <label class="fl">Send test to</label>
+    <input class="fi" id="test-email-addr" type="email" value="info.timeliners@gmail.com" placeholder="your@email.com">
+  </div>
+  <div class="fg" style="margin-bottom:1.2rem">
+    <label class="fl">Email type</label>
+    <select class="fi" id="test-email-type">
+      <option value="pro_confirmed">Pro Confirmed (after payment)</option>
+      <option value="expiring_3day">Expiring in 3 days (warning)</option>
+      <option value="expired">Just expired</option>
+      <option value="downgraded">Downgraded to free</option>
+      <option value="payment_rejected">Payment rejected</option>
+    </select>
+  </div>
+  <div id="test-email-msg" style="display:none;font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem"></div>
+  <div style="display:flex;gap:.5rem">
+    <button class="btn btn-p" style="flex:1" onclick="sendTestEmail()">Send Test</button>
+    <button class="btn btn-g" onclick="closeM('ov-test-email')">Close</button>
+  </div>
+</div></div>
+
 </body>
 </html>
