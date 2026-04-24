@@ -310,6 +310,25 @@ html.light .fsrch input{color:var(--t1)}
 .prof-hero-actions{display:flex;gap:.65rem;justify-content:center;margin-bottom:1.8rem;flex-wrap:wrap}
 .prof-hire-btn{padding:.7rem 1.6rem;border-radius:50px;border:none;background:var(--ac);color:white;font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.45rem;transition:.2s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 14px rgba(254,115,10,.28)}.prof-hire-btn:hover{background:#e55e00;transform:translateY(-1px);box-shadow:0 5px 20px rgba(254,115,10,.38)}
 .prof-edit-btn{padding:.68rem 1.4rem;border-radius:50px;border:1.5px solid var(--brd2);background:transparent;color:var(--t2);font-size:.84rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:.2s cubic-bezier(.4,0,.2,1)}.prof-edit-btn:hover{border-color:var(--brd3);color:var(--t1);background:var(--bg3)}
+.prof-share-btn{padding:.68rem 1.2rem;border-radius:50px;border:1.5px solid var(--brd2);background:transparent;color:var(--t2);font-size:.84rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:.2s cubic-bezier(.4,0,.2,1)}.prof-share-btn:hover{border-color:var(--brd3);color:var(--t1);background:var(--bg3)}
+.prof-share-corner-btn{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:none;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.18s;z-index:2;padding:0;line-height:1}.prof-share-corner-btn:hover{opacity:.85}
+/* ── Share Portfolio Modal ── */
+#share-portfolio-modal{display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);padding:1rem}
+#share-portfolio-modal.open{display:flex;animation:shareFadeIn .18s ease}
+@keyframes shareFadeIn{from{opacity:0}to{opacity:1}}
+.spm-sheet{background:var(--bg2);border-radius:22px;padding:1.4rem 1.5rem 1.8rem;width:100%;max-width:420px;border:1px solid var(--brd2);box-shadow:0 20px 60px rgba(0,0,0,.7);animation:shareScaleIn .2s cubic-bezier(.34,1.56,.64,1)}
+@keyframes shareScaleIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.spm-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem}
+.spm-title{font-size:1rem;font-weight:700;color:var(--t1)}
+.spm-close{background:var(--bg4);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:.15s}.spm-close:hover{background:var(--bg5);color:var(--t1)}
+.spm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1.4rem}
+.spm-app{display:flex;flex-direction:column;align-items:center;gap:.5rem;background:transparent;border:none;cursor:pointer;padding:.4rem .2rem;border-radius:12px;transition:.15s}.spm-app:hover{background:var(--bg3)}
+.spm-app-icon{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.spm-app-lbl{font-size:.7rem;font-weight:500;color:var(--t2);text-align:center}
+.spm-divider{font-size:.72rem;font-weight:600;color:var(--t3);margin-bottom:.8rem;letter-spacing:.4px}
+.spm-copy-row{display:flex;align-items:center;gap:.6rem;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:10px;padding:.55rem .6rem .55rem .9rem}
+.spm-copy-url{flex:1;font-size:.78rem;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:none;border:none;outline:none;cursor:text;user-select:all}
+.spm-copy-btn{padding:.38rem .85rem;background:var(--ac);color:#fff;border:none;border-radius:7px;font-size:.76rem;font-weight:600;cursor:pointer;flex-shrink:0;transition:.15s}.spm-copy-btn:hover{background:#e55e00}.spm-copy-btn.copied{background:#22c55e}
 
 /* Hero stats */
 .prof-stats-row{display:flex;gap:0;justify-content:center;border-top:1px solid var(--brd);padding-top:1.5rem}
@@ -1427,6 +1446,9 @@ img, video, iframe, canvas { max-width: 100%; }
   <div class="prof-outer">
     <!-- HERO -->
     <div class="prof-hero">
+      <button class="prof-share-corner-btn" id="p-share-btn" onclick="openShareModal()" title="Share portfolio">
+        <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><circle cx="11" cy="3" r="1.7" stroke="currentColor" stroke-width="1.3"/><circle cx="3" cy="7" r="1.7" stroke="currentColor" stroke-width="1.3"/><circle cx="11" cy="11" r="1.7" stroke="currentColor" stroke-width="1.3"/><path d="M4.6 7.8l4.8 2.5M9.4 3.8L4.6 6.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </button>
       <div class="prof-av-wrap">
         <div class="prof-av-float" id="pav-wrap"><div class="prof-av-ph" id="pav-ph" style="background:#FE730A">?</div></div>
         <div class="prof-verified-ring" id="pbadge-el"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><polyline points="1.5,4.5 3.5,6.5 7.5,2.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -1446,6 +1468,7 @@ img, video, iframe, canvas { max-width: 100%; }
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>
           Edit Profile
         </button>
+
       </div>
 
       <!-- Bio + chips inside hero -->
@@ -4236,6 +4259,9 @@ function refreshProfile(profileData) {
 
   // Hire Me button · Pro only
   const hireBtn = el('p-hire-btn');
+  const actionsWrap = document.getElementById('prof-hero-actions');
+  if (actionsWrap) actionsWrap.style.marginBottom = '';
+  hireBtn.style.display = 'flex';
   if (!profIsPro) {
     if (profIsOwn) {
       // Owner sees a locked version with upgrade CTA
@@ -4748,6 +4774,14 @@ async function showProfileByUsername(username) {
     }
     if (profileRow) {
       const rows = [profileRow]; // keep compat with code below
+      // Clear stale content before rendering new profile
+      el('pname-el').textContent = '—';
+      el('prole-el').textContent = '—';
+      el('pfullbio-el').textContent = '';
+      el('pav-wrap').innerHTML = '';
+      el('pstat-proj').textContent = '0';
+      el('pstat-likes').textContent = '0';
+      el('pstat-views').textContent = '0';
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       el('page-profile').classList.add('active');
       el('main-nav').style.display = 'flex';
@@ -6451,12 +6485,164 @@ window.clearUpThumb        = clearUpThumb;
 window.clearEpThumb        = clearEpThumb;
 window.setSpecCdd         = setSpecCdd;
 
+// ── SHARE PORTFOLIO MODAL ────────────────────────────
+function openShareModal() {
+  const p = S.viewingProfile || S.profile;
+  if (!p) return;
+  const base = 'https://timeliners.lk/';
+  const url  = p.username ? base + p.username : location.href;
+  const name = p.name || 'this editor';
+  const encodedUrl  = encodeURIComponent(url);
+  const encodedText = encodeURIComponent('Check out ' + name + "'s video editing portfolio on TimeLiners");
+
+  const urlEl = document.getElementById('spm-url-display');
+  if (urlEl) urlEl.value = url;
+
+  // Wire up share buttons
+  const apps = {
+    'spm-fb':        'https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl,
+    'spm-ig':        null, // Instagram doesn't support direct URL share; copy instead
+    'spm-x':         'https://x.com/intent/tweet?url=' + encodedUrl + '&text=' + encodedText,
+    'spm-wa':        'https://wa.me/?text=' + encodedText + '%20' + encodedUrl,
+    'spm-reddit':    'https://www.reddit.com/submit?url=' + encodedUrl + '&title=' + encodedText,
+    'spm-messenger': 'https://www.facebook.com/dialog/send?link=' + encodedUrl + '&app_id=291494419107518&redirect_uri=' + encodedUrl,
+    'spm-pinterest': 'https://pinterest.com/pin/create/button/?url=' + encodedUrl + '&description=' + encodedText,
+    'spm-telegram':  'https://t.me/share/url?url=' + encodedUrl + '&text=' + encodedText,
+  };
+  Object.entries(apps).forEach(([id, href]) => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.onclick = () => {
+      if (href) {
+        const a = document.createElement('a');
+        a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      } else {
+        // Instagram — no web share API, copy link + inform user
+        spmCopy(url);
+        showToast('Link copied — paste it in your Instagram story or bio!');
+      }
+      closeShareModal();
+    };
+  });
+
+  document.getElementById('share-portfolio-modal').classList.add('open');
+}
+
+function closeShareModal() {
+  document.getElementById('share-portfolio-modal').classList.remove('open');
+  const copyBtn = document.getElementById('spm-copy-btn');
+  if (copyBtn) { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }
+}
+
+function spmCopy(overrideUrl) {
+  const p = S.viewingProfile || S.profile;
+  const base = 'https://timeliners.lk/';
+  const url  = overrideUrl || (p?.username ? base + p.username : location.href);
+  const copyBtn = document.getElementById('spm-copy-btn');
+  try {
+    navigator.clipboard.writeText(url).then(() => {
+      if (copyBtn) { copyBtn.textContent = 'Copied!'; copyBtn.classList.add('copied'); setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 2000); }
+    }).catch(() => { _spmFallbackCopy(url); });
+  } catch(e) { _spmFallbackCopy(url); }
+}
+function _spmFallbackCopy(url) {
+  const i = document.createElement('input'); i.value = url;
+  document.body.appendChild(i); i.select(); document.execCommand('copy'); document.body.removeChild(i);
+  const copyBtn = document.getElementById('spm-copy-btn');
+  if (copyBtn) { copyBtn.textContent = 'Copied!'; copyBtn.classList.add('copied'); setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 2000); }
+}
+window.openShareModal  = openShareModal;
+window.closeShareModal = closeShareModal;
+window.spmCopy         = spmCopy;
+
+// Close modal on backdrop click
+document.addEventListener('click', (e) => {
+  if (e.target.id === 'share-portfolio-modal') closeShareModal();
+});
+
 // ── START ────────────────────────────────────────────
 boot();
 
 })(); // end IIFE
 </script>
-<!-- ══ PRICING ══ -->
+
+<!-- ══ SHARE PORTFOLIO MODAL ══ -->
+<div id="share-portfolio-modal" role="dialog" aria-modal="true" aria-label="Share portfolio">
+  <div class="spm-sheet">
+    <div class="spm-header">
+      <span class="spm-title">Share portfolio</span>
+      <button class="spm-close" onclick="closeShareModal()" aria-label="Close">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="spm-grid">
+      <!-- Facebook -->
+      <button class="spm-app" id="spm-fb" aria-label="Share on Facebook">
+        <div class="spm-app-icon" style="background:#1877f2">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M13 10h3l-.5 3H13v8h-3v-8H8v-3h2V8.5C10 6.6 11.1 5 13.5 5H16v3h-1.5c-.6 0-.5.3-.5.8V10z"/></svg>
+        </div>
+        <span class="spm-app-lbl">Facebook</span>
+      </button>
+      <!-- Instagram -->
+      <button class="spm-app" id="spm-ig" aria-label="Share on Instagram">
+        <div class="spm-app-icon" style="background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285aeb 90%)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="white" stroke-width="1.8" fill="none"/><circle cx="12" cy="12" r="4.5" stroke="white" stroke-width="1.8" fill="none"/><circle cx="17.5" cy="6.5" r="1.3" fill="white"/></svg>
+        </div>
+        <span class="spm-app-lbl">Instagram</span>
+      </button>
+      <!-- X / Twitter -->
+      <button class="spm-app" id="spm-x" aria-label="Share on X">
+        <div class="spm-app-icon" style="background:#000">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.736l7.73-8.835L2.166 2.25H8.07l4.265 5.658L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+        </div>
+        <span class="spm-app-lbl">X</span>
+      </button>
+      <!-- WhatsApp -->
+      <button class="spm-app" id="spm-wa" aria-label="Share on WhatsApp">
+        <div class="spm-app-icon" style="background:#25d366">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22a9.94 9.94 0 01-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z"/></svg>
+        </div>
+        <span class="spm-app-lbl">WhatsApp</span>
+      </button>
+      <!-- Reddit -->
+      <button class="spm-app" id="spm-reddit" aria-label="Share on Reddit">
+        <div class="spm-app-icon" style="background:#ff4500">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="#ff4500"/><path d="M20 12a2 2 0 00-2-2 2 2 0 00-1.3.5C15.4 9.6 13.8 9 12 9l.9-4.2 2.9.6a1.5 1.5 0 101.5-1.4 1.5 1.5 0 00-1.4 1L13 4.3 11.8 9C10 9 8.4 9.6 7.2 10.5A2 2 0 004 12a2 2 0 001 1.7 3.5 3.5 0 000 .5c0 2.8 3.1 5 7 5s7-2.2 7-5a3.5 3.5 0 000-.5A2 2 0 0020 12zm-4 3.3c-.8.8-2.3 1.2-4 1.2s-3.2-.4-4-1.2a.5.5 0 01.7-.7c.6.6 1.8.9 3.3.9s2.7-.3 3.3-.9a.5.5 0 01.7.7zm-.5-2.3a1 1 0 110-2 1 1 0 010 2zm-7 0a1 1 0 110-2 1 1 0 010 2z" fill="white"/></svg>
+        </div>
+        <span class="spm-app-lbl">Reddit</span>
+      </button>
+      <!-- Messenger -->
+      <button class="spm-app" id="spm-messenger" aria-label="Share on Messenger">
+        <div class="spm-app-icon" style="background:linear-gradient(135deg,#0099ff,#a033ff,#ff5c87)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.5 2 2 6.1 2 11.2c0 2.9 1.4 5.4 3.6 7.1V22l3.3-1.8c.9.2 1.8.4 2.7.4.3 0 .6 0 .9-.1 5.1-.6 9-4.6 9-9.3C21.5 6.1 17.2 2 12 2zm1.2 12.3l-2.5-2.6-4.9 2.6 5.4-5.7 2.6 2.6 4.8-2.6-5.4 5.7z"/></svg>
+        </div>
+        <span class="spm-app-lbl">Messenger</span>
+      </button>
+      <!-- Pinterest -->
+      <button class="spm-app" id="spm-pinterest" aria-label="Share on Pinterest">
+        <div class="spm-app-icon" style="background:#e60023">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.23-5.22 1.23-5.22s-.31-.63-.31-1.56c0-1.46.85-2.55 1.9-2.55.9 0 1.33.67 1.33 1.48 0 .9-.58 2.25-.87 3.5-.25 1.04.52 1.89 1.53 1.89 1.84 0 3.08-2.35 3.08-5.13 0-2.12-1.43-3.61-3.47-3.61-2.36 0-3.75 1.77-3.75 3.6 0 .71.27 1.47.61 1.89.07.08.08.15.06.23-.06.26-.2.83-.23.94-.04.15-.13.18-.3.11C8.2 13.8 7.5 12.15 7.5 10.8c0-2.7 1.96-5.18 5.65-5.18 2.97 0 5.27 2.11 5.27 4.94 0 2.94-1.86 5.31-4.44 5.31-.87 0-1.68-.45-1.96-.98l-.53 1.99c-.19.74-.71 1.67-1.06 2.23.8.25 1.65.38 2.52.38 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+        </div>
+        <span class="spm-app-lbl">Pinterest</span>
+      </button>
+      <!-- Telegram -->
+      <button class="spm-app" id="spm-telegram" aria-label="Share on Telegram">
+        <div class="spm-app-icon" style="background:#229ed9">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.13.58-.47.72-.95.45l-2.62-1.93-1.27 1.22c-.14.14-.26.26-.53.26l.19-2.68 4.87-4.4c.21-.19-.05-.29-.32-.1L7.8 14.47 5.22 13.7c-.56-.18-.57-.56.12-.83l8.93-3.44c.47-.17.88.11.37.37z"/></svg>
+        </div>
+        <span class="spm-app-lbl">Telegram</span>
+      </button>
+    </div>
+
+    <div class="spm-divider">Or copy link</div>
+    <div class="spm-copy-row">
+      <input class="spm-copy-url" id="spm-url-display" type="text" readonly>
+      <button class="spm-copy-btn" id="spm-copy-btn" onclick="spmCopy()">Copy</button>
+    </div>
+  </div>
+</div>
 <div class="page" id="page-pricing">
   <div class="pricing-wrap">
     <div class="pricing-eyebrow">Pricing</div>
