@@ -2458,12 +2458,11 @@ async function handleSignIn() {
     applyLoggedIn();
     closeAuth();
 
-    // If they came from payment.html to sign in, redirect back
+    // If they had a pending upgrade intent, open WhatsApp now
     const upgradeIntent = sessionStorage.getItem('tl_upgrade_intent');
     if (upgradeIntent) {
       sessionStorage.removeItem('tl_upgrade_intent');
-      window.location.href = 'payment/?plan=' + upgradeIntent;
-      return;
+      requestUpgrade(upgradeIntent === 'yearly' ? 'pro_yearly' : 'pro');
     }
 
     showPage('dashboard');
@@ -2726,12 +2725,11 @@ async function verifyOtp() {
     el('otp-overlay').style.display = 'none';
     applyLoggedIn();
 
-    // If they came from payment.html, redirect back
+    // If they had a pending upgrade intent, open WhatsApp now
     const upgradeIntent = sessionStorage.getItem('tl_upgrade_intent');
     if (upgradeIntent) {
       sessionStorage.removeItem('tl_upgrade_intent');
-      window.location.href = 'payment/?plan=' + upgradeIntent;
-      return;
+      requestUpgrade(upgradeIntent === 'yearly' ? 'pro_yearly' : 'pro');
     }
 
     showPage('dashboard');
@@ -3704,7 +3702,12 @@ function requestUpgrade(plan) {
     showToast('You already have an active Pro plan');
     return;
   }
-  window.location.href = 'payment/?plan=' + (yearly ? 'yearly' : 'monthly');
+  const planLabel = yearly ? 'Pro Yearly - LKR 24,900/yr' : 'Pro Monthly - LKR 2,490/mo';
+  const msg = encodeURIComponent(
+    'Hi, I want to upgrade to TimeLiners ' + planLabel + '.\n' +
+    'Email: ' + (S.user?.email || '')
+  );
+  window.open('https://wa.me/94783408001?text=' + msg, '_blank');
 }
 
 // Pricing page billing toggle
@@ -4698,9 +4701,20 @@ function showPage(id, projOrUserId) {
   if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
   if (id === 'profile') {
     const loadAndShow = (uid) => {
-      // Use in-memory cache (60s TTL) to avoid re-fetching the same profile
+      // Clear stale content immediately so previous profile never flashes
+      const isSameProfile = S.viewingProfile && S.viewingProfile.id === uid;
+      if (!isSameProfile) {
+        el('pname-el').textContent = '—';
+        el('prole-el').textContent = '—';
+        const bioEl = el('pfullbio-el'); if (bioEl) bioEl.textContent = '';
+        el('pav-wrap').innerHTML = '';
+        el('pstat-proj').textContent = '0';
+        el('pstat-likes').textContent = '0';
+        el('pstat-views').textContent = '0';
+      }
+      // Use cache only when re-visiting the same profile already on screen
       const cached = S._profileCache[uid];
-      if (cached && (Date.now() - cached.ts < 60000)) {
+      if (isSameProfile && cached && (Date.now() - cached.ts < 60000)) {
         const prof = cached.data;
         const isOwn = S.user && prof.id === S.user.id;
         if (isOwn) { S.profile = prof; applyLoggedIn(); }
