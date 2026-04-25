@@ -1745,6 +1745,18 @@ img, video, iframe, canvas { max-width: 100%; }
             </div>
           </div>
 
+          <!-- Pro subscription status card -->
+          <div class="dcard" id="ov-sub-card" style="display:none;margin-bottom:1rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">
+              <div>
+                <div style="font-size:.65rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ac);margin-bottom:.28rem">Pro Subscription</div>
+                <div style="font-size:.83rem;color:var(--t1);font-weight:500" id="ov-sub-label">Renews on —</div>
+                <div style="font-size:.72rem;margin-top:.15rem" id="ov-sub-days"></div>
+              </div>
+              <button class="dsave" style="font-size:.75rem;padding:.42rem .95rem;flex-shrink:0" onclick="requestUpgrade(S.profile?.plan||'pro')">Renew Pro</button>
+            </div>
+          </div>
+
           <!-- Quick actions -->
           <div class="dcard" style="margin-bottom:1rem">
             <div class="dcard-h">Quick Actions</div>
@@ -1788,7 +1800,13 @@ img, video, iframe, canvas { max-width: 100%; }
               <div class="df"><label class="dl">Current Plan</label>
                 <div style="display:flex;align-items:center;gap:.58rem">
                   <input class="di" id="acc-plan-disp" type="text" disabled style="opacity:.5;cursor:not-allowed;max-width:175px">
-                  <button class="dsave" style="font-size:.77rem;padding:.48rem .9rem" onclick="switchAccTab('pro')">Upgrade</button>
+                  <button class="dsave" style="font-size:.77rem;padding:.48rem .9rem" id="acc-upgrade-btn" onclick="switchAccTab('pro')">Upgrade</button>
+                </div>
+              </div>
+              <div class="df" id="acc-due-row" style="display:none"><label class="dl">Next Payment</label>
+                <div style="display:flex;align-items:center;gap:.58rem">
+                  <input class="di" id="acc-due-disp" type="text" disabled style="opacity:.5;cursor:not-allowed;max-width:175px">
+                  <button class="dsave" style="font-size:.77rem;padding:.48rem .9rem" onclick="requestUpgrade(S.profile?.plan||'pro')">Renew</button>
                 </div>
               </div>
               <button class="dsave" onclick="saveAccountDetails()">Save Changes</button>
@@ -3589,6 +3607,49 @@ function refreshDash() {
     ovBadge.style.background = isPro ? 'var(--ac)' : 'var(--bg4)';
     ovBadge.style.color = isPro ? 'white' : 'var(--t3)';
     ovBadge.style.border = isPro ? 'none' : '1px solid var(--brd2)';
+  }
+
+  // Pro subscription card (overview)
+  const subCard = document.getElementById('ov-sub-card');
+  const subLabel = document.getElementById('ov-sub-label');
+  const subDays = document.getElementById('ov-sub-days');
+  if (subCard) {
+    if (isPro && p.pay_due) {
+      const due = new Date(p.pay_due);
+      const diffDays = Math.ceil((due - new Date()) / 86400000);
+      const formatted = due.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+      if (subLabel) subLabel.textContent = 'Renews on ' + formatted;
+      if (subDays) {
+        if (diffDays <= 0) {
+          subDays.textContent = 'Expired · renew to keep Pro access';
+          subDays.style.color = '#ef4444';
+        } else if (diffDays <= 7) {
+          subDays.textContent = diffDays + ' day' + (diffDays === 1 ? '' : 's') + ' remaining · renew soon';
+          subDays.style.color = '#f59e0b';
+        } else {
+          subDays.textContent = diffDays + ' days remaining';
+          subDays.style.color = 'var(--t3)';
+        }
+      }
+      subCard.style.display = 'block';
+    } else {
+      subCard.style.display = 'none';
+    }
+  }
+
+  // Account Details: upgrade btn visibility + Next Payment row
+  const accUpgradeBtn = document.getElementById('acc-upgrade-btn');
+  const accDueRow = document.getElementById('acc-due-row');
+  const accDueDisp = document.getElementById('acc-due-disp');
+  if (accUpgradeBtn) accUpgradeBtn.style.display = isPro ? 'none' : '';
+  if (accDueRow) {
+    if (isPro && p.pay_due) {
+      const due2 = new Date(p.pay_due);
+      if (accDueDisp) accDueDisp.value = due2.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+      accDueRow.style.display = '';
+    } else {
+      accDueRow.style.display = 'none';
+    }
   }
 
   // Stats — fetch directly from DB so they're always accurate
