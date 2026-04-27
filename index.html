@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
 <meta name="google-site-verification" content="VngO4qcyC8m6W0175TfW3v-oFCO6CHGY0UU2Z8EfOEo" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H5CS34QY2Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H5CS34QY2Y');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TimeLiners · Video Editor Portfolios in Sri Lanka</title>
+<title>TimeLiners</title>
 <meta name="description" content="TimeLiners is Sri Lanka's portfolio platform for video editors and motion designers. Build a stunning portfolio, upload your projects, and get discovered by clients.">
 <meta name="keywords" content="video editor portfolio sri lanka, motion designer portfolio, timeliners, video editing jobs sri lanka">
 <meta property="og:title" content="TimeLiners · Video Editor Portfolios in Sri Lanka">
@@ -3093,7 +3101,7 @@ function renderFeed() {
     return userProjCount[p.user_id] <= 3;
   });
   if (S.filter !== 'all') list = list.filter(p => p.cat === S.filter);
-  if (S.search) list = list.filter(p => (p.title + (p.author_name || '') + (p.tags || []).join(' ')).toLowerCase().includes(S.search));
+  if (S.search) list = list.filter(p => (p.title + ' ' + (p.author_name || '') + ' ' + (p.description || '') + ' ' + (p.tags || []).join(' ')).toLowerCase().includes(S.search));
   if (S.sort === 'popular') list = list.slice().sort((a, b) => b.likes - a.likes);
   else if (S.sort === 'views') list = list.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
   else if (S.sort === 'newest') list = list.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
@@ -3121,7 +3129,7 @@ function renderFeed() {
   }
 
   // ── PAGINATION ──────────────────────────────────────
-  const PAGE_SIZE = 8;
+  const PAGE_SIZE = 16;
   const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
   if (S.feedPage > totalPages) S.feedPage = totalPages;
   if (S.feedPage < 1) S.feedPage = 1;
