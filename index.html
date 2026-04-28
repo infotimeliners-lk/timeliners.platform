@@ -995,6 +995,75 @@ img, video, iframe, canvas { max-width: 100%; }
 #page-project.page-enter .pv-top{animation:pageEnter .28s cubic-bezier(.4,0,.2,1) .04s both}
 #page-project.page-enter .pv-cover{animation:pageEnter .28s cubic-bezier(.4,0,.2,1) .1s both}
 #page-project.page-enter .pv-body{animation:pageEnter .28s cubic-bezier(.4,0,.2,1) .16s both}
+/* ── BELL NOTIFICATION ── */
+.nav-bell-btn{background:none;border:none;cursor:pointer;color:var(--t2);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:var(--tr);position:relative}
+.nav-bell-btn:hover{color:var(--t1);background:var(--bg3)}
+.nav-bell-badge{position:absolute;top:3px;right:3px;min-width:16px;height:16px;border-radius:50px;background:var(--ac);color:#fff;font-size:.48rem;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid var(--bg)}
+.bell-dropdown{position:absolute;top:calc(100% + 8px);right:-8px;width:300px;background:var(--bg2);border:1px solid var(--brd2);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.65);z-index:500;opacity:0;transform:translateY(-6px) scale(.97);pointer-events:none;transition:all .18s cubic-bezier(.4,0,.2,1);transform-origin:top right}
+.bell-dropdown.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+.bell-dd-head{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem .55rem;border-bottom:1px solid var(--brd)}
+.bell-notif-item{padding:.7rem 1rem;border-bottom:1px solid var(--brd);display:flex;align-items:flex-start;gap:.6rem;cursor:pointer;transition:background .14s}
+.bell-notif-item:last-child{border-bottom:none}
+.bell-notif-item:hover{background:var(--bg3)}
+.bell-notif-item.unread{background:rgba(254,115,10,.04)}
+.bell-notif-dot{width:7px;height:7px;border-radius:50%;background:var(--ac);flex-shrink:0;margin-top:4px}
+.bell-notif-dot.read{background:transparent}
+.bell-notif-body{flex:1;min-width:0}
+.bell-notif-title{font-size:.77rem;font-weight:600;color:var(--t1);margin-bottom:.12rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bell-notif-sub{font-size:.68rem;color:var(--t2);line-height:1.4}
+.bell-notif-time{font-size:.6rem;color:var(--t3);margin-top:.18rem}
+
+/* ── SEND PROJECT BRIEF MODAL ── */
+#brief-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem}
+#brief-overlay.open{display:flex}
+.brief-box{background:var(--bg2);border:1px solid var(--brd2);border-radius:20px;padding:1.8rem;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;animation:popIn .22s cubic-bezier(.4,0,.2,1);position:relative}
+.brief-box::-webkit-scrollbar{width:3px}
+.brief-box::-webkit-scrollbar-thumb{background:var(--brd2);border-radius:99px}
+.brief-h{font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.2rem}
+.brief-sub{font-size:.75rem;color:var(--t2);margin-bottom:1.2rem;line-height:1.6}
+.brief-editor-chip{display:inline-flex;align-items:center;gap:.5rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:50px;padding:.28rem .75rem .28rem .45rem;margin-bottom:1.1rem}
+.brief-editor-av{width:24px;height:24px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0}
+.brief-editor-name{font-size:.78rem;font-weight:600;color:var(--t1)}
+.brief-f{margin-bottom:.75rem}
+.brief-l{display:block;font-size:.57rem;font-weight:600;letter-spacing:.5px;color:var(--t3);text-transform:uppercase;margin-bottom:.28rem}
+.brief-i,.brief-ta,.brief-sel{width:100%;padding:.54rem .82rem;border:1px solid var(--brd2);border-radius:var(--r);font-size:.84rem;color:var(--t1);background:var(--bg3);outline:none;transition:border-color .15s;font-family:var(--fm)}
+.brief-i:focus,.brief-ta:focus,.brief-sel:focus{border-color:var(--ac)}
+.brief-ta{min-height:90px;resize:vertical}
+.brief-2col{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.brief-submit{width:100%;padding:.68rem;background:var(--ac);color:#fff;border:none;border-radius:var(--r);font-family:var(--fm);font-size:.88rem;font-weight:600;cursor:pointer;transition:var(--tr);margin-top:.4rem}
+.brief-submit:hover{background:#e55e00}
+.brief-submit:disabled{opacity:.5;cursor:not-allowed}
+.brief-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--t3);font-size:1.2rem;cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:var(--tr)}
+.brief-close:hover{color:var(--t1);background:var(--bg3)}
+
+/* ── INQUIRY CARDS (dashboard) ── */
+.inq-card{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1.1rem 1.25rem;margin-bottom:.75rem;position:relative;transition:border-color .15s}
+.inq-card.unread{border-color:rgba(254,115,10,.25)}
+.inq-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;margin-bottom:.6rem}
+.inq-type-badge{font-size:.52rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;background:var(--acl);color:var(--ac);border:1px solid rgba(254,115,10,.2);padding:.12rem .5rem;border-radius:50px}
+.inq-time{font-size:.62rem;color:var(--t3)}
+.inq-title{font-size:.9rem;font-weight:700;color:var(--t1);margin-bottom:.2rem}
+.inq-budget{font-size:.78rem;color:var(--t2);margin-bottom:.65rem}
+.inq-blur-wrap{filter:blur(5px);user-select:none;pointer-events:none}
+.inq-pro-gate{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:var(--rlg);background:rgba(14,14,15,.65);backdrop-filter:blur(2px)}
+.inq-pro-gate-inner{background:var(--bg2);border:1px solid rgba(254,115,10,.3);border-radius:var(--rlg);padding:1rem 1.4rem;text-align:center;max-width:240px}
+.inq-pro-gate-inner p{font-size:.72rem;color:var(--t2);margin-bottom:.65rem;line-height:1.6}
+.inq-actions{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.inq-contact-btn{display:inline-flex;align-items:center;gap:.38rem;background:var(--ac);color:#fff;border:none;border-radius:50px;padding:.4rem .9rem;font-family:var(--fm);font-size:.75rem;font-weight:600;cursor:pointer;transition:var(--tr)}
+.inq-contact-btn:hover{background:#e55e00}
+.inq-dismiss-btn{background:transparent;border:1px solid var(--brd2);color:var(--t2);border-radius:50px;padding:.38rem .75rem;font-family:var(--fm);font-size:.72rem;cursor:pointer;transition:var(--tr)}
+.inq-dismiss-btn:hover{border-color:var(--brd3);color:var(--t1)}
+.inq-status-badge{font-size:.55rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:.12rem .45rem;border-radius:50px}
+.inq-status-badge.new{background:rgba(254,115,10,.12);color:var(--ac)}
+.inq-status-badge.contacted{background:rgba(22,163,74,.12);color:#16a34a}
+.inq-status-badge.dismissed{background:var(--bg4);color:var(--t3)}
+
+/* ── INQUIRY FILTER BAR ── */
+.inq-filter-bar{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.inq-filter-btn{font-size:.73rem;padding:.3rem .75rem;border-radius:50px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer;font-family:var(--fm);transition:var(--tr)}
+.inq-filter-btn:hover{color:var(--t1);border-color:var(--brd3)}
+.inq-filter-btn.active{background:var(--ac);border-color:var(--ac);color:#fff}
+
 /* ── Profile Category Folders ── */
 .prof-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
 @media(max-width:700px){.prof-cat-grid{grid-template-columns:repeat(2,1fr)}}
@@ -1241,6 +1310,75 @@ img, video, iframe, canvas { max-width: 100%; }
 .otp-digit.filled { border-color: var(--ac); background: rgba(254,115,10,.04); }
 </style>
 
+<!-- ══ SEND PROJECT BRIEF MODAL ══ -->
+<div id="brief-overlay" onclick="if(event.target===this)closeBriefModal()">
+  <div class="brief-box">
+    <button class="brief-close" onclick="closeBriefModal()">×</button>
+    <div class="brief-h">Send Project Brief</div>
+    <div class="brief-sub">Tell the editor about your project. They'll review your brief and reach out.</div>
+
+    <!-- Editor chip -->
+    <div class="brief-editor-chip" id="brief-editor-chip">
+      <div class="brief-editor-av" id="brief-editor-av">?</div>
+      <span class="brief-editor-name" id="brief-editor-name">Loading...</span>
+    </div>
+
+    <div class="brief-f">
+      <label class="brief-l">Project Title</label>
+      <input class="brief-i" id="brief-proj-title" type="text" placeholder="e.g. Wedding highlight reel · Jan 2025">
+    </div>
+    <div class="brief-2col">
+      <div class="brief-f">
+        <label class="brief-l">Project Type</label>
+        <select class="brief-sel" id="brief-proj-type">
+          <option value="">Select type...</option>
+          <option value="Wedding & Events">Wedding & Events</option>
+          <option value="Corporate / Brand">Corporate / Brand</option>
+          <option value="Social Media / Reels">Social Media / Reels</option>
+          <option value="Film / Cinematic">Film / Cinematic</option>
+          <option value="Motion Graphics">Motion Graphics</option>
+          <option value="YouTube / Long-form">YouTube / Long-form</option>
+          <option value="3D & VFX">3D & VFX</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="brief-f">
+        <label class="brief-l">Budget (LKR)</label>
+        <select class="brief-sel" id="brief-budget">
+          <option value="">Select range...</option>
+          <option value="Under 5,000">Under 5,000</option>
+          <option value="5,000 – 15,000">5,000 – 15,000</option>
+          <option value="15,000 – 30,000">15,000 – 30,000</option>
+          <option value="30,000 – 60,000">30,000 – 60,000</option>
+          <option value="60,000+">60,000+</option>
+          <option value="Open to discuss">Open to discuss</option>
+        </select>
+      </div>
+    </div>
+    <div class="brief-2col">
+      <div class="brief-f">
+        <label class="brief-l">Your Name</label>
+        <input class="brief-i" id="brief-client-name" type="text" placeholder="Nirosha Perera">
+      </div>
+      <div class="brief-f">
+        <label class="brief-l">Phone (WhatsApp)</label>
+        <input class="brief-i" id="brief-client-phone" type="tel" placeholder="07X XXX XXXX">
+      </div>
+    </div>
+    <div class="brief-f">
+      <label class="brief-l">Email</label>
+      <input class="brief-i" id="brief-client-email" type="email" placeholder="you@email.com">
+    </div>
+    <div class="brief-f">
+      <label class="brief-l">Additional Notes</label>
+      <textarea class="brief-ta" id="brief-notes" placeholder="Describe your project, deadline, style references..."></textarea>
+    </div>
+    <div id="brief-err" style="display:none;font-size:.73rem;color:#ef4444;margin-bottom:.5rem;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:6px;padding:.4rem .7rem"></div>
+    <button class="brief-submit" id="brief-submit-btn" onclick="submitBrief()">Send Project Brief</button>
+    <div style="font-size:.65rem;color:var(--t3);text-align:center;margin-top:.65rem">Your brief will be sent to the editor. They'll contact you if interested.</div>
+  </div>
+</div>
+
 <!-- ══ SPLASH ══ -->
 <div class="page" id="page-splash">
   <div class="spl-glow"></div><div class="spl-glow2"></div>
@@ -1348,6 +1486,20 @@ img, video, iframe, canvas { max-width: 100%; }
     </div>
     <div class="nav-right">
       <button class="nav-pro" id="nav-pro-btn" onclick="showPage('pricing')">Join Pro</button>
+      <!-- Bell notification · only visible when logged in -->
+      <div class="nav-bell-wrap nav-li" id="nav-bell-wrap" style="display:none;position:relative">
+        <button class="nav-bell-btn" id="nav-bell-btn" onclick="toggleBellDropdown()" title="Notifications">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span class="nav-bell-badge" id="nav-bell-badge" style="display:none">0</span>
+        </button>
+        <div class="bell-dropdown" id="bell-dropdown">
+          <div class="bell-dd-head">
+            <span style="font-size:.8rem;font-weight:600;color:var(--t1)">Notifications</span>
+            <button onclick="markAllNotifsRead()" style="font-size:.68rem;color:var(--ac);background:none;border:none;cursor:pointer;padding:0">Mark all read</button>
+          </div>
+          <div id="bell-dd-list"><div style="text-align:center;padding:1.8rem 1rem;font-size:.75rem;color:var(--t3)">No notifications yet</div></div>
+        </div>
+      </div>
       <a class="nav-user nav-li" id="nav-user-btn" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard')" style="display:none;text-decoration:none">
         <div class="nav-av" id="nav-av-el"><span id="nav-initials">?</span></div>
         <span class="nav-uname" id="nav-uname-el"></span>
@@ -1468,7 +1620,7 @@ img, video, iframe, canvas { max-width: 100%; }
 
       <!-- Action buttons -->
       <div class="prof-hero-actions" id="prof-hero-actions">
-        <button class="prof-hire-btn" id="p-hire-btn">
+        <button class="prof-hire-btn" id="p-hire-btn" onclick="openBriefModal()">
           <svg width="14" height="14" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg>
           Hire Me
         </button>
@@ -1703,6 +1855,7 @@ img, video, iframe, canvas { max-width: 100%; }
         <a class="dni" id="dnav-projects" href="#/dashboard" onclick="event.preventDefault();switchDash('projects',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>My Projects</a>
         <a class="dni" id="dnav-editprofile" href="#/dashboard" onclick="event.preventDefault();switchDash('editprofile',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg></div>Edit Profile</a>
         <a class="dni" id="dnav-analytics" href="#/dashboard" onclick="event.preventDefault();switchDash('analytics',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-4 2.5 2 3-5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Analytics</a>
+        <a class="dni" id="dnav-inquiries" href="#/dashboard" onclick="event.preventDefault();switchDash('inquiries',this)"><div class="dni-ico" style="position:relative"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span id="dnav-inq-badge" style="display:none;position:absolute;top:-3px;right:-3px;width:7px;height:7px;border-radius:50%;background:var(--ac)"></span></div>Inquiries</a>
         <hr class="dndiv">
         <a class="dni" href="#/profile" onclick="event.preventDefault();showPage('profile')"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>View Portfolio</a>
         <a class="dni" href="#" onclick="event.preventDefault();handleSignOut()" style="color:rgba(239,68,68,.6)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M9.5 4.5L13 7l-3.5 2.5M13 7H5" stroke="rgba(239,68,68,.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Sign Out</a>
@@ -1787,7 +1940,7 @@ img, video, iframe, canvas { max-width: 100%; }
 
           <div class="gate-banner" id="gate-banner" style="display:none">
             <h3 style="margin:0 0 .4rem;font-size:.9rem">Unlock Pro features</h3>
-            <p style="font-size:.78rem;margin:0 0 .75rem">Get unlimited projects, 5 GB storage, verified badge, analytics, social links and a Hire Me button.</p>
+            <p style="font-size:.78rem;margin:0 0 .75rem">Get unlimited projects, 5 GB storage, verified badge, analytics and social links.</p>
             <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">See Plans <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           </div>
         </div>
@@ -1837,7 +1990,7 @@ img, video, iframe, canvas { max-width: 100%; }
 
           <!-- Join Pro pane -->
           <div class="acc-pane" id="acc-pane-pro">
-            <div class="dcard" style="margin-bottom:1.05rem"><div class="dcard-h">Choose Your Plan</div><div class="dcard-sub">Upgrade to Pro for unlimited projects, verified badge, analytics, social links and a Hire Me button.</div></div>
+            <div class="dcard" style="margin-bottom:1.05rem"><div class="dcard-h">Choose Your Plan</div><div class="dcard-sub">Upgrade to Pro for unlimited projects, verified badge, analytics and social links.</div></div>
             <!-- Billing toggle -->
             <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:1.1rem">
               <div style="display:flex;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.18rem;gap:.12rem">
@@ -1856,10 +2009,10 @@ img, video, iframe, canvas { max-width: 100%; }
                   <li><span class="pchk">✓</span>Up to 3 projects</li>
                   <li><span class="pchk">✓</span>250 MB storage</li>
                   <li><span class="pchk">✓</span>Public profile page</li>
-                  <li><span class="pchk">✓</span>Search &amp; discovery</li>
+                  <li><span class="pchk">✓</span>Hire Me button</li>
+                  <li><span class="pchk">✓</span>Analytics &amp; stats</li>
+                  <li><span class="pchk">✓</span>Project inquiries (locked)</li>
                   <li class="no"><span class="pchk">×</span>Verified badge</li>
-                  <li class="no"><span class="pchk">×</span>Analytics</li>
-                  <li class="no"><span class="pchk">×</span>Hire Me button</li>
                 </ul>
                 <button class="plan-btn plan-btn-cur" id="pb-free" style="margin-top:auto">Current Plan</button>
               </div>
@@ -1872,11 +2025,11 @@ img, video, iframe, canvas { max-width: 100%; }
                 <ul class="plan-feats">
                   <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited projects</li>
                   <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>5 GB storage</li>
+                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Full project inquiries</li>
                   <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Priority in search</li>
                   <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Verified badge</li>
                   <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Analytics &amp; stats</li>
                   <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Social links</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hire Me button</li>
                 </ul>
                 <button class="plan-btn" id="pb-pro" onclick="requestUpgrade('pro')" style="background:var(--bg3);color:#d95e00;font-weight:600;border:none;margin-top:auto">Upgrade · 2,490 LKR/mo</button>
               </div>
@@ -1889,7 +2042,7 @@ img, video, iframe, canvas { max-width: 100%; }
         <div class="dash-panel" id="dash-panel-upload">
           <div class="gate-banner" id="upload-gate" style="display:none">
             <h3>Upgrade to publish projects</h3>
-            <p>Upgrade to <strong>Pro</strong> for unlimited projects, priority search ranking, verified badge, analytics, social links and a Hire Me button.</p>
+            <p>Upgrade to <strong>Pro</strong> for unlimited projects, priority search ranking, verified badge, analytics and social links.</p>
             <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">See Plans <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           </div>
           <div class="dcard">
@@ -2147,6 +2300,53 @@ img, video, iframe, canvas { max-width: 100%; }
           </div>
 
         </div>
+
+        <!-- INQUIRIES PANEL -->
+        <div class="dash-panel" id="dash-panel-inquiries">
+          <div class="dcard" style="margin-bottom:.85rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
+              <div>
+                <div class="dcard-h">Project Inquiries</div>
+                <div class="dcard-sub" style="margin-bottom:0">Clients who sent you a project brief via your Hire Me button.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filter bar (available to all users) -->
+          <div class="inq-filter-bar">
+            <button class="inq-filter-btn active" id="inqf-all" onclick="filterInquiries('all',this)">All</button>
+            <button class="inq-filter-btn" id="inqf-new" onclick="filterInquiries('new',this)">New</button>
+            <button class="inq-filter-btn" id="inqf-contacted" onclick="filterInquiries('contacted',this)">Contacted</button>
+            <div style="margin-left:auto;display:flex;gap:.4rem;align-items:center">
+              <span style="font-size:.7rem;color:var(--t3)">Budget:</span>
+              <select id="inq-budget-filter" onchange="filterInquiries(null,null)" style="font-size:.72rem;border:1px solid var(--brd2);border-radius:50px;background:var(--bg3);color:var(--t1);padding:.25rem .65rem;outline:none;font-family:var(--fm)">
+                <option value="">Any</option>
+                <option value="Under 5,000">Under 5k</option>
+                <option value="5,000 – 15,000">5k–15k</option>
+                <option value="15,000 – 30,000">15k–30k</option>
+                <option value="30,000 – 60,000">30k–60k</option>
+                <option value="60,000+">60k+</option>
+              </select>
+              <span style="font-size:.7rem;color:var(--t3)">Type:</span>
+              <select id="inq-type-filter" onchange="filterInquiries(null,null)" style="font-size:.72rem;border:1px solid var(--brd2);border-radius:50px;background:var(--bg3);color:var(--t1);padding:.25rem .65rem;outline:none;font-family:var(--fm)">
+                <option value="">Any</option>
+                <option value="Wedding & Events">Wedding</option>
+                <option value="Corporate / Brand">Corporate</option>
+                <option value="Social Media / Reels">Social</option>
+                <option value="Film / Cinematic">Film</option>
+                <option value="Motion Graphics">Motion</option>
+                <option value="YouTube / Long-form">YouTube</option>
+                <option value="3D & VFX">3D & VFX</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="inq-list">
+            <div style="text-align:center;padding:3rem;color:var(--t3);font-size:.78rem">Loading inquiries...</div>
+          </div>
+        </div>
+
       </div><!-- end panels -->
     </div><!-- end dash-grid -->
   </div><!-- end dash-wrap -->
@@ -2848,6 +3048,7 @@ async function deleteMyAccount() {
 }
 
 async function handleSignOut() {
+  stopNotifPolling();
   await sb.auth.signOut().catch(() => {});
   S.user = S.profile = S.session = S.viewingProfile = null;
   S.projects = [];
@@ -2981,7 +3182,7 @@ function applyLoggedIn() {
   if (ctaInner) {
     if (!isPaid) {
       ctaInner.innerHTML =
-        '<div style="position:relative;z-index:1"><h3>Try the Pro experience.</h3><p>Unlimited projects, verified badge, analytics, social links and a Hire Me button.</p></div>' +
+        '<div style="position:relative;z-index:1"><h3>Try the Pro experience.</h3><p>Unlimited projects, verified badge, analytics and social links.</p></div>' +
         '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));switchAccTab(\'pro\');},80)">See Plans <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
     } else {
       ctaInner.innerHTML =
@@ -2989,12 +3190,18 @@ function applyLoggedIn() {
         '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>switchDash(\'upload\',document.getElementById(\'dnav-upload\')),80)">Upload Project <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
     }
   }
+  // Show bell icon for logged-in users and load notifications
+  const bellWrap = document.getElementById('nav-bell-wrap');
+  if (bellWrap) bellWrap.style.display = 'flex';
+  setTimeout(() => { loadNotifications(); startNotifPolling(); }, 500);
 }
 function applyLoggedOut() {
   document.body.classList.remove('user-logged-in');
   document.querySelectorAll('.nav-li').forEach(e => e.style.display = 'none');
   document.querySelectorAll('.nav-lo').forEach(e => e.style.display = '');
   el('nav-user-btn').style.display = 'none';
+  const bellWrap = document.getElementById('nav-bell-wrap');
+  if (bellWrap) bellWrap.style.display = 'none';
   // Reset mob drawer header
   const mobAv = document.getElementById('mob-av');
   const mobUsername = document.getElementById('mob-username');
@@ -3561,6 +3768,7 @@ function switchDash(id, btn) {
   el('dash-panel-' + id).classList.add('active');
   if (btn) btn.classList.add('active');
   if (id === 'projects') renderMyProjects();
+  if (id === 'inquiries') loadInquiries();
   if (id === 'analytics') {
     loadAnalytics();
     // Auto-refresh every 30s while on analytics tab
@@ -4329,45 +4537,22 @@ function refreshProfile(profileData) {
     nl.style.display = has ? 'none' : 'inline';
   }
 
-  // Hire Me button · Pro only
+  // Hire Me button · now FREE for everyone — opens Send Project Brief modal
   const hireBtn = el('p-hire-btn');
   const actionsWrap = document.getElementById('prof-hero-actions');
   if (actionsWrap) actionsWrap.style.marginBottom = '';
   hireBtn.style.display = 'flex';
-  if (!profIsPro) {
-    if (profIsOwn) {
-      // Owner sees a locked version with upgrade CTA
-      hireBtn.style.opacity = '0.45';
-      hireBtn.style.cursor = 'not-allowed';
-      hireBtn.onclick = () => {
-        showPage('dashboard');
-        setTimeout(() => { switchDash('account', document.getElementById('dnav-account')); switchAccTab('pro'); }, 80);
-      };
-      hireBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg> Hire Me <span style="font-size:.6rem;opacity:.8">(Pro only)</span>';
-    } else {
-      // Visitor · hide the button entirely + collapse the gap
-      hireBtn.style.display = 'none';
-      const actionsWrap = document.getElementById('prof-hero-actions');
-      if (actionsWrap) actionsWrap.style.marginBottom = '0';
-    }
+  hireBtn.style.opacity = '1';
+  hireBtn.style.cursor = 'pointer';
+  hireBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg> Hire Me';
+  if (profIsOwn) {
+    // Own profile: show a dimmed non-clickable version
+    hireBtn.style.opacity = '0.45';
+    hireBtn.style.cursor = 'default';
+    hireBtn.onclick = null;
   } else {
-    hireBtn.style.display = 'flex';
-    hireBtn.style.opacity = '1';
-    hireBtn.style.cursor = 'pointer';
-    hireBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg> Hire Me';
-    hireBtn.onclick = () => {
-      // Track hire click (only if not own profile)
-      if (!profIsOwn) {
-        db('/profiles?id=eq.' + p.id, 'GET', null, SB_KEY).then(rows => {
-          if (rows && rows[0]) {
-            db('/profiles?id=eq.' + p.id, 'PATCH', { hire_clicks: (rows[0].hire_clicks || 0) + 1 }).catch(() => {});
-            logAnalyticsEvent(p.id, 'hire_click');
-          }
-        }).catch(() => {});
-      }
-      if (p.wa) window.open('https://wa.me/' + p.wa.replace(/[^0-9]/g,'') + '?text=' + encodeURIComponent('Hi ' + p.name + ', I found your profile on Timeliners and would love to hire you for a project.'), '_blank');
-      else showToast("This editor hasn't added a contact method yet.");
-    };
+    // Set the target editor for the brief modal
+    hireBtn.onclick = () => openBriefModal(p);
   }
 
   // Track social link taps (only if not own profile)
@@ -5976,6 +6161,409 @@ window.removeSkill  = (x, val) => window.removeChip(x, 'ep-skills', val);
 window.toggleFaq     = toggleFaq;
 window.openWA        = openWA;
 
+// ═══════════════════════════════════════════════════════
+// ── SEND PROJECT BRIEF MODAL ────────────────────────────
+// ═══════════════════════════════════════════════════════
+let _briefTargetProfile = null;
+
+function openBriefModal(profile) {
+  _briefTargetProfile = profile || S.viewingProfile;
+  if (!_briefTargetProfile) return;
+  const p = _briefTargetProfile;
+
+  // Populate editor chip
+  const avEl = document.getElementById('brief-editor-av');
+  const nameEl = document.getElementById('brief-editor-name');
+  if (avEl) {
+    if (p.avatar_url) {
+      avEl.innerHTML = '<img src="' + p.avatar_url + '" style="width:24px;height:24px;border-radius:50%;object-fit:cover">';
+      avEl.style.background = 'transparent';
+    } else {
+      avEl.textContent = (p.initials || p.name || '?').substring(0, 2).toUpperCase();
+      const bg = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
+      avEl.style.background = bg;
+    }
+  }
+  if (nameEl) nameEl.textContent = p.name || 'Editor';
+
+  // Clear form
+  ['brief-proj-title','brief-client-name','brief-client-phone','brief-client-email','brief-notes'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+  ['brief-proj-type','brief-budget'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
+  const errEl = document.getElementById('brief-err');
+  if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+
+  document.getElementById('brief-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBriefModal() {
+  document.getElementById('brief-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+async function submitBrief() {
+  const p = _briefTargetProfile;
+  if (!p) return;
+
+  const title   = document.getElementById('brief-proj-title').value.trim();
+  const type    = document.getElementById('brief-proj-type').value;
+  const budget  = document.getElementById('brief-budget').value;
+  const cName   = document.getElementById('brief-client-name').value.trim();
+  const cPhone  = document.getElementById('brief-client-phone').value.trim();
+  const cEmail  = document.getElementById('brief-client-email').value.trim();
+  const notes   = document.getElementById('brief-notes').value.trim();
+  const errEl   = document.getElementById('brief-err');
+
+  // Validate
+  const missing = [];
+  if (!title)  missing.push('Project Title');
+  if (!type)   missing.push('Project Type');
+  if (!budget) missing.push('Budget');
+  if (!cName)  missing.push('Your Name');
+  if (!cPhone && !cEmail) missing.push('Phone or Email');
+
+  if (missing.length) {
+    errEl.textContent = 'Please fill in: ' + missing.join(', ');
+    errEl.style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('brief-submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  errEl.style.display = 'none';
+
+  try {
+    // Insert into project_inquiries table
+    await db('/project_inquiries', 'POST', {
+      editor_id:    p.id,
+      client_name:  cName,
+      client_email: cEmail || null,
+      client_phone: cPhone || null,
+      project_title: title,
+      project_type:  type,
+      budget:        budget,
+      additional_notes: notes || null,
+      status: 'new',
+      is_read: false
+    });
+
+    // Track hire click
+    db('/profiles?id=eq.' + p.id, 'PATCH', { hire_clicks: (p.hire_clicks || 0) + 1 }).catch(() => {});
+    logAnalyticsEvent(p.id, 'hire_click');
+
+    // Send email notification via Edge Function
+    fetch(SB_URL + '/functions/v1/notify-inquiry', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        editor_id:        p.id,
+        editor_name:      p.name,
+        project_title:    title,
+        project_type:     type,
+        budget:           budget,
+        additional_notes: notes || null
+      })
+    }).catch(() => {});
+
+    btn.disabled = false;
+    btn.textContent = 'Send Project Brief';
+    closeBriefModal();
+    showToast('Brief sent! The editor will review and reach out.');
+  } catch(e) {
+    errEl.textContent = 'Something went wrong. Please try again.';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Send Project Brief';
+  }
+}
+
+window.openBriefModal  = openBriefModal;
+window.closeBriefModal = closeBriefModal;
+window.submitBrief     = submitBrief;
+
+// ═══════════════════════════════════════════════════════
+// ── NOTIFICATIONS / BELL ────────────────────────────────
+// ═══════════════════════════════════════════════════════
+let _notifCache = [];
+let _notifPollInterval = null;
+let _lastNotifCount = 0;
+
+function showInquiryToast(inq) {
+  const existing = document.getElementById('inquiry-toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.id = 'inquiry-toast';
+  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--bg2);border:1px solid var(--ac);border-radius:14px;padding:14px 16px;max-width:300px;z-index:9999;box-shadow:0 8px 32px rgba(0,0,0,.5);display:flex;gap:10px;align-items:flex-start;transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1)';
+  t.innerHTML = '<div style="width:36px;height:36px;border-radius:50%;background:rgba(254,115,10,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FE730A" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>'
+    + '<div><div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:2px">New Project Inquiry</div>'
+    + '<div style="font-size:.7rem;color:var(--t2)">' + escHtml(inq.project_title || 'New inquiry') + '</div>'
+    + '<div style="font-size:.65rem;color:var(--ac);margin-top:4px;cursor:pointer" onclick="bellNotifClick()">View inquiry →</div>'
+    + '</div>'
+    + '<div style="cursor:pointer;color:var(--t3);font-size:1rem;line-height:1" onclick="this.parentElement.remove()">×</div>';
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.transform = 'translateY(0)'; t.style.opacity = '1'; }, 10);
+  setTimeout(() => { t.style.transform = 'translateY(80px)'; t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 6000);
+}
+
+async function loadNotifications(isLivePoll) {
+  if (!S.profile) return;
+  try {
+    const rows = await db('/project_inquiries?editor_id=eq.' + S.profile.id + '&order=created_at.desc&limit=20', 'GET', null, SB_KEY);
+    const newRows = rows || [];
+    // Detect new inquiries on live poll
+    if (isLivePoll && newRows.length > _lastNotifCount && _lastNotifCount > 0) {
+      const newest = newRows[0];
+      if (newest && !newest.is_read) {
+        playNotifSound();
+        showInquiryToast(newest);
+      }
+    }
+    _lastNotifCount = newRows.length;
+    _notifCache = newRows;
+    renderBellDropdown();
+    updateBellBadge();
+  } catch(e) {}
+}
+
+function startNotifPolling() {
+  if (_notifPollInterval) clearInterval(_notifPollInterval);
+  _notifPollInterval = setInterval(() => loadNotifications(true), 15000);
+}
+
+function stopNotifPolling() {
+  if (_notifPollInterval) clearInterval(_notifPollInterval);
+  _notifPollInterval = null;
+}
+
+function renderBellDropdown() {
+  const list = document.getElementById('bell-dd-list');
+  if (!list) return;
+  if (!_notifCache.length) {
+    list.innerHTML = '<div style="text-align:center;padding:1.8rem 1rem;font-size:.75rem;color:var(--t3)">No inquiries yet</div>';
+    return;
+  }
+  list.innerHTML = _notifCache.slice(0, 8).map(inq => {
+    const timeAgo = formatTimeAgo(inq.created_at);
+    const isUnread = !inq.is_read;
+    return '<div class="bell-notif-item ' + (isUnread ? 'unread' : '') + '" onclick="bellNotifClick(\'' + inq.id + '\')">' +
+      '<div class="bell-notif-dot ' + (isUnread ? '' : 'read') + '"></div>' +
+      '<div class="bell-notif-body">' +
+        '<div class="bell-notif-title">' + escHtml(inq.project_title || 'New Inquiry') + '</div>' +
+        '<div class="bell-notif-sub">' + escHtml(inq.project_type || '') + (inq.budget ? ' · ' + inq.budget : '') + '</div>' +
+        '<div class="bell-notif-time">' + timeAgo + '</div>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function updateBellBadge() {
+  const badge = document.getElementById('nav-bell-badge');
+  if (!badge) return;
+  const unread = _notifCache.filter(n => !n.is_read).length;
+  if (unread > 0) {
+    badge.textContent = unread > 9 ? '9+' : unread;
+    badge.style.display = 'flex';
+  } else {
+    badge.style.display = 'none';
+  }
+  // Also update the dashboard nav badge dot
+  const navDot = document.getElementById('dnav-inq-badge');
+  if (navDot) navDot.style.display = unread > 0 ? 'block' : 'none';
+}
+
+function toggleBellDropdown() {
+  const dd = document.getElementById('bell-dropdown');
+  if (!dd) return;
+  const isOpen = dd.classList.contains('open');
+  dd.classList.toggle('open', !isOpen);
+  // Close on outside click
+  if (!isOpen) {
+    setTimeout(() => {
+      document.addEventListener('click', function _closeBell(e) {
+        if (!document.getElementById('nav-bell-wrap').contains(e.target)) {
+          dd.classList.remove('open');
+          document.removeEventListener('click', _closeBell);
+        }
+      });
+    }, 10);
+  }
+}
+
+function bellNotifClick(inqId) {
+  document.getElementById('bell-dropdown').classList.remove('open');
+  showPage('dashboard');
+  setTimeout(() => switchDash('inquiries', document.getElementById('dnav-inquiries')), 80);
+}
+
+async function markAllNotifsRead() {
+  if (!S.profile || !_notifCache.length) return;
+  const unread = _notifCache.filter(n => !n.is_read);
+  if (!unread.length) return;
+  try {
+    await db('/project_inquiries?editor_id=eq.' + S.profile.id + '&is_read=eq.false', 'PATCH', { is_read: true }, SB_KEY);
+    _notifCache.forEach(n => n.is_read = true);
+    renderBellDropdown();
+    updateBellBadge();
+  } catch(e) {}
+}
+
+window.toggleBellDropdown = toggleBellDropdown;
+window.markAllNotifsRead  = markAllNotifsRead;
+window.bellNotifClick     = bellNotifClick;
+
+// ═══════════════════════════════════════════════════════
+// ── INQUIRIES DASHBOARD PANEL ───────────────────────────
+// ═══════════════════════════════════════════════════════
+let _allInquiries = [];
+let _inqStatusFilter = 'all';
+
+async function loadInquiries() {
+  if (!S.profile) return;
+  const list = document.getElementById('inq-list');
+  if (list) list.innerHTML = '<div style="text-align:center;padding:2.5rem;font-size:.78rem;color:var(--t3)">Loading...</div>';
+  try {
+    const rows = await db('/project_inquiries?editor_id=eq.' + S.profile.id + '&order=created_at.desc', 'GET', null, SB_KEY);
+    _allInquiries = rows || [];
+    // Mark all as read when they open the panel
+    const unread = _allInquiries.filter(n => !n.is_read);
+    if (unread.length) {
+      db('/project_inquiries?editor_id=eq.' + S.profile.id + '&is_read=eq.false', 'PATCH', { is_read: true }, SB_KEY).catch(() => {});
+      _allInquiries.forEach(n => n.is_read = true);
+      updateBellBadge();
+    }
+    renderInquiries();
+  } catch(e) {
+    if (list) list.innerHTML = '<div style="text-align:center;padding:2.5rem;font-size:.78rem;color:var(--t3)">Failed to load. Please try again.</div>';
+  }
+}
+
+function filterInquiries(status, btn) {
+  if (status !== null) _inqStatusFilter = status;
+  if (btn) {
+    document.querySelectorAll('.inq-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderInquiries();
+}
+
+function renderInquiries() {
+  const isPro = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
+  const list = document.getElementById('inq-list');
+  if (!list) return;
+
+  const budgetF = document.getElementById('inq-budget-filter')?.value || '';
+  const typeF   = document.getElementById('inq-type-filter')?.value || '';
+
+  let filtered = _allInquiries.filter(inq => {
+    if (_inqStatusFilter !== 'all' && inq.status !== _inqStatusFilter) return false;
+    if (budgetF && inq.budget !== budgetF) return false;
+    if (typeF   && inq.project_type !== typeF) return false;
+    return true;
+  });
+
+  if (!filtered.length) {
+    list.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--t3);font-size:.78rem">No inquiries match your filters.</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(inq => buildInquiryCard(inq, isPro)).join('');
+}
+
+function buildInquiryCard(inq, isPro) {
+  const timeAgo = formatTimeAgo(inq.created_at);
+  const isUnread = !inq.is_read;
+  const statusBadge = '<span class="inq-status-badge ' + (inq.status || 'new') + '">' + (inq.status || 'new') + '</span>';
+
+  const topRow = '<div class="inq-card-top">' +
+    '<div style="display:flex;align-items:center;gap:.5rem">' +
+      '<span class="inq-type-badge">' + escHtml(inq.project_type || 'Inquiry') + '</span>' +
+      statusBadge +
+    '</div>' +
+    '<span class="inq-time">' + timeAgo + '</span>' +
+  '</div>';
+
+  const titleRow = '<div class="inq-title">' + escHtml(inq.project_title || 'Untitled') + '</div>';
+  const budgetRow = '<div class="inq-budget">Budget: <strong>' + escHtml(inq.budget || 'Not specified') + '</strong></div>';
+
+  if (!isPro) {
+    // Blurred with Pro gate overlay
+    const blurredContent = '<div class="inq-blur-wrap">' +
+      '<div style="font-size:.82rem;color:var(--t2);margin-bottom:.4rem">Client: ████████ · 07█ ███ ████</div>' +
+      '<div style="font-size:.78rem;color:var(--t3)">They wrote: ████████████ ████ ████████ ██████</div>' +
+      '<div style="margin-top:.65rem;display:flex;gap:.5rem">' +
+        '<div style="height:30px;width:110px;background:var(--bg4);border-radius:50px"></div>' +
+        '<div style="height:30px;width:80px;background:var(--bg4);border-radius:50px"></div>' +
+      '</div>' +
+    '</div>';
+    const gate = '<div class="inq-pro-gate"><div class="inq-pro-gate-inner">' +
+      '<div style="font-size:.8rem;font-weight:700;color:var(--t1);margin-bottom:.35rem">🔒 Pro Required</div>' +
+      '<p>Upgrade to Pro to view client details and contact them.</p>' +
+      '<button class="btn btn-p btn-sm" onclick="switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)">Upgrade to Pro</button>' +
+    '</div></div>';
+    return '<div class="inq-card ' + (isUnread ? 'unread' : '') + '" style="position:relative">' + topRow + titleRow + budgetRow + blurredContent + gate + '</div>';
+  }
+
+  // Pro: full details
+  const details = '<div style="font-size:.8rem;color:var(--t2);margin-bottom:.35rem">From: <strong style="color:var(--t1)">' + escHtml(inq.client_name || '—') + '</strong>' +
+    (inq.client_phone ? ' · <span style="color:var(--t2)">' + escHtml(inq.client_phone) + '</span>' : '') +
+    (inq.client_email ? ' · <span style="color:var(--t2)">' + escHtml(inq.client_email) + '</span>' : '') +
+  '</div>';
+  const notesRow = inq.additional_notes ? '<div style="font-size:.76rem;color:var(--t2);background:var(--bg3);border-radius:var(--r);padding:.5rem .7rem;margin-bottom:.65rem;line-height:1.6">' + escHtml(inq.additional_notes) + '</div>' : '';
+
+  const phone = (inq.client_phone || '').replace(/[^0-9]/g, '');
+  const waMsg = encodeURIComponent('Hi ' + (inq.client_name || '') + ', I\'m ' + (S.profile?.name || '') + '. I\'d like to work on "' + (inq.project_title || 'your project') + '". Let\'s talk!');
+  const waHref = phone ? 'https://wa.me/94' + phone.replace(/^0/, '') + '?text=' + waMsg : '';
+
+  const actions = '<div class="inq-actions">' +
+    (waHref ? '<a href="' + waHref + '" target="_blank" class="inq-contact-btn" onclick="markInquiryContacted(\'' + inq.id + '\')">' +
+      '<svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg>Contact on WhatsApp</a>' : '') +
+    (inq.status !== 'dismissed' ? '<button class="inq-dismiss-btn" onclick="dismissInquiry(\'' + inq.id + '\')">Dismiss</button>' : '') +
+  '</div>';
+
+  return '<div class="inq-card ' + (isUnread ? 'unread' : '') + '" id="inq-' + inq.id + '">' + topRow + titleRow + budgetRow + details + notesRow + actions + '</div>';
+}
+
+async function markInquiryContacted(inqId) {
+  try {
+    await db('/project_inquiries?id=eq.' + inqId, 'PATCH', { status: 'contacted' }, SB_KEY);
+    const inq = _allInquiries.find(i => i.id === inqId);
+    if (inq) inq.status = 'contacted';
+    renderInquiries();
+  } catch(e) {}
+}
+
+async function dismissInquiry(inqId) {
+  try {
+    await db('/project_inquiries?id=eq.' + inqId, 'PATCH', { status: 'dismissed' }, SB_KEY);
+    const inq = _allInquiries.find(i => i.id === inqId);
+    if (inq) inq.status = 'dismissed';
+    renderInquiries();
+  } catch(e) {}
+}
+
+window.filterInquiries      = filterInquiries;
+window.markInquiryContacted = markInquiryContacted;
+window.dismissInquiry       = dismissInquiry;
+
+// ── UTILITY HELPERS ──────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function formatTimeAgo(iso) {
+  if (!iso) return '';
+  const d = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(d / 60000);
+  if (mins < 1) return 'just now';
+  if (mins < 60) return mins + 'm ago';
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  if (days < 7) return days + 'd ago';
+  return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+}
+
 // ── EDIT PROJECT ─────────────────────────────────────
 function openEditProject() {
   const p = S._currentProject; if (!p) return;
@@ -6755,10 +7343,11 @@ boot();
           <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>250 MB video storage</li>
           <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Public profile page</li>
           <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Search &amp; discovery</li>
+          <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hire Me button</li>
+          <li class="no"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--bg3)"/><path d="M4.5 4.5l4 4M8.5 4.5l-4 4" stroke="var(--t3)" stroke-width="1.3" stroke-linecap="round"/></svg></span>Project inquiries</li>
           <li class="no"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--bg3)"/><path d="M4.5 4.5l4 4M8.5 4.5l-4 4" stroke="var(--t3)" stroke-width="1.3" stroke-linecap="round"/></svg></span>Verified badge</li>
           <li class="no"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--bg3)"/><path d="M4.5 4.5l4 4M8.5 4.5l-4 4" stroke="var(--t3)" stroke-width="1.3" stroke-linecap="round"/></svg></span>Analytics &amp; stats</li>
           <li class="no"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--bg3)"/><path d="M4.5 4.5l4 4M8.5 4.5l-4 4" stroke="var(--t3)" stroke-width="1.3" stroke-linecap="round"/></svg></span>Social links</li>
-          <li class="no"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--bg3)"/><path d="M4.5 4.5l4 4M8.5 4.5l-4 4" stroke="var(--t3)" stroke-width="1.3" stroke-linecap="round"/></svg></span>Hire Me button</li>
         </ul>
         <button class="pc-btn pc-btn-free" onclick="openAuth('up')">Get Started Free</button>
       </div>
@@ -6775,10 +7364,11 @@ boot();
           <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>5 GB video storage</li>
           <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Public profile page</li>
           <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Priority in search</li>
+          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hire Me button</li>
+          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Project inquiries</li>
           <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Verified badge</li>
           <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Analytics &amp; stats</li>
           <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Social links (Instagram, WhatsApp…)</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hire Me button</li>
         </ul>
         <button class="pc-btn pc-btn-std" id="pp-btn" onclick="requestUpgrade('pro')" style="width:100%;cursor:pointer;border:none;font-family:var(--fm)">Subscribe · 2,490 LKR/mo</button>
       </div>
@@ -6794,11 +7384,12 @@ boot();
           <tr><td>Projects</td><td>Up to 3</td><td class="ct-yes">Unlimited</td></tr>
           <tr><td>Video storage</td><td>250 MB</td><td class="ct-yes">5 GB</td></tr>
           <tr><td>Public profile page</td><td>✓</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Hire Me button</td><td>✓</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Project inquiries</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
+          <tr><td>Analytics &amp; stats</td><td>✓</td><td class="ct-yes">✓</td></tr>
           <tr><td>Search &amp; discovery</td><td>Standard</td><td class="ct-yes">Priority</td></tr>
           <tr><td>Verified badge</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Analytics &amp; stats</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
           <tr><td>Social links</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Hire Me button</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
         </tbody>
       </table>
     </div>
@@ -6836,7 +7427,7 @@ boot();
 
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">What's the difference between the plans?<div class="faq-ico">+</div></div>
-      <div class="faqa">Free: public profile, up to 3 projects, 250 MB storage, search &amp; discovery. Pro (2,490 LKR/mo): unlimited projects, 5 GB storage, priority search ranking, verified badge, analytics &amp; stats, social links, and a Hire Me button. You can also pay yearly (LKR 24,900/yr) to save 2 months.</div>
+      <div class="faqa">Free: public profile, up to 3 projects, 250 MB storage, search &amp; discovery, Hire Me button. Pro (2,490 LKR/mo): unlimited projects, 5 GB storage, priority search ranking, verified badge, analytics &amp; stats, and social links. You can also pay yearly (LKR 24,900/yr) to save 2 months.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How does payment work?<div class="faq-ico">+</div></div>
