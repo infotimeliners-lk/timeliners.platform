@@ -361,6 +361,11 @@ button,a{cursor:pointer;font-family:var(--fm)}
         <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="3.5" width="13" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M1 6.5h13" stroke="currentColor" stroke-width="1.3"/><rect x="3" y="9" width="3" height="1.2" rx=".5" fill="currentColor"/></svg></div>
         <span class="sb-link-label">Members</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
       </button>
+      <div class="sb-sec">Analytics</div>
+      <button class="sb-link" onclick="nav('inquiries',this)" id="nav-inquiries" data-label="Inquiries">
+        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="2" width="13" height="10" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M4 5.5h7M4 8h5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>
+        <span class="sb-link-label">Inquiries</span> <span class="sb-cnt" id="sb-inq" style="display:none">0</span>
+      </button>
       <div class="sb-sec">Finance</div>
       <button class="sb-link" onclick="nav('revenue',this)" id="nav-revenue" data-label="Revenue">
         <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 11.5L5 7.5l3 2.5L12 4.5l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -399,12 +404,18 @@ button,a{cursor:pointer;font-family:var(--fm)}
 
         <!-- MEMBERS -->
         <div class="card mb">
-          <div class="ch">
+          <div class="ch" style="flex-wrap:wrap;gap:.6rem">
             <div><h3>Members</h3><p id="mem-sub">—</p></div>
-            <div class="tabs" style="margin-bottom:0">
-              <button class="tab active" id="mem-tab-free" onclick="switchMemTab('free',this)">Free</button>
-              <button class="tab" id="mem-tab-pro" onclick="switchMemTab('pro',this)">Pro</button>
-              <button class="tab" id="mem-tab-all" onclick="switchMemTab('all',this)">All</button>
+            <div style="display:flex;align-items:center;gap:.55rem;flex-wrap:wrap">
+              <div style="position:relative">
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style="position:absolute;left:.6rem;top:50%;transform:translateY(-50%);color:var(--t3);pointer-events:none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 10l2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                <input id="mem-search" type="text" placeholder="Search username or name…" oninput="onMemSearch()" style="padding:.3rem .72rem .3rem 1.9rem;font-size:.76rem;border:1.5px solid var(--brd2);border-radius:50px;background:var(--bg3);color:var(--t1);outline:none;font-family:var(--fm);width:190px;transition:border-color .15s" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--brd2)'">
+              </div>
+              <div class="tabs" style="margin-bottom:0">
+                <button class="tab active" id="mem-tab-free" onclick="switchMemTab('free',this)">Free</button>
+                <button class="tab" id="mem-tab-pro" onclick="switchMemTab('pro',this)">Pro</button>
+                <button class="tab" id="mem-tab-all" onclick="switchMemTab('all',this)">All</button>
+              </div>
             </div>
           </div>
           <div class="tw">
@@ -429,7 +440,43 @@ button,a{cursor:pointer;font-family:var(--fm)}
     </div>
 
 
+    <!-- INQUIRIES -->
+    <div id="pane-inquiries" class="pane">
+      <div class="topbar">
+        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Inquiries</h2><p id="inq-sync">—</p></div>
+        <div class="tb-r"><button class="btn btn-refresh btn-sm" onclick="loadInqPane()">Refresh</button></div>
+      </div>
+      <div class="pw">
+        <!-- Stats row -->
+        <div class="stats stats-4 mb" id="inq-stats"></div>
+
+        <!-- Recent inquiries table — FIRST -->
+        <div class="card mb">
+          <div class="ch"><h3>Recent inquiries</h3><p id="inq-recent-sub">—</p></div>
+          <div class="tw">
+            <table class="tbl">
+              <thead><tr><th>Editor</th><th>Client</th><th>Project</th><th>Type</th><th>Budget</th><th>Date</th></tr></thead>
+              <tbody id="inq-recent-tbody"></tbody>
+            </table>
+          </div>
+          <div id="inq-see-more-wrap" style="display:none;padding:.8rem 1.2rem;border-top:1px solid var(--brd);text-align:center">
+            <button class="btn btn-g btn-sm" onclick="inqShowMore()">See more</button>
+          </div>
+        </div>
+
+        <!-- 2 charts side by side -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.1rem">
+          <div class="card"><div class="ch"><h3>Inquiries over time</h3><p>Last 30 days</p></div><div class="cb" style="padding:.8rem 1rem"><canvas id="chart-inq" height="130"></canvas></div></div>
+          <div class="card">
+            <div class="ch"><h3>Top editors</h3><p>By inquiry count · all time</p></div>
+            <div id="inq-top-list" style="padding:.2rem 0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- REVENUE -->
+
     <div id="pane-revenue" class="pane">
       <div class="topbar" id="topbar">
         <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Revenue</h2><p>Income, expenses &amp; profit · from March 2026</p></div>
@@ -623,6 +670,7 @@ button,a{cursor:pointer;font-family:var(--fm)}
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const SB='https://xilhrpbqdqocpwxaigvy.supabase.co';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 const CK='tl_fin_creds', EK='tl_exp2';
 const DEF={user:'info.timeliners@gmail.com',pass:'Almost@17'};
 const PL={free:'Free',pro:'Pro Monthly','pro-yearly':'Pro Yearly',standard:'Pro Monthly',vip:'Pro Monthly'};
@@ -941,6 +989,7 @@ function nav(id,el){
   if(el)el.classList.add('active');
   closeSidebar();
   if(id==='revenue')setTimeout(rRevenue,50);
+  if(id==='inquiries')loadInqPane();
 }
 
 function rSidebar(){
@@ -995,10 +1044,11 @@ function isPro(plan){return plan==='pro'||plan==='pro-yearly'||plan==='standard'
 function rFreeMembers(){
   // Free = profile plan is free/null AND no active payment record
   const withActivePay=new Set(_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue').map(p=>p.user_id));
-  const free=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
+  let free=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
+  if(_memSearchQ) free=free.filter(p=>memMatchSearch(p));
   const _fsub=document.getElementById('free-sub');if(_fsub)_fsub.textContent=free.length+' free members';
   const tb=document.getElementById('free-tbody');
-  if(!free.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty">No free members</div></td></tr>`;return;}
+  if(!free.length){tb.innerHTML=`<tr><td colspan="6"><div class="empty">${_memSearchQ?'No results for "'+_memSearchQ+'"':'No free members'}</div></td></tr>`;return;}
   tb.innerHTML=free.map(p=>{
     const mn=mno(p);
     return`<tr>
@@ -1048,6 +1098,7 @@ function rProMembers(){
   if(_proTab==='paid')proData=proData.filter(p=>p.pay_status==='paid');
   else if(_proTab==='overdue')proData=proData.filter(p=>p.pay_status==='overdue');
   else if(_proTab==='downgraded')proData=proData.filter(p=>p.pay_status==='downgraded');
+  if(_memSearchQ) proData=proData.filter(p=>{const pf=_pf.find(x=>x.id===p.user_id)||{};return memMatchSearch(pf);});
 
   proData.sort((a,b)=>{
     const oa=a.pay_status==='overdue'||a.pay_status==='downgraded'?0:1;
@@ -1075,7 +1126,7 @@ function rProMembers(){
   }else{ma.style.display='none';}
 
   const tb=document.getElementById('pro-tbody');
-  if(!proData.length){tb.innerHTML=`<tr><td colspan="10"><div class="empty">No pro members in this view</div></td></tr>`;return;}
+  if(!proData.length){tb.innerHTML=`<tr><td colspan="10"><div class="empty">${_memSearchQ?'No results for "'+_memSearchQ+'"':'No pro members in this view'}</div></td></tr>`;return;}
 
   tb.innerHTML=proData.map(p=>{
     const pf=_pf.find(x=>x.id===p.user_id)||{};
@@ -1747,9 +1798,130 @@ function seedMarchExpenses(){
   ];
   saveExps(e);
 }
-</script>
 
-<!-- TEST EMAILS MODAL -->
+// ─── MEMBER SEARCH ────────────────────────────────────────────────────────────
+let _memSearchQ = '';
+function onMemSearch(){
+  _memSearchQ = (document.getElementById('mem-search').value||'').toLowerCase().trim();
+  rMembers();
+}
+
+function memMatchSearch(profile){
+  if(!_memSearchQ) return true;
+  const q = _memSearchQ;
+  return (profile.username||'').toLowerCase().includes(q)
+      || (profile.name||'').toLowerCase().includes(q)
+      || (profile.email||'').toLowerCase().includes(q);
+}
+
+// ─── INQUIRY ANALYTICS ────────────────────────────────────────────────────────
+let _inqData = [];
+let _inqChart = null;
+let _inqShowing = 5;
+
+async function loadInqPane(){
+  _inqShowing = 5;
+  document.getElementById('inq-sync').textContent = 'Loading…';
+  try{
+    const rows = await sb('/project_inquiries?select=*,profiles:editor_id(id,name,username,avatar_url,grad_idx)&order=created_at.desc&limit=500');
+    _inqData = rows || [];
+    document.getElementById('inq-sync').textContent = 'Updated ' + new Date().toLocaleTimeString();
+    renderInqPane();
+  }catch(e){
+    document.getElementById('inq-sync').textContent = 'Error: ' + e.message;
+  }
+}
+
+function inqShowMore(){
+  _inqShowing = Math.min(_inqShowing + 10, _inqData.length);
+  renderInqTable();
+}
+
+function renderInqTable(){
+  const slice = _inqData.slice(0, _inqShowing);
+  document.getElementById('inq-recent-sub').textContent = 'Showing ' + slice.length + ' of ' + _inqData.length;
+  const tb = document.getElementById('inq-recent-tbody');
+  if(!slice.length){tb.innerHTML='<tr><td colspan="6"><div class="empty">No inquiries yet</div></td></tr>';return;}
+  tb.innerHTML = slice.map(inq=>{
+    const p = inq.profiles||{};
+    return`<tr>
+      <td><div style="display:flex;align-items:center;gap:.5rem">${avatar(p,24)}<div class="tc">${p.name||p.username||'\u2014'}</div></div></td>
+      <td style="font-size:.79rem;color:var(--t2)">${escHtml(inq.client_name||'\u2014')}</td>
+      <td style="font-size:.79rem;color:var(--t1);max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escHtml(inq.project_title||'\u2014')}</td>
+      <td><span class="b b-pub" style="font-size:.58rem">${escHtml(inq.project_type||'\u2014')}</span></td>
+      <td style="font-size:.77rem;color:var(--t2)">${escHtml(inq.budget||'\u2014')}</td>
+      <td style="font-size:.75rem;color:var(--t3)">${fmt(inq.created_at)}</td>
+    </tr>`;
+  }).join('');
+  const wrap = document.getElementById('inq-see-more-wrap');
+  if(_inqShowing < _inqData.length){
+    wrap.style.display = '';
+    wrap.querySelector('button').textContent = 'See more (' + Math.min(_inqData.length - _inqShowing, 10) + ' more)';
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function renderInqPane(){
+  const now = Date.now();
+  const h24 = now - 86400000;
+  const d7  = now - 7*86400000;
+  const d30  = now - 30*86400000;
+
+  const count24 = _inqData.filter(i=>new Date(i.created_at).getTime()>h24).length;
+  const count7  = _inqData.filter(i=>new Date(i.created_at).getTime()>d7).length;
+  const count30 = _inqData.filter(i=>new Date(i.created_at).getTime()>d30).length;
+  const countAll = _inqData.length;
+
+  document.getElementById('inq-stats').innerHTML=`
+    <div class="stat"><div class="stat-l">Last 24 hours</div><div class="stat-v">${count24}</div><div class="stat-s">Inquiries received</div></div>
+    <div class="stat"><div class="stat-l">Last 7 days</div><div class="stat-v">${count7}</div><div class="stat-s">Inquiries received</div></div>
+    <div class="stat"><div class="stat-l">Last 30 days</div><div class="stat-v">${count30}</div><div class="stat-s">Inquiries received</div></div>
+    <div class="stat"><div class="stat-l">All time</div><div class="stat-v">${countAll}</div><div class="stat-s">Total inquiries</div></div>
+  `;
+
+  const sb_inq = document.getElementById('sb-inq');
+  if(count24>0){sb_inq.textContent=count24;sb_inq.style.display='';}else{sb_inq.style.display='none';}
+
+  const dayLabels=[], dayCounts=[];
+  for(let i=29;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i); d.setHours(0,0,0,0);
+    const next=new Date(d); next.setDate(next.getDate()+1);
+    dayLabels.push(d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}));
+    dayCounts.push(_inqData.filter(inq=>{const t=new Date(inq.created_at).getTime();return t>=d.getTime()&&t<next.getTime();}).length);
+  }
+  const inqCtx=document.getElementById('chart-inq').getContext('2d');
+  if(_inqChart)_inqChart.destroy();
+  _inqChart=new Chart(inqCtx,{type:'line',data:{labels:dayLabels,datasets:[{label:'Inquiries',data:dayCounts,borderColor:'#FE730A',backgroundColor:'rgba(254,115,10,.08)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#FE730A',tension:.35,fill:true}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},scales:{x:{ticks:{font:{size:9},maxRotation:45,color:'rgba(0,0,0,.4)'},grid:{display:false}},y:{ticks:{font:{size:9},stepSize:1,color:'rgba(0,0,0,.4)'},grid:{color:'rgba(0,0,0,.04)'}}}}});
+
+  const editorMap={};
+  _inqData.forEach(inq=>{
+    const eid=inq.editor_id;
+    if(!editorMap[eid]){editorMap[eid]={count:0,profile:inq.profiles||{id:eid}};}
+    editorMap[eid].count++;
+  });
+  const topEditors=Object.values(editorMap).sort((a,b)=>b.count-a.count).slice(0,8);
+  const maxCount=topEditors[0]?.count||1;
+  document.getElementById('inq-top-list').innerHTML = topEditors.length
+    ? topEditors.map((e,i)=>{
+        const p=e.profile||{};
+        const pct=Math.round((e.count/maxCount)*100);
+        return`<div style="display:flex;align-items:center;gap:.55rem;padding:.38rem 1rem;border-bottom:1px solid var(--brd)">
+          <span style="font-family:var(--mono);font-size:.6rem;color:var(--t3);width:12px;text-align:right;flex-shrink:0">${i+1}</span>
+          ${avatar(p,22)}
+          <div style="flex:1;min-width:0">
+            <div style="font-size:.74rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name||p.username||'Unknown'}</div>
+            <div style="height:3px;background:var(--bg4);border-radius:99px;margin-top:.2rem;overflow:hidden"><div style="height:100%;width:${pct}%;background:var(--ac);border-radius:99px"></div></div>
+          </div>
+          <span style="font-family:var(--mono);font-size:.76rem;font-weight:700;color:var(--ac);flex-shrink:0">${e.count}</span>
+        </div>`;
+      }).join('')
+    : '<div style="text-align:center;padding:1.5rem;font-size:.78rem;color:var(--t3)">No data</div>';
+
+  renderInqTable();
+}
+
+</script>ST EMAILS MODAL -->
 <div class="ov" id="ov-test-email"><div class="mbox" style="max-width:420px">
   <button class="mx" onclick="closeM('ov-test-email')">×</button>
   <h3 style="font-size:1rem;font-weight:700;margin-bottom:.25rem">Test Emails</h3>
