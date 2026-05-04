@@ -809,8 +809,8 @@ img, video, svg { max-width: 100%; }
   .prof-details-col .prof-section-lbl::after { display: none; }
   .prof-details-card { border-radius: 16px; }
   .prof-meta-chips { justify-content: center; }
-  .sw-badge { font-size: .65rem; padding: .28rem .65rem; margin: .12rem; }
-  .prof-soc-btn { font-size: .7rem; padding: .38rem .75rem; gap: .35rem; }
+  .sw-badge { font-size: .72rem; padding: .42rem .85rem; margin: .1rem; gap: .3rem; }
+  .prof-soc-btn { font-size: .72rem; padding: .42rem .85rem; gap: .3rem; }
   .prof-social-row { justify-content: center; flex-wrap: wrap; }
   .prof-right-sec { padding: 1.2rem 1rem; border-radius: 18px; }
   .prof-right-sec-h { justify-content: center; }
@@ -3351,6 +3351,8 @@ function renderFeed() {
     // Reset hover binding on new grid content
     grid._hoverBound = false;
     _initFeedVideoHover();
+    // Mobile: re-attach scroll observer since DOM changed
+    if (_isMobile) setTimeout(_attachMobileScrollAutoplay, 200);
   });
 
   // ── RENDER PAGINATION BAR ───────────────────────────
@@ -3389,38 +3391,82 @@ function gotoFeedPage(n) {
   }
 }
 
-// ── VIDEO HOVER — event-delegated, lazy ──────────────
+// ── VIDEO PLAY — desktop hover + mobile scroll autoplay ──
+var _isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || ('ontouchstart' in window);
+var _scrollAutoplayObs = null;
+
+function _attachMobileScrollAutoplay() {
+  if (!_isMobile || !('IntersectionObserver' in window)) return;
+
+  // Disconnect old observer before making a new one
+  if (_scrollAutoplayObs) _scrollAutoplayObs.disconnect();
+
+  _scrollAutoplayObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      var v = entry.target;
+      if (entry.isIntersecting) {
+        v.muted = true;
+        v.play().catch(function(){});
+        // hide static cover so video is visible
+        var cover = v.parentElement.querySelector('.pcard-cover-overlay');
+        if (cover) cover.style.opacity = '0';
+      } else {
+        v.pause();
+        v.currentTime = 0;
+        var cover = v.parentElement.querySelector('.pcard-cover-overlay');
+        if (cover) cover.style.opacity = '1';
+      }
+    });
+  }, {
+    root: null,       // viewport
+    threshold: 0.6    // 60% visible = play
+  });
+
+  // Observe every .pcard-video currently in the feed
+  document.querySelectorAll('#feed-grid .pcard-video').forEach(function(v) {
+    v.muted = true;
+    v.setAttribute('playsinline', '');
+    _scrollAutoplayObs.observe(v);
+  });
+}
+
 function _initFeedVideoHover() {
   const grid = el('feed-grid');
   if (!grid || grid._hoverBound) return;
   grid._hoverBound = true;
+
   // Fade in images as they load
   grid.addEventListener('load', function(e) {
     if (e.target.tagName === 'IMG') e.target.classList.add('loaded');
   }, true);
-  // Mark already-loaded images immediately
   grid.querySelectorAll('img').forEach(img => { if (img.complete) img.classList.add('loaded'); });
-  grid.addEventListener('mouseover', function(e) {
-    const card = e.target.closest && e.target.closest('.pcard');
-    if (!card) return;
-    const v = card.querySelector('.pcard-video');
-    if (v && v.paused) {
-      if (v.readyState < 1) v.load();
-      v.play().catch(function(){});
-    }
-    const img = card.querySelector('.pcard-cover-overlay');
-    if (img) img.style.opacity = '0';
-  }, { passive: true });
-  grid.addEventListener('mouseout', function(e) {
-    const card = e.target.closest && e.target.closest('.pcard');
-    if (!card) return;
-    // Only fire when mouse truly leaves the card (not just moving to a child)
-    if (card.contains(e.relatedTarget)) return;
-    const v = card.querySelector('.pcard-video');
-    if (v) { v.pause(); v.currentTime = 0; }
-    const img = card.querySelector('.pcard-cover-overlay');
-    if (img) img.style.opacity = '1';
-  }, { passive: true });
+
+  if (_isMobile) {
+    // Mobile: play on scroll into view
+    _attachMobileScrollAutoplay();
+  } else {
+    // Desktop: play on mouse hover
+    grid.addEventListener('mouseover', function(e) {
+      const card = e.target.closest && e.target.closest('.pcard');
+      if (!card) return;
+      const v = card.querySelector('.pcard-video');
+      if (v && v.paused) {
+        if (v.readyState < 1) v.load();
+        v.play().catch(function(){});
+      }
+      const img = card.querySelector('.pcard-cover-overlay');
+      if (img) img.style.opacity = '0';
+    }, { passive: true });
+    grid.addEventListener('mouseout', function(e) {
+      const card = e.target.closest && e.target.closest('.pcard');
+      if (!card) return;
+      if (card.contains(e.relatedTarget)) return;
+      const v = card.querySelector('.pcard-video');
+      if (v) { v.pause(); v.currentTime = 0; }
+      const img = card.querySelector('.pcard-cover-overlay');
+      if (img) img.style.opacity = '1';
+    }, { passive: true });
+  }
 }
 
 function buildCard(p, idx) {
