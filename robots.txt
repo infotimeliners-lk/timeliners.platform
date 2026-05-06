@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /project_inquiries
+Disallow: /payment/
+
+Sitemap: https://timeliners.lk/sitemap.xml
