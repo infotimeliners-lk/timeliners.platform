@@ -11,7 +11,7 @@
   gtag('config', 'G-H5CS34QY2Y');
 </script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TimeLiners</title>
 <meta name="description" content="TimeLiners is Sri Lanka's portfolio platform for video editors and motion designers. Build a stunning portfolio, upload your projects, and get discovered by clients.">
 <meta name="keywords" content="video editor portfolio sri lanka, motion designer portfolio, timeliners, video editing jobs sri lanka">
@@ -192,7 +192,7 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 .nl-lbl{font-size:.82rem;font-weight:500;letter-spacing:-.01em;line-height:1;transition:color .15s;white-space:nowrap}
 .nl:hover .nl-lbl{color:var(--t1)}
 .nl.active .nl-lbl{font-weight:700;color:var(--ac)}
-.nl.active::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:16px;height:2px;border-radius:2px;background:var(--ac);display:block}
+/* orange underline removed — active state is orange text only */
 .nav-right{display:flex;align-items:center;gap:.5rem}
 .nav-left-mob{display:flex;align-items:center;gap:.45rem}
 /* On desktop: ham hidden, brand shows standalone from nav-left-mob */
@@ -245,7 +245,11 @@ html.light .fsrch input{color:var(--t1)}
 .feed-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
 .feed-count{font-size:.72rem;font-weight:500;color:var(--t2)}
 /* ── FEED PAGINATION ── */
-.feed-pagination{display:flex;align-items:center;justify-content:center;gap:.32rem;padding:1.2rem 0 .5rem;flex-wrap:wrap}
+.feed-sentinel{height:1px;width:100%}
+.feed-end-msg{text-align:center;padding:1.5rem;font-size:.72rem;color:var(--t3);display:none}
+.feed-end-msg.show{display:block}
+.feed-load-more{display:flex;align-items:center;justify-content:center;padding:1.5rem;gap:.5rem;color:var(--t3);font-size:.72rem}
+.feed-load-more .spinner{width:16px;height:16px;border-width:1.5px}
 .fpg-btn{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;padding:0 .55rem;border-radius:8px;border:1.5px solid var(--brd2);background:var(--bg3);color:var(--t2);font-family:var(--fm);font-size:.8rem;font-weight:500;cursor:pointer;transition:all .16s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm);text-decoration:none;user-select:none;white-space:nowrap}
 .fpg-btn:hover:not(:disabled){border-color:var(--brd3);color:var(--t1);box-shadow:var(--shadow-sm)}
 .fpg-btn.active{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700;box-shadow:0 3px 10px rgba(254,115,10,.3)}
@@ -266,11 +270,11 @@ html.light .fsrch input{color:var(--t1)}
 .sort-cdd-opt.active{color:var(--ac);font-weight:600;background:rgba(254,115,10,.06)}
 
 /* Project cards - cinematic video style */
-.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem}
-.pcard{background:var(--bg2);border:1px solid var(--brd);border-radius:16px;overflow:hidden;transition:all .25s cubic-bezier(.4,0,.2,1);position:relative;cursor:pointer;text-decoration:none;display:block;color:inherit;box-shadow:0 2px 8px rgba(0,0,0,.4);will-change:transform;contain:layout style}
-.pcard:hover{border-color:rgba(254,115,10,.3);box-shadow:0 8px 32px rgba(254,115,10,.15),0 2px 8px rgba(0,0,0,.4);transform:translateY(-3px)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem 1rem}
+.pcard{background:transparent;border:none;border-radius:0;overflow:visible;transition:all .22s cubic-bezier(.4,0,.2,1);position:relative;cursor:pointer;text-decoration:none;display:block;color:inherit;box-shadow:none;will-change:transform;contain:layout style}
+.pcard:hover{transform:translateY(-2px)}
 /* Cinematic 16:9 thumbnail */
-.pcard-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg4)}
+.pcard-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg4);border-radius:12px}
 .pcard-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:2.8rem;color:rgba(255,255,255,.1);letter-spacing:2px;transition:transform .4s}.pcard:hover .pcard-ph{transform:scale(1.04)}
 .pcard-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s,opacity .3s;opacity:0}.pcard-thumb img.loaded{opacity:1}.pcard:hover .pcard-thumb img{transform:scale(1.04)}
 /* Shorts 3-panel layout */
@@ -288,15 +292,15 @@ html.light .fsrch input{color:var(--t1)}
 .pcard-feat{position:absolute;top:.5rem;left:.5rem;background:var(--ac);color:white;font-size:.46rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.13rem .45rem;border-radius:50px;z-index:2}
 .pcard-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 55%);pointer-events:none}
 .pcard-ov-like{position:absolute;bottom:9px;right:9px;width:30px;height:30px;border-radius:50%;background:rgba(22,22,24,.85);backdrop-filter:blur(10px);border:none;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(4px) scale(.92);transition:.22s cubic-bezier(.4,0,.2,1);z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.12)}.pcard:hover .pcard-ov-like{opacity:1;transform:translateY(0) scale(1)}.pcard-ov-like:hover{background:var(--bg3);transform:scale(1.1)!important;box-shadow:0 3px 14px rgba(254,115,10,.25)}.pcard-ov-like.liked{background:var(--ac)!important;opacity:1!important;transform:translateY(0) scale(1)!important}
-.pcard-body{padding:.75rem .9rem}
-.pcard-title{font-size:.85rem;font-weight:600;color:var(--t1);margin-bottom:.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pcard-meta{display:flex;align-items:center;gap:.42rem;font-size:.68rem;color:var(--t2);margin-bottom:.5rem}
-.pcard-av{width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.4rem;font-weight:700;color:white;flex-shrink:0}
-.pcard-author{font-weight:500;transition:var(--tr)}.pcard-author:hover{color:var(--ac)}
-.pcard-foot{display:flex;align-items:center;justify-content:space-between}
-.pcard-tags{display:flex;gap:.25rem;overflow:hidden;flex:1}
-.pcard-tag{font-size:.52rem;padding:.1rem .4rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2);white-space:nowrap}
-.pcard-likes{display:flex;align-items:center;gap:.2rem;font-size:.65rem;color:var(--t3);flex-shrink:0}
+.pcard-body{padding:.6rem .1rem .3rem}
+.pcard-title{font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.28rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcard-meta{display:flex;align-items:center;gap:.38rem;font-size:.68rem;color:var(--t2);margin-bottom:.2rem}
+.pcard-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.42rem;font-weight:700;color:white;flex-shrink:0}
+.pcard-author{font-weight:500;color:var(--t2);transition:var(--tr)}.pcard-author:hover{color:var(--t1)}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:.15rem}
+.pcard-tags{display:flex;gap:.2rem;overflow:hidden;flex:1}
+.pcard-tag{font-size:.5rem;padding:.08rem .38rem;border-radius:4px;background:var(--bg3);border:1px solid var(--brd);color:var(--t3);white-space:nowrap}
+.pcard-likes{display:flex;align-items:center;gap:.2rem;font-size:.62rem;color:var(--t3);flex-shrink:0}
 /* PROFILE PAGE · single-page card layout, no cover banner */
 #page-profile{padding-top:58px;min-height:100vh;background:var(--bg)}
 /* ── PROFILE PAGE · full vertical layout ── */
@@ -504,8 +508,8 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .spinner{width:25px;height:25px;border:2px solid var(--brd2);border-top-color:var(--ac);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes skelShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
-.pcard-skel .pcard-thumb{background:var(--bg5);aspect-ratio:16/9}
-.pcard-skel .pcard-body{padding:.75rem}
+.pcard-skel .pcard-thumb{background:var(--bg5);aspect-ratio:16/9;border-radius:12px}
+.pcard-skel .pcard-body{padding:.6rem .1rem}
 .pcard{animation:cardFadeIn .35s cubic-bezier(.4,0,.2,1) both}
 @keyframes cardFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .cta-strip{padding:.8rem 0 3rem}
@@ -533,7 +537,7 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .tag-chip{display:inline-flex;align-items:center;gap:.25rem;background:rgba(254,115,10,.1);border:1px solid rgba(254,115,10,.25);color:var(--ac);font-size:.72rem;font-weight:500;padding:.14rem .5rem;border-radius:50px;white-space:nowrap;margin:.08rem}.tag-chip-x{cursor:pointer;font-size:.85rem;line-height:1;opacity:.7;margin-left:.1rem}.tag-chip-x:hover{opacity:1}
 .toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--bg2);border:1px solid var(--brd2);color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:250px}.toast.show{transform:translateY(0);opacity:1}.toast-ico{color:var(--ac)}
 /* Responsive */
-@media(max-width:1100px){.pgrid{grid-template-columns:repeat(3,1fr)}.ppgrid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1100px){.pgrid{grid-template-columns:repeat(2,1fr)}.ppgrid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){.pgrid{grid-template-columns:repeat(2,1fr)}.pv-body{grid-template-columns:1fr}.pv-side{position:static}.dash-grid{grid-template-columns:1fr}.dash-nav{position:static}.plan-grid{grid-template-columns:1fr;max-width:300px;margin:0 auto .85rem}.pricing-grid{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}.jobs-grid{grid-template-columns:1fr}.fgr{grid-template-columns:1fr 1fr}}
 @media(max-width:768px){.nav-mid{display:none}.ham{display:flex}.d2col{grid-template-columns:1fr}.auth-2col{grid-template-columns:1fr}.upreview{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.pgrid{grid-template-columns:1fr}.ppgrid{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}.cta-inner{padding:1.8rem 1.5rem}.stats-row{grid-template-columns:repeat(2,1fr)}.prof-proj-grid{grid-template-columns:1fr}}
@@ -809,8 +813,8 @@ img, video, svg { max-width: 100%; }
   .prof-details-col .prof-section-lbl::after { display: none; }
   .prof-details-card { border-radius: 16px; }
   .prof-meta-chips { justify-content: center; }
-  .sw-badge { font-size: .72rem; padding: .42rem .85rem; margin: .1rem; gap: .3rem; }
-  .prof-soc-btn { font-size: .72rem; padding: .42rem .85rem; gap: .3rem; }
+  .sw-badge { font-size: .65rem; padding: .28rem .65rem; margin: .12rem; }
+  .prof-soc-btn { font-size: .7rem; padding: .38rem .75rem; gap: .35rem; }
   .prof-social-row { justify-content: center; flex-wrap: wrap; }
   .prof-right-sec { padding: 1.2rem 1rem; border-radius: 18px; }
   .prof-right-sec-h { justify-content: center; }
@@ -1080,6 +1084,11 @@ img, video, iframe, canvas { max-width: 100%; }
 .prof-cat-folder-meta{font-size:.68rem;color:var(--t3)}
 .prof-cat-back{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:500;color:var(--t2);background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.3rem .8rem;cursor:pointer;margin-bottom:.9rem;transition:all .18s}.prof-cat-back:hover{color:var(--t1);border-color:var(--brd2)}
 }
+
+/* ── BACK TO TOP ─────────────────────────── */
+#btt-btn{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9000;width:40px;height:40px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--brd2);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transform:translateY(12px);transition:opacity .22s,transform .22s,border-color .18s,color .18s;pointer-events:none}
+#btt-btn.show{opacity:1;transform:translateY(0);pointer-events:auto}
+#btt-btn:hover{border-color:var(--ac);color:var(--ac);box-shadow:0 6px 22px rgba(254,115,10,.22)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -1143,6 +1152,24 @@ img, video, iframe, canvas { max-width: 100%; }
     if(s){s.classList.remove('active');s.style.display='none';}
     var nav=document.getElementById('main-nav');if(nav)nav.style.display='flex';
     var feed=document.getElementById('page-feed');if(feed)feed.classList.add('active');
+
+    // Show skeleton cards immediately so grid never looks empty on refresh
+    var grid=document.getElementById('feed-grid');
+    if(grid&&!grid.innerHTML.trim()){
+      var skels='';
+      for(var _s=0;_s<6;_s++){
+        skels+='<div class="pcard pcard-skel" style="pointer-events:none">'+
+          '<div class="pcard-thumb" style="position:relative;border-radius:12px;overflow:hidden">'+
+            '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>'+
+          '</div>'+
+          '<div class="pcard-body">'+
+            '<div style="height:12px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:80%"></div>'+
+            '<div style="height:10px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:55%"></div>'+
+          '</div>'+
+        '</div>';
+      }
+      grid.innerHTML=skels;
+    }
 
     // Auto-open auth modal if coming from payment.html
     var authIntent=sessionStorage.getItem('tl_auth_intent');
@@ -1559,8 +1586,7 @@ img, video, iframe, canvas { max-width: 100%; }
   </div></div>
   <div class="feed-wrap">
     <div class="feed-head">
-      <span class="feed-count" id="feed-count"></span>
-      <div style="display:flex;align-items:center;gap:.75rem">
+      <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">
         <div style="display:flex;align-items:center;gap:.48rem;font-size:.73rem;color:var(--t2)">Filter:
           <div class="sort-cdd" id="filter-cdd">
             <button class="sort-cdd-btn" onclick="toggleFilterCdd()">
@@ -1590,9 +1616,18 @@ img, video, iframe, canvas { max-width: 100%; }
         </div>
       </div>
     </div>
-    <div class="pgrid" id="feed-grid"><div class="loading-state"><div class="spinner"></div><div style="font-size:.73rem;color:var(--t3)">Loading projects...</div></div></div>
+    <div class="pgrid" id="feed-grid"></div>
     <div class="nores" id="feed-nores">No projects match your search.</div>
-    <div class="feed-pagination" id="feed-pagination" style="display:none"></div>
+    <div class="feed-load-more" id="feed-load-more" style="display:none"><div class="spinner"></div></div>
+    <div class="feed-end-msg" id="feed-end-msg">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:.9rem;padding:1.2rem 0 .5rem">
+        <span style="font-size:.72rem;color:var(--t3)">You've seen everything.</span>
+        <button onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:inline-flex;align-items:center;gap:.45rem;padding:.5rem 1.2rem;border-radius:50px;border:1.5px solid var(--brd2);background:var(--bg3);color:var(--t2);font-size:.75rem;font-weight:500;font-family:var(--fm);cursor:pointer;transition:border-color .16s,color .16s,box-shadow .16s" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)';this.style.boxShadow='0 0 0 3px rgba(254,115,10,.1)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)';this.style.boxShadow='none'">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 9.5V2.5M2.5 5.5l3.5-3.5 3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to top
+        </button>
+      </div>
+    </div>
   </div>
   <div class="cta-strip" id="feed-cta-strip"><div class="c"><div class="cta-inner" id="feed-cta-inner">
     <div style="position:relative;z-index:1"><h3>Ready to show your edits?</h3><p>Create a free account and build your editor portfolio today.</p></div>
@@ -2439,7 +2474,7 @@ async function db(path, method = 'GET', body = null, token = null) {
 // ── STATE ────────────────────────────────────────────
 const S = {
   user: null, session: null, profile: null, loginTime: null,
-  projects: [], filter: 'all', search: '', sort: 'ranked', feedPage: 1,
+  projects: [], filter: 'all', search: '', sort: 'ranked',
   viewingProfile: null,
   _profileCache: {}  // keyed by user id → {data, ts}
 };
@@ -3218,6 +3253,8 @@ let _feedLoaded  = false;
 async function loadFeed(force) {
   // Prevent duplicate concurrent fetches; allow force-refresh
   if (_feedLoading) return;
+  // Always generate a new seed so the feed feels fresh on every page load / refresh
+  S._feedSeed = Math.floor(Math.random() * 0x7fffffff);
   if (_feedLoaded && !force) { renderFeed(); return; }
   _feedLoading = true;
 
@@ -3226,12 +3263,12 @@ async function loadFeed(force) {
   if (grid && !_feedLoaded) {
     const skels = Array(6).fill(0).map(() =>
       '<div class="pcard pcard-skel" style="pointer-events:none">' +
-        '<div class="pcard-thumb" style="position:relative">' +
+        '<div class="pcard-thumb" style="position:relative;border-radius:12px;overflow:hidden">' +
           '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>' +
         '</div>' +
         '<div class="pcard-body">' +
-          '<div style="height:12px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:80%"></div>' +
-          '<div style="height:10px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:55%"></div>' +
+          '<div style="height:13px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:85%"></div>' +
+          '<div style="height:11px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:60%"></div>' +
         '</div>' +
       '</div>'
     ).join('');
@@ -3288,240 +3325,255 @@ function renderFeed() {
   const grid  = el('feed-grid');
   const nores = el('feed-nores');
   if (!grid) return;
-  // Build per-user project counts to enforce free plan limit in feed
+
+  // ── Filter: skip blank & unpublished ─────────────────
   const userProjCount = {};
   let list = S.projects.filter(p => {
     if (p.status !== 'published') return false;
+    if (!p.cover_url && !p.video_url && !p.yt_link) return false; // no blank cards
     const plan = p._authorPlan || 'free';
     const isPaid = plan === 'pro' || plan === 'pro-yearly' || plan === 'pro_yearly' || plan === 'standard' || plan === 'vip';
     if (isPaid) return true;
-    // Free user: only show first 3 projects in feed
     userProjCount[p.user_id] = (userProjCount[p.user_id] || 0) + 1;
     return userProjCount[p.user_id] <= 3;
   });
   if (S.filter !== 'all') list = list.filter(p => p.cat === S.filter);
   if (S.search) list = list.filter(p => (p.title + ' ' + (p.author_name || '') + ' ' + (p.description || '') + ' ' + (p.tags || []).join(' ')).toLowerCase().includes(S.search));
-  if (S.sort === 'popular') list = list.slice().sort((a, b) => b.likes - a.likes);
-  else if (S.sort === 'views') list = list.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
-  else if (S.sort === 'newest') list = list.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-  else {
-    // ── TimeLiners Feed Algorithm ──────────────────────────────
-    // Score = (engagement + base) × recency_decay × pro_boost × verified_boost
-    // Featured projects always pin to top.
+
+  if (S.sort === 'popular') {
+    list = list.slice().sort((a, b) => b.likes - a.likes);
+  } else if (S.sort === 'views') {
+    list = list.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
+  } else if (S.sort === 'newest') {
+    list = list.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  } else {
+    // ── TimeLiners Algorithm: score → pool shuffle ────────────
+    // Each refresh: score everything, split into 3 pools, FULLY shuffle
+    // each pool with the session seed, then interleave pools so every
+    // refresh feels genuinely different while quality content stays near top.
     const now = Date.now();
-    const score = p => {
-      const likes   = p.likes  || 0;
-      const views   = p.views  || 0;
-      const engagement = likes * 3 + views * 0.5;
-      const hoursOld = Math.max(24, (now - new Date(p.created_at || now)) / 3600000);
-      const recency  = 1 / Math.pow(hoursOld, 0.6);
-      const base = 5;
-      const isPro = p._authorPlan === 'pro' || p._authorPlan === 'pro-yearly' || p._authorPlan === 'pro_yearly' || p._authorPlan === 'standard' || p._authorPlan === 'vip';
-      const proBoost = isPro ? 1.8 : 1;
-      const verifiedBoost = p._authorVerified ? 1.2 : 1;
-      return (engagement + base) * recency * proBoost * verifiedBoost;
+    const seed = S._feedSeed || Date.now();
+
+    // Deterministic per-item random based on seed (Mulberry32-style)
+    const rng = (id) => {
+      let h = (seed + 0x6d2b79f5) | 0;
+      const s = id + '';
+      for (let i = 0; i < s.length; i++) {
+        h = Math.imul(h ^ s.charCodeAt(i), 0x9e3779b9);
+        h ^= h >>> 15;
+      }
+      h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b);
+      h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35);
+      h ^= h >>> 16;
+      return (h >>> 0) / 0xffffffff;
     };
-    list = list.slice().sort((a, b) => {
-      if (b.featured !== a.featured) return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
-      return score(b) - score(a);
-    });
+
+    const rawScore = p => {
+      const likes = p.likes || 0;
+      const views = p.views || 0;
+      const engagement = likes * 4 + views * 0.6;
+      const hoursOld = Math.max(12, (now - new Date(p.created_at || now)) / 3600000);
+      const recency = 1 / Math.pow(hoursOld, 0.55);
+      const isPro = p._authorPlan === 'pro' || p._authorPlan === 'pro-yearly' || p._authorPlan === 'pro_yearly' || p._authorPlan === 'standard' || p._authorPlan === 'vip';
+      return (engagement + 6) * recency * (isPro ? 1.9 : 1) * (p._authorVerified ? 1.25 : 1);
+    };
+
+    // Score all
+    const scored = list.map(p => ({ p, s: rawScore(p) }));
+    scored.sort((a, b) => b.s - a.s);
+    const n = scored.length;
+
+    // Split into top 20%, mid 50%, tail 30%
+    const topCut  = Math.max(1, Math.ceil(n * 0.20));
+    const midCut  = Math.max(topCut, Math.ceil(n * 0.70));
+    const topPool  = scored.slice(0, topCut).map(x => x.p);
+    const midPool  = scored.slice(topCut, midCut).map(x => x.p);
+    const tailPool = scored.slice(midCut).map(x => x.p);
+
+    // Fisher-Yates with seeded rng
+    const shuffle = (arr) => {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rng(i + '-' + arr[i]?.id) * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    };
+    shuffle(topPool); shuffle(midPool); shuffle(tailPool);
+
+    // Featured always pins first regardless
+    const featured = list.filter(p => p.featured);
+    const nonFeatured = [...topPool, ...midPool, ...tailPool].filter(p => !p.featured);
+    list = [...featured, ...nonFeatured];
   }
 
-  // ── PAGINATION ──────────────────────────────────────
-  const PAGE_SIZE = 16;
-  const totalPages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
-  if (S.feedPage > totalPages) S.feedPage = totalPages;
-  if (S.feedPage < 1) S.feedPage = 1;
-  const paged = list.slice((S.feedPage - 1) * PAGE_SIZE, S.feedPage * PAGE_SIZE);
+  S._feedList = list;
+  S._feedOffset = 0;
 
-  el('feed-count').textContent = list.length + ' project' + (list.length !== 1 ? 's' : '');
+  const fcEl = el('feed-count'); if (fcEl) fcEl.textContent = list.length + ' project' + (list.length !== 1 ? 's' : '');
   if (!list.length) {
     grid.innerHTML = '';
     nores.classList.add('show');
-    const pg = el('feed-pagination');
-    if (pg) pg.style.display = 'none';
+    const em = el('feed-end-msg'); if (em) em.classList.remove('show');
     return;
   }
   nores.classList.remove('show');
 
-  // Use rAF so browser paints the current frame before heavy DOM write
-  const cards = paged.map((p, i) => buildCard(p, i)).join('');
-  requestAnimationFrame(() => {
-    grid.innerHTML = cards;
-    // Reset hover binding on new grid content
-    grid._hoverBound = false;
-    _initFeedVideoHover();
-    // Mobile: re-attach scroll observer since DOM changed
-    if (_isMobile) setTimeout(_attachMobileScrollAutoplay, 200);
-  });
+  grid.innerHTML = '';
+  S._feedOffset = 0;
+  _feedLock = false;
+  _appendFeedBatch();   // load first batch immediately (sync)
+  _initFeedInfiniteScroll();  // attach scroll listener for subsequent batches
+}
 
-  // ── RENDER PAGINATION BAR ───────────────────────────
-  const pgEl = el('feed-pagination');
-  if (!pgEl) return;
-  if (totalPages <= 1) { pgEl.style.display = 'none'; return; }
-  pgEl.style.display = 'flex';
-  const cur = S.feedPage;
-  let html = '';
-  // Back
-  html += '<button class="fpg-btn" onclick="gotoFeedPage(' + (cur-1) + ')"' + (cur===1?' disabled':'') + '>'
-        + '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8 2.5L4 6.5l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</button>';
-  // Page numbers
-  for (let i = 1; i <= totalPages; i++) {
-    if (i === 1 || i === totalPages || (i >= cur - 1 && i <= cur + 1)) {
-      html += '<button class="fpg-btn' + (i === cur ? ' active' : '') + '" onclick="gotoFeedPage(' + i + ')">' + i + '</button>';
-    } else if (i === cur - 2 || i === cur + 2) {
-      html += '<span class="fpg-dots">…</span>';
+// ── INFINITE SCROLL ──────────────────────────────────
+// Simple scroll-position check — no IntersectionObserver, no idle callbacks,
+// no race conditions. Appends one batch of cards synchronously whenever the
+// user is within 800px of the bottom. A boolean lock prevents double-firing.
+const FEED_BATCH = 9;
+let _feedLock = false;
+let _feedScrollHandler = null;
+
+function _appendFeedBatch() {
+  if (_feedLock) return;
+  const list = S._feedList || [];
+  const offset = S._feedOffset || 0;
+  if (offset >= list.length) { _showFeedEnd(); return; }
+
+  _feedLock = true;
+  const grid = el('feed-grid');
+  const batch = list.slice(offset, offset + FEED_BATCH);
+  const frag = document.createDocumentFragment();
+  batch.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.innerHTML = buildCard(p, offset + i);
+    frag.appendChild(div.firstChild);
+  });
+  grid.appendChild(frag);
+  S._feedOffset = offset + batch.length;
+  grid._hoverBound = false;
+  _initFeedVideoHover();
+
+  if (S._feedOffset >= list.length) {
+    _showFeedEnd();
+  }
+  // Small delay before unlocking so layout has time to reflow
+  setTimeout(function() { _feedLock = false; }, 150);
+}
+
+function _showFeedEnd() {
+  const em = el('feed-end-msg');
+  const lm = el('feed-load-more');
+  if (em) em.classList.add('show');
+  if (lm) lm.style.display = 'none';
+  // Remove scroll listener — nothing left to load
+  if (_feedScrollHandler) {
+    window.removeEventListener('scroll', _feedScrollHandler);
+    _feedScrollHandler = null;
+  }
+}
+
+function _initFeedInfiniteScroll() {
+  // Remove any previous listener
+  if (_feedScrollHandler) {
+    window.removeEventListener('scroll', _feedScrollHandler);
+    _feedScrollHandler = null;
+  }
+  const em = el('feed-end-msg');
+  if (em) em.classList.remove('show');
+
+  _feedScrollHandler = function() {
+    if (_feedLock) return;
+    const scrolled = window.scrollY + window.innerHeight;
+    const total = document.documentElement.scrollHeight;
+    if (scrolled >= total - 800) {
+      _appendFeedBatch();
     }
-  }
-  // Next
-  html += '<button class="fpg-btn" onclick="gotoFeedPage(' + (cur+1) + ')"' + (cur===totalPages?' disabled':'') + '>'
-        + 'Next <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M5 2.5L9 6.5l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
-  pgEl.innerHTML = html;
+  };
+  window.addEventListener('scroll', _feedScrollHandler, { passive: true });
 }
 
-// ── FEED PAGE NAV ─────────────────────────────────────
-function gotoFeedPage(n) {
-  S.feedPage = n;
-  renderFeed();
-  // Scroll to just below the sticky filter bar
-  const feedWrap = el('feed-grid');
-  if (feedWrap) {
-    const top = feedWrap.getBoundingClientRect().top + window.scrollY - 72;
-    window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-  }
-}
 
-// ── VIDEO PLAY — desktop hover + mobile scroll autoplay ──
-var _isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || ('ontouchstart' in window);
-var _scrollAutoplayObs = null;
-
-function _attachMobileScrollAutoplay() {
-  if (!_isMobile || !('IntersectionObserver' in window)) return;
-
-  // Disconnect old observer before making a new one
-  if (_scrollAutoplayObs) _scrollAutoplayObs.disconnect();
-
-  _scrollAutoplayObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      var v = entry.target;
-      if (entry.isIntersecting) {
-        v.muted = true;
-        v.play().catch(function(){});
-        // hide static cover so video is visible
-        var cover = v.parentElement.querySelector('.pcard-cover-overlay');
-        if (cover) cover.style.opacity = '0';
-      } else {
-        v.pause();
-        v.currentTime = 0;
-        var cover = v.parentElement.querySelector('.pcard-cover-overlay');
-        if (cover) cover.style.opacity = '1';
-      }
-    });
-  }, {
-    root: null,       // viewport
-    threshold: 0.6    // 60% visible = play
-  });
-
-  // Observe every .pcard-video currently in the feed
-  document.querySelectorAll('#feed-grid .pcard-video').forEach(function(v) {
-    v.muted = true;
-    v.setAttribute('playsinline', '');
-    _scrollAutoplayObs.observe(v);
-  });
-}
-
+// ── VIDEO HOVER — event-delegated, lazy ──────────────
 function _initFeedVideoHover() {
   const grid = el('feed-grid');
   if (!grid || grid._hoverBound) return;
   grid._hoverBound = true;
-
-  // Fade in images as they load
   grid.addEventListener('load', function(e) {
     if (e.target.tagName === 'IMG') e.target.classList.add('loaded');
   }, true);
   grid.querySelectorAll('img').forEach(img => { if (img.complete) img.classList.add('loaded'); });
-
-  if (_isMobile) {
-    // Mobile: play on scroll into view
-    _attachMobileScrollAutoplay();
-  } else {
-    // Desktop: play on mouse hover
-    grid.addEventListener('mouseover', function(e) {
-      const card = e.target.closest && e.target.closest('.pcard');
-      if (!card) return;
-      const v = card.querySelector('.pcard-video');
-      if (v && v.paused) {
-        if (v.readyState < 1) v.load();
-        v.play().catch(function(){});
-      }
-      const img = card.querySelector('.pcard-cover-overlay');
-      if (img) img.style.opacity = '0';
-    }, { passive: true });
-    grid.addEventListener('mouseout', function(e) {
-      const card = e.target.closest && e.target.closest('.pcard');
-      if (!card) return;
-      if (card.contains(e.relatedTarget)) return;
-      const v = card.querySelector('.pcard-video');
-      if (v) { v.pause(); v.currentTime = 0; }
-      const img = card.querySelector('.pcard-cover-overlay');
-      if (img) img.style.opacity = '1';
-    }, { passive: true });
-  }
+  grid.addEventListener('mouseover', function(e) {
+    const card = e.target.closest && e.target.closest('.pcard');
+    if (!card) return;
+    const v = card.querySelector('.pcard-video');
+    if (v && v.paused) {
+      if (v.readyState < 1) v.load();
+      v.play().catch(function(){});
+    }
+    const img = card.querySelector('.pcard-cover-overlay');
+    if (img) img.style.opacity = '0';
+  }, { passive: true });
+  grid.addEventListener('mouseout', function(e) {
+    const card = e.target.closest && e.target.closest('.pcard');
+    if (!card) return;
+    if (card.contains(e.relatedTarget)) return;
+    const v = card.querySelector('.pcard-video');
+    if (v) { v.pause(); v.currentTime = 0; }
+    const img = card.querySelector('.pcard-cover-overlay');
+    if (img) img.style.opacity = '1';
+  }, { passive: true });
 }
 
 function buildCard(p, idx) {
-  const delay = Math.min(idx * 50, 300); // max 300ms stagger
+  const delay = Math.min(idx * 30, 250);
   const bg = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
   const tags = (p.tags || []).slice(0, 2).map(t => '<span class="pcard-tag">' + t + '</span>').join('');
-  const isShorts = p.cat === 'shorts' || p.video_type === 'shorts' || p.cat === 'social';
-  const typeClass = isShorts ? 'shorts' : 'long';
-  const typeLabel = isShorts ? 'Shorts' : 'Video';
+  const isPro = p._authorPlan === 'pro' || p._authorPlan === 'pro-yearly' || p._authorPlan === 'pro_yearly' || p._authorPlan === 'standard' || p._authorPlan === 'vip';
 
-  // Thumbnail: if cover_url set → static image shown, video plays on hover.
-  // If no cover_url but has video → gradient placeholder shown, video plays on hover.
-  // If neither → placeholder gradient.
+  // Thumbnail — only render if there's actual media
   let thumbHtml = '';
   if (p.video_url) {
     const poster = p.cover_url ? ' poster="' + p.cover_url + '"' : '';
     const srcWithHint = p.video_url + (p.video_url.includes('?') ? '&' : '#') + 't=0.001';
-    // No cover: preload metadata so browser grabs first frame instantly as thumbnail
-    // Has cover: preload none — cover image already handles the visual
-    const preload = p.cover_url ? 'none' : 'metadata';
-    thumbHtml = '<video class="pcard-video" src="' + (p.cover_url ? p.video_url : srcWithHint) + '" muted loop playsinline preload="' + preload + '"' + poster + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
+    const preload = 'none'; // never preload video — only load on hover
+    thumbHtml = '<video class="pcard-video" src="' + p.video_url + '" muted loop playsinline preload="none"' + poster + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
     if (p.cover_url) {
-      thumbHtml += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity .25s">';
+      thumbHtml += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity .25s">';
     }
   } else if (p.cover_url) {
-    thumbHtml = '<img src="' + p.cover_url + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">';
-  } else {
-    thumbHtml = '<div class="pcard-ph" style="background:' + bg + '18;position:absolute;inset:0;display:flex;align-items:center;justify-content:center">' + (p.author_init || '?') + '</div>';
+    thumbHtml = '<img src="' + p.cover_url + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity .3s;opacity:0" onload="this.style.opacity=1">';
+  } else if (p.yt_link) {
+    thumbHtml = '<div style="position:absolute;inset:0;background:' + bg + '22;display:flex;align-items:center;justify-content:center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,.5)"/><path d="M9.5 8.5l7 3.5-7 3.5V8.5z" fill="white"/></svg></div>';
   }
 
-  // Author avatar · use real photo if available
+  // Author avatar
   const avHtml = p.author_avatar
-    ? '<img src="' + p.author_avatar + '" style="width:17px;height:17px;border-radius:50%;object-fit:cover;flex-shrink:0">'
-    : '<div class="pcard-av" style="background:' + bg + '"><span style="font-size:.4rem">' + (p.author_init || '?') + '</span></div>';
+    ? '<img src="' + p.author_avatar + '" style="width:22px;height:22px;border-radius:50%;object-fit:cover;flex-shrink:0">'
+    : '<div class="pcard-av" style="background:' + bg + ';width:22px;height:22px"><span style="font-size:.42rem">' + (p.author_init || '?') + '</span></div>';
+
+  const durationBadge = p.duration ? '<span class="pcard-duration">' + p.duration + '</span>' : '';
+  const featBadge = p.featured ? '<div class="pcard-feat">Featured</div>' : '';
+  const playOv = '<div class="pcard-play"><div class="pcard-play-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>';
+  const gradOv = '<div class="pcard-ov"></div>';
+  const proBadge = isPro
+    ? '<span title="Pro" style="display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:var(--ac);flex-shrink:0"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3,5.5 6.5,2" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+    : '';
 
   return '<a class="pcard" href="#/project/' + p.id + '" style="animation-delay:' + delay + 'ms" onclick="event.preventDefault();showPage(\'project\',\'' + p.id + '\')">' +
-    (p.featured ? '<div class="pcard-feat">Featured</div>' : '') +
     '<div class="pcard-thumb" style="position:relative">' +
       thumbHtml +
-      '<div class="pcard-ov"></div>' +
-      '<div class="pcard-play"><div class="pcard-play-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>' +
-      '<span class="pcard-type ' + typeClass + '">' + typeLabel + '</span>' +
-      (p.duration ? '<span class="pcard-duration">' + p.duration + '</span>' : '') +
-      '</div>' +
+      gradOv +
+      playOv +
+      featBadge +
+      durationBadge +
     '</div>' +
     '<div class="pcard-body">' +
-      '<div class="pcard-title">' + p.title + '</div>' +
+      '<div class="pcard-title">' + (p.title || 'Untitled') + '</div>' +
       '<div class="pcard-meta">' +
         avHtml +
         '<span class="pcard-author">' + (p.author_name || 'Unknown') + '</span>' +
-        (p._authorPlan === 'pro' || p._authorPlan === 'pro-yearly' || p._authorPlan === 'pro_yearly' || p._authorPlan === 'standard' || p._authorPlan === 'vip'
-          ? '<span title="Verified Pro" style="display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:var(--ac);flex-shrink:0"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3,5.5 6.5,2" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
-          : '') +
-        '<span style="opacity:.25">·</span>' +
-        '<span style="font-size:.63rem;color:var(--t3);text-transform:capitalize">' + (p.cat || '') + '</span>' +
+        proBadge +
+        (p.cat ? '<span style="opacity:.22">·</span><span style="font-size:.62rem;color:var(--t3);text-transform:capitalize">' + (p.cat || '') + '</span>' : '') +
       '</div>' +
       '<div class="pcard-foot">' +
         '<div class="pcard-tags">' + tags + '</div>' +
@@ -3531,18 +3583,18 @@ function buildCard(p, idx) {
   '</a>';
 }
 
-function filterFeed(cat, btn) { S.filter = cat; S.feedPage = 1; document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderFeed(); }
+function filterFeed(cat, btn) { S.filter = cat; document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderFeed(); }
 function toggleFilterCdd(){ document.getElementById('filter-cdd').classList.toggle('open'); }
 function filterFeedDd(cat, label, el){
-  S.filter = cat; S.feedPage = 1;
+  S.filter = cat; 
   document.getElementById('filter-cdd-label').textContent = label;
   document.querySelectorAll('#filter-cdd .sort-cdd-opt').forEach(o => o.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('filter-cdd').classList.remove('open');
   renderFeed();
 }
-function searchFeed(v) { S.search = v.toLowerCase().trim(); S.feedPage = 1; renderFeed(); }
-function sortFeed(v) { S.sort = v; S.feedPage = 1; renderFeed(); }
+function searchFeed(v) { S.search = v.toLowerCase().trim();  renderFeed(); }
+function sortFeed(v) { S.sort = v;  renderFeed(); }
 function quickLike(btn) { btn.style.background = 'rgba(239,68,68,.6)'; showToast('Liked!'); setTimeout(() => btn.style.background = '', 700); }
 
 // ── PROJECT VIEW ─────────────────────────────────────
@@ -5424,7 +5476,7 @@ document.addEventListener('click', e => {
 });
 
 window.quickLike     = quickLike;
-window.gotoFeedPage  = gotoFeedPage;
+
 window.toggleProjLike= toggleProjLike;
 window.openProject   = openProject;
 window.switchDash    = switchDash;
@@ -7544,3 +7596,25 @@ boot();
     </div>
   </div>
   <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:1rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="/cdn-cgi/l/email-protection#630a0d050c4d170a0e060f0a0d06111023040e020a0f4d000c0e" title="Email"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="/cdn-cgi/l/email-protection#4e27202821603a27232b2227202b3c3d0e29232f2722602d2123">Contact</a></div></div></div></footer>
+
+
+<!-- BACK TO TOP -->
+<button id="btt-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" aria-label="Back to top">
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 11V3M3 6.5l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<script>
+// ── BACK TO TOP ──────────────────────────────────────
+(function(){
+  function initBtt(){
+    var btn = document.getElementById('btt-btn');
+    if (!btn) return;
+    window.addEventListener('scroll', function(){
+      if (window.scrollY > 400) btn.classList.add('show');
+      else btn.classList.remove('show');
+    }, { passive: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBtt);
+  else initBtt();
+})();
+</script>
