@@ -11,7 +11,7 @@
   gtag('config', 'G-H5CS34QY2Y');
 </script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>TimeLiners</title>
 <meta name="description" content="TimeLiners is Sri Lanka's portfolio platform for video editors and motion designers. Build a stunning portfolio, upload your projects, and get discovered by clients.">
 <meta name="keywords" content="video editor portfolio sri lanka, motion designer portfolio, timeliners, video editing jobs sri lanka">
@@ -93,7 +93,7 @@
   --w:#ffffff;--t1:rgba(255,255,255,.92);--t2:rgba(255,255,255,.55);--t3:rgba(255,255,255,.32);
   --brd:rgba(255,255,255,.06);--brd2:rgba(255,255,255,.09);--brd3:rgba(255,255,255,.15);
   --r:10px;--rlg:14px;--rxl:20px;
-  --fm:'Poppins',sans-serif;--fd:'Bebas Neue',sans-serif;--tr:all .2s cubic-bezier(.4,0,.2,1);
+  --fm:'Poppins',sans-serif;--fd:'Bebas Neue',sans-serif;--tr:color .18s,border-color .18s,background-color .18s,opacity .18s,transform .18s,box-shadow .18s;
   --shadow-sm:0 1px 3px rgba(0,0,0,.4);
   --shadow-md:0 4px 16px rgba(0,0,0,.5);
   --shadow-lg:0 8px 32px rgba(0,0,0,.6);
@@ -141,7 +141,7 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 .spl-h-line1{font-size:clamp(2.8rem,7vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-2px;color:var(--t1);position:relative;z-index:1;opacity:.92;margin-bottom:110px}
 .spl-h-line2{font-size:clamp(2.8rem,7vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-2px;color:var(--ac);position:relative;z-index:10;margin-top:-50px}
 .spl-float-mid{position:absolute;inset:0;pointer-events:none;z-index:5}
-.spl-float-card{position:absolute;background:rgba(22,22,24,.92);border-radius:14px;padding:.65rem .9rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.6rem;border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);pointer-events:none;animation:floatCard cubic-bezier(0.45,0.05,0.55,0.95) infinite}
+.spl-float-card{position:absolute;background:rgba(22,22,24,.96);border-radius:14px;padding:.65rem .9rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.6rem;border:1px solid rgba(255,255,255,.08);pointer-events:none;animation:floatCard cubic-bezier(0.45,0.05,0.55,0.95) infinite}
 .spl-float-job{background:rgba(22,22,24,.88)}
 .spl-fjob-ico{width:28px;height:28px;border-radius:8px;background:rgba(254,115,10,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .spl-fjob-tag{font-size:.52rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ac);margin-bottom:.12rem}
@@ -183,7 +183,7 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 
 
 /* NAV */
-#main-nav{display:none;position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(14,14,15,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,255,255,.06);height:58px;align-items:center;box-shadow:0 1px 12px rgba(0,0,0,.4)}
+#main-nav{display:none;position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(14,14,15,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);height:58px;align-items:center;box-shadow:0 1px 8px rgba(0,0,0,.35)}
 
 .nav-c{width:100%;max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:100%;position:relative}
 .nav-brand{font-weight:700;font-size:1.1rem;color:#FE730A;cursor:pointer;letter-spacing:-.02em}
@@ -204,10 +204,10 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 .nav-pro{background:var(--ac);color:white;font-size:.75rem;font-weight:600;padding:.38rem 1rem;border-radius:50px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.28rem;transition:var(--tr)}.nav-pro:hover{background:#e55e00;transform:translateY(-1px)}
 .theme-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--brd2);background:var(--bg3);display:flex;align-items:center;justify-content:center;transition:var(--tr);flex-shrink:0}.theme-btn:hover{border-color:var(--ac);background:var(--acl)}
 .ham{display:none;flex-direction:column;gap:4px;background:none;border:none;padding:5px;cursor:pointer}.ham span{display:block;width:16px;height:1.5px;background:var(--t2);border-radius:2px;transition:var(--tr)}.ham:hover span{background:var(--t1)}
-#mob{display:none;position:fixed;top:0;left:0;bottom:0;width:80%;max-width:300px;background:rgba(18,18,20,.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid var(--brd);z-index:1001;padding:1rem 0;overflow-y:auto;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);box-shadow:4px 0 24px rgba(0,0,0,.12)}#mob.open{display:block;transform:translateX(0)}#mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1000;backdrop-filter:blur(2px)}#mob-overlay.open{display:block}
+#mob{display:none;position:fixed;top:0;left:0;bottom:0;width:80%;max-width:300px;background:rgba(18,18,20,.98);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-right:1px solid var(--brd);z-index:1001;padding:1rem 0;overflow-y:auto;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1)}#mob.open{display:block;transform:translateX(0)}#mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000}#mob-overlay.open{display:block}
 #mob a{display:flex;align-items:center;padding:.9rem 1.4rem;font-size:.95rem;font-weight:500;color:var(--t2);border-bottom:1px solid var(--brd);transition:var(--tr)}#mob a:hover{color:var(--ac);background:rgba(254,115,10,.04)}#mob a:last-child{border-bottom:none}#mob-header{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1.4rem 1rem;border-bottom:1px solid var(--brd);margin-bottom:.4rem}#mob-brand{font-size:1rem;font-weight:700;color:var(--ac)}#mob-close{width:32px;height:32px;border-radius:50%;border:1px solid var(--brd);background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:1rem;line-height:1}
 /* AUTH MODAL · only opens when Sign In clicked */
-#auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:3000;display:none;align-items:center;justify-content:center;padding:1rem}
+#auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(6px);z-index:3000;display:none;align-items:center;justify-content:center;padding:1rem}
 #auth-overlay.open{display:flex}
 .auth-box{background:var(--bg2);border:1px solid var(--brd2);border-radius:24px;padding:2.4rem;width:100%;max-width:400px;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.7),0 4px 16px rgba(0,0,0,.4);animation:popIn .22s cubic-bezier(.4,0,.2,1)}
 @keyframes popIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
@@ -271,27 +271,27 @@ html.light .fsrch input{color:var(--t1)}
 
 /* Project cards - cinematic video style */
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem 1rem}
-.pcard{background:transparent;border:none;border-radius:0;overflow:visible;transition:all .22s cubic-bezier(.4,0,.2,1);position:relative;cursor:pointer;text-decoration:none;display:block;color:inherit;box-shadow:none;will-change:transform;contain:layout style}
-.pcard:hover{transform:translateY(-2px)}
+.pcard{background:transparent;border:none;border-radius:0;overflow:visible;transition:transform .22s cubic-bezier(.4,0,.2,1);position:relative;cursor:pointer;text-decoration:none;display:block;color:inherit;box-shadow:none;contain:layout style paint}
+.pcard:hover{transform:translateY(-2px);will-change:transform}
 /* Cinematic 16:9 thumbnail */
 .pcard-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg4);border-radius:12px}
 .pcard-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:2.8rem;color:rgba(255,255,255,.1);letter-spacing:2px;transition:transform .4s}.pcard:hover .pcard-ph{transform:scale(1.04)}
 .pcard-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s,opacity .3s;opacity:0}.pcard-thumb img.loaded{opacity:1}.pcard:hover .pcard-thumb img{transform:scale(1.04)}
-/* Shorts 3-panel layout */
 .pcard-shorts{width:100%;height:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bg4)}
+.pcard-video{transition:opacity .3s ease}
 .pcard-shorts-panel{width:100%;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:1.1rem;color:rgba(255,255,255,.15);transition:transform .4s}.pcard:hover .pcard-shorts-panel{transform:scale(1.05)}
 /* Play button overlay */
-.pcard-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);opacity:0;transition:.22s}.pcard:hover .pcard-play{opacity:1}
-.pcard-play-ico{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;transform:scale(.8);transition:.22s}.pcard:hover .pcard-play-ico{transform:scale(1)}
+.pcard-play{display:none}
+.pcard-play-ico{display:none}
 /* Content type badge */
-.pcard-type{position:absolute;bottom:.5rem;left:.5rem;font-size:.48rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.14rem .45rem;border-radius:4px;z-index:2;backdrop-filter:blur(8px)}
+.pcard-type{position:absolute;bottom:.5rem;left:.5rem;font-size:.48rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.14rem .45rem;border-radius:4px;z-index:2}
 .pcard-type.long{background:rgba(254,115,10,.75);color:white}
 .pcard-type.shorts{background:rgba(239,68,68,.75);color:white}
 .pcard-type.reel{background:rgba(168,85,247,.75);color:white}
 .pcard-duration{position:absolute;bottom:.5rem;right:.5rem;font-size:.55rem;font-weight:500;color:white;background:rgba(0,0,0,.7);padding:.1rem .38rem;border-radius:3px;z-index:2}
 .pcard-feat{position:absolute;top:.5rem;left:.5rem;background:var(--ac);color:white;font-size:.46rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.13rem .45rem;border-radius:50px;z-index:2}
-.pcard-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent 55%);pointer-events:none}
-.pcard-ov-like{position:absolute;bottom:9px;right:9px;width:30px;height:30px;border-radius:50%;background:rgba(22,22,24,.85);backdrop-filter:blur(10px);border:none;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(4px) scale(.92);transition:.22s cubic-bezier(.4,0,.2,1);z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.12)}.pcard:hover .pcard-ov-like{opacity:1;transform:translateY(0) scale(1)}.pcard-ov-like:hover{background:var(--bg3);transform:scale(1.1)!important;box-shadow:0 3px 14px rgba(254,115,10,.25)}.pcard-ov-like.liked{background:var(--ac)!important;opacity:1!important;transform:translateY(0) scale(1)!important}
+.pcard-ov{display:none}
+.pcard-ov-like{position:absolute;bottom:9px;right:9px;width:30px;height:30px;border-radius:50%;background:rgba(22,22,24,.9);border:none;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(4px) scale(.92);transition:opacity .2s,transform .2s;z-index:3}.pcard:hover .pcard-ov-like{opacity:1;transform:translateY(0) scale(1)}.pcard-ov-like:hover{background:var(--bg3);transform:scale(1.1)!important}.pcard-ov-like.liked{background:var(--ac)!important;opacity:1!important;transform:translateY(0) scale(1)!important}
 .pcard-body{padding:.6rem .1rem .3rem}
 .pcard-title{font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.28rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .pcard-meta{display:flex;align-items:center;gap:.38rem;font-size:.68rem;color:var(--t2);margin-bottom:.2rem}
@@ -487,6 +487,24 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .proj-tbl td{padding:.58rem .65rem;border-bottom:1px solid var(--brd);font-size:.8rem;color:var(--t2);vertical-align:middle}
 .proj-tbl tr:last-child td{border-bottom:none}
 .proj-tbl tr:hover td{background:var(--bg3)}
+/* Mobile project cards — shown instead of table on small screens */
+.proj-mob-list{display:none;flex-direction:column;gap:.5rem}
+.proj-mob-card{background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem .9rem;display:flex;flex-direction:column;gap:.5rem;cursor:pointer;transition:border-color .16s}
+.proj-mob-card:active{border-color:var(--brd2)}
+.proj-mob-top{display:flex;align-items:flex-start;gap:.55rem}
+.proj-mob-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:.36rem}
+.proj-mob-title{font-size:.84rem;font-weight:600;color:var(--t1);line-height:1.35;flex:1}
+.proj-mob-meta{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;padding-left:1.2rem}
+.proj-mob-stat{font-size:.69rem;color:var(--t3);display:flex;align-items:center;gap:.2rem}
+.proj-mob-actions{display:flex;gap:.45rem;padding-left:1.2rem;padding-top:.1rem}
+.proj-mob-edit{font-size:.72rem;padding:.3rem .75rem;border-radius:5px;border:1px solid var(--brd2);background:transparent;color:var(--t2);cursor:pointer;transition:var(--tr);font-family:var(--fm)}
+.proj-mob-edit:hover{border-color:var(--brd3);color:var(--t1)}
+.proj-mob-del{font-size:.72rem;padding:.3rem .75rem;border-radius:5px;border:1px solid rgba(239,68,68,.22);background:transparent;color:rgba(239,68,68,.55);cursor:pointer;transition:var(--tr);font-family:var(--fm)}
+.proj-mob-del:hover{border-color:rgba(239,68,68,.55);color:#ef4444;background:rgba(239,68,68,.07)}
+@media(max-width:600px){
+  .proj-tbl-desktop{display:none!important}
+  .proj-mob-list{display:flex}
+}
 .ptbl-th{width:36px;height:26px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:700;color:white}
 .tbl-tit{font-weight:500;color:var(--t1)}
 .tbadge{font-size:.49rem;font-weight:600;letter-spacing:.8px;padding:.11rem .4rem;border-radius:50px;text-transform:uppercase}
@@ -510,7 +528,9 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 @keyframes skelShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 .pcard-skel .pcard-thumb{background:var(--bg5);aspect-ratio:16/9;border-radius:12px}
 .pcard-skel .pcard-body{padding:.6rem .1rem}
-.pcard{animation:cardFadeIn .35s cubic-bezier(.4,0,.2,1) both}
+/* Cards start invisible; JS IntersectionObserver adds .card-visible to fade them in */
+.pcard{opacity:0;transform:translateY(14px);transition:opacity .38s cubic-bezier(.4,0,.2,1),transform .38s cubic-bezier(.4,0,.2,1)}
+.pcard.card-visible{opacity:1;transform:translateY(0)}
 @keyframes cardFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .cta-strip{padding:.8rem 0 3rem}
 .cta-inner{background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);border-radius:var(--rxl);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.3rem;max-width:1180px;margin:0 auto;position:relative;overflow:hidden}
@@ -538,6 +558,16 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--bg2);border:1px solid var(--brd2);color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:250px}.toast.show{transform:translateY(0);opacity:1}.toast-ico{color:var(--ac)}
 /* Responsive */
 @media(max-width:1100px){.pgrid{grid-template-columns:repeat(2,1fr)}.ppgrid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:repeat(2,1fr)}}
+/* ── PERFORMANCE OPTIMIZATIONS ── */
+/* Promote video/images to own GPU layer */
+.pcard-video{transform:translateZ(0);backface-visibility:hidden}
+.pcard-thumb img,.pcard-cover-overlay{transform:translateZ(0)}
+/* Scope transitions to cheap properties only */
+.btn-p{transition:background-color .18s,transform .18s}
+.btn-o{transition:border-color .18s}
+.ftab{transition:background-color .15s,color .15s,border-color .15s}
+.spl-card{transition:border-color .18s,transform .18s,color .18s}
+.nav-cta,.nav-pro,.nav-user{transition:background-color .15s,border-color .15s,color .15s}
 @media(max-width:900px){.pgrid{grid-template-columns:repeat(2,1fr)}.pv-body{grid-template-columns:1fr}.pv-side{position:static}.dash-grid{grid-template-columns:1fr}.dash-nav{position:static}.plan-grid{grid-template-columns:1fr;max-width:300px;margin:0 auto .85rem}.pricing-grid{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}.jobs-grid{grid-template-columns:1fr}.fgr{grid-template-columns:1fr 1fr}}
 @media(max-width:768px){.nav-mid{display:none}.ham{display:flex}.d2col{grid-template-columns:1fr}.auth-2col{grid-template-columns:1fr}.upreview{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.pgrid{grid-template-columns:1fr}.ppgrid{grid-template-columns:1fr}.fgr{grid-template-columns:1fr}.cta-inner{padding:1.8rem 1.5rem}.stats-row{grid-template-columns:repeat(2,1fr)}.prof-proj-grid{grid-template-columns:1fr}}
@@ -1933,7 +1963,7 @@ img, video, iframe, canvas { max-width: 100%; }
                 <div style="font-size:.83rem;color:var(--t1);font-weight:500" id="ov-sub-label">Renews on —</div>
                 <div style="font-size:.72rem;margin-top:.15rem" id="ov-sub-days"></div>
               </div>
-              <button class="dsave" style="font-size:.75rem;padding:.42rem .95rem;flex-shrink:0" onclick="requestUpgrade(S.profile?.plan||'pro')">Renew Pro</button>
+              <button class="dsave" style="font-size:.75rem;padding:.42rem .95rem;flex-shrink:0" onclick="renewPro()">Renew Pro</button>
             </div>
           </div>
 
@@ -1990,7 +2020,7 @@ img, video, iframe, canvas { max-width: 100%; }
               <div class="df" id="acc-due-row" style="display:none"><label class="dl">Next Payment</label>
                 <div style="display:flex;align-items:center;gap:.58rem">
                   <input class="di" id="acc-due-disp" type="text" disabled style="opacity:.5;cursor:not-allowed;max-width:175px">
-                  <button class="dsave" style="font-size:.77rem;padding:.48rem .9rem" onclick="requestUpgrade(S.profile?.plan||'pro')">Renew</button>
+                  <button class="dsave" style="font-size:.77rem;padding:.48rem .9rem" onclick="renewPro()">Renew</button>
                 </div>
               </div>
               <button class="dsave" onclick="saveAccountDetails()">Save Changes</button>
@@ -2155,13 +2185,14 @@ img, video, iframe, canvas { max-width: 100%; }
               <div><div class="dcard-h">My Projects</div><div class="dcard-sub" style="margin-bottom:0">All your saved and published work.</div></div>
               <button class="dsave" style="font-size:.78rem;padding:.46rem .9rem" onclick="switchDash('upload',document.getElementById('dnav-upload'))">+ Upload</button>
             </div>
-            <div style="overflow-x:auto">
+            <div class="proj-tbl-desktop" style="overflow-x:auto">
               <table class="proj-tbl">
                 <thead><tr><th>Project</th><th>Category</th><th>Likes</th><th>Views</th><th>Status</th><th></th></tr></thead>
                 <tbody id="my-proj-tbody"></tbody>
               </table>
-              <div id="my-proj-empty" style="display:none;text-align:center;padding:2.2rem;font-size:.78rem;color:var(--t3)">No projects yet. <a onclick="switchDash('upload',document.getElementById('dnav-upload'))" style="color:var(--ac)">Upload your first <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
             </div>
+            <div class="proj-mob-list" id="my-proj-mob-list"></div>
+            <div id="my-proj-empty" style="display:none;text-align:center;padding:2.2rem;font-size:.78rem;color:var(--t3)">No projects yet. <a onclick="switchDash('upload',document.getElementById('dnav-upload'))" style="color:var(--ac)">Upload your first <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
           </div>
         </div>
 
@@ -3418,6 +3449,9 @@ function renderFeed() {
   }
   nores.classList.remove('show');
 
+  // Disconnect mobile observer and reset active video tracker
+  if (grid._mobileObserver) { grid._mobileObserver.disconnect(); grid._mobileObserver = null; }
+  _activeScrollVid = null;
   grid.innerHTML = '';
   S._feedOffset = 0;
   _feedLock = false;
@@ -3451,13 +3485,35 @@ function _appendFeedBatch() {
   grid.appendChild(frag);
   S._feedOffset = offset + batch.length;
   grid._hoverBound = false;
-  _initFeedVideoHover();
+
+  // Fade-in cards as they scroll into view via IntersectionObserver
+  requestAnimationFrame(function() {
+    const newCards = Array.from(grid.querySelectorAll('.pcard:not(.card-visible)'));
+    if (typeof IntersectionObserver !== 'undefined') {
+      const io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry, i) {
+          if (entry.isIntersecting) {
+            const card = entry.target;
+            // Stagger within the batch: max 180ms total spread
+            const batchIdx = newCards.indexOf(card);
+            const delay = Math.min(batchIdx * 40, 180);
+            setTimeout(function() { card.classList.add('card-visible'); }, delay);
+            io.unobserve(card);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+      newCards.forEach(function(card) { io.observe(card); });
+    } else {
+      // Fallback for browsers without IntersectionObserver
+      newCards.forEach(function(card) { card.classList.add('card-visible'); });
+    }
+    _initFeedVideoHover();
+    _feedLock = false;
+  });
 
   if (S._feedOffset >= list.length) {
     _showFeedEnd();
   }
-  // Small delay before unlocking so layout has time to reflow
-  setTimeout(function() { _feedLock = false; }, 150);
 }
 
 function _showFeedEnd() {
@@ -3473,7 +3529,6 @@ function _showFeedEnd() {
 }
 
 function _initFeedInfiniteScroll() {
-  // Remove any previous listener
   if (_feedScrollHandler) {
     window.removeEventListener('scroll', _feedScrollHandler);
     _feedScrollHandler = null;
@@ -3481,19 +3536,29 @@ function _initFeedInfiniteScroll() {
   const em = el('feed-end-msg');
   if (em) em.classList.remove('show');
 
+  let _scrollRaf = null;
   _feedScrollHandler = function() {
     if (_feedLock) return;
-    const scrolled = window.scrollY + window.innerHeight;
-    const total = document.documentElement.scrollHeight;
-    if (scrolled >= total - 800) {
-      _appendFeedBatch();
-    }
+    if (_scrollRaf) return; // already queued
+    _scrollRaf = requestAnimationFrame(function() {
+      _scrollRaf = null;
+      const scrolled = window.scrollY + window.innerHeight;
+      const total = document.documentElement.scrollHeight;
+      if (scrolled >= total - 800) {
+        _appendFeedBatch();
+      }
+    });
   };
   window.addEventListener('scroll', _feedScrollHandler, { passive: true });
 }
 
 
-// ── VIDEO HOVER — event-delegated, lazy ──────────────
+// ── VIDEO PLAY ────────────────────────────────────────
+// Mobile = scroll-to-play via IntersectionObserver
+// Desktop = hover-to-play via mouseover/mouseout
+// Module-level tracker so one video plays at a time across all batch appends
+var _activeScrollVid = null;
+
 function _initFeedVideoHover() {
   const grid = el('feed-grid');
   if (!grid || grid._hoverBound) return;
@@ -3502,26 +3567,117 @@ function _initFeedVideoHover() {
     if (e.target.tagName === 'IMG') e.target.classList.add('loaded');
   }, true);
   grid.querySelectorAll('img').forEach(img => { if (img.complete) img.classList.add('loaded'); });
-  grid.addEventListener('mouseover', function(e) {
-    const card = e.target.closest && e.target.closest('.pcard');
-    if (!card) return;
-    const v = card.querySelector('.pcard-video');
-    if (v && v.paused) {
-      if (v.readyState < 1) v.load();
-      v.play().catch(function(){});
+
+  var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+  if (isTouch && typeof IntersectionObserver !== 'undefined') {
+    // ── MOBILE: scroll-to-play ────────────────────────────────────────────
+    // preload=metadata so the browser has frames buffered before the card
+    // scrolls into view — eliminates lag on first play.
+    // Kick off load() in idle time — staggered so we don't slam the network.
+    const vidsToLoad = [];
+    grid.querySelectorAll('.pcard-video').forEach(function(v) {
+      v.preload = 'metadata';
+      if (v.readyState < 1) vidsToLoad.push(v);
+    });
+    // Load up to 3 videos per idle frame so network isn't flooded
+    function _loadNextVideos() {
+      const batch = vidsToLoad.splice(0, 3);
+      batch.forEach(function(v) { try { v.load(); } catch(e){} });
+      if (vidsToLoad.length > 0) {
+        if (window.requestIdleCallback) requestIdleCallback(_loadNextVideos, { timeout: 1000 });
+        else setTimeout(_loadNextVideos, 200);
+      }
     }
-    const img = card.querySelector('.pcard-cover-overlay');
-    if (img) img.style.opacity = '0';
-  }, { passive: true });
-  grid.addEventListener('mouseout', function(e) {
-    const card = e.target.closest && e.target.closest('.pcard');
-    if (!card) return;
-    if (card.contains(e.relatedTarget)) return;
-    const v = card.querySelector('.pcard-video');
-    if (v) { v.pause(); v.currentTime = 0; }
-    const img = card.querySelector('.pcard-cover-overlay');
-    if (img) img.style.opacity = '1';
-  }, { passive: true });
+    if (vidsToLoad.length > 0) {
+      if (window.requestIdleCallback) requestIdleCallback(_loadNextVideos, { timeout: 500 });
+      else setTimeout(_loadNextVideos, 100);
+    }
+    if (!grid._mobileObserver) {
+      grid._mobileObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          const card = entry.target;
+          const v = card.querySelector('.pcard-video');
+          const img = card.querySelector('.pcard-cover-overlay');
+          if (entry.intersectionRatio >= 0.35) {
+            if (!v) return;
+            if (_activeScrollVid && _activeScrollVid !== v) {
+              _activeScrollVid.pause();
+              const pc = _activeScrollVid.closest ? _activeScrollVid.closest('.pcard') : null;
+              const pi = pc ? pc.querySelector('.pcard-cover-overlay') : null;
+              if (pi) pi.style.opacity = '1';
+            }
+            _activeScrollVid = v;
+            v.play().catch(function(){});
+            if (img) img.style.opacity = '0';
+          } else {
+            if (!v) return;
+            v.pause();
+            if (img) img.style.opacity = '1';
+            if (_activeScrollVid === v) _activeScrollVid = null;
+          }
+        });
+      }, { threshold: [0, 0.35, 1.0], rootMargin: '0px 0px -5% 0px' });
+    }
+    grid.querySelectorAll('.pcard').forEach(function(card) {
+      if (card.querySelector('.pcard-video') && !card._mobileObserved) {
+        grid._mobileObserver.observe(card);
+        card._mobileObserved = true;
+      }
+    });
+  } else {
+    // ── DESKTOP: hover-to-play ────────────────────────────────────────────
+    // Preload metadata for all new cards during browser idle time.
+    const desktopVidsToLoad = [];
+    grid.querySelectorAll('.pcard-video').forEach(function(v) {
+      if (v.readyState < 1 && !v.closest('.pcard')._preloading) desktopVidsToLoad.push(v);
+    });
+    function _loadDesktopBatch() {
+      const batch = desktopVidsToLoad.splice(0, 2);
+      batch.forEach(function(v) {
+        v.preload = 'metadata';
+        const card = v.closest('.pcard');
+        if (card) card._preloading = true;
+        try { v.load(); } catch(e){}
+      });
+      if (desktopVidsToLoad.length > 0) {
+        if (window.requestIdleCallback) requestIdleCallback(_loadDesktopBatch, { timeout: 2000 });
+        else setTimeout(_loadDesktopBatch, 300);
+      }
+    }
+    if (desktopVidsToLoad.length > 0) {
+      if (window.requestIdleCallback) requestIdleCallback(_loadDesktopBatch, { timeout: 1000 });
+      else setTimeout(_loadDesktopBatch, 200);
+    }
+    grid.addEventListener('mouseover', function(e) {
+      const card = e.target.closest && e.target.closest('.pcard');
+      if (!card) return;
+      const v = card.querySelector('.pcard-video');
+      if (v) {
+        if (v.readyState < 1 && !card._preloading) {
+          card._preloading = true;
+          v.preload = 'metadata';
+          try { v.load(); } catch(e2){}
+        }
+        if (v.paused) v.play().catch(function(){});
+      }
+      const img = card.querySelector('.pcard-cover-overlay');
+      if (img) img.style.opacity = '0';
+    }, { passive: true });
+    grid.addEventListener('mouseout', function(e) {
+      const card = e.target.closest && e.target.closest('.pcard');
+      if (!card) return;
+      if (card.contains(e.relatedTarget)) return;
+      const v = card.querySelector('.pcard-video');
+      if (v) {
+        v.pause();
+        clearTimeout(card._resetTimer);
+        card._resetTimer = setTimeout(function() { v.currentTime = 0; }, 300);
+      }
+      const img = card.querySelector('.pcard-cover-overlay');
+      if (img) img.style.opacity = '1';
+    }, { passive: true });
+  }
 }
 
 function buildCard(p, idx) {
@@ -3535,10 +3691,9 @@ function buildCard(p, idx) {
   if (p.video_url) {
     const poster = p.cover_url ? ' poster="' + p.cover_url + '"' : '';
     const srcWithHint = p.video_url + (p.video_url.includes('?') ? '&' : '#') + 't=0.001';
-    const preload = 'none'; // never preload video — only load on hover
-    thumbHtml = '<video class="pcard-video" src="' + p.video_url + '" muted loop playsinline preload="none"' + poster + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
+    thumbHtml = '<video class="pcard-video" src="' + p.video_url + '" muted loop playsinline preload="metadata"' + poster + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
     if (p.cover_url) {
-      thumbHtml += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity .25s">';
+      thumbHtml += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity 0.3s ease">';
     }
   } else if (p.cover_url) {
     thumbHtml = '<img src="' + p.cover_url + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity .3s;opacity:0" onload="this.style.opacity=1">';
@@ -4032,7 +4187,7 @@ function updatePlanUI() {
 
   // Reset free button
   const pbFree = document.getElementById('pb-free');
-  if (pbFree) { pbFree.className = isPro ? 'plan-btn' : 'plan-btn plan-btn-cur'; pbFree.textContent = isPro ? 'Downgrade' : 'Current Plan'; }
+  if (pbFree) { pbFree.className = isPro ? 'plan-btn' : 'plan-btn plan-btn-cur'; pbFree.textContent = isPro ? 'Downgrade' : 'Current Plan'; if (isPro) pbFree.onclick = requestDowngrade; else pbFree.onclick = null; if (isPro) pbFree.onclick = requestDowngrade; else pbFree.onclick = null; }
 
   // Pro button
   const pbPro = document.getElementById('pb-pro');
@@ -4077,6 +4232,60 @@ function requestUpgrade(plan) {
     'Email: ' + (S.user?.email || '')
   );
   window.open('https://wa.me/94783408001?text=' + msg, '_blank');
+}
+
+function renewPro() {
+  const p = S.profile?.plan;
+  const planLabel = (p === 'pro-yearly' || p === 'pro_yearly') ? 'Pro Yearly - LKR 24,900/yr' : 'Pro Monthly - LKR 2,490/mo';
+  const msg = encodeURIComponent(
+    'Hi, I want to renew my TimeLiners Pro plan.\n' +
+    'Plan: ' + planLabel + '\n' +
+    'Username: ' + (S.profile?.username || S.profile?.name || '') + '\n' +
+    'Email: ' + (S.user?.email || '')
+  );
+  var a = document.createElement('a');
+  a.href = 'https://wa.me/94783408001?text=' + msg;
+  a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function requestDowngrade() {
+  const msg = encodeURIComponent(
+    'Hi, I want to downgrade my TimeLiners Pro plan to Free.\n' +
+    'Username: ' + (S.profile?.username || S.profile?.name || '') + '\n' +
+    'Email: ' + (S.user?.email || '')
+  );
+  var a = document.createElement('a');
+  a.href = 'https://wa.me/94783408001?text=' + msg;
+  a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function renewPro() {
+  const p = S.profile?.plan;
+  const planLabel = (p === 'pro-yearly' || p === 'pro_yearly') ? 'Pro Yearly - LKR 24,900/yr' : 'Pro Monthly - LKR 2,490/mo';
+  const msg = encodeURIComponent(
+    'Hi, I want to renew my TimeLiners Pro plan.\n' +
+    'Plan: ' + planLabel + '\n' +
+    'Username: ' + (S.profile?.username || S.profile?.name || '') + '\n' +
+    'Email: ' + (S.user?.email || '')
+  );
+  var a = document.createElement('a');
+  a.href = 'https://wa.me/94783408001?text=' + msg;
+  a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function requestDowngrade() {
+  const msg = encodeURIComponent(
+    'Hi, I want to downgrade my TimeLiners Pro plan to Free.\n' +
+    'Username: ' + (S.profile?.username || S.profile?.name || '') + '\n' +
+    'Email: ' + (S.user?.email || '')
+  );
+  var a = document.createElement('a');
+  a.href = 'https://wa.me/94783408001?text=' + msg;
+  a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 
 // Pricing page billing toggle
@@ -4339,6 +4548,11 @@ async function saveProject(status) {
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
 
+  // Must have at least a video or a thumbnail to publish
+  if (status === 'published' && _pendingVideos.length === 0 && !_upThumbBlob) {
+    showToast('Please upload a video or a thumbnail image before publishing.'); return;
+  }
+
   // Plan check
   const isPaidUser = S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
 
@@ -4482,6 +4696,39 @@ async function renderMyProjects() {
       '<td onclick="event.stopPropagation()" style="display:flex;gap:.35rem">' + actions + '</td>' +
     '</tr>';
   }).join('');
+
+  // Mobile card list
+  const mobList = document.getElementById('my-proj-mob-list');
+  if (mobList) {
+    mobList.innerHTML = projs.map(function(p, i) {
+      var isLocked = !isPaidUser && i >= 3;
+      var dot = isLocked ? '#ccc' : 'var(--ac)';
+      var cat = (p.cat || '').charAt(0).toUpperCase() + (p.cat || '').slice(1);
+      var statusBadge = '<span class="tbadge ' + (isLocked ? 'draft' : (p.status || 'draft')) + '" style="font-size:.5rem">' + (isLocked ? 'locked' : (p.status || 'draft')) + '</span>';
+      var metaRow = '<div class="proj-mob-meta">' +
+        '<span class="proj-mob-stat">' + cat + '</span>' +
+        '<span class="proj-mob-stat">· ♥ ' + (p.likes || 0) + '</span>' +
+        '<span class="proj-mob-stat">· 👁 ' + (p.views || 0) + '</span>' +
+        '<span>' + statusBadge + '</span>' +
+      '</div>';
+      var actionsRow = isLocked
+        ? '<div class="proj-mob-actions"><span style="font-size:.7rem;color:var(--t3)">Upgrade to unlock</span></div>'
+        : '<div class="proj-mob-actions">' +
+            '<button class="proj-mob-edit" onclick="event.stopPropagation();openEditProjectById(\'' + p.id + '\')">Edit</button>' +
+            '<button class="proj-mob-del" onclick="event.stopPropagation();deleteProject(\'' + p.id + '\')">Delete</button>' +
+          '</div>';
+      var cardOnclick = isLocked ? '' : 'onclick="openProject(\'' + p.id + '\')"';
+      var opacity = isLocked ? 'opacity:.5' : '';
+      return '<div class="proj-mob-card" ' + cardOnclick + ' style="' + opacity + '">' +
+        '<div class="proj-mob-top">' +
+          '<span class="proj-mob-dot" style="background:' + dot + '"></span>' +
+          '<span class="proj-mob-title">' + p.title + (isLocked ? ' <span style="font-size:.55rem;background:var(--bg4);border:1px solid var(--brd2);color:var(--t3);padding:.1rem .4rem;border-radius:4px;margin-left:.25rem">Locked</span>' : '') + '</span>' +
+        '</div>' +
+        metaRow +
+        actionsRow +
+      '</div>';
+    }).join('');
+  }
 }
 
 async function deleteProject(id) {
@@ -5254,28 +5501,30 @@ window.addEventListener('popstate', (e) => {
   if (e.state?.un) showProfileByUsername(e.state.un);
 });
 
-// Hover-to-play video cards — fades cover overlay out, plays video, restores on leave
-document.addEventListener('mouseover', function(e) {
-  const card = e.target.closest('.pcard');
-  if (!card) return;
-  const v = card.querySelector('.pcard-video');
-  const overlay = card.querySelector('.pcard-cover-overlay');
-  if (v) {
-    v.preload = 'auto';
-    v.play().catch(function() {});
-  }
-  if (overlay) overlay.style.opacity = '0';
-});
-document.addEventListener('mouseout', function(e) {
-  const card = e.target.closest('.pcard');
-  if (!card) return;
-  const related = e.relatedTarget;
-  if (related && card.contains(related)) return; // still inside card
-  const v = card.querySelector('.pcard-video');
-  const overlay = card.querySelector('.pcard-cover-overlay');
-  if (v) { v.pause(); v.currentTime = 0; }
-  if (overlay) overlay.style.opacity = '1';
-});
+// Desktop hover-to-play for cards outside feed-grid (e.g. profile pages)
+if (!window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+  document.addEventListener('mouseover', function(e) {
+    const card = e.target.closest('.pcard');
+    if (!card) return;
+    // Skip if this card is inside feed-grid — handled by _initFeedVideoHover
+    if (card.closest('#feed-grid')) return;
+    const v = card.querySelector('.pcard-video');
+    const overlay = card.querySelector('.pcard-cover-overlay');
+    if (v) { v.preload = 'auto'; v.play().catch(function() {}); }
+    if (overlay) overlay.style.opacity = '0';
+  });
+  document.addEventListener('mouseout', function(e) {
+    const card = e.target.closest('.pcard');
+    if (!card) return;
+    if (card.closest('#feed-grid')) return;
+    const related = e.relatedTarget;
+    if (related && card.contains(related)) return;
+    const v = card.querySelector('.pcard-video');
+    const overlay = card.querySelector('.pcard-cover-overlay');
+    if (v) { v.pause(); v.currentTime = 0; }
+    if (overlay) overlay.style.opacity = '1';
+  });
+}
 
 function enterPage(id) {
   const s = el('page-splash');
@@ -5501,6 +5750,10 @@ window.changePassword= changePassword;
 window.saveProject   = saveProject;
 window.deleteProject = deleteProject;
 window.requestUpgrade= requestUpgrade;
+window.renewPro      = renewPro;
+window.requestDowngrade = requestDowngrade;
+window.renewPro      = renewPro;
+window.requestDowngrade = requestDowngrade;
 window.setPricingBilling = setPricingBilling;
 window.setDashBilling    = setDashBilling;
 window.selectCover   = selectCover;
