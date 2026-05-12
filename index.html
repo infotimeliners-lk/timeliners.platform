@@ -237,7 +237,7 @@ html.light .ai{color:var(--t1)}
 .feed-right{display:flex;align-items:center;gap:.6rem;justify-content:flex-end}
 .ftabs{display:flex;gap:.2rem;overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;touch-action:pan-x}.ftabs::-webkit-scrollbar{display:none}
 .ftab{font-size:.81rem;padding:.3rem .9rem;border-radius:50px;border:1px solid var(--brd);background:var(--bg2);color:var(--t2);transition:all .18s cubic-bezier(.4,0,.2,1);text-decoration:none;cursor:pointer;box-shadow:var(--shadow-sm)}.ftab:hover{border-color:var(--brd2);color:var(--t1)}.ftab.active{background:var(--ac);color:white;border-color:var(--ac);font-weight:600;box-shadow:0 3px 10px rgba(254,115,10,.3)}
-.pcard *{pointer-events:none}.pcard .pcard-ov-like{pointer-events:auto}
+.pcard *{pointer-events:none}.pcard .pcard-ov-like{pointer-events:auto}.pcard .pcard-author-link{pointer-events:auto}
 .fsrch{display:flex;align-items:center;gap:.5rem;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.28rem .85rem;transition:var(--tr)}.fsrch:focus-within{border-color:var(--brd2)}
 .fsrch input{border:none;outline:none;font-size:.84rem;color:var(--t1);background:transparent;width:100%}.fsrch input::placeholder{color:var(--t3)}
 html.light .fsrch input{color:var(--t1)}
@@ -271,8 +271,8 @@ html.light .fsrch input{color:var(--t1)}
 
 /* Project cards - cinematic video style */
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem 1rem}
-.pcard{background:transparent;border:none;border-radius:0;overflow:visible;transition:transform .22s cubic-bezier(.4,0,.2,1);position:relative;cursor:pointer;text-decoration:none;display:block;color:inherit;box-shadow:none;contain:layout style paint}
-.pcard:hover{transform:translateY(-2px);will-change:transform}
+.pcard{background:transparent;border:none;border-radius:0;overflow:visible;transition:transform .22s cubic-bezier(.4,0,.2,1);position:relative;cursor:pointer;text-decoration:none;display:block;color:inherit;box-shadow:none;contain:layout style}
+.pcard:hover{transform:translateY(-2px)}
 /* Cinematic 16:9 thumbnail */
 .pcard-thumb{width:100%;aspect-ratio:16/9;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;background:var(--bg4);border-radius:12px}
 .pcard-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:2.8rem;color:rgba(255,255,255,.1);letter-spacing:2px;transition:transform .4s}.pcard:hover .pcard-ph{transform:scale(1.04)}
@@ -376,6 +376,11 @@ html.light .fsrch input{color:var(--t1)}
 .prof-right-sec-h{font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}.prof-right-sec-h::after{content:'';flex:1;height:1px;background:var(--brd)}
 .prof-proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem}
 .prof-pcard{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;overflow:hidden;cursor:pointer;transition:.22s cubic-bezier(.4,0,.2,1);text-decoration:none;display:block;color:inherit;box-shadow:0 1px 4px rgba(0,0,0,.04)}.prof-pcard:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.1);border-color:rgba(0,0,0,.1)}.prof-pcard *{pointer-events:none}
+.prof-pcard-skel{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;overflow:hidden;pointer-events:none}
+.prof-pcard-skel-thumb{aspect-ratio:16/9;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg5,#2a2a2f) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite}
+.prof-pcard-skel-body{padding:.9rem 1rem}
+.prof-pcard-skel-line{height:.7rem;border-radius:4px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg5,#2a2a2f) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:.5rem}
+.prof-pcard-skel-line.short{width:55%}
 .prof-pcard-thumb{aspect-ratio:16/9;position:relative;background:var(--bg4);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .prof-pcard-ph{font-family:var(--fd);font-size:2.2rem;color:rgba(255,255,255,.1)}
 .prof-pcard-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.prof-pcard:hover .prof-pcard-thumb img{transform:scale(1.04)}
@@ -1531,7 +1536,7 @@ img, video, iframe, canvas { max-width: 100%; }
   <div class="nav-c">
     <div class="nav-left-mob">
       <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
-      <a class="nav-brand" href="#/feed" onclick="event.preventDefault();showPage('feed')" style="text-decoration:none;color:#FE730A">TimeLiners</a>
+      <a class="nav-brand" href="#/feed" onclick="event.preventDefault();if(document.getElementById('page-feed').classList.contains('active')){window.scrollTo({top:0,behavior:'smooth'});}else{S._feedScrollY=0;showPage('feed');}" style="text-decoration:none;color:#FE730A">TimeLiners</a>
     </div>
     <div class="nav-mid">
       <a class="nl" id="nav-feed" href="#/feed" onclick="event.preventDefault();showPage('feed')"><span class="nl-lbl">Discover</span></a>
@@ -2509,6 +2514,7 @@ const S = {
   viewingProfile: null,
   _profileCache: {}  // keyed by user id → {data, ts}
 };
+window.S = S; // expose state to inline onclick handlers
 
 // ── CONSTANTS ────────────────────────────────────────
 const GRADS = [
@@ -3284,14 +3290,16 @@ let _feedLoaded  = false;
 async function loadFeed(force) {
   // Prevent duplicate concurrent fetches; allow force-refresh
   if (_feedLoading) return;
-  // Always generate a new seed so the feed feels fresh on every page load / refresh
-  S._feedSeed = Math.floor(Math.random() * 0x7fffffff);
-  if (_feedLoaded && !force) { renderFeed(); return; }
-  _feedLoading = true;
+  // Generate seed only once per session; explicit force (logo/refresh) resets it
+  if (!S._feedSeed || force) S._feedSeed = Math.floor(Math.random() * 0x7fffffff);
 
-  // Show skeleton cards immediately so the grid never looks empty
+  // If we already have data and aren't forcing, just re-render (instant)
+  if (_feedLoaded && !force) { renderFeed(); return; }
+
   const grid = el('feed-grid');
-  if (grid && !_feedLoaded) {
+
+  // First-ever load: show skeleton placeholders so the grid isn't empty
+  if (!_feedLoaded && grid) {
     const skels = Array(6).fill(0).map(() =>
       '<div class="pcard pcard-skel" style="pointer-events:none">' +
         '<div class="pcard-thumb" style="position:relative;border-radius:12px;overflow:hidden">' +
@@ -3305,6 +3313,9 @@ async function loadFeed(force) {
     ).join('');
     grid.innerHTML = skels;
   }
+  // Force refresh: cards stay fully visible while we fetch silently in background
+
+  _feedLoading = true;
 
   try {
     // Fetch projects and author profiles IN PARALLEL (not sequential)
@@ -3362,6 +3373,9 @@ function renderFeed() {
   let list = S.projects.filter(p => {
     if (p.status !== 'published') return false;
     if (!p.cover_url && !p.video_url && !p.yt_link) return false; // no blank cards
+    // Feed requires a real video — graphic-design-only projects (no video) stay in portfolio only
+    const hasVideo = !!(p.video_url || (p.video_urls && p.video_urls.length > 0));
+    if (!hasVideo) return false;
     const plan = p._authorPlan || 'free';
     const isPaid = plan === 'pro' || plan === 'pro-yearly' || plan === 'pro_yearly' || plan === 'standard' || plan === 'vip';
     if (isPaid) return true;
@@ -3452,11 +3466,37 @@ function renderFeed() {
   // Disconnect mobile observer and reset active video tracker
   if (grid._mobileObserver) { grid._mobileObserver.disconnect(); grid._mobileObserver = null; }
   _activeScrollVid = null;
-  grid.innerHTML = '';
-  S._feedOffset = 0;
-  _feedLock = false;
-  _appendFeedBatch();   // load first batch immediately (sync)
-  _initFeedInfiniteScroll();  // attach scroll listener for subsequent batches
+
+  const doRender = () => {
+    grid.innerHTML = '';
+    S._feedOffset = 0;
+    _feedLock = false;
+    _appendFeedBatch();
+    _initFeedInfiniteScroll();
+  };
+
+  // If grid has real cards: fade out → swap → fade in
+  const hasCards = grid.children.length > 0 && !grid.querySelector('.pcard-skel');
+  if (hasCards) {
+    // Step 1: fade out current cards
+    grid.style.transition = 'opacity 0.18s ease';
+    grid.style.opacity = '0';
+    setTimeout(() => {
+      // Step 2: swap content while invisible
+      doRender();
+      // Step 3: fade new cards back in
+      grid.style.opacity = '0'; // keep at 0 until rAF
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          grid.style.transition = 'opacity 0.25s ease';
+          grid.style.opacity = '1';
+          setTimeout(() => { grid.style.transition = ''; grid.style.opacity = ''; }, 260);
+        });
+      });
+    }, 180);
+  } else {
+    doRender();
+  }
 }
 
 // ── INFINITE SCROLL ──────────────────────────────────
@@ -3509,6 +3549,28 @@ function _appendFeedBatch() {
     }
     _initFeedVideoHover();
     _feedLock = false;
+
+    // ── YouTube-style scroll restore ──────────────────────────────
+    // Restore feed scroll position AFTER the first batch of cards is painted.
+    // We only do this on the first batch (offset was 0 before append) so we
+    // don't fight with normal infinite-scroll appends.
+    if (S._feedScrollY && S._feedScrollY > 0 && offset === 0) {
+      const targetY = S._feedScrollY;
+      S._feedScrollY = 0; // clear so subsequent feed visits don't re-trigger
+      // If the saved position is beyond what one batch can render, load more
+      // batches first so there's enough DOM height to scroll to.
+      const tryScroll = (attempts) => {
+        const maxH = document.documentElement.scrollHeight - window.innerHeight;
+        if (maxH >= targetY || attempts <= 0) {
+          window.scrollTo(0, targetY);
+        } else {
+          // Append another batch silently, then retry
+          _appendFeedBatch();
+          requestAnimationFrame(() => tryScroll(attempts - 1));
+        }
+      };
+      requestAnimationFrame(() => tryScroll(10));
+    }
   });
 
   if (S._feedOffset >= list.length) {
@@ -3726,7 +3788,7 @@ function buildCard(p, idx) {
       '<div class="pcard-title">' + (p.title || 'Untitled') + '</div>' +
       '<div class="pcard-meta">' +
         avHtml +
-        '<span class="pcard-author">' + (p.author_name || 'Unknown') + '</span>' +
+        '<span class="pcard-author pcard-author-link" onclick="event.preventDefault();event.stopPropagation();' + (p.user_id ? "showPage('profile','" + p.user_id + "')" : (p.author_name ? "showProfileByName('" + (p.author_name||'unknown').replace(/'/g,"\\'") + "')" : '')) + '" style="cursor:pointer">' + (p.author_name || 'Unknown') + '</span>' +
         proBadge +
         (p.cat ? '<span style="opacity:.22">·</span><span style="font-size:.62rem;color:var(--t3);text-transform:capitalize">' + (p.cat || '') + '</span>' : '') +
       '</div>' +
@@ -4943,11 +5005,18 @@ function renderProfileProjects(prof) {
 
   // Visitor: use cache or fetch
   let allProjs = S.projects.filter(pr => pr.user_id === p.id && pr.status === 'published');
+  // Check project cache (60s TTL) for non-owner to avoid redundant DB fetches
+  const _projCacheKey = 'proj_' + p.id;
+  const _projCached = S._profileCache[_projCacheKey];
+  if (!allProjs.length && _projCached && (Date.now() - _projCached.ts < 60000)) {
+    allProjs = _projCached.data;
+  }
   if (!allProjs.length) {
     db('/projects?user_id=eq.' + p.id + '&status=eq.published&select=*&order=created_at.desc', 'GET', null, SB_KEY)
       .then(rows => {
         if (rows && rows.length) {
           rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
+          S._profileCache[_projCacheKey] = { data: filterForPublic(rows), ts: Date.now() };
           _renderProfileProjectsUI(p, filterForPublic(rows), isOwn);
         } else { _renderProfileProjectsUI(p, [], isOwn); }
       }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
@@ -5012,12 +5081,12 @@ function buildProfilePCard(p) {
   let thumbInner = '';
   if (p.video_url) {
     const poster = p.cover_url ? ' poster="' + p.cover_url + '"' : '';
-    thumbInner = '<video class="pcard-video" src="' + p.video_url + '" muted playsinline preload="metadata"' + poster + ' style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>';
+    thumbInner = '<video class="pcard-video" src="' + p.video_url + '" muted playsinline preload="none"' + poster + ' style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>';
     if (p.cover_url) {
-      thumbInner += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .25s">';
+      thumbInner += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .25s">';
     }
   } else if (p.cover_url) {
-    thumbInner = '<img src="' + p.cover_url + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">';
+    thumbInner = '<img src="' + p.cover_url + '" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">';
   } else {
     thumbInner = '<div class="prof-pcard-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:' + bg + '18">' + (p.author_init||'?') + '</div>';
   }
@@ -5264,6 +5333,11 @@ window.hideTlLoader = hideTlLoader;
 function showPage(id, projOrUserId) {
   if (id === 'dashboard' && !S.user) { openAuth('in'); return; }
   if (id === 'profile'   && !S.user && !projOrUserId) { openAuth('in'); return; }
+  // Save feed scroll position before leaving it
+  const feedPage = el('page-feed');
+  if (feedPage && feedPage.classList.contains('active') && id !== 'feed') {
+    S._feedScrollY = window.scrollY;
+  }
   document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('page-enter'); });
   // Always hide splash explicitly when navigating away from it
   const splash = el('page-splash');
@@ -5280,7 +5354,13 @@ function showPage(id, projOrUserId) {
       setTimeout(() => pg.classList.add('spl-ready'), 80);
     }
   }
-  window.scrollTo(0, 0);
+  // Scroll to top for non-feed pages; feed scroll restore happens after grid renders
+  if (id !== 'feed') {
+    window.scrollTo(0, 0);
+  } else if (!S._feedScrollY || S._feedScrollY === 0) {
+    window.scrollTo(0, 0);
+  }
+  // (feed back-navigation scroll is handled inside _appendFeedBatch after cards paint)
   el('main-nav').style.display = id === 'splash' ? 'none' : 'flex';
   document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
   const nl = el('nav-' + id); if (nl) nl.classList.add('active');
@@ -5288,26 +5368,37 @@ function showPage(id, projOrUserId) {
   try { if (id !== 'splash') sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); } catch(e) {}
   try { if (id !== 'splash') localStorage.setItem('tl_visited', '1'); } catch(e) {}
   if (id !== 'splash') pushHash(id, projOrUserId);
-  if (id === 'feed')      loadFeed();
+  if (id === 'feed')      { const _force = !!S._feedForceRefresh; S._feedForceRefresh = false; loadFeed(_force); }
   
   if (id === 'project' && projOrUserId) openProject(projOrUserId);
   if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
   if (id === 'profile') {
+    // Navigation token: each profile navigation gets a unique seq number.
+    // If the user navigates away before the fetch returns, the stale response is discarded.
+    S._profileNavSeq = (S._profileNavSeq || 0) + 1;
+    const mySeq = S._profileNavSeq;
+
     const loadAndShow = (uid) => {
-      // Clear stale content immediately so previous profile never flashes
-      const isSameProfile = S.viewingProfile && S.viewingProfile.id === uid;
-      if (!isSameProfile) {
-        el('pname-el').textContent = '—';
-        el('prole-el').textContent = '—';
-        const bioEl = el('pfullbio-el'); if (bioEl) bioEl.textContent = '';
-        el('pav-wrap').innerHTML = '';
-        el('pstat-proj').textContent = '0';
-        el('pstat-likes').textContent = '0';
-        el('pstat-views').textContent = '0';
+      // Always clear stale content immediately — never show previous profile
+      el('pname-el').textContent = '—';
+      el('prole-el').textContent = '—';
+      const bioEl = el('pfullbio-el'); if (bioEl) bioEl.textContent = '';
+      el('pav-wrap').innerHTML = '';
+      el('pstat-proj').textContent = '0';
+      el('pstat-likes').textContent = '0';
+      el('pstat-views').textContent = '0';
+      // Clear projects grid immediately and show skeleton cards
+      const projGrid = document.getElementById('profile-proj-grid');
+      if (projGrid) {
+        const skelCard = '<div class="prof-pcard-skel"><div class="prof-pcard-skel-thumb"></div><div class="prof-pcard-skel-body"><div class="prof-pcard-skel-line"></div><div class="prof-pcard-skel-line short"></div></div></div>';
+        projGrid.innerHTML = skelCard + skelCard + skelCard + skelCard;
       }
-      // Use cache only when re-visiting the same profile already on screen
+
+      // Use cache if this is an exact re-visit to the same profile (same seq guard still applies)
+      const isSameProfile = S.viewingProfile && S.viewingProfile.id === uid;
       const cached = S._profileCache[uid];
       if (isSameProfile && cached && (Date.now() - cached.ts < 60000)) {
+        if (S._profileNavSeq !== mySeq) return Promise.resolve(); // navigated away
         const prof = cached.data;
         const isOwn = S.user && prof.id === S.user.id;
         if (isOwn) { S.profile = prof; applyLoggedIn(); }
@@ -5316,6 +5407,7 @@ function showPage(id, projOrUserId) {
         return Promise.resolve();
       }
       return db('/profiles?id=eq.' + uid + '&select=*', 'GET', null, SB_KEY).then(rows => {
+        if (S._profileNavSeq !== mySeq) return; // user navigated to a different profile; discard
         if (rows && rows.length) {
           const prof = rows[0];
           S._profileCache[uid] = { data: prof, ts: Date.now() };
