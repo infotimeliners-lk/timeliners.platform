@@ -3463,8 +3463,7 @@ function renderFeed() {
   }
   nores.classList.remove('show');
 
-  // Disconnect mobile observer and reset active video tracker
-  if (grid._mobileObserver) { grid._mobileObserver.disconnect(); grid._mobileObserver = null; }
+  // Reset active video tracker on feed refresh
   _activeScrollVid = null;
 
   const doRender = () => {
@@ -3616,7 +3615,7 @@ function _initFeedInfiniteScroll() {
 
 
 // ── VIDEO PLAY ────────────────────────────────────────
-// Mobile = scroll-to-play via IntersectionObserver
+// Mobile = tap-to-play (no autoplay, no preload until user taps)
 // Desktop = hover-to-play via mouseover/mouseout
 // Module-level tracker so one video plays at a time across all batch appends
 var _activeScrollVid = null;
@@ -3632,95 +3631,49 @@ function _initFeedVideoHover() {
 
   var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-  if (isTouch && typeof IntersectionObserver !== 'undefined') {
-    // ── MOBILE: scroll-to-play ────────────────────────────────────────────
-    // preload=metadata so the browser has frames buffered before the card
-    // scrolls into view — eliminates lag on first play.
-    // Kick off load() in idle time — staggered so we don't slam the network.
-    const vidsToLoad = [];
-    grid.querySelectorAll('.pcard-video').forEach(function(v) {
-      v.preload = 'metadata';
-      if (v.readyState < 1) vidsToLoad.push(v);
-    });
-    // Load up to 3 videos per idle frame so network isn't flooded
-    function _loadNextVideos() {
-      const batch = vidsToLoad.splice(0, 3);
-      batch.forEach(function(v) { try { v.load(); } catch(e){} });
-      if (vidsToLoad.length > 0) {
-        if (window.requestIdleCallback) requestIdleCallback(_loadNextVideos, { timeout: 1000 });
-        else setTimeout(_loadNextVideos, 200);
-      }
-    }
-    if (vidsToLoad.length > 0) {
-      if (window.requestIdleCallback) requestIdleCallback(_loadNextVideos, { timeout: 500 });
-      else setTimeout(_loadNextVideos, 100);
-    }
-    if (!grid._mobileObserver) {
-      grid._mobileObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          const card = entry.target;
-          const v = card.querySelector('.pcard-video');
-          const img = card.querySelector('.pcard-cover-overlay');
-          if (entry.intersectionRatio >= 0.35) {
-            if (!v) return;
-            if (_activeScrollVid && _activeScrollVid !== v) {
-              _activeScrollVid.pause();
-              const pc = _activeScrollVid.closest ? _activeScrollVid.closest('.pcard') : null;
-              const pi = pc ? pc.querySelector('.pcard-cover-overlay') : null;
-              if (pi) pi.style.opacity = '1';
-            }
-            _activeScrollVid = v;
-            v.play().catch(function(){});
-            if (img) img.style.opacity = '0';
-          } else {
-            if (!v) return;
-            v.pause();
-            if (img) img.style.opacity = '1';
-            if (_activeScrollVid === v) _activeScrollVid = null;
+  if (isTouch) {
+    // ── MOBILE: tap-to-play ───────────────────────────────────────────────
+    // Nothing loads or plays until the user deliberately taps a card.
+    // Tap once → load src + play. Tap again → pause. Tapping another card pauses the current one.
+    if (!grid._tapBound) {
+      grid._tapBound = true;
+      grid.addEventListener('click', function(e) {
+        const card = e.target.closest && e.target.closest('.pcard');
+        if (!card) return;
+        const v = card.querySelector('.pcard-video');
+        if (!v) return;
+        // Load src on first tap
+        if (!v.src && v.dataset.src) { v.src = v.dataset.src; }
+        const img = card.querySelector('.pcard-cover-overlay');
+        if (!v.paused) {
+          // Already playing — pause it
+          v.pause();
+          if (img) img.style.opacity = '1';
+          if (_activeScrollVid === v) _activeScrollVid = null;
+        } else {
+          // Pause any other playing card first
+          if (_activeScrollVid && _activeScrollVid !== v) {
+            _activeScrollVid.pause();
+            const pc = _activeScrollVid.closest ? _activeScrollVid.closest('.pcard') : null;
+            const pi = pc ? pc.querySelector('.pcard-cover-overlay') : null;
+            if (pi) pi.style.opacity = '1';
           }
-        });
-      }, { threshold: [0, 0.35, 1.0], rootMargin: '0px 0px -5% 0px' });
+          // Play this card with a gentle fade-in feel
+          _activeScrollVid = v;
+          v.play().catch(function(){});
+          if (img) img.style.opacity = '0';
+        }
+      });
     }
-    grid.querySelectorAll('.pcard').forEach(function(card) {
-      if (card.querySelector('.pcard-video') && !card._mobileObserved) {
-        grid._mobileObserver.observe(card);
-        card._mobileObserved = true;
-      }
-    });
   } else {
     // ── DESKTOP: hover-to-play ────────────────────────────────────────────
-    // Preload metadata for all new cards during browser idle time.
-    const desktopVidsToLoad = [];
-    grid.querySelectorAll('.pcard-video').forEach(function(v) {
-      if (v.readyState < 1 && !v.closest('.pcard')._preloading) desktopVidsToLoad.push(v);
-    });
-    function _loadDesktopBatch() {
-      const batch = desktopVidsToLoad.splice(0, 2);
-      batch.forEach(function(v) {
-        v.preload = 'metadata';
-        const card = v.closest('.pcard');
-        if (card) card._preloading = true;
-        try { v.load(); } catch(e){}
-      });
-      if (desktopVidsToLoad.length > 0) {
-        if (window.requestIdleCallback) requestIdleCallback(_loadDesktopBatch, { timeout: 2000 });
-        else setTimeout(_loadDesktopBatch, 300);
-      }
-    }
-    if (desktopVidsToLoad.length > 0) {
-      if (window.requestIdleCallback) requestIdleCallback(_loadDesktopBatch, { timeout: 1000 });
-      else setTimeout(_loadDesktopBatch, 200);
-    }
+    // src is set from data-src only on hover — no egress until user interacts.
     grid.addEventListener('mouseover', function(e) {
       const card = e.target.closest && e.target.closest('.pcard');
       if (!card) return;
       const v = card.querySelector('.pcard-video');
       if (v) {
-        if (v.readyState < 1 && !card._preloading) {
-          card._preloading = true;
-          v.preload = 'metadata';
-          try { v.load(); } catch(e2){}
-        }
+        if (!v.src && v.dataset.src) { v.src = v.dataset.src; }
         if (v.paused) v.play().catch(function(){});
       }
       const img = card.querySelector('.pcard-cover-overlay');
@@ -3752,8 +3705,7 @@ function buildCard(p, idx) {
   let thumbHtml = '';
   if (p.video_url) {
     const poster = p.cover_url ? ' poster="' + p.cover_url + '"' : '';
-    const srcWithHint = p.video_url + (p.video_url.includes('?') ? '&' : '#') + 't=0.001';
-    thumbHtml = '<video class="pcard-video" src="' + p.video_url + '" muted loop playsinline preload="metadata"' + poster + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
+    thumbHtml = '<video class="pcard-video" data-src="' + p.video_url + '" muted loop playsinline preload="none"' + poster + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
     if (p.cover_url) {
       thumbHtml += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity 0.3s ease">';
     }
@@ -5081,7 +5033,7 @@ function buildProfilePCard(p) {
   let thumbInner = '';
   if (p.video_url) {
     const poster = p.cover_url ? ' poster="' + p.cover_url + '"' : '';
-    thumbInner = '<video class="pcard-video" src="' + p.video_url + '" muted playsinline preload="none"' + poster + ' style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>';
+    thumbInner = '<video class="pcard-video" data-src="' + p.video_url + '" muted playsinline preload="none"' + poster + ' style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>';
     if (p.cover_url) {
       thumbInner += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .25s">';
     }
@@ -5602,7 +5554,7 @@ if (!window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
     if (card.closest('#feed-grid')) return;
     const v = card.querySelector('.pcard-video');
     const overlay = card.querySelector('.pcard-cover-overlay');
-    if (v) { v.preload = 'auto'; v.play().catch(function() {}); }
+    if (v) { if (!v.src && v.dataset.src) { v.src = v.dataset.src; } v.preload = 'auto'; v.play().catch(function() {}); }
     if (overlay) overlay.style.opacity = '0';
   });
   document.addEventListener('mouseout', function(e) {
@@ -6483,6 +6435,13 @@ window._pvReflow = function(grid, total) {
   else                      numCols = 2;
 
   grid.innerHTML = '';
+  const isMobileView = window.matchMedia('(max-width: 600px)').matches;
+  if (isMobileView) {
+    // Mobile: single column, videos stacked top to bottom
+    grid.style.cssText = 'display:flex;flex-direction:column;gap:10px;width:100%';
+    wraps.forEach(w => { w.style.width = '100%'; grid.appendChild(w); });
+    return;
+  }
   grid.style.cssText = 'display:flex;gap:10px;align-items:flex-start;width:100%';
 
   if (numCols === 1) {
