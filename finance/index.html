@@ -910,26 +910,42 @@ async function syncOverdueStatus(){
     const exp=new Date(p.expires_date);
     exp.setHours(0,0,0,0);
     const daysLeft=Math.ceil((exp-today)/86400000);
+    const pf=_pf.find(x=>x.id===p.user_id);
+    const userEmail=pf?.email||'';
+    const userName=(pf?.name||'').split(' ')[0]||'there';
+    const planLabel=pf?.plan||'Pro';
 
-    // paid → overdue when expired
+    // paid → overdue when expired — send expiry email
     if(p.pay_status==='paid' && daysLeft<0){
       try{
         await sb('/payments?id=eq.'+p.id,'PATCH',{pay_status:'overdue'});
         await sb('/profiles?id=eq.'+p.user_id,'PATCH',{pay_status:'overdue'});
         p.pay_status='overdue';
-        const pf=_pf.find(x=>x.id===p.user_id);
         if(pf) pf.pay_status='overdue';
+        if(userEmail){
+          fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({type:'expired',email:userEmail,name:userName,plan:planLabel,expires:p.expires_date})
+          }).catch(()=>{});
+        }
       }catch(e){console.warn('overdue sync failed',e.message);}
     }
 
-    // overdue → downgraded after 7 days, delete payment, set profile to free
+    // overdue → downgraded after 7 days — send downgrade email
     if(p.pay_status==='overdue' && daysLeft<-7){
       try{
         await sb('/profiles?id=eq.'+p.user_id,'PATCH',{plan:'free',pay_status:'downgraded'});
         await sb('/payments?id=eq.'+p.id,'DELETE');
-        const pf=_pf.find(x=>x.id===p.user_id);
         if(pf){pf.plan='free';pf.pay_status='downgraded';}
         p._deleted=true;
+        if(userEmail){
+          fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({type:'downgraded',email:userEmail,name:userName,plan:planLabel})
+          }).catch(()=>{});
+        }
       }catch(e){console.warn('downgrade sync failed',e.message);}
     }
   }
