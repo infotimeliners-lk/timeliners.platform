@@ -2814,25 +2814,78 @@ async function handleSignUp() {
     if (error) throw error;
     if (!data.user) throw new Error('Sign up failed · please try again.');
 
-
-
-    // Store pending profile · will be saved AFTER OTP verified
-    _otpPendingProfile = {
-      id: data.user.id, email,
-      name: fn + ' ' + ln, role: spec,
-      initials: (fn[0] + ln[0]).toUpperCase(),
-      username: rawUn || null,
-      grad_idx: Math.floor(Math.random() * GRADS.length), cover_idx: 0,
-      city: 'Colombo', plan: 'free', bio: '', exp: '', skills: '',
-      wa: '', ig: '', yt: '', web: '', views: 0, likes: 0,
-      _session: data.session,
-      _user: data.user,
-      _fn: fn
+    // Build profile and save directly — no OTP step
+    const profileId = data.user.id;
+    const dbRow = {
+      id:        profileId,
+      username:  rawUn || null,
+      name:      fn + ' ' + ln,
+      email:     email,
+      role:      spec,
+      initials:  (fn[0] + ln[0]).toUpperCase(),
+      city:      'Colombo',
+      plan:      'free',
+      bio:       '', exp: '', skills: '',
+      wa:        '', ig: '', yt: '', web: '',
+      grad_idx:  Math.floor(Math.random() * GRADS.length),
+      cover_idx: 0,
+      views:     0,
+      likes:     0,
+      data:      {}
     };
 
-    // Close auth modal, open OTP modal
+    // Insert profile with retry
+    let insertError = null;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        if (attempt > 1) await new Promise(r => setTimeout(r, attempt * 1000));
+        const existing = await db('/profiles?id=eq.' + profileId + '&select=id', 'GET', null, SB_KEY).catch(() => null);
+        if (existing && existing.length) { insertError = null; break; }
+        await db('/profiles', 'POST', dbRow, SB_KEY);
+        insertError = null;
+        break;
+      } catch(dbErr) {
+        insertError = dbErr.message;
+      }
+    }
+
+    if (insertError) { showAuthErr('Profile save failed: ' + insertError); return; }
+
+    // Set session
+    S.session = data.session;
+    S.user    = data.user;
+    S.loginTime = Date.now();
+
+    // Load profile
+    try {
+      const rows = await db('/profiles?id=eq.' + profileId + '&select=*', 'GET', null, SB_KEY);
+      if (rows && rows[0]) S.profile = mergeProfileRow(rows[0]);
+      else S.profile = dbRow;
+    } catch(e) { S.profile = dbRow; }
+
+    // Send welcome email (fire and forget)
+    try {
+      const token = await getToken();
+      fetch(SB_URL + '/functions/v1/send-welcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ email: email, name: fn })
+      }).catch(() => {});
+    } catch(e) {}
+
+    // Go to dashboard
+    try { history.replaceState(null, '', '/#/dashboard'); } catch(e) {}
     closeAuth();
-    openOtpModal(email);
+    applyLoggedIn();
+
+    const upgradeIntent = sessionStorage.getItem('tl_upgrade_intent');
+    if (upgradeIntent) {
+      sessionStorage.removeItem('tl_upgrade_intent');
+      requestUpgrade(upgradeIntent === 'yearly' ? 'pro_yearly' : 'pro');
+    }
+
+    showPage('dashboard');
+    showToast('Welcome to Timeliners, ' + fn + '!');
 
   } catch(e) {
     const m = (e.message || '').toLowerCase();
@@ -3160,6 +3213,7 @@ async function loadProfile() {
     const rows = await db('/profiles?id=eq.' + S.user.id + '&select=*', 'GET', null, SB_KEY);
     if (rows && rows.length) {
       S.profile = mergeProfileRow(rows[0]);
+      try { localStorage.setItem('tl_lp_' + S.user.id, JSON.stringify(S.profile)); } catch(e) {}
       return;
     }
     // Profile row missing · create it now from auth metadata
