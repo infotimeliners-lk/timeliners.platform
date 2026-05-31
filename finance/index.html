@@ -362,11 +362,6 @@ button,a{cursor:pointer;font-family:var(--fm)}
         <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="3.5" width="13" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M1 6.5h13" stroke="currentColor" stroke-width="1.3"/><rect x="3" y="9" width="3" height="1.2" rx=".5" fill="currentColor"/></svg></div>
         <span class="sb-link-label">Members</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
       </button>
-      <div class="sb-sec">Analytics</div>
-      <button class="sb-link" onclick="nav('inquiries',this)" id="nav-inquiries" data-label="Inquiries">
-        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="2" width="13" height="10" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M4 5.5h7M4 8h5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>
-        <span class="sb-link-label">Inquiries</span> <span class="sb-cnt" id="sb-inq" style="display:none">0</span>
-      </button>
       <div class="sb-sec">Finance</div>
       <button class="sb-link" onclick="nav('revenue',this)" id="nav-revenue" data-label="Revenue">
         <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 11.5L5 7.5l3 2.5L12 4.5l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -435,46 +430,19 @@ button,a{cursor:pointer;font-family:var(--fm)}
               <thead><tr><th>#</th><th>Member</th><th>Plan</th><th>Email</th><th>WhatsApp</th><th>Joined / Paid</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody id="all-tbody"></tbody>
             </table>
+            <!-- All tab pagination -->
+            <div id="all-pagination" style="display:none;align-items:center;justify-content:space-between;padding:.75rem 1.1rem;border-top:1px solid var(--brd);font-size:.77rem;color:var(--t2)">
+              <span id="all-page-info"></span>
+              <div style="display:flex;gap:.4rem">
+                <button class="btn btn-g btn-xs" id="all-prev" onclick="allPageNav(-1)">← Prev</button>
+                <button class="btn btn-g btn-xs" id="all-next" onclick="allPageNav(1)">Next →</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-
-    <!-- INQUIRIES -->
-    <div id="pane-inquiries" class="pane">
-      <div class="topbar">
-        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Inquiries</h2><p id="inq-sync">—</p></div>
-        <div class="tb-r"><button class="btn btn-refresh btn-sm" onclick="loadInqPane()">Refresh</button></div>
-      </div>
-      <div class="pw">
-        <!-- Stats row -->
-        <div class="stats stats-4 mb" id="inq-stats"></div>
-
-        <!-- Recent inquiries table — FIRST -->
-        <div class="card mb">
-          <div class="ch"><h3>Recent inquiries</h3><p id="inq-recent-sub">—</p></div>
-          <div class="tw">
-            <table class="tbl">
-              <thead><tr><th>Editor</th><th>Client</th><th>Project</th><th>Type</th><th>Budget</th><th>Date</th></tr></thead>
-              <tbody id="inq-recent-tbody"></tbody>
-            </table>
-          </div>
-          <div id="inq-see-more-wrap" style="display:none;padding:.8rem 1.2rem;border-top:1px solid var(--brd);text-align:center">
-            <button class="btn btn-g btn-sm" onclick="inqShowMore()">See more</button>
-          </div>
-        </div>
-
-        <!-- 2 charts side by side -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.1rem">
-          <div class="card"><div class="ch"><h3>Inquiries over time</h3><p>Last 30 days</p></div><div class="cb" style="padding:.8rem 1rem"><canvas id="chart-inq" height="130"></canvas></div></div>
-          <div class="card">
-            <div class="ch"><h3>Top editors</h3><p>By inquiry count · all time</p></div>
-            <div id="inq-top-list" style="padding:.2rem 0"></div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- REVENUE -->
 
@@ -515,8 +483,8 @@ button,a{cursor:pointer;font-family:var(--fm)}
   <div class="fg"><label class="fl">Plan</label>
     <select class="fi" id="mm-plan">
       <option value="free">Free</option>
-      <option value="pro">Pro Monthly — LKR 2,490/mo</option>
-      <option value="pro-yearly">Pro Yearly — LKR 2,075/mo</option>
+      <option value="pro">Pro Monthly — LKR 990/mo</option>
+      <option value="pro-yearly">Pro Yearly — LKR 832/mo</option>
     </select>
   </div>
   <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="mm-wa" placeholder="+94 77 xxx xxxx"></div>
@@ -539,8 +507,8 @@ button,a{cursor:pointer;font-family:var(--fm)}
   </div>
   <div class="fg"><label class="fl">Plan</label>
     <select class="fi" id="pay-plan">
-      <option value="pro">Pro Monthly — LKR 2,490 · 30 days</option>
-      <option value="pro-yearly">Pro Yearly — LKR 2,075/mo · 365 days</option>
+      <option value="pro">Pro Monthly — LKR 990 · 30 days</option>
+      <option value="pro-yearly">Pro Yearly — LKR 9,990 · 365 days</option>
     </select>
   </div>
   <div class="fg"><label class="fl">WhatsApp (optional override)</label><input class="fi" id="pay-wa" placeholder="+94 77 xxx xxxx"></div>
@@ -593,35 +561,20 @@ button,a{cursor:pointer;font-family:var(--fm)}
   <div style="margin-top:1rem"><button class="btn btn-g" style="width:100%" onclick="closeM('ov-month')">Close</button></div>
 </div></div>
 
-<!-- MODAL: MESSAGE TEMPLATES -->
-<div class="ov" id="ov-msgtpl"><div class="mbox" style="max-width:620px">
+<!-- MODAL: MESSAGE PREVIEW -->
+<div class="ov" id="ov-msgtpl"><div class="mbox" style="max-width:480px">
   <button class="mx" onclick="closeM('ov-msgtpl')">×</button>
-  <div class="mt">Message Templates</div>
-  <div class="ms">Edit the WhatsApp messages sent for each situation. Use {name} and {plan} as placeholders.</div>
-  <div style="display:flex;gap:.08rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.16rem;width:fit-content;margin-bottom:1rem">
-    <button class="tab active" id="tpl-tab-expiring" onclick="switchTplTab('expiring',this)">3-day warning</button>
-    <button class="tab" id="tpl-tab-week" onclick="switchTplTab('week',this)">7-day warning</button>
-    <button class="tab" id="tpl-tab-expired" onclick="switchTplTab('expired',this)">Just expired</button>
-    <button class="tab" id="tpl-tab-downgrade" onclick="switchTplTab('downgrade',this)">Downgrade</button>
+  <div class="mt">WhatsApp Message</div>
+  <div class="ms">Message sent when you tap Notify on an overdue member.</div>
+  <div style="background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.9rem 1rem;font-size:.84rem;color:var(--t1);line-height:1.65;white-space:pre-wrap;margin-bottom:.9rem">Hi [name],
+
+Your TimeLiners Pro subscription expired on [expiry date]. If you would like to renew, please reply to this message and we will sort it out right away.</div>
+  <div style="font-size:.72rem;color:var(--t3);margin-bottom:1rem">Name and expiry date are filled in automatically from the member record.</div>
+  <div style="border-top:1px solid var(--brd);padding-top:.9rem">
+    <div style="font-size:.62rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);margin-bottom:.55rem">Bulk Send</div>
+    <button class="btn btn-r btn-sm" onclick="closeM('ov-msgtpl');notifyOverdue()">Notify all overdue</button>
   </div>
-  <div class="fg">
-    <label class="fl" id="tpl-label">Template</label>
-    <textarea class="fta" id="tpl-body" style="min-height:160px;font-size:.82rem;line-height:1.6"></textarea>
-  </div>
-  <div style="font-size:.72rem;color:var(--t3);margin-bottom:.9rem">Placeholders: <code style="background:var(--bg3);padding:.1rem .3rem;border-radius:4px">{name}</code> = member name &nbsp; <code style="background:var(--bg3);padding:.1rem .3rem;border-radius:4px">{plan}</code> = plan label &nbsp; <code style="background:var(--bg3);padding:.1rem .3rem;border-radius:4px">{days}</code> = days number</div>
-  <div style="display:flex;gap:.42rem">
-    <button class="btn btn-p" style="flex:1" onclick="saveTpl()">Save Template</button>
-    <button class="btn btn-g" onclick="resetTpl()">Reset to Default</button>
-    <button class="btn btn-g" onclick="closeM('ov-msgtpl')">Close</button>
-  </div>
-  <div style="margin-top:1rem;border-top:1px solid var(--brd);padding-top:.9rem">
-    <div style="font-size:.62rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);margin-bottom:.6rem">Quick Send</div>
-    <div style="display:flex;gap:.38rem;flex-wrap:wrap">
-      <button class="btn btn-r btn-sm" onclick="closeM('ov-msgtpl');notifyOverdue()"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 1.5a4 4 0 014 4v2.5l1 2H2l1-2V5.5a4 4 0 014-4zM5.5 11.5a1.5 1.5 0 003 0" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Notify Overdue</button>
-      <button class="btn btn-g btn-sm" onclick="closeM('ov-msgtpl');notifyExpiring(3)"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3.5l2 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> 3-day</button>
-      <button class="btn btn-g btn-sm" onclick="closeM('ov-msgtpl');notifyExpiring(7)"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 4v3.5l2 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> 7-day</button>
-    </div>
-  </div>
+  <div style="margin-top:.9rem"><button class="btn btn-g" style="width:100%" onclick="closeM('ov-msgtpl')">Close</button></div>
 </div></div>
 
 <!-- SLIP LIGHTBOX -->
@@ -675,7 +628,7 @@ function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt
 const CK='tl_fin_creds', EK='tl_exp2';
 const DEF={user:'info.timeliners@gmail.com',pass:'Almost@17'};
 const PL={free:'Free',pro:'Pro Monthly','pro-yearly':'Pro Yearly',standard:'Pro Monthly',vip:'Pro Monthly'};
-const PP={free:0,pro:2490,'pro-yearly':2075,standard:2490,vip:2490};
+const PP={free:0,pro:990,'pro-yearly':9990,standard:990,vip:990};
 const PLAN_DAYS={pro:30,'pro-yearly':365,standard:30,vip:30};
 const AVC=['#FE730A','#3b82f6','#8b5cf6','#ec4899','#10b981','#f59e0b','#06b6d4','#6366f1'];
 // Revenue starts from March 2026
@@ -683,6 +636,8 @@ const REV_START='2026-03';
 
 let _pf=[],_py=[],_proTab='all',_memTab='free',_rc=null,_ec=null;
 let _slips=[],_slipTab='pending';
+let _allRows=[],_allPage=0;
+const ALL_PER_PAGE=50;
 
 // ─── SLIP QUEUE ───────────────────────────────────────────────────────────────
 async function loadSlips(){
@@ -807,25 +762,16 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
         headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
         body:JSON.stringify({
           type:'pro_confirmed',
-          email:email,
-          name:name,
+          email:pf.email||'',
+          name:pf.name||pf.username||'',
           plan:plan==='pro-yearly'?'Pro Yearly':'Pro Monthly',
           expires:expires
         })
       });
     }catch(emailErr){console.warn('Email send failed (non-critical):',emailErr);}
 
-    // Update local state — remove duplicate rows, keep only this slip
-    _py=_py.filter(p=>p.user_id!==userId||p.id===slipId);
-    _slips=_slips.filter(s=>s.user_id!==userId||s.id===slipId);
-    const slip=_slips.find(x=>x.id===slipId);
-    if(slip){slip.pay_status='paid';slip.paid_date=today;slip.member_no=mnoPf;}
-    // Add to _py so Members pane shows it and autoFillMissing doesn't create duplicate
-    const existsInPy=_py.find(x=>x.id===slipId);
-    if(!existsInPy&&slip){_py.unshift({...slip,pay_status:'paid',paid_date:today});}
-    const pf=_pf.find(x=>x.id===userId);
-    if(pf){pf.plan=plan;pf.pay_status='paid';pf.pay_due=expires;}
-
+    // Reload from Supabase to ensure clean state
+    await loadData();
     renderAll();
     toast(name+' activated as Pro ✓');
   }catch(e){toast('Error: '+e.message,1);}
@@ -1006,7 +952,6 @@ function nav(id,el){
   if(el)el.classList.add('active');
   closeSidebar();
   if(id==='revenue')setTimeout(rRevenue,50);
-  if(id==='inquiries')loadInqPane();
 }
 
 function rSidebar(){
@@ -1135,12 +1080,12 @@ function rProMembers(){
   const withPayment=new Set(_py.map(p=>p.user_id));
   const noPayProfile=_pf.filter(p=>isPro(p.plan)&&!withPayment.has(p.id));
   const ma=document.getElementById('pay-missing-alert');
-  if(noPayProfile.length>0&&_proTab==='all'){
-    ma.style.display='block';
-    ma.innerHTML='⚠ <strong>'+noPayProfile.length+' pro member'+( noPayProfile.length>1?'s have':' has')+' no payment record:</strong> '+
-      noPayProfile.map(p=>`<span style="font-weight:600;color:var(--t1)">${p.name||p.username||'?'}</span>`).join(', ')+
-      ' &nbsp;<button class="btn btn-g btn-xs" onclick="autoFillMissing()" style="margin-left:.4rem;border-color:var(--ambb);color:var(--amb)">Auto-create records</button>';
-  }else{ma.style.display='none';}
+  if(noPayProfile.length){
+    ma.style.display='';
+    ma.innerHTML='⚠️ '+noPayProfile.length+' Pro profile(s) have no payment record: <strong>'+noPayProfile.map(p=>p.name||p.username||mno(p)).join(', ')+'</strong>. Use "Add Payment" to fix.';
+  }else{
+    ma.style.display='none';
+  }
 
   const tb=document.getElementById('pro-tbody');
   if(!proData.length){tb.innerHTML=`<tr><td colspan="10"><div class="empty">${_memSearchQ?'No results for "'+_memSearchQ+'"':'No pro members in this view'}</div></td></tr>`;return;}
@@ -1151,16 +1096,10 @@ function rProMembers(){
     const wa=p.wa||pf.wa;
     const mn=mno(pf);
 
-    // Notify chip logic
+    // Notify chip logic — single "Notify" button for overdue/expired members with WA
     let notifyChip='';
-    if(p.pay_status==='paid'&&days!==null&&days<=3&&days>=0){
-      notifyChip=`<button class="notify-chip nc-soon" onclick="previewWA('${wa||''}','${(pf.name||'').replace(/'/g,"\\'")}',${days},'${p.plan}','expiring')">💬 ${days}d left</button>`;
-    }else if(p.pay_status==='overdue'||(days!==null&&days<0&&days>=-7)){
-      notifyChip=`<button class="notify-chip nc-overdue" onclick="previewWA('${wa||''}','${(pf.name||'').replace(/'/g,"\\'")}',${days||0},'${p.plan}','expired')">💬 Expired</button>`;
-    }else if(p.pay_status==='downgraded'||(days!==null&&days<-7)){
-      notifyChip=`<button class="notify-chip nc-overdue" onclick="previewWA('${wa||''}','${(pf.name||'').replace(/'/g,"\\'")}',${days||0},'${p.plan}','downgrade')">💬 Downgraded</button>`;
-    }else if(wa&&days!==null&&days<=7&&days>3){
-      notifyChip=`<button class="notify-chip nc-soon" onclick="previewWA('${wa||''}','${(pf.name||'').replace(/'/g,"\\'")}',${days},'${p.plan}','week')">💬 7d left</button>`;
+    if(wa&&(p.pay_status==='overdue'||p.pay_status==='downgraded'||(days!==null&&days<0))){
+      notifyChip=`<button class="notify-chip nc-overdue" onclick="previewWA('${wa}','${(pf.name||'').replace(/'/g,"\\'")}','${p.expires_date||''}')">Notify</button>`;
     }
 
     const dColor=days===null?'var(--t2)':days<0?'var(--red)':days<=7?'var(--amb)':'var(--t1)';
@@ -1217,13 +1156,12 @@ function rMembers(){
 function rAllMembers(){
   const withActivePay=new Set(_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue').map(p=>p.user_id));
   const freeList=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
-  const tb=document.getElementById('all-tbody');
-  const allRows=[];
+  _allRows=[];
 
   // Free rows
   freeList.forEach(p=>{
     const mn=mno(p);
-    allRows.push({sortKey:new Date(p.created_at||0).getTime()*-1, isPro:false, html:`<tr>
+    _allRows.push({sortKey:new Date(p.created_at||0).getTime()*-1, isPro:false, html:`<tr>
       <td><span style="font-family:var(--mono);font-size:.73rem;color:var(--t3)">${mn}</span></td>
       <td><div style="display:flex;align-items:center;gap:.56rem">${avatar(p)}<div><div class="tc">${p.name||p.username||'—'}</div></div></div></td>
       <td><span class="b b-free">Free</span></td>
@@ -1242,7 +1180,7 @@ function rAllMembers(){
   _py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded').forEach(p=>{
     const pf=_pf.find(x=>x.id===p.user_id)||{};
     const mn=mno(pf);
-    allRows.push({sortKey:0, isPro:true, html:`<tr style="border-left:${(p.pay_status==='overdue'||p.pay_status==='downgraded')?'3px solid var(--red)':'3px solid transparent'}">
+    _allRows.push({sortKey:0, isPro:true, html:`<tr style="border-left:${(p.pay_status==='overdue'||p.pay_status==='downgraded')?'3px solid var(--red)':'3px solid transparent'}">
       <td><span style="font-family:var(--mono);font-size:.73rem;color:var(--t3)">${mn}</span></td>
       <td><div style="display:flex;align-items:center;gap:.56rem">${avatar(pf)}<div><div class="tc">${pf.name||pf.username||'—'}</div></div></div></td>
       <td>${plBdg(p.plan)}</td>
@@ -1259,9 +1197,40 @@ function rAllMembers(){
   });
 
   // Pro first, then free sorted by join date
-  allRows.sort((a,b)=>a.isPro===b.isPro?a.sortKey-b.sortKey:(a.isPro?-1:1));
-  if(!allRows.length){tb.innerHTML=`<tr><td colspan="8"><div class="empty">No members</div></td></tr>`;return;}
-  tb.innerHTML=allRows.map(r=>r.html).join('');
+  _allRows.sort((a,b)=>a.isPro===b.isPro?a.sortKey-b.sortKey:(a.isPro?-1:1));
+  _allPage=0;
+  renderAllPage();
+}
+
+function renderAllPage(){
+  const tb=document.getElementById('all-tbody');
+  const pg=document.getElementById('all-pagination');
+  const info=document.getElementById('all-page-info');
+  const prevBtn=document.getElementById('all-prev');
+  const nextBtn=document.getElementById('all-next');
+  if(!_allRows.length){
+    tb.innerHTML=`<tr><td colspan="8"><div class="empty">No members</div></td></tr>`;
+    pg.style.display='none';return;
+  }
+  const total=_allRows.length;
+  const pages=Math.ceil(total/ALL_PER_PAGE);
+  _allPage=Math.max(0,Math.min(_allPage,pages-1));
+  const start=_allPage*ALL_PER_PAGE;
+  const slice=_allRows.slice(start,start+ALL_PER_PAGE);
+  tb.innerHTML=slice.map(r=>r.html).join('');
+  info.textContent=`${start+1}–${Math.min(start+ALL_PER_PAGE,total)} of ${total} members`;
+  prevBtn.disabled=_allPage===0;
+  prevBtn.style.opacity=_allPage===0?'.4':'1';
+  nextBtn.disabled=_allPage>=pages-1;
+  nextBtn.style.opacity=_allPage>=pages-1?'.4':'1';
+  pg.style.display='flex';
+}
+
+function allPageNav(dir){
+  _allPage+=dir;
+  renderAllPage();
+  // Scroll the main container back to top of table
+  document.querySelector('.main').scrollTo({top:document.getElementById('mem-tbl-all').closest('.card').offsetTop-80,behavior:'smooth'});
 }
 
 
@@ -1272,7 +1241,7 @@ function rPayments(){
   const over=_py.filter(p=>p.pay_status==='overdue').length;
   const down=_py.filter(p=>p.pay_status==='downgraded').length;
   document.getElementById('pay-stats').innerHTML=`
-    <div class="stat"><div class="stat-l">Monthly Revenue</div><div class="stat-v">LKR ${(proM*2490+proY*2075).toLocaleString()}</div><div class="stat-s">from active subscriptions</div></div>
+    <div class="stat"><div class="stat-l">Monthly Revenue</div><div class="stat-v">LKR ${(proM*990+proY*832).toLocaleString()}</div><div class="stat-s">from active subscriptions</div></div>
     <div class="stat"><div class="stat-l">Pro Monthly</div><div class="stat-v">${proM}</div><div class="stat-s g">active paid</div></div>
     <div class="stat"><div class="stat-l">Pro Yearly</div><div class="stat-v">${proY}</div><div class="stat-s g">active paid</div></div>
     <div class="stat"><div class="stat-l">Overdue / Down</div><div class="stat-v" style="color:${over+down?'var(--red)':'var(--t1)'}">${over+down}</div><div class="stat-s ${over+down?'r':''}">need attention</div></div>`;
@@ -1302,6 +1271,30 @@ async function saveMember(){
   try{
     await sb('/profiles?id=eq.'+id,'PATCH',body);
     Object.assign(p,body);
+    // If downgrading to free, also mark the payment record as downgraded
+    if(newPlan==='free'){
+      const payRec=_py.find(x=>x.user_id===id&&(x.pay_status==='paid'||x.pay_status==='overdue'));
+      if(payRec){
+        await sb('/payments?id=eq.'+payRec.id,'PATCH',{pay_status:'downgraded'});
+        payRec.pay_status='downgraded';
+      }
+    }
+    // If upgrading back to pro, fix payment record (patch if exists, create if deleted by downgrade flow)
+    if(isPro(newPlan)){
+      const today=new Date().toISOString().split('T')[0];
+      const expires=calcExpiry(today,newPlan);
+      const payRec=_py.find(x=>x.user_id===id);
+      if(payRec){
+        await sb('/payments?id=eq.'+payRec.id,'PATCH',{pay_status:'paid',plan:newPlan,paid_date:today});
+      }else{
+        // Payment row was deleted by downgrade flow — delete any stale rows then recreate
+        await fetch(SB+'/rest/v1/payments?user_id=eq.'+id,{method:'DELETE',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});
+        const newRec={user_id:id,plan:newPlan,amount:PP[newPlan]||990,paid_date:today,pay_status:'paid',member_no:mno(p),wa:p.wa||null};
+        await sb('/payments','POST',newRec);
+      }
+      await sb('/profiles?id=eq.'+id,'PATCH',{pay_status:'paid',pay_due:expires,plan:newPlan});
+    }
+    await loadData();
     renderAll();closeM('ov-member');toast('Member updated ✓');
   }catch(e){toast('Error: '+e.message,1);}
 }
@@ -1373,18 +1366,31 @@ async function submitPayment(){
   m.textContent='Processing…';
   m.style.cssText='display:block;background:var(--ambl);color:var(--amb);border:1px solid var(--ambb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
   try{
-    const payBody={user_id:pf.id,plan,amount:PP[plan]||2490,paid_date:date,pay_status:'paid',notes:notes||null,wa:wa||pf.wa||null,member_no:mno(pf)};
-    // Use upsert to avoid duplicate row — updates existing row if user already has one
-    const r=await fetch(SB+'/rest/v1/payments',{method:'POST',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=representation'},body:JSON.stringify(payBody)}).then(r=>r.json());
-    if(r&&r[0])_py.unshift(r[0]);
-    const profileUpdate={plan,pay_status:'paid',pay_due:calcExpiry(date,plan)};
+    const expires=calcExpiry(date,plan);
+    const payBody={user_id:pf.id,plan,amount:PP[plan]||990,paid_date:date,pay_status:'paid',notes:notes||null,wa:wa||pf.wa||null,member_no:mno(pf)};
+    // Delete ALL existing payment rows for this user in Supabase, then insert fresh
+    // This is the safest approach — avoids issues with multiple rows or missing unique constraints
+    await fetch(SB+'/rest/v1/payments?user_id=eq.'+pf.id,{
+      method:'DELETE',
+      headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}
+    });
+    // Insert fresh record
+    const insResp=await fetch(SB+'/rest/v1/payments',{
+      method:'POST',
+      headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'},
+      body:JSON.stringify(payBody)
+    });
+    if(!insResp.ok){
+      const errText=await insResp.text();
+      throw new Error('Payment insert failed ('+insResp.status+'): '+errText);
+    }
+    const inserted=await insResp.json();
+    const savedRec=(inserted&&inserted[0])||payBody;
+    const profileUpdate={plan,pay_status:'paid',pay_due:expires};
     if(wa)profileUpdate.wa=wa;
     await sb('/profiles?id=eq.'+pf.id,'PATCH',profileUpdate);
-    const localPf=_pf.find(x=>x.id===pf.id);
-    if(localPf)Object.assign(localPf,profileUpdate);
     // Send pro_confirmed email
     try{
-      const expires=calcExpiry(date,plan);
       await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
@@ -1397,6 +1403,8 @@ async function submitPayment(){
         })
       });
     }catch(emailErr){console.warn('Email send failed (non-critical):',emailErr);}
+    // Reload from Supabase to avoid stale local state (especially after upgrade from downgraded)
+    await loadData();
     renderAll();closeM('ov-pay');
     toast((pf.name||tl)+' payment recorded ✓');
   }catch(e){toast('Error: '+e.message,1);}
@@ -1494,86 +1502,22 @@ async function autoFillMissing(){
 }
 
 // ─── WHATSAPP MESSAGES ────────────────────────────────────────────────────────
-// ─── MESSAGE TEMPLATES ───────────────────────────────────────────────────────
-const TPL_KEY='tl_msg_tpl';
-const TPL_DEFAULTS={
-  expiring:`Hi {name} 👋
 
-Your TimeLiners {plan} subscription expires in {days} day(s)!
+function openMsgTemplates(){openM('ov-msgtpl');}
 
-Reply to this message if you're going to renew and we'll sort it out right away 🎬`,
-  week:`Hi {name} 👋
-
-Just a reminder — your TimeLiners {plan} subscription expires in {days} days.
-
-Renew soon to keep your portfolio live! 🎬`,
-  expired:`Hi {name} 👋
-
-Your TimeLiners {plan} subscription has expired.
-
-Don't worry — you have 7 days before your account is downgraded to the free plan. Renew now to stay active! 🎬
-
-Reply here to renew.`,
-  downgrade:`Hi {name} 👋
-
-Your TimeLiners {plan} subscription expired {days} days ago.
-
-If you've already renewed, ignore this. If not, we'll unfortunately need to downgrade your account to free.
-
-Reply here to renew and keep your portfolio live! 🎬`
-};
-const TPL_LABELS={expiring:'3-day warning (≤3 days left)',week:'7-day warning (4-7 days left)',expired:'Just expired (0 to -7 days)',downgrade:'Downgrade warning (7+ days overdue)'};
-let _curTplType='expiring';
-
-function getTpls(){try{return JSON.parse(localStorage.getItem(TPL_KEY)||'{}')}catch(e){return{};}}
-function saveTpls(o){localStorage.setItem(TPL_KEY,JSON.stringify(o));}
-function getTpl(type){const t=getTpls();return t[type]||TPL_DEFAULTS[type]||'';}
-
-function openMsgTemplates(){
-  _curTplType='expiring';
-  document.querySelectorAll('#ov-msgtpl .tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tpl-tab-expiring').classList.add('active');
-  loadTplIntoEditor('expiring');
-  openM('ov-msgtpl');
-}
-function switchTplTab(type,el){
-  _curTplType=type;
-  document.querySelectorAll('#ov-msgtpl .tab').forEach(t=>t.classList.remove('active'));
-  if(el)el.classList.add('active');
-  loadTplIntoEditor(type);
-}
-function loadTplIntoEditor(type){
-  document.getElementById('tpl-label').textContent=TPL_LABELS[type]||type;
-  document.getElementById('tpl-body').value=getTpl(type);
-}
-function saveTpl(){
-  const t=getTpls();
-  t[_curTplType]=document.getElementById('tpl-body').value;
-  saveTpls(t);
-  toast('Template saved ✓');
-}
-function resetTpl(){
-  const t=getTpls();
-  delete t[_curTplType];
-  saveTpls(t);
-  loadTplIntoEditor(_curTplType);
-  toast('Reset to default ✓');
-}
-
-function buildWAMsg(name,daysLeft,plan,type){
-  const planLabel=PL[plan]||'Pro';
+function buildWAMsg(name,expiresDate){
   const n=name||'there';
-  const daysAbs=Math.abs(daysLeft||0);
-  let tpl=getTpl(type);
-  return tpl
-    .replace(/{name}/g,n)
-    .replace(/{plan}/g,planLabel)
-    .replace(/{days}/g,String(daysAbs));
+  let dateStr='';
+  if(expiresDate){
+    try{dateStr=new Date(expiresDate).toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});}
+    catch(e){dateStr=expiresDate;}
+  }
+  return`Hi ${n},\n\nYour TimeLiners Pro subscription expired on ${dateStr||'the expiry date'}. If you would like to renew, please reply to this message and we will sort it out right away.`;
 }
 
-function previewWA(wa,name,daysLeft,plan,type){
+function previewWA(wa,name,expiresDate){
   if(!wa){toast('No WhatsApp number on file',1);return;}
-  const msg=buildWAMsg(name,daysLeft,plan,type);
+  const msg=buildWAMsg(name,expiresDate);
   document.getElementById('wa-msg-preview').textContent=msg;
   document.getElementById('wa-sub').textContent='To: '+wa;
   const btn=document.getElementById('wa-send-btn');
@@ -1585,44 +1529,18 @@ function previewWA(wa,name,daysLeft,plan,type){
   openM('ov-wa');
 }
 
-function notifyExpiring(days){
-  const now=Date.now();
-  const cutoff=now+(days*86400000);
-  const targets=_py.filter(p=>{
-    if(p.pay_status!=='paid')return false;
-    if(!p.expires_date)return false;
-    const exp=new Date(p.expires_date).getTime();
-    return exp>now&&exp<=cutoff;
-  });
-  if(!targets.length){toast('No one expiring within '+days+' days ✓');return;}
-  const withWa=targets.filter(p=>{const pf=_pf.find(x=>x.id===p.user_id)||{};return !!(p.wa||pf.wa);});
-  if(!withWa.length){toast('None have WhatsApp numbers',1);return;}
-  if(!confirm('Send WhatsApp reminders to '+withWa.length+' member'+(withWa.length>1?'s':'')+' expiring in '+days+' days?'))return;
-  withWa.forEach((p,i)=>{
-    setTimeout(()=>{
-      const pf=_pf.find(x=>x.id===p.user_id)||{};
-      const wa=(p.wa||pf.wa).replace(/[^0-9]/g,'');
-      const dLeft=Math.ceil((new Date(p.expires_date)-Date.now())/86400000);
-      const msg=buildWAMsg(pf.name||pf.username||'',dLeft,p.plan,dLeft<=3?'expiring':'week');
-      window.open('https://wa.me/'+wa+'?text='+encodeURIComponent(msg),'_blank');
-    },i*700);
-  });
-  toast('Opening '+withWa.length+' WhatsApp chats…');
-}
 
 function notifyOverdue(){
   const targets=_py.filter(p=>p.pay_status==='overdue'||p.pay_status==='downgraded');
   if(!targets.length){toast('No overdue members ✓');return;}
   const withWa=targets.filter(p=>{const pf=_pf.find(x=>x.id===p.user_id)||{};return !!(p.wa||pf.wa);});
   if(!withWa.length){toast('None have WhatsApp numbers',1);return;}
-  if(!confirm('Send renewal reminders to '+withWa.length+' overdue member'+(withWa.length>1?'s':'')+' ?'))return;
+  if(!confirm('Send renewal message to '+withWa.length+' overdue member'+(withWa.length>1?'s':'')+' ?'))return;
   withWa.forEach((p,i)=>{
     setTimeout(()=>{
       const pf=_pf.find(x=>x.id===p.user_id)||{};
       const wa=(p.wa||pf.wa).replace(/[^0-9]/g,'');
-      const dLeft=p.expires_date?Math.ceil((new Date(p.expires_date)-Date.now())/86400000):null;
-      const type=p.pay_status==='downgraded'?'downgrade':(dLeft!==null&&dLeft<-7?'downgrade':'expired');
-      const msg=buildWAMsg(pf.name||pf.username||'',dLeft,p.plan,type);
+      const msg=buildWAMsg(pf.name||pf.username||'',p.expires_date||'');
       window.open('https://wa.me/'+wa+'?text='+encodeURIComponent(msg),'_blank');
     },i*700);
   });
@@ -1667,7 +1585,7 @@ function rRevenue(){
     const mo=p.paid_date.slice(0,7);
     if(mo>=REV_START){
       if(!mm[mo])mm[mo]={r:0,e:0};
-      mm[mo].r+=(p.amount||PP[p.plan]||2490);
+      mm[mo].r+=(p.amount||PP[p.plan]||990);
     }
   });
   // Fill expenses
