@@ -5349,24 +5349,39 @@ function clearVideoUpload() {
 
 async function uploadProjectVideo(token) {
   if (!_pendingVideoFile || !S.profile) return null;
-  const safeName = _pendingVideoFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-  const path = S.profile.id + '/' + Date.now() + '_' + safeName;
   const progressBar = el('video-progress-bar');
   const progressTxt = el('video-progress-txt');
   const progressWrap = el('video-upload-progress');
   if (progressWrap) progressWrap.style.display = 'block';
-  // Upload using Supabase JS SDK (supports progress)
-  const { data, error } = await sb.storage.from('project-videos').upload(path, _pendingVideoFile, {
-    contentType: _pendingVideoFile.type,
-    upsert: false
+
+  // Get signed URL from Edge Function
+  const res = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fileName: _pendingVideoFile.name, contentType: _pendingVideoFile.type })
   });
-  if (error) { if (progressWrap) progressWrap.style.display = 'none'; throw new Error('Video upload failed: ' + error.message); }
-  if (progressBar) { progressBar.style.width = '100%'; }
+  if (!res.ok) { if (progressWrap) progressWrap.style.display = 'none'; throw new Error('Failed to get upload URL'); }
+  const { signedUrl, publicUrl } = await res.json();
+
+  // Upload directly to R2 using signed URL with progress
+  await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable && progressBar)
+        progressBar.style.width = Math.round((e.loaded / e.total) * 100) + '%';
+    };
+    xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error('Upload failed: ' + xhr.status));
+    xhr.onerror = () => reject(new Error('Upload failed'));
+    xhr.open('PUT', signedUrl);
+    xhr.setRequestHeader('Content-Type', _pendingVideoFile.type);
+    xhr.send(_pendingVideoFile);
+  });
+
+  if (progressBar) progressBar.style.width = '100%';
   if (progressTxt) progressTxt.textContent = 'Upload complete!';
   setTimeout(() => { if (progressWrap) progressWrap.style.display = 'none'; if (progressBar) progressBar.style.width = '0%'; }, 1500);
-  const { data: urlData } = sb.storage.from('project-videos').getPublicUrl(path);
   _pendingVideoFile = null;
-  return urlData?.publicUrl || null;
+  return publicUrl;
 }
 
 // ── SAVE PROJECT ────────────────────────────────────
