@@ -3305,7 +3305,17 @@ async function restoreSession() {
     await loadProfile();
     applyLoggedIn();
 
-    // Username path takes priority · show that profile
+    // Username path / redirect takes highest priority — also check sessionStorage in case
+    // the path was already rewritten to / by 404.html before we got here
+    if (!pendingUsername) {
+      try {
+        pendingUsername = sessionStorage.getItem('tl_username_redirect') || sessionStorage.getItem('tl_redirect') || null;
+        if (pendingUsername) {
+          sessionStorage.removeItem('tl_username_redirect');
+          sessionStorage.removeItem('tl_redirect');
+        }
+      } catch(e) {}
+    }
     if (pendingUsername) {
       hideTlLoader(); showProfileByUsername(pendingUsername); return;
     }
