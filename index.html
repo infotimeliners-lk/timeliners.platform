@@ -8756,18 +8756,11 @@ function extractFirstFrame(videoUrl) {
 }
 
 async function patchProjectVideo(projId, videoUrls, token) {
-  // Always save video_url first (guaranteed column)
   try {
-    await db('/projects?id=eq.' + projId, 'PATCH', { video_url: videoUrls[0] }, token);
+    await db('/projects?id=eq.' + projId, 'PATCH', { video_url: videoUrls[0], video_urls: videoUrls }, token);
   } catch(e) {
-    console.error('PATCH video_url failed:', e.message);
-    throw e;
-  }
-  // Always save video_urls array (even for single video — modal reads from this)
-  try {
-    await db('/projects?id=eq.' + projId, 'PATCH', { video_urls: videoUrls }, token);
-  } catch(e) {
-    console.warn('video_urls column not found · run: ALTER TABLE projects ADD COLUMN IF NOT EXISTS video_urls JSONB;');
+    console.error('PATCH video failed:', e.message);
+    try { await db('/projects?id=eq.' + projId, 'PATCH', { video_url: videoUrls[0] }, token); } catch(e2) { throw e2; }
   }
 }
 
