@@ -6395,7 +6395,7 @@ async function showProfileByUsername(username) {
     } else {
       showPage('feed');
     }
-  } catch(e) { showPage('feed'); }
+  } catch(e) { console.error('showProfileByUsername FAILED:', e.message, e.stack); showPage('feed'); }
 }
 
 function restoreFromHash() {
