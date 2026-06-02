@@ -5670,9 +5670,10 @@ function refreshProfile(profileData) {
   }
   nameTextNode.textContent = p.name || '—';
   // Ensure badge is still appended inside nameEl
-  if (!nameEl.contains(badge)) nameEl.appendChild(badge);
+  const realBadge = document.getElementById('pbadge-el');
+  if (realBadge && nameEl && nameEl instanceof Node && !nameEl.contains(realBadge)) nameEl.appendChild(realBadge);
   const isPaidPlan = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
-  badge.style.display = isPaidPlan ? 'inline-flex' : 'none';
+  if (realBadge) realBadge.style.display = isPaidPlan ? 'inline-flex' : 'none';
   // Verified tick next to name (hidden, ring badge handles it now)
   const nameVerified = document.getElementById('pname-verified');
   if (nameVerified) nameVerified.style.display = 'none';
