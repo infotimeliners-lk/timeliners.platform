@@ -328,7 +328,7 @@ html.light .fsrch input{color:var(--t1)}
 
 /* Hero action buttons */
 .prof-hero-actions{display:flex;gap:.65rem;justify-content:center;margin-bottom:1.8rem;flex-wrap:wrap}
-.prof-hire-btn{padding:.7rem 1.6rem;border-radius:50px;border:none;background:var(--ac);color:white;font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.45rem;transition:.2s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 14px rgba(254,115,10,.28)}.prof-hire-btn:hover{background:#e55e00;transform:translateY(-1px);box-shadow:0 5px 20px rgba(254,115,10,.38)}
+.prof-hire-btn{padding:.7rem 1.6rem;border-radius:50px;border:none;background:var(--ac);color:white;font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.45rem;transition:.2s cubic-bezier(.4,0,.2,1);box-shadow:0 3px 14px rgba(254,115,10,.28)}.prof-hire-btn:hover{background:#e55e00;transform:translateY(-1px);box-shadow:0 5px 20px rgba(254,115,10,.38)}.prof-share-btn{padding:.7rem 1.4rem;border-radius:50px;border:1.5px solid rgba(255,255,255,.18);background:var(--bg3);color:var(--t1);font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.45rem;transition:.2s cubic-bezier(.4,0,.2,1);cursor:pointer}.prof-share-btn:hover{background:var(--bg4);transform:translateY(-1px)}
 .prof-edit-btn{padding:.68rem 1.4rem;border-radius:50px;border:1.5px solid var(--brd2);background:transparent;color:var(--t2);font-size:.84rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:.2s cubic-bezier(.4,0,.2,1)}.prof-edit-btn:hover{border-color:var(--brd3);color:var(--t1);background:var(--bg3)}
 .prof-share-btn{padding:.68rem 1.2rem;border-radius:50px;border:1.5px solid var(--brd2);background:transparent;color:var(--t2);font-size:.84rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:.2s cubic-bezier(.4,0,.2,1)}.prof-share-btn:hover{border-color:var(--brd3);color:var(--t1);background:var(--bg3)}
 .prof-share-corner-btn{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:none;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.18s;z-index:2;padding:0;line-height:1}.prof-share-corner-btn:hover{opacity:.85}
@@ -414,7 +414,7 @@ html.light .fsrch input{color:var(--t1)}
 
 /* Responsive */
 @media(max-width:800px){.prof-details-row{grid-template-columns:1fr;grid-template-rows:auto}.prof-details-divider{display:none}.prof-details-col{border-bottom:1px solid rgba(255,255,255,.1);padding:1.2rem 1.4rem}.prof-details-col:last-child{border-bottom:none}}
-@media(max-width:600px){.prof-hire-btn,.prof-edit-btn{width:100%;justify-content:center}.prof-hero-actions{flex-direction:column;align-items:stretch;padding:0 1.5rem}.prof-hero{padding:1rem 1.2rem 2rem}.prof-right-sec{padding:1.5rem 1.2rem 1rem}}
+@media(max-width:600px){.prof-hire-btn,.prof-edit-btn,.prof-share-btn{width:100%;justify-content:center}.prof-hero-actions{flex-direction:column;align-items:stretch;padding:0 1.5rem}.prof-hero{padding:1rem 1.2rem 2rem}.prof-right-sec{padding:1.5rem 1.2rem 1rem}}
 /* PROJECT VIEW */
 #page-project{padding-top:58px;min-height:100vh;background:var(--bg);position:relative}
 #page-project::before{content:'';position:fixed;top:-150px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(254,115,10,.06) 0%,transparent 65%);pointer-events:none;z-index:0}
@@ -1867,6 +1867,20 @@ img, video, iframe, canvas { max-width: 100%; }
   </div>
 </div>
 
+<!-- ══ SHARE MODAL ══ -->
+<div id="share-overlay" onclick="if(event.target===this)closeShareModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);z-index:4000;align-items:center;justify-content:center;padding:1rem">
+  <div class="hire-box" style="max-width:380px;width:100%;text-align:center">
+    <button class="hire-close" onclick="closeShareModal()">×</button>
+    <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.3rem">Share Portfolio</div>
+    <div style="font-size:.78rem;color:var(--t2);margin-bottom:1.4rem;line-height:1.6">Copy the link below and share it with anyone — they'll land directly on this portfolio.</div>
+    <div style="display:flex;align-items:center;gap:.5rem;background:var(--bg3);border-radius:12px;padding:.55rem .55rem .55rem .85rem;margin-bottom:.75rem;border:1.5px solid var(--bg4)">
+      <span id="share-link-text" style="font-size:.78rem;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left"></span>
+      <button id="share-copy-btn" onclick="copyShareLink()" style="flex-shrink:0;background:var(--ac);color:#fff;border:none;border-radius:8px;padding:.4rem .9rem;font-size:.78rem;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap">Copy</button>
+    </div>
+    <div style="font-size:.65rem;color:var(--t3);line-height:1.6">timeliners.lk — The creative portfolio marketplace</div>
+  </div>
+</div>
+
 <!-- ══ CONTACT MODAL ══ -->
 <div id="contact-overlay" onclick="if(event.target===this)closeContactModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem">
   <div class="hire-box" style="max-width:360px">
@@ -2152,6 +2166,10 @@ img, video, iframe, canvas { max-width: 100%; }
         <button class="prof-hire-btn" id="p-hire-btn" onclick="openBriefModal()">
           <svg width="14" height="14" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg>
           Hire Me
+        </button>
+        <button class="prof-share-btn" id="p-share-btn" onclick="openShareModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
         </button>
         <button class="prof-edit-btn" id="p-edit-btn" style="display:none" onclick="showPage('dashboard');setTimeout(()=>switchDash('editprofile',document.getElementById('dnav-editprofile')),80)">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>
@@ -5782,14 +5800,17 @@ function refreshProfile(profileData) {
   hireBtn.style.opacity = '1';
   hireBtn.style.cursor = 'pointer';
   hireBtn.innerHTML = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg> Hire Me';
+  const shareBtn = document.getElementById('p-share-btn');
   if (profIsOwn) {
-    // Own profile: show a dimmed non-clickable version
+    // Own profile: show a dimmed non-clickable hire btn, show share
     hireBtn.style.opacity = '0.45';
     hireBtn.style.cursor = 'default';
     hireBtn.onclick = null;
+    if (shareBtn) shareBtn.style.display = 'inline-flex';
   } else {
     // Set the target editor for the brief modal
     hireBtn.onclick = () => openBriefModal(p);
+    if (shareBtn) shareBtn.style.display = 'inline-flex';
   }
 
   // Track social link taps (only if not own profile)
@@ -6364,6 +6385,8 @@ async function showProfileByUsername(username) {
       const _pp = el('page-profile'); _pp.classList.remove('active'); void _pp.offsetWidth; _pp.classList.add('active');
       el('main-nav').style.display = 'none';
       window.scrollTo(0, 0);
+      // Set URL to /{username} so the link is shareable
+      try { history.replaceState({ un: username }, '', '/' + username); } catch(e) {}
       document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
       // Only highlight My Portfolio tab if viewing own profile
       if (S.user && rows[0].id === S.user.id) {
@@ -8236,6 +8259,45 @@ let _hireTargetProfile = null;
 
 function openBriefModal(profile) { openHireModal(profile); } // legacy alias
 
+function openShareModal() {
+  const prof = S.viewingProfile || S.profile;
+  if (!prof) return;
+  const username = prof.username || '';
+  const link = 'https://timeliners.lk/' + username;
+  const overlay = document.getElementById('share-overlay');
+  const nameEl = document.getElementById('share-editor-name');
+  const avEl = document.getElementById('share-editor-av');
+  const linkEl = document.getElementById('share-link-text');
+  if (nameEl) nameEl.textContent = prof.name || username;
+  if (avEl) {
+    if (prof.avatar_url) {
+      avEl.innerHTML = '<img src="' + prof.avatar_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    } else {
+      avEl.textContent = (prof.initials || prof.name || '?')[0].toUpperCase();
+    }
+  }
+  if (linkEl) linkEl.textContent = link;
+  if (overlay) { overlay.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+}
+
+function closeShareModal() {
+  const overlay = document.getElementById('share-overlay');
+  if (overlay) { overlay.style.display = 'none'; document.body.style.overflow = ''; }
+}
+
+function copyShareLink() {
+  const prof = S.viewingProfile || S.profile;
+  if (!prof) return;
+  const link = 'https://timeliners.lk/' + (prof.username || '');
+  navigator.clipboard.writeText(link).then(() => {
+    const btn = document.getElementById('share-copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = 'Copy'; }, 2000); }
+  }).catch(() => {
+    const btn = document.getElementById('share-copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(() => { btn.textContent = 'Copy'; }, 2000); }
+  });
+}
+
 function openHireModal(profile) {
   _hireTargetProfile = profile || S.viewingProfile;
   if (!_hireTargetProfile) return;
@@ -8408,6 +8470,9 @@ function _trackHire(userId) {
 
 window.openHireModal        = openHireModal;
 window.openBriefModal       = openBriefModal;
+window.openShareModal        = openShareModal;
+window.closeShareModal       = closeShareModal;
+window.copyShareLink         = copyShareLink;
 window.closeHireModal       = closeHireModal;
 window.openContactModal     = openContactModal;
 window.closeContactModal    = closeContactModal;
