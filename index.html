@@ -1133,8 +1133,8 @@ img, video, iframe, canvas { max-width: 100%; }
   .auth-box {
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    border-radius: 22px 22px 0 0 !important;
-    padding: 1.4rem 1.2rem calc(1.8rem + env(safe-area-inset-bottom,0px)) !important;
+    border-radius: 20px !important;
+    padding: 1.4rem 1.2rem 1.6rem !important;
     max-width: 100% !important;
     width: 100% !important;
     margin: 0 !important;
@@ -1148,20 +1148,20 @@ img, video, iframe, canvas { max-width: 100%; }
     align-items: flex-end !important;
   }
   #forgot-overlay > div, #reset-pw-overlay > div, #otp-overlay > div {
-    border-radius: 22px 22px 0 0 !important;
+    border-radius: 20px !important;
     max-width: 100% !important;
     width: 100% !important;
     padding-bottom: calc(1.8rem + env(safe-area-inset-bottom,0px)) !important;
   }
 
   /* Hire Me modal */
-  #hire-overlay { padding: 0 !important; align-items: flex-end !important; }
-  #contact-overlay { padding: 0 !important; align-items: flex-end !important; }
+  #hire-overlay { padding: 1rem !important; align-items: center !important; }
+  #contact-overlay { padding: 1rem !important; align-items: center !important; }
   .hire-box {
-    border-radius: 22px 22px 0 0 !important;
+    border-radius: 20px !important;
     max-width: 100% !important;
     width: 100% !important;
-    padding: 1.4rem 1.2rem calc(1.8rem + env(safe-area-inset-bottom,0px)) !important;
+    padding: 1.4rem 1.2rem 1.6rem !important;
   }
 
   /* Project slide-up modal */
@@ -1179,7 +1179,7 @@ img, video, iframe, canvas { max-width: 100%; }
   /* Edit project overlay */
   #edit-proj-overlay { padding: 0 !important; align-items: flex-end !important; }
   #edit-proj-overlay > div {
-    border-radius: 22px 22px 0 0 !important;
+    border-radius: 20px !important;
     max-width: 100% !important;
     width: 100% !important;
     max-height: 95vh !important;
@@ -1191,7 +1191,7 @@ img, video, iframe, canvas { max-width: 100%; }
   /* Service modal */
   #service-modal-overlay { padding: 0 !important; align-items: flex-end !important; }
   #service-modal-overlay > div {
-    border-radius: 22px 22px 0 0 !important;
+    border-radius: 20px !important;
     max-width: 100% !important;
     width: 100% !important;
     max-height: 95vh !important;
@@ -1207,7 +1207,7 @@ img, video, iframe, canvas { max-width: 100%; }
   /* Skill modal */
   #skill-modal-overlay { padding: 0 !important; align-items: flex-end !important; }
   #skill-modal-overlay > div {
-    border-radius: 22px 22px 0 0 !important;
+    border-radius: 20px !important;
     max-width: 100% !important;
     width: 100% !important;
     max-height: 95vh !important;
@@ -1219,10 +1219,10 @@ img, video, iframe, canvas { max-width: 100%; }
   /* Share portfolio modal */
   #share-portfolio-modal { padding: 0 !important; align-items: flex-end !important; }
   .spm-sheet {
-    border-radius: 22px 22px 0 0 !important;
+    border-radius: 20px !important;
     max-width: 100% !important;
     width: 100% !important;
-    padding: 1.4rem 1.2rem calc(1.8rem + env(safe-area-inset-bottom,0px)) !important;
+    padding: 1.4rem 1.2rem 1.6rem !important;
   }
 
   /* ── PROFILE page ── */
@@ -1884,8 +1884,8 @@ img, video, iframe, canvas { max-width: 100%; }
     <div style="background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.85rem 1rem">
       <div style="font-size:.7rem;color:var(--t3);margin-bottom:.5rem">Or email us directly:</div>
       <div style="display:flex;align-items:center;gap:.5rem">
-        <span style="font-size:.78rem;color:var(--t2);font-family:monospace;flex:1;word-break:break-all">info.timeliners@gmail.com</span>
-        <button onclick="_copyContactEmail()" id="contact-copy-btn" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:4px 10px;border-radius:6px;font-size:.7rem;font-family:var(--fm);font-weight:600;white-space:nowrap;flex-shrink:0">Copy</button>
+        <span style="font-size:.78rem;color:var(--t2);flex:1;min-width:0;word-break:break-all;">info.timeliners@gmail.com</span>
+        <button onclick="_copyContactEmail()" id="contact-copy-btn" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:6px 10px;border-radius:6px;font-size:.7rem;font-family:var(--fm);font-weight:600;width:100%">Copy</button>
       </div>
     </div>
 
@@ -8236,8 +8236,8 @@ function openHireModal(profile) {
         html += '<div style="margin-top:.9rem;padding:.75rem .9rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:10px">'
               + '<div style="font-size:.72rem;color:var(--t3);margin-bottom:.45rem;font-weight:500">If WhatsApp doesn\'t work, try emailing directly:</div>'
               + '<div style="display:flex;align-items:center;gap:.5rem">'
-              + '<span style="font-size:.78rem;color:var(--t2);flex:1;word-break:break-all;font-family:monospace">' + email + '</span>'
-              + '<button id="hire-copy-btn" onclick="_copyHireEmail()" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:4px 10px;border-radius:6px;font-size:.7rem;font-family:var(--fm);font-weight:600;white-space:nowrap;flex-shrink:0">Copy</button>'
+              + '<span class="hire-email-text" style="font-size:.78rem;color:var(--t2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + email + '</span>'
+              + '<button id="hire-copy-btn" onclick="_copyHireEmail()" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:6px 14px;border-radius:6px;font-size:.75rem;font-family:var(--fm);font-weight:600;white-space:nowrap;flex-shrink:0" class="hire-copy-btn-el">Copy</button>'
               + '</div>'
               + '</div>';
       }
@@ -8249,9 +8249,8 @@ function openHireModal(profile) {
             + 'This editor hasn\'t connected WhatsApp yet, but you can reach them by email.'
             + '</div>'
             + '<div style="display:flex;align-items:center;gap:.5rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.65rem .85rem">'
-            + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;color:var(--t3)"><rect x=\"2\" y=\"4\" width=\"20\" height=\"16\" rx=\"2\" stroke=\"currentColor\" stroke-width=\"1.8\" fill=\"none\"/><path d=\"M2 7l10 7 10-7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></svg>'
-            + '<span style="font-size:.8rem;color:var(--t1);flex:1;word-break:break-all;font-family:monospace">' + email + '</span>'
-            + '<button id="hire-copy-btn" onclick="_copyHireEmail()" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:4px 10px;border-radius:6px;font-size:.7rem;font-family:var(--fm);font-weight:600;white-space:nowrap;flex-shrink:0">Copy</button>'
+            + '<span class="hire-email-text" style="font-size:.8rem;color:var(--t1);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + email + '</span>'
+            + '<button id="hire-copy-btn" onclick="_copyHireEmail()" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:6px 14px;border-radius:6px;font-size:.75rem;font-family:var(--fm);font-weight:600;white-space:nowrap;flex-shrink:0" class="hire-copy-btn-el">Copy</button>'
             + '</div>';
     }
 
