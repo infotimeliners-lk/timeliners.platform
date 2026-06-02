@@ -5354,26 +5354,28 @@ async function uploadProjectVideo(token) {
   const progressWrap = el('video-upload-progress');
   if (progressWrap) progressWrap.style.display = 'block';
 
-  // Get signed URL from Edge Function
-  const res = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fileName: _pendingVideoFile.name, contentType: _pendingVideoFile.type })
-  });
-  if (!res.ok) { if (progressWrap) progressWrap.style.display = 'none'; throw new Error('Failed to get upload URL'); }
-  const { signedUrl, publicUrl } = await res.json();
-
-  // Upload directly to R2 using signed URL with progress
+  // Upload file directly via edge function (server-side to R2)
+  let publicUrl = null;
   await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable && progressBar)
         progressBar.style.width = Math.round((e.loaded / e.total) * 100) + '%';
     };
-    xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error('Upload failed: ' + xhr.status));
-    xhr.onerror = () => reject(new Error('Upload failed'));
-    xhr.open('PUT', signedUrl);
-    xhr.setRequestHeader('Content-Type', _pendingVideoFile.type);
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { publicUrl = JSON.parse(xhr.responseText).publicUrl; } catch(e) {}
+        resolve();
+      } else {
+        if (progressWrap) progressWrap.style.display = 'none';
+        reject(new Error('Upload failed: ' + xhr.status));
+      }
+    };
+    xhr.onerror = () => { if (progressWrap) progressWrap.style.display = 'none'; reject(new Error('Upload failed')); };
+    xhr.open('POST', 'https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    xhr.setRequestHeader('x-file-name', _pendingVideoFile.name);
+    xhr.setRequestHeader('x-content-type', _pendingVideoFile.type);
     xhr.send(_pendingVideoFile);
   });
 
@@ -5470,13 +5472,12 @@ async function saveProject(status) {
       try {
         el('upload-saving').textContent = 'Saving thumbnail...';
         const thumbFileName = saved.id + '_thumb_' + Date.now() + '.jpg';
-        const thumbSignRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+        const thumbUpRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
           method: 'POST',
-          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fileName: thumbFileName, contentType: 'image/jpeg' })
+          headers: { 'Authorization': 'Bearer ' + token, 'x-file-name': thumbFileName, 'x-content-type': 'image/jpeg' },
+          body: _upThumbBlob
         });
-        const { signedUrl: thumbSignedUrl, publicUrl: thumbPublicUrl } = await thumbSignRes.json();
-        await fetch(thumbSignedUrl, { method: 'PUT', headers: { 'Content-Type': 'image/jpeg' }, body: _upThumbBlob });
+        const { publicUrl: thumbPublicUrl } = await thumbUpRes.json();
         if (thumbPublicUrl) {
           await db('/projects?id=eq.' + saved.id, 'PATCH', { cover_url: thumbPublicUrl }, token);
           Object.assign(saved, { cover_url: thumbPublicUrl });
@@ -8497,15 +8498,6 @@ async function saveEditProject() {
         const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
         const fileName = id + '_edit_' + Date.now() + '_' + safeName;
         try {
-          const signRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
-            method: 'POST',
-            headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fileName: fileName, contentType: f.type || 'video/mp4' })
-          });
-          if (!signRes.ok) throw new Error('Failed to get upload URL: ' + signRes.status);
-          const signData = await signRes.json();
-          const { signedUrl, publicUrl } = signData;
-          if (!signedUrl) throw new Error('No signed URL returned: ' + JSON.stringify(signData));
           await new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
             xhr.upload.onprogress = (e) => {
@@ -8515,13 +8507,19 @@ async function saveEditProject() {
                 if (pct) pct.textContent = Math.round(overall) + '%';
               }
             };
-            xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error('Upload failed: ' + xhr.status));
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                try { const data = JSON.parse(xhr.responseText); if (data.publicUrl) uploadedUrls.push(data.publicUrl); } catch(e) {}
+                resolve();
+              } else { reject(new Error('Upload failed: ' + xhr.status)); }
+            };
             xhr.onerror = () => reject(new Error('Upload network error'));
-            xhr.open('PUT', signedUrl);
-            xhr.setRequestHeader('Content-Type', f.type || 'video/mp4');
+            xhr.open('POST', 'https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload');
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            xhr.setRequestHeader('x-file-name', fileName);
+            xhr.setRequestHeader('x-content-type', f.type || 'video/mp4');
             xhr.send(f);
           });
-          if (publicUrl) uploadedUrls.push(publicUrl);
         } catch(vErr) { showToast('Video ' + (i+1) + ' failed: ' + vErr.message); }
       }
       if (uploadedUrls.length) {
@@ -8568,13 +8566,12 @@ async function saveEditProject() {
     if (_epThumbBlob) {
       try {
         const thumbFileName = id + '_thumb_' + Date.now() + '.jpg';
-        const thumbSignRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+        const thumbUpRes2 = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
           method: 'POST',
-          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fileName: thumbFileName, contentType: 'image/jpeg' })
+          headers: { 'Authorization': 'Bearer ' + token, 'x-file-name': thumbFileName, 'x-content-type': 'image/jpeg' },
+          body: _epThumbBlob
         });
-        const { signedUrl: thumbSignedUrl, publicUrl: thumbPublicUrl } = await thumbSignRes.json();
-        await fetch(thumbSignedUrl, { method: 'PUT', headers: { 'Content-Type': 'image/jpeg' }, body: _epThumbBlob });
+        const { publicUrl: thumbPublicUrl } = await thumbUpRes2.json();
         if (thumbPublicUrl) {
           await db('/projects?id=eq.' + id, 'PATCH', { cover_url: thumbPublicUrl }, token);
           updates.cover_url = thumbPublicUrl;
@@ -8827,30 +8824,25 @@ async function uploadProjectVideos(token, projId) {
     updateProgress(0);
 
     try {
-      // Get signed URL from R2 Edge Function
-      const signRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileName: fileName, contentType: f.type || 'video/mp4' })
-      });
-      if (!signRes.ok) throw new Error('Failed to get upload URL: ' + signRes.status);
-      const signData = await signRes.json();
-      const { signedUrl, publicUrl } = signData;
-      if (!signedUrl) throw new Error('No signed URL returned: ' + JSON.stringify(signData));
-
-      // Upload directly to R2 via signed URL
+      // Upload file directly via edge function (server-side to R2)
       await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.upload.onprogress = (e) => { if (e.lengthComputable) updateProgress(e.loaded / e.total); };
-        xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error('Upload failed: ' + xhr.status));
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try { const data = JSON.parse(xhr.responseText); if (data.publicUrl) urls.push(data.publicUrl); } catch(e) {}
+            resolve();
+          } else { reject(new Error('Upload failed: ' + xhr.status)); }
+        };
         xhr.onerror = () => reject(new Error('Upload network error'));
-        xhr.open('PUT', signedUrl);
-        xhr.setRequestHeader('Content-Type', f.type || 'video/mp4');
+        xhr.open('POST', 'https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload');
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        xhr.setRequestHeader('x-file-name', fileName);
+        xhr.setRequestHeader('x-content-type', f.type || 'video/mp4');
         xhr.send(f);
       });
 
       updateProgress(1);
-      if (publicUrl) urls.push(publicUrl);
     } catch(err) {
       showToast('Video ' + (i+1) + ' failed · ' + err.message);
       console.error('Video upload error:', err);
