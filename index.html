@@ -8495,22 +8495,33 @@ async function saveEditProject() {
           ? 'Uploading video ' + (i+1) + ' of ' + window._epPendingVideos.length + '...'
           : 'Uploading video...';
         const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-        const path = S.profile.id + '/' + id + '_edit_' + Date.now() + '_' + safeName;
-        const uploadUrl = SB_URL + '/storage/v1/object/project-videos/' + path;
+        const fileName = id + '_edit_' + Date.now() + '_' + safeName;
         try {
-          await uploadFileXHR(uploadUrl, f, {
-            'Authorization': 'Bearer ' + token,
-            'apikey': SB_KEY,
-            'Content-Type': f.type || 'video/mp4',
-            'x-upsert': 'true',
-            'Cache-Control': '3600'
-          }, (p2) => {
-            const overall = ((i + p2) / window._epPendingVideos.length) * 100;
-            if (bar) bar.style.width = overall.toFixed(1) + '%';
-            if (pct) pct.textContent = Math.round(overall) + '%';
+          const signRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+            method: 'POST',
+            headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fileName: fileName, contentType: f.type || 'video/mp4' })
           });
-          const { data: ud } = sb.storage.from('project-videos').getPublicUrl(path);
-          if (ud?.publicUrl) uploadedUrls.push(ud.publicUrl);
+          if (!signRes.ok) throw new Error('Failed to get upload URL: ' + signRes.status);
+          const signData = await signRes.json();
+          const { signedUrl, publicUrl } = signData;
+          if (!signedUrl) throw new Error('No signed URL returned: ' + JSON.stringify(signData));
+          await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.upload.onprogress = (e) => {
+              if (e.lengthComputable) {
+                const overall = ((i + e.loaded / e.total) / window._epPendingVideos.length) * 100;
+                if (bar) bar.style.width = overall.toFixed(1) + '%';
+                if (pct) pct.textContent = Math.round(overall) + '%';
+              }
+            };
+            xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error('Upload failed: ' + xhr.status));
+            xhr.onerror = () => reject(new Error('Upload network error'));
+            xhr.open('PUT', signedUrl);
+            xhr.setRequestHeader('Content-Type', f.type || 'video/mp4');
+            xhr.send(f);
+          });
+          if (publicUrl) uploadedUrls.push(publicUrl);
         } catch(vErr) { showToast('Video ' + (i+1) + ' failed: ' + vErr.message); }
       }
       if (uploadedUrls.length) {
@@ -8752,13 +8763,11 @@ async function patchProjectVideo(projId, videoUrls, token) {
     console.error('PATCH video_url failed:', e.message);
     throw e;
   }
-  // Then try to also save video_urls array (may not exist yet)
-  if (videoUrls.length > 1) {
-    try {
-      await db('/projects?id=eq.' + projId, 'PATCH', { video_urls: videoUrls }, token);
-    } catch(e) {
-      console.warn('video_urls column not found · run: ALTER TABLE projects ADD COLUMN IF NOT EXISTS video_urls JSONB;');
-    }
+  // Always save video_urls array (even for single video — modal reads from this)
+  try {
+    await db('/projects?id=eq.' + projId, 'PATCH', { video_urls: videoUrls }, token);
+  } catch(e) {
+    console.warn('video_urls column not found · run: ALTER TABLE projects ADD COLUMN IF NOT EXISTS video_urls JSONB;');
   }
 }
 
@@ -8802,11 +8811,9 @@ async function uploadProjectVideos(token, projId) {
     const f = _pendingVideos[i];
     const totalFiles = _pendingVideos.length;
     const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const path = S.profile.id + '/' + projId + '_v' + i + '_' + Date.now() + '_' + safeName;
-    const uploadUrl = SB_URL + '/storage/v1/object/project-videos/' + path;
+    const fileName = projId + '_v' + i + '_' + Date.now() + '_' + safeName;
 
     const updateProgress = (filePct) => {
-      // Overall progress = (files done + current file pct) / total files
       const overall = ((i + filePct) / totalFiles) * 100;
       if (pb) pb.style.width = overall.toFixed(1) + '%';
       if (pt) {
@@ -8820,40 +8827,30 @@ async function uploadProjectVideos(token, projId) {
     updateProgress(0);
 
     try {
-      // Try with user token first, fall back to SB_KEY if it fails
-      let uploadToken = token;
-      let uploadResult = null;
-      let uploadErr = null;
-      
-      try {
-        uploadResult = await uploadFileXHR(uploadUrl, f, {
-          'Authorization': 'Bearer ' + uploadToken,
-          'apikey': SB_KEY,
-          'Content-Type': f.type || 'video/mp4',
-          'x-upsert': 'true',
-          'Cache-Control': '3600'
-        }, updateProgress);
-      } catch(firstErr) {
-        showToast('Retrying upload with anon key...');
-        console.warn('First upload attempt failed:', firstErr.message, '— retrying with SB_KEY');
-        uploadResult = await uploadFileXHR(uploadUrl.replace(projId + '_v' + i, projId + '_v' + i + '_r'), f, {
-          'Authorization': 'Bearer ' + SB_KEY,
-          'apikey': SB_KEY,
-          'Content-Type': f.type || 'video/mp4',
-          'x-upsert': 'true',
-          'Cache-Control': '3600'
-        }, updateProgress);
-        // Update path for public URL
-        const newPath = S.profile.id + '/' + projId + '_v' + i + '_r_' + Date.now() + '_' + safeName;
-        const { data: ud2 } = sb.storage.from('project-videos').getPublicUrl(newPath);
-        if (ud2?.publicUrl) { urls.push(ud2.publicUrl); continue; }
-      }
+      // Get signed URL from R2 Edge Function
+      const signRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName: fileName, contentType: f.type || 'video/mp4' })
+      });
+      if (!signRes.ok) throw new Error('Failed to get upload URL: ' + signRes.status);
+      const signData = await signRes.json();
+      const { signedUrl, publicUrl } = signData;
+      if (!signedUrl) throw new Error('No signed URL returned: ' + JSON.stringify(signData));
+
+      // Upload directly to R2 via signed URL
+      await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.upload.onprogress = (e) => { if (e.lengthComputable) updateProgress(e.loaded / e.total); };
+        xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error('Upload failed: ' + xhr.status));
+        xhr.onerror = () => reject(new Error('Upload network error'));
+        xhr.open('PUT', signedUrl);
+        xhr.setRequestHeader('Content-Type', f.type || 'video/mp4');
+        xhr.send(f);
+      });
 
       updateProgress(1);
-      showToast('DEBUG: Upload XHR done, status ok');
-
-      const { data: ud } = sb.storage.from('project-videos').getPublicUrl(path);
-      if (ud?.publicUrl) urls.push(ud.publicUrl);
+      if (publicUrl) urls.push(publicUrl);
     } catch(err) {
       showToast('Video ' + (i+1) + ' failed · ' + err.message);
       console.error('Video upload error:', err);
