@@ -3807,7 +3807,7 @@ async function deleteMyAccount() {
     // Delete all projects first (videos in storage)
     const projs = await db('/projects?user_id=eq.' + S.profile.id + '&select=*', 'GET', null, token) || [];
     for (const p of projs) {
-      const urls = (p.video_urls && p.video_urls.length) ? p.video_urls : (p.video_url ? [p.video_url] : []);
+      const urls = parseVideoUrls(p.video_urls).length ? parseVideoUrls(p.video_urls) : (p.video_url ? [p.video_url] : []);
       for (const url of urls) {
         try {
           const path = url.split('/project-videos/')[1];
@@ -4088,7 +4088,7 @@ function renderFeed() {
     if (p.status !== 'published') return false;
     if (!p.cover_url && !p.video_url && !p.yt_link) return false; // no blank cards
     // Feed requires a real video — graphic-design-only projects (no video) stay in portfolio only
-    const hasVideo = !!(p.video_url || (p.video_urls && p.video_urls.length > 0));
+    const hasVideo = !!(p.video_url || parseVideoUrls(p.video_urls).length > 0);
     if (!hasVideo) return false;
     const plan = p._authorPlan || 'free';
     const isPaid = plan === 'pro' || plan === 'pro-yearly' || plan === 'pro_yearly' || plan === 'standard' || plan === 'vip';
@@ -4482,6 +4482,30 @@ let _openProjectSeq = 0;
 let _pmHireTimer = null;
 let _pmHireDismissed = false;
 
+// Postgres text[] comes back as "{url1,url2}" string — parse it to a real JS array
+function parseVideoUrls(raw) {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.filter(Boolean);
+  if (typeof raw === 'string') {
+    if (raw.startsWith('{') && raw.endsWith('}')) {
+      // Postgres text[] — split on comma but respect quoted values
+      const inner = raw.slice(1,-1);
+      const result = [];
+      let cur = '', inQ = false;
+      for (let i = 0; i < inner.length; i++) {
+        const c = inner[i];
+        if (c === '"') { inQ = !inQ; }
+        else if (c === ',' && !inQ) { if (cur) result.push(cur.trim()); cur = ''; }
+        else { cur += c; }
+      }
+      if (cur) result.push(cur.trim());
+      return result.filter(Boolean);
+    }
+    try { const p = JSON.parse(raw); if (Array.isArray(p)) return p.filter(Boolean); } catch(e) {}
+  }
+  return [];
+}
+
 function openProject(id) {
   const seq = ++_openProjectSeq;
   _pmHireDismissed = false;
@@ -4617,7 +4641,7 @@ function _renderProjectModal(p) {
 
   // Cover / video
   const coverArea = document.getElementById('pm-cover-area');
-  const videoList = (p.video_urls && p.video_urls.length) ? p.video_urls : (p.video_url ? [p.video_url] : []);
+  const videoList = parseVideoUrls(p.video_urls).length ? parseVideoUrls(p.video_urls) : (p.video_url ? [p.video_url] : []);
 
   if (videoList.length && coverArea) {
     if (videoList.length === 1) {
@@ -5602,7 +5626,7 @@ async function deleteProject(id) {
     S.projects = S.projects.filter(p => p.id !== id);
     // Also delete videos from storage
     if (proj) {
-      const urls = (proj.video_urls && proj.video_urls.length) ? proj.video_urls : (proj.video_url ? [proj.video_url] : []);
+      const urls = parseVideoUrls(proj.video_urls).length ? parseVideoUrls(proj.video_urls) : (proj.video_url ? [proj.video_url] : []);
       for (const url of urls) {
         try {
           const path = url.split('/project-videos/')[1];
@@ -6220,7 +6244,7 @@ function showPage(id, projOrUserId) {
   document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
   const nl = el('nav-' + id); if (nl) nl.classList.add('active');
   closeMob();
-  try { if (id !== 'splash') sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); } catch(e) {}
+  try { if (id !== 'splash') { sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); if (id !== 'profile') sessionStorage.removeItem('tl_username_redirect'); } } catch(e) {}
   try { if (id !== 'splash') localStorage.setItem('tl_visited', '1'); } catch(e) {}
   if (id !== 'splash') pushHash(id, projOrUserId);
   if (id === 'feed')      { const _force = !!S._feedForceRefresh; S._feedForceRefresh = false; loadFeed(_force); }
@@ -6367,7 +6391,7 @@ async function showProfileByUsername(username) {
         }).catch(() => {});
         logAnalyticsEvent(rows[0].id, 'view');
       }
-      try { sessionStorage.setItem('tl_last', 'profile|' + rows[0].id); } catch(e) {}
+      try { sessionStorage.setItem('tl_last', 'profile|' + rows[0].id); sessionStorage.setItem('tl_username_redirect', username); } catch(e) {}
     } else {
       showPage('feed');
     }
@@ -8434,7 +8458,7 @@ function openEditProject() {
   const curVid = document.getElementById('ep-video-current');
   function epRenderExistingVideos() {
     const p2 = S._currentProject;
-    const allUrls = (p2.video_urls && p2.video_urls.length) ? p2.video_urls : (p2.video_url ? [p2.video_url] : []);
+    const allUrls = parseVideoUrls(p2.video_urls).length ? parseVideoUrls(p2.video_urls) : (p2.video_url ? [p2.video_url] : []);
     const remaining = allUrls.filter(u => !window._epRemovedUrls.includes(u));
     if (!curVid) return;
     if (remaining.length) {
@@ -8464,7 +8488,7 @@ function openEditProject() {
   document.body.style.overflow = 'hidden';
   // Load existing cover thumbnail into edit picker
   _epThumbBlob = null;
-  const videoSrc = (p.video_urls && p.video_urls[0]) || p.video_url || null;
+  const videoSrc = parseVideoUrls(p.video_urls)[0] || p.video_url || null;
   loadEpThumbFromUrl(videoSrc, p.cover_url || null);
 }
 function openEditProjectById(id) {
