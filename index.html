@@ -5469,12 +5469,17 @@ async function saveProject(status) {
     if (_upThumbBlob) {
       try {
         el('upload-saving').textContent = 'Saving thumbnail...';
-        const thumbPath = S.profile.id + '/' + saved.id + '_thumb_' + Date.now() + '.jpg';
-        await sb.storage.from('project-videos').upload(thumbPath, _upThumbBlob, { contentType: 'image/jpeg', upsert: true });
-        const { data: thumbData } = sb.storage.from('project-videos').getPublicUrl(thumbPath);
-        if (thumbData?.publicUrl) {
-          await db('/projects?id=eq.' + saved.id, 'PATCH', { cover_url: thumbData.publicUrl }, token);
-          Object.assign(saved, { cover_url: thumbData.publicUrl });
+        const thumbFileName = saved.id + '_thumb_' + Date.now() + '.jpg';
+        const thumbSignRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileName: thumbFileName, contentType: 'image/jpeg' })
+        });
+        const { signedUrl: thumbSignedUrl, publicUrl: thumbPublicUrl } = await thumbSignRes.json();
+        await fetch(thumbSignedUrl, { method: 'PUT', headers: { 'Content-Type': 'image/jpeg' }, body: _upThumbBlob });
+        if (thumbPublicUrl) {
+          await db('/projects?id=eq.' + saved.id, 'PATCH', { cover_url: thumbPublicUrl }, token);
+          Object.assign(saved, { cover_url: thumbPublicUrl });
         }
       } catch(tErr) { console.warn('Thumbnail upload failed:', tErr.message); }
       _upThumbBlob = null;
@@ -8551,12 +8556,17 @@ async function saveEditProject() {
     }
     if (_epThumbBlob) {
       try {
-        const thumbPath = S.profile.id + '/' + id + '_thumb_' + Date.now() + '.jpg';
-        await sb.storage.from('project-videos').upload(thumbPath, _epThumbBlob, { contentType: 'image/jpeg', upsert: true });
-        const { data: thumbData } = sb.storage.from('project-videos').getPublicUrl(thumbPath);
-        if (thumbData?.publicUrl) {
-          await db('/projects?id=eq.' + id, 'PATCH', { cover_url: thumbData.publicUrl }, token);
-          updates.cover_url = thumbData.publicUrl;
+        const thumbFileName = id + '_thumb_' + Date.now() + '.jpg';
+        const thumbSignRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileName: thumbFileName, contentType: 'image/jpeg' })
+        });
+        const { signedUrl: thumbSignedUrl, publicUrl: thumbPublicUrl } = await thumbSignRes.json();
+        await fetch(thumbSignedUrl, { method: 'PUT', headers: { 'Content-Type': 'image/jpeg' }, body: _epThumbBlob });
+        if (thumbPublicUrl) {
+          await db('/projects?id=eq.' + id, 'PATCH', { cover_url: thumbPublicUrl }, token);
+          updates.cover_url = thumbPublicUrl;
         }
       } catch(tErr) { console.warn('Thumbnail upload failed:', tErr.message); }
       _epThumbBlob = null;
