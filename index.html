@@ -6563,7 +6563,7 @@ async function showProfileByUsername(username) {
     if (profileRow) {
       const rows = [profileRow]; // keep compat with code below
       // Clear stale content before rendering new profile
-      el('pname-el').textContent = '—';
+      { const _ne = el('pname-el'), _be = el('pbadge-el'); let _nt = _ne.firstChild; if (!_nt || _nt.nodeType !== Node.TEXT_NODE) { _nt = document.createTextNode('—'); _ne.insertBefore(_nt, _ne.firstChild); } else { _nt.textContent = '—'; } if (_be && _ne) { try { if (!_ne.contains(_be)) _ne.appendChild(_be); } catch(e) {} _be.style.display = 'none'; } }
       el('prole-el').textContent = '—';
       el('pfullbio-el').textContent = '';
       el('pav-wrap').innerHTML = '';
