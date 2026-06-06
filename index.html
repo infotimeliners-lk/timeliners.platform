@@ -3337,7 +3337,7 @@ async function restoreSession() {
     // Then try sessionStorage last page
     const lastRaw = (() => { try { return sessionStorage.getItem('tl_last') || ''; } catch(e){ return ''; } })();
     const [lastPg, lastSub] = lastRaw.split('|');
-    if (lastPg && KNOWN.includes(lastPg)) {
+    if (lastPg && KNOWN.includes(lastPg) && lastPg !== 'profile') {
       showPage(lastPg, lastSub || undefined);
       loadFeed();
       hideTlLoader();
@@ -4398,7 +4398,9 @@ function buildCard(p, idx) {
   let thumbHtml = '';
   if (p.video_url) {
     const poster = p.cover_url ? ' poster="' + p.cover_url + '"' : '';
-    thumbHtml = '<video class="pcard-video" data-src="' + p.video_url + '" muted loop playsinline preload="none"' + poster + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
+    const preload = p.cover_url ? 'none' : 'metadata';
+    const onMeta = !p.cover_url ? ' onloadedmetadata="this.currentTime=0.001"' : '';
+    thumbHtml = '<video class="pcard-video" data-src="' + p.video_url + '" muted loop playsinline preload="' + preload + '"' + poster + onMeta + ' style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0"></video>';
     if (p.cover_url) {
       thumbHtml += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity 0.3s ease">';
     }
@@ -4548,10 +4550,7 @@ function closeProjectModal() {
       if (ca) ca.innerHTML = '';
     }
   }, 400);
-  // Update URL/hash back to feed or whatever was active
-  const last = (function(){ try { return sessionStorage.getItem('tl_last') || ''; } catch(e){ return ''; } })();
-  const prevPage = last ? last.split('|')[0] : 'feed';
-  if (prevPage !== 'project') pushHash(prevPage);
+  // Don't touch the URL — it's already set to the underlying page (profile/feed/etc)
   _openProjectSeq++; // invalidate any in-flight requests
 }
 
@@ -6033,12 +6032,14 @@ function buildProfilePCard(p, isOwn, isHiddenFromPublic) {
   let thumbInner = '';
   if (p.video_url) {
     const poster = p.cover_url ? ' poster="' + p.cover_url + '"' : '';
-    thumbInner = '<video class="pcard-video" data-src="' + p.video_url + '" muted playsinline preload="none"' + poster + ' style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>';
+    const preload = p.cover_url ? 'none' : 'metadata';
+    const onMeta = !p.cover_url ? ' onloadedmetadata="this.currentTime=0.001"' : '';
+    thumbInner = '<video class="pcard-video" data-src="' + p.video_url + '" muted playsinline preload="' + preload + '"' + poster + onMeta + ' style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>';
     if (p.cover_url) {
       thumbInner += '<img class="pcard-cover-overlay" src="' + p.cover_url + '" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .25s">';
     }
   } else if (p.cover_url) {
-    thumbInner = '<img src="' + p.cover_url + '" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">';
+    thumbInner = '<img src="' + p.cover_url + '" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s" onload="this.style.opacity=1">';
   } else {
     thumbInner = '<div class="prof-pcard-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg4)">' + (p.author_init||'?') + '</div>';
   }
@@ -6369,9 +6370,12 @@ el('main-nav').style.display = 'none';
 const HASH_PAGES = ['feed','pricing','faq','profile','dashboard','project','reset-password'];
 
 let _showPageInProgress = false;
+let _lastPushedHash = '';
 function pushHash(id, extra) {
   const h = '#/' + id + (extra ? '/' + extra : '');
-  try { history.replaceState(null, '', h); } catch(e) {}
+  if (h === _lastPushedHash && location.hash === h) return; // already here, skip duplicate push
+  _lastPushedHash = h;
+  try { history.pushState({ page: id, sub: extra || null }, '', h); } catch(e) {}
 }
 
 // ── PAGE TRANSITION LOADER (refresh only) ────────────
@@ -6452,7 +6456,7 @@ function showPage(id, projOrUserId) {
   document.querySelectorAll('.nl').forEach(l => l.classList.remove('active'));
   const nl = el('nav-' + id); if (nl) nl.classList.add('active');
   closeMob();
-  try { if (id !== 'splash') { sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); if (id !== 'profile') sessionStorage.removeItem('tl_username_redirect'); } } catch(e) {}
+  try { if (id !== 'splash' && id !== 'profile') { sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); sessionStorage.removeItem('tl_username_redirect'); } } catch(e) {}
   try { if (id !== 'splash') localStorage.setItem('tl_visited', '1'); } catch(e) {}
   if (id !== 'splash') pushHash(id, projOrUserId);
   if (id === 'feed')      { const _force = !!S._feedForceRefresh; S._feedForceRefresh = false; loadFeed(_force); }
@@ -6522,7 +6526,7 @@ function showPage(id, projOrUserId) {
           if (prof.username) {
             try { history.replaceState({ un: prof.username }, '', '/' + prof.username); } catch(e) {}
           } else {
-            try { history.replaceState(null, '', '/#/profile'); } catch(e) {}
+            try { history.replaceState({ page: 'profile', sub: prof.id }, '', '/#/profile/' + prof.id); } catch(e) {}
           }
         }
       }).catch(e => console.warn('Profile load:', e));
@@ -6600,7 +6604,7 @@ async function showProfileByUsername(username) {
         }).catch(() => {});
         logAnalyticsEvent(rows[0].id, 'view');
       }
-      try { sessionStorage.setItem('tl_last', 'profile|' + rows[0].id); sessionStorage.setItem('tl_username_redirect', username); } catch(e) {}
+      try { sessionStorage.setItem('tl_last', 'feed'); } catch(e) {} // don't save profile as last page — let back nav handle profile history
     } else {
       showPage('feed');
     }
@@ -6650,8 +6654,8 @@ function restoreFromHash() {
   try {
     const last = sessionStorage.getItem('tl_last') || '';
     const [lp, ls] = last.split('|');
-    if (lp && HASH_PAGES.includes(lp) && lp !== 'splash') {
-      if ((lp === 'dashboard' || lp === 'profile') && !S.user) { showPage('feed'); return; }
+    if (lp && HASH_PAGES.includes(lp) && lp !== 'splash' && lp !== 'profile') {
+      if (lp === 'dashboard' && !S.user) { showPage('feed'); return; }
       showPage(lp, ls || undefined); return;
     }
   } catch(e) {}
@@ -6659,7 +6663,7 @@ function restoreFromHash() {
   // If logged in and was on a valid page, restore it. Otherwise show splash.
   try {
     const lp = (sessionStorage.getItem('tl_last') || '').split('|')[0];
-    if (S.user && lp && HASH_PAGES.includes(lp) && lp !== 'splash') {
+    if (S.user && lp && HASH_PAGES.includes(lp) && lp !== 'splash' && lp !== 'profile') {
       showPage(lp); return;
     }
   } catch(e) {}
@@ -6668,7 +6672,9 @@ function restoreFromHash() {
   loadFeed();
 }
 
+let _handlingPopstate = false;
 window.addEventListener('hashchange', () => {
+  if (_handlingPopstate) return; // popstate already handled this
   const raw   = location.hash.replace('#/', '');
   const parts = raw.split('/');
   const seg   = parts[0].toLowerCase();
@@ -6682,7 +6688,34 @@ window.addEventListener('hashchange', () => {
 });
 
 window.addEventListener('popstate', (e) => {
-  if (e.state?.un) showProfileByUsername(e.state.un);
+  // Suppress hashchange from also firing for this navigation
+  _handlingPopstate = true;
+  setTimeout(() => { _handlingPopstate = false; }, 100);
+  // Handle back/forward navigation
+  if (e.state?.un) {
+    // Username-based profile URL (e.g. /itzkaveesha)
+    showProfileByUsername(e.state.un);
+    return;
+  }
+  if (e.state?.page) {
+    // Normal hash page (pushed by pushHash)
+    showPage(e.state.page, e.state.sub || undefined);
+    return;
+  }
+  // Fallback: read hash from URL
+  const raw = location.hash.replace('#/', '');
+  const parts = raw.split('/');
+  const seg = parts[0].toLowerCase();
+  const sub = parts[1] || '';
+  const KNOWN = ['feed','pricing','faq','profile','dashboard','project'];
+  if (seg && KNOWN.includes(seg)) {
+    showPage(seg, sub || undefined);
+  } else if (location.pathname !== '/' && !location.pathname.match(/\.(html|js|css|png|ico|svg)$/)) {
+    const slug = location.pathname.replace(/^\//, '').split('/')[0];
+    if (slug) showProfileByUsername(slug);
+  } else {
+    showPage('feed');
+  }
 });
 
 // Desktop hover-to-play for cards outside feed-grid (e.g. profile pages)
