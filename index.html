@@ -112,6 +112,54 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 ::selection{background:rgba(254,115,10,.35);color:#fff}
 ::-moz-selection{background:rgba(254,115,10,.25);color:var(--t1)}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:99px}
+
+/* ── Portfolio owner controls ── */
+.prof-pcard{position:relative}
+.prof-pcard-menu-btn{position:relative;flex-shrink:0;width:26px;height:26px;border-radius:50%;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr);color:var(--t2);margin-top:.05rem}
+.prof-pcard-menu-btn:hover{background:transparent;color:var(--t1);border-color:transparent}
+.pcard-ctx-menu{position:absolute;top:100%;right:0;margin-top:.25rem;z-index:9999;background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--r);padding:.3rem 0;min-width:130px;width:fit-content;box-shadow:var(--shadow-lg);animation:popIn .14s cubic-bezier(.4,0,.2,1)}.pitem-menu-btn{position:absolute;top:.6rem;right:.6rem;z-index:15;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);transition:var(--tr);color:var(--t1)}.pitem-menu-btn:hover{background:rgba(0,0,0,.78);border-color:rgba(255,255,255,.3)}.pitem-menu-btn-sk{background:rgba(0,0,0,.4);top:.7rem;right:.7rem}
+.pcard-ctx-item{display:flex;align-items:center;gap:.55rem;padding:.5rem .8rem;font-size:.78rem;color:var(--t1);cursor:pointer;transition:background .12s;white-space:nowrap}
+.pcard-ctx-item:hover{background:var(--bg4)}
+.pcard-ctx-item.danger{color:#ef4444}
+.pcard-ctx-item.danger:hover{background:rgba(239,68,68,.1)}
+/* Add project card */
+.prof-pcard-add{text-decoration:none;cursor:pointer;display:block;color:inherit}
+.prof-pcard-add-thumb{width:100%;aspect-ratio:16/9;border-radius:12px;border:1.5px dashed var(--brd2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.85rem;transition:all .2s;background:transparent}
+.prof-pcard-add:hover .prof-pcard-add-thumb{border-color:var(--ac);background:rgba(254,115,10,.04)}
+.prof-pcard-add-ico{width:52px;height:52px;border-radius:50%;background:rgba(254,115,10,.12);display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.prof-pcard-add:hover .prof-pcard-add-ico{background:rgba(254,115,10,.22)}
+.prof-pcard-add-btn{font-size:.78rem;font-weight:600;color:var(--t2);background:transparent;border:1.5px solid var(--brd2);border-radius:6px;padding:.35rem 1rem;transition:all .2s;pointer-events:none}
+.prof-pcard-add:hover .prof-pcard-add-btn{border-color:var(--ac);color:var(--ac)}
+.prof-pcard-add-info{padding:.65rem 0 0}
+.prof-pcard-add-lbl{font-size:.72rem;color:var(--t3);text-align:left;line-height:1.45;margin-top:.25rem}.prof-pcard-locked{cursor:default;opacity:.7}.prof-pcard-locked .prof-pcard-thumb{aspect-ratio:9/7;background:var(--bg3);border-radius:var(--rlg);border:1.5px dashed rgba(254,115,10,.3)}
+.prof-pcard-hidden{cursor:default;position:relative;opacity:1}
+.prof-pcard-hidden .prof-pcard-thumb{position:relative;overflow:hidden}
+.prof-pcard-hidden .prof-pcard-thumb::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.prof-pcard-hidden-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;pointer-events:none}
+.prof-pcard-hidden-lock{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:rgba(254,115,10,.15);border:1.5px solid rgba(254,115,10,.35);border-radius:50%}
+.prof-pcard-hidden-lbl{font-size:.65rem;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:.3px;text-transform:uppercase}
+.prof-pcard-hidden .prof-pcard-title{color:var(--t3)!important;filter:blur(3.5px);user-select:none;pointer-events:none}
+.prof-pcard-hidden .prof-pcard-meta{opacity:.5;filter:blur(2px);user-select:none;pointer-events:none}
+.prof-pcard-hidden-badge{display:inline-flex;align-items:center;gap:.28rem;font-size:.67rem;font-weight:700;color:var(--ac);background:rgba(254,115,10,.12);border:1px solid rgba(254,115,10,.25);border-radius:50px;padding:.22rem .6rem;margin-top:.3rem;cursor:pointer;transition:background .15s}
+.prof-pcard-hidden-badge:hover{background:rgba(254,115,10,.22)}
+.prof-pcard-owner-hidden{position:relative}
+.prof-pcard-owner-hidden-banner{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:center;gap:.35rem;padding:.35rem .6rem;background:rgba(12,12,14,.82);border-bottom:1px solid rgba(254,115,10,.2);border-radius:var(--rlg) var(--rlg) 0 0;font-size:.6rem;font-weight:700;color:rgba(254,115,10,.9);letter-spacing:.3px;text-transform:uppercase;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.prof-pcard-owner-hidden .prof-pcard-thumb{opacity:.55}
+#prof-load-overlay{position:fixed;inset:0;z-index:9998;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;opacity:0;visibility:hidden;transition:opacity .2s ease,visibility .2s ease}
+#prof-load-overlay.plo-show{opacity:1;visibility:visible}
+#prof-load-overlay.plo-hide{opacity:0;visibility:hidden;pointer-events:none}
+.plo-wordmark{font-family:var(--fm);font-size:1.3rem;font-weight:700;color:#FE730A;letter-spacing:-.01em}
+.plo-track{width:110px;height:2px;border-radius:2px;background:var(--bg3);overflow:hidden}
+.plo-fill{height:100%;width:0%;background:linear-gradient(90deg,#FE730A,#ff9a3c);border-radius:2px}
+/* Locked tab state */
+.ptab-btn-locked{opacity:1;cursor:pointer;position:relative}
+.ptab-btn-locked::after{content:'PRO';font-size:.42rem;font-weight:700;letter-spacing:.4px;background:var(--ac);color:#fff;padding:.06rem .28rem;border-radius:50px;position:absolute;top:-4px;right:-6px;line-height:1.5}
+/* Add-item card for skills/services */
+.prof-add-inline-card{display:flex;align-items:center;gap:.7rem;padding:.75rem 1rem;background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);cursor:pointer;transition:all .2s;margin-top:.6rem}
+.prof-add-inline-card:hover{border-color:var(--ac);background:var(--acg)}
+.prof-add-inline-card span{font-size:.8rem;font-weight:600;color:var(--t2);transition:color .15s}
+.prof-add-inline-card:hover span{color:var(--ac)}
+
 .page{display:none;min-height:100vh}.page.active{display:block}
 /* SPLASH */
 
@@ -303,8 +351,6 @@ html.light .fsrch input{color:var(--t1)}
 .pcard-likes{display:flex;align-items:center;gap:.2rem;font-size:.62rem;color:var(--t3);flex-shrink:0}
 /* PROFILE PAGE · single-page card layout, no cover banner */
 #page-profile{padding-top:58px;min-height:100vh;background:var(--bg)}
-#page-profile.active{animation:profFadeUp .45s cubic-bezier(.22,.68,0,1.2) both}
-@keyframes profFadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 /* ── CONCEPT 4: Hero Intro + Horizontal Project Strip ── */
 /* ── PROFILE PAGE · full vertical layout ── */
 /* ── Profile outer wrapper ── */
@@ -393,7 +439,7 @@ html.light .fsrch input{color:var(--t1)}
 /* Project cards — no outer box, thumbnail is the card */
 .prof-proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem 1rem}
 /* Project card — no border box, no outline. Thumbnail first, info below */
-.prof-pcard{background:transparent;border:none;border-radius:0;overflow:visible;cursor:pointer;transition:.22s cubic-bezier(.4,0,.2,1);text-decoration:none;display:block;color:inherit;box-shadow:none}.prof-pcard:hover{transform:translateY(-3px)}.prof-pcard *{pointer-events:none}
+.prof-pcard{background:transparent;border:none;border-radius:0;overflow:visible;cursor:pointer;transition:.22s cubic-bezier(.4,0,.2,1);text-decoration:none;display:block;color:inherit;box-shadow:none}.prof-pcard:hover{transform:translateY(-3px)}.prof-pcard *{pointer-events:auto}.prof-pcard-menu-btn{pointer-events:auto!important;position:relative!important}
 .prof-pcard-skel{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;overflow:hidden;pointer-events:none}
 .prof-pcard-skel-thumb{aspect-ratio:16/9;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg5,#2a2a2f) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite}
 .prof-pcard-skel-body{padding:.9rem 0}
@@ -580,7 +626,7 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .fbot{border-top:1px solid var(--brd);padding-top:.88rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.85rem}
 .fcopy{font-size:.75rem;color:var(--t2)}
 .tag-chip{display:inline-flex;align-items:center;gap:.25rem;background:rgba(254,115,10,.1);border:1px solid rgba(254,115,10,.25);color:var(--ac);font-size:.72rem;font-weight:500;padding:.14rem .5rem;border-radius:50px;white-space:nowrap;margin:.08rem}.tag-chip-x{cursor:pointer;font-size:.85rem;line-height:1;opacity:.7;margin-left:.1rem}.tag-chip-x:hover{opacity:1}
-.toast{position:fixed;bottom:18px;right:18px;z-index:9999;background:var(--bg2);border:1px solid var(--brd2);color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:250px}.toast.show{transform:translateY(0);opacity:1}.toast-ico{color:var(--ac)}
+.toast{position:fixed;bottom:18px;right:18px;z-index:2147483647;background:var(--bg2);border:1px solid var(--brd2);color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:280px;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;isolation:isolate}.toast.show{transform:translateY(0);opacity:1}.toast-ico{color:var(--ac)}
 /* Responsive */
 @media(max-width:1100px){.pgrid{grid-template-columns:repeat(2,1fr)}.ppgrid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:repeat(2,1fr)}}
 /* ── CINEMATIC PROJECT MODAL ── */
@@ -1417,16 +1463,25 @@ img, video, iframe, canvas { max-width: 100%; }
 #page-splash.spl-ready .spl-btns{animation:splUp .5s cubic-bezier(.4,0,.2,1) .48s forwards}
 @keyframes splUp{to{opacity:1;transform:translateY(0)}}
 
-/* ══ PAGE TRANSITION — slide-up fade ══ */
-.page-enter{animation:pageEnter .25s cubic-bezier(.4,0,.2,1) both}
+/* ══ PAGE TRANSITIONS ══ */
+.page-enter{animation:pageEnter .38s cubic-bezier(.25,.8,.25,1) both}
 @keyframes pageEnter{
-  from{opacity:0;transform:translateY(10px)}
+  from{opacity:0;transform:translateY(12px)}
   to{opacity:1;transform:translateY(0)}
 }
 /* Project page staggered entrance */
-#page-project.page-enter .pv-top{animation:pageEnter .28s cubic-bezier(.4,0,.2,1) .04s both}
-#page-project.page-enter .pv-cover{animation:pageEnter .28s cubic-bezier(.4,0,.2,1) .1s both}
-#page-project.page-enter .pv-body{animation:pageEnter .28s cubic-bezier(.4,0,.2,1) .16s both}
+#page-project.page-enter .pv-top{animation:pageEnter .32s cubic-bezier(.22,.68,0,1.05) .04s both}
+#page-project.page-enter .pv-cover{animation:pageEnter .32s cubic-bezier(.22,.68,0,1.05) .1s both}
+#page-project.page-enter .pv-body{animation:pageEnter .32s cubic-bezier(.22,.68,0,1.05) .16s both}
+
+/* ══ PROFILE — hidden until data loads, then fades in ══ */
+#page-profile{display:none !important}
+#page-profile.prof-ready{display:block !important;animation:profItemIn .4s cubic-bezier(.25,.8,.25,1) both}
+#page-profile.prof-ready .prof-right-sec{animation:profItemIn .4s cubic-bezier(.25,.8,.25,1) .1s both}
+@keyframes profItemIn{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
 /* ── HIRE CONTACT MODAL ── */
 #hire-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem}
 #hire-overlay.open{display:flex}
@@ -1465,6 +1520,7 @@ img, video, iframe, canvas { max-width: 100%; }
 
 /* Masonry grid container — CSS columns = true Pinterest flow */
 #profile-skills-list{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;align-items:stretch;width:100%}
+#profile-skills-list .prof-add-inline-card{grid-column:1/-1}
 @media(max-width:1024px){#profile-skills-list{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){
   #profile-skills-list{grid-template-columns:1fr!important;width:100%!important;box-sizing:border-box!important;min-width:0!important}
@@ -1546,8 +1602,24 @@ img, video, iframe, canvas { max-width: 100%; }
 .sm-sw-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(254,115,10,.12);border:1px solid rgba(254,115,10,.25);color:var(--ac);border-radius:50px;padding:.2rem .65rem .2rem .75rem;font-size:.74rem;font-weight:500;white-space:nowrap}.sm-sw-chip button{background:none;border:none;color:var(--ac);opacity:.7;cursor:pointer;font-size:.8rem;line-height:1;padding:0;display:flex;align-items:center;transition:.12s}.sm-sw-chip button:hover{opacity:1}
 .sm-proj-check-label{display:flex;align-items:center;gap:.65rem;padding:.5rem .75rem;border-radius:var(--r);background:var(--bg3);border:1px solid var(--brd);cursor:pointer;transition:.14s;position:relative}.sm-proj-check-label:hover{border-color:var(--brd2);background:var(--bg4)}.sm-proj-check-label input[type="checkbox"]{position:absolute;opacity:0;width:0;height:0}.sm-proj-custom-check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--brd3);background:var(--bg5);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.14s}.sm-proj-check-label:has(input:checked) .sm-proj-custom-check{background:var(--ac);border-color:var(--ac)}.sm-proj-check-label:has(input:checked){border-color:rgba(254,115,10,.3);background:rgba(254,115,10,.04)}.sm-check-tick{display:none}.sm-proj-check-label:has(input:checked) .sm-check-tick{display:block}
 .ptab-btn{font-family:var(--fm);font-size:.75rem;padding:.34rem .95rem;border-radius:50px;border:none !important;outline:none !important;box-shadow:none !important;cursor:pointer;transition:background .22s ease,color .22s ease,font-weight .22s ease;-webkit-appearance:none;appearance:none}.ptab-btn.ptab-active{background:var(--ac);color:#fff;font-weight:600}.ptab-btn.ptab-off{background:transparent !important;color:var(--t2);font-weight:500}
-@keyframes ptabFadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.ptab-fadein{animation:ptabFadeIn .22s cubic-bezier(.4,0,.2,1) both}
+@keyframes ptabFadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideInUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInScale{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+@keyframes dashPanelIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.ptab-fadein{animation:ptabFadeIn .32s cubic-bezier(.22,.68,0,1.05) both}
+/* ── Smooth UI enhancements ── */
+.ptab-btn{transition:background .22s ease,color .22s ease,font-weight .22s ease,transform .16s ease,box-shadow .16s ease !important}
+.ptab-btn:hover:not(.ptab-active){transform:translateY(-1px);color:var(--t1)}
+/* Profile tab content: smooth opacity transition */
+#profile-proj-grid-wrap,#profile-cat-grid-wrap,#profile-skills-wrap,#profile-services-wrap{transition:opacity .28s ease;will-change:opacity}
+/* Dashboard panel smooth entry */
+.dash-panel.active{animation:dashPanelIn .28s cubic-bezier(.22,.68,0,1.05) both}
+/* Page transition upgrade */
+@keyframes pageEnterUpgrade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+/* Smooth nav link hover */
+.nl{transition:color .16s ease}
+/* Smooth dcard entries in dashboard */
+.dcard{transition:box-shadow .18s ease,border-color .18s ease}
 #skill-modal-overlay.open{display:flex}
 /* ── SERVICES FEATURE ──────────────────── */
 /* Dashboard rows */
@@ -1563,8 +1635,9 @@ img, video, iframe, canvas { max-width: 100%; }
 .dash-svc-btn.del:hover{border-color:rgba(239,68,68,.4);color:rgba(239,68,68,.8)}
 
 /* Public profile service cards — pricing card style */
-#profile-services-list{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;width:100%}
-@media(max-width:768px){#profile-services-list{flex-direction:column;align-items:center}}
+#profile-services-list{display:flex;flex-wrap:wrap;gap:1rem;justify-content:flex-start;width:100%}
+#profile-services-list .prof-add-inline-card{flex-basis:100%;width:100%;margin-top:.2rem}
+@media(max-width:768px){#profile-services-list{flex-direction:column;align-items:stretch}}
 .psvc-card{border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .22s,box-shadow .22s;background:var(--bg2);border:1.5px solid var(--brd2);width:280px;flex-shrink:0;box-shadow:0 4px 20px rgba(0,0,0,.35)}
 @media(max-width:768px){.psvc-card{width:100%;max-width:100%}}
 .psvc-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.55)}
@@ -1689,7 +1762,7 @@ img, video, iframe, canvas { max-width: 100%; }
   });
 })();
 </script>
-<div class="toast" id="toast"><span class="toast-ico"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><circle cx="3.5" cy="3.5" r="3.5" fill="var(--ac)"/></svg></span><span id="tmsg"></span></div>
+
 
 <!-- ══ AUTH MODAL · only appears when Sign In is clicked ══ -->
 <div id="auth-overlay" onclick="if(event.target===this)closeAuth()">
@@ -2167,10 +2240,7 @@ img, video, iframe, canvas { max-width: 100%; }
           <svg width="14" height="14" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".9"/></svg>
           Hire Me
         </button>
-        <button class="prof-share-btn" id="p-share-btn" onclick="openShareModal()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Share
-        </button>
+
         <button class="prof-edit-btn" id="p-edit-btn" style="display:none" onclick="showPage('dashboard');setTimeout(()=>switchDash('editprofile',document.getElementById('dnav-editprofile')),80)">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>
           Edit Profile
@@ -2183,10 +2253,13 @@ img, video, iframe, canvas { max-width: 100%; }
     <!-- PROJECTS — no card box -->
     <div class="prof-right-sec">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
-        <div class="prof-right-sec-h" id="prof-section-label" style="margin-bottom:0">Projects</div>
+        <div style="display:flex;align-items:center;gap:.6rem">
+          <div class="prof-right-sec-h" id="prof-section-label" style="margin-bottom:0">Projects</div>
+          <button id="prof-section-add-btn" style="display:none;align-items:center;gap:.35rem;padding:.28rem .7rem .28rem .45rem;border-radius:50px;border:1.5px solid var(--brd2);background:transparent;color:var(--t2);font-size:.72rem;font-weight:600;cursor:pointer;transition:all .18s;font-family:var(--fm)" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Add</button>
+        </div>
         <div id="prof-tab-btns" style="display:flex;gap:.15rem;align-items:center">
           <button id="ptab-all" class="ptab-btn ptab-active" onclick="switchProfileTab('all')">Projects</button>
-          <button id="ptab-skills" class="ptab-btn ptab-off" onclick="switchProfileTab('skills')">Skills</button>
+          <button id="ptab-skills" class="ptab-btn ptab-off" onclick="switchProfileTab('skills')" style="display:none">Skills</button>
           <button id="ptab-services" class="ptab-btn ptab-off" onclick="switchProfileTab('services')" style="display:none">Services</button>
         </div>
       </div>
@@ -2198,17 +2271,23 @@ img, video, iframe, canvas { max-width: 100%; }
       </div>
       <!-- SKILLS PUBLIC TAB -->
       <div id="profile-skills-wrap" style="display:none">
-        <div id="profile-skills-empty" style="display:none;text-align:center;padding:3rem 1rem;font-size:.82rem;color:var(--t3)">No skills added yet.</div>
+        <div id="profile-skills-empty" style="display:none;text-align:center;padding:3.5rem 1rem">
+          <div style="font-size:.84rem;color:var(--t3);margin-bottom:.9rem">No skills added yet.</div>
+          <button class="btn btn-p btn-sm" id="profile-skills-empty-btn" style="display:none" onclick="openSkillModal()">+ Add your first skill</button>
+        </div>
         <div id="profile-skills-list"></div>
       </div>
       <!-- SERVICES PUBLIC TAB -->
       <div id="profile-services-wrap" style="display:none">
-        <div id="profile-services-empty" style="display:none;text-align:center;padding:3rem 1rem;font-size:.82rem;color:var(--t3)">No services listed yet.</div>
+        <div id="profile-services-empty" style="display:none;text-align:center;padding:3.5rem 1rem">
+          <div style="font-size:.84rem;color:var(--t3);margin-bottom:.9rem">No services listed yet.</div>
+          <button class="btn btn-p btn-sm" id="profile-services-empty-btn" style="display:none" onclick="openServiceModal()">+ Add your first service</button>
+        </div>
         <div id="profile-services-list"></div>
       </div>
       <div class="prof-noproj" id="pnores" style="display:none">
         No published projects yet.
-        <div style="margin-top:.8rem"><button class="btn btn-p btn-sm" id="pnores-upload-btn" style="display:none" onclick="showPage('dashboard');switchDash('upload',document.getElementById('dnav-upload'))">Upload a project <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+        <div style="margin-top:.8rem"><button class="btn btn-p btn-sm" id="pnores-upload-btn" style="display:none" onclick="openUploadModal()">Upload a project</button></div>
       </div>
     </div>
 
@@ -2281,7 +2360,7 @@ img, video, iframe, canvas { max-width: 100%; }
         </div>
         <button class="pv-like" id="pv-like-btn" onclick="toggleProjLike()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>Like this project</button>
         <button class="pv-hire" id="pv-hire-btn"><svg width="12" height="12" viewBox="0 0 13 13" fill="none"><path d="M6.5 1C3.7 1 1.5 3.2 1.5 6.5c0 1 .26 1.95.7 2.77L1.5 12l2.87-.69A5.5 5.5 0 106.5 1z" fill="white" opacity=".85"/></svg>Hire This Editor</button>
-        <button class="pv-like" id="pv-edit-btn" style="display:none;margin-top:.4rem;gap:.4rem" onclick="openEditProject()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Edit Project</button>
+        <button class="pv-like" id="pv-edit-btn" style="display:none;margin-top:.4rem;gap:.4rem" onclick="closeProjectModal();setTimeout(openEditProject,180)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Edit Project</button>
         <div class="pv-author-mini">
           <div class="pv-author-av"><div id="pv-sb-av" style="width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:white">?</div></div>
           <div style="font-size:.87rem;font-weight:600;color:var(--t1);margin-bottom:.14rem" id="pv-sb-name">—</div>
@@ -2325,7 +2404,7 @@ img, video, iframe, canvas { max-width: 100%; }
           <span class="pm-stat"><strong id="pm-views">0</strong>views</span>
           <span class="pm-stat"><strong id="pm-likes-n">0</strong>likes</span>
         </div>
-        <button class="pv-like" id="pm-edit-btn" style="display:none;gap:.4rem;margin-top:.2rem;border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.65)" onclick="openEditProject()">
+        <button class="pv-like" id="pm-edit-btn" style="display:none;gap:.4rem;margin-top:.2rem;border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:rgba(255,255,255,.65)" onclick="closeProjectModal();setTimeout(openEditProject,180)">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>Edit Project
         </button>
       </div>
@@ -2450,15 +2529,16 @@ img, video, iframe, canvas { max-width: 100%; }
       <div class="dash-nav">
         <a class="dni active" id="dnav-overview" href="#/dashboard" onclick="event.preventDefault();switchDash('overview',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></div>Overview</a>
         <a class="dni" id="dnav-account" href="#/dashboard" onclick="event.preventDefault();switchDash('account',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></div>Account</a>
-        <a class="dni" id="dnav-upload" href="#/dashboard" onclick="event.preventDefault();switchDash('upload',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M4 4L7 1l3 3M2 11h10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Upload Project</a>
-        <a class="dni" id="dnav-projects" href="#/dashboard" onclick="event.preventDefault();switchDash('projects',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M4 5h6M4 7.5h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>My Projects</a>
+        <!-- Hidden nav anchors — kept for switchDash() compatibility, accessed via portfolio shortcuts -->
+        <a style="display:none" id="dnav-upload" href="#/dashboard" onclick="event.preventDefault();switchDash('upload',this)"></a>
+        <a style="display:none" id="dnav-projects" href="#/dashboard" onclick="event.preventDefault();switchDash('projects',this)"></a>
+        <a style="display:none" id="dnav-skills" href="#/dashboard" onclick="event.preventDefault();switchDash('skills',this)"></a>
+        <a style="display:none" id="dnav-services" href="#/dashboard" onclick="event.preventDefault();switchDash('services',this)"></a>
         <a class="dni" id="dnav-editprofile" href="#/dashboard" onclick="event.preventDefault();switchDash('editprofile',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg></div>Edit Profile</a>
         <a class="dni" id="dnav-analytics" href="#/dashboard" onclick="event.preventDefault();switchDash('analytics',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-4 2.5 2 3-5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Analytics<span style="font-size:.48rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--ac);color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">Pro</span></a>
-        <a class="dni" id="dnav-skills" href="#/dashboard" onclick="event.preventDefault();switchDash('skills',this)" style="position:relative"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 9.5l5 2.5 5-2.5M2 7l5 2.5L12 7M2 4.5l5-2.5 5 2.5-5 2.5-5-2.5z" stroke="currentColor" stroke-width="1.15" stroke-linejoin="round" fill="none"/></svg></div>Skills<span style="font-size:.48rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--ac);color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">Pro</span></a>
-        <a class="dni" id="dnav-services" href="#/dashboard" onclick="event.preventDefault();switchDash('services',this)" style="position:relative"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.15" fill="none"/><path d="M4.5 5h5M4.5 7.5h3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M9.5 9l1.5 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>Services<span style="font-size:.48rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--ac);color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">Pro</span></a>
 
         <hr class="dndiv">
-        <a class="dni" href="#/profile" onclick="event.preventDefault();showPage('profile')"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>View Portfolio</a>
+        <a class="dni" href="#/profile" onclick="event.preventDefault();showPage('profile')" style="color:var(--ac);font-weight:600"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="var(--ac)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>My Portfolio</a>
         <a class="dni" href="#" onclick="event.preventDefault();handleSignOut()" style="color:rgba(239,68,68,.6)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M9.5 4.5L13 7l-3.5 2.5M13 7H5" stroke="rgba(239,68,68,.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Sign Out</a>
       </div>
 
@@ -2511,6 +2591,22 @@ img, video, iframe, canvas { max-width: 100%; }
             </div>
             <div style="font-size:.82rem;color:var(--t1);font-weight:500;margin-bottom:.25rem" id="ov-tip-title">Loading tip...</div>
             <div style="font-size:.75rem;color:var(--t2);line-height:1.55" id="ov-tip-body"></div>
+          </div>
+
+          <!-- Portfolio Quick Actions -->
+          <div class="dcard" style="margin-bottom:1rem">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem">
+              <div>
+                <div style="font-size:.65rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.22rem">Your Portfolio</div>
+                <div style="font-size:.88rem;font-weight:600;color:var(--t1)">Manage your content</div>
+              </div>
+              <a href="#/profile" onclick="event.preventDefault();showPage('profile')" style="font-size:.74rem;color:var(--ac);font-weight:500;text-decoration:none;display:flex;align-items:center;gap:.3rem">View <svg width="10" height="10" viewBox="0 0 11 11" fill="none"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="var(--ac)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem">
+              <button onclick="window._profTabState='all';showPage('profile')" style="padding:.7rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.73rem;font-weight:600;color:var(--t1)" onmouseover="this.style.borderColor='var(--ac)';this.style.background='var(--acg)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.background='var(--bg3)';this.style.color='var(--t1)'">Upload Project</button>
+              <button onclick="window._profTabState='skills';showPage('profile')" style="padding:.7rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.73rem;font-weight:600;color:var(--t1)" onmouseover="this.style.borderColor='var(--ac)';this.style.background='var(--acg)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.background='var(--bg3)';this.style.color='var(--t1)'">Add Skill</button>
+              <button onclick="window._profTabState='services';showPage('profile')" style="padding:.7rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.73rem;font-weight:600;color:var(--t1)" onmouseover="this.style.borderColor='var(--ac)';this.style.background='var(--acg)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.background='var(--bg3)';this.style.color='var(--t1)'">Add Service</button>
+            </div>
           </div>
 
           <div class="gate-banner" id="gate-banner" style="display:none">
@@ -2613,405 +2709,185 @@ img, video, iframe, canvas { max-width: 100%; }
           </div>
         </div>
 
-        <!-- UPLOAD PROJECT -->
-        <div class="dash-panel" id="dash-panel-upload">
-          <div class="gate-banner" id="upload-gate" style="display:none">
-            <h3>Upgrade to publish projects</h3>
-            <p>Upgrade to <strong>Pro</strong> for unlimited projects, priority search ranking, verified badge, analytics and social links.</p>
-            <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">See Plans <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          </div>
-          <div class="dcard">
-            <div class="dcard-h">Upload New Project</div>
-            <div class="dcard-sub" id="upload-sub-txt">Share your work with the Timeliners community.</div>
-            <div class="df"><label class="dl">Project Title</label><input class="di" id="up-title" type="text" placeholder="e.g. Brand Identity · Ceylon Tea Co."></div>
-            <div class="d2col">
-              <div class="df"><label class="dl">Category</label>
-<div class="cdd" id="up-cat-cdd" style="width:100%">
-  <button type="button" class="cdd-btn" id="up-cat-btn" style="width:100%;justify-content:space-between" onclick="toggleCdd('up-cat-cdd')">
-    <span id="up-cat-lbl">Video Edit</span>
-    <svg class="cdd-arrow" width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <div class="cdd-menu" style="width:100%">
-    <div class="cdd-opt selected" data-val="video" onclick="setCdd('up-cat-cdd','video','Video Edit');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='video'">Video Edit</div>
-    <div class="cdd-opt" data-val="motion" onclick="setCdd('up-cat-cdd','motion','Motion Graphics');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='motion'">Motion Graphics</div>
-    <div class="cdd-opt" data-val="film" onclick="setCdd('up-cat-cdd','film','Film / Cinematic');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='film'">Film / Cinematic</div>
-    <div class="cdd-opt" data-val="social" onclick="setCdd('up-cat-cdd','social','Reels / Shorts / TikTok');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='social'">Reels / Shorts / TikTok</div>
-    <div class="cdd-opt" data-val="longform" onclick="setCdd('up-cat-cdd','longform','Long-form');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='longform'">Long-form</div>
-    <div class="cdd-opt" data-val="3d" onclick="setCdd('up-cat-cdd','3d','3D &amp; VFX');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='3d'">3D &amp; VFX</div>
-    <div class="cdd-opt" data-val="wedding" onclick="setCdd('up-cat-cdd','wedding','Wedding &amp; Events');document.getElementById('up-cat-custom-wrap').style.display='none';document.getElementById('up-cat').value='wedding'">Wedding &amp; Events</div>
-    <div class="cdd-opt" data-val="other" onclick="setCdd('up-cat-cdd','other','Other · Type below');document.getElementById('up-cat').value='other';document.getElementById('up-cat-custom-wrap').style.display='block'">Other</div>
-  </div>
-  <div id="up-cat-custom-wrap" style="display:none;margin-top:.5rem"><input class="di" id="up-cat-custom" type="text" placeholder="e.g. Wedding Films, Documentary..." maxlength="40" oninput="document.getElementById('up-cat').value=this.value.trim()||'other'" style="font-size:.84rem"></div>
-  <select class="cdd-hidden" id="up-cat"><option value="video">Video Edit</option><option value="motion">Motion Graphics</option><option value="film">Film / Cinematic</option><option value="social">Reels / Shorts / TikTok</option><option value="longform">Long-form</option><option value="3d">3D &amp; VFX</option><option value="wedding">Wedding &amp; Events</option><option value="other">Other</option></select>
-</div></div>
-              <div class="df"><label class="dl">Year</label><input class="di" id="up-year" type="text" placeholder="2024"></div>
-            </div>
-    <div class="df"><label class="dl">Description</label><textarea class="dta" id="up-desc" placeholder="Describe the project, tools used, and your role..." style="min-height:140px"></textarea></div>
-            <div class="df">
-              <label class="dl">Tags <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· press Enter to add</span></label>
-              <div id="up-tags-wrap" style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;padding:.42rem .6rem;border:1px solid var(--brd2);border-radius:var(--r);background:var(--bg3);min-height:38px;cursor:text;transition:border-color .15s" onclick="document.getElementById('up-tags-input').focus()">
-                <span id="up-tags-chips"></span>
-                <input id="up-tags-input" type="text" placeholder="Add a tag..." style="border:none;outline:none;background:transparent;font-size:.84rem;color:var(--t1);min-width:120px;flex:1;font-family:var(--fm);padding:0" onkeydown="handleTagKey(event)">
-              </div>
-              <input type="hidden" id="up-tags">
-            </div>
-            <!-- Multi-video Upload -->
-            <div class="df">
-              <label class="dl">Project Videos</label>
-              <div id="video-list" style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.45rem"></div>
-              <button type="button" onclick="addVideoSlot()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.65rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr)" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
-                Add Video (MP4, WEBM)
-              </button>
-              <div id="video-upload-progress" style="display:none;margin-top:.6rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem .9rem">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem">
-                  <span style="font-size:.68rem;font-weight:600;color:var(--t1)">Uploading video...</span>
-                  <span id="video-progress-txt" style="font-size:.65rem;color:var(--ac);font-weight:600">0%</span>
-                </div>
-                <div style="background:var(--bg4);border-radius:50px;height:6px;overflow:hidden">
-                  <div id="video-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--ac),#ff9a3c);width:0%;transition:width .15s ease;border-radius:50px"></div>
-                </div>
-                <div style="font-size:.62rem;color:var(--t3);margin-top:.3rem">Please keep this tab open while uploading</div>
-              </div>
-            </div>
-            <div id="storage-bar-wrap" style="display:none;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.72rem .9rem;margin-bottom:.75rem"></div>
 
-            <!-- Thumbnail / Cover Upload -->
-            <div class="df" id="up-thumb-section">
-              <label class="dl">Cover Thumbnail <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">· shown before video plays</span></label>
-              <div id="up-thumb-preview-wrap" style="display:none;margin-bottom:.45rem;position:relative;border-radius:var(--r);overflow:hidden;background:#000;aspect-ratio:16/9;max-width:280px">
-                <img id="up-thumb-preview-img" src="" style="width:100%;height:100%;object-fit:cover;display:block">
-                <button onclick="clearUpThumb()" style="position:absolute;top:.3rem;right:.3rem;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.65);border:none;color:#fff;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
-              </div>
-              <label class="upload-zone" style="padding:.85rem 1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;cursor:pointer;text-align:center;position:relative;min-height:64px" id="up-thumb-zone">
-                <input type="file" accept="image/*" id="up-thumb-input" onchange="handleUpThumbCustom(this)" style="position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer">
-                <svg width="18" height="18" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 4L7 1l3 3M2 11h10" stroke="var(--t2)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <div>
-                  <div style="font-size:.83rem;font-weight:600;color:var(--t1);margin-bottom:.1rem" id="up-thumb-lbl">Upload cover image</div>
-                  <div style="font-size:.64rem;color:var(--t3)">PNG, JPG, WEBP · max 5 MB</div>
-                </div>
-              </label>
-            </div>
-
-            <div style="display:flex;gap:.58rem;align-items:center;flex-wrap:wrap;margin-top:.4rem">
-              <button class="dsave" id="pub-btn" onclick="saveProject('published')">Publish Project</button>
-              <button class="dbtn-o" onclick="saveProject('draft')">Save as Draft</button>
-              <span id="upload-saving" style="font-size:.72rem;color:var(--t3);display:none">Saving...</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- MY PROJECTS -->
-        <div class="dash-panel" id="dash-panel-projects">
-          <div class="dcard">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.05rem">
-              <div><div class="dcard-h">My Projects</div><div class="dcard-sub" style="margin-bottom:0">All your saved and published work.</div></div>
-              <button class="dsave" style="font-size:.78rem;padding:.46rem .9rem" onclick="switchDash('upload',document.getElementById('dnav-upload'))">+ Upload</button>
-            </div>
-            <div class="proj-tbl-desktop" style="overflow-x:auto">
-              <table class="proj-tbl">
-                <thead><tr><th>Project</th><th>Category</th><th>Likes</th><th>Views</th><th>Status</th><th></th></tr></thead>
-                <tbody id="my-proj-tbody"></tbody>
-              </table>
-            </div>
-            <div class="proj-mob-list" id="my-proj-mob-list"></div>
-            <div id="my-proj-empty" style="display:none;text-align:center;padding:2.2rem;font-size:.78rem;color:var(--t3)">No projects yet. <a onclick="switchDash('upload',document.getElementById('dnav-upload'))" style="color:var(--ac)">Upload your first <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
-          </div>
-        </div>
-
-        <!-- EDIT PROFILE -->
+        <!-- ══ EDIT PROFILE PANEL ══ -->
         <div class="dash-panel" id="dash-panel-editprofile">
           <div class="dcard">
-            <div class="dcard-h">Profile Photo</div><div class="dcard-sub">Upload a profile picture · max 5 MB.</div>
-            <div style="display:flex;align-items:center;gap:1.2rem;margin-bottom:.85rem">
-              <div id="ep-av-preview" style="width:72px;height:72px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:white;flex-shrink:0;overflow:hidden">?</div>
-              <div style="flex:1">
-                <div class="upload-zone" style="padding:.85rem 1rem" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleAvatarDrop(event)">
-                  <input type="file" accept="image/*" id="avatar-file-input" onchange="handleAvatarSelect(this)">
-                  <div style="font-size:.81rem;font-weight:500;color:var(--t1);margin-bottom:.12rem">Click or drop image</div>
-                  <div style="font-size:.66rem;color:var(--t3)">PNG, JPG, WEBP · max 5 MB</div>
-                </div>
+            <div class="dcard-h">Edit Profile</div>
+            <div class="dcard-sub">Update your public portfolio profile.</div>
+
+            <!-- Avatar -->
+            <div class="df" style="align-items:center;gap:1rem;margin-bottom:.5rem">
+              <div id="ep-av-preview" style="width:56px;height:56px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#fff;overflow:hidden;flex-shrink:0;border:2px solid var(--brd2)"></div>
+              <div>
+                <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.35rem">Profile Photo</label>
+                <label style="font-size:.78rem;font-weight:500;color:var(--ac);cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;border:1px solid rgba(254,115,10,.3);border-radius:6px;padding:.3rem .75rem;transition:.15s" onmouseover="this.style.background='rgba(254,115,10,.08)'" onmouseout="this.style.background='transparent'">
+                  <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 4l3-3 3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="10" width="12" height="3" rx="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>
+                  Upload photo
+                  <input type="file" accept="image/*" style="display:none" onchange="handleAvatarSelect(this)">
+                </label>
               </div>
             </div>
-          </div>
-          <div class="dcard">
-            <div class="dcard-h">Profile Details</div><div class="dcard-sub">Your public profile information.</div>
-            <div class="df">
-              <label class="dl">Username <span style="color:var(--ac)">·</span> Your shareable link</label>
-              <div style="display:flex;align-items:center;gap:0;border:1px solid var(--brd2);border-radius:var(--r);overflow:hidden;background:var(--bg3)">
-                <span style="padding:.56rem .75rem;font-size:.82rem;color:var(--t3);background:var(--bg4);border-right:1px solid var(--brd2);white-space:nowrap;flex-shrink:0">timeliners.lk/@</span>
-                <input class="di" id="ep-username" type="text" placeholder="yourname" style="border:none;border-radius:0;background:transparent;flex:1">
-              </div>
-              <div style="font-size:.62rem;color:var(--t3);margin-top:.3rem">Only letters, numbers, underscores. Unique to you.</div>
+
+            <div class="d2col">
+              <div class="df"><label class="dl">Full Name</label><input class="di" id="ep-name" type="text" placeholder="Your name"></div>
+              <div class="df"><label class="dl">Username</label><input class="di" id="ep-username" type="text" placeholder="e.g. yourname" style="padding-left:.85rem"></div>
             </div>
             <div class="d2col">
-              <div class="df"><label class="dl">Display Name</label><input class="di" id="ep-name" type="text"></div>
-              <div class="df"><label class="dl">Specialty / Role</label><input class="di" id="ep-role" type="text" placeholder="Motion Graphics Artist"></div>
+              <div class="df"><label class="dl">Role / Title</label><input class="di" id="ep-role" type="text" placeholder="e.g. Video Editor"></div>
+              <div class="df"><label class="dl">City</label><input class="di" id="ep-city" type="text" placeholder="e.g. Colombo"></div>
             </div>
             <div class="d2col">
-              <div class="df"><label class="dl">City</label><input class="di" id="ep-city" type="text" placeholder="Colombo"></div>
-              <div class="df"><label class="dl">Experience</label><input class="di" id="ep-exp" type="text" placeholder="6 years"></div>
+              <div class="df"><label class="dl">Experience</label>
+                <select class="dsel" id="ep-exp">
+                  <option value="">Select</option>
+                  <option value="0-1">Less than 1 year</option>
+                  <option value="1-2">1–2 years</option>
+                  <option value="2-4">2–4 years</option>
+                  <option value="4-7">4–7 years</option>
+                  <option value="7+">7+ years</option>
+                </select>
+              </div>
             </div>
-            <div class="df"><label class="dl">Bio</label><textarea class="dta" id="ep-bio" placeholder="Tell clients about yourself..."></textarea></div>
-<input type="hidden" id="ep-skills">
-          </div>
-          <div class="dcard">
-            <div class="dcard-h">Social Links</div><div class="dcard-sub">Help clients reach you.</div>
-            <div class="df"><label class="dl">WhatsApp Number</label><input class="di" id="ep-wa" type="text" placeholder="+94 77 123 4567"></div>
-            <div class="df"><label class="dl">Instagram URL</label><input class="di" id="ep-ig" type="text" placeholder="https://instagram.com/yourhandle"></div>
-            <div class="df"><label class="dl">TikTok URL</label><input class="di" id="ep-tiktok" type="text" placeholder="https://tiktok.com/@yourhandle"></div>
-            <div class="df"><label class="dl">Facebook URL</label><input class="di" id="ep-fb" type="text" placeholder="https://facebook.com/yourpage"></div>
-            <div class="df"><label class="dl">YouTube URL</label><input class="di" id="ep-yt" type="text" placeholder="https://youtube.com/@channel"></div>
-            <div class="df"><label class="dl">Website</label><input class="di" id="ep-web" type="text" placeholder="https://yourwebsite.com"></div>
-            <button class="dsave" onclick="saveProfile()">Save Profile</button>
-          </div>
+            <div class="df"><label class="dl">Bio</label><textarea class="dta" id="ep-bio" style="min-height:90px" placeholder="Tell clients about yourself..."></textarea></div>
 
-          <!-- BRAND COLOURS — PRO ONLY -->
-          <div class="dcard" id="ep-brand-colors-card">
-            <div style="display:flex;align-items:center;gap:.55rem;margin-bottom:.18rem">
-              <div class="dcard-h" style="margin:0">Brand Colours</div>
-              <span style="font-size:.62rem;font-weight:700;letter-spacing:.04em;background:var(--ac);color:#fff;padding:.18rem .45rem;border-radius:30px;line-height:1.2">PRO</span>
-            </div>
-            <div class="dcard-sub">Personalise your public profile with your own brand colours.</div>
-
-            <!-- Free user lock overlay -->
-            <div id="ep-brand-colors-gate" style="display:none;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:1.1rem 1rem;text-align:center;margin-top:.6rem">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="color:var(--t3);margin-bottom:.45rem"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V7a4 4 0 018 0v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-              <div style="font-size:.82rem;font-weight:600;color:var(--t1);margin-bottom:.25rem">Pro Feature</div>
-              <div style="font-size:.75rem;color:var(--t2);margin-bottom:.75rem">Upgrade to Pro to set your own brand colours on your public profile.</div>
-              <button onclick="requestUpgrade('pro')" style="background:var(--ac);color:#fff;border:none;border-radius:var(--r);padding:.5rem 1.1rem;font-size:.8rem;font-weight:600;cursor:pointer;font-family:var(--fm)">Upgrade to Pro</button>
+            <!-- Skills chips -->
+            <div class="df" style="flex-direction:column;gap:.4rem">
+              <label class="dl">Skills</label>
+              <div id="ep-skills-chips" style="display:flex;flex-wrap:wrap;gap:.35rem;min-height:0"></div>
+              <div style="display:flex;gap:.4rem">
+                <input class="di" id="ep-skills-input" type="text" placeholder="Add a skill, press Enter" style="flex:1" onkeydown="window.handleSkillKey&&window.handleSkillKey(event)">
+              </div>
+              <input type="hidden" id="ep-skills">
             </div>
 
-            <!-- Pro user colour pickers -->
-            <div id="ep-brand-colors-fields" style="display:none;margin-top:.7rem">
-              <div style="max-width:320px">
-                <div class="df" style="gap:.4rem">
-                  <label class="dl" style="margin-bottom:.2rem">Primary Colour</label>
-                  <div style="display:flex;align-items:center;gap:.55rem">
-                    <input type="color" id="ep-bc-primary" value="#FE730A" style="width:36px;height:36px;border:1.5px solid var(--brd2);border-radius:8px;background:var(--bg3);cursor:pointer;padding:2px">
-                    <input class="di" id="ep-bc-primary-hex" type="text" maxlength="7" placeholder="#FE730A" style="flex:1;font-size:.8rem;font-family:monospace" oninput="syncColorHex('ep-bc-primary','ep-bc-primary-hex')">
-                  </div>
+            <hr class="divider">
+            <div class="dcard-h" style="font-size:.78rem;margin-bottom:.5rem">Social Links</div>
+            <div class="d2col">
+              <div class="df"><label class="dl">WhatsApp</label><input class="di" id="ep-wa" type="text" placeholder="+94 7X XXX XXXX"></div>
+              <div class="df"><label class="dl">Instagram</label><input class="di" id="ep-ig" type="text" placeholder="@username or URL"></div>
+            </div>
+            <div class="d2col">
+              <div class="df"><label class="dl">YouTube</label><input class="di" id="ep-yt" type="text" placeholder="Channel URL"></div>
+              <div class="df"><label class="dl">TikTok</label><input class="di" id="ep-tiktok" type="text" placeholder="@username or URL"></div>
+            </div>
+            <div class="d2col">
+              <div class="df"><label class="dl">Facebook</label><input class="di" id="ep-fb" type="text" placeholder="Profile URL"></div>
+              <div class="df"><label class="dl">Website</label><input class="di" id="ep-web" type="text" placeholder="https://yoursite.com"></div>
+            </div>
+
+            <hr class="divider">
+            <!-- Brand Colors (Pro only) -->
+            <div id="ep-brand-colors-gate" style="background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem 1rem;margin-bottom:.5rem">
+              <div style="font-size:.78rem;font-weight:600;color:var(--t2);margin-bottom:.2rem">Brand Color <span style="font-size:.48rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--ac);color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">Pro</span></div>
+              <div style="font-size:.72rem;color:var(--t3)">Upgrade to Pro to set your own brand color.</div>
+            </div>
+            <div id="ep-brand-colors-fields" style="display:none">
+              <div class="dcard-h" style="font-size:.78rem;margin-bottom:.5rem">Brand Color</div>
+              <div style="display:flex;align-items:center;gap:.65rem;flex-wrap:wrap">
+                <input type="color" id="ep-bc-primary" value="#FE730A" style="width:36px;height:36px;border-radius:8px;border:1.5px solid var(--brd2);background:transparent;cursor:pointer;padding:2px" oninput="updateBrandColorPreview&&updateBrandColorPreview()">
+                <input class="di" id="ep-bc-primary-hex" type="text" placeholder="#FE730A" maxlength="7" style="width:100px;font-size:.82rem;text-transform:uppercase" oninput="syncBrandColorPicker&&syncBrandColorPicker()">
+                <div id="ep-bc-preview" style="display:flex;align-items:center;gap:.5rem;flex:1">
+                  <div id="ep-bc-preview-bar" style="height:6px;border-radius:3px;width:60px;background:#FE730A;transition:.2s"></div>
+                  <div id="ep-bc-preview-dot" style="width:10px;height:10px;border-radius:50%;background:#FE730A;transition:.2s"></div>
+                  <div id="ep-bc-preview-btn" style="font-size:.7rem;font-weight:600;color:#FE730A;border:1px solid rgba(254,115,10,.3);border-radius:50px;padding:.15rem .6rem;transition:.2s">Hire Me</div>
                 </div>
               </div>
-              <!-- Live preview strip -->
-              <div style="margin-top:1rem;border-radius:var(--r);overflow:hidden;border:1px solid var(--brd2)" id="ep-bc-preview">
-                <div id="ep-bc-preview-bar" style="height:6px;background:#FE730A"></div>
-                <div style="padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem" id="ep-bc-preview-body">
-                  <div id="ep-bc-preview-dot" style="width:32px;height:32px;border-radius:50%;background:#FE730A;flex-shrink:0"></div>
-                  <div style="flex:1">
-                    <div id="ep-bc-preview-name" style="font-size:.82rem;font-weight:600;color:#ffffff">Your Name</div>
-                    <div id="ep-bc-preview-role" style="font-size:.7rem;color:rgba(255,255,255,.5)">Your Role</div>
-                  </div>
-                  <div id="ep-bc-preview-btn" style="font-size:.7rem;font-weight:600;padding:.28rem .7rem;border-radius:6px;background:#FE730A;color:#fff">Hire Me</div>
-                </div>
-              </div>
-              <div style="font-size:.68rem;color:var(--t3);margin-top:.5rem">These colours apply to your public profile page only. Previewed above.</div>
-              <button onclick="resetBrandColors()" style="margin-top:.6rem;background:transparent;border:1px solid var(--brd2);color:var(--t2);border-radius:var(--r);padding:.38rem .85rem;font-size:.75rem;cursor:pointer;font-family:var(--fm);transition:var(--tr)" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">Reset to Default</button>
             </div>
-          </div>
 
+            <button class="dsave" style="margin-top:1.2rem" onclick="saveProfile()">Save Profile</button>
+          </div>
         </div>
 
-
-        <!-- ANALYTICS -->
+        <!-- ══ ANALYTICS PANEL ══ -->
         <div class="dash-panel" id="dash-panel-analytics">
-
-          <!-- PRO content -->
-          <div id="analytics-pro-content">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:.85rem;flex-wrap:wrap">
-              <div class="an-range-tabs" id="an-range-tabs">
-                <button class="an-range-tab active" data-range="7" onclick="setAnalyticsRange(7,this)">7 days</button>
-                <button class="an-range-tab" data-range="30" onclick="setAnalyticsRange(30,this)">30 days</button>
-                <button class="an-range-tab" data-range="90" onclick="setAnalyticsRange(90,this)">90 days</button>
-                <button class="an-range-tab" data-range="365" onclick="setAnalyticsRange(365,this)">Year</button>
-                <button class="an-range-tab" data-range="0" onclick="setAnalyticsRange(0,this)">All time</button>
+          <!-- Free gate -->
+          <div id="analytics-free-gate" style="display:none">
+            <div class="dcard" style="text-align:center;padding:2.5rem 1.5rem">
+              <div style="width:52px;height:52px;border-radius:50%;background:rgba(254,115,10,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-6 4 4 5-8 4 4" stroke="#FE730A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <div style="display:flex;align-items:center;gap:.5rem">
-                <span class="an-live-badge"><span class="an-live-dot"></span>Live</span>
-                <button class="an-refresh-btn" onclick="loadAnalytics()" title="Refresh analytics">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-                  Refresh
+              <div style="font-size:.95rem;font-weight:700;color:var(--t1);margin-bottom:.4rem">Analytics is a Pro feature</div>
+              <div style="font-size:.82rem;color:var(--t3);margin-bottom:1.2rem;max-width:340px;margin-left:auto;margin-right:auto">See exactly how many people view your portfolio, click Hire Me, and which projects perform best.</div>
+              <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">Upgrade to Pro</button>
+            </div>
+          </div>
+
+          <!-- Pro analytics content -->
+          <div id="analytics-pro-content" style="display:none">
+            <!-- Header row -->
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:.6rem">
+              <div style="font-size:.95rem;font-weight:700;color:var(--t1)">Analytics</div>
+              <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+                <div style="display:flex;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.16rem;gap:.1rem">
+                  <button onclick="setAnalyticsRange(7,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:var(--bg2);color:var(--t1);transition:all .14s" class="an-range-btn active-range">7d</button>
+                  <button onclick="setAnalyticsRange(30,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .14s" class="an-range-btn">30d</button>
+                  <button onclick="setAnalyticsRange(90,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .14s" class="an-range-btn">90d</button>
+                  <button onclick="setAnalyticsRange(365,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .14s" class="an-range-btn">1y</button>
+                  <button onclick="setAnalyticsRange(0,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .14s" class="an-range-btn">All</button>
+                </div>
+                <button class="an-refresh-btn" onclick="loadAnalytics()" title="Refresh" style="width:30px;height:30px;border-radius:50%;border:1px solid var(--brd2);background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:.15s;flex-shrink:0">
+                  <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 112 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12 4v3h-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
               </div>
             </div>
-            <div class="an-stat-grid">
-              <div class="an-stat-card">
-                <div class="an-stat-val" id="an-views">—</div>
-                <div class="an-stat-lbl">Profile Views</div>
-                <div class="an-stat-bar"><div class="an-stat-fill" id="an-views-bar" style="width:0%;background:var(--ac)"></div></div>
-                <div class="an-stat-period">—</div>
+
+            <!-- Stat cards -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:1.2rem">
+              <div class="dcard" style="padding:.9rem 1rem;margin:0">
+                <div style="font-size:.65rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Profile Views</div>
+                <div id="an-views" style="font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1">0</div>
+                <div class="an-stat-period" style="font-size:.65rem;color:var(--t3);margin-top:.2rem">Last 7 days</div>
+                <div style="margin-top:.55rem;background:var(--bg4);border-radius:99px;height:4px;overflow:hidden"><div id="an-views-bar" style="height:4px;border-radius:99px;background:var(--ac);width:0%;transition:width .6s .1s"></div></div>
               </div>
-              <div class="an-stat-card">
-                <div class="an-stat-val" id="an-likes">—</div>
-                <div class="an-stat-lbl">Total Likes</div>
-                <div class="an-stat-bar"><div class="an-stat-fill" id="an-likes-bar" style="width:0%;background:rgba(254,115,10,.5)"></div></div>
-                <div class="an-stat-period">All time</div>
+              <div class="dcard" style="padding:.9rem 1rem;margin:0">
+                <div style="font-size:.65rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Total Likes</div>
+                <div id="an-likes" style="font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1">0</div>
+                <div style="font-size:.65rem;color:var(--t3);margin-top:.2rem">All time</div>
+                <div style="margin-top:.55rem;background:var(--bg4);border-radius:99px;height:4px;overflow:hidden"><div id="an-likes-bar" style="height:4px;border-radius:99px;background:var(--ac);width:0%;transition:width .6s .15s"></div></div>
               </div>
-              <div class="an-stat-card">
-                <div class="an-stat-val" id="an-hire">—</div>
-                <div class="an-stat-lbl">Hire Me Clicks</div>
-                <div class="an-stat-bar"><div class="an-stat-fill" id="an-hire-bar" style="width:0%;background:rgba(254,115,10,.7)"></div></div>
-                <div class="an-stat-period">—</div>
+              <div class="dcard" style="padding:.9rem 1rem;margin:0">
+                <div style="font-size:.65rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Hire Me Clicks</div>
+                <div id="an-hire" style="font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1">0</div>
+                <div class="an-stat-period" style="font-size:.65rem;color:var(--t3);margin-top:.2rem">Last 7 days</div>
+                <div style="margin-top:.55rem;background:var(--bg4);border-radius:99px;height:4px;overflow:hidden"><div id="an-hire-bar" style="height:4px;border-radius:99px;background:var(--ac);width:0%;transition:width .6s .2s"></div></div>
               </div>
-              <div class="an-stat-card">
-                <div class="an-stat-val" id="an-projs-count">—</div>
-                <div class="an-stat-lbl">Published Projects</div>
-                <div class="an-stat-bar"><div class="an-stat-fill" id="an-projs-bar" style="width:0%;background:rgba(254,115,10,.4)"></div></div>
-                <div class="an-stat-period">All time</div>
+              <div class="dcard" style="padding:.9rem 1rem;margin:0">
+                <div style="font-size:.65rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Projects</div>
+                <div id="an-projs-count" style="font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1">0</div>
+                <div style="font-size:.65rem;color:var(--t3);margin-top:.2rem">Published</div>
+                <div style="margin-top:.55rem;background:var(--bg4);border-radius:99px;height:4px;overflow:hidden"><div id="an-projs-bar" style="height:4px;border-radius:99px;background:var(--ac);width:0%;transition:width .6s .25s"></div></div>
               </div>
             </div>
 
-            <div class="an-charts-row" style="grid-template-columns:1fr 1fr">
-              <div class="dcard an-chart-card">
-                <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.15rem">
-                  <div class="dcard-h">Views Trend</div>
-                </div>
-                <div class="dcard-sub" id="an-views-range-lbl" style="margin-bottom:.8rem">Last 7 days</div>
-                <div style="position:relative;height:140px"><canvas id="an-views-chart"></canvas></div>
+            <!-- Charts row -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.2rem">
+              <div class="dcard" style="margin:0">
+                <div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Views Trend</div>
+                <div style="height:140px;position:relative"><canvas id="an-views-chart"></canvas></div>
               </div>
-              <div class="dcard an-chart-card">
-                <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:.15rem">
-                  <div class="dcard-h">Hire Me Clicks</div>
-                </div>
-                <div class="dcard-sub" id="an-hire-range-lbl" style="margin-bottom:.8rem">Last 7 days</div>
-                <div style="position:relative;height:140px"><canvas id="an-hire-chart"></canvas></div>
+              <div class="dcard" style="margin:0">
+                <div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Hire Me Clicks</div>
+                <div style="height:140px;position:relative"><canvas id="an-hire-chart"></canvas></div>
               </div>
             </div>
 
-            <div class="an-bottom-row">
-              <div class="dcard" style="flex:1;min-width:0">
-                <div class="dcard-h" style="margin-bottom:.7rem">Project Performance</div>
-                <div style="overflow-x:auto">
-                  <table class="proj-tbl">
-                    <thead><tr><th>Project</th><th>Views</th><th>Likes</th><th>Category</th><th>Status</th></tr></thead>
-                    <tbody id="an-proj-tbody"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--t3);font-size:.78rem">Loading...</td></tr></tbody>
-                  </table>
-                </div>
+            <!-- Engagement + Projects table -->
+            <div style="display:grid;grid-template-columns:1fr 2fr;gap:.8rem">
+              <div class="dcard" style="margin:0">
+                <div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Engagement</div>
+                <div id="an-engagement"></div>
+              </div>
+              <div class="dcard" style="margin:0;overflow:auto">
+                <div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Projects Performance</div>
+                <table class="proj-tbl" style="min-width:360px">
+                  <thead><tr>
+                    <th>Project</th><th>Views</th><th>Likes</th><th>Category</th><th>Status</th>
+                  </tr></thead>
+                  <tbody id="an-proj-tbody"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--t3);font-size:.78rem">Loading…</td></tr></tbody>
+                </table>
               </div>
             </div>
-
-            <div class="dcard" style="margin-top:.85rem">
-              <div class="dcard-h" style="margin-bottom:.7rem">Engagement Overview</div>
-              <div id="an-engagement"></div>
-            </div>
-          </div>
-
-          <!-- FREE gate -->
-          <div id="analytics-free-gate" style="display:none;position:relative;min-height:420px">
-            <div style="filter:blur(6px);pointer-events:none;user-select:none;opacity:.4">
-              <div class="an-stat-grid">
-                <div class="an-stat-card"><div class="an-stat-val">284</div><div class="an-stat-lbl">Project Views</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:72%;background:var(--ac)"></div></div></div>
-                <div class="an-stat-card"><div class="an-stat-val">47</div><div class="an-stat-lbl">Total Likes</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:40%;background:rgba(254,115,10,.5)"></div></div></div>
-                <div class="an-stat-card"><div class="an-stat-val">12</div><div class="an-stat-lbl">Hire Me Clicks</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:25%;background:rgba(254,115,10,.7)"></div></div></div>
-                <div class="an-stat-card"><div class="an-stat-val">5</div><div class="an-stat-lbl">Projects</div><div class="an-stat-bar"><div class="an-stat-fill" style="width:55%;background:rgba(254,115,10,.4)"></div></div></div>
-              </div>
-            </div>
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-              <div style="background:var(--bg2);border:1px solid rgba(254,115,10,.3);border-radius:var(--rlg);padding:2rem 2.5rem;text-align:center;max-width:340px;box-shadow:var(--shadow-lg)">
-                <div style="font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">Analytics is Pro only</div>
-                <div style="font-size:.78rem;color:var(--t2);line-height:1.7;margin-bottom:1rem">See real views, likes, Hire Me clicks and social taps. Upgrade to unlock your full analytics dashboard.</div>
-                <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">Upgrade to Pro</button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- ══ SKILLS PANEL ══ -->
-        <div class="dash-panel" id="dash-panel-skills">
-
-          <!-- FREE gate -->
-          <div id="skills-free-gate" style="display:none;position:relative;min-height:360px">
-            <div style="filter:blur(5px);pointer-events:none;user-select:none;opacity:.35">
-              <div style="display:grid;grid-template-columns:160px 1fr;gap:1rem">
-                <div style="display:flex;flex-direction:column;gap:.4rem">
-                  <div style="height:38px;background:var(--bg3);border-radius:var(--r);border:1px solid var(--brd)"></div>
-                  <div style="height:38px;background:var(--bg3);border-radius:var(--r);border:1px solid var(--brd)"></div>
-                </div>
-                <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1.4rem">
-                  <div style="height:14px;width:120px;background:var(--bg4);border-radius:4px;margin-bottom:.8rem"></div>
-                  <div style="height:10px;width:80%;background:var(--bg4);border-radius:4px;margin-bottom:.5rem"></div>
-                  <div style="height:10px;width:60%;background:var(--bg4);border-radius:4px"></div>
-                </div>
-              </div>
-            </div>
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-              <div style="background:var(--bg2);border:1px solid rgba(254,115,10,.3);border-radius:var(--rlg);padding:2rem 2.5rem;text-align:center;max-width:340px;box-shadow:var(--shadow-lg)">
-                <div style="font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">Skills is a Pro feature</div>
-                <div style="font-size:.78rem;color:var(--t2);line-height:1.7;margin-bottom:1rem">Showcase your skills with descriptions, related projects, and software — a richer way for clients to understand what you do.</div>
-                <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">Upgrade to Pro</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- PRO content -->
-          <div id="skills-pro-content">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:.6rem">
-              <div>
-                <div class="dcard-h" style="margin-bottom:.15rem">My Skills</div>
-                <div class="dcard-sub">These appear on your public portfolio as a dedicated Skills tab.</div>
-              </div>
-              <button class="btn btn-p btn-sm" id="dash-create-skill-btn" onclick="openSkillModal()">
-                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                Create a skill
-              </button>
-            </div>
-
-            <div id="dash-skills-empty" style="display:none;text-align:center;padding:3rem 1rem">
-              <div style="width:52px;height:52px;border-radius:50%;background:rgba(254,115,10,.08);border:1.5px dashed rgba(254,115,10,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
-                <svg width="22" height="22" viewBox="0 0 14 14" fill="none"><path d="M2 9.5l5 2.5 5-2.5M2 7l5 2.5L12 7M2 4.5l5-2.5 5 2.5-5 2.5-5-2.5z" stroke="var(--ac)" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg>
-              </div>
-              <div style="font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">No skills yet</div>
-              <div style="font-size:.78rem;color:var(--t3);margin-bottom:1rem">Add your first skill to show clients what you specialise in.</div>
-              <button class="btn btn-p btn-sm" onclick="openSkillModal()">+ Create your first skill</button>
-            </div>
-
-            <div id="dash-skills-list" style="display:flex;flex-direction:column;gap:.7rem"></div>
-          </div>
-        </div>
-
-        <!-- ══ SERVICES PANEL ══ -->
-        <div class="dash-panel" id="dash-panel-services">
-
-          <!-- FREE gate -->
-          <div id="services-free-gate" style="display:none;position:relative;min-height:360px">
-            <div style="filter:blur(5px);pointer-events:none;user-select:none;opacity:.35">
-              <div style="display:flex;flex-direction:column;gap:.7rem">
-                <div style="height:72px;background:var(--bg2);border-radius:var(--rlg);border:1px solid var(--brd)"></div>
-                <div style="height:72px;background:var(--bg2);border-radius:var(--rlg);border:1px solid var(--brd)"></div>
-              </div>
-            </div>
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-              <div style="background:var(--bg2);border:1px solid rgba(254,115,10,.3);border-radius:var(--rlg);padding:2rem 2.5rem;text-align:center;max-width:340px;box-shadow:var(--shadow-lg)">
-                <div style="font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">Services is a Pro feature</div>
-                <div style="font-size:.78rem;color:var(--t2);line-height:1.7;margin-bottom:1rem">List what you offer with starting prices — a rate card that clients see right on your profile.</div>
-                <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">Upgrade to Pro</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- PRO content -->
-          <div id="services-pro-content">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:.6rem">
-              <div>
-                <div class="dcard-h" style="margin-bottom:.15rem">My Services</div>
-                <div class="dcard-sub">Show clients what you offer and your starting rates.</div>
-              </div>
-              <button class="btn btn-p btn-sm" id="dash-create-svc-btn" onclick="openServiceModal()">
-                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                Add a service
-              </button>
-            </div>
-
-            <div id="dash-services-empty" style="display:none;text-align:center;padding:3rem 1rem">
-              <div style="width:52px;height:52px;border-radius:50%;background:rgba(254,115,10,.08);border:1.5px dashed rgba(254,115,10,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
-                <svg width="22" height="22" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="var(--ac)" stroke-width="1.1" fill="none"/><path d="M4.5 5h5M4.5 7.5h3" stroke="var(--ac)" stroke-width="1.1" stroke-linecap="round"/></svg>
-              </div>
-              <div style="font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.35rem">No services yet</div>
-              <div style="font-size:.78rem;color:var(--t3);margin-bottom:1rem">Add your first service so clients know what you offer and your starting rates.</div>
-              <button class="btn btn-p btn-sm" onclick="openServiceModal()">+ Add your first service</button>
-            </div>
-
-            <div id="dash-services-list" style="display:flex;flex-direction:column;gap:.7rem"></div>
           </div>
         </div>
 
@@ -3064,6 +2940,94 @@ img, video, iframe, canvas { max-width: 100%; }
       <div style="display:flex;gap:.6rem;justify-content:flex-end;padding-top:.3rem">
         <button onclick="closeServiceModal()" style="padding:.6rem 1.2rem;border-radius:50px;border:1.5px solid var(--brd2);background:transparent;color:var(--t2);font-size:.84rem;font-weight:500;cursor:pointer;transition:.18s;font-family:var(--fm)">Cancel</button>
         <button id="svc-save-btn" onclick="saveService()" class="btn btn-p btn-sm" style="padding:.6rem 1.4rem">Save service</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ UPLOAD PROJECT MODAL ══ -->
+<div id="upload-modal-overlay" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);padding:1rem;overflow-y:auto" onclick="if(event.target===this)closeUploadModal()">
+  <div style="background:var(--bg2);border-radius:22px;width:100%;max-width:560px;border:1px solid var(--brd2);box-shadow:0 24px 64px rgba(0,0,0,.75);animation:shareScaleIn .2s cubic-bezier(.34,1.56,.64,1);margin:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1.3rem 1.5rem 0">
+      <div style="font-size:1rem;font-weight:700;color:var(--t1)">Upload New Project</div>
+      <button onclick="closeUploadModal()" style="background:var(--bg4);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:1rem;transition:.15s">×</button>
+    </div>
+    <div style="padding:1.2rem 1.5rem 1.5rem;display:flex;flex-direction:column;gap:.85rem">
+      <div id="upm-gate" style="display:none;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:1rem;text-align:center">
+        <div style="font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.4rem">Upgrade to publish projects</div>
+        <div style="font-size:.78rem;color:var(--t3);margin-bottom:.7rem">Upgrade to Pro for unlimited projects.</div>
+        <button class="btn btn-p btn-sm" onclick="closeUploadModal();switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">See Plans</button>
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Project Title</label>
+        <input id="upm-title" type="text" placeholder="e.g. Brand Identity · Ceylon Tea Co." maxlength="120" style="width:100%;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:.6rem .85rem;font-size:.88rem;color:var(--t1);outline:none;transition:.15s;box-sizing:border-box">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+        <div>
+          <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Category</label>
+          <select id="upm-cat" style="width:100%;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:.6rem .85rem;font-size:.88rem;color:var(--t1);outline:none;cursor:pointer">
+            <option value="video">Video Edit</option>
+            <option value="motion">Motion Graphics</option>
+            <option value="film">Film / Cinematic</option>
+            <option value="social">Reels / Shorts / TikTok</option>
+            <option value="longform">Long-form</option>
+            <option value="3d">3D &amp; VFX</option>
+            <option value="wedding">Wedding &amp; Events</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Year</label>
+          <input id="upm-year" type="text" placeholder="2024" maxlength="4" style="width:100%;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:.6rem .85rem;font-size:.88rem;color:var(--t1);outline:none;transition:.15s;box-sizing:border-box">
+        </div>
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Description</label>
+        <textarea id="upm-desc" rows="3" placeholder="Describe the project, tools used, and your role..." maxlength="1000" style="width:100%;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:.6rem .85rem;font-size:.88rem;color:var(--t1);outline:none;resize:vertical;font-family:var(--fm);line-height:1.6;transition:.15s;box-sizing:border-box"></textarea>
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Tags <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0;font-size:.68rem">· press Enter to add</span></label>
+        <div id="upm-tags-wrap" style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center;padding:.42rem .6rem;border:1px solid var(--brd2);border-radius:var(--r);background:var(--bg3);min-height:38px;cursor:text" onclick="document.getElementById('upm-tags-input').focus()">
+          <span id="upm-tags-chips"></span>
+          <input id="upm-tags-input" type="text" placeholder="Add a tag..." style="border:none;outline:none;background:transparent;font-size:.84rem;color:var(--t1);min-width:100px;flex:1;font-family:var(--fm);padding:0" onkeydown="upmTagKey(event)">
+        </div>
+        <input type="hidden" id="upm-tags">
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Videos <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--t3);font-size:.68rem">· add one or more</span></label>
+        <div id="upm-video-list" style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.4rem"></div>
+        <button type="button" onclick="upmPickVideo()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.6rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr);text-align:left" id="upm-video-btn" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
+          + Add Video (MP4, WEBM · up to 250 MB each)
+        </button>
+        <input type="file" id="upm-video-input" accept="video/mp4,video/quicktime,video/webm,video/*" style="display:none" onchange="upmVideoFilePicked(this)">
+        <div id="upm-video-progress" style="display:none;margin-top:.45rem;background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.6rem .8rem">
+          <div style="display:flex;justify-content:space-between;margin-bottom:.35rem">
+            <span style="font-size:.68rem;font-weight:600;color:var(--t1)" id="upm-video-progress-lbl">Uploading video...</span>
+            <span id="upm-video-pct" style="font-size:.65rem;color:var(--ac);font-weight:600">0%</span>
+          </div>
+          <div style="background:var(--bg4);border-radius:50px;height:5px;overflow:hidden">
+            <div id="upm-video-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--ac),#ff9a3c);width:0%;transition:width .15s;border-radius:50px"></div>
+          </div>
+        </div>
+        <input type="hidden" id="upm-yt" value="">
+      </div>
+      <div>
+        <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Cover Thumbnail <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--t3);font-size:.68rem">· shown before video plays</span></label>
+        <div id="upm-thumb-preview-wrap" style="display:none;margin-bottom:.45rem;position:relative;border-radius:var(--r);overflow:hidden;background:#000;aspect-ratio:16/9;max-width:260px">
+          <img id="upm-thumb-preview-img" src="" style="width:100%;height:100%;object-fit:cover;display:block">
+          <button onclick="upmClearThumb()" style="position:absolute;top:.3rem;right:.3rem;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.65);border:none;color:#fff;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
+        </div>
+        <label for="upm-thumb-input" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;border:1.5px dashed var(--brd2);border-radius:var(--r);padding:1.2rem;cursor:pointer;transition:.15s;background:var(--bg3);position:relative" id="upm-thumb-label">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span id="upm-thumb-lbl" style="font-size:.8rem;font-weight:600;color:var(--t2)">Upload cover image</span>
+          <span style="font-size:.66rem;color:var(--t3)">PNG, JPG, WEBP · max 5 MB</span>
+          <input type="file" id="upm-thumb-input" accept="image/*" style="display:none" onchange="upmThumbPick(this)">
+        </label>
+      </div>
+      <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;padding-top:.2rem">
+        <button onclick="upmSave('published')" class="btn btn-p" style="padding:.65rem 1.4rem">Publish Project</button>
+        <button onclick="upmSave('draft')" style="padding:.65rem 1.2rem;border-radius:50px;border:1.5px solid var(--brd2);background:transparent;color:var(--t2);font-size:.84rem;font-weight:500;cursor:pointer;transition:.18s;font-family:var(--fm)">Save as Draft</button>
+        <span id="upm-saving" style="font-size:.72rem;color:var(--t3);display:none">Saving...</span>
       </div>
     </div>
   </div>
@@ -3985,7 +3949,7 @@ function applyLoggedIn() {
     } else {
       ctaInner.innerHTML =
         '<div style="position:relative;z-index:1"><h3>Share your latest work.</h3><p>Upload a new project and let clients discover your talent.</p></div>' +
-        '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>switchDash(\'upload\',document.getElementById(\'dnav-upload\')),80)">Upload Project <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+        '<button class="btn btn-white" onclick="openUploadModal()">Upload Project <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
     }
   }
 }
@@ -4105,9 +4069,6 @@ function renderFeed() {
   let list = S.projects.filter(p => {
     if (p.status !== 'published') return false;
     if (!p.cover_url && !p.video_url && !p.yt_link) return false; // no blank cards
-    // Feed requires a real video — graphic-design-only projects (no video) stay in portfolio only
-    const hasVideo = !!(p.video_url || parseVideoUrls(p.video_urls).length > 0);
-    if (!hasVideo) return false;
     const plan = p._authorPlan || 'free';
     const isPaid = plan === 'pro' || plan === 'pro-yearly' || plan === 'pro_yearly' || plan === 'standard' || plan === 'vip';
     if (isPaid) return true;
@@ -4815,24 +4776,39 @@ function _renderProject(p) {
 
 // ── DASHBOARD ────────────────────────────────────────
 function switchDash(id, btn) {
-  document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.dni').forEach(b => b.classList.remove('active'));
-  el('dash-panel-' + id).classList.add('active');
-  if (btn) btn.classList.add('active');
-  if (id === 'projects') renderMyProjects();
-  if (id === 'analytics') {
-    loadAnalytics();
-    // Auto-refresh every 30s while on analytics tab
-    clearInterval(window._analyticsTimer);
-    window._analyticsTimer = setInterval(() => {
-      if (document.getElementById('dash-panel-analytics').classList.contains('active')) {
-        loadAnalytics();
-      } else {
-        clearInterval(window._analyticsTimer);
-      }
-    }, 30000);
+  const currentPanel = document.querySelector('.dash-panel.active');
+  const nextPanel = el('dash-panel-' + id);
+  if (!nextPanel) return;
+  function _activateNext() {
+    document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.dni').forEach(b => b.classList.remove('active'));
+    nextPanel.classList.add('active');
+    if (btn) btn.classList.add('active');
+    if (id === 'projects') renderMyProjects();
+    if (id === 'analytics') {
+      loadAnalytics();
+      clearInterval(window._analyticsTimer);
+      window._analyticsTimer = setInterval(() => {
+        if (document.getElementById('dash-panel-analytics').classList.contains('active')) {
+          loadAnalytics();
+        } else {
+          clearInterval(window._analyticsTimer);
+        }
+      }, 30000);
+    } else {
+      clearInterval(window._analyticsTimer);
+    }
+  }
+  if (currentPanel && currentPanel !== nextPanel) {
+    currentPanel.style.transition = 'opacity 110ms ease';
+    currentPanel.style.opacity = '0';
+    setTimeout(() => {
+      currentPanel.style.transition = '';
+      currentPanel.style.opacity = '';
+      _activateNext();
+    }, 110);
   } else {
-    clearInterval(window._analyticsTimer);
+    _activateNext();
   }
 }
 
@@ -5663,6 +5639,7 @@ async function deleteProject(id) {
 function refreshProfile(profileData) {
   const p = profileData || S.profile; if (!p) return;
   S.viewingProfile = p;
+  // NOTE: page is shown at the END of this function after all DOM is populated
   // Apply brand colors if this is a Pro user with custom colors
   const _profIsPro = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
   applyProfileBrandColors(_profIsPro && p.brand_colors ? p.brand_colors : null);
@@ -5856,16 +5833,23 @@ function renderProfileProjects(prof) {
     return isPaidProfile ? published : published.slice(0, 3);
   }
 
-  // Owner: always fetch fresh from DB to get ALL projects (feed cache may be capped)
+  // Owner: always fetch fresh profile+projects from DB to avoid stale plan/cache issues
   if (isOwnFetch) {
     const fetchToken = S.session?.access_token || SB_KEY;
+    // Refresh profile row so plan value is always current (fixes stale localStorage cache)
+    db('/profiles?id=eq.' + p.id + '&select=*', 'GET', null, SB_KEY).then(prows => {
+      if (prows && prows[0]) {
+        S.profile = { ...S.profile, ...prows[0] };
+        try { localStorage.setItem('tl_lp_' + p.id, JSON.stringify(S.profile)); } catch(e) {}
+      }
+    }).catch(() => {});
     db('/projects?user_id=eq.' + p.id + '&select=*&order=created_at.desc', 'GET', null, fetchToken)
       .then(rows => {
         if (rows && rows.length) {
           rows.forEach(r => { if (!S.projects.find(x => x.id === r.id)) S.projects.push(r); });
-          _renderProfileProjectsUI(p, rows, isOwn);
-        } else { _renderProfileProjectsUI(p, [], isOwn); }
-      }).catch(() => _renderProfileProjectsUI(p, [], isOwn));
+          _renderProfileProjectsUI(S.profile || p, rows, isOwn);
+        } else { _renderProfileProjectsUI(S.profile || p, [], isOwn); }
+      }).catch(() => _renderProfileProjectsUI(S.profile || p, [], isOwn));
     return;
   }
 
@@ -5894,7 +5878,8 @@ function renderProfileProjects(prof) {
 function _renderProfileProjectsUI(p, allProjs, isOwn) {
   const FREE_PROJ_LIMIT = 3;
   const profileIsPro = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
-  const visibleProjs = profileIsPro ? allProjs : allProjs.slice(0, FREE_PROJ_LIMIT);
+  // Owner always sees ALL their projects (no cap); cap only applies to visitors viewing free profiles
+  const visibleProjs = (isOwn || profileIsPro) ? allProjs : allProjs.slice(0, FREE_PROJ_LIMIT);
   const totalProjLikes = visibleProjs.reduce((s, proj) => s + (proj.likes || 0), 0);
   const totalProjViews = visibleProjs.reduce((s, proj) => s + (proj.views || 0), 0);
   el('pstat-proj').textContent  = visibleProjs.length;
@@ -5916,7 +5901,7 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
   const nores = el('pnores');
   const noresBtn = el('pnores-upload-btn');
   // Store for categories tab (respect plan limit)
-  _profAllProjs = profileIsPro ? allProjs : allProjs.slice(0, FREE_PROJ_LIMIT);
+  _profAllProjs = (isOwn || profileIsPro) ? allProjs : allProjs.slice(0, FREE_PROJ_LIMIT);
   _profTabState = 'all';
   const allWrap = document.getElementById('profile-proj-grid-wrap');
   const catWrap = document.getElementById('profile-cat-grid-wrap');
@@ -5937,18 +5922,36 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
   // Hide tabs if only 1 or 0 categories
   const uniqueCats = [...new Set(allProjs.map(p => p.cat || 'other'))];
   const tabBtns = document.getElementById('prof-tab-btns');
-  if (tabBtns) tabBtns.style.display = allProjs.length > 0 ? 'flex' : 'none';
-  // Show/hide Skills tab based on whether profile has skills_data
+  const _hasSkillsData = (() => { try { const a = JSON.parse(viewedProf && viewedProf.skills_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
+  const _hasServicesData = (() => { try { const a = JSON.parse(viewedProf && viewedProf.services_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
+  const _showTabBar = allProjs.length > 0 || isOwn || (viewedIsPro && (_hasSkillsData || _hasServicesData));
+  if (tabBtns) tabBtns.style.display = _showTabBar ? 'flex' : 'none';
+  // Skills tab: always show for owner; show for visitors only if has skills
   const skillsTabBtn = document.getElementById('ptab-skills');
   const viewedProf = S.viewingProfile || S.profile;
+  const viewedIsPro = viewedProf && (viewedProf.plan === 'pro' || viewedProf.plan === 'pro-yearly' || viewedProf.plan === 'pro_yearly' || viewedProf.plan === 'standard' || viewedProf.plan === 'vip');
   if (skillsTabBtn) {
     const hasSkills = (() => { try { const a = JSON.parse(viewedProf && viewedProf.skills_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
-    skillsTabBtn.style.display = hasSkills ? 'inline-flex' : 'none';
+    if (isOwn) {
+      skillsTabBtn.style.display = 'inline-flex';
+      if (!viewedIsPro) { skillsTabBtn.classList.add('ptab-btn-locked'); skillsTabBtn.title = 'Pro feature'; }
+      else { skillsTabBtn.classList.remove('ptab-btn-locked'); skillsTabBtn.title = ''; }
+    } else {
+      // Visitors: only show skills tab if the profile is Pro AND has skills
+      skillsTabBtn.style.display = (viewedIsPro && hasSkills) ? 'inline-flex' : 'none';
+    }
   }
   const servicesTabBtn = document.getElementById('ptab-services');
   if (servicesTabBtn) {
     const hasServices = (() => { try { const a = JSON.parse(viewedProf && viewedProf.services_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
-    servicesTabBtn.style.display = hasServices ? 'inline-flex' : 'none';
+    if (isOwn) {
+      servicesTabBtn.style.display = 'inline-flex';
+      if (!viewedIsPro) { servicesTabBtn.classList.add('ptab-btn-locked'); servicesTabBtn.title = 'Pro feature'; }
+      else { servicesTabBtn.classList.remove('ptab-btn-locked'); servicesTabBtn.title = ''; }
+    } else {
+      // Visitors: only show services tab if profile is Pro AND has services
+      servicesTabBtn.style.display = (viewedIsPro && hasServices) ? 'inline-flex' : 'none';
+    }
   }
   if (!allProjs.length) {
     if (grid) grid.innerHTML = '';
@@ -5956,13 +5959,75 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
     if (noresBtn) noresBtn.style.display = isOwn ? 'inline-flex' : 'none';
   } else {
     nores.style.display = 'none';
-    if (grid) grid.innerHTML = visibleProjs.map(buildProfilePCard).join('');
+    if (grid) {
+      const cards = visibleProjs.map((p, idx) => {
+        const isHiddenFromPublic = isOwn && !profileIsPro && idx >= FREE_PROJ_LIMIT;
+        return buildProfilePCard(p, isOwn, isHiddenFromPublic);
+      }).join('');
+      let lockedCards = '';
+      if (!isOwn && !profileIsPro && allProjs.length > FREE_PROJ_LIMIT) {
+        lockedCards = allProjs.slice(FREE_PROJ_LIMIT).map(proj => {
+          const thumbInner = proj.cover_url
+            ? '<img src="' + proj.cover_url + '" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">'
+            : '<div style="position:absolute;inset:0;background:var(--bg4)"></div>';
+          return '<div class="prof-pcard prof-pcard-hidden">' +
+            '<div class="prof-pcard-thumb" style="position:relative">' + thumbInner +
+              '<div class="prof-pcard-hidden-overlay">' +
+                '<div class="prof-pcard-hidden-lock"><svg width="11" height="13" viewBox="0 0 11 13" fill="none"><rect x="1.5" y="5.5" width="8" height="7" rx="1.5" stroke="#FE730A" stroke-width="1.3"/><path d="M3.5 5.5V4a2 2 0 0 1 4 0v1.5" stroke="#FE730A" stroke-width="1.3" stroke-linecap="round"/></svg></div>' +
+                '<div class="prof-pcard-hidden-lbl">Pro Only</div>' +
+              '</div></div>' +
+            '<div class="prof-pcard-info"><div class="prof-pcard-title">' + (proj.title || 'Locked Project') + '</div>' +
+              '<div class="prof-pcard-meta"><span class="prof-pcard-hidden-badge" onclick="showPage(\'pricing\')">' +
+                '<svg width="9" height="10" viewBox="0 0 11 13" fill="none"><rect x="1.5" y="5.5" width="8" height="7" rx="1.5" stroke="#FE730A" stroke-width="1.3"/><path d="M3.5 5.5V4a2 2 0 0 1 4 0v1.5" stroke="#FE730A" stroke-width="1.3" stroke-linecap="round"/></svg>' +
+                'Upgrade to PRO to unlock</span></div></div></div>';
+        }).join('');
+      }
+      let ownerExpiryBanner = '';
+      if (isOwn && profileIsPro && p.pay_due) {
+        const _expDiff = Math.ceil((new Date(p.pay_due) - new Date()) / 86400000);
+        const _expKey = 'tl_expiryBannerDismissed_' + p.pay_due;
+        if (_expDiff > 0 && _expDiff <= 7 && !localStorage.getItem(_expKey)) {
+          ownerExpiryBanner = '<div id="prof-expiry-banner" style="grid-column:1/-1;display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.25);border-radius:10px;margin-bottom:.25rem">' +
+            '<span style="font-size:.72rem;color:var(--t2);flex:1">Your Pro plan expires in <strong style="color:#f59e0b">' + _expDiff + ' day' + (_expDiff === 1 ? '' : 's') + '</strong>. Renew to keep your Pro features.</span>' +
+            '<span style="font-size:.68rem;font-weight:700;color:#f59e0b;cursor:pointer;white-space:nowrap" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)},80)">Renew</span>' +
+            '<span style="margin-left:.35rem;font-size:.75rem;color:var(--t3);cursor:pointer;line-height:1;padding:.1rem .3rem;border-radius:4px;transition:color .15s" title="Dismiss" onmouseover="this.style.color=\'var(--t2)\'" onmouseout="this.style.color=\'var(--t3)\'" onclick="(function(el){localStorage.setItem(\'' + _expKey + '\',\'1\');var b=el.closest(\'#prof-expiry-banner\');if(b){b.style.transition=\'opacity .2s\';b.style.opacity=\'0\';setTimeout(function(){b.remove()},200)}})(this)">✕</span>' +
+          '</div>';
+        }
+      }
+      let ownerHiddenBanner = '';
+      if (isOwn && !profileIsPro && allProjs.length > FREE_PROJ_LIMIT && !localStorage.getItem('tl_hiddenBannerDismissed')) {
+        ownerHiddenBanner = '<div id="prof-hidden-banner" style="grid-column:1/-1;display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;background:rgba(254,115,10,.07);border:1px solid rgba(254,115,10,.18);border-radius:10px;margin-bottom:.25rem">' +
+          '<span style="font-size:.72rem;color:var(--t2);flex:1">Projects beyond the first 3 are <strong style="color:var(--ac)">hidden from visitors</strong> on your free plan.</span>' +
+          '<span style="font-size:.68rem;font-weight:700;color:var(--ac);cursor:pointer;white-space:nowrap" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)},80)">Upgrade</span>' +
+          '<span style="margin-left:.35rem;font-size:.75rem;color:var(--t3);cursor:pointer;line-height:1;padding:.1rem .3rem;border-radius:4px;transition:color .15s" title="Dismiss" onmouseover="this.style.color=\'var(--t2)\'" onmouseout="this.style.color=\'var(--t3)\'" onclick="(function(el){localStorage.setItem(\'tl_hiddenBannerDismissed\',\'1\');var b=el.closest(\'#prof-hidden-banner\');if(b){b.style.transition=\'opacity .2s\';b.style.opacity=\'0\';setTimeout(function(){b.remove()},200)}})(this)">✕</span>' +
+        '</div>';
+      }
+      const addCard = isOwn ? '<a class="prof-pcard prof-pcard-add" href="#" onclick="event.preventDefault();openUploadModal()" title="Upload a project"><div class="prof-pcard-add-thumb"><div class="prof-pcard-add-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="var(--ac)" stroke-width="2" stroke-linecap="round"/></svg></div><div class="prof-pcard-add-btn">Upload Project</div></div><div class="prof-pcard-add-info"><div style="font-size:.8rem;font-weight:600;color:var(--t2)">Upload Project</div><div class="prof-pcard-add-lbl">Get views and appreciations from clients.</div></div></a>' : '';
+      grid.innerHTML = ownerExpiryBanner + ownerHiddenBanner + cards + lockedCards + addCard;
+      // Fade the whole grid in as one block after the hero settles
+      const _gridWrap = document.getElementById('profile-proj-grid-wrap');
+      if (_gridWrap) {
+        _gridWrap.style.opacity = '0';
+        _gridWrap.style.animation = 'none';
+        requestAnimationFrame(() => {
+          _gridWrap.style.animation = 'profItemIn .4s cubic-bezier(.25,.8,.25,1) .18s both';
+          _gridWrap.addEventListener('animationend', () => { _gridWrap.style.opacity = ''; _gridWrap.style.animation = ''; }, { once: true });
+        });
+      }
+    }
   }
   // If categories tab is active, re-render with latest data
   if (_profTabState === 'cat') renderCategoryFolders(_profAllProjs);
+  // Show the page now — all DOM populated, animate in cleanly
+  const _pg = document.getElementById('page-profile');
+  if (_pg) {
+    _pg.classList.remove('prof-ready');
+    void _pg.offsetWidth; // reflow so animation restarts
+    _pg.classList.add('active', 'prof-ready');
+  }
 }
 
-function buildProfilePCard(p) {
+function buildProfilePCard(p, isOwn, isHiddenFromPublic) {
   const bg  = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
   const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',graphic:'Design',social:'Social',longform:'Long-form',wedding:'Wedding',shorts:'Shorts',other:'Other'};
   let thumbInner = '';
@@ -5977,20 +6042,121 @@ function buildProfilePCard(p) {
   } else {
     thumbInner = '<div class="prof-pcard-ph" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg4)">' + (p.author_init||'?') + '</div>';
   }
-  return '<a class="prof-pcard" href="#/project/' + p.id + '" onclick="event.preventDefault();showPage(\'project\',\'' + p.id + '\')">' +
-    '<div class="prof-pcard-thumb" style="position:relative">' +
+  const draftBadge = (p.status === 'draft') ? '<span style="position:absolute;top:.45rem;left:.45rem;z-index:9;font-size:.52rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:rgba(0,0,0,.7);color:rgba(255,255,255,.6);padding:.14rem .45rem;border-radius:50px;border:1px solid rgba(255,255,255,.1)">Draft</span>' : '';
+  const menuBtn = isOwn ? '<button class="prof-pcard-menu-btn" onclick="event.preventDefault();event.stopPropagation();togglePcardMenu(this,\'' + p.id + '\')" title="Options"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>' : '';
+  const hiddenBanner = isHiddenFromPublic
+    ? '<div class="prof-pcard-owner-hidden-banner"><svg width="9" height="11" viewBox="0 0 11 13" fill="none"><rect x="1.5" y="5.5" width="8" height="7" rx="1.5" stroke="#FE730A" stroke-width="1.3"/><path d="M3.5 5.5V4a2 2 0 0 1 4 0v1.5" stroke="#FE730A" stroke-width="1.3" stroke-linecap="round"/></svg>Hidden from public</div>'
+    : '';
+  const navFn = 'showPage(\'project\',\'' + p.id + '\')';
+  return '<div class="prof-pcard' + (isHiddenFromPublic ? ' prof-pcard-owner-hidden' : '') + '" style="cursor:pointer">' +
+    '<div class="prof-pcard-thumb" style="position:relative" onclick="' + navFn + '">' +
+      hiddenBanner +
       thumbInner +
+      draftBadge +
       '<div class="prof-pcard-play"><div class="prof-pcard-play-ico"><svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>' +
     '</div>' +
-      '<div class="prof-pcard-info">' +
-      '<div class="prof-pcard-title">' + p.title + '</div>' +
-      '<div class="prof-pcard-meta">' +
+    '<div class="prof-pcard-info" style="position:relative">' +
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.4rem">' +
+        '<div class="prof-pcard-title" style="flex:1;min-width:0;cursor:pointer" onclick="' + navFn + '">' + p.title + '</div>' +
+        menuBtn +
+      '</div>' +
+      '<div class="prof-pcard-meta" onclick="' + navFn + '">' +
         '<span style="text-transform:capitalize;background:var(--bg4);padding:.15rem .5rem;border-radius:50px">' + (CAT[p.cat] || 'Video') + '</span>' +
         (p.views ? '<span class="prof-pcard-likes"><svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M7 2.5C4 2.5 1.5 7 1.5 7s2.5 4.5 5.5 4.5S12.5 7 12.5 7 10 2.5 7 2.5z" stroke="currentColor" stroke-width="1.2" fill="none"/><circle cx="7" cy="7" r="1.8" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>' + p.views + '</span>' : '') +
       '</div>' +
     '</div>' +
-  '</a>';
+  '</div>';
 }
+
+function toggleSvcMenu(btn, idx) {
+  document.querySelectorAll('.pcard-ctx-menu').forEach(m => m.remove());
+  document.querySelectorAll('.pitem-menu-btn.open').forEach(b => b.classList.remove('open'));
+  const menu = document.createElement('div');
+  menu.className = 'pcard-ctx-menu';
+  menu.style.cssText = 'position:absolute;top:2.6rem;right:.7rem;z-index:99999;width:auto;min-width:110px;max-width:160px';
+  menu.innerHTML =
+    '<div class="pcard-ctx-item" onclick="openServiceModal(' + idx + ')">Edit</div>' +
+    '<div class="pcard-ctx-item danger" onclick="deleteService(' + idx + ')">Delete</div>';
+  btn.classList.add('open');
+  const card = btn.closest('.psvc-card') || btn.parentNode;
+  card.appendChild(menu);
+  setTimeout(() => {
+    document.addEventListener('click', function _c(e) {
+      if (!menu.contains(e.target) && e.target !== btn) { menu.remove(); btn.classList.remove('open'); document.removeEventListener('click', _c); }
+    });
+  }, 10);
+}
+
+function toggleSkMenu(btn, idx) {
+  document.querySelectorAll('.pcard-ctx-menu').forEach(m => m.remove());
+  document.querySelectorAll('.pitem-menu-btn.open').forEach(b => b.classList.remove('open'));
+  const menu = document.createElement('div');
+  menu.className = 'pcard-ctx-menu';
+  menu.style.cssText = 'position:absolute;top:2.6rem;right:.7rem;z-index:99999;width:auto;min-width:110px;max-width:160px';
+  menu.innerHTML =
+    '<div class="pcard-ctx-item" onclick="openSkillModal(' + idx + ')">Edit</div>' +
+    '<div class="pcard-ctx-item danger" onclick="deleteSkill(' + idx + ')">Delete</div>';
+  btn.classList.add('open');
+  const card = btn.closest('.psk-card') || btn.parentNode;
+  card.appendChild(menu);
+  setTimeout(() => {
+    document.addEventListener('click', function _c(e) {
+      if (!menu.contains(e.target) && e.target !== btn) { menu.remove(); btn.classList.remove('open'); document.removeEventListener('click', _c); }
+    });
+  }, 10);
+}
+
+function togglePcardMenu(btn, projId) {
+  // Close any open menus first
+  document.querySelectorAll('.pcard-ctx-menu').forEach(m => m.remove());
+  document.querySelectorAll('.prof-pcard-menu-btn.open').forEach(b => b.classList.remove('open'));
+  // Build menu
+  const menu = document.createElement('div');
+  menu.className = 'pcard-ctx-menu';
+  menu.style.cssText = 'position:fixed;z-index:99999;width:auto;min-width:100px;max-width:160px';
+  menu.innerHTML =
+    '<div class="pcard-ctx-item" onclick="pcardEdit(\'' + projId + '\')">Edit</div>' +
+    '<div class="pcard-ctx-item danger" onclick="pcardDelete(\'' + projId + '\')">Delete</div>';
+  btn.classList.add('open');
+  // Position relative to button
+  const r = btn.getBoundingClientRect();
+  document.body.appendChild(menu);
+  const mw = menu.offsetWidth, mh = menu.offsetHeight;
+  let top = r.bottom + 4, left = r.right - mw;
+  if (top + mh > window.innerHeight) top = r.top - mh - 4;
+  if (left < 4) left = 4;
+  menu.style.top = top + 'px';
+  menu.style.left = left + 'px';
+  // Close on outside click
+  setTimeout(() => {
+    document.addEventListener('click', function _close(e) {
+      if (!menu.contains(e.target) && e.target !== btn) {
+        menu.remove(); btn.classList.remove('open');
+        document.removeEventListener('click', _close);
+      }
+    });
+  }, 10);
+}
+
+function pcardEdit(projId) {
+  document.querySelectorAll('.pcard-ctx-menu').forEach(m => m.remove());
+  const proj = S.projects.find(p => p.id === projId);
+  if (proj) { S._currentProject = proj; openEditProject(); }
+}
+window.pcardEdit = pcardEdit;
+
+function pcardDelete(projId) {
+  document.querySelectorAll('.pcard-ctx-menu').forEach(m => m.remove());
+  if (!confirm('Delete this project? This cannot be undone.')) return;
+  const token = S.session?.access_token || SB_KEY;
+  db('/projects?id=eq.' + projId, 'DELETE', null, token).then(() => {
+    S.projects = S.projects.filter(p => p.id !== projId);
+    showToast('Project deleted');
+    renderProfileProjects(S.profile);
+  }).catch(() => showToast('Delete failed — try again','error'));
+}
+window.pcardDelete = pcardDelete;
+window.togglePcardMenu = togglePcardMenu;
 
 function switchPTab(id, btn) { /* kept for backward compat · no-op */ }
 // ── Profile Tabs: All / Categories ──────────────────────────
@@ -6009,20 +6175,33 @@ function switchProfileTab(tab) {
     void el.offsetWidth;
     el.classList.add('ptab-fadein');
   }
+  function _smoothTabSwitch(hide, show) {
+    if (hide && hide.style.display !== 'none') {
+      hide.style.transition = 'opacity 110ms ease';
+      hide.style.opacity = '0';
+      setTimeout(() => {
+        hide.style.transition = ''; hide.style.opacity = '';
+        hide.style.display = 'none';
+        if (show) { show.style.display = 'block'; _triggerFade(show); }
+      }, 110);
+    } else {
+      if (hide) hide.style.display = 'none';
+      if (show) { show.style.display = 'block'; _triggerFade(show); }
+    }
+  }
   if (tab === 'all') {
+    const _ugWrapAll = document.getElementById('prof-tab-upgrade-wrap'); if (_ugWrapAll) _ugWrapAll.style.display = 'none';
     btnAll.classList.add('ptab-active'); btnAll.classList.remove('ptab-off');
     const btnSk = document.getElementById('ptab-skills');
     if (btnSk) { btnSk.classList.add('ptab-off'); btnSk.classList.remove('ptab-active'); }
-    if (allWrap) { allWrap.style.display = 'block'; _triggerFade(allWrap); }
-    if (catWrap) catWrap.style.display = 'none';
+    _smoothTabSwitch(catWrap, allWrap);
     const grid = document.getElementById('profile-proj-grid');
     if (grid && _profAllProjs.length && !grid.innerHTML.trim()) {
       grid.innerHTML = _profAllProjs.map(buildProfilePCard).join('');
     }
   } else {
     btnAll.classList.add('ptab-off'); btnAll.classList.remove('ptab-active');
-    if (allWrap) allWrap.style.display = 'none';
-    if (catWrap) { catWrap.style.display = 'block'; _triggerFade(catWrap); }
+    _smoothTabSwitch(allWrap, catWrap);
     renderCategoryFolders(_profAllProjs);
   }
 }
@@ -6189,9 +6368,10 @@ el('main-nav').style.display = 'none';
 // ── ROUTING ───────────────────────────────────────────
 const HASH_PAGES = ['feed','pricing','faq','profile','dashboard','project','reset-password'];
 
+let _showPageInProgress = false;
 function pushHash(id, extra) {
   const h = '#/' + id + (extra ? '/' + extra : '');
-  try { if (location.hash !== h) history.pushState(null, '', h); } catch(e) {}
+  try { history.replaceState(null, '', h); } catch(e) {}
 }
 
 // ── PAGE TRANSITION LOADER (refresh only) ────────────
@@ -6234,17 +6414,23 @@ function showPage(id, projOrUserId) {
     openProject(projOrUserId);
     return;
   }
+  // Debounce: ignore rapid duplicate calls to the same page (prevents double-render from href + onclick)
+  const _callKey = id + '|' + (projOrUserId || '');
+  if (_showPageInProgress === _callKey) return;
+  _showPageInProgress = _callKey;
+  setTimeout(() => { _showPageInProgress = false; }, 500);
   // Save feed scroll position before leaving it
   const feedPage = el('page-feed');
   if (feedPage && feedPage.classList.contains('active') && id !== 'feed') {
     S._feedScrollY = window.scrollY;
   }
-  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('page-enter'); });
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('page-enter'); p.classList.remove('prof-ready'); });
   // Always hide splash explicitly when navigating away from it
   const splash = el('page-splash');
   if (id !== 'splash' && splash) { splash.style.display = 'none'; }
   const pg = el('page-' + id);
-  if (pg) {
+  if (pg && id !== 'profile') {
+    // Profile page is shown by refreshProfile after data loads — skip adding active here
     pg.classList.add('active');
     if (id !== 'splash') {
       void pg.offsetWidth; // reflow to restart animation
@@ -6290,8 +6476,7 @@ function showPage(id, projOrUserId) {
       // Clear projects grid immediately and show skeleton cards
       const projGrid = document.getElementById('profile-proj-grid');
       if (projGrid) {
-        const skelCard = '<div class="prof-pcard-skel"><div class="prof-pcard-skel-thumb"></div><div class="prof-pcard-skel-body"><div class="prof-pcard-skel-line"></div><div class="prof-pcard-skel-line short"></div></div></div>';
-        projGrid.innerHTML = skelCard + skelCard + skelCard + skelCard;
+        projGrid.innerHTML = '';
       }
 
       // Use cache if this is an exact re-visit to the same profile (same seq guard still applies)
@@ -6381,8 +6566,8 @@ async function showProfileByUsername(username) {
       el('pstat-proj').textContent = '0';
       el('pstat-likes').textContent = '0';
       el('pstat-views').textContent = '0';
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      const _pp = el('page-profile'); _pp.classList.remove('active'); void _pp.offsetWidth; _pp.classList.add('active');
+      document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('prof-ready'); });
+      const _pp = el('page-profile'); _pp.classList.remove('active'); _pp.classList.remove('prof-ready');
       el('main-nav').style.display = 'none';
       window.scrollTo(0, 0);
       // Set URL to /{username} so the link is shareable
@@ -6557,10 +6742,20 @@ function initTheme() {
 
 // ── TOAST ────────────────────────────────────────────
 function showToast(msg) {
-  const t = el('toast');
-  el('tmsg').textContent = msg;
+  const t = document.getElementById('toast');
+  if (!t) return;
+  // Always move toast to be the very last child of body so it escapes
+  // any stacking context created by backdrop-filter on modal overlays
+  if (t.parentNode !== document.body || t !== document.body.lastElementChild) {
+    document.body.appendChild(t);
+  }
+  document.getElementById('tmsg').textContent = msg;
+  t.classList.remove('show');
+  // Force reflow so re-adding 'show' triggers the transition fresh
+  void t.offsetWidth;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  clearTimeout(t._toastTimer);
+  t._toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
 }
 
 // ── EXPOSE to HTML onclick handlers ──────────────────
@@ -6825,6 +7020,13 @@ function applyProfileBrandColors(brandColorsJson) {
     '#page-profile .sw-badge { border-color:' + primary + '44 !important; color:' + primary + ' !important; }',
     // Cover bar
     '#page-profile #pcov-el { background:' + primary + ' !important; }',
+    // Owner-only UI buttons must always stay readable — never tinted by brand color
+    '#page-profile #pnores-upload-btn { background:#FE730A !important; color:#fff !important; }',
+    '#page-profile #profile-skills-empty-btn { background:#FE730A !important; color:#fff !important; }',
+    '#page-profile #profile-services-empty-btn { background:#FE730A !important; color:#fff !important; }',
+    '#page-profile .prof-edit-btn { background:transparent !important; color:rgba(255,255,255,.55) !important; border-color:rgba(255,255,255,.12) !important; }',
+    '#page-profile .prof-pcard-add-thumb { border-color:rgba(255,255,255,.12) !important; }',
+    '#page-profile .prof-pcard-add-btn { color:rgba(255,255,255,.35) !important; border-color:rgba(255,255,255,.12) !important; }',
     // All/Categories tab active text contrast
     '#page-profile .ptab-btn.ptab-active { color: ' + textOn + ' !important; }',
     // Sidebar links
@@ -7389,7 +7591,7 @@ window._epPendingVideos = [];
 window.epPickVideo = function() {
   if (window._epPendingVideos.length >= 5) { showToast('Max 5 videos per project.'); return; }
   const inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'video/mp4,video/webm'; inp.style.display = 'none';
+  inp.type = 'file'; inp.accept = 'video/mp4,video/quicktime,video/webm,video/*'; inp.style.display = 'none';
   document.body.appendChild(inp);
   inp.onchange = () => {
     const f = inp.files[0]; document.body.removeChild(inp);
@@ -7801,6 +8003,13 @@ async function saveSkill() {
   finally { if (btn) { btn.disabled = false; btn.textContent = 'Save skill'; } }
   closeSkillModal();
   renderDashSkills();
+  if (S.profile) {
+    renderPublicSkillsTab(S.profile, S.projects || []);
+    setTimeout(_updateSkillsAddBtnVisibility, 30);
+    // Re-add inline "+ Add a Skill" card for pro owner after re-render
+    const skList = document.getElementById('profile-skills-list');
+
+  }
 }
 
 async function deleteSkill(idx) {
@@ -7810,6 +8019,12 @@ async function deleteSkill(idx) {
   _saveSkillsData(skills);
   try { const token = await getToken(); await db('/profiles?id=eq.' + S.profile.id, 'PATCH', { skills_data: JSON.stringify(skills) }, token); } catch(e) {}
   renderDashSkills();
+  if (S.profile) {
+    renderPublicSkillsTab(S.profile, S.projects || []);
+    setTimeout(_updateSkillsAddBtnVisibility, 30);
+    const skList = document.getElementById('profile-skills-list');
+
+  }
 }
 
 // ── Public profile: render skills tab ──
@@ -7821,9 +8036,16 @@ function renderPublicSkillsTab(profileData, projects) {
   const empty  = document.getElementById('profile-skills-empty');
   const layout = document.getElementById('profile-skills-list');
   if (!list) return;
+  const isOwn = S.profile && profileData && S.profile.id === profileData.id;
+  const _isOwnSkills = isOwn;
   if (!skills.length) {
     if (empty) empty.style.display = 'block';
-    list.style.display = 'none';
+    if (_isOwnSkills) {
+      list.style.display = 'block';
+      list.innerHTML = '';
+    } else {
+      list.style.display = 'none';
+    }
     return;
   }
   if (empty) empty.style.display = 'none';
@@ -7856,7 +8078,9 @@ function renderPublicSkillsTab(profileData, projects) {
             + '</a>';
         }).join('');
       }
-      return '<div class="psk-card psk-card-static ' + variant + '" id="psk-card-' + i + '" style="width:100%;box-sizing:border-box;min-width:0">'
+      const _skMenu = isOwn ? '<button onclick="event.stopPropagation();toggleSkMenu(this,' + i + ')" title="Options" style="position:absolute;top:.6rem;right:.6rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;pointer-events:all"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>' : '';
+      return '<div class="psk-card psk-card-static ' + variant + '" id="psk-card-' + i + '" style="position:relative;width:100%;box-sizing:border-box;min-width:0">'
+        + _skMenu
         + '<div class="psk-card-inner"><span class="psk-card-name">' + escHtml(sk.name) + '</span>'
         + contentHtml + '</div></div>';
     }).join('');
@@ -7918,7 +8142,9 @@ function renderPublicSkillsTab(profileData, projects) {
           + '</a>';
       }).join('');
     }
-    return '<div class="psk-card psk-card-static ' + variant + '" id="psk-card-' + i + '"' + spanStyle + '>'
+    const _skMenuD = isOwn ? '<button onclick="event.stopPropagation();toggleSkMenu(this,' + i + ')" title="Options" style="position:absolute;top:.6rem;right:.6rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;pointer-events:all"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>' : '';
+    return '<div class="psk-card psk-card-static ' + variant + '" id="psk-card-' + i + '"' + spanStyle + ' style="position:relative">'
+      + _skMenuD
       + '<div class="psk-card-inner">'
       + '<span class="psk-card-name">' + escHtml(sk.name) + '</span>'
       + contentHtml
@@ -7926,6 +8152,47 @@ function renderPublicSkillsTab(profileData, projects) {
       + '</div>';
   }).join('');
 }
+
+// Update header + Add btn and empty-state btn after skills render
+function _updateSkillsAddBtnVisibility() {
+  const isOwn = S.profile && (S.viewingProfile || S.profile) && S.profile.id === (S.viewingProfile || S.profile).id;
+  const viewedProf = S.viewingProfile || S.profile;
+  const isPro = viewedProf && ['pro','pro-yearly','pro_yearly','standard','vip'].includes(viewedProf.plan);
+  if (!isOwn || !isPro) return;
+  const list = document.getElementById('profile-skills-list');
+  const emptyDiv = document.getElementById('profile-skills-empty');
+  const emptyBtn = document.getElementById('profile-skills-empty-btn');
+  const hdrBtn = document.getElementById('prof-section-add-btn');
+  const hasItems = list && list.children.length > 0;
+  if (emptyDiv && emptyDiv.style.display !== 'none') {
+    if (emptyBtn) emptyBtn.style.display = 'inline-flex';
+    if (hdrBtn) hdrBtn.style.display = 'none';
+  } else {
+    if (emptyBtn) emptyBtn.style.display = 'none';
+    if (hdrBtn) { hdrBtn.style.display = 'inline-flex'; hdrBtn.onclick = () => { openSkillModal(); }; }
+  }
+}
+
+// Update header + Add btn and empty-state btn after services render
+function _updateServicesAddBtnVisibility() {
+  const isOwn = S.profile && (S.viewingProfile || S.profile) && S.profile.id === (S.viewingProfile || S.profile).id;
+  const viewedProf = S.viewingProfile || S.profile;
+  const isPro = viewedProf && ['pro','pro-yearly','pro_yearly','standard','vip'].includes(viewedProf.plan);
+  if (!isOwn || !isPro) return;
+  const list = document.getElementById('profile-services-list');
+  const emptyDiv = document.getElementById('profile-services-empty');
+  const emptyBtn = document.getElementById('profile-services-empty-btn');
+  const hdrBtn = document.getElementById('prof-section-add-btn');
+  const hasItems = list && list.children.length > 0;
+  if (emptyDiv && emptyDiv.style.display !== 'none') {
+    if (emptyBtn) emptyBtn.style.display = 'inline-flex';
+    if (hdrBtn) hdrBtn.style.display = 'none';
+  } else {
+    if (emptyBtn) emptyBtn.style.display = 'none';
+    if (hdrBtn) { hdrBtn.style.display = 'inline-flex'; hdrBtn.onclick = () => { openServiceModal(); }; }
+  }
+}
+
 
 function pskToggleCard(idx) {
   const card = document.getElementById('psk-card-' + idx);
@@ -7935,34 +8202,155 @@ function pskToggleCard(idx) {
 function pskSelectSkill(idx) { pskToggleCard(idx); }
 function renderSkillContent() {}
 
-// ── Hook switchProfileTab to handle 'skills' ──
+// ── Hook switchProfileTab to handle 'skills' and 'services' ──
 const _origSwitchProfileTab = window.switchProfileTab;
 window.switchProfileTab = function(tab) {
   const btnAll    = document.getElementById('ptab-all');
   const btnSk     = document.getElementById('ptab-skills');
+  const btnSvc    = document.getElementById('ptab-services');
   const wrapAll   = document.getElementById('profile-proj-grid-wrap');
   const wrapCat   = document.getElementById('profile-cat-grid-wrap');
   const wrapSk    = document.getElementById('profile-skills-wrap');
+  const wrapSvc   = document.getElementById('profile-services-wrap');
   const sectionLbl = document.getElementById('prof-section-label');
+  const viewedProf = S.viewingProfile || S.profile;
+  const viewedIsPro = viewedProf && (viewedProf.plan === 'pro' || viewedProf.plan === 'pro-yearly' || viewedProf.plan === 'pro_yearly' || viewedProf.plan === 'standard' || viewedProf.plan === 'vip');
+  const isOwn = S.profile && viewedProf && viewedProf.id === S.profile.id;
+
+  // Intercept locked tab for free-plan owner — show inline upgrade card instead of redirecting
+  if ((tab === 'skills' || tab === 'services') && isOwn && !viewedIsPro) {
+    _resetAllTabBtns();
+    const tabBtn = tab === 'skills' ? btnSk : btnSvc;
+    if (tabBtn) { tabBtn.classList.add('ptab-active'); tabBtn.classList.remove('ptab-off'); }
+    // Hide all content wraps
+    if (document.getElementById('profile-proj-grid-wrap')) document.getElementById('profile-proj-grid-wrap').style.display = 'none';
+    if (document.getElementById('profile-cat-grid-wrap')) document.getElementById('profile-cat-grid-wrap').style.display = 'none';
+    if (document.getElementById('profile-skills-wrap')) document.getElementById('profile-skills-wrap').style.display = 'none';
+    if (document.getElementById('profile-services-wrap')) document.getElementById('profile-services-wrap').style.display = 'none';
+    // Show upgrade card inside a temp container
+    let upgradeWrap = document.getElementById('prof-tab-upgrade-wrap');
+    if (!upgradeWrap) {
+      upgradeWrap = document.createElement('div');
+      upgradeWrap.id = 'prof-tab-upgrade-wrap';
+      const grid = document.getElementById('profile-proj-grid');
+      if (grid && grid.parentNode) grid.parentNode.parentNode.insertBefore(upgradeWrap, grid.parentNode.nextSibling);
+    }
+    upgradeWrap.style.display = 'block';
+    // Hide the "no projects" message so it doesn't overlap
+    const _pnoresEl = document.getElementById('pnores');
+    if (_pnoresEl) _pnoresEl.style.display = 'none';
+    const featureName = tab === 'skills' ? 'Skills' : 'Services';
+    const featureDesc = tab === 'skills'
+      ? 'Showcase your expertise with a dedicated Skills tab visible on your public portfolio.'
+      : 'Add a Services tab with your rate card so clients know exactly what you offer and at what price.';
+    upgradeWrap.innerHTML =
+      '<div style="margin:2rem auto;max-width:420px;background:var(--bg2);border:1.5px solid rgba(254,115,10,.22);border-radius:20px;padding:2rem 1.8rem;text-align:center;">' +
+      '<div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.5rem">' + featureName + ' is a Pro feature</div>' +
+      '<div style="font-size:.82rem;color:var(--t2);line-height:1.7;margin-bottom:1.3rem">' + featureDesc + '</div>' +
+      '<button onclick="showPage(\'pricing\')" style="background:var(--ac);color:#fff;border:none;border-radius:50px;padding:.65rem 1.6rem;font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s" onmouseover="this.style.opacity=&quot;.85&quot;" onmouseout="this.style.opacity=&quot;1&quot;">View Pro Plans</button>' +
+      '</div>';
+    if (sectionLbl) sectionLbl.textContent = featureName;
+    _triggerFade(upgradeWrap);
+    return;
+  }
+  // Hide upgrade wrap when switching to another tab
+  const _ugWrap = document.getElementById('prof-tab-upgrade-wrap');
+  if (_ugWrap) _ugWrap.style.display = 'none';
+
   function _triggerFade(el) {
     if (!el) return;
+    el.style.opacity = '0';
     el.classList.remove('ptab-fadein');
     void el.offsetWidth;
     el.classList.add('ptab-fadein');
+    el.style.opacity = '';
+  }
+  function _smoothSwitch(incoming) {
+    // Find currently visible wrap and fade it out, then swap
+    const allWraps = [wrapAll, wrapCat, wrapSk, wrapSvc].filter(w => w && w.style.display !== 'none');
+    const FADE_MS = 120;
+    function _showIncoming() {
+      if (wrapAll) wrapAll.style.display = 'none';
+      if (wrapCat) wrapCat.style.display = 'none';
+      if (wrapSk)  wrapSk.style.display  = 'none';
+      if (wrapSvc) wrapSvc.style.display = 'none';
+      if (incoming) { incoming.style.display = 'block'; _triggerFade(incoming); }
+    }
+    if (allWraps.length) {
+      allWraps.forEach(w => { w.style.transition = 'opacity ' + FADE_MS + 'ms ease'; w.style.opacity = '0'; });
+      setTimeout(() => { allWraps.forEach(w => { w.style.transition = ''; w.style.opacity = ''; }); _showIncoming(); }, FADE_MS);
+    } else {
+      _showIncoming();
+    }
+  }
+  function _resetAllTabBtns() {
+    if (btnAll) { btnAll.classList.add('ptab-off'); btnAll.classList.remove('ptab-active'); }
+    if (btnSk)  { btnSk.classList.add('ptab-off');  btnSk.classList.remove('ptab-active'); }
+    if (btnSvc) { btnSvc.classList.add('ptab-off'); btnSvc.classList.remove('ptab-active'); }
   }
   if (tab === 'skills') {
-    if (btnAll) { btnAll.classList.add('ptab-off'); btnAll.classList.remove('ptab-active'); }
+    _resetAllTabBtns();
+    const _pnoresSk = document.getElementById('pnores');
+    if (_pnoresSk) _pnoresSk.style.display = 'none';
     if (btnSk)  { btnSk.classList.add('ptab-active'); btnSk.classList.remove('ptab-off'); }
-    if (wrapAll) wrapAll.style.display = 'none';
-    if (wrapCat) wrapCat.style.display = 'none';
-    if (wrapSk)  { wrapSk.style.display = 'block'; _triggerFade(wrapSk); }
+    _smoothSwitch(wrapSk);
     if (sectionLbl) sectionLbl.textContent = 'Skills';
-    const prof = S.viewingProfile || S.profile;
-    renderPublicSkillsTab(prof, S.projects || []);
+    // Show empty-state add btn for own pro (will hide once items exist, handled in render)
+    const _skEmptyBtn = document.getElementById('profile-skills-empty-btn');
+    if (_skEmptyBtn) _skEmptyBtn.style.display = (isOwn && viewedIsPro) ? 'inline-flex' : 'none';
+    // Header + Add btn: shown only after render (when items exist)
+    const addHdrBtnSk = document.getElementById('prof-section-add-btn');
+    if (addHdrBtnSk) addHdrBtnSk.style.display = 'none';
+    function _appendAddSkillBtn() { setTimeout(_updateSkillsAddBtnVisibility, 30); }
+    // Always re-fetch profile so skills_data is current
+    const isOwnSk = S.user && viewedProf && viewedProf.id === S.user.id;
+    if (isOwnSk) {
+      db('/profiles?id=eq.' + viewedProf.id + '&select=*', 'GET', null, SB_KEY).then(prows => {
+        if (prows && prows[0]) {
+          S.profile = { ...S.profile, ...prows[0] };
+          try { localStorage.setItem('tl_lp_' + viewedProf.id, JSON.stringify(S.profile)); } catch(e) {}
+          renderPublicSkillsTab(S.profile, S.projects || []);
+        } else { renderPublicSkillsTab(viewedProf, S.projects || []); }
+        _appendAddSkillBtn();
+      }).catch(() => { renderPublicSkillsTab(viewedProf, S.projects || []); _appendAddSkillBtn(); });
+    } else {
+      renderPublicSkillsTab(viewedProf, S.projects || []);
+      _appendAddSkillBtn();
+    }
+  } else if (tab === 'services') {
+    _resetAllTabBtns();
+    const _pnoresSvc2 = document.getElementById('pnores');
+    if (_pnoresSvc2) _pnoresSvc2.style.display = 'none';
+    if (btnSvc) { btnSvc.classList.add('ptab-active'); btnSvc.classList.remove('ptab-off'); }
+    _smoothSwitch(wrapSvc);
+    if (sectionLbl) sectionLbl.textContent = 'Services';
+    // Render services inline (re-use existing renderPublicServicesTab if available)
+    if (typeof renderPublicServicesTab === 'function') { const _ownSvcInline = S.user && viewedProf && viewedProf.id === S.user.id; renderPublicServicesTab(viewedProf, _ownSvcInline); }
+    // Show empty-state add btn for own pro
+    const _svcEmptyBtn2 = document.getElementById('profile-services-empty-btn');
+    if (_svcEmptyBtn2) _svcEmptyBtn2.style.display = (isOwn && viewedIsPro) ? 'inline-flex' : 'none';
+    // Header + Add btn: hide initially, show after render if items exist
+    const addHdrBtnSvc = document.getElementById('prof-section-add-btn');
+    if (addHdrBtnSvc) addHdrBtnSvc.style.display = 'none';
+    setTimeout(_updateServicesAddBtnVisibility, 50);
   } else {
-    if (btnSk) { btnSk.classList.add('ptab-off'); btnSk.classList.remove('ptab-active'); }
-    if (wrapSk) wrapSk.style.display = 'none';
+    if (btnSk)  { btnSk.classList.add('ptab-off');  btnSk.classList.remove('ptab-active'); }
+    if (btnSvc) { btnSvc.classList.add('ptab-off'); btnSvc.classList.remove('ptab-active'); }
+    _smoothSwitch(wrapAll);
+    if (wrapSk)  wrapSk.style.display  = 'none';
+    if (wrapSvc) wrapSvc.style.display = 'none';
     if (sectionLbl) sectionLbl.textContent = 'Projects';
+    const addHdrBtnProj = document.getElementById('prof-section-add-btn');
+    if (addHdrBtnProj) addHdrBtnProj.style.display = 'none';
+    // Restore pnores visibility based on whether there are projects
+    const _pnoresProj = document.getElementById('pnores');
+    const _pnoresBtnProj = document.getElementById('pnores-upload-btn');
+    const _hasProjs = typeof _profAllProjs !== 'undefined' && _profAllProjs && _profAllProjs.length > 0;
+    if (_pnoresProj) _pnoresProj.style.display = _hasProjs ? 'none' : 'block';
+    if (_pnoresBtnProj) {
+      const _isOwnProj = S.profile && (S.viewingProfile || S.profile) && (S.viewingProfile || S.profile).id === S.profile.id;
+      _pnoresBtnProj.style.display = (!_hasProjs && _isOwnProj) ? 'inline-flex' : 'none';
+    }
     if (_origSwitchProfileTab) _origSwitchProfileTab(tab);
     else {
       if (btnAll) { btnAll.classList.add('ptab-active'); btnAll.classList.remove('ptab-off'); }
@@ -7970,11 +8358,326 @@ window.switchProfileTab = function(tab) {
       if (wrapCat) wrapCat.style.display = 'none';
       const grid = document.getElementById('profile-proj-grid');
       if (grid && _profAllProjs && _profAllProjs.length && !grid.innerHTML.trim()) {
-        grid.innerHTML = _profAllProjs.map(buildProfilePCard).join('');
+        const isOwnGrid = S.profile && S.viewingProfile && S.viewingProfile.id === S.profile.id;
+        grid.innerHTML = _profAllProjs.map(p => buildProfilePCard(p, isOwnGrid)).join('');
       }
     }
   }
 };
+
+// ── Portfolio inline action shortcuts ──
+// ── Upload Project Modal (inline overlay) ──
+let _upmThumbBlob = null;
+let _upmVideoBlobs = [];
+let _upmVideoUrl = null;
+let _upmTags = [];
+
+function openUploadModal() {
+  if (!S.profile) { openAuth(); return; }
+  // Reset form
+  _upmThumbBlob = null;
+  _upmVideoBlobs = [];
+  _upmVideoUrl = null;
+  _upmTags = [];
+  document.getElementById('upm-title').value = '';
+  document.getElementById('upm-desc').value = '';
+  document.getElementById('upm-year').value = new Date().getFullYear();
+  document.getElementById('upm-cat').value = 'video';
+  document.getElementById('upm-tags-chips').innerHTML = '';
+  document.getElementById('upm-tags').value = '';
+  document.getElementById('upm-tags-input').value = '';
+  document.getElementById('upm-thumb-lbl').textContent = 'Upload cover image';
+  document.getElementById('upm-thumb-input').value = '';
+  document.getElementById('upm-thumb-label').style.borderColor = 'var(--brd2)';
+  document.getElementById('upm-thumb-label').style.background = 'var(--bg3)';
+  const prevWrap = document.getElementById('upm-thumb-preview-wrap');
+  if (prevWrap) prevWrap.style.display = 'none';
+  document.getElementById('upm-yt').value = '';
+  const videoList = document.getElementById('upm-video-list');
+  if (videoList) videoList.innerHTML = '';
+  const videoInput = document.getElementById('upm-video-input');
+  if (videoInput) videoInput.value = '';
+  const videoProgress = document.getElementById('upm-video-progress');
+  if (videoProgress) videoProgress.style.display = 'none';
+  document.getElementById('upm-saving').style.display = 'none';
+  // Plan gate
+  const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(S.profile.plan);
+  document.getElementById('upm-gate').style.display = isPro ? 'none' : 'block';
+  const overlay = document.getElementById('upload-modal-overlay');
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeUploadModal() {
+  document.getElementById('upload-modal-overlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function upmTagKey(e) {
+  if (e.key === 'Enter' || e.key === ',') {
+    e.preventDefault();
+    const val = (e.target.value || '').trim().replace(/,/g,'');
+    if (val && !_upmTags.includes(val) && _upmTags.length < 10) {
+      _upmTags.push(val);
+      upmRenderTags();
+    }
+    e.target.value = '';
+  } else if (e.key === 'Backspace' && !e.target.value && _upmTags.length) {
+    _upmTags.pop(); upmRenderTags();
+  }
+}
+
+function upmRenderTags() {
+  const wrap = document.getElementById('upm-tags-chips');
+  wrap.innerHTML = _upmTags.map((t,i) =>
+    '<span style="display:inline-flex;align-items:center;gap:.25rem;background:var(--bg4);border:1px solid var(--brd2);border-radius:50px;padding:.18rem .55rem;font-size:.72rem;color:var(--t1)">'
+    + escHtml(t)
+    + '<span onclick="upmRemoveTag('+i+')" style="cursor:pointer;color:var(--t3);font-size:.8rem;line-height:1">×</span></span>'
+  ).join('');
+  document.getElementById('upm-tags').value = JSON.stringify(_upmTags);
+}
+
+function upmRemoveTag(i) { _upmTags.splice(i,1); upmRenderTags(); }
+
+function upmThumbPick(inp) {
+  const file = inp.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { showToast('Cover image must be under 5 MB'); inp.value=''; return; }
+  _upmThumbBlob = file;
+  document.getElementById('upm-thumb-lbl').textContent = file.name;
+  const label = document.getElementById('upm-thumb-label');
+  label.style.borderColor = 'var(--ac)';
+  label.style.background = 'var(--acg)';
+  // Show preview
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = document.getElementById('upm-thumb-preview-img');
+    const wrap = document.getElementById('upm-thumb-preview-wrap');
+    if (img) img.src = e.target.result;
+    if (wrap) wrap.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function upmClearThumb() {
+  _upmThumbBlob = null;
+  document.getElementById('upm-thumb-lbl').textContent = 'Upload cover image';
+  document.getElementById('upm-thumb-input').value = '';
+  document.getElementById('upm-thumb-label').style.borderColor = 'var(--brd2)';
+  document.getElementById('upm-thumb-label').style.background = 'var(--bg3)';
+  const wrap = document.getElementById('upm-thumb-preview-wrap');
+  if (wrap) wrap.style.display = 'none';
+}
+
+function upmPickVideo() {
+  document.getElementById('upm-video-input').click();
+}
+
+function upmVideoFilePicked(inp) {
+  const file = inp.files[0];
+  if (!file) return;
+  if (file.size > 250*1024*1024) { showToast('Video must be under 250 MB'); inp.value=''; return; }
+  _upmVideoBlobs.push(file);
+  inp.value = '';
+  upmRenderVideoList();
+}
+
+function upmRenderVideoList() {
+  const list = document.getElementById('upm-video-list');
+  if (!list) return;
+  list.innerHTML = _upmVideoBlobs.map((f, i) =>
+    '<div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:.45rem .75rem;gap:.5rem">'
+    + '<div style="display:flex;align-items:center;gap:.5rem;min-width:0">'
+    + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><polygon points="10,8 16,11 10,14" fill="var(--t3)" stroke="none"/></svg>'
+    + '<span style="font-size:.78rem;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px">' + escHtml(f.name) + '</span>'
+    + '</div>'
+    + '<button onclick="upmRemoveVideo('+i+')" style="background:rgba(239,68,68,.12);border:none;color:rgba(239,68,68,.8);font-size:.72rem;font-weight:600;padding:.22rem .6rem;border-radius:50px;cursor:pointer;flex-shrink:0">Remove</button>'
+    + '</div>'
+  ).join('');
+}
+
+function upmRemoveVideo(i) { _upmVideoBlobs.splice(i,1); upmRenderVideoList(); }
+
+async function upmSave(status) {
+  if (!S.profile) return;
+  const title = document.getElementById('upm-title').value.trim();
+  if (!title) { showToast('Please enter a project title.'); return; }
+  if (_upmVideoBlobs.length === 0) { showToast('Please add at least one video before uploading.'); return; }
+
+  const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(S.profile.plan);
+
+  // Plan gate — free users: max 3 published
+  if (!isPro && status === 'published') {
+    const token = await getToken();
+    const existing = await db('/projects?user_id=eq.'+S.profile.id+'&status=eq.published&select=id','GET',null,token).catch(()=>[]);
+    if (existing && existing.filter(p=>!p.locked).length >= 3) {
+      showToast('Free plan limit: 3 projects. Upgrade to Pro for unlimited.');
+      closeUploadModal();
+      switchDash('account',document.getElementById('dnav-account'));
+      setTimeout(()=>switchAccTab('pro'),80);
+      return;
+    }
+  }
+
+  // Storage check
+  const totalVideoSize = _upmVideoBlobs.reduce((s,f)=>s+f.size, 0);
+  if (totalVideoSize > 0) {
+    const storageLimit = isPro ? (5*1024*1024*1024) : (250*1024*1024);
+    try {
+      const used = (typeof getUsedStorage === 'function') ? await getUsedStorage() : 0;
+      if (used + totalVideoSize > storageLimit) {
+        showToast('Storage full · ' + (isPro ? '5 GB' : '250 MB') + ' limit reached.' + (!isPro ? ' Upgrade to Pro for 5 GB.' : ''));
+        return;
+      }
+    } catch(e) {}
+  }
+
+  const savingEl = document.getElementById('upm-saving');
+  const progressWrap = document.getElementById('upm-video-progress');
+  const progressBar  = document.getElementById('upm-video-progress-bar');
+  const progressLbl  = document.getElementById('upm-video-progress-lbl');
+  const progressPct  = document.getElementById('upm-video-pct');
+  savingEl.style.display = 'inline';
+  savingEl.textContent = 'Saving…';
+
+  try {
+    const token = await getToken();
+
+    // 1. Create the DB record first to get a project ID
+    const catEl = document.getElementById('upm-cat');
+    const catLabels = {'video':'Video Edit','motion':'Motion Graphics','film':'Film / Cinematic','social':'Reels / Shorts / TikTok','longform':'Long-form','3d':'3D & VFX','wedding':'Wedding & Events','other':'Other'};
+    const catVal = catEl.value;
+    const payload = {
+      user_id: S.profile.id,
+      title,
+      cat: catLabels[catVal] || catVal,
+      year: document.getElementById('upm-year').value.trim() || String(new Date().getFullYear()),
+      description: document.getElementById('upm-desc').value.trim(),
+      tags: _upmTags,
+      yt_link: '',
+      status,
+      author_name: S.profile.name || S.profile.username || '',
+      author_init: S.profile.initials || (S.profile.name ? S.profile.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : '?'),
+      author_avatar: S.profile.avatar_url || null,
+      grad_idx: S.profile.grad_idx || 0,
+      likes: 0, views: 0,
+      video_size: totalVideoSize
+    };
+    const rows = await db('/projects', 'POST', payload, token);
+    const saved = (rows && rows[0]) ? rows[0] : Object.assign({ id: 'local_' + Date.now() }, payload);
+
+    // 2. Upload all videos via R2 XHR
+    const uploadedVideoUrls = [];
+    for (let vi = 0; vi < _upmVideoBlobs.length; vi++) {
+      const videoBlob = _upmVideoBlobs[vi];
+      savingEl.textContent = 'Uploading video ' + (vi+1) + ' of ' + _upmVideoBlobs.length + '…';
+      if (progressWrap) progressWrap.style.display = 'block';
+      if (progressBar)  progressBar.style.width = '0%';
+      if (progressLbl)  progressLbl.textContent = 'Uploading video ' + (vi+1) + '…';
+      if (progressPct)  progressPct.textContent = '0%';
+      const safeName = videoBlob.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      const fileName = saved.id + '_v' + vi + '_' + Date.now() + '_' + safeName;
+      try {
+        const videoUrl = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.timeout = 0;
+          xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable) {
+              const pct = Math.round((e.loaded / e.total) * 100);
+              if (progressBar) progressBar.style.width = pct + '%';
+              if (progressLbl) progressLbl.textContent = 'Uploading video ' + (vi+1) + ' · ' + pct + '%';
+              if (progressPct) progressPct.textContent = pct + '%';
+            }
+          };
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try { const d = JSON.parse(xhr.responseText); resolve(d.publicUrl || null); } catch(e) { resolve(null); }
+            } else { reject(new Error('Upload failed: ' + xhr.status + ' ' + xhr.responseText.substring(0,200))); }
+          };
+          xhr.onerror   = () => reject(new Error('Network error during upload'));
+          xhr.onabort   = () => reject(new Error('Upload aborted'));
+          xhr.open('POST', 'https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload');
+          xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+          xhr.setRequestHeader('x-file-name', fileName);
+          xhr.setRequestHeader('x-content-type', videoBlob.type || 'video/mp4');
+          xhr.send(videoBlob);
+        });
+        if (videoUrl) uploadedVideoUrls.push(videoUrl);
+        if (progressBar) progressBar.style.width = '100%';
+        if (progressLbl) progressLbl.textContent = 'Video ' + (vi+1) + ' uploaded!';
+        if (progressPct) progressPct.textContent = '100%';
+      } catch(e) {
+        if (progressLbl) progressLbl.textContent = 'Video ' + (vi+1) + ' upload failed.';
+        showToast('Video upload failed: ' + e.message);
+        console.error('Video upload error:', e);
+      }
+    }
+
+    // Patch video_urls onto the project
+    if (uploadedVideoUrls.length > 0) {
+      await db('/projects?id=eq.' + saved.id, 'PATCH', { video_url: uploadedVideoUrls[0], video_urls: uploadedVideoUrls }, token).catch(()=>{});
+      Object.assign(saved, { video_url: uploadedVideoUrls[0], video_urls: uploadedVideoUrls });
+    }
+    setTimeout(() => { if (progressWrap) progressWrap.style.display = 'none'; if (progressBar) progressBar.style.width = '0%'; }, 1500);
+
+    // 3. If no thumb, auto-extract first frame from first video
+    let thumbBlob = _upmThumbBlob;
+    if (!thumbBlob && uploadedVideoUrls[0] && typeof extractFirstFrame === 'function') {
+      savingEl.textContent = 'Generating thumbnail…';
+      try { thumbBlob = await extractFirstFrame(uploadedVideoUrls[0]); } catch(e) { thumbBlob = null; }
+    }
+
+    // 4. Upload thumbnail via R2
+    if (thumbBlob) {
+      savingEl.textContent = 'Saving thumbnail…';
+      try {
+        const thumbFileName = saved.id + '_thumb_' + Date.now() + '.jpg';
+        const thumbRes = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + token, 'x-file-name': thumbFileName, 'x-content-type': 'image/jpeg' },
+          body: thumbBlob
+        });
+        const { publicUrl: thumbUrl } = await thumbRes.json();
+        if (thumbUrl) {
+          await db('/projects?id=eq.' + saved.id, 'PATCH', { cover_url: thumbUrl }, token).catch(()=>{});
+          Object.assign(saved, { cover_url: thumbUrl });
+        }
+      } catch(e) { console.warn('Thumbnail upload failed:', e.message); }
+    }
+
+    showToast(status === 'published' ? 'Project published!' : 'Saved as draft.');
+    closeUploadModal();
+
+    // Refresh wherever we are
+    if (typeof loadProfileProjects === 'function') loadProfileProjects();
+    if (S.profile && typeof renderProfileProjects === 'function') renderProfileProjects(S.profile);
+    if (typeof refreshStorageBar === 'function') refreshStorageBar();
+
+  } catch(err) {
+    showToast('Error saving project. Please try again.');
+    console.error('upmSave error:', err);
+  } finally {
+    savingEl.style.display = 'none';
+    savingEl.textContent = 'Saving...';
+  }
+}
+
+window.closeUploadModal = closeUploadModal;
+window.upmTagKey = upmTagKey;
+window.upmRemoveTag = upmRemoveTag;
+window.upmThumbPick = upmThumbPick;
+window.upmClearThumb = upmClearThumb;
+window.upmPickVideo = upmPickVideo;
+window.upmVideoFilePicked = upmVideoFilePicked;
+window.upmRenderVideoList = upmRenderVideoList;
+window.upmRemoveVideo = upmRemoveVideo;
+window.upmSave = upmSave;
+function openAddSkillModal() {
+  if (typeof openSkillModal === 'function') openSkillModal(null);
+}
+function openAddServiceModal() {
+  if (typeof openServiceModal === 'function') openServiceModal(null);
+}
 
 // ── Hook switchDash to init skills panel ──
 const _origSwitchDash = window.switchDash;
@@ -8019,7 +8722,10 @@ function smSoftwareKeydown(e) {
 window.smSoftwareKeydown = smSoftwareKeydown;
 window._smRemoveTag = _smRemoveTag;
 
+window.openUploadModal  = openUploadModal;
 window.openSkillModal   = openSkillModal;
+window.openAddSkillModal   = openAddSkillModal;
+window.openAddServiceModal = openAddServiceModal;
 window.closeSkillModal  = closeSkillModal;
 window.saveSkill        = saveSkill;
 window.deleteSkill      = deleteSkill;
@@ -8116,6 +8822,13 @@ async function saveService() {
   finally { if (btn) { btn.disabled = false; btn.textContent = 'Save service'; } }
   closeServiceModal();
   renderDashServices();
+  // Also refresh portfolio services tab if currently visible
+  if (S.profile) {
+    renderPublicServicesTab(S.profile, true);
+    setTimeout(_updateServicesAddBtnVisibility, 30);
+    const svcList = document.getElementById('profile-services-list');
+
+  }
 }
 
 async function deleteService(idx) {
@@ -8125,17 +8838,23 @@ async function deleteService(idx) {
   _saveServicesData(svcs);
   try { const token = await getToken(); await db('/profiles?id=eq.' + S.profile.id, 'PATCH', { services_data: JSON.stringify(svcs) }, token); } catch(e) {}
   renderDashServices();
-}
+  if (S.profile) {
+    renderPublicServicesTab(S.profile, true);
+    setTimeout(_updateServicesAddBtnVisibility, 30);
+    const svcList = document.getElementById('profile-services-list');
 
-// ── Public profile: render services tab ──
-function renderPublicServicesTab(profileData) {
+  }
+}
+function renderPublicServicesTab(profileData, isOwn) {
   const svcs  = (() => { try { return JSON.parse(profileData.services_data || '[]'); } catch(e) { return []; } })();
   const list  = document.getElementById('profile-services-list');
   const empty = document.getElementById('profile-services-empty');
   if (!list) return;
   if (!svcs.length) {
     if (empty) empty.style.display = 'block';
-    list.style.display = 'none';
+    list.innerHTML = '';
+    list.style.display = isOwn ? 'flex' : 'none';
+    list.style.flexDirection = 'column';
     return;
   }
   if (empty) empty.style.display = 'none';
@@ -8195,7 +8914,11 @@ function renderPublicServicesTab(profileData) {
 
     const checkSvg = '<svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="' + checkColor + '" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-    return '<div class="psvc-card" style="' + (_svcMobile ? 'width:100%;max-width:100%;box-sizing:border-box' : '') + '">'
+    const _ownerSvcMenu = isOwn
+      ? '<button onclick="event.stopPropagation();toggleSvcMenu(this,' + i + ')" title="Options" style="position:absolute;top:.6rem;right:.6rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;pointer-events:all"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>'
+      : '';
+    return '<div class="psvc-card" style="position:relative;' + (_svcMobile ? 'width:100%;max-width:100%;box-sizing:border-box' : '') + '">'
+      + _ownerSvcMenu
       + '<div class="psvc-header ' + (isHighlight ? 'psvc-header-highlight' : 'psvc-header-plain') + '" ' + headerStyle + '>'
       +   '<div class="psvc-badge" ' + badgeStyle + '>' + escHtml(sv.category || sv.name) + '</div>'
       +   priceHtml
@@ -8216,14 +8939,29 @@ window.switchProfileTab = function(tab) {
   const btnSvc  = document.getElementById('ptab-services');
   const wrapSvc = document.getElementById('profile-services-wrap');
   const wrapSk  = document.getElementById('profile-skills-wrap');
+
   if (tab === 'services') {
-    // Deactivate all tabs first via original (handles all/skills reset)
-    // We can't call original with 'services' as it won't know it, so manually handle
+    const prof = S.viewingProfile || S.profile;
+    const isOwnSvc = S.user && prof && prof.id === S.user.id;
+    const profIsPro = prof && (prof.plan === 'pro' || prof.plan === 'pro-yearly' || prof.plan === 'pro_yearly' || prof.plan === 'standard' || prof.plan === 'vip');
+
+    // Free plan owner: show upgrade card (handled by first override), NOT service content
+    // Just delegate to the first override which handles skills/services lock
+    if (isOwnSvc && !profIsPro) {
+      _origSwitchProfileTabSvc(tab);
+      return;
+    }
+
+    // Pro owner or visitor viewing pro profile: show services
     const btnAll  = document.getElementById('ptab-all');
     const btnSk   = document.getElementById('ptab-skills');
     const wrapAll = document.getElementById('profile-proj-grid-wrap');
     const wrapCat = document.getElementById('profile-cat-grid-wrap');
     const sectionLbl = document.getElementById('prof-section-label');
+    const ugWrap = document.getElementById('prof-tab-upgrade-wrap');
+    if (ugWrap) ugWrap.style.display = 'none';
+    const _pnoresSvc = document.getElementById('pnores');
+    if (_pnoresSvc) _pnoresSvc.style.display = 'none';
     if (btnAll) { btnAll.classList.add('ptab-off'); btnAll.classList.remove('ptab-active'); }
     if (btnSk)  { btnSk.classList.add('ptab-off');  btnSk.classList.remove('ptab-active'); }
     if (btnSvc) { btnSvc.classList.add('ptab-active'); btnSvc.classList.remove('ptab-off'); }
@@ -8237,8 +8975,27 @@ window.switchProfileTab = function(tab) {
       wrapSvc.classList.add('ptab-fadein');
     }
     if (sectionLbl) sectionLbl.textContent = 'Services';
-    const prof = S.viewingProfile || S.profile;
-    renderPublicServicesTab(prof);
+
+    // Show empty-state add btn for own pro
+    const _svcEmptyBtn = document.getElementById('profile-services-empty-btn');
+    if (_svcEmptyBtn) _svcEmptyBtn.style.display = (isOwnSvc && profIsPro) ? 'inline-flex' : 'none';
+    // Header + Add btn: shown only when items exist
+    const addHdrBtn = document.getElementById('prof-section-add-btn');
+    if (addHdrBtn) addHdrBtn.style.display = 'none';
+    function _appendAddSvcBtn() { setTimeout(_updateServicesAddBtnVisibility, 30); }
+    // Re-fetch fresh profile then render
+    if (isOwnSvc) {
+      db('/profiles?id=eq.' + prof.id + '&select=*', 'GET', null, SB_KEY).then(prows => {
+        if (prows && prows[0]) {
+          S.profile = { ...S.profile, ...prows[0] };
+          try { localStorage.setItem('tl_lp_' + prof.id, JSON.stringify(S.profile)); } catch(e) {}
+          renderPublicServicesTab(S.profile, true);
+        } else { renderPublicServicesTab(prof, true); }
+        _appendAddSvcBtn();
+      }).catch(() => { renderPublicServicesTab(prof, true); _appendAddSvcBtn(); });
+    } else {
+      renderPublicServicesTab(prof, false);
+    }
   } else {
     if (btnSvc)  { btnSvc.classList.add('ptab-off');  btnSvc.classList.remove('ptab-active'); }
     if (wrapSvc)   wrapSvc.style.display = 'none';
@@ -8246,6 +9003,8 @@ window.switchProfileTab = function(tab) {
   }
 };
 
+window.toggleSvcMenu       = toggleSvcMenu;
+window.toggleSkMenu        = toggleSkMenu;
 window.openServiceModal    = openServiceModal;
 window.closeServiceModal   = closeServiceModal;
 window.saveService         = saveService;
@@ -8688,6 +9447,10 @@ async function saveEditProject() {
     closeEditProject();
     showToast('✓ Project updated!');
     loadFeed();
+    // Refresh dashboard projects table
+    renderMyProjects();
+    // Refresh profile projects if open
+    if (S.profile) renderProfileProjects(S.profile);
     // Refresh project view if open
     if (updates.video_url && S._currentProject) openProject(id);
   } catch(e) { showToast('Error: ' + e.message); }
@@ -8711,7 +9474,7 @@ function copyProfileLink() {
 const _pendingVideos = [];
 function addVideoSlot() {
   const inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'video/mp4,video/webm'; inp.style.display = 'none';
+  inp.type = 'file'; inp.accept = 'video/mp4,video/quicktime,video/webm,video/*'; inp.style.display = 'none';
   document.body.appendChild(inp);
   inp.onchange = () => {
     const f = inp.files[0]; document.body.removeChild(inp);
@@ -8959,7 +9722,7 @@ async function uploadProjectVideos(token, projId) {
 // ── STORAGE HELPERS ──────────────────────────────────
 const FREE_STORAGE_LIMIT = 250 * 1024 * 1024;  // 250 MB
 const PRO_STORAGE_LIMIT  = 5 * 1024 * 1024 * 1024; // 5 GB
-function fmtBytes(b) { return b >= 1048576 ? (b/1048576).toFixed(1)+' MB' : (b/1024).toFixed(0)+' KB'; }
+function fmtBytes(b) { const abs=Math.abs(b); return abs >= 1048576 ? (b/1048576).toFixed(1)+' MB' : abs >= 1024 ? (b/1024).toFixed(1)+' MB' : b+' B'; }
 async function getUsedStorage() {
   if (!S.profile) return 0;
   try {
@@ -9051,8 +9814,7 @@ async function showProfileByName(name) {
   try {
     const rows = await db('/profiles?name=eq.' + encodeURIComponent(name) + '&select=*', 'GET', null, SB_KEY);
     if (rows && rows.length) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      const _pp2 = el('page-profile'); _pp2.classList.remove('active'); void _pp2.offsetWidth; _pp2.classList.add('active');
+      document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('prof-ready'); });
       el('main-nav').style.display = 'flex';
       window.scrollTo(0, 0);
       S.viewingProfile = rows[0];
@@ -9406,5 +10168,27 @@ boot();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBtt);
   else initBtt();
+})();
+</script>
+<div class="toast" id="toast"><span class="toast-ico"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><circle cx="3.5" cy="3.5" r="3.5" fill="var(--ac)"/></svg></span><span id="tmsg"></span></div>
+
+<div id="prof-load-overlay">
+  <div class="plo-wordmark">TimeLiners</div>
+  <div class="plo-track"><div class="plo-fill" id="plo-fill"></div></div>
+</div>
+<script>
+(function(){
+  var _overlay=null,_fill=null,_raf=null,_start=0;
+  function getEls(){if(!_overlay)_overlay=document.getElementById('prof-load-overlay');if(!_fill)_fill=document.getElementById('plo-fill');}
+  function showOverlay(){getEls();if(!_overlay)return;if(_raf)cancelAnimationFrame(_raf);_fill.style.transition='';_fill.style.width='0%';_overlay.classList.remove('plo-hide');_overlay.classList.add('plo-show');_start=performance.now();(function tick(now){var t=Math.min((now-_start)/2200,1);_fill.style.width=(88*(1-Math.pow(1-t,3)))+'%';if(t<1)_raf=requestAnimationFrame(tick);})(_start);}
+  function hideOverlay(){getEls();if(!_overlay)return;if(_raf){cancelAnimationFrame(_raf);_raf=null;}_fill.style.transition='width .15s ease';_fill.style.width='100%';setTimeout(function(){_overlay.classList.remove('plo-show');_overlay.classList.add('plo-hide');setTimeout(function(){_fill.style.width='0%';_fill.style.transition='';},220);},120);}
+  document.addEventListener('DOMContentLoaded',function(){
+    var _origSP=window.showPage;
+    window.showPage=function(id,sub){if(id==='profile')showOverlay();return _origSP.apply(this,arguments);};
+    var _origSPBU=window.showProfileByUsername;
+    if(_origSPBU){window.showProfileByUsername=function(){showOverlay();return _origSPBU.apply(this,arguments);};}
+    var _pg=document.getElementById('page-profile');
+    if(_pg&&window.MutationObserver){new MutationObserver(function(muts){muts.forEach(function(m){if(m.attributeName==='class'&&_pg.classList.contains('prof-ready'))hideOverlay();});}).observe(_pg,{attributes:true});}
+  });
 })();
 </script>
