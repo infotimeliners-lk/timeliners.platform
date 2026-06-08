@@ -3235,7 +3235,6 @@ function boot() {
     // Only trigger if nothing loaded yet (won't fire if loadFeed already ran)
     if (!_feedLoaded && !_feedLoading) loadFeed();
   }, 3000);
-  loadJobs();
 
   // Check session validity every 60s · catches expired sessions only
   setInterval(async () => {
@@ -3797,14 +3796,13 @@ async function deleteMyAccount() {
         } catch(e) {}
       }
     }
-    // Delete avatar from storage
-    if (S.profile.avatar_url) {
+    // Delete avatar from storage (Supabase Storage only; R2 avatars are not deleted client-side)
+    if (S.profile.avatar_url && S.profile.avatar_url.includes('supabase.co/storage')) {
       try {
         const path = S.profile.avatar_url.split('/avatars/')[1];
         if (path) await sb.storage.from('avatars').remove([decodeURIComponent(path)]);
       } catch(e) {}
     }
-    // Delete projects from DB
     await db('/projects?user_id=eq.' + S.profile.id, 'DELETE', null, token).catch(() => {});
     // Delete profile from DB (trigger will delete auth user too)
     await db('/profiles?id=eq.' + S.profile.id, 'DELETE', null, token);
@@ -5202,12 +5200,16 @@ function processAvatarFile(f) {
 async function uploadAvatar(token) {
   if (!_pendingAvatarFile || !S.profile) return null;
   const ext = _pendingAvatarFile.name.split('.').pop() || 'jpg';
-  const path = S.profile.id + '/avatar.' + ext;
-  const { data, error } = await sb.storage.from('avatars').upload(path, _pendingAvatarFile, { upsert: true, contentType: _pendingAvatarFile.type });
-  if (error) throw new Error('Avatar upload failed: ' + error.message);
-  const { data: urlData } = sb.storage.from('avatars').getPublicUrl(path);
+  const fileName = 'avatars/' + S.profile.id + '/avatar.' + ext;
+  const res = await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + token, 'x-file-name': fileName, 'x-content-type': _pendingAvatarFile.type },
+    body: _pendingAvatarFile
+  });
+  if (!res.ok) throw new Error('Avatar upload failed: ' + res.status);
+  const { publicUrl } = await res.json();
   _pendingAvatarFile = null;
-  return urlData?.publicUrl || null;
+  return publicUrl || null;
 }
 
 // ── SAVE PROFILE ────────────────────────────────────
