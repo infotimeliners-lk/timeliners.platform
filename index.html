@@ -117,7 +117,7 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 .prof-pcard{position:relative}
 .prof-pcard-menu-btn{position:relative;flex-shrink:0;width:26px;height:26px;border-radius:50%;background:transparent;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr);color:var(--t2);margin-top:.05rem}
 .prof-pcard-menu-btn:hover{background:transparent;color:var(--t1);border-color:transparent}
-.pcard-ctx-menu{position:absolute;top:100%;right:0;margin-top:.25rem;z-index:9999;background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--r);padding:.3rem 0;min-width:130px;width:fit-content;box-shadow:var(--shadow-lg);animation:popIn .14s cubic-bezier(.4,0,.2,1)}.pitem-menu-btn{position:absolute;top:.6rem;right:.6rem;z-index:15;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);transition:var(--tr);color:var(--t1)}.pitem-menu-btn:hover{background:rgba(0,0,0,.78);border-color:rgba(255,255,255,.3)}.pitem-menu-btn-sk{background:rgba(0,0,0,.4);top:.7rem;right:.7rem}
+.pcard-ctx-menu{position:absolute;top:100%;right:0;margin-top:.25rem;z-index:9999;background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--r);padding:.3rem 0;min-width:130px;width:fit-content;box-shadow:var(--shadow-lg);animation:popIn .14s cubic-bezier(.4,0,.2,1)}.pitem-menu-btn{position:absolute;top:.6rem;right:.6rem;z-index:15;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);transition:var(--tr);color:var(--t1)}.pitem-menu-btn:hover{background:rgba(0,0,0,.78);border-color:rgba(255,255,255,.3)}.pitem-menu-btn-sk{background:rgba(0,0,0,.55);border-color:rgba(0,0,0,.15);top:.7rem;right:.7rem}
 .pcard-ctx-item{display:flex;align-items:center;gap:.55rem;padding:.5rem .8rem;font-size:.78rem;color:var(--t1);cursor:pointer;transition:background .12s;white-space:nowrap}
 .pcard-ctx-item:hover{background:var(--bg4)}
 .pcard-ctx-item.danger{color:#ef4444}
@@ -528,7 +528,7 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.72rem;margin-bottom:.85rem;align-items:start}
 .plan-c{border-radius:var(--rlg);padding:1.25rem;border:1px solid var(--brd);background:var(--bg3);position:relative;transition:var(--tr)}
 .plan-c.current{border-color:rgba(254,115,10,.25);background:rgba(254,115,10,.03)}
-.plan-c.featured{border:none;background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);box-shadow:0 12px 40px rgba(254,115,10,.3);overflow:visible;margin-top:20px;position:relative}
+.plan-c.featured{border:none;background:#FE730A;box-shadow:0 12px 40px rgba(254,115,10,.3);overflow:visible;margin-top:20px;position:relative}
 .plan-pop{position:absolute;top:-20px;left:18px;background:var(--ac);color:#fff;font-size:.56rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:.28rem .85rem;border-radius:7px 7px 0 0;white-space:nowrap}
 .plan-name{font-size:.55rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:.6rem}.plan-c.featured .plan-name{color:rgba(255,255,255,.7)}
 .plan-price{font-size:1.65rem;font-weight:700;color:var(--t1);line-height:1;margin-bottom:.16rem}.plan-c.featured .plan-price{color:white}
@@ -821,7 +821,7 @@ html.light .jf-sel{color:var(--t1)}
 .pricing-eyebrow{font-size:.58rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--ac);margin-bottom:.7rem}
 .pricing-h{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--t1);margin-bottom:.7rem;letter-spacing:-.4px}
 .pricing-h span{color:var(--ac)}
-.pricing-sub{font-size:.92rem;color:var(--t2);max-width:440px;margin:0 auto 3.5rem;line-height:1.85}
+.pricing-sub{font-size:.92rem;color:var(--t2);max-width:600px;margin:0 auto 3.5rem;line-height:1.85;white-space:nowrap}
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;text-align:left;align-items:stretch}.pricing-grid .pc{height:100%;box-sizing:border-box}
 .pc{border-radius:22px;padding:2.2rem 1.8rem;border:1px solid var(--brd);background:var(--bg2);position:relative;transition:var(--tr);box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
 .pc:hover{border-color:var(--brd2);transform:translateY(-4px)}
@@ -1252,6 +1252,7 @@ img, video, iframe, canvas { max-width: 100%; }
 
   /* Skill modal */
   #skill-modal-overlay { padding: 0 !important; align-items: flex-end !important; }
+  #skill-modal-overlay > div { animation: overlaySlideIn .22s ease; }
   #skill-modal-overlay > div {
     border-radius: 20px !important;
     max-width: 100% !important;
@@ -1598,7 +1599,7 @@ img, video, iframe, canvas { max-width: 100%; }
 .psk-card-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;cursor:pointer;user-select:none;gap:.8rem}.psk-card-chevron{width:16px;height:16px;color:var(--t3);flex-shrink:0;transition:transform .22s}.psk-card.open .psk-card-chevron{transform:rotate(180deg)}.psk-card-body{max-height:0;overflow:hidden;transition:max-height .28s cubic-bezier(.4,0,.2,1)}.psk-card.open .psk-card-body{max-height:600px}
 .psk-card-static{cursor:default}.psk-card-header-static{display:flex;align-items:center;padding:1rem 1.2rem;gap:.8rem}.psk-card-static .psk-card-inner{padding:1rem 1.2rem 1.2rem}
 .psk-title{font-size:1.05rem;font-weight:700;color:var(--t1);margin-bottom:.3rem}
-.dash-skill-row{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.2rem;display:flex;align-items:center;gap:.8rem;transition:.18s}.dash-skill-row:hover{border-color:var(--brd2)}.dash-skill-icon{width:38px;height:38px;border-radius:10px;background:rgba(254,115,10,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.72rem;font-weight:700;color:var(--ac);font-family:var(--fm)}.dash-skill-meta{flex:1;min-width:0}.dash-skill-name{font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.18rem}.dash-skill-sw{font-size:.72rem;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dash-skill-actions{display:flex;gap:.4rem;flex-shrink:0}.dash-skill-btn{padding:.38rem .75rem;border-radius:50px;border:1px solid var(--brd2);background:transparent;color:var(--t2);font-size:.74rem;font-weight:500;cursor:pointer;transition:.16s;font-family:var(--fm)}.dash-skill-btn:hover{border-color:var(--brd3);color:var(--t1)}.dash-skill-btn.del:hover{border-color:rgba(239,68,68,.4);color:rgba(239,68,68,.8)}
+.dash-skill-row{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1rem 1.2rem;display:flex;align-items:center;gap:.8rem;transition:.18s}.dash-skill-row:hover{border-color:var(--brd2)}.dash-skill-icon{width:38px;height:38px;border-radius:10px;background:rgba(254,115,10,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.72rem;font-weight:700;color:var(--ac);font-family:var(--fm)}.dash-skill-meta{flex:1;min-width:0}.dash-skill-name{font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.18rem}.dash-skill-sw{font-size:.72rem;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dash-skill-actions{display:flex;gap:.4rem;flex-shrink:0}.dash-skill-btn{padding:.38rem .75rem;border-radius:50px;border:1px solid rgba(128,128,128,.35);background:rgba(128,128,128,.10);color:var(--t1);font-size:.74rem;font-weight:500;cursor:pointer;transition:.16s;font-family:var(--fm)}.dash-skill-btn:hover{border-color:rgba(128,128,128,.55);background:rgba(128,128,128,.18);color:var(--t1)}.dash-skill-btn.del:hover{border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.08);color:rgba(239,68,68,.9)}
 .sm-sw-chip{display:inline-flex;align-items:center;gap:.3rem;background:rgba(254,115,10,.12);border:1px solid rgba(254,115,10,.25);color:var(--ac);border-radius:50px;padding:.2rem .65rem .2rem .75rem;font-size:.74rem;font-weight:500;white-space:nowrap}.sm-sw-chip button{background:none;border:none;color:var(--ac);opacity:.7;cursor:pointer;font-size:.8rem;line-height:1;padding:0;display:flex;align-items:center;transition:.12s}.sm-sw-chip button:hover{opacity:1}
 .sm-proj-check-label{display:flex;align-items:center;gap:.65rem;padding:.5rem .75rem;border-radius:var(--r);background:var(--bg3);border:1px solid var(--brd);cursor:pointer;transition:.14s;position:relative}.sm-proj-check-label:hover{border-color:var(--brd2);background:var(--bg4)}.sm-proj-check-label input[type="checkbox"]{position:absolute;opacity:0;width:0;height:0}.sm-proj-custom-check{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--brd3);background:var(--bg5);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.14s}.sm-proj-check-label:has(input:checked) .sm-proj-custom-check{background:var(--ac);border-color:var(--ac)}.sm-proj-check-label:has(input:checked){border-color:rgba(254,115,10,.3);background:rgba(254,115,10,.04)}.sm-check-tick{display:none}.sm-proj-check-label:has(input:checked) .sm-check-tick{display:block}
 .ptab-btn{font-family:var(--fm);font-size:.75rem;padding:.34rem .95rem;border-radius:50px;border:none !important;outline:none !important;box-shadow:none !important;cursor:pointer;transition:background .22s ease,color .22s ease,font-weight .22s ease;-webkit-appearance:none;appearance:none}.ptab-btn.ptab-active{background:var(--ac);color:#fff;font-weight:600}.ptab-btn.ptab-off{background:transparent !important;color:var(--t2);font-weight:500}
@@ -1667,6 +1668,9 @@ img, video, iframe, canvas { max-width: 100%; }
 #btt-btn{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9000;width:40px;height:40px;border-radius:50%;background:var(--bg3);border:1.5px solid var(--brd2);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transform:translateY(12px);transition:opacity .22s,transform .22s,border-color .18s,color .18s;pointer-events:none}
 #btt-btn.show{opacity:1;transform:translateY(0);pointer-events:auto}
 #btt-btn:hover{border-color:var(--ac);color:var(--ac);box-shadow:0 6px 22px rgba(254,115,10,.22)}
+@keyframes overlayFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes overlaySlideIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+#contact-overlay>div,#about-overlay>div{animation:overlaySlideIn .24s cubic-bezier(.22,.68,0,1.2) both}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -1713,7 +1717,10 @@ img, video, iframe, canvas { max-width: 100%; }
 (function(){
   var uRedir='';
   try{uRedir=sessionStorage.getItem('tl_redirect')||'';sessionStorage.removeItem('tl_redirect');}catch(e){}
-  if(uRedir){try{sessionStorage.setItem('tl_username_redirect',uRedir);}catch(e){}}
+  var _knownPages=['feed','pricing','faq','profile','dashboard','project'];
+  // Only promote to username_redirect if the value is not a known page name
+  if(uRedir&&_knownPages.indexOf(uRedir.toLowerCase())===-1){try{sessionStorage.setItem('tl_username_redirect',uRedir);}catch(e){}}
+  else if(uRedir){uRedir='';}
   var known=['feed','pricing','faq','profile','dashboard','project'];
   var h=location.hash.replace('#/','');
   var seg=(h.split('/')[0]||'').toLowerCase();
@@ -1955,28 +1962,73 @@ img, video, iframe, canvas { max-width: 100%; }
 </div>
 
 <!-- ══ CONTACT MODAL ══ -->
-<div id="contact-overlay" onclick="if(event.target===this)closeContactModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem">
-  <div class="hire-box" style="max-width:360px">
-    <button class="hire-close" onclick="closeContactModal()">×</button>
-    <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.25rem">Contact Us</div>
-    <div style="font-size:.75rem;color:var(--t2);margin-bottom:1.1rem;line-height:1.6">Reach out directly — we reply fast.</div>
-
-    <!-- WA primary button -->
-    <a href="https://wa.me/94783408001" target="_blank" class="hire-contact-btn hire-wa-btn" style="display:flex;align-items:center;justify-content:center;gap:.55rem;width:100%;box-sizing:border-box;text-decoration:none;margin-bottom:.75rem">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="white"/></svg>
-      Message on WhatsApp
-    </a>
-
-    <!-- Email fallback block -->
-    <div style="background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.85rem 1rem">
-      <div style="font-size:.7rem;color:var(--t3);margin-bottom:.5rem">Or email us directly:</div>
-      <div style="display:flex;align-items:center;gap:.5rem">
-        <span style="font-size:.78rem;color:var(--t2);flex:1;min-width:0;word-break:break-all;">info.timeliners@gmail.com</span>
-        <button onclick="_copyContactEmail()" id="contact-copy-btn" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:6px 10px;border-radius:6px;font-size:.7rem;font-family:var(--fm);font-weight:600;width:100%">Copy</button>
+<div id="contact-overlay" onclick="if(event.target===this)closeContactModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:18px;max-width:400px;width:100%;padding:0;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.5)">
+    <!-- Gradient header banner -->
+    <div style="background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 50%,#e55d00 100%);padding:1.8rem 1.6rem 1.4rem;position:relative">
+      <button onclick="closeContactModal()" style="position:absolute;top:.9rem;right:.9rem;background:rgba(0,0,0,.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
+      <div style="width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:.75rem">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="white"/></svg>
+      </div>
+      <div style="font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.2rem">Get in Touch</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.85);line-height:1.5">We reply fast — usually within a few hours.</div>
+    </div>
+    <!-- Body -->
+    <div style="padding:1.4rem 1.6rem 1.6rem">
+      <!-- WA button -->
+      <a href="https://wa.me/94783408001" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;box-sizing:border-box;text-decoration:none;background:#25D366;color:#fff;font-weight:700;font-size:.88rem;padding:.85rem 1rem;border-radius:12px;margin-bottom:.75rem;font-family:var(--fm);transition:.18s" onmouseover="this.style.background='#1ebe5d'" onmouseout="this.style.background='#25D366'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="white"/></svg>
+        Message on WhatsApp
+      </a>
+      <!-- Email block -->
+      <div style="background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:.9rem 1rem">
+        <div style="font-size:.68rem;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:.5rem">Or email us</div>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:.8rem;color:var(--t1);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500">info.timeliners@gmail.com</span>
+          <button onclick="_copyContactEmail()" id="contact-copy-btn" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:6px 14px;border-radius:8px;font-size:.72rem;font-family:var(--fm);font-weight:600;white-space:nowrap;transition:.18s" onmouseover="this.style.borderColor='#FE730A';this.style.color='#FE730A'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">Copy</button>
+        </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div style="font-size:.63rem;color:var(--t3);text-align:center;margin-top:.75rem;line-height:1.6">We usually reply within a few hours.</div>
+<!-- ══ ABOUT MODAL ══ -->
+<div id="about-overlay" onclick="if(event.target===this)closeAboutModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:18px;max-width:480px;width:100%;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.5)">
+    <!-- Gradient header -->
+    <div style="background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 45%,#c94d00 100%);padding:2rem 1.8rem 1.6rem;position:relative">
+      <button onclick="closeAboutModal()" style="position:absolute;top:.9rem;right:.9rem;background:rgba(0,0,0,.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
+      <!-- TL logo mark -->
+      <div style="width:48px;height:48px;background:rgba(255,255,255,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;font-size:1.1rem;font-weight:800;color:#fff;font-family:'Poppins',sans-serif;letter-spacing:-1px">TL</div>
+      <div style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:.3rem">About TimeLiners</div>
+      <div style="font-size:.8rem;color:rgba(255,255,255,.8);line-height:1.5">Sri Lanka's home for video editors &amp; motion designers.</div>
+    </div>
+    <!-- Body -->
+    <div style="padding:1.6rem 1.8rem">
+      <!-- Story -->
+      <div style="font-size:.82rem;color:var(--t2);line-height:1.75;margin-bottom:1.3rem">
+        TimeLiners was built because Sri Lankan video editors and motion designers had nowhere to truly call their own. No platform that understood the craft, the hustle, or the local context. So I built one: a place where editors can build a real portfolio, get discovered by clients, and own their brand.
+      </div>
+      <!-- Divider -->
+      <div style="height:1px;background:var(--brd);margin-bottom:1.3rem"></div>
+      <!-- Founder card -->
+      <div style="font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Built by</div>
+      <div style="display:flex;align-items:center;gap:.9rem">
+        <img src="https://videos.timeliners.lk/avatars/ae37c1b8-ede4-4c9b-8044-00be0c7314fc/avatar.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:none" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div style="display:none;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FE730A,#ff9a3c);align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.8rem;flex-shrink:0;letter-spacing:-.5px">KB</div>
+        <div>
+          <div style="font-size:.92rem;font-weight:700;color:var(--t1)">Kaveesha Bandara</div>
+          <div style="font-size:.75rem;color:var(--t3);margin-top:.1rem">Founder &amp; Developer · Video Editor</div>
+        </div>
+      </div>
+      <!-- Mission line -->
+      <div style="margin-top:1.3rem;padding:.9rem 1rem;background:var(--bg3);border:1px solid var(--brd);border-radius:12px">
+        <div style="font-size:.78rem;color:var(--t2);line-height:1.6;font-style:italic">"The goal is simple, give every Sri Lankan editor a professional home for their work, and help clients find the right talent easily."</div>
+      </div>
+      <!-- CTA -->
+      <a href="#/feed" onclick="event.preventDefault();closeAboutModal();showPage('feed')" style="display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:1.2rem;background:linear-gradient(135deg,#FE730A,#e55d00);color:#fff;font-weight:700;font-size:.85rem;padding:.8rem 1rem;border-radius:12px;text-decoration:none;font-family:var(--fm);transition:.18s" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
+        Explore Portfolios
+      </a>
+    </div>
   </div>
 </div>
 
@@ -2194,7 +2246,44 @@ img, video, iframe, canvas { max-width: 100%; }
     <div style="position:relative;z-index:1"><h3>Ready to show your edits?</h3><p>Create a free account and build your editor portfolio today.</p></div>
     <button class="btn btn-white" onclick="openAuth('up')">Start Free <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div></div></div>
-  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:.6rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="#" onclick="event.preventDefault();openContactModal()">Contact</a></div></div></div></footer>
+  <footer class="site-footer">
+  <div style="max-width:1100px;margin:0 auto;padding:3rem 24px 0">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;padding-bottom:2.5rem;border-bottom:1px solid var(--brd)">
+      <!-- Left: brand + description + socials -->
+      <div style="max-width:340px">
+        <div style="font-size:1.1rem;font-weight:700;color:#FE730A;letter-spacing:-.2px;margin-bottom:.6rem">TimeLiners</div>
+        <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
+        <div style="display:flex;gap:.5rem">
+          <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <!-- Right: link columns -->
+      <div style="display:flex;gap:4rem">
+        <div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
+            <a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a>
+            <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Support</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <a class="flink" href="#" onclick="event.preventDefault();openContactModal()">Contact</a>
+            <a class="flink" href="#" onclick="event.preventDefault();openAboutModal()">About Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom bar -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:1.1rem 0;flex-wrap:wrap;gap:.75rem">
+      <span style="font-size:.75rem;color:var(--t3)">&copy; 2026 TimeLiners. All rights reserved.</span>
+      <div style="display:flex;gap:1.2rem"><a class="flink" style="font-size:.75rem" href="https://timeliners.lk/terms" target="_blank">Terms of Service</a><a class="flink" style="font-size:.75rem" href="https://timeliners.lk/privacy" target="_blank">Privacy Policy</a></div>
+    </div>
+  </div>
+</footer>
 </div>
 
 <!-- ══ PROFILE ══ -->
@@ -2400,6 +2489,10 @@ img, video, iframe, canvas { max-width: 100%; }
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
           Like
         </button>
+        <button class="pm-like-btn" id="pm-share-btn" onclick="shareProject()" style="gap:.4rem">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
         <div class="pm-stats">
           <span class="pm-stat"><strong id="pm-views">0</strong>views</span>
           <span class="pm-stat"><strong id="pm-likes-n">0</strong>likes</span>
@@ -2584,15 +2677,6 @@ img, video, iframe, canvas { max-width: 100%; }
           </div>
 
           <!-- Weekly tip -->
-          <div class="dcard" id="ov-tip-card" style="margin-bottom:1rem;border-left:3px solid var(--ac)">
-            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--ac)" stroke-width="1.2" fill="none"/><path d="M7 4v3.5l2 1.5" stroke="var(--ac)" stroke-width="1.2" stroke-linecap="round"/></svg>
-              <span style="font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ac)">Tip of the Week</span>
-            </div>
-            <div style="font-size:.82rem;color:var(--t1);font-weight:500;margin-bottom:.25rem" id="ov-tip-title">Loading tip...</div>
-            <div style="font-size:.75rem;color:var(--t2);line-height:1.55" id="ov-tip-body"></div>
-          </div>
-
           <!-- Portfolio Quick Actions -->
           <div class="dcard" style="margin-bottom:1rem">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem">
@@ -2607,6 +2691,24 @@ img, video, iframe, canvas { max-width: 100%; }
               <button onclick="window._profTabState='skills';showPage('profile')" style="padding:.7rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.73rem;font-weight:600;color:var(--t1)" onmouseover="this.style.borderColor='var(--ac)';this.style.background='var(--acg)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.background='var(--bg3)';this.style.color='var(--t1)'">Add Skill</button>
               <button onclick="window._profTabState='services';showPage('profile')" style="padding:.7rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.73rem;font-weight:600;color:var(--t1)" onmouseover="this.style.borderColor='var(--ac)';this.style.background='var(--acg)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.background='var(--bg3)';this.style.color='var(--t1)'">Add Service</button>
             </div>
+          </div>
+
+          <!-- Regular tip card (Pro users) -->
+          <div class="dcard" id="ov-tip-card" style="margin-bottom:1rem;border-left:3px solid var(--ac);display:none">
+            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--ac)" stroke-width="1.2" fill="none"/><path d="M7 4v3.5l2 1.5" stroke="var(--ac)" stroke-width="1.2" stroke-linecap="round"/></svg>
+              <span style="font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ac)">Tip of the Week</span>
+            </div>
+            <div style="font-size:.82rem;color:var(--t1);font-weight:500;margin-bottom:.25rem" id="ov-tip-title">Loading tip...</div>
+            <div style="font-size:.75rem;color:var(--t2);line-height:1.55" id="ov-tip-body"></div>
+          </div>
+
+          <!-- Pro upgrade tip card (Free users) -->
+          <div class="dcard" id="ov-pro-tip-card" style="margin-bottom:1rem;display:none;border-left:3px solid #FE730A">
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#FE730A;margin-bottom:.4rem">You're missing out!!</div>
+            <div style="font-size:.82rem;color:var(--t1);font-weight:600;margin-bottom:.25rem" id="ov-pro-tip-title">Loading...</div>
+            <div style="font-size:.75rem;color:var(--t2);line-height:1.55;margin-bottom:.8rem" id="ov-pro-tip-body"></div>
+            <button onclick="showPage('pricing')" style="display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,#FE730A,#e55d00);color:#fff;border:none;border-radius:8px;padding:.45rem .95rem;font-size:.75rem;font-weight:700;font-family:var(--fm);cursor:pointer;transition:.18s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Go Pro · LKR 990/mo</button>
           </div>
 
           <div class="gate-banner" id="gate-banner" style="display:none">
@@ -2685,7 +2787,7 @@ img, video, iframe, canvas { max-width: 100%; }
                 <button class="plan-btn plan-btn-cur" id="pb-free" style="margin-top:auto">Current Plan</button>
               </div>
               <!-- Pro -->
-              <div class="plan-c featured" id="pc-pro" style="border:none;background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);box-shadow:0 12px 40px rgba(254,115,10,.3);margin-top:-8px;display:flex;flex-direction:column">
+              <div class="plan-c featured" id="pc-pro" style="border:none;background:#FE730A;box-shadow:0 12px 40px rgba(254,115,10,.3);margin-top:-8px;display:flex;flex-direction:column">
                 <div class="plan-pop">Most Popular</div>
                 <div class="plan-name" style="color:rgba(255,255,255,.7)">Pro</div>
                 <div class="plan-price" id="dash-pro-price" style="color:white">990<span style="color:rgba(255,255,255,.7)"> LKR/mo</span></div>
@@ -3288,7 +3390,11 @@ async function restoreSession() {
 
     // Username path / redirect takes highest priority — also check sessionStorage in case
     // the path was already rewritten to / by 404.html before we got here
-    if (!pendingUsername) {
+    // BUT: if the URL has a known hash page (#/pricing, #/faq, #/dashboard etc.) that takes priority over any stored username redirect
+    const _KNOWN_HASH = ['feed','pricing','faq','profile','dashboard','project'];
+    const _curHashSeg = (location.hash.replace('#/','').split('/')[0] || '').toLowerCase();
+    const _hashIsKnownPage = _KNOWN_HASH.includes(_curHashSeg) && _curHashSeg !== '';
+    if (!pendingUsername && !_hashIsKnownPage) {
       try {
         pendingUsername = sessionStorage.getItem('tl_username_redirect') || sessionStorage.getItem('tl_redirect') || null;
         if (pendingUsername) {
@@ -3296,6 +3402,10 @@ async function restoreSession() {
           sessionStorage.removeItem('tl_redirect');
         }
       } catch(e) {}
+    } else if (_hashIsKnownPage) {
+      // Clear any stale username redirect so it doesn't interfere on next navigation
+      try { sessionStorage.removeItem('tl_username_redirect'); sessionStorage.removeItem('tl_redirect'); } catch(e) {}
+      pendingUsername = null;
     }
     if (pendingUsername) {
       hideTlLoader(); showProfileByUsername(pendingUsername); return;
@@ -4015,7 +4125,7 @@ async function loadFeed(force) {
     // Fetch projects and author profiles IN PARALLEL (not sequential)
     const [rows, allProfiles] = await Promise.all([
       db('/projects?status=eq.published&select=*&order=created_at.desc'),
-      db('/profiles?select=id,plan,verified', 'GET', null, SB_KEY).catch(() => [])
+      db('/profiles?select=id,plan,verified,username', 'GET', null, SB_KEY).catch(() => [])
     ]);
 
     if (rows && rows.length) {
@@ -4025,9 +4135,9 @@ async function loadFeed(force) {
       S.projects = [...rows, ...myDrafts];
 
       if (allProfiles && allProfiles.length) {
-        const planMap = {}; const verMap = {};
-        allProfiles.forEach(p => { planMap[p.id] = p.plan || 'free'; verMap[p.id] = !!p.verified; });
-        S.projects.forEach(p => { p._authorPlan = planMap[p.user_id] || 'free'; p._authorVerified = verMap[p.user_id] || false; });
+        const planMap = {}; const verMap = {}; const unMap = {};
+        allProfiles.forEach(p => { planMap[p.id] = p.plan || 'free'; verMap[p.id] = !!p.verified; unMap[p.id] = p.username || ''; });
+        S.projects.forEach(p => { p._authorPlan = planMap[p.user_id] || 'free'; p._authorVerified = verMap[p.user_id] || false; p._authorUsername = unMap[p.user_id] || ''; });
       }
     }
     _feedLoaded = true;
@@ -4433,7 +4543,7 @@ function buildCard(p, idx) {
       '<div class="pcard-title">' + (p.title || 'Untitled') + '</div>' +
       '<div class="pcard-meta">' +
         avHtml +
-        '<span class="pcard-author pcard-author-link" onclick="event.preventDefault();event.stopPropagation();' + (p.user_id ? "window.open(location.origin+location.pathname+'#/profile/"+p.user_id+"','_blank')" : (p.author_name ? "window.open(location.origin+location.pathname+'#/profile/name/"+(p.author_name||'unknown').replace(/'/g,"\\'")+"','_blank')" : '')) + '" style="cursor:pointer">' + (p.author_name || 'Unknown') + '</span>' +
+        '<span class="pcard-author pcard-author-link" onclick="event.preventDefault();event.stopPropagation();' + (p._authorUsername ? "window.open('https://timeliners.lk/"+p._authorUsername+"','_blank')" : '') + '" style="cursor:pointer">' + (p.author_name || 'Unknown') + '</span>' +
         proBadge +
         (p.cat ? '<span style="opacity:.22">·</span><span style="font-size:.62rem;color:var(--t3);text-transform:capitalize">' + (p.cat || '') + '</span>' : '') +
         '<div class="pcard-likes" style="margin-left:auto"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" style="vertical-align:middle"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="8" cy="8" r="2.2" fill="currentColor"/></svg> ' + (p.views || 0) + '</div>' +
@@ -4488,6 +4598,12 @@ function parseVideoUrls(raw) {
 function openProject(id) {
   const seq = ++_openProjectSeq;
   _pmHireDismissed = false;
+
+  // Save current URL so we can restore it on close, then set shareable project URL
+  try {
+    window._pmPrevUrl = location.href;
+    history.replaceState(null, '', '/#/project/' + id);
+  } catch(e) {}
 
   // Open the overlay immediately with skeleton
   const overlay = document.getElementById('proj-modal-overlay');
@@ -4548,7 +4664,15 @@ function closeProjectModal() {
       if (ca) ca.innerHTML = '';
     }
   }, 400);
-  // Don't touch the URL — it's already set to the underlying page (profile/feed/etc)
+  // Restore previous URL (feed/profile/etc) now that modal is closed
+  try {
+    if (window._pmPrevUrl && !window._pmPrevUrl.includes('/#/project/')) {
+      history.replaceState(null, '', window._pmPrevUrl);
+    } else {
+      history.replaceState(null, '', '/#/feed');
+    }
+    window._pmPrevUrl = null;
+  } catch(e) {}
   _openProjectSeq++; // invalidate any in-flight requests
 }
 
@@ -4610,9 +4734,9 @@ function _renderProjectModal(p) {
 
   // Author pill click → profile
   window._pmOpenProfile = () => {
-    // Open profile in new tab without closing the project
-    if (p.user_id) window.open(location.origin+location.pathname+'#/profile/'+p.user_id, '_blank');
-    else if (p.author_name) window.open(location.origin+location.pathname+'#/profile/name/'+p.author_name, '_blank');
+    // Open portfolio in new tab by username
+    if (p._authorUsername) window.open('https://timeliners.lk/' + p._authorUsername, '_blank');
+    else if (p.user_id) window.open('https://timeliners.lk/#/profile/' + p.user_id, '_blank');
   };
 
   // Cover / video
@@ -5988,9 +6112,9 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
         const _expDiff = Math.ceil((new Date(p.pay_due) - new Date()) / 86400000);
         const _expKey = 'tl_expiryBannerDismissed_' + p.pay_due;
         if (_expDiff > 0 && _expDiff <= 7 && !localStorage.getItem(_expKey)) {
-          ownerExpiryBanner = '<div id="prof-expiry-banner" style="grid-column:1/-1;display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.25);border-radius:10px;margin-bottom:.25rem">' +
-            '<span style="font-size:.72rem;color:var(--t2);flex:1">Your Pro plan expires in <strong style="color:#f59e0b">' + _expDiff + ' day' + (_expDiff === 1 ? '' : 's') + '</strong>. Renew to keep your Pro features.</span>' +
-            '<span style="font-size:.68rem;font-weight:700;color:#f59e0b;cursor:pointer;white-space:nowrap" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)},80)">Renew</span>' +
+          ownerExpiryBanner = '<div id="prof-expiry-banner" style="grid-column:1/-1;display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;background:rgba(254,115,10,.10);border:1px solid rgba(254,115,10,.35);border-radius:10px;margin-bottom:.25rem">' +
+            '<span style="font-size:.72rem;color:var(--t2);flex:1">Your Pro plan expires in <strong style="color:#FE730A">' + _expDiff + ' day' + (_expDiff === 1 ? '' : 's') + '</strong>. Renew to keep your Pro features.</span>' +
+            '<span style="font-size:.68rem;font-weight:700;color:#FE730A;cursor:pointer;white-space:nowrap" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)},80)">Renew</span>' +
             '<span style="margin-left:.35rem;font-size:.75rem;color:var(--t3);cursor:pointer;line-height:1;padding:.1rem .3rem;border-radius:4px;transition:color .15s" title="Dismiss" onmouseover="this.style.color=\'var(--t2)\'" onmouseout="this.style.color=\'var(--t3)\'" onclick="(function(el){localStorage.setItem(\'' + _expKey + '\',\'1\');var b=el.closest(\'#prof-expiry-banner\');if(b){b.style.transition=\'opacity .2s\';b.style.opacity=\'0\';setTimeout(function(){b.remove()},200)}})(this)">✕</span>' +
           '</div>';
         }
@@ -6630,16 +6754,6 @@ function restoreFromHash() {
     return;
   }
 
-  // Username redirect from 404.html / _redirects
-  try {
-    const uRedir = sessionStorage.getItem('tl_username_redirect') || sessionStorage.getItem('tl_redirect');
-    if (uRedir) {
-      sessionStorage.removeItem('tl_username_redirect');
-      sessionStorage.removeItem('tl_redirect');
-      showProfileByUsername(uRedir); return;
-    }
-  } catch(e) {}
-
   const raw   = location.hash.replace('#/', '');
   const parts = raw.split('/');
   const seg   = parts[0].toLowerCase();
@@ -6651,6 +6765,16 @@ function restoreFromHash() {
     if (seg === 'profile' && !sub && !S.user) { showPage('feed'); return; }
     showPage(seg, sub || undefined); return;
   }
+
+  // Username redirect from 404.html / _redirects (only if no known hash page)
+  try {
+    const uRedir = sessionStorage.getItem('tl_username_redirect') || sessionStorage.getItem('tl_redirect');
+    if (uRedir) {
+      sessionStorage.removeItem('tl_username_redirect');
+      sessionStorage.removeItem('tl_redirect');
+      showProfileByUsername(uRedir); return;
+    }
+  } catch(e) {}
 
   // sessionStorage last page
   try {
@@ -7070,6 +7194,8 @@ function applyProfileBrandColors(brandColorsJson) {
     '#page-profile .prof-proj-card:hover { border-color:' + primary + '55 !important; }',
     // Like button
     '#page-profile .pv-like:hover, #page-profile .pv-like.liked { color:' + primary + '; border-color:' + primary + '; }',
+    // Skills dark cards — pills use brand color too
+    '#page-profile .psk-card.psk-dark .psk-sw-pill { color:' + primary + ' !important; background:' + primary + '15 !important; border-color:' + primary + '30 !important; }',
     // Skills orange cards — use brand color with contrast text
     '#page-profile .psk-card.psk-orange { background:' + primary + ' !important; }',
     '#page-profile .psk-card.psk-orange .psk-card-name { color:' + textOn + ' !important; }',
@@ -8006,11 +8132,15 @@ function openSkillModal(idx) {
         + '</label>';
     }).join('');
   }
-  document.getElementById('skill-modal-overlay').style.display = 'flex';
+  var ov = document.getElementById('skill-modal-overlay');
+  ov.style.opacity = '0'; ov.style.display = 'flex';
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ ov.style.transition = 'opacity .2s'; ov.style.opacity = '1'; }); });
 }
 
 function closeSkillModal() {
-  document.getElementById('skill-modal-overlay').style.display = 'none';
+  var ov = document.getElementById('skill-modal-overlay');
+  ov.style.transition = 'opacity .18s'; ov.style.opacity = '0';
+  setTimeout(function(){ ov.style.display = 'none'; ov.style.opacity = ''; ov.style.transition = ''; }, 180);
   _smSoftwareTags = [];
   _smRenderTags();
 }
@@ -8113,7 +8243,8 @@ function renderPublicSkillsTab(profileData, projects) {
             + '</a>';
         }).join('');
       }
-      const _skMenu = isOwn ? '<button onclick="event.stopPropagation();toggleSkMenu(this,' + i + ')" title="Options" style="position:absolute;top:.6rem;right:.6rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;pointer-events:all"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>' : '';
+      const _dotColor = (variant === 'psk-dark') ? '#555' : 'rgba(255,255,255,.75)';
+      const _skMenu = isOwn ? '<button onclick="event.stopPropagation();toggleSkMenu(this,' + i + ')" title="Options" style="position:absolute;top:.55rem;right:.55rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:' + _dotColor + ';display:flex;align-items:center;justify-content:center;pointer-events:all;transition:.15s"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>' : '';
       return '<div class="psk-card psk-card-static ' + variant + '" id="psk-card-' + i + '" style="position:relative;width:100%;box-sizing:border-box;min-width:0">'
         + _skMenu
         + '<div class="psk-card-inner"><span class="psk-card-name">' + escHtml(sk.name) + '</span>'
@@ -8177,7 +8308,8 @@ function renderPublicSkillsTab(profileData, projects) {
           + '</a>';
       }).join('');
     }
-    const _skMenuD = isOwn ? '<button onclick="event.stopPropagation();toggleSkMenu(this,' + i + ')" title="Options" style="position:absolute;top:.6rem;right:.6rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;pointer-events:all"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>' : '';
+    const _dotColorD = (variant === 'psk-dark') ? '#555' : 'rgba(255,255,255,.75)';
+    const _skMenuD = isOwn ? '<button onclick="event.stopPropagation();toggleSkMenu(this,' + i + ')" title="Options" style="position:absolute;top:.55rem;right:.55rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:' + _dotColorD + ';display:flex;align-items:center;justify-content:center;pointer-events:all;transition:.15s"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>' : '';
     return '<div class="psk-card psk-card-static ' + variant + '" id="psk-card-' + i + '"' + spanStyle + ' style="position:relative">'
       + _skMenuD
       + '<div class="psk-card-inner">'
@@ -8950,7 +9082,7 @@ function renderPublicServicesTab(profileData, isOwn) {
     const checkSvg = '<svg width="8" height="8" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="' + checkColor + '" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
     const _ownerSvcMenu = isOwn
-      ? '<button onclick="event.stopPropagation();toggleSvcMenu(this,' + i + ')" title="Options" style="position:absolute;top:.6rem;right:.6rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;pointer-events:all"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>'
+      ? '<button onclick="event.stopPropagation();toggleSvcMenu(this,' + i + ')" title="Options" style="position:absolute;top:.55rem;right:.55rem;z-index:15;background:none;border:none;padding:4px;cursor:pointer;color:rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;pointer-events:all;transition:.15s"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="2.5" r="1" fill="currentColor"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="9.5" r="1" fill="currentColor"/></svg></button>'
       : '';
     return '<div class="psvc-card" style="position:relative;' + (_svcMobile ? 'width:100%;max-width:100%;box-sizing:border-box' : '') + '">'
       + _ownerSvcMenu
@@ -9175,16 +9307,53 @@ function closeHireModal() {
 }
 
 function openContactModal() {
-  document.getElementById('contact-overlay').style.display = 'flex';
+  var el = document.getElementById('contact-overlay');
+  el.style.display = 'flex';
+  el.style.opacity = '0';
+  el.style.transition = 'opacity .22s ease';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){ el.style.opacity = '1'; });
+  });
 }
 function closeContactModal() {
-  document.getElementById('contact-overlay').style.display = 'none';
+  var el = document.getElementById('contact-overlay');
+  el.style.transition = 'opacity .18s ease';
+  el.style.opacity = '0';
+  setTimeout(function(){ el.style.display = 'none'; el.style.opacity = ''; el.style.transition = ''; }, 190);
+}
+function openAboutModal() {
+  var el = document.getElementById('about-overlay');
+  el.style.display = 'flex';
+  el.style.opacity = '0';
+  el.style.transition = 'opacity .22s ease';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){ el.style.opacity = '1'; });
+  });
+}
+function closeAboutModal() {
+  var el = document.getElementById('about-overlay');
+  el.style.transition = 'opacity .18s ease';
+  el.style.opacity = '0';
+  setTimeout(function(){ el.style.display = 'none'; el.style.opacity = ''; el.style.transition = ''; }, 190);
 }
 function _copyContactEmail() {
-  navigator.clipboard.writeText('info.timeliners@gmail.com').then(function() {
-    var btn = document.getElementById('contact-copy-btn');
+  var email = 'info.timeliners@gmail.com';
+  var btn = document.getElementById('contact-copy-btn');
+  function _onSuccess() {
     if (btn) { btn.textContent = 'Copied!'; btn.style.color = 'var(--ac)'; setTimeout(function(){ btn.textContent = 'Copy'; btn.style.color = ''; }, 2000); }
-  });
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(_onSuccess).catch(function() { _fallbackCopy(email, _onSuccess); });
+  } else {
+    _fallbackCopy(email, _onSuccess);
+  }
+}
+function _fallbackCopy(text, cb) {
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); if (cb) cb(); } catch(e) {}
+  document.body.removeChild(ta);
 }
 
 var _hireEmailAddress = '';
@@ -9270,6 +9439,8 @@ window.copyShareLink         = copyShareLink;
 window.closeHireModal       = closeHireModal;
 window.openContactModal     = openContactModal;
 window.closeContactModal    = closeContactModal;
+window.openAboutModal       = openAboutModal;
+window.closeAboutModal      = closeAboutModal;
 window._copyContactEmail    = _copyContactEmail;
 window._copyHireEmail       = _copyHireEmail;
 window._copyHireEmailFallback = _copyHireEmailFallback;
@@ -9788,23 +9959,49 @@ async function refreshOverviewStorage(p) {
 }
 
 function loadWeeklyTip() {
-  const TIPS = [
-    { title: 'Add a strong cover image', body: 'Projects with a high-quality cover image get 3× more clicks. Use a frame from your best shot.' },
+  const REGULAR_TIPS = [
+    { title: 'Add a strong cover image', body: 'Projects with a high-quality cover image get 3x more clicks. Use a frame from your best shot.' },
     { title: 'Use specific tags', body: 'Tags like "After Effects", "Wedding Edit" or "CapCut" help clients find your exact skills in search.' },
-    { title: 'Write a real bio', body: 'A short, specific bio · your style, tools and experience · builds more trust than a generic one.' },
+    { title: 'Write a real bio', body: 'A short, specific bio, your style, tools and experience, builds more trust than a generic one.' },
     { title: 'Upload your best work first', body: 'Your most-viewed project appears first. Lead with the one you\'re most proud of.' },
     { title: 'Keep your profile city updated', body: 'Local clients search by city. Make sure your location is set so you appear in nearby searches.' },
-    { title: 'Upgrade to Pro for social links', body: 'Pro profiles with WhatsApp or Instagram links get more direct client enquiries. Upgrade in your Account settings.' },
-    { title: 'Describe what makes your edits unique', body: 'Don\'t just list tools · describe your style. "Fast-cut, colour-graded reels" stands out more than "CapCut editor".' },
+    { title: 'Describe what makes your edits unique', body: 'Don\'t just list tools, describe your style. "Fast-cut, colour-graded reels" stands out more than "CapCut editor".' },
     { title: 'Publish consistently', body: 'Editors who upload at least once a month stay ranked higher in the Discover feed.' },
   ];
-  // Pick a tip based on the current week number so it changes weekly
-  const week = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000));
-  const tip = TIPS[week % TIPS.length];
-  const titleEl = document.getElementById('ov-tip-title');
-  const bodyEl  = document.getElementById('ov-tip-body');
-  if (titleEl) titleEl.textContent = tip.title;
-  if (bodyEl)  bodyEl.textContent  = tip.body;
+  const PRO_TIPS = [
+    { title: 'Verified badge gets you seen first', body: 'Pro members get a verified badge next to their name everywhere on the platform. Clients trust verified profiles more, and they rank higher in the Discover feed.' },
+    { title: 'Your portfolio, zero TimeLiners branding', body: 'Free profiles show "Powered by TimeLiners" at the bottom. Pro removes it completely so your portfolio looks 100% yours when you share the link with clients.' },
+    { title: '5 GB of video storage', body: 'Free plan gives you 250 MB, enough for a few clips. Pro unlocks 5 GB so you can upload your full reel library without worrying about space.' },
+    { title: 'Add a Skills tab to your profile', body: 'Pro profiles show a dedicated Skills tab listing your software, styles and specialties. Clients can see at a glance if you\'re the right fit before they even message you.' },
+    { title: 'Set your own brand color', body: 'Pro lets you pick a custom primary color that applies across your entire portfolio. Your profile, your brand identity.' },
+    { title: 'Show clients your rates upfront', body: 'Pro members can add a Services tab with a full rate card. List what you offer, your starting price in LKR, turnaround time and revisions. No more back-and-forth on basics.' },
+    { title: 'Unlimited projects', body: 'Free plan is capped at 3 projects. Pro removes the limit entirely so you can showcase everything you\'ve built without having to choose.' },
+    { title: 'Priority in the Discover feed', body: 'Pro profiles get a boost in the feed algorithm. More visibility means more profile visits, more Hire Me taps, more work.' },
+  ];
+
+  const isPro = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly');
+  const regularCard = document.getElementById('ov-tip-card');
+  const proCard     = document.getElementById('ov-pro-tip-card');
+
+  // Rotate every 3 or 4 days, randomised per user using their id as a seed
+  const userId = (S.profile && S.profile.id) ? S.profile.id : 'anon';
+  const seed = userId.split('').reduce(function(a, c){ return a + c.charCodeAt(0); }, 0);
+  const intervalDays = (seed % 2 === 0) ? 3 : 4;
+  const slot = Math.floor(Date.now() / (intervalDays * 24 * 60 * 60 * 1000));
+  function seededIndex(arr) { return (slot + seed) % arr.length; }
+
+  if (isPro) {
+    if (regularCard) regularCard.style.display = 'none';
+    if (proCard)     proCard.style.display = 'none';
+  } else {
+    if (regularCard) regularCard.style.display = 'none';
+    if (proCard)     proCard.style.display = 'block';
+    var tip = PRO_TIPS[seededIndex(PRO_TIPS)];
+    var titleEl = document.getElementById('ov-pro-tip-title');
+    var bodyEl  = document.getElementById('ov-pro-tip-body');
+    if (titleEl) titleEl.textContent = tip.title;
+    if (bodyEl)  bodyEl.textContent  = tip.body;
+  }
 }
 
 async function refreshStorageBar() {
@@ -9945,6 +10142,25 @@ window.openShareModal  = openShareModal;
 window.closeShareModal = closeShareModal;
 window.spmCopy         = spmCopy;
 
+// ── SHARE PROJECT ────────────────────────────────────
+function shareProject() {
+  const p = S._currentProject;
+  if (!p) return;
+  const url = 'https://timeliners.lk/#/project/' + p.id;
+  const btn = document.getElementById('pm-share-btn');
+  try {
+    navigator.clipboard.writeText(url).then(() => {
+      if (btn) { btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!'; btn.style.color = '#22c55e'; btn.style.borderColor = '#22c55e44'; setTimeout(() => { btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share'; btn.style.color = ''; btn.style.borderColor = ''; }, 2000); }
+    }).catch(() => _shareProjectFallback(url, btn));
+  } catch(e) { _shareProjectFallback(url, btn); }
+}
+function _shareProjectFallback(url, btn) {
+  const i = document.createElement('input'); i.value = url;
+  document.body.appendChild(i); i.select(); document.execCommand('copy'); document.body.removeChild(i);
+  if (btn) { btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!'; btn.style.color = '#22c55e'; btn.style.borderColor = '#22c55e44'; setTimeout(() => { btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share'; btn.style.color = ''; btn.style.borderColor = ''; }, 2000); }
+}
+window.shareProject = shareProject;
+
 // Close modal on backdrop click
 document.addEventListener('click', (e) => {
   if (e.target.id === 'share-portfolio-modal') closeShareModal();
@@ -10035,8 +10251,8 @@ boot();
 <div class="page" id="page-pricing">
   <div class="pricing-wrap">
     <div class="pricing-eyebrow">Pricing</div>
-    <h2 class="pricing-h">Simple, Transparent <span>Pricing</span></h2>
-    <p class="pricing-sub">Build your portfolio free. Go Pro when you want it to feel truly yours.</p>
+    <h2 class="pricing-h">Go Pro. <span>Take Control.</span></h2>
+    <p class="pricing-sub">Everything a serious video editor needs, for under 1,000 LKR a month.</p>
 
 
     <!-- Billing toggle -->
@@ -10066,7 +10282,7 @@ boot();
         <button class="pc-btn pc-btn-free" onclick="openAuth('up')">Get Started Free</button>
       </div>
       <!-- Pro -->
-      <div class="pc pc-feat" style="background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);border:none;position:relative;overflow:visible;padding-top:2.8rem">
+      <div class="pc pc-feat" style="background:#FE730A;border:none;position:relative;overflow:visible;padding-top:2.8rem">
         <div style="position:absolute;top:0;left:0;right:0;background:#d95e00;color:white;font-size:.62rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:.38rem 1rem;border-radius:var(--rxl) var(--rxl) 0 0;text-align:center">Most Popular</div>
         <div class="pc-name" style="color:rgba(255,255,255,.7)">Pro</div>
         <div class="pc-price" id="pp-price" style="font-size:2.4rem;color:white"><span style="font-size:.85rem;font-weight:400;color:rgba(255,255,255,.6)">LKR </span>990<span style="font-size:.8rem;font-weight:400;color:rgba(255,255,255,.6)"> / month</span></div>
@@ -10110,7 +10326,44 @@ boot();
       </table>
     </div>
   </div>
-  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:.6rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="#" onclick="event.preventDefault();openContactModal()">Contact</a></div></div></div></footer>
+  <footer class="site-footer">
+  <div style="max-width:1100px;margin:0 auto;padding:3rem 24px 0">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;padding-bottom:2.5rem;border-bottom:1px solid var(--brd)">
+      <!-- Left: brand + description + socials -->
+      <div style="max-width:340px">
+        <div style="font-size:1.1rem;font-weight:700;color:#FE730A;letter-spacing:-.2px;margin-bottom:.6rem">TimeLiners</div>
+        <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
+        <div style="display:flex;gap:.5rem">
+          <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <!-- Right: link columns -->
+      <div style="display:flex;gap:4rem">
+        <div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
+            <a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a>
+            <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Support</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <a class="flink" href="#" onclick="event.preventDefault();openContactModal()">Contact</a>
+            <a class="flink" href="#" onclick="event.preventDefault();openAboutModal()">About Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom bar -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:1.1rem 0;flex-wrap:wrap;gap:.75rem">
+      <span style="font-size:.75rem;color:var(--t3)">&copy; 2026 TimeLiners. All rights reserved.</span>
+      <div style="display:flex;gap:1.2rem"><a class="flink" style="font-size:.75rem" href="https://timeliners.lk/terms" target="_blank">Terms of Service</a><a class="flink" style="font-size:.75rem" href="https://timeliners.lk/privacy" target="_blank">Privacy Policy</a></div>
+    </div>
+  </div>
+</footer>
 </div>
 
 <!-- ══ FAQ ══ -->
@@ -10124,11 +10377,11 @@ boot();
 
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">What is Timeliners?<div class="faq-ico">+</div></div>
-      <div class="faqa">Timeliners is Sri Lanka's creative portfolio platform for video editors and motion designers. It lets you build a beautiful portfolio, upload your projects, and get discovered by clients actively looking for creative talent.</div>
+      <div class="faqa">TimeLiners is Sri Lanka's portfolio platform built specifically for video editors and motion designers. Build a professional portfolio, upload your projects, and share your profile link anywhere — Instagram bio, WhatsApp, client emails. Your portfolio becomes your professional identity.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Is it free to create an account?<div class="faq-ico">+</div></div>
-      <div class="faqa">Yes · creating an account is completely free. Your free account includes a private dashboard, the ability to upload up to 3 live projects, and full access to browse the Discover feed.</div>
+      <div class="faqa">Yes · creating an account is completely free. Your free account includes a public portfolio page, up to 3 live projects, 250 MB video storage, social links, and a Hire Me button.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How do I create an account?<div class="faq-ico">+</div></div>
@@ -10143,11 +10396,11 @@ boot();
 
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">What's the difference between the plans?<div class="faq-ico">+</div></div>
-      <div class="faqa">Free: public profile, up to 3 projects, 250 MB storage, social links, Hire Me button. Pro (990 LKR/mo or 9,990 LKR/yr): everything in Free plus unlimited projects, 5 GB storage, Analytics tab, Skills tab, Services tab (rate card), brand color, remove TimeLiners branding, priority in feed, and verified badge (awarded manually after review). Pay yearly to save 2 months.</div>
+      <div class="faqa">Free: public profile, up to 3 projects, 250 MB storage, social links, Hire Me button. Pro (990 LKR/mo or 9,990 LKR/yr): everything in Free plus unlimited projects, 5 GB storage, Skills tab, Services tab (rate card), brand color, remove TimeLiners branding, advanced analytics, priority in feed, and verified badge (awarded manually after review). Pay yearly and get 2 months free.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How does payment work?<div class="faq-ico">+</div></div>
-      <div class="faqa">After choosing a plan, message us on WhatsApp. We send you our bank account details. Once you transfer the fee and send confirmation, we activate your plan within 24 hours. We only accept direct bank transfer.</div>
+      <div class="faqa">After choosing a plan, message us on WhatsApp. We send you our bank account details. Once you transfer the fee and send us confirmation, we activate your plan within 24 hours. We only accept direct bank transfer.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Can I cancel my subscription?<div class="faq-ico">+</div></div>
@@ -10162,11 +10415,15 @@ boot();
 
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How do I upload a project?<div class="faq-ico">+</div></div>
-      <div class="faqa">Sign in, go to your Dashboard and click "Upload Project" in the sidebar. Fill in the project title, category, description, tags and cover image. Your project will be published and visible on your portfolio.</div>
+      <div class="faqa">Sign in, go to your Dashboard and click "Upload Project". Fill in the project title, category, description, and tags — then upload your video files (MP4, MOV, or WEBM, up to 250 MB each) and a cover image. Your project goes live on your portfolio immediately.</div>
     </div>
     <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">Can clients contact me directly through the platform?<div class="faq-ico">+</div></div>
-      <div class="faqa">Yes. Every editor profile has a Hire Me button. Clients can click it to send a project brief directly — the editor gets notified instantly. Editors can also add a WhatsApp number to their profile, which adds a WhatsApp contact option as well. TimeLiners is not involved in the conversation after the brief is sent.</div>
+      <div class="faqq" onclick="toggleFaq(this)">What are the Skills and Services tabs?<div class="faq-ico">+</div></div>
+      <div class="faqa">Pro features that let clients immediately understand what you offer. The Skills tab lists your editing specialties — short-form, cinematic, motion graphics, and so on. The Services tab is your rate card: list your packages, turnaround times, and pricing. Both appear on your public portfolio.</div>
+    </div>
+    <div class="faqitem">
+      <div class="faqq" onclick="toggleFaq(this)">Can clients contact me directly?<div class="faq-ico">+</div></div>
+      <div class="faqa">Yes. Every editor profile has a Hire Me button that lets clients send a project brief directly to you. If you add a WhatsApp number to your profile, a WhatsApp contact button appears too. TimeLiners is not involved in the conversation after that.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Can I update my portfolio after publishing?<div class="faq-ico">+</div></div>
@@ -10182,28 +10439,49 @@ boot();
       </button>
     </div>
   </div>
-  <footer class="site-footer"><div class="footer-inner"><div class="footer-brand-col"><div class="fbrand" style="color:#FE730A;font-size:1.1rem;font-weight:700;margin-bottom:.5rem">TimeLiners</div><div style="font-size:.82rem;color:var(--t3);max-width:420px;line-height:1.85;margin-bottom:.6rem;font-weight:400">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div><div class="footer-icons"><a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a><a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a></div></div><div class="footer-links-grid"><div class="footer-col"><div class="footer-col-head">Platform</div><a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a><a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a></div><div class="footer-col"><div class="footer-col-head">Support</div><a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a><a class="flink" href="#" onclick="event.preventDefault();openContactModal()">Contact</a></div></div></div></footer>
+  <footer class="site-footer">
+  <div style="max-width:1100px;margin:0 auto;padding:3rem 24px 0">
+    <div style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;padding-bottom:2.5rem;border-bottom:1px solid var(--brd)">
+      <!-- Left: brand + description + socials -->
+      <div style="max-width:340px">
+        <div style="font-size:1.1rem;font-weight:700;color:#FE730A;letter-spacing:-.2px;margin-bottom:.6rem">TimeLiners</div>
+        <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
+        <div style="display:flex;gap:.5rem">
+          <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <!-- Right: link columns -->
+      <div style="display:flex;gap:4rem">
+        <div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
+            <a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a>
+            <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Support</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem">
+            <a class="flink" href="#" onclick="event.preventDefault();openContactModal()">Contact</a>
+            <a class="flink" href="#" onclick="event.preventDefault();openAboutModal()">About Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bottom bar -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:1.1rem 0;flex-wrap:wrap;gap:.75rem">
+      <span style="font-size:.75rem;color:var(--t3)">&copy; 2026 TimeLiners. All rights reserved.</span>
+      <div style="display:flex;gap:1.2rem"><a class="flink" style="font-size:.75rem" href="https://timeliners.lk/terms" target="_blank">Terms of Service</a><a class="flink" style="font-size:.75rem" href="https://timeliners.lk/privacy" target="_blank">Privacy Policy</a></div>
+    </div>
+  </div>
+</footer>
 
 
-<!-- BACK TO TOP -->
-<button id="btt-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" aria-label="Back to top">
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 11V3M3 6.5l4-4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
+
 
 <script>
-// ── BACK TO TOP ──────────────────────────────────────
-(function(){
-  function initBtt(){
-    var btn = document.getElementById('btt-btn');
-    if (!btn) return;
-    window.addEventListener('scroll', function(){
-      if (window.scrollY > 400) btn.classList.add('show');
-      else btn.classList.remove('show');
-    }, { passive: true });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initBtt);
-  else initBtt();
-})();
 </script>
 <div class="toast" id="toast"><span class="toast-ico"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><circle cx="3.5" cy="3.5" r="3.5" fill="var(--ac)"/></svg></span><span id="tmsg"></span></div>
 
