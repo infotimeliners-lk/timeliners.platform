@@ -388,7 +388,8 @@ button,a{cursor:pointer;font-family:var(--fm)}
       <div class="topbar" id="topbar">
         <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()" id="hamburger"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Members</h2><p id="pay-sync">Loading…</p></div>
         <div class="tb-r">
-          <button class="btn btn-g btn-sm" onclick="openMsgTemplates()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l6 4 6-4" stroke="currentColor" stroke-width="1.2"/></svg> Messages</button>
+          <button class="btn btn-g btn-sm" onclick="openNudgeModal()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v1M7 12v1M1 7h1M12 7h1M2.5 2.5l.7.7M10.8 10.8l.7.7M2.5 11.5l.7-.7M10.8 3.2l.7-.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg> Send Nudge</button>
+          <button class="btn btn-g btn-sm" onclick="openNewsletterModal()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l6 4 6-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Newsletter</button>
           <button class="btn btn-g btn-sm" onclick="openTestEmails()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 3.5h10M2 7h6M2 10.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="11" cy="10.5" r="2.2" stroke="currentColor" stroke-width="1.2"/><path d="M11 9.5v1l.7.7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg> Test Emails</button>
           <button class="btn btn-refresh btn-sm" onclick="refreshAll()">Refresh</button>
           <button class="btn btn-p btn-sm" onclick="openPayModal()">+ Add Payment</button>
@@ -562,21 +563,6 @@ button,a{cursor:pointer;font-family:var(--fm)}
 </div></div>
 
 <!-- MODAL: MESSAGE PREVIEW -->
-<div class="ov" id="ov-msgtpl"><div class="mbox" style="max-width:480px">
-  <button class="mx" onclick="closeM('ov-msgtpl')">×</button>
-  <div class="mt">WhatsApp Message</div>
-  <div class="ms">Message sent when you tap Notify on an overdue member.</div>
-  <div style="background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.9rem 1rem;font-size:.84rem;color:var(--t1);line-height:1.65;white-space:pre-wrap;margin-bottom:.9rem">Hi [name],
-
-Your TimeLiners Pro subscription expired on [expiry date]. If you would like to renew, please reply to this message and we will sort it out right away.</div>
-  <div style="font-size:.72rem;color:var(--t3);margin-bottom:1rem">Name and expiry date are filled in automatically from the member record.</div>
-  <div style="border-top:1px solid var(--brd);padding-top:.9rem">
-    <div style="font-size:.62rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--t3);margin-bottom:.55rem">Bulk Send</div>
-    <button class="btn btn-r btn-sm" onclick="closeM('ov-msgtpl');notifyOverdue()">Notify all overdue</button>
-  </div>
-  <div style="margin-top:.9rem"><button class="btn btn-g" style="width:100%" onclick="closeM('ov-msgtpl')">Close</button></div>
-</div></div>
-
 <!-- SLIP LIGHTBOX -->
 <div class="slip-lb" id="slip-lb" onclick="closeSlipLb()">
   <button class="slip-lb-close" onclick="closeSlipLb()">×</button>
@@ -603,6 +589,93 @@ Your TimeLiners Pro subscription expired on [expiry date]. If you would like to 
     <button class="btn btn-r" style="flex:1" onclick="confirmReject()">Send Rejection</button>
     <button class="btn btn-g" onclick="closeM('ov-reject')">Cancel</button>
   </div>
+</div></div>
+
+<!-- MODAL: SEND NUDGE -->
+<div class="ov" id="ov-nudge"><div class="mbox" style="max-width:440px">
+  <button class="mx" onclick="closeM('ov-nudge')">×</button>
+  <div class="mt">Send Profile Nudge</div>
+  <div class="ms">Sends an email to free users with zero projects who haven't been nudged yet.</div>
+  <div id="nudge-loading" style="text-align:center;padding:1.2rem 0;font-size:.82rem;color:var(--t3)">Checking eligible users…</div>
+  <div id="nudge-ready" style="display:none">
+    <div style="background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.9rem 1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:.82rem;color:var(--t2)">Eligible users (not yet nudged)</span>
+      <span style="font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--t1)" id="nudge-eligible-count">0</span>
+    </div>
+    <div class="fg">
+      <label class="fl">Emails to send today</label>
+      <input class="fi" id="nudge-limit" type="number" min="1" max="100" value="100" placeholder="Max 100 per day (Resend limit)">
+      <div style="font-size:.68rem;color:var(--t3);margin-top:.28rem">Resend free tier limit is 100/day. Remaining users will be sent next time.</div>
+    </div>
+    <div id="nudge-none" style="display:none;font-size:.8rem;color:var(--grn);padding:.5rem 0">✓ All eligible users have already been nudged.</div>
+  </div>
+  <div id="nudge-result" style="display:none;font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem"></div>
+  <div style="display:flex;gap:.42rem;margin-top:.4rem">
+    <button class="btn btn-p" style="flex:1" id="nudge-send-btn" onclick="sendNudges()" disabled>Send Nudge Emails</button>
+    <button class="btn btn-g" onclick="closeM('ov-nudge')">Cancel</button>
+  </div>
+</div></div>
+
+<!-- MODAL: NEWSLETTER -->
+<div class="ov" id="ov-newsletter"><div class="mbox" style="max-width:480px">
+  <button class="mx" onclick="closeM('ov-newsletter')">×</button>
+  <div class="mt">Send Newsletter</div>
+  <div class="ms">Edit the content in the edge function, then send to all members in batches.</div>
+
+  <div id="nl-loading" style="text-align:center;padding:1.2rem 0;font-size:.82rem;color:var(--t3)">Checking recipients…</div>
+
+  <div id="nl-ready" style="display:none">
+    <div style="background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.9rem 1rem;margin-bottom:.85rem">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+        <span style="font-size:.8rem;color:var(--t2)">Remaining recipients</span>
+        <span style="font-family:var(--mono);font-size:1rem;font-weight:700;color:var(--t1)" id="nl-remaining-count">0</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:.8rem;color:var(--t2)">Already sent</span>
+        <span style="font-family:var(--mono);font-size:.88rem;font-weight:600;color:var(--t3)" id="nl-sent-count">0</span>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label class="fl">Emails to send today</label>
+      <input class="fi" id="nl-limit" type="number" min="1" max="100" value="100" placeholder="Max 100 per day">
+      <div style="font-size:.68rem;color:var(--t3);margin-top:.28rem">Resend free tier limit is 100/day. Remaining recipients continue next time.</div>
+    </div>
+
+    <div id="nl-none" style="display:none;background:var(--grnl);border:1px solid var(--grnb);border-radius:8px;padding:.6rem .9rem;font-size:.8rem;color:var(--grn);margin-bottom:.75rem">✓ Everyone has received this issue. Reset to start a new issue.</div>
+
+    <button class="btn btn-amb btn-sm" style="width:100%;justify-content:center;margin-bottom:.75rem" onclick="resetNewsletter()">
+      Reset for New Issue (clears all sent flags)
+    </button>
+  </div>
+
+  <div id="nl-result" style="display:none;font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem"></div>
+
+  <div style="display:flex;gap:.42rem;margin-top:.4rem">
+    <button class="btn btn-p" style="flex:1" id="nl-send-btn" onclick="sendNewsletter()" disabled>Send Newsletter</button>
+    <button class="btn btn-g" onclick="closeM('ov-newsletter')">Cancel</button>
+  </div>
+</div></div>
+
+<!-- MODAL: NOTIFY CHOICE -->
+<div class="ov" id="ov-notify-choice"><div class="mbox" style="max-width:400px">
+  <button class="mx" onclick="closeM('ov-notify-choice')">×</button>
+  <div class="mt">Notify Member</div>
+  <div class="ms">How would you like to notify <span id="nc-name">this member</span>?</div>
+  <div style="display:flex;flex-direction:column;gap:.55rem;margin-top:.2rem">
+    <button class="btn btn-p" id="nc-wa-btn" style="justify-content:center">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.17A5.83 5.83 0 001.17 7c0 1.03.27 2 .74 2.85L1.17 12.83l3.08-.72A5.83 5.83 0 107 1.17z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      Send WhatsApp
+    </button>
+    <div>
+      <button class="btn btn-g" id="nc-email-btn" style="justify-content:center;width:100%">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l6 4 6-4" stroke="currentColor" stroke-width="1.2"/></svg>
+        Send Expired Email
+      </button>
+      <div id="nc-email-note" style="display:none;font-size:.68rem;color:var(--amb);margin-top:.32rem;padding-left:.2rem"></div>
+    </div>
+  </div>
+  <div style="margin-top:.9rem"><button class="btn btn-g" style="width:100%" onclick="closeM('ov-notify-choice')">Cancel</button></div>
 </div></div>
 
 <!-- MODAL: WA MESSAGE PREVIEW -->
@@ -1096,10 +1169,16 @@ function rProMembers(){
     const wa=p.wa||pf.wa;
     const mn=mno(pf);
 
-    // Notify chip logic — single "Notify" button for overdue/expired members with WA
+    // Notify chip logic — single "Notify" button for overdue/expired members
     let notifyChip='';
-    if(wa&&(p.pay_status==='overdue'||p.pay_status==='downgraded'||(days!==null&&days<0))){
-      notifyChip=`<button class="notify-chip nc-overdue" onclick="previewWA('${wa}','${(pf.name||'').replace(/'/g,"\\'")}','${p.expires_date||''}')">Notify</button>`;
+    if(p.pay_status==='overdue'||p.pay_status==='downgraded'||(days!==null&&days<0)){
+      const safeEmail=(pf.email||'').replace(/'/g,"\\'");
+      const safeName=(pf.name||'').replace(/'/g,"\\'");
+      const safePlan=(p.plan||'').replace(/'/g,"\\'");
+      const safeExpires=(p.expires_date||'').replace(/'/g,"\\'");
+      const safeWa=(wa||'').replace(/'/g,"\\'");
+      const safeUserId=(p.user_id||'').replace(/'/g,"\\'");
+      notifyChip=`<button class="notify-chip nc-overdue" onclick="openNotifyChoice('${safeWa}','${safeName}','${safeExpires}','${safeEmail}','${safePlan}','${safeUserId}')">Notify</button>`;
     }
 
     const dColor=days===null?'var(--t2)':days<0?'var(--red)':days<=7?'var(--amb)':'var(--t1)';
@@ -1503,7 +1582,6 @@ async function autoFillMissing(){
 
 // ─── WHATSAPP MESSAGES ────────────────────────────────────────────────────────
 
-function openMsgTemplates(){openM('ov-msgtpl');}
 
 function buildWAMsg(name,expiresDate){
   const n=name||'there';
@@ -1529,6 +1607,230 @@ function previewWA(wa,name,expiresDate){
   openM('ov-wa');
 }
 
+
+// ─── NUDGE ────────────────────────────────────────────────────────────────────
+let _nudgeEligible = [];
+
+async function openNudgeModal() {
+  _nudgeEligible = [];
+  document.getElementById('nudge-loading').style.display = '';
+  document.getElementById('nudge-ready').style.display = 'none';
+  document.getElementById('nudge-none').style.display = 'none';
+  document.getElementById('nudge-result').style.display = 'none';
+  document.getElementById('nudge-send-btn').disabled = true;
+  openM('ov-nudge');
+
+  try {
+    // Get all profiles with nudge_sent_at = null
+    const profiles = await sb('/profiles?nudge_sent_at=is.null&select=id,email,name,username&order=created_at.asc');
+
+    // Get all user IDs that have at least 1 project
+    const projects = await sb('/projects?select=user_id');
+    const withProjects = new Set(projects.map(p => p.user_id));
+
+    // Eligible = no projects uploaded
+    _nudgeEligible = profiles.filter(p => p.email && !withProjects.has(p.id));
+
+    document.getElementById('nudge-eligible-count').textContent = _nudgeEligible.length;
+    document.getElementById('nudge-loading').style.display = 'none';
+    document.getElementById('nudge-ready').style.display = '';
+
+    if (_nudgeEligible.length === 0) {
+      document.getElementById('nudge-none').style.display = '';
+      document.getElementById('nudge-send-btn').disabled = true;
+    } else {
+      document.getElementById('nudge-none').style.display = 'none';
+      document.getElementById('nudge-send-btn').disabled = false;
+    }
+  } catch(e) {
+    document.getElementById('nudge-loading').textContent = 'Failed to load users. Try again.';
+    console.error(e);
+  }
+}
+
+async function sendNudges() {
+  const limit = Math.min(parseInt(document.getElementById('nudge-limit').value) || 100, 100);
+  const batch = _nudgeEligible.slice(0, limit);
+  if (!batch.length) return;
+
+  const btn = document.getElementById('nudge-send-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const resultEl = document.getElementById('nudge-result');
+  let sent = 0, failed = 0;
+
+  for (const user of batch) {
+    try {
+      const res = await fetch(`${SB}/functions/v1/send-nudge`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KEY },
+        body: JSON.stringify({ email: user.email, name: user.name, username: user.username })
+      });
+      if (res.ok) {
+        // Stamp nudge_sent_at
+        await sb('/profiles?id=eq.' + user.id, 'PATCH', { nudge_sent_at: new Date().toISOString() });
+        sent++;
+      } else { failed++; }
+    } catch(e) { failed++; }
+
+    // Update progress
+    btn.textContent = `Sending… ${sent + failed}/${batch.length}`;
+  }
+
+  // Refresh eligible list
+  _nudgeEligible = _nudgeEligible.slice(limit);
+  document.getElementById('nudge-eligible-count').textContent = _nudgeEligible.length;
+
+  resultEl.style.display = '';
+  if (failed === 0) {
+    resultEl.style.cssText = 'display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
+    resultEl.textContent = `✓ Sent ${sent} nudge email${sent !== 1 ? 's' : ''} successfully.`;
+  } else {
+    resultEl.style.cssText = 'display:block;background:var(--ambl);color:var(--amb);border:1px solid var(--ambb);font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
+    resultEl.textContent = `Sent ${sent}, failed ${failed}. Check console for details.`;
+  }
+
+  btn.textContent = 'Send Nudge Emails';
+  btn.disabled = _nudgeEligible.length === 0;
+}
+
+// ── NEWSLETTER ──────────────────────────────────────────────
+let _nlRecipients = [];
+
+async function openNewsletterModal() {
+  _nlRecipients = [];
+  document.getElementById('nl-loading').style.display = '';
+  document.getElementById('nl-ready').style.display = 'none';
+  const resultEl = document.getElementById('nl-result');
+  resultEl.style.display = 'none';
+  resultEl.textContent = '';
+  document.getElementById('nl-send-btn').disabled = true;
+  openM('ov-newsletter');
+
+  try {
+    // Get all profiles ordered TL-001 upward
+    const all = await sb('/profiles?select=id,email,name,username,newsletter_sent_at&order=created_at.asc');
+    const remaining = all.filter(p => p.email && !p.newsletter_sent_at);
+    const sent = all.length - remaining.length;
+
+    _nlRecipients = remaining;
+    document.getElementById('nl-remaining-count').textContent = remaining.length;
+    document.getElementById('nl-sent-count').textContent = sent;
+    document.getElementById('nl-loading').style.display = 'none';
+    document.getElementById('nl-ready').style.display = '';
+
+    if (remaining.length === 0) {
+      document.getElementById('nl-none').style.display = '';
+      document.getElementById('nl-send-btn').disabled = true;
+    } else {
+      document.getElementById('nl-none').style.display = 'none';
+      document.getElementById('nl-send-btn').disabled = false;
+    }
+  } catch(e) {
+    document.getElementById('nl-loading').textContent = 'Failed to load recipients. Try again.';
+    console.error(e);
+  }
+}
+
+async function sendNewsletter() {
+  const limit = Math.min(parseInt(document.getElementById('nl-limit').value) || 100, 100);
+  const batch = _nlRecipients.slice(0, limit);
+  if (!batch.length) return;
+
+  const btn = document.getElementById('nl-send-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const resultEl = document.getElementById('nl-result');
+  let sent = 0, failed = 0;
+
+  for (const user of batch) {
+    try {
+      const res = await fetch(`${SB}/functions/v1/send-newsletter`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + KEY },
+        body: JSON.stringify({ email: user.email, name: user.name, username: user.username })
+      });
+      if (res.ok) {
+        await sb('/profiles?id=eq.' + user.id, 'PATCH', { newsletter_sent_at: new Date().toISOString() });
+        sent++;
+      } else { failed++; }
+    } catch(e) { failed++; }
+    btn.textContent = `Sending… ${sent + failed}/${batch.length}`;
+  }
+
+  _nlRecipients = _nlRecipients.slice(limit);
+  document.getElementById('nl-remaining-count').textContent = _nlRecipients.length;
+  document.getElementById('nl-sent-count').textContent = parseInt(document.getElementById('nl-sent-count').textContent) + sent;
+
+  resultEl.style.display = '';
+  if (failed === 0) {
+    resultEl.style.cssText = 'display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
+    resultEl.textContent = `✓ Sent ${sent} newsletter email${sent !== 1 ? 's' : ''} successfully.`;
+  } else {
+    resultEl.style.cssText = 'display:block;background:var(--ambl);color:var(--amb);border:1px solid var(--ambb);font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
+    resultEl.textContent = `Sent ${sent}, failed ${failed}. Check console.`;
+  }
+
+  if (_nlRecipients.length === 0) {
+    document.getElementById('nl-none').style.display = '';
+  }
+  btn.textContent = 'Send Newsletter';
+  btn.disabled = _nlRecipients.length === 0;
+}
+
+async function resetNewsletter() {
+  if (!confirm('Reset newsletter for all members? Everyone will receive the next issue. Use this when starting a new topic.')) return;
+  try {
+    await sb('/profiles?newsletter_sent_at=not.is.null', 'PATCH', { newsletter_sent_at: null });
+    showToast('Newsletter reset — all members will receive the next issue.');
+    openNewsletterModal(); // Refresh counts
+  } catch(e) {
+    showToast('Reset failed. Try again.', true);
+    console.error(e);
+  }
+}
+
+function openNotifyChoice(wa,name,expiresDate,email,plan,userId){
+  const hasWa=!!wa;
+  document.getElementById('nc-wa-btn').style.display=hasWa?'':'none';
+  document.getElementById('nc-wa-btn').onclick=()=>{closeM('ov-notify-choice');previewWA(wa,name,expiresDate);};
+  document.getElementById('nc-email-btn').onclick=()=>{closeM('ov-notify-choice');sendExpiredEmail(email,name,plan,expiresDate,userId);};
+  document.getElementById('nc-name').textContent=name||'this member';
+  // Show last sent note from profile data (already loaded in _pf)
+  const noteEl=document.getElementById('nc-email-note');
+  const pf=_pf.find(x=>x.id===userId)||{};
+  if(pf.expired_email_sent_at){
+    noteEl.style.display='';
+    noteEl.textContent='⚠ Expired email sent on '+new Date(pf.expired_email_sent_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+  } else {
+    noteEl.style.display='none';
+    noteEl.textContent='';
+  }
+  openM('ov-notify-choice');
+}
+
+async function sendExpiredEmail(email,name,plan,expiresDate,userId){
+  if(!email){toast('No email on file',1);return;}
+  const planLabel=PL[plan]||plan||'Pro';
+  try{
+    const res=await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+      body:JSON.stringify({type:'expired',email,name:name||'',plan:planLabel,expires:expiresDate})
+    });
+    if(res.ok){
+      // Stamp expired_email_sent_at in DB
+      if(userId){
+        await sb('/profiles?id=eq.'+userId,'PATCH',{expired_email_sent_at:new Date().toISOString()});
+        // Update local cache so note shows immediately without reload
+        const pf=_pf.find(x=>x.id===userId);
+        if(pf) pf.expired_email_sent_at=new Date().toISOString();
+      }
+      toast('Expired email sent to '+email);
+    } else {toast('Failed to send email',1);}
+  }catch(e){toast('Error sending email',1);console.error(e);}
+}
 
 function notifyOverdue(){
   const targets=_py.filter(p=>p.pay_status==='overdue'||p.pay_status==='downgraded');
@@ -1647,13 +1949,9 @@ async function sendTestEmail(){
 
   // Build a realistic test payload for each type
   const today=new Date().toISOString().split('T')[0];
-  const in3=new Date(Date.now()+3*864e5).toISOString().split('T')[0];
   const payloads={
     pro_confirmed:{type,email,name:'Test User',plan:'Pro Monthly',expires:new Date(Date.now()+30*864e5).toISOString().split('T')[0]},
-    expiring_3day:{type,email,name:'Test User',plan:'Pro Monthly',days:3,expires:in3},
-    expired:{type,email,name:'Test User',plan:'Pro Monthly',days:0},
-    downgraded:{type,email,name:'Test User',plan:'Pro Monthly'},
-    payment_rejected:{type,email,name:'Test User',reason:'Incorrect amount transferred'}
+    expired:{type,email,name:'Test User',plan:'Pro Monthly',days:0}
   };
 
   msg.style.cssText='display:block;background:var(--ambl);color:var(--amb);border:1px solid var(--ambb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem';
@@ -1869,10 +2167,7 @@ function renderInqPane(){
     <label class="fl">Email type</label>
     <select class="fi" id="test-email-type">
       <option value="pro_confirmed">Pro Confirmed (after payment)</option>
-      <option value="expiring_3day">Expiring in 3 days (warning)</option>
       <option value="expired">Just expired</option>
-      <option value="downgraded">Downgraded to free</option>
-      <option value="payment_rejected">Payment rejected</option>
     </select>
   </div>
   <div id="test-email-msg" style="display:none;font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem"></div>
