@@ -3942,6 +3942,7 @@ async function handleSignOut() {
     sessionStorage.removeItem('tl_last');
     sessionStorage.removeItem('tl_redirect');
     sessionStorage.removeItem('tl_username_redirect');
+    sessionStorage.removeItem('tl_feed_cache');
   } catch(e) {}
   applyLoggedOut();
   showPage('feed');
@@ -4095,10 +4096,35 @@ async function loadFeed(force) {
   // Prevent duplicate concurrent fetches; allow force-refresh
   if (_feedLoading) return;
   // Generate seed only once per session; explicit force (logo/refresh) resets it
-  if (!S._feedSeed || force) S._feedSeed = Math.floor(Math.random() * 0x7fffffff);
+  if (!S._feedSeed || force) { S._feedSeed = Math.floor(Math.random() * 0x7fffffff); if (force) { try { sessionStorage.removeItem('tl_feed_cache'); } catch(e) {} } }
 
   // If we already have data and aren't forcing, just re-render (instant)
   if (_feedLoaded && !force) { renderFeed(); return; }
+
+  // Check sessionStorage cache (5 min TTL) — skip Supabase if fresh
+  const _FEED_CACHE_KEY = 'tl_feed_cache';
+  const _FEED_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+  if (!force) {
+    try {
+      const cached = sessionStorage.getItem(_FEED_CACHE_KEY);
+      if (cached) {
+        const { ts, projects, profiles } = JSON.parse(cached);
+        if (Date.now() - ts < _FEED_CACHE_TTL && projects && projects.length) {
+          const myDrafts = S.user ? S.projects.filter(p => p.user_id === S.user.id && p.status === 'draft') : [];
+          S.projects = [...projects, ...myDrafts];
+          if (profiles && profiles.length) {
+            const planMap = {}; const verMap = {}; const unMap = {};
+            profiles.forEach(p => { planMap[p.id] = p.plan || 'free'; verMap[p.id] = !!p.verified; unMap[p.id] = p.username || ''; });
+            S.projects.forEach(p => { p._authorPlan = planMap[p.user_id] || 'free'; p._authorVerified = verMap[p.user_id] || false; p._authorUsername = unMap[p.user_id] || ''; });
+          }
+          _feedLoaded = true;
+          _feedLoading = false;
+          renderFeed();
+          return;
+        }
+      }
+    } catch(e) {}
+  }
 
   const grid = el('feed-grid');
 
@@ -4139,6 +4165,11 @@ async function loadFeed(force) {
         allProfiles.forEach(p => { planMap[p.id] = p.plan || 'free'; verMap[p.id] = !!p.verified; unMap[p.id] = p.username || ''; });
         S.projects.forEach(p => { p._authorPlan = planMap[p.user_id] || 'free'; p._authorVerified = verMap[p.user_id] || false; p._authorUsername = unMap[p.user_id] || ''; });
       }
+
+      // Save to sessionStorage cache
+      try {
+        sessionStorage.setItem('tl_feed_cache', JSON.stringify({ ts: Date.now(), projects: rows, profiles: allProfiles || [] }));
+      } catch(e) {}
     }
     _feedLoaded = true;
   } catch(e) {
@@ -5658,7 +5689,8 @@ async function saveProject(status) {
     switchDash('projects', el('dnav-projects'));
     updatePlanUI(); refreshStorageBar();
     // Always reload feed so the new project appears immediately
-    await loadFeed();
+    try { sessionStorage.removeItem('tl_feed_cache'); } catch(e) {}
+    await loadFeed(true);
     // If profile is open, refresh it too
     if (S.profile) renderProfileProjects(S.profile);
   } catch(e) { showToast('Error: ' + e.message); }
@@ -6278,6 +6310,7 @@ function pcardDelete(projId) {
   const token = S.session?.access_token || SB_KEY;
   db('/projects?id=eq.' + projId, 'DELETE', null, token).then(() => {
     S.projects = S.projects.filter(p => p.id !== projId);
+    try { sessionStorage.removeItem('tl_feed_cache'); } catch(e) {}
     showToast('Project deleted');
     renderProfileProjects(S.profile);
   }).catch(() => showToast('Delete failed — try again','error'));
