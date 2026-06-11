@@ -6617,6 +6617,7 @@ function showPage(id, projOrUserId) {
   closeMob();
   try { if (id !== 'splash' && id !== 'profile') { sessionStorage.setItem('tl_last', id + (projOrUserId ? '|' + projOrUserId : '')); sessionStorage.removeItem('tl_username_redirect'); } } catch(e) {}
   try { if (id !== 'splash') localStorage.setItem('tl_visited', '1'); } catch(e) {}
+  if (id !== 'splash' && id !== 'profile' && location.pathname !== '/' && !location.pathname.match(/\.(html)$/)) { try { history.replaceState(null, '', '/'); } catch(e) {} }
   if (id !== 'splash') pushHash(id, projOrUserId);
   if (id === 'feed')      { const _force = !!S._feedForceRefresh; S._feedForceRefresh = false; loadFeed(_force); }
   
