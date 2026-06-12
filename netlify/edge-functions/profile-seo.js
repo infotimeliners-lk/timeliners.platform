@@ -14,7 +14,15 @@ const BOT_PATTERNS = [
   'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider',
   'yandexbot', 'sogou', 'exabot', 'facebot', 'facebookexternalhit',
   'twitterbot', 'linkedinbot', 'whatsapp', 'telegrambot', 'applebot',
-  'semrushbot', 'ahrefsbot', 'mj12bot', 'dotbot'
+  'semrushbot', 'ahrefsbot', 'mj12bot', 'dotbot',
+  // Google's various testing/inspection tools and other crawlers
+  'google-inspectiontool', 'googleother', 'storebot-google',
+  'google-extended', 'chrome-lighthouse', 'adsbot-google',
+  'mediapartners-google', 'feedfetcher-google', 'google-read-aloud',
+  'pinterest', 'discordbot', 'redditbot', 'skypeuripreview',
+  'vkshare', 'w3c_validator', 'embedly', 'quora link preview',
+  'showyoubot', 'outbrain', 'pinterestbot', 'slackbot',
+  'developers.google.com'
 ];
 
 function isBot(userAgent) {
