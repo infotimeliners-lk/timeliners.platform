@@ -3,10 +3,10 @@ const SB_URL = 'https://xilhrpbqdqocpwxaigvy.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
 
 const STATIC_PAGES = [
-  { url: 'https://timeliners.lk/',              changefreq: 'weekly', priority: '1.0' },
-  { url: 'https://timeliners.lk/terms.html',   changefreq: 'yearly', priority: '0.3' },
-  { url: 'https://timeliners.lk/privacy.html', changefreq: 'yearly', priority: '0.3' },
-  { url: 'https://timeliners.lk/refund.html',  changefreq: 'yearly', priority: '0.3' },
+  { url: 'https://timeliners.lk/',        changefreq: 'weekly', priority: '1.0' },
+  { url: 'https://timeliners.lk/terms',   changefreq: 'yearly', priority: '0.3' },
+  { url: 'https://timeliners.lk/privacy', changefreq: 'yearly', priority: '0.3' },
+  { url: 'https://timeliners.lk/refund',  changefreq: 'yearly', priority: '0.3' },
 ];
 
 export default async function handler(request, context) {
