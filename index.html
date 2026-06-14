@@ -3324,7 +3324,16 @@ function boot() {
     }
   });
 
-  restoreSession();
+  // Defer until the whole document has been parsed — #page-pricing and #page-faq
+  // are defined after this <script> block, so calling restoreSession() too early
+  // (e.g. logged-out users with no network delay before showPage()) means
+  // el('page-pricing')/el('page-faq') don't exist yet, causing showPage() to
+  // crash on pg.addEventListener and fall back to the feed page.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', restoreSession);
+  } else {
+    restoreSession();
+  }
   // Safety: ensure loader hides and feed shows if session restore stalls for >3s
   setTimeout(() => {
     hideTlLoader();
