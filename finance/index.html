@@ -312,9 +312,14 @@ button,a{cursor:pointer;font-family:var(--fm)}
   .pw{padding:.75rem}
 }
 
-/* Hamburger button - hidden on desktop */
-.hamburger{display:none;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;border:1.5px solid var(--brd2);background:var(--bg2);cursor:pointer;flex-shrink:0;color:var(--t2);transition:all .15s}
-.hamburger:hover{background:var(--bg3);color:var(--t1)}
+/* ── REVENUE TIME FILTER PILLS ── */
+.rev-tf{font-size:.76rem;font-weight:500;padding:.3rem .9rem;border-radius:50px;border:1.5px solid var(--brd2);background:var(--bg2);color:var(--t2);cursor:pointer;transition:all .15s;font-family:var(--fm)}
+.rev-tf:hover{border-color:var(--brd3);color:var(--t1);background:var(--bg3)}
+.rev-tf.active{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600;box-shadow:0 2px 10px rgba(254,115,10,.25)}
+/* ── REVENUE TABLE ROW ── */
+.rrow{display:grid;grid-template-columns:180px 1fr 80px 90px 90px;gap:.7rem;padding:.65rem 0;border-bottom:1px solid var(--brd);align-items:center}
+.rrow:last-child{border-bottom:none}
+
 
 /* ── COLLAPSED TOOLTIPS ──────────────────────────────────── */
 .sb.collapsed .sb-link{position:relative}
@@ -359,12 +364,10 @@ button,a{cursor:pointer;font-family:var(--fm)}
     <div class="sb-nav">
       <div class="sb-sec">Members</div>
       <button class="sb-link active" onclick="nav('payments',this)" id="nav-payments" data-label="Members">
-        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1" y="3.5" width="13" height="8" rx="2" stroke="currentColor" stroke-width="1.3"/><path d="M1 6.5h13" stroke="currentColor" stroke-width="1.3"/><rect x="3" y="9" width="3" height="1.2" rx=".5" fill="currentColor"/></svg></div>
         <span class="sb-link-label">Members</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
       </button>
       <div class="sb-sec">Finance</div>
       <button class="sb-link" onclick="nav('revenue',this)" id="nav-revenue" data-label="Revenue">
-        <div class="sb-link-ico"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M1.5 11.5L5 7.5l3 2.5L12 4.5l2 2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <span class="sb-link-label">Revenue</span>
       </button>
     </div>
@@ -386,7 +389,7 @@ button,a{cursor:pointer;font-family:var(--fm)}
     <!-- PAYMENTS -->
     <div id="pane-payments" class="pane active">
       <div class="topbar" id="topbar">
-        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()" id="hamburger"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Members</h2><p id="pay-sync">Loading…</p></div>
+        <div class="tb-l"><h2>Members</h2><p id="pay-sync">Loading…</p></div>
         <div class="tb-r">
           <button class="btn btn-g btn-sm" onclick="openNudgeModal()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v1M7 12v1M1 7h1M12 7h1M2.5 2.5l.7.7M10.8 10.8l.7.7M2.5 11.5l.7-.7M10.8 3.2l.7-.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg> Send Nudge</button>
           <button class="btn btn-g btn-sm" onclick="openNewsletterModal()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l6 4 6-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Newsletter</button>
@@ -448,27 +451,44 @@ button,a{cursor:pointer;font-family:var(--fm)}
     <!-- REVENUE -->
 
     <div id="pane-revenue" class="pane">
-      <div class="topbar" id="topbar">
-        <div class="tb-l"><button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button><h2>Revenue</h2><p>Income, expenses &amp; profit · from March 2026</p></div>
-        <div class="tb-r">
-          <button class="btn btn-p btn-sm" onclick="openExpModal()">+ Add Expense</button>
-        </div>
+      <div class="topbar">
+        <div class="tb-l"><h2>Revenue</h2><p id="rev-period-label">All time · since March 2026</p></div>
+        <div class="tb-r"><button class="btn btn-g btn-sm" onclick="openBackfill()">+ Backfill History</button></div>
       </div>
       <div class="pw">
-        <div class="stats stats-4 mb" id="rev-stats"></div>
-        <div class="g2">
-          <div class="card"><div class="ch"><h3>Revenue per month</h3></div><div class="cb"><canvas id="chart-rev" height="180"></canvas></div></div>
-          <div class="card"><div class="ch"><h3>Revenue vs Expenses vs Profit</h3></div><div class="cb"><canvas id="chart-exp" height="180"></canvas></div></div>
+
+        <!-- Time filter pills -->
+        <div style="display:flex;align-items:center;gap:.35rem;margin-bottom:1.4rem;flex-wrap:wrap">
+          <button class="rev-tf" onclick="setRevFilter('24h',this)">24 hours</button>
+          <button class="rev-tf" onclick="setRevFilter('7d',this)">7 days</button>
+          <button class="rev-tf" onclick="setRevFilter('30d',this)">30 days</button>
+          <button class="rev-tf" onclick="setRevFilter('90d',this)">90 days</button>
+          <button class="rev-tf" onclick="setRevFilter('year',this)">This year</button>
+          <button class="rev-tf active" onclick="setRevFilter('all',this)">All time</button>
         </div>
+
+        <!-- KPI cards -->
+        <div class="stats stats-3 mb" id="rev-stats"></div>
+
+        <!-- Area chart -->
         <div class="card mb">
-          <div class="ch"><h3>Monthly breakdown</h3><p>Starting March 2026</p></div>
+          <div class="ch">
+            <div><h3 id="rev-chart-title">Monthly revenue</h3><p id="rev-chart-sub" style="color:var(--t3);font-size:.75rem"></p></div>
+          </div>
+          <div class="cb" style="padding:1.4rem 1.2rem 1rem"><canvas id="chart-rev" height="200"></canvas></div>
+        </div>
+
+        <!-- Monthly breakdown table -->
+        <div class="card mb">
+          <div class="ch"><h3>Monthly breakdown</h3><p id="rev-table-sub">Since March 2026</p></div>
           <div style="padding:.6rem 1.05rem">
-            <div style="display:grid;grid-template-columns:120px 1fr 1fr 1fr 100px;gap:.7rem;padding:.4rem 0;border-bottom:1px solid var(--brd);font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t2)">
-              <div>Month</div><div>Revenue</div><div>Expenses</div><div>Net Profit</div><div></div>
+            <div style="display:grid;grid-template-columns:180px 1fr 80px 90px 90px;gap:.7rem;padding:.4rem 0;border-bottom:1px solid var(--brd);font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t2)">
+              <div>Month</div><div>Revenue</div><div>Payments</div><div>Active Subs</div><div></div>
             </div>
             <div id="rev-rows"></div>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -522,21 +542,35 @@ button,a{cursor:pointer;font-family:var(--fm)}
 </div></div>
 
 <!-- MODAL: EXPENSE -->
-<div class="ov" id="ov-exp"><div class="mbox">
-  <button class="mx" onclick="closeM('ov-exp')">×</button>
-  <div class="mt">Add Expense</div>
-  <div class="ms">Log a cost for a specific month</div>
-  <div class="fr2">
-    <div class="fg"><label class="fl">Month</label><input class="fi" id="exp-month" type="month"></div>
-    <div class="fg"><label class="fl">Amount (LKR)</label><input class="fi" id="exp-amt" type="number" placeholder="5000"></div>
+<!-- MODAL: BACKFILL PAYMENT HISTORY -->
+<div class="ov" id="ov-backfill"><div class="mbox" style="max-width:560px">
+  <button class="mx" onclick="closeM('ov-backfill')">×</button>
+  <div class="mt">Backfill Payment History</div>
+  <div class="ms">Add missing past payments to fix revenue history. Each row = one month's payment.</div>
+
+  <div style="background:rgba(254,115,10,.07);border:1px solid rgba(254,115,10,.2);border-radius:var(--r);padding:.7rem .9rem;margin-bottom:1rem;font-size:.76rem;color:var(--t1);line-height:1.6">
+    💡 Use this for users who renewed before today — those old rows got deleted. Each entry you add = <strong>LKR 990 (or 9,990 yearly)</strong> inserted as a permanent payment record.
   </div>
-  <div class="fg"><label class="fl">Description</label><input class="fi" id="exp-desc" placeholder="Domain, hosting, ads…"></div>
-  <div style="display:flex;gap:.42rem;margin-top:.4rem">
-    <button class="btn btn-p" style="flex:1" onclick="saveExp()">Save</button>
-    <button class="btn btn-g" onclick="closeM('ov-exp')">Cancel</button>
+
+  <!-- Member lookup -->
+  <div class="fr2" style="margin-bottom:.6rem">
+    <div class="fg"><label class="fl">TL Number</label><input class="fi" id="bf-tl" placeholder="TL-001" oninput="bfLookup()" style="font-family:var(--mono)"></div>
+    <div class="fg"><label class="fl">Member</label><input class="fi" id="bf-name-disp" placeholder="Auto-fills" readonly style="opacity:.7"></div>
+  </div>
+  <input type="hidden" id="bf-uid">
+
+  <!-- Month rows -->
+  <div style="font-size:.72rem;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.45rem">Payment months to add</div>
+  <div id="bf-rows" style="display:flex;flex-direction:column;gap:.4rem"></div>
+  <button class="btn btn-g btn-sm" style="margin-top:.5rem;width:100%" onclick="bfAddRow()">+ Add another month</button>
+
+  <div id="bf-msg" style="display:none;font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-top:.7rem"></div>
+
+  <div style="display:flex;gap:.42rem;margin-top:.9rem">
+    <button class="btn btn-p" style="flex:1" onclick="submitBackfill()">Save to Supabase</button>
+    <button class="btn btn-g" onclick="closeM('ov-backfill')">Cancel</button>
   </div>
 </div></div>
-
 
 <!-- MODAL: EDIT PAID DATE -->
 <div class="ov" id="ov-editdate"><div class="mbox" style="max-width:380px">
@@ -698,7 +732,7 @@ button,a{cursor:pointer;font-family:var(--fm)}
 const SB='https://xilhrpbqdqocpwxaigvy.supabase.co';
 const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-const CK='tl_fin_creds', EK='tl_exp2';
+const CK='tl_fin_creds';
 const DEF={user:'info.timeliners@gmail.com',pass:'Almost@17'};
 const PL={free:'Free',pro:'Pro Monthly','pro-yearly':'Pro Yearly',standard:'Pro Monthly',vip:'Pro Monthly'};
 const PP={free:0,pro:990,'pro-yearly':9990,standard:990,vip:990};
@@ -707,7 +741,7 @@ const AVC=['#FE730A','#3b82f6','#8b5cf6','#ec4899','#10b981','#f59e0b','#06b6d4'
 // Revenue starts from March 2026
 const REV_START='2026-03';
 
-let _pf=[],_py=[],_proTab='all',_memTab='free',_rc=null,_ec=null;
+let _pf=[],_py=[],_proTab='all',_memTab='free',_rc=null,_ec=null,_revFilter='all';
 let _slips=[],_slipTab='pending';
 let _allRows=[],_allPage=0;
 const ALL_PER_PAGE=50;
@@ -913,7 +947,9 @@ async function sb(path,method='GET',body=null){
 async function loadData(){
   const[a,b]=await Promise.all([
     sb('/profiles?select=*&order=created_at.desc'),
-    sb('/payments?select=*&pay_status=in.(paid,overdue,downgraded)&order=paid_date.desc').catch(()=>[]),
+    // Fetch all payments that have a paid_date — this is the complete revenue ledger
+    // Includes paid, overdue, downgraded — all count as real revenue received
+    sb('/payments?paid_date=not.is.null&order=paid_date.desc').catch(()=>[]),
   ]);
   _pf=a||[];_py=b||[];
   await syncOverdueStatus();
@@ -955,9 +991,10 @@ async function syncOverdueStatus(){
     if(p.pay_status==='overdue' && daysLeft<-7){
       try{
         await sb('/profiles?id=eq.'+p.user_id,'PATCH',{plan:'free',pay_status:'downgraded'});
-        await sb('/payments?id=eq.'+p.id,'DELETE');
+        // Keep payment row for revenue history — just mark as downgraded
+        await sb('/payments?id=eq.'+p.id,'PATCH',{pay_status:'downgraded'});
         if(pf){pf.plan='free';pf.pay_status='downgraded';}
-        p._deleted=true;
+        p.pay_status='downgraded';
         if(userEmail){
           fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
             method:'POST',
@@ -969,7 +1006,9 @@ async function syncOverdueStatus(){
     }
   }
 
-  // Remove deleted payment records from local array
+  // Reload local arrays to reflect any status changes made above
+  // _py already has the correct statuses updated in-place above
+  // Remove truly deleted rows only (manual deletes via delPayment)
   _py=_py.filter(p=>!p._deleted);
 }
 
@@ -1128,8 +1167,15 @@ function switchProTab(tab,el){
 
 function rProMembers(){
   const now=Date.now();
-  // Only show confirmed paid/overdue/downgraded — never show pending or rejected
-  let proData=_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded');
+  // Since we now keep full payment history, deduplicate to latest row per user
+  // (latest = highest paid_date, or if same date, most recently inserted)
+  const latestByUser=new Map();
+  _py.forEach(p=>{
+    if(p.pay_status==='pending'||p.pay_status==='rejected')return;
+    const existing=latestByUser.get(p.user_id);
+    if(!existing||(p.paid_date||'')>(existing.paid_date||''))latestByUser.set(p.user_id,p);
+  });
+  let proData=Array.from(latestByUser.values());
   if(_proTab==='paid')proData=proData.filter(p=>p.pay_status==='paid');
   else if(_proTab==='overdue')proData=proData.filter(p=>p.pay_status==='overdue');
   else if(_proTab==='downgraded')proData=proData.filter(p=>p.pay_status==='downgraded');
@@ -1144,13 +1190,14 @@ function rProMembers(){
     return da-db;
   });
 
-  const paid=_py.filter(p=>p.pay_status==='paid').length;
-  const over=_py.filter(p=>p.pay_status==='overdue').length;
-  const down=_py.filter(p=>p.pay_status==='downgraded').length;
+  const latestVals=Array.from(latestByUser.values());
+  const paid=latestVals.filter(p=>p.pay_status==='paid').length;
+  const over=latestVals.filter(p=>p.pay_status==='overdue').length;
+  const down=latestVals.filter(p=>p.pay_status==='downgraded').length;
   const _psub=document.getElementById('pro-sub');if(_psub)_psub.textContent=`${paid} paid · ${over} overdue · ${down} downgraded`;
 
   // Missing payment alert — pro profiles with no payment record
-  const withPayment=new Set(_py.map(p=>p.user_id));
+  const withPayment=new Set(latestVals.map(p=>p.user_id));
   const noPayProfile=_pf.filter(p=>isPro(p.plan)&&!withPayment.has(p.id));
   const ma=document.getElementById('pay-missing-alert');
   if(noPayProfile.length){
@@ -1447,13 +1494,7 @@ async function submitPayment(){
   try{
     const expires=calcExpiry(date,plan);
     const payBody={user_id:pf.id,plan,amount:PP[plan]||990,paid_date:date,pay_status:'paid',notes:notes||null,wa:wa||pf.wa||null,member_no:mno(pf)};
-    // Delete ALL existing payment rows for this user in Supabase, then insert fresh
-    // This is the safest approach — avoids issues with multiple rows or missing unique constraints
-    await fetch(SB+'/rest/v1/payments?user_id=eq.'+pf.id,{
-      method:'DELETE',
-      headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}
-    });
-    // Insert fresh record
+    // INSERT new payment row — never delete old ones (they are revenue history)
     const insResp=await fetch(SB+'/rest/v1/payments',{
       method:'POST',
       headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'},
@@ -1468,13 +1509,15 @@ async function submitPayment(){
     const profileUpdate={plan,pay_status:'paid',pay_due:expires};
     if(wa)profileUpdate.wa=wa;
     await sb('/profiles?id=eq.'+pf.id,'PATCH',profileUpdate);
-    // Send pro_confirmed email
+    // Detect renewal vs new signup — renewals have notes='Renewal' or existing paid rows
+    const isRenewal=notes==='Renewal'||_py.some(p=>p.user_id===pf.id&&(p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded'));
+    // Send confirmation email
     try{
       await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
         method:'POST',
         headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
         body:JSON.stringify({
-          type:'pro_confirmed',
+          type: isRenewal ? 'pro_renewed' : 'pro_confirmed',
           email:pf.email||'',
           name:pf.name||pf.username||'',
           plan:plan==='pro-yearly'?'Pro Yearly':'Pro Monthly',
@@ -1530,47 +1573,32 @@ async function savePayDate(){
 
 // ─── MONTH DETAIL MODAL ───────────────────────────────────────────────────────
 function openMonthDetail(mo){
-  const exps=getExps();
   const label=new Date(mo+'-01').toLocaleDateString('en-GB',{month:'long',year:'numeric'});
   document.getElementById('mo-title').textContent=label;
-  const income=_py.filter(p=>p.paid_date&&p.paid_date.slice(0,7)===mo);
-  const totalIncome=income.reduce((s,p)=>s+(p.amount||PP[p.plan]||0),0);
-  const monthExps=exps[mo]||[];
-  const totalExp=monthExps.reduce((s,e)=>s+e.a,0);
-  const profit=totalIncome-totalExp;
-  document.getElementById('mo-sub').textContent='LKR '+totalIncome.toLocaleString()+' income · LKR '+totalExp.toLocaleString()+' expenses · Net: LKR '+profit.toLocaleString();
+  // All real payment rows for this month
+  const payments=_py.filter(p=>p.paid_date&&p.paid_date.slice(0,7)===mo&&(p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded'));
+  const totalRev=payments.reduce((s,p)=>s+(p.amount||PP[p.plan]||0),0);
+  document.getElementById('mo-sub').textContent='LKR '+totalRev.toLocaleString()+' · '+payments.length+' payment'+(payments.length!==1?'s':'');
   let html='';
-  html+='<div style="font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--grn);margin-bottom:.5rem;padding-bottom:.35rem;border-bottom:1px solid var(--brd)">Income</div>';
-  if(income.length){
-    html+=income.map(p=>{
+  html+='<div style="font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--grn);margin-bottom:.5rem;padding-bottom:.35rem;border-bottom:1px solid var(--brd)">Payments received</div>';
+  if(payments.length){
+    html+=payments.map(p=>{
       const pf=_pf.find(x=>x.id===p.user_id)||{};
-      return'<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--brd)">'+
-        '<div><div style="font-size:.83rem;font-weight:600;color:var(--t1)">'+(pf.name||pf.username||'—')+'</div>'+
-        '<div style="font-size:.72rem;color:var(--t3)">'+(PL[p.plan]||p.plan)+' · Paid '+fmt(p.paid_date)+'</div></div>'+
-        '<div style="font-family:var(--mono);font-weight:600;color:var(--grn)">LKR '+(p.amount||PP[p.plan]||0).toLocaleString()+'</div>'+
+      const statusColor=p.pay_status==='paid'?'var(--grn)':p.pay_status==='overdue'?'var(--amb)':'var(--t3)';
+      return'<div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--brd)">'+
+        '<div>'+
+          '<div style="font-size:.83rem;font-weight:600;color:var(--t1)">'+(pf.name||pf.username||'Unknown')+'</div>'+
+          '<div style="font-size:.72rem;color:var(--t3)">'+(PL[p.plan]||p.plan)+' · '+fmt(p.paid_date)+' · <span style="color:'+statusColor+'">'+p.pay_status+'</span></div>'+
+        '</div>'+
+        '<div style="font-family:var(--mono);font-weight:700;color:var(--grn)">LKR '+(p.amount||PP[p.plan]||0).toLocaleString()+'</div>'+
       '</div>';
     }).join('');
   }else{
     html+='<div style="color:var(--t3);font-size:.8rem;padding:.5rem 0">No payments this month</div>';
   }
-  html+='<div style="font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--red);margin:.9rem 0 .5rem;padding-bottom:.35rem;border-bottom:1px solid var(--brd)">Expenses</div>';
-  if(monthExps.length){
-    html+=monthExps.map(e=>{
-      return'<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--brd)">'+
-        '<div style="font-size:.83rem;color:var(--t1)">'+e.d+'</div>'+
-        '<div style="font-family:var(--mono);font-weight:600;color:var(--red)">LKR '+e.a.toLocaleString()+'</div>'+
-      '</div>';
-    }).join('');
-  }else{
-    html+='<div style="color:var(--t3);font-size:.8rem;padding:.5rem 0">No expenses logged</div>';
-  }
-  const pc=profit>=0?'var(--grn)':'var(--red)';
-  const pl=profit>=0?'var(--grnl)':'var(--redl)';
-  const pb=profit>=0?'var(--grnb)':'var(--redb)';
-  html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:1rem">'+
-    '<div style="background:var(--grnl);border:1px solid var(--grnb);border-radius:var(--r);padding:.7rem;text-align:center"><div style="font-size:.6rem;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem">Income</div><div style="font-size:1rem;font-weight:700;color:var(--grn)">LKR '+totalIncome.toLocaleString()+'</div></div>'+
-    '<div style="background:var(--redl);border:1px solid var(--redb);border-radius:var(--r);padding:.7rem;text-align:center"><div style="font-size:.6rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem">Expenses</div><div style="font-size:1rem;font-weight:700;color:var(--red)">LKR '+totalExp.toLocaleString()+'</div></div>'+
-    '<div style="background:'+pl+';border:1px solid '+pb+';border-radius:var(--r);padding:.7rem;text-align:center"><div style="font-size:.6rem;font-weight:700;color:'+pc+';text-transform:uppercase;letter-spacing:.5px;margin-bottom:.2rem">Net Profit</div><div style="font-size:1rem;font-weight:700;color:'+pc+'">LKR '+profit.toLocaleString()+'</div></div>'+
+  html+='<div style="background:var(--grnl);border:1px solid var(--grnb);border-radius:var(--r);padding:.9rem 1.1rem;margin-top:1rem;display:flex;justify-content:space-between;align-items:center">'+
+    '<div style="font-size:.62rem;font-weight:700;color:var(--grn);text-transform:uppercase;letter-spacing:.5px">Total Revenue</div>'+
+    '<div style="font-family:var(--mono);font-size:1.1rem;font-weight:700;color:var(--grn)">LKR '+totalRev.toLocaleString()+'</div>'+
   '</div>';
   document.getElementById('mo-body').innerHTML=html;
   openM('ov-month');
@@ -1851,90 +1879,295 @@ function notifyOverdue(){
 
 
 // ─── REVENUE ──────────────────────────────────────────────────────────────────
-function getExps(){try{return JSON.parse(localStorage.getItem(EK)||'{}')}catch(e){return{};}}
-function saveExps(o){localStorage.setItem(EK,JSON.stringify(o));}
-function openExpModal(){
-  document.getElementById('exp-month').value=new Date().toISOString().slice(0,7);
-  document.getElementById('exp-amt').value='';
-  document.getElementById('exp-desc').value='';
-  openM('ov-exp');
-}
-function saveExp(){
-  const m=document.getElementById('exp-month').value;
-  const a=parseFloat(document.getElementById('exp-amt').value)||0;
-  const d=document.getElementById('exp-desc').value;
-  if(!m||!a){toast('Enter month and amount',1);return;}
-  const e=getExps();if(!e[m])e[m]=[];e[m].push({a,d,id:Date.now()});
-  saveExps(e);rRevenue();closeM('ov-exp');toast('Expense added ✓');
+function setRevFilter(f,el){
+  _revFilter=f;
+  document.querySelectorAll('.rev-tf').forEach(b=>b.classList.remove('active'));
+  if(el)el.classList.add('active');
+  rRevenue();
 }
 
 function rRevenue(){
-  const exps=getExps();
-  const mm={};
+  const now=new Date();
+  const todayStr=now.toISOString().slice(0,7);
 
-  // Build months from REV_START to today
+  // Only count rows where money was actually received
+  const ledger=_py.filter(p=>p.paid_date&&(p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded'));
+
+  // ── Filter by time window ──
+  function inWindow(p){
+    const d=new Date(p.paid_date);
+    if(_revFilter==='24h'){const c=new Date(now);c.setHours(c.getHours()-24);return d>=c;}
+    if(_revFilter==='7d'){const c=new Date(now);c.setDate(c.getDate()-7);return d>=c;}
+    if(_revFilter==='30d'){const c=new Date(now);c.setDate(c.getDate()-30);return d>=c;}
+    if(_revFilter==='90d'){const c=new Date(now);c.setDate(c.getDate()-90);return d>=c;}
+    if(_revFilter==='year')return p.paid_date.slice(0,4)===String(now.getFullYear());
+    return true; // all time
+  }
+  const filtered=ledger.filter(inWindow);
+  const total=filtered.reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0);
+
+  // ── Previous period for % change ──
+  function prevWindow(p){
+    const d=new Date(p.paid_date);
+    if(_revFilter==='24h'){const s=new Date(now);s.setHours(s.getHours()-48);const e=new Date(now);e.setHours(e.getHours()-24);return d>=s&&d<e;}
+    if(_revFilter==='7d'){const s=new Date(now);s.setDate(s.getDate()-14);const e=new Date(now);e.setDate(e.getDate()-7);return d>=s&&d<e;}
+    if(_revFilter==='30d'){const s=new Date(now);s.setDate(s.getDate()-60);const e=new Date(now);e.setDate(e.getDate()-30);return d>=s&&d<e;}
+    if(_revFilter==='90d'){const s=new Date(now);s.setDate(s.getDate()-180);const e=new Date(now);e.setDate(e.getDate()-90);return d>=s&&d<e;}
+    if(_revFilter==='year')return p.paid_date.slice(0,4)===String(now.getFullYear()-1);
+    return false;
+  }
+  const prevTotal=ledger.filter(prevWindow).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0);
+  const change=prevTotal>0?Math.round(((total-prevTotal)/prevTotal)*100):null;
+  const changeHtml=change!==null
+    ?`<span style="color:${change>=0?'var(--grn)':'var(--red)'};font-size:.72rem;font-weight:600">${change>=0?'↑':'↓'} ${Math.abs(change)}% vs prev period</span>`
+    :'<span style="font-size:.72rem;color:var(--t3)">No prev period data</span>';
+
+  // ── Static stats ──
+  const thisMonthRev=ledger.filter(p=>p.paid_date.slice(0,7)===todayStr).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0);
+  const allTimeRev=ledger.reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0);
+
+  // ── Period label ──
+  const labels={'24h':'Last 24 hours','7d':'Last 7 days','30d':'Last 30 days','90d':'Last 90 days','year':'This year','all':'All time · since March 2026'};
+  document.getElementById('rev-period-label').textContent=labels[_revFilter]||'All time';
+
+  // ── KPI cards ──
+  document.getElementById('rev-stats').innerHTML=`
+    <div class="stat">
+      <div class="stat-l">${_revFilter==='all'?'All-Time Revenue':labels[_revFilter]}</div>
+      <div class="stat-v" style="color:var(--ac)">LKR ${total.toLocaleString()}</div>
+      <div class="stat-s" style="margin-top:.35rem">${changeHtml}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-l">This Month</div>
+      <div class="stat-v">LKR ${thisMonthRev.toLocaleString()}</div>
+      <div class="stat-s">${now.toLocaleDateString('en-GB',{month:'long',year:'numeric'})}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-l">Payments in Period</div>
+      <div class="stat-v">${filtered.length}</div>
+      <div class="stat-s">unique transactions</div>
+    </div>`;
+
+  // ── Build full monthly map for chart + table ──
+  const mm={};
   const start=new Date(REV_START+'-01');
-  const today=new Date();
   let cur=new Date(start);
-  while(cur<=today){
+  while(cur<=now){
     const key=cur.toISOString().slice(0,7);
-    mm[key]={r:0,e:0};
+    mm[key]={r:0,n:0,subs:new Set()};
     cur.setMonth(cur.getMonth()+1);
   }
-
-  // Fill revenue from payments
-  _py.filter(p=>p.pay_status==='paid'&&p.paid_date).forEach(p=>{
+  // Fill revenue — each payment row = one real payment in that month
+  ledger.forEach(p=>{
     const mo=p.paid_date.slice(0,7);
-    if(mo>=REV_START){
-      if(!mm[mo])mm[mo]={r:0,e:0};
-      mm[mo].r+=(p.amount||PP[p.plan]||990);
+    if(mm[mo]){mm[mo].r+=(p.amount||PP[p.plan]||990);mm[mo].n++;mm[mo].subs.add(p.user_id);}
+  });
+  // Count active paid subs per month (users whose latest row was 'paid' as of that month-end)
+  // Simpler: count unique users who had a payment row in that month
+  Object.keys(mm).forEach(mo=>{mm[mo].subsCount=mm[mo].subs.size;});
+
+  // ── Chart data: daily for short ranges, monthly for longer ──
+  let lbs, rD;
+
+  if(_revFilter==='24h'){
+    // Hourly buckets for last 24 hours
+    lbs=[]; rD=[];
+    for(let i=23;i>=0;i--){
+      const hStart=new Date(now); hStart.setMinutes(0,0,0); hStart.setHours(hStart.getHours()-i);
+      const hEnd=new Date(hStart); hEnd.setHours(hEnd.getHours()+1);
+      lbs.push(hStart.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
+      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=hStart.getTime()&&t<hEnd.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0));
+    }
+  } else if(_revFilter==='7d'){
+    // Daily buckets for last 7 days
+    lbs=[]; rD=[];
+    for(let i=6;i>=0;i--){
+      const d=new Date(now); d.setDate(d.getDate()-i); d.setHours(0,0,0,0);
+      const next=new Date(d); next.setDate(next.getDate()+1);
+      lbs.push(d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}));
+      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=d.getTime()&&t<next.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0));
+    }
+  } else if(_revFilter==='30d'){
+    // Daily buckets for last 30 days
+    lbs=[]; rD=[];
+    for(let i=29;i>=0;i--){
+      const d=new Date(now); d.setDate(d.getDate()-i); d.setHours(0,0,0,0);
+      const next=new Date(d); next.setDate(next.getDate()+1);
+      lbs.push(d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}));
+      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=d.getTime()&&t<next.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0));
+    }
+  } else {
+    // Monthly buckets for 90d / year / all time
+    let chartMonths=Object.keys(mm).sort();
+    if(_revFilter==='year') chartMonths=chartMonths.filter(m=>m.startsWith(String(now.getFullYear())));
+    else if(_revFilter==='90d'){const c=new Date(now);c.setDate(c.getDate()-90);chartMonths=chartMonths.filter(m=>new Date(m+'-01')>=c);}
+    lbs=chartMonths.map(m=>new Date(m+'-01').toLocaleDateString('en-GB',{month:'short',year:'2-digit'}));
+    rD=chartMonths.map(m=>mm[m]?.r||0);
+  }
+
+  document.getElementById('rev-chart-title').textContent=
+    _revFilter==='all'?'Monthly revenue — all time':
+    _revFilter==='year'?'Monthly revenue — '+now.getFullYear():
+    _revFilter==='24h'?'Hourly revenue — last 24 hours':
+    _revFilter==='7d'?'Daily revenue — last 7 days':
+    _revFilter==='30d'?'Daily revenue — last 30 days':
+    'Revenue trend';
+  document.getElementById('rev-chart-sub').textContent=
+    `LKR ${rD.reduce((a,b)=>a+b,0).toLocaleString()} across ${lbs.length} ${(_revFilter==='24h')?'hour'+( lbs.length!==1?'s':''):(_revFilter==='7d'||_revFilter==='30d')?'day'+(lbs.length!==1?'s':''):'month'+(lbs.length!==1?'s':'')}`;
+
+  if(_rc){_rc.destroy();_rc=null;}
+  _rc=new Chart(document.getElementById('chart-rev'),{
+    type:'line',
+    data:{labels:lbs,datasets:[{data:rD,borderColor:'#FE730A',backgroundColor:'rgba(254,115,10,.09)',borderWidth:2.5,pointBackgroundColor:'#FE730A',pointRadius:2,pointHoverRadius:4,fill:true,tension:.35}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(15,15,15,.92)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.7)',cornerRadius:10,padding:12,callbacks:{label:ctx=>'LKR '+ctx.parsed.y.toLocaleString()}}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:'rgba(0,0,0,.38)',font:{size:11,family:'Poppins'}}},
+        y:{min:0,grid:{color:'rgba(0,0,0,.04)'},border:{dash:[4,4]},ticks:{color:'rgba(0,0,0,.38)',font:{size:11,family:'Poppins'},callback:v=>'LKR '+v.toLocaleString()}}
+      }
     }
   });
-  // Fill expenses
-  Object.keys(exps).forEach(mo=>{
-    if(mo>=REV_START){
-      if(!mm[mo])mm[mo]={r:0,e:0};
-      mm[mo].e=(exps[mo]||[]).reduce((s,e)=>s+e.a,0);
-    }
-  });
 
-  const months=Object.keys(mm).sort();
-  const tm=today.toISOString().slice(0,7);
-  const rTm=mm[tm]?.r||0,eTm=mm[tm]?.e||0,pTm=rTm-eTm;
-  const rAll=months.reduce((s,m)=>s+(mm[m]?.r||0),0);
-  const eAll=months.reduce((s,m)=>s+(mm[m]?.e||0),0);
-
-  document.getElementById('rev-stats').innerHTML=`
-    <div class="stat"><div class="stat-l">This Month</div><div class="stat-v">LKR ${rTm.toLocaleString()}</div><div class="stat-s ${pTm>=0?'g':'r'}">Profit: LKR ${pTm.toLocaleString()}</div></div>
-    <div class="stat"><div class="stat-l">Total Revenue</div><div class="stat-v">LKR ${rAll.toLocaleString()}</div><div class="stat-s">since Mar 2026</div></div>
-    <div class="stat"><div class="stat-l">Total Expenses</div><div class="stat-v">LKR ${eAll.toLocaleString()}</div><div class="stat-s">all logged costs</div></div>
-    <div class="stat"><div class="stat-l">Net Profit</div><div class="stat-v" style="color:${(rAll-eAll)>=0?'var(--grn)':'var(--red)'}">LKR ${(rAll-eAll).toLocaleString()}</div><div class="stat-s">revenue − expenses</div></div>`;
-
-  document.getElementById('rev-rows').innerHTML=months.slice().reverse().map(mo=>{
-    const r=mm[mo].r,e=mm[mo].e,pr=r-e;
-    const expDetail=(exps[mo]||[]).map(ex=>`${ex.d}: LKR ${ex.a}`).join('\n');
+  // ── Monthly breakdown table (all time, newest first) ──
+  const allMonths=Object.keys(mm).sort().reverse();
+  document.getElementById('rev-table-sub').textContent=`${allMonths.length} months · LKR ${allTimeRev.toLocaleString()} total`;
+  document.getElementById('rev-rows').innerHTML=allMonths.map(mo=>{
+    const {r,n,subsCount}=mm[mo];
     const label=new Date(mo+'-01').toLocaleDateString('en-GB',{month:'long',year:'numeric'});
-    return`<div class="rrow" onclick="openMonthDetail('${mo}')" style="cursor:pointer;transition:background .12s" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background=''">
-      <div style="font-weight:500;color:var(--t1)">${label}</div>
-      <div style="color:var(--grn);font-weight:500">${r?'LKR '+r.toLocaleString():'—'}</div>
-      <div style="color:var(--red)">${e?'LKR '+e.toLocaleString():'—'}</div>
-      <div style="font-weight:600;color:${pr>=0?'var(--grn)':'var(--red)'}">${(r||e)?'LKR '+pr.toLocaleString():'—'}</div>
-      <div style="font-size:.7rem;color:var(--t3)">View detail →</div>
+    const isNow=mo===todayStr;
+    return`<div class="rrow" onclick="openMonthDetail('${mo}')" style="cursor:pointer" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background=''">
+      <div style="font-weight:500;color:var(--t1);font-size:.83rem">${label}${isNow?'<span style="font-size:.58rem;font-weight:700;color:var(--ac);margin-left:.45rem;background:rgba(254,115,10,.1);padding:.08rem .42rem;border-radius:50px">NOW</span>':''}</div>
+      <div style="font-family:var(--mono);font-weight:700;color:${r?'var(--grn)':'var(--t3)'};font-size:.88rem">${r?'LKR '+r.toLocaleString():'—'}</div>
+      <div style="font-size:.78rem;color:var(--t2)">${n||'—'}</div>
+      <div style="font-size:.78rem;color:var(--t2)">${subsCount||'—'}</div>
+      <div style="font-size:.72rem;color:var(--t3)">View →</div>
     </div>`;
-  }).join('')||'<div class="empty">No data yet</div>';
-
-  const revPane=document.getElementById('pane-revenue');
-  if(!revPane||!revPane.classList.contains('active'))return;
-  const lbs=months.map(m=>new Date(m+'-01').toLocaleDateString('en-GB',{month:'short'}));
-  const rD=months.map(m=>mm[m]?.r||0);
-  const eD=months.map(m=>mm[m]?.e||0);
-  const pD=months.map(m=>(mm[m]?.r||0)-(mm[m]?.e||0));
-  const baseOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(254,115,10,.85)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.75)',cornerRadius:8,padding:10}},scales:{x:{grid:{display:false},ticks:{color:'rgba(0,0,0,.4)',font:{size:11}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{color:'rgba(0,0,0,.4)',font:{size:11},callback:v=>'LKR '+v.toLocaleString()}}}};
-  if(_rc)_rc.destroy();if(_ec)_ec.destroy();
-  _rc=new Chart(document.getElementById('chart-rev'),{type:'bar',data:{labels:lbs,datasets:[{data:rD,backgroundColor:'rgba(254,115,10,.85)',borderRadius:5,borderSkipped:false}]},options:baseOpts});
-  _ec=new Chart(document.getElementById('chart-exp'),{type:'bar',data:{labels:lbs,datasets:[{data:rD,backgroundColor:'rgba(254,115,10,.3)',borderRadius:4,borderSkipped:false,label:'Revenue'},{data:eD,backgroundColor:'rgba(220,38,38,.55)',borderRadius:4,borderSkipped:false,label:'Expenses'},{data:pD,backgroundColor:'rgba(22,163,74,.65)',borderRadius:4,borderSkipped:false,label:'Profit'}]},options:{...baseOpts,plugins:{...baseOpts.plugins,legend:{display:true,position:'bottom',labels:{color:'rgba(0,0,0,.4)',font:{size:11},padding:12,boxWidth:8,usePointStyle:true}}}}});
+  }).join('')||'<div class="empty">No revenue data yet</div>';
 }
 
+
+// ─── BACKFILL PAYMENT HISTORY ─────────────────────────────────────────────────
+let _bfRows=[];
+
+function openBackfill(){
+  _bfRows=[];
+  document.getElementById('bf-tl').value='';
+  document.getElementById('bf-name-disp').value='';
+  document.getElementById('bf-uid').value='';
+  document.getElementById('bf-msg').style.display='none';
+  document.getElementById('bf-rows').innerHTML='';
+  bfAddRow(); // start with one row
+  openM('ov-backfill');
+}
+
+function bfLookup(){
+  const tl=document.getElementById('bf-tl').value.trim().toUpperCase();
+  const pf=findByTL(tl);
+  document.getElementById('bf-name-disp').value=pf?(pf.name||pf.username||tl):'Not found';
+  document.getElementById('bf-uid').value=pf?pf.id:'';
+}
+
+function bfAddRow(){
+  const idx=_bfRows.length;
+  _bfRows.push({month:'',plan:'pro'});
+  const wrap=document.getElementById('bf-rows');
+  const div=document.createElement('div');
+  div.id='bf-row-'+idx;
+  div.style.cssText='display:grid;grid-template-columns:1fr 1fr 32px;gap:.4rem;align-items:center';
+  div.innerHTML=`
+    <div class="fg" style="margin:0"><input class="fi" type="month" placeholder="2026-03" oninput="_bfRows[${idx}].month=this.value" style="font-size:.8rem;padding:.38rem .6rem"></div>
+    <div class="fg" style="margin:0">
+      <select class="fi" style="font-size:.8rem;padding:.38rem .6rem" onchange="_bfRows[${idx}].plan=this.value">
+        <option value="pro">Pro Monthly — LKR 990</option>
+        <option value="pro-yearly">Pro Yearly — LKR 9,990</option>
+      </select>
+    </div>
+    <button onclick="bfRemoveRow(${idx})" style="width:28px;height:28px;border-radius:6px;border:1.5px solid var(--brd2);background:var(--bg2);color:var(--red);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center">×</button>`;
+  wrap.appendChild(div);
+}
+
+function bfRemoveRow(idx){
+  const el=document.getElementById('bf-row-'+idx);
+  if(el)el.remove();
+  _bfRows[idx]=null; // mark as removed
+}
+
+async function submitBackfill(){
+  const userId=document.getElementById('bf-uid').value;
+  const tl=document.getElementById('bf-tl').value.trim();
+  const msg=document.getElementById('bf-msg');
+
+  if(!userId){
+    showBfMsg('Member not found — check TL number','err');return;
+  }
+
+  const pf=_pf.find(x=>x.id===userId);
+  const rows=_bfRows.filter(r=>r&&r.month);
+  if(!rows.length){
+    showBfMsg('Add at least one month','err');return;
+  }
+
+  // Check for duplicate months already in Supabase for this user
+  const existing=_py.filter(p=>p.user_id===userId&&p.paid_date).map(p=>p.paid_date.slice(0,7));
+  const dupes=rows.filter(r=>existing.includes(r.month));
+  if(dupes.length){
+    showBfMsg('⚠️ '+dupes.map(d=>d.month).join(', ')+' already exist for this user. Remove duplicates.','err');return;
+  }
+
+  showBfMsg('Saving '+rows.length+' payment'+(rows.length>1?'s':'')+'…','info');
+
+  try{
+    const inserts=rows.map(r=>{
+      // paid_date = first day of that month
+      const paidDate=r.month+'-01';
+      // expires = end of that plan period
+      const exp=calcExpiry(paidDate,r.plan);
+      return{
+        user_id:userId,
+        plan:r.plan,
+        amount:PP[r.plan]||990,
+        paid_date:paidDate,
+        expires_date:exp,
+        pay_status:'downgraded', // historical — subscription already ended
+        member_no:mno(pf),
+        notes:'Backfilled'
+      };
+    });
+
+    const resp=await fetch(SB+'/rest/v1/payments',{
+      method:'POST',
+      headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'},
+      body:JSON.stringify(inserts)
+    });
+    if(!resp.ok){const t=await resp.text();throw new Error(t);}
+
+    await loadData();
+    rRevenue();
+    showBfMsg('✓ '+rows.length+' payment'+(rows.length>1?'s':'')+' added for '+(pf?.name||tl),'ok');
+    // Reset form for another user
+    document.getElementById('bf-tl').value='';
+    document.getElementById('bf-name-disp').value='';
+    document.getElementById('bf-uid').value='';
+    _bfRows=[];
+    document.getElementById('bf-rows').innerHTML='';
+    bfAddRow();
+  }catch(e){
+    showBfMsg('Error: '+e.message,'err');
+  }
+}
+
+function showBfMsg(txt,type){
+  const el=document.getElementById('bf-msg');
+  const styles={
+    ok:'background:var(--grnl);color:var(--grn);border:1px solid var(--grnb)',
+    err:'background:var(--redl);color:var(--red);border:1px solid var(--redb)',
+    info:'background:var(--ambl);color:var(--amb);border:1px solid var(--ambb)'
+  };
+  el.style.cssText=styles[type]||styles.info;
+  el.style.display='block';
+  el.textContent=txt;
+}
 
 // ─── TEST EMAILS ──────────────────────────────────────────────────────────────
 function openTestEmails(){
@@ -1951,6 +2184,7 @@ async function sendTestEmail(){
   const today=new Date().toISOString().split('T')[0];
   const payloads={
     pro_confirmed:{type,email,name:'Test User',plan:'Pro Monthly',expires:new Date(Date.now()+30*864e5).toISOString().split('T')[0]},
+    pro_renewed:{type,email,name:'Test User',plan:'Pro Monthly',expires:new Date(Date.now()+30*864e5).toISOString().split('T')[0]},
     expired:{type,email,name:'Test User',plan:'Pro Monthly',days:0}
   };
 
@@ -2014,23 +2248,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('l-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
   document.getElementById('l-user').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('l-pass').focus();});
   document.getElementById('pay-date').value=new Date().toISOString().split('T')[0];
-  document.getElementById('exp-month').value=new Date().toISOString().slice(0,7);
-  // Seed March 2026 expenses if not already present
-  seedMarchExpenses();
   // Restore sidebar state
   initSidebarState();
 });
-
-function seedMarchExpenses(){
-  const e=getExps();
-  if(e['2026-03']&&e['2026-03'].length>=3) return; // already seeded
-  e['2026-03']=[
-    {a:7875, d:'Supabase Pro (Subscription)', id:1743206400001},
-    {a:2834, d:'Netlify Pro (Subscription)',  id:1743206400002},
-    {a:9745, d:'Claude AI Pro (Subscription)',id:1743206400003}
-  ];
-  saveExps(e);
-}
 
 // ─── MEMBER SEARCH ────────────────────────────────────────────────────────────
 let _memSearchQ = '';
@@ -2166,7 +2386,8 @@ function renderInqPane(){
   <div class="fg" style="margin-bottom:1.2rem">
     <label class="fl">Email type</label>
     <select class="fi" id="test-email-type">
-      <option value="pro_confirmed">Pro Confirmed (after payment)</option>
+      <option value="pro_confirmed">Pro Confirmed (new signup)</option>
+      <option value="pro_renewed">Pro Renewed (renewal)</option>
       <option value="expired">Just expired</option>
     </select>
   </div>
