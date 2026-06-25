@@ -1926,24 +1926,92 @@ img, video, iframe, canvas { max-width: 100%; }
 .otp-digit.filled { border-color: var(--ac); background: rgba(254,115,10,.04); }
 </style>
 
-<!-- ══ HIRE ME CONTACT MODAL ══ -->
+<!-- ══ SEND PROJECT BRIEF MODAL ══ -->
 <div id="hire-overlay" onclick="if(event.target===this)closeHireModal()">
-  <div class="hire-box">
-    <button class="hire-close" onclick="closeHireModal()">×</button>
-    <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.25rem">Contact Editor</div>
-    <div style="font-size:.75rem;color:var(--t2);margin-bottom:1.1rem;line-height:1.6">Reach out directly — no middleman.</div>
-
-    <!-- Editor chip -->
-    <div class="hire-editor-chip" id="hire-editor-chip">
-      <div class="hire-editor-av" id="hire-editor-av">?</div>
-      <span class="hire-editor-name" id="hire-editor-name">Loading...</span>
+  <div class="hire-box" style="max-width:420px;padding:0;overflow:hidden">
+    <!-- Header -->
+    <div style="background:var(--bg3);border-bottom:1px solid var(--brd2);padding:1.4rem 1.5rem 1.2rem;position:relative">
+      <button class="hire-close" onclick="closeHireModal()" style="position:absolute;top:.9rem;right:.9rem;background:var(--bg4);color:var(--t2);width:28px;height:28px;border-radius:50%">×</button>
+      <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.18rem">Send Project Brief</div>
+      <div style="font-size:.72rem;color:var(--t2);line-height:1.5">Tell the editor about your project. They'll review and reach out.</div>
+      <!-- Editor chip -->
+      <div class="hire-editor-chip" id="hire-editor-chip" style="margin-top:.9rem;margin-bottom:0;background:var(--bg4);border-color:var(--brd2)">
+        <div class="hire-editor-av" id="hire-editor-av">?</div>
+        <span class="hire-editor-name" id="hire-editor-name" style="color:var(--t1)">Loading...</span>
+      </div>
     </div>
 
-    <div id="hire-options">
-      <!-- WhatsApp and Email buttons injected by JS -->
+    <!-- Form body -->
+    <div id="hire-form-body" style="padding:1.3rem 1.5rem 1.5rem;display:flex;flex-direction:column;gap:.75rem;max-height:65vh;overflow-y:auto">
+      <!-- Project Title -->
+      <div>
+        <label style="font-size:.65rem;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:.35rem">Project Title <span style="color:var(--ac)">*</span></label>
+        <input id="brief-title" type="text" placeholder="e.g. Social Media Reels for Brand Launch" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:10px;padding:.65rem .85rem;font-size:.84rem;color:var(--t1);font-family:var(--fm);outline:none;transition:.18s" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--brd2)'">
+      </div>
+      <!-- Project Type + Budget row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
+        <div>
+          <label style="font-size:.65rem;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:.35rem">Project Type <span style="color:var(--ac)">*</span></label>
+          <select id="brief-type" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:10px;padding:.65rem .75rem;font-size:.82rem;color:var(--t1);font-family:var(--fm);outline:none;cursor:pointer;transition:.18s;appearance:none;-webkit-appearance:none" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--brd2)'">
+            <option value="" disabled selected>Select type...</option>
+            <option>Social Media / Reels</option>
+            <option>YouTube / Long-form</option>
+            <option>Corporate / Brand</option>
+            <option>Wedding &amp; Events</option>
+            <option>Film / Cinematic</option>
+            <option>Motion Graphics</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:.65rem;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:.35rem">Budget (LKR)</label>
+          <select id="brief-budget" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:10px;padding:.65rem .75rem;font-size:.82rem;color:var(--t1);font-family:var(--fm);outline:none;cursor:pointer;transition:.18s;appearance:none;-webkit-appearance:none" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--brd2)'">
+            <option value="Open to discuss" selected>Open to discuss</option>
+            <option>Under 5,000</option>
+            <option>5,000 – 15,000</option>
+            <option>15,000 – 30,000</option>
+            <option>30,000 – 60,000</option>
+            <option>60,000+</option>
+          </select>
+        </div>
+      </div>
+      <!-- Name + Phone row -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
+        <div>
+          <label style="font-size:.65rem;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:.35rem">Your Name <span style="color:var(--ac)">*</span></label>
+          <input id="brief-name" type="text" placeholder="Nirosha Perera" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:10px;padding:.65rem .85rem;font-size:.84rem;color:var(--t1);font-family:var(--fm);outline:none;transition:.18s" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--brd2)'">
+        </div>
+        <div>
+          <label style="font-size:.65rem;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:.35rem">Phone (WhatsApp)</label>
+          <input id="brief-phone" type="tel" placeholder="07X XXX XXXX" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:10px;padding:.65rem .85rem;font-size:.84rem;color:var(--t1);font-family:var(--fm);outline:none;transition:.18s" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--brd2)'">
+        </div>
+      </div>
+      <!-- Email -->
+      <div>
+        <label style="font-size:.65rem;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:.35rem">Email <span style="color:var(--ac)">*</span></label>
+        <input id="brief-email" type="email" placeholder="you@email.com" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:10px;padding:.65rem .85rem;font-size:.84rem;color:var(--t1);font-family:var(--fm);outline:none;transition:.18s" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--brd2)'">
+      </div>
+      <!-- Additional Notes -->
+      <div>
+        <label style="font-size:.65rem;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:.35rem">Additional Notes</label>
+        <textarea id="brief-notes" placeholder="Describe your project, deadline, style references..." rows="3" style="width:100%;box-sizing:border-box;background:var(--bg3);border:1.5px solid var(--brd2);border-radius:10px;padding:.65rem .85rem;font-size:.84rem;color:var(--t1);font-family:var(--fm);outline:none;resize:vertical;min-height:70px;transition:.18s;line-height:1.6" onfocus="this.style.borderColor='var(--ac)'" onblur="this.style.borderColor='var(--brd2)'"></textarea>
+      </div>
+      <!-- Error msg -->
+      <div id="brief-error" style="display:none;font-size:.75rem;color:#ef4444;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:.55rem .75rem"></div>
+      <!-- Submit -->
+      <button id="brief-submit-btn" onclick="submitProjectBrief()" style="width:100%;padding:.85rem;background:var(--ac);color:#fff;border:none;border-radius:12px;font-family:var(--fm);font-size:.9rem;font-weight:700;cursor:pointer;transition:.18s;box-shadow:0 4px 16px rgba(254,115,10,.3)">Send Project Brief</button>
+      <div style="font-size:.63rem;color:var(--t3);text-align:center;line-height:1.6">Your brief will be sent to the editor. They'll contact you if interested.</div>
     </div>
 
-    <div style="font-size:.63rem;color:var(--t3);text-align:center;margin-top:.5rem;line-height:1.6">You're contacting this editor directly.<br>Timeliners is not involved in the conversation.</div>
+    <!-- Success state (hidden by default) -->
+    <div id="hire-success" style="display:none;padding:2.5rem 1.5rem;text-align:center">
+      <div style="width:52px;height:52px;background:rgba(34,197,94,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><polyline points="4,12 9,17 20,6" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.4rem">Brief Sent!</div>
+      <div style="font-size:.78rem;color:var(--t2);line-height:1.7;margin-bottom:1.3rem">The editor has received your project brief and will reach out if they're interested.</div>
+      <button onclick="closeHireModal()" style="background:var(--bg3);border:1px solid var(--brd2);color:var(--t1);padding:.65rem 1.5rem;border-radius:10px;font-family:var(--fm);font-size:.84rem;font-weight:600;cursor:pointer">Close</button>
+    </div>
   </div>
 </div>
 
@@ -2140,6 +2208,23 @@ img, video, iframe, canvas { max-width: 100%; }
     <div class="nav-right">
       <button class="nav-pro" id="nav-pro-btn" onclick="showPage('pricing')" style="display:none">Join Pro</button>
       <button class="nav-cta" id="nav-create-btn" onclick="openAuth('up')" style="background:var(--ac);color:white;border:none">Create Account</button>
+
+      <!-- Notification Bell -->
+      <div class="nav-li" id="nav-notif-wrap" style="display:none;position:relative">
+        <button id="nav-notif-btn" onclick="toggleNotifDropdown()" style="position:relative;background:none;border:none;cursor:pointer;padding:.4rem;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--t2);transition:.15s" onmouseenter="this.style.background='var(--bg3)'" onmouseleave="this.style.background='none'">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span id="nav-notif-dot" style="display:none;position:absolute;top:5px;right:5px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid var(--bg1)"></span>
+        </button>
+        <!-- Dropdown -->
+        <div id="nav-notif-dropdown" style="display:none;position:absolute;top:calc(100% + 10px);right:0;width:320px;background:var(--bg2);border:1px solid var(--brd2);border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:9999;overflow:hidden">
+          <div style="padding:.85rem 1rem .6rem;border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:.82rem;font-weight:700;color:var(--t1)">Notifications</span>
+            <button onclick="markAllNotifsRead()" style="font-size:.68rem;color:var(--ac);background:none;border:none;cursor:pointer;font-family:var(--fm);font-weight:600;padding:0">Mark all read</button>
+          </div>
+          <div id="nav-notif-list" style="max-height:340px;overflow-y:auto"></div>
+        </div>
+      </div>
+
       <a class="nav-user nav-li" id="nav-user-btn" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard')" style="display:none;text-decoration:none">
         <div class="nav-av" id="nav-av-el"><span id="nav-initials">?</span></div>
         <span class="nav-uname" id="nav-uname-el"></span>
@@ -2629,6 +2714,7 @@ img, video, iframe, canvas { max-width: 100%; }
         <a style="display:none" id="dnav-services" href="#/dashboard" onclick="event.preventDefault();switchDash('services',this)"></a>
         <a class="dni" id="dnav-editprofile" href="#/dashboard" onclick="event.preventDefault();switchDash('editprofile',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg></div>Edit Profile</a>
         <a class="dni" id="dnav-analytics" href="#/dashboard" onclick="event.preventDefault();switchDash('analytics',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-4 2.5 2 3-5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Analytics<span style="font-size:.48rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--ac);color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">Pro</span></a>
+        <a class="dni" id="dnav-inquiries" href="#/dashboard" onclick="event.preventDefault();switchDash('inquiries',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h10a1 1 0 011 1v7a1 1 0 01-1 1H4l-3 2V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg></div>Inquiries<span style="font-size:.48rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--ac);color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">Pro</span><span id="inq-badge" style="display:none;font-size:.48rem;font-weight:700;background:#ef4444;color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">0</span></a>
 
         <hr class="dndiv">
         <a class="dni" href="#/profile" onclick="event.preventDefault();showPage('profile')" style="color:var(--ac);font-weight:600"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="var(--ac)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>My Portfolio</a>
@@ -2664,7 +2750,7 @@ img, video, iframe, canvas { max-width: 100%; }
             </div>
           </div>
 
-                    <!-- Pro subscription status card -->
+          <!-- Pro subscription status card -->
           <div class="dcard" id="ov-sub-card" style="display:none;margin-bottom:1rem">
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">
               <div>
@@ -2677,6 +2763,19 @@ img, video, iframe, canvas { max-width: 100%; }
           </div>
 
           <!-- Weekly tip -->
+          <!-- Inquiries shortcut -->
+          <div class="dcard" id="ov-inquiries-card" style="margin-bottom:1rem;cursor:pointer;transition:var(--tr)" onclick="switchDash('inquiries',document.getElementById('dnav-inquiries'))" onmouseover="this.style.borderColor='var(--ac)'" onmouseout="this.style.borderColor='var(--brd)'">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem">
+              <div style="font-size:.65rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">Inquiries</div>
+              <div style="display:flex;align-items:center;gap:.5rem">
+                <span id="ov-inq-badge" style="display:none;font-size:.58rem;font-weight:700;background:#ef4444;color:#fff;padding:.1rem .45rem;border-radius:50px;line-height:1.4"></span>
+                <svg width="10" height="10" viewBox="0 0 11 11" fill="none"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="var(--t3)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+            <div style="font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.18rem" id="ov-inq-headline">Project briefs from clients</div>
+            <div style="font-size:.72rem;color:var(--t3)" id="ov-inq-sub">Go to Inquiries to view and reply</div>
+          </div>
+
           <!-- Portfolio Quick Actions -->
           <div class="dcard" style="margin-bottom:1rem">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem">
@@ -2693,23 +2792,7 @@ img, video, iframe, canvas { max-width: 100%; }
             </div>
           </div>
 
-          <!-- Regular tip card (Pro users) -->
-          <div class="dcard" id="ov-tip-card" style="margin-bottom:1rem;border-left:3px solid var(--ac);display:none">
-            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--ac)" stroke-width="1.2" fill="none"/><path d="M7 4v3.5l2 1.5" stroke="var(--ac)" stroke-width="1.2" stroke-linecap="round"/></svg>
-              <span style="font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ac)">Tip of the Week</span>
-            </div>
-            <div style="font-size:.82rem;color:var(--t1);font-weight:500;margin-bottom:.25rem" id="ov-tip-title">Loading tip...</div>
-            <div style="font-size:.75rem;color:var(--t2);line-height:1.55" id="ov-tip-body"></div>
-          </div>
 
-          <!-- Pro upgrade tip card (Free users) -->
-          <div class="dcard" id="ov-pro-tip-card" style="margin-bottom:1rem;display:none;border-left:3px solid #FE730A">
-            <div style="font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#FE730A;margin-bottom:.4rem">You're missing out!!</div>
-            <div style="font-size:.82rem;color:var(--t1);font-weight:600;margin-bottom:.25rem" id="ov-pro-tip-title">Loading...</div>
-            <div style="font-size:.75rem;color:var(--t2);line-height:1.55;margin-bottom:.8rem" id="ov-pro-tip-body"></div>
-            <button onclick="showPage('pricing')" style="display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,#FE730A,#e55d00);color:#fff;border:none;border-radius:8px;padding:.45rem .95rem;font-size:.75rem;font-weight:700;font-family:var(--fm);cursor:pointer;transition:.18s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Go Pro · LKR 990/mo</button>
-          </div>
 
           <div class="gate-banner" id="gate-banner" style="display:none">
             <h3 style="margin:0 0 .4rem;font-size:.9rem">Unlock Pro features</h3>
@@ -2989,6 +3072,62 @@ img, video, iframe, canvas { max-width: 100%; }
                   <tbody id="an-proj-tbody"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--t3);font-size:.78rem">Loading…</td></tr></tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INQUIRIES -->
+        <div class="dash-panel" id="dash-panel-inquiries">
+          <!-- Free gate -->
+          <div id="inquiries-free-gate" style="display:none">
+
+            <!-- No inquiries at all yet -->
+            <div id="inq-free-empty" style="display:none">
+              <div class="dcard" style="text-align:center;padding:2.5rem 1.5rem">
+                <div style="width:52px;height:52px;border-radius:50%;background:rgba(254,115,10,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#FE730A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                </div>
+                <div style="font-size:.95rem;font-weight:700;color:var(--t1);margin-bottom:.4rem">Inquiries is a Pro feature</div>
+                <div style="font-size:.82rem;color:var(--t3);margin-bottom:1.2rem;max-width:340px;margin-left:auto;margin-right:auto">Receive project briefs directly from clients and manage them all in one place.</div>
+                <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">Upgrade to Pro</button>
+              </div>
+            </div>
+
+            <!-- First inquiry ever is unlocked for free, the rest are locked -->
+            <div id="inq-free-unlocked-wrap" style="display:none">
+              <div style="font-size:.74rem;color:var(--t3);margin-bottom:.65rem">Your first inquiry — it's on us.</div>
+              <div id="inq-first-unlocked"></div>
+
+              <div id="inq-locked-section" style="display:none;position:relative;background:var(--bg2);border:1px solid var(--brd);border-radius:16px;overflow:hidden;margin-top:.9rem;min-height:320px">
+                <div id="inq-fomo-list" style="padding:1.4rem;filter:blur(6px);user-select:none;pointer-events:none;-webkit-user-select:none"></div>
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--bg2);border:1px solid var(--brd2);border-radius:14px;padding:1.25rem 1.4rem;box-shadow:0 10px 34px rgba(0,0,0,.4);text-align:center;width:88%;max-width:300px">
+                  <div style="width:44px;height:44px;border-radius:50%;background:rgba(254,115,10,.12);display:flex;align-items:center;justify-content:center;margin:0 auto .75rem">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#FE730A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                  </div>
+                  <div id="inq-fomo-title" style="font-size:.88rem;font-weight:700;color:var(--t1);margin-bottom:.35rem">More inquiries are waiting</div>
+                  <div id="inq-fomo-sub" style="font-size:.76rem;color:var(--t3);margin-bottom:1rem;line-height:1.5">Upgrade to Pro to see who they are and reply, so you don't miss out on real client work.</div>
+                  <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">Upgrade to Pro</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- Pro inquiries content -->
+          <div id="inquiries-pro-content" style="display:none">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
+              <div>
+                <div style="font-size:1rem;font-weight:700;color:var(--t1)">Project Inquiries</div>
+                <div style="font-size:.75rem;color:var(--t3);margin-top:.15rem">Briefs sent to you by potential clients.</div>
+              </div>
+              <div style="display:flex;gap:.4rem">
+                <button onclick="loadInquiries('new')" id="inq-filter-new" class="inq-filter-btn active" style="font-size:.7rem;font-weight:600;padding:.3rem .75rem;border-radius:50px;border:1px solid var(--brd2);background:var(--ac);color:#fff;cursor:pointer;font-family:var(--fm);transition:.15s">New</button>
+                <button onclick="loadInquiries('contacted')" id="inq-filter-contacted" class="inq-filter-btn" style="font-size:.7rem;font-weight:600;padding:.3rem .75rem;border-radius:50px;border:1px solid var(--brd2);background:var(--bg3);color:var(--t2);cursor:pointer;font-family:var(--fm);transition:.15s">Contacted</button>
+                <button onclick="loadInquiries('dismissed')" id="inq-filter-dismissed" class="inq-filter-btn" style="font-size:.7rem;font-weight:600;padding:.3rem .75rem;border-radius:50px;border:1px solid var(--brd2);background:var(--bg3);color:var(--t2);cursor:pointer;font-family:var(--fm);transition:.15s">Dismissed</button>
+                <button onclick="loadInquiries('all')" id="inq-filter-all" class="inq-filter-btn" style="font-size:.7rem;font-weight:600;padding:.3rem .75rem;border-radius:50px;border:1px solid var(--brd2);background:var(--bg3);color:var(--t2);cursor:pointer;font-family:var(--fm);transition:.15s">All</button>
+              </div>
+            </div>
+            <div id="inq-list">
+              <div style="text-align:center;padding:3rem 1rem;color:var(--t3);font-size:.84rem">Loading…</div>
             </div>
           </div>
         </div>
@@ -3851,6 +3990,7 @@ async function verifyOtp() {
 
     showPage('dashboard');
     showToast('Welcome to Timeliners, ' + fn + '!');
+    setTimeout(loadInquiryBadge, 1200);
 
   } catch(e) {
     const m = (e.message || '').toLowerCase();
@@ -4023,6 +4163,9 @@ function applyLoggedIn() {
   document.querySelectorAll('.nav-li').forEach(e => e.style.display = '');
   document.querySelectorAll('.nav-lo').forEach(e => e.style.display = 'none');
   el('nav-user-btn').style.display = 'flex';
+  const notifWrap = document.getElementById('nav-notif-wrap');
+  if (notifWrap) notifWrap.style.display = 'flex';
+  setTimeout(loadInquiryBadge, 800);
   const p = S.profile;
   const navAv = el('nav-av-el');
   if (p?.avatar_url) {
@@ -4946,6 +5089,7 @@ function switchDash(id, btn) {
     nextPanel.classList.add('active');
     if (btn) btn.classList.add('active');
     if (id === 'projects') renderMyProjects();
+    if (id === 'inquiries') loadInquiries(_inqFilter || 'new');
     if (id === 'analytics') {
       loadAnalytics();
       clearInterval(window._analyticsTimer);
@@ -5096,8 +5240,7 @@ function refreshDash() {
   // Storage bar
   refreshOverviewStorage(p);
 
-  // Weekly tip
-  loadWeeklyTip();
+
 
   // Gate banner
   const gate = document.getElementById('gate-banner');
@@ -9287,57 +9430,452 @@ function openHireModal(profile) {
   }
   if (nameEl) nameEl.textContent = p.name || 'Editor';
 
-  // Build contact options
-  const optEl = document.getElementById('hire-options');
-  if (optEl) {
-    const editorName = p.name || 'this editor';
-    const waMsg = encodeURIComponent('Hi ' + editorName + ', I would like to hire you for a project. I found your portfolio through Timeliners.');
-    // WhatsApp is stored as p.wa in the profiles table
-    const rawWa = p.wa || '';
-    const waNum = rawWa.replace(/\D/g, '');
-    // Normalise: Sri Lanka numbers starting with 0 → 94XXXXXXXXX
-    const waNumFull = waNum.startsWith('94') ? waNum : waNum.startsWith('0') ? '94' + waNum.slice(1) : waNum;
-    const email = p.email || '';
-
-    let html = '';
-
-    if (waNum) {
-      // Has WhatsApp — primary button, email shown as quiet fallback note underneath
-      html += '<a href="https://wa.me/' + waNumFull + '?text=' + waMsg + '" target="_blank" class="hire-contact-btn hire-wa-btn" onclick="closeHireModal();_trackHire(\'' + p.id + '\')">'
-            + '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52z" fill="white" opacity=".9"/></svg>'
-            + 'Message on WhatsApp</a>';
-      if (email) {
-        _hireEmailAddress = email;
-        html += '<div style="margin-top:.9rem;padding:.75rem .9rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:10px">'
-              + '<div style="font-size:.72rem;color:var(--t3);margin-bottom:.45rem;font-weight:500;text-align:center">If WhatsApp doesn\'t work, try emailing directly:</div>'
-              + '<div style="display:flex;flex-direction:column;gap:.4rem">'
-              + '<span class="hire-email-text" style="font-size:.78rem;color:var(--t2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center">' + email + '</span>'
-              + '<button id="hire-copy-btn" onclick="_copyHireEmail()" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:8px 14px;border-radius:6px;font-size:.75rem;font-family:var(--fm);font-weight:600;width:100%;text-align:center" class="hire-copy-btn-el">Copy</button>'
-              + '</div>'
-              + '</div>';
-      }
-    } else if (email) {
-      // No WhatsApp — email only with copy, plus an info note
-      _hireEmailAddress = email;
-      html += '<div style="margin-bottom:.75rem;padding:.6rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:8px;font-size:.76rem;color:var(--t3);line-height:1.6;display:flex;align-items:flex-start;gap:.4rem">'
-            + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:2px"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
-            + 'This editor hasn\'t connected WhatsApp yet, but you can reach them by email.'
-            + '</div>'
-            + '<div style="display:flex;flex-direction:column;gap:.4rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:10px;padding:.65rem .85rem">'
-            + '<span class="hire-email-text" style="font-size:.8rem;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center">' + email + '</span>'
-            + '<button id="hire-copy-btn" onclick="_copyHireEmail()" style="background:var(--bg5);border:1px solid var(--brd2);cursor:pointer;color:var(--t2);padding:8px 14px;border-radius:6px;font-size:.75rem;font-family:var(--fm);font-weight:600;width:100%;text-align:center" class="hire-copy-btn-el">Copy</button>'
-            + '</div>';
-    }
-
-    if (!waNum && !email) {
-      html = '<div class="hire-no-contact"><div style="font-size:.82rem;color:var(--t2);line-height:1.6">This editor hasn\'t added contact details yet. Check back later.</div></div>';
-    }
-
-    optEl.innerHTML = html;
-  }
+  // Reset form
+  ['brief-title','brief-name','brief-phone','brief-email','brief-notes'].forEach(id => {
+    const el2 = document.getElementById(id); if (el2) el2.value = '';
+  });
+  const typeEl = document.getElementById('brief-type');
+  if (typeEl) typeEl.value = '';
+  const budgetEl = document.getElementById('brief-budget');
+  if (budgetEl) budgetEl.value = 'Open to discuss';
+  const errEl = document.getElementById('brief-error');
+  if (errEl) errEl.style.display = 'none';
+  const formBody = document.getElementById('hire-form-body');
+  const successEl = document.getElementById('hire-success');
+  if (formBody) formBody.style.display = 'flex';
+  if (successEl) successEl.style.display = 'none';
+  const submitBtn = document.getElementById('brief-submit-btn');
+  if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send Project Brief'; }
 
   document.getElementById('hire-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+async function submitProjectBrief() {
+  const p = _hireTargetProfile;
+  if (!p) return;
+
+  const title = (document.getElementById('brief-title').value || '').trim();
+  const type  = (document.getElementById('brief-type').value || '').trim();
+  const budget = (document.getElementById('brief-budget').value || 'Open to discuss').trim();
+  const name  = (document.getElementById('brief-name').value || '').trim();
+  const phone = (document.getElementById('brief-phone').value || '').trim();
+  const email = (document.getElementById('brief-email').value || '').trim();
+  const notes = (document.getElementById('brief-notes').value || '').trim();
+
+  const errEl = document.getElementById('brief-error');
+  function showErr(msg) { errEl.textContent = msg; errEl.style.display = 'block'; }
+
+  if (!title) return showErr('Please enter a project title.');
+  if (!type)  return showErr('Please select a project type.');
+  if (!name)  return showErr('Please enter your name.');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr('Please enter a valid email address.');
+
+  errEl.style.display = 'none';
+  const btn = document.getElementById('brief-submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const res = await fetch(SB_URL + '/functions/v1/notify-inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SB_KEY },
+      body: JSON.stringify({
+        editor_id: p.id,
+        editor_name: p.name || '',
+        project_title: title,
+        project_type: type,
+        budget: budget,
+        client_name: name,
+        client_phone: phone,
+        client_email: email,
+        additional_notes: notes
+      })
+    });
+    if (!res.ok) throw new Error('Server error');
+
+    // Show success
+    document.getElementById('hire-form-body').style.display = 'none';
+    document.getElementById('hire-success').style.display = 'block';
+  } catch(e) {
+    showErr('Something went wrong. Please try again.');
+    btn.disabled = false;
+    btn.textContent = 'Send Project Brief';
+  }
+}
+
+// ── INQUIRIES DASHBOARD ──────────────────────────────────
+let _inqFilter = 'new';
+
+function _renderFullInquiryCard(inq) {
+  const date = new Date(inq.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+  const isUnread = !inq.is_read;
+  const statusColor = { new: '#FE730A', contacted: '#22c55e', dismissed: 'var(--t3)' }[inq.status] || 'var(--t3)';
+  const statusLabel = { new: 'New', contacted: 'Contacted', dismissed: 'Dismissed' }[inq.status] || inq.status;
+
+  return '<div class="dcard" style="margin-bottom:.6rem;position:relative;' + (isUnread && inq.status === 'new' ? 'border-color:rgba(254,115,10,.3)' : '') + '">'
+    + (isUnread && inq.status === 'new' ? '<div style="position:absolute;top:.9rem;right:.9rem;width:7px;height:7px;border-radius:50%;background:var(--ac)"></div>' : '')
+    + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;flex-wrap:wrap">'
+    +   '<div style="min-width:0;flex:1">'
+    +     '<div style="font-size:.88rem;font-weight:700;color:var(--t1);margin-bottom:.18rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + _esc(inq.project_title || '—') + '</div>'
+    +     '<div style="font-size:.72rem;color:var(--t3);margin-bottom:.55rem">' + _esc(inq.project_type || '') + (inq.budget ? ' · ' + _esc(inq.budget) + ' LKR' : '') + ' · ' + date + '</div>'
+    +     '<div style="display:flex;flex-wrap:wrap;gap:.35rem .75rem;font-size:.74rem;color:var(--t2)">'
+    +       '<span style="display:inline-flex;align-items:center;gap:.3rem"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>' + _esc(inq.client_name || '—') + '</span>'
+    +       (inq.client_email ? '<span style="display:inline-flex;align-items:center;gap:.3rem"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><path d="M1 4l6 4 6-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>' + _esc(inq.client_email) + '</span>' : '')
+    +       (inq.client_phone ? '<span style="display:inline-flex;align-items:center;gap:.3rem"><svg width="11" height="11" viewBox="0 0 14 14" fill="none"><rect x="4" y="1" width="6" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/><circle cx="7" cy="10.5" r=".7" fill="currentColor"/></svg>' + _esc(inq.client_phone) + '</span>' : '')
+    +     '</div>'
+    +     (inq.additional_notes ? '<div style="margin-top:.55rem;font-size:.76rem;color:var(--t2);line-height:1.6;background:var(--bg3);border-radius:8px;padding:.5rem .7rem">' + _esc(inq.additional_notes) + '</div>' : '')
+    +   '</div>'
+    +   '<span style="font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:50px;background:' + statusColor + '1a;color:' + statusColor + ';flex-shrink:0;white-space:nowrap">' + statusLabel + '</span>'
+    + '</div>'
+    + '<div style="display:flex;gap:.45rem;margin-top:.85rem;flex-wrap:wrap">'
+    +   (inq.client_phone ? '<a href="https://wa.me/' + _waNum(inq.client_phone) + '?text=' + encodeURIComponent('Hi ' + (inq.client_name || '') + ', I received your project brief on TimeLiners for "' + (inq.project_title || '') + '". Would love to connect!') + '" target="_blank" onclick="markInquiry(\'' + inq.id + '\',\'contacted\')" style="display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:600;padding:.35rem .75rem;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;transition:.15s"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52z" fill="white"/></svg>WhatsApp</a>' : '')
+    +   (inq.client_email ? '<a href="mailto:' + _esc(inq.client_email) + '?subject=Re: Your project brief – ' + encodeURIComponent(inq.project_title || '') + '" onclick="markInquiry(\'' + inq.id + '\',\'contacted\')" style="display:inline-flex;align-items:center;gap:.35rem;font-size:.72rem;font-weight:600;padding:.35rem .75rem;background:var(--bg4);color:var(--t1);border:1px solid var(--brd2);border-radius:8px;text-decoration:none;transition:.15s">✉ Email</a>' : '')
+    +   (inq.status !== 'dismissed' ? '<button onclick="markInquiry(\'' + inq.id + '\',\'dismissed\')" style="font-size:.72rem;font-weight:600;padding:.35rem .75rem;background:transparent;color:var(--t3);border:1px solid var(--brd);border-radius:8px;cursor:pointer;font-family:var(--fm);transition:.15s">Dismiss</button>' : '')
+    +   (inq.status === 'dismissed' ? '<button onclick="markInquiry(\'' + inq.id + '\',\'new\')" style="font-size:.72rem;font-weight:600;padding:.35rem .75rem;background:transparent;color:var(--t3);border:1px solid var(--brd);border-radius:8px;cursor:pointer;font-family:var(--fm);transition:.15s">Restore</button>' : '')
+    + '</div>'
+    + '</div>';
+}
+
+async function loadInquiries(filter) {
+  if (!S.profile) return;
+  _inqFilter = filter || 'new';
+
+  // Pro gate
+  const _inqIsPro = S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
+  const _inqProEl  = document.getElementById('inquiries-pro-content');
+  const _inqFreeEl = document.getElementById('inquiries-free-gate');
+  if (_inqProEl && _inqFreeEl) {
+    if (!_inqIsPro) {
+      _inqProEl.style.display  = 'none';
+      _inqFreeEl.style.display = 'block';
+      loadInquiriesFreeView();
+      return;
+    }
+    _inqProEl.style.display  = 'block';
+    _inqFreeEl.style.display = 'none';
+  }
+
+  // Update filter button styles
+  ['new','contacted','dismissed','all'].forEach(f => {
+    const btn = document.getElementById('inq-filter-' + f);
+    if (!btn) return;
+    if (f === _inqFilter) {
+      btn.style.background = 'var(--ac)'; btn.style.color = '#fff'; btn.style.borderColor = 'var(--ac)';
+    } else {
+      btn.style.background = 'var(--bg3)'; btn.style.color = 'var(--t2)'; btn.style.borderColor = 'var(--brd2)';
+    }
+  });
+
+  const listEl = document.getElementById('inq-list');
+  if (!listEl) return;
+  listEl.innerHTML = '<div style="text-align:center;padding:2.5rem 1rem;color:var(--t3);font-size:.82rem">Loading…</div>';
+
+  try {
+    let query = SB_URL + '/rest/v1/project_inquiries?editor_id=eq.' + S.profile.id + '&order=created_at.desc';
+    if (_inqFilter !== 'all') query += '&status=eq.' + _inqFilter;
+
+    const token = (S.session && S.session.access_token) ? S.session.access_token : SB_KEY;
+    const res = await fetch(query, {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
+    });
+    const rows = await res.json();
+
+    if (!rows || !rows.length) {
+      const labels = { new: 'No new inquiries', contacted: 'No contacted inquiries', dismissed: 'No dismissed inquiries', all: 'No inquiries yet' };
+      listEl.innerHTML = '<div style="text-align:center;padding:3rem 1rem"><div style="font-size:2rem;margin-bottom:.75rem">📭</div><div style="font-size:.84rem;color:var(--t2)">' + (labels[_inqFilter] || 'No inquiries') + '</div></div>';
+      return;
+    }
+
+    listEl.innerHTML = rows.map(inq => _renderFullInquiryCard(inq)).join('');
+
+    // Mark all visible as read
+    const unreadIds = rows.filter(r => !r.is_read).map(r => r.id);
+    if (unreadIds.length) {
+      fetch(SB_URL + '/rest/v1/project_inquiries?id=in.(' + unreadIds.join(',') + ')', {
+        method: 'PATCH',
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + ((S.session && S.session.access_token) ? S.session.access_token : SB_KEY), 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ is_read: true })
+      });
+      // Clear badge
+      const badge = document.getElementById('inq-badge');
+      if (badge) badge.style.display = 'none';
+    }
+  } catch(e) {
+    listEl.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--t3);font-size:.82rem">Failed to load inquiries.</div>';
+  }
+}
+
+async function loadInquiriesFreeView() {
+  if (!S.profile) return;
+  const emptyEl    = document.getElementById('inq-free-empty');
+  const unlockedEl = document.getElementById('inq-free-unlocked-wrap');
+  const firstEl    = document.getElementById('inq-first-unlocked');
+  const lockedSec  = document.getElementById('inq-locked-section');
+  const fomoListEl = document.getElementById('inq-fomo-list');
+  const titleEl    = document.getElementById('inq-fomo-title');
+  const subEl      = document.getElementById('inq-fomo-sub');
+  if (!emptyEl || !unlockedEl || !firstEl) return;
+
+  try {
+    const token = (S.session && S.session.access_token) ? S.session.access_token : SB_KEY;
+
+    // The very first inquiry this editor ever received, plus an exact total count
+    const firstRes = await fetch(SB_URL + '/rest/v1/project_inquiries?editor_id=eq.' + S.profile.id + '&order=created_at.asc&limit=1', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token, 'Prefer': 'count=exact' }
+    });
+    const cr = firstRes.headers.get('content-range') || '';
+    const total = parseInt(cr.split('/')[1], 10) || 0;
+    const firstRows = await firstRes.json();
+    const firstInq = firstRows && firstRows[0];
+
+    if (!total || !firstInq) {
+      emptyEl.style.display = 'block';
+      unlockedEl.style.display = 'none';
+      return;
+    }
+
+    emptyEl.style.display = 'none';
+    unlockedEl.style.display = 'block';
+    firstEl.innerHTML = _renderFullInquiryCard(firstInq);
+
+    // Mark the unlocked one as read
+    if (!firstInq.is_read) {
+      fetch(SB_URL + '/rest/v1/project_inquiries?id=eq.' + firstInq.id, {
+        method: 'PATCH',
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ is_read: true })
+      });
+    }
+
+    if (total <= 1) {
+      if (lockedSec) lockedSec.style.display = 'none';
+      // Show a soft upgrade nudge below the single free inquiry
+      var _singleNudgeId = 'inq-single-upgrade-nudge';
+      var _existing = document.getElementById(_singleNudgeId);
+      if (!_existing) {
+        var _nudge = document.createElement('div');
+        _nudge.id = _singleNudgeId;
+        _nudge.style.cssText = 'margin-top:.9rem;background:linear-gradient(135deg,rgba(254,115,10,.09) 0%,rgba(254,115,10,.04) 100%);border:1px solid rgba(254,115,10,.22);border-radius:14px;padding:1rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap';
+        _nudge.innerHTML = '<div style="min-width:0">'
+          + '<div style="font-size:.8rem;font-weight:700;color:var(--t1);margin-bottom:.22rem">This is your 1 free inquiry</div>'
+          + '<div style="font-size:.73rem;color:var(--t3);line-height:1.5">Future inquiries will only be visible on Pro. Upgrade so you never miss a client.</div>'
+          + '</div>'
+          + '<button class="btn btn-p btn-sm" style="white-space:nowrap;flex-shrink:0" onclick="switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)">Upgrade to Pro</button>';
+        if (firstEl && firstEl.parentNode) {
+          firstEl.parentNode.insertBefore(_nudge, firstEl.nextSibling);
+        }
+      }
+      return;
+    }
+
+    // There are more inquiries beyond the first one — remove the single-inquiry nudge if it was rendered
+    var _oldNudge = document.getElementById('inq-single-upgrade-nudge');
+    if (_oldNudge) _oldNudge.remove();
+
+    // Show them blurred, no count exposed
+    if (lockedSec) lockedSec.style.display = 'block';
+    if (titleEl) titleEl.textContent = 'More inquiries are waiting';
+    if (subEl)   subEl.textContent   = "Upgrade to Pro to see who they are and reply, so you don't miss out on real client work.";
+
+    if (fomoListEl) {
+      const moreRes = await fetch(SB_URL + '/rest/v1/project_inquiries?editor_id=eq.' + S.profile.id + '&order=created_at.desc&limit=4&select=id,project_title,client_name,project_type,budget,created_at', {
+        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
+      });
+      let moreRows = await moreRes.json();
+      moreRows = (moreRows || []).filter(r => r.id !== firstInq.id).slice(0, 3);
+
+      fomoListEl.innerHTML = moreRows.map(inq => {
+        const date = new Date(inq.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+        return '<div class="dcard" style="margin-bottom:.6rem">'
+          + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem">'
+          +   '<div style="min-width:0;flex:1">'
+          +     '<div style="font-size:.88rem;font-weight:700;color:var(--t1);margin-bottom:.18rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + _esc(inq.project_title || 'New project brief') + '</div>'
+          +     '<div style="font-size:.72rem;color:var(--t3);margin-bottom:.4rem">' + _esc(inq.project_type || '') + (inq.budget ? ' · ' + _esc(inq.budget) + ' LKR' : '') + ' · ' + date + '</div>'
+          +     '<div style="font-size:.74rem;color:var(--t2)">' + _esc(inq.client_name || 'A potential client') + ' wants to work with you</div>'
+          +   '</div>'
+          +   '<span style="font-size:.62rem;font-weight:700;padding:.2rem .55rem;border-radius:50px;background:rgba(254,115,10,.1);color:#FE730A;flex-shrink:0;white-space:nowrap">New</span>'
+          + '</div>'
+          + '</div>';
+      }).join('');
+    }
+  } catch(e) {
+    emptyEl.style.display = 'block';
+    unlockedEl.style.display = 'none';
+  }
+}
+
+async function markInquiry(id, status) {
+  await fetch(SB_URL + '/rest/v1/project_inquiries?id=eq.' + id, {
+    method: 'PATCH',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + ((S.session && S.session.access_token) ? S.session.access_token : SB_KEY), 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ status: status, is_read: true })
+  });
+  // Remove from notif data if marked read/dismissed
+  window._notifData = (window._notifData || []).filter(n => n.id !== id);
+  _refreshNotifUI();
+  const _inqIsPro = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
+  if (_inqIsPro) {
+    loadInquiries(_inqFilter);
+  } else {
+    loadInquiriesFreeView();
+  }
+}
+
+async function loadInquiryBadge() {
+  if (!S.profile) return;
+  const token = (S.session && S.session.access_token) ? S.session.access_token : SB_KEY;
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/project_inquiries?editor_id=eq.' + S.profile.id + '&status=eq.new&is_read=eq.false&order=created_at.desc&select=id,project_title,client_name,created_at', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token }
+    });
+    const notifs = await res.json();
+    const count = Array.isArray(notifs) ? notifs.length : 0;
+
+    // Update sidebar badge
+    const badge = document.getElementById('inq-badge');
+    if (badge) {
+      if (count > 0) { badge.textContent = count; badge.style.display = 'inline'; }
+      else badge.style.display = 'none';
+    }
+
+    // Update overview shortcut badge + headline
+    const ovBadge = document.getElementById('ov-inq-badge');
+    const ovHeadline = document.getElementById('ov-inq-headline');
+    const ovSub = document.getElementById('ov-inq-sub');
+    if (ovBadge) {
+      if (count > 0) { ovBadge.textContent = count; ovBadge.style.display = 'inline'; }
+      else ovBadge.style.display = 'none';
+    }
+    if (ovHeadline) ovHeadline.textContent = count > 0 ? count + ' new ' + (count === 1 ? 'inquiry' : 'inquiries') + ' waiting' : 'Project briefs from clients';
+    if (ovSub) ovSub.textContent = count > 0 ? 'Tap to view and reply to your clients' : 'Go to Inquiries to view and reply';
+
+    // Update nav bell dot
+    const dot = document.getElementById('nav-notif-dot');
+    if (dot) dot.style.display = count > 0 ? 'block' : 'none';
+
+    // Store for dropdown render
+    window._notifData = Array.isArray(notifs) ? notifs : [];
+  } catch(e) {}
+}
+
+function toggleNotifDropdown() {
+  const dd = document.getElementById('nav-notif-dropdown');
+  if (!dd) return;
+  const isOpen = dd.style.display !== 'none';
+  if (isOpen) {
+    dd.style.display = 'none';
+  } else {
+    dd.style.display = 'block';
+    const list = document.getElementById('nav-notif-list');
+    if (list) list.innerHTML = '<div style="padding:1.2rem 1rem;text-align:center;color:var(--t3);font-size:.78rem">Loading…</div>';
+    loadInquiryBadge().then(() => renderNotifDropdown());
+  }
+}
+
+function renderNotifDropdown() {
+  const list = document.getElementById('nav-notif-list');
+  if (!list) return;
+  const notifs = window._notifData || [];
+
+  if (!notifs.length) {
+    list.innerHTML = '<div style="padding:1.5rem 1rem;text-align:center;color:var(--t3);font-size:.8rem">No new notifications</div>';
+    return;
+  }
+
+  list.innerHTML = notifs.map(n => {
+    const ago = _timeAgo(n.created_at);
+    return '<div class="notif-item" style="display:flex;align-items:flex-start;gap:.75rem;padding:.75rem 1rem;border-bottom:1px solid var(--brd);cursor:pointer;transition:.15s" onmouseenter="this.style.background=\'var(--bg3)\'" onmouseleave="this.style.background=\'\'" onclick="openNotifInquiry(\'' + n.id + '\')">'
+      + '<div style="width:34px;height:34px;border-radius:50%;background:rgba(254,115,10,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.05rem">'
+      + '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FE730A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>'
+      + '</div>'
+      + '<div style="flex:1;min-width:0">'
+      + '<div style="font-size:.78rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + _esc(n.project_title || 'New Inquiry') + '</div>'
+      + '<div style="font-size:.7rem;color:var(--t3);margin-top:.15rem">' + _esc(n.client_name || 'A client') + ' · ' + ago + '</div>'
+      + '</div>'
+      + '<button onclick="event.stopPropagation();dismissNotif(\'' + n.id + '\')" title="Dismiss" style="background:none;border:none;cursor:pointer;color:var(--t3);padding:.2rem;border-radius:4px;flex-shrink:0;line-height:1;font-size:.9rem;transition:.15s" onmouseenter="this.style.color=\'var(--t1)\'" onmouseleave="this.style.color=\'var(--t3)\'">×</button>'
+      + '</div>';
+  }).join('');
+}
+
+async function openNotifInquiry(id) {
+  // Close dropdown, go to dashboard inquiries tab, mark as read
+  document.getElementById('nav-notif-dropdown').style.display = 'none';
+  // Mark as read first
+  const token = (S.session && S.session.access_token) ? S.session.access_token : SB_KEY;
+  await fetch(SB_URL + '/rest/v1/project_inquiries?id=eq.' + id, {
+    method: 'PATCH',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ is_read: true })
+  });
+  window._notifData = (window._notifData || []).filter(n => n.id !== id);
+  _refreshNotifUI();
+  showPage('dashboard');
+  setTimeout(() => switchDash('inquiries', document.getElementById('dnav-inquiries')), 80);
+}
+
+async function dismissNotif(id) {
+  const token = (S.session && S.session.access_token) ? S.session.access_token : SB_KEY;
+  await fetch(SB_URL + '/rest/v1/project_inquiries?id=eq.' + id, {
+    method: 'PATCH',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ status: 'dismissed', is_read: true })
+  });
+  window._notifData = (window._notifData || []).filter(n => n.id !== id);
+  _refreshNotifUI();
+  renderNotifDropdown();
+  if (_inqFilter === 'new' || _inqFilter === 'dismissed') loadInquiries(_inqFilter);
+}
+
+async function markAllNotifsRead() {
+  if (!S.profile) return;
+  const token = (S.session && S.session.access_token) ? S.session.access_token : SB_KEY;
+  await fetch(SB_URL + '/rest/v1/project_inquiries?editor_id=eq.' + S.profile.id + '&is_read=eq.false', {
+    method: 'PATCH',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ is_read: true })
+  });
+  window._notifData = [];
+  _refreshNotifUI();
+  renderNotifDropdown();
+}
+
+function _refreshNotifUI() {
+  const count = (window._notifData || []).length;
+  const dot = document.getElementById('nav-notif-dot');
+  if (dot) dot.style.display = count > 0 ? 'block' : 'none';
+  const badge = document.getElementById('inq-badge');
+  if (badge) { badge.textContent = count; badge.style.display = count > 0 ? 'inline' : 'none'; }
+  const ovBadge = document.getElementById('ov-inq-badge');
+  if (ovBadge) { ovBadge.textContent = count; ovBadge.style.display = count > 0 ? 'inline' : 'none'; }
+}
+
+function _timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1) return 'just now';
+  if (m < 60) return m + 'm ago';
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + 'h ago';
+  const d = Math.floor(h / 24);
+  return d + 'd ago';
+}
+
+// Close notif dropdown when clicking outside
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('nav-notif-wrap');
+  const dd = document.getElementById('nav-notif-dropdown');
+  if (dd && dd.style.display !== 'none' && wrap && !wrap.contains(e.target)) {
+    dd.style.display = 'none';
+  }
+});
+
+function _esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function _waNum(raw) {
+  const n = String(raw).replace(/\D/g,'');
+  return n.startsWith('94') ? n : n.startsWith('0') ? '94' + n.slice(1) : n;
 }
 
 function closeHireModal() {
@@ -9480,6 +10018,15 @@ window.openShareModal        = openShareModal;
 window.closeShareModal       = closeShareModal;
 window.copyShareLink         = copyShareLink;
 window.closeHireModal       = closeHireModal;
+window.submitProjectBrief    = submitProjectBrief;
+window.loadInquiries        = loadInquiries;
+window.loadInquiriesFreeView = loadInquiriesFreeView;
+window.markInquiry          = markInquiry;
+window.loadInquiryBadge     = loadInquiryBadge;
+window.toggleNotifDropdown  = toggleNotifDropdown;
+window.openNotifInquiry     = openNotifInquiry;
+window.dismissNotif         = dismissNotif;
+window.markAllNotifsRead    = markAllNotifsRead;
 window.openContactModal     = openContactModal;
 window.closeContactModal    = closeContactModal;
 window.openAboutModal       = openAboutModal;
@@ -10011,20 +10558,8 @@ function loadWeeklyTip() {
     { title: 'Describe what makes your edits unique', body: 'Don\'t just list tools, describe your style. "Fast-cut, colour-graded reels" stands out more than "CapCut editor".' },
     { title: 'Publish consistently', body: 'Editors who upload at least once a month stay ranked higher in the Discover feed.' },
   ];
-  const PRO_TIPS = [
-    { title: 'Verified badge gets you seen first', body: 'Pro members get a verified badge next to their name everywhere on the platform. Clients trust verified profiles more, and they rank higher in the Discover feed.' },
-    { title: 'Your portfolio, zero TimeLiners branding', body: 'Free profiles show "Powered by TimeLiners" at the bottom. Pro removes it completely so your portfolio looks 100% yours when you share the link with clients.' },
-    { title: '5 GB of video storage', body: 'Free plan gives you 250 MB, enough for a few clips. Pro unlocks 5 GB so you can upload your full reel library without worrying about space.' },
-    { title: 'Add a Skills tab to your profile', body: 'Pro profiles show a dedicated Skills tab listing your software, styles and specialties. Clients can see at a glance if you\'re the right fit before they even message you.' },
-    { title: 'Set your own brand color', body: 'Pro lets you pick a custom primary color that applies across your entire portfolio. Your profile, your brand identity.' },
-    { title: 'Show clients your rates upfront', body: 'Pro members can add a Services tab with a full rate card. List what you offer, your starting price in LKR, turnaround time and revisions. No more back-and-forth on basics.' },
-    { title: 'Unlimited projects', body: 'Free plan is capped at 3 projects. Pro removes the limit entirely so you can showcase everything you\'ve built without having to choose.' },
-    { title: 'Priority in the Discover feed', body: 'Pro profiles get a boost in the feed algorithm. More visibility means more profile visits, more Hire Me taps, more work.' },
-  ];
 
-  const isPro = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly');
   const regularCard = document.getElementById('ov-tip-card');
-  const proCard     = document.getElementById('ov-pro-tip-card');
 
   // Rotate every 3 or 4 days, randomised per user using their id as a seed
   const userId = (S.profile && S.profile.id) ? S.profile.id : 'anon';
@@ -10033,15 +10568,11 @@ function loadWeeklyTip() {
   const slot = Math.floor(Date.now() / (intervalDays * 24 * 60 * 60 * 1000));
   function seededIndex(arr) { return (slot + seed) % arr.length; }
 
-  if (isPro) {
-    if (regularCard) regularCard.style.display = 'none';
-    if (proCard)     proCard.style.display = 'none';
-  } else {
-    if (regularCard) regularCard.style.display = 'none';
-    if (proCard)     proCard.style.display = 'block';
-    var tip = PRO_TIPS[seededIndex(PRO_TIPS)];
-    var titleEl = document.getElementById('ov-pro-tip-title');
-    var bodyEl  = document.getElementById('ov-pro-tip-body');
+  if (regularCard) {
+    regularCard.style.display = 'block';
+    var tip = REGULAR_TIPS[seededIndex(REGULAR_TIPS)];
+    var titleEl = document.getElementById('ov-tip-title');
+    var bodyEl  = document.getElementById('ov-tip-body');
     if (titleEl) titleEl.textContent = tip.title;
     if (bodyEl)  bodyEl.textContent  = tip.body;
   }
