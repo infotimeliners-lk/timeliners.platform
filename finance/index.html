@@ -1299,13 +1299,13 @@ function switchMemTab(tab,el){
 }
 
 function rMembers(){
-  const withActivePay=new Set(_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue').map(p=>p.user_id));
-  const freeList=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
+  const proProfiles=_pf.filter(p=>isPro(p.plan));
+  const freeList=_pf.filter(p=>!isPro(p.plan));
   const totalFree=freeList.length;
-  const paid=_py.filter(p=>p.pay_status==='paid').length;
-  const over=_py.filter(p=>p.pay_status==='overdue').length;
-  const down=_py.filter(p=>p.pay_status==='downgraded').length;
-  const totalPro=paid+over+down;
+  const paid=proProfiles.filter(p=>p.pay_status==='paid').length;
+  const over=proProfiles.filter(p=>p.pay_status==='overdue').length;
+  const down=proProfiles.filter(p=>p.pay_status==='downgraded').length;
+  const totalPro=proProfiles.length;
 
   const subMap={free:totalFree+' free',pro:paid+' paid · '+over+' overdue · '+down+' downgraded',all:(totalFree+totalPro)+' total'};
   document.getElementById('mem-sub').textContent=subMap[_memTab]||'—';
@@ -1316,8 +1316,8 @@ function rMembers(){
 }
 
 function rAllMembers(){
-  const withActivePay=new Set(_py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue').map(p=>p.user_id));
-  const freeList=_pf.filter(p=>!isPro(p.plan)&&!withActivePay.has(p.id));
+  const proProfiles=_pf.filter(p=>isPro(p.plan));
+  const freeList=_pf.filter(p=>!isPro(p.plan));
   _allRows=[];
 
   // Free rows
@@ -1338,21 +1338,22 @@ function rAllMembers(){
     </tr>`});
   });
 
-  // Pro rows
-  _py.filter(p=>p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded').forEach(p=>{
-    const pf=_pf.find(x=>x.id===p.user_id)||{};
+  // Pro rows — one row per profile, latest payment for date/status
+  proProfiles.forEach(pf=>{
+    const latestPay=_py.filter(x=>x.user_id===pf.id).sort((a,b)=>new Date(b.paid_date)-new Date(a.paid_date))[0]||{};
+    const p=latestPay;
     const mn=mno(pf);
-    _allRows.push({sortKey:0, isPro:true, html:`<tr style="border-left:${(p.pay_status==='overdue'||p.pay_status==='downgraded')?'3px solid var(--red)':'3px solid transparent'}">
+    _allRows.push({sortKey:0, isPro:true, html:`<tr style="border-left:${(pf.pay_status==='overdue'||pf.pay_status==='downgraded')?'3px solid var(--red)':'3px solid transparent'}">
       <td><span style="font-family:var(--mono);font-size:.73rem;color:var(--t3)">${mn}</span></td>
       <td><div style="display:flex;align-items:center;gap:.56rem">${avatar(pf)}<div><div class="tc">${pf.name||pf.username||'—'}</div></div></div></td>
-      <td>${plBdg(p.plan)}</td>
+      <td>${plBdg(pf.plan)}</td>
       <td style="font-size:.79rem;color:var(--t2)">${pf.email||'—'}</td>
       <td style="font-size:.79rem;color:var(--t2)">${pf.wa||p.wa||'—'}</td>
       <td style="font-size:.78rem;color:var(--t2)">${fmt(p.paid_date)}</td>
-      <td>${pyBdg(p.pay_status)}</td>
+      <td>${pyBdg(pf.pay_status)}</td>
       <td><div style="display:flex;gap:.25rem">
-        <button class="btn btn-grn btn-xs" onclick="openRenewPay('${p.user_id}','${p.plan}')">Renew</button>
-        <button class="btn btn-g btn-xs" onclick="openEditMember('${p.user_id}')">Edit</button>
+        <button class="btn btn-grn btn-xs" onclick="openRenewPay('${pf.id}','${pf.plan}')">Renew</button>
+        <button class="btn btn-g btn-xs" onclick="openEditMember('${pf.id}')">Edit</button>
         <button class="btn btn-r btn-xs" onclick="delPayment('${p.id}')">Del</button>
       </div></td>
     </tr>`});
@@ -1398,8 +1399,8 @@ function allPageNav(dir){
 
 function rPayments(){
   const now=Date.now();
-  const proM=_py.filter(p=>p.plan==='pro'&&p.pay_status==='paid').length;
-  const proY=_py.filter(p=>p.plan==='pro-yearly'&&p.pay_status==='paid').length;
+  const proM=_pf.filter(p=>p.plan==='pro'&&p.pay_status==='paid').length;
+  const proY=_pf.filter(p=>p.plan==='pro-yearly'&&p.pay_status==='paid').length;
   const over=_py.filter(p=>p.pay_status==='overdue').length;
   const down=_py.filter(p=>p.pay_status==='downgraded').length;
   document.getElementById('pay-stats').innerHTML=`
