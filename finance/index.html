@@ -370,6 +370,9 @@ button,a{cursor:pointer;font-family:var(--fm)}
       <button class="sb-link" onclick="nav('revenue',this)" id="nav-revenue" data-label="Revenue">
         <span class="sb-link-label">Revenue</span>
       </button>
+      <button class="sb-link" onclick="nav('inquiries',this)" id="nav-inquiries" data-label="Inquiries">
+        <span class="sb-link-label">Inquiries</span>
+      </button>
     </div>
     <div class="sb-bottom">
       <div class="sb-user">
@@ -489,6 +492,38 @@ button,a{cursor:pointer;font-family:var(--fm)}
           </div>
         </div>
 
+      </div>
+    </div>
+
+    <!-- INQUIRIES PANE -->
+    <div id="pane-inquiries" class="pane">
+      <div class="topbar">
+        <div class="tb-l"><h2>Inquiries</h2><p id="inq-period-label">All time</p></div>
+      </div>
+      <div class="pw">
+        <div style="display:flex;align-items:center;gap:.35rem;margin-bottom:1.4rem;flex-wrap:wrap">
+          <button class="rev-tf" onclick="setInqFilter('24h',this)">24 hours</button>
+          <button class="rev-tf" onclick="setInqFilter('30d',this)">30 days</button>
+          <button class="rev-tf" onclick="setInqFilter('90d',this)">90 days</button>
+          <button class="rev-tf" onclick="setInqFilter('year',this)">This year</button>
+          <button class="rev-tf active" onclick="setInqFilter('all',this)">All time</button>
+        </div>
+        <div class="stats stats-3 mb" id="inq-stats"></div>
+        <div class="card mb">
+          <div class="ch">
+            <div><h3 id="inq-chart-title">Inquiries over time</h3><p id="inq-chart-sub" style="color:var(--t3);font-size:.75rem"></p></div>
+          </div>
+          <div class="cb" style="padding:1.4rem 1.2rem 1rem"><canvas id="chart-inq" height="200"></canvas></div>
+        </div>
+        <div class="card mb">
+          <div class="ch"><h3>Top editors by inquiries</h3><p id="inq-table-sub"></p></div>
+          <div style="padding:.6rem 1.05rem">
+            <div style="display:grid;grid-template-columns:2fr 80px 80px 80px 90px;gap:.7rem;padding:.4rem 0;border-bottom:1px solid var(--brd);font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t2)">
+              <div>Editor</div><div>Total</div><div>New</div><div>Contacted</div><div>Dismissed</div>
+            </div>
+            <div id="inq-rows"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -741,7 +776,7 @@ const AVC=['#FE730A','#3b82f6','#8b5cf6','#ec4899','#10b981','#f59e0b','#06b6d4'
 // Revenue starts from March 2026
 const REV_START='2026-03';
 
-let _pf=[],_py=[],_proTab='all',_memTab='free',_rc=null,_ec=null,_revFilter='all';
+let _pf=[],_py=[],_proTab='all',_memTab='free',_rc=null,_ec=null,_revFilter='all',_inqAdminFilter='all',_ic=null;
 let _slips=[],_slipTab='pending';
 let _allRows=[],_allPage=0;
 const ALL_PER_PAGE=50;
@@ -1013,11 +1048,11 @@ async function syncOverdueStatus(){
 }
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
-function getCreds(){try{return JSON.parse(localStorage.getItem(CK)||'null')||DEF;}catch(e){return DEF;}}
+function getCreds(){return DEF;}
 function doLogin(){
   const u=document.getElementById('l-user').value.trim();
   const p=document.getElementById('l-pass').value;
-  const c=getCreds();
+  const c=DEF;
   if(u===c.user&&p===c.pass){
     document.getElementById('login').style.display='none';
     document.getElementById('app').classList.add('on');
@@ -1064,6 +1099,7 @@ function nav(id,el){
   if(el)el.classList.add('active');
   closeSidebar();
   if(id==='revenue')setTimeout(rRevenue,50);
+  if(id==='inquiries')setTimeout(rInquiries,50);
 }
 
 function rSidebar(){
@@ -1302,9 +1338,10 @@ function rAllMembers(){
     </tr>`});
   });
 
-  // Pro rows — one row per profile, latest payment for date info
+  // Pro rows — one row per profile, latest payment for date/status
   proProfiles.forEach(pf=>{
-    const p=_py.filter(x=>x.user_id===pf.id).sort((a,b)=>new Date(b.paid_date)-new Date(a.paid_date))[0]||{};
+    const latestPay=_py.filter(x=>x.user_id===pf.id).sort((a,b)=>new Date(b.paid_date)-new Date(a.paid_date))[0]||{};
+    const p=latestPay;
     const mn=mno(pf);
     _allRows.push({sortKey:0, isPro:true, html:`<tr style="border-left:${(pf.pay_status==='overdue'||pf.pay_status==='downgraded')?'3px solid var(--red)':'3px solid transparent'}">
       <td><span style="font-family:var(--mono);font-size:.73rem;color:var(--t3)">${mn}</span></td>
@@ -1364,8 +1401,8 @@ function rPayments(){
   const now=Date.now();
   const proM=_pf.filter(p=>p.plan==='pro'&&p.pay_status==='paid').length;
   const proY=_pf.filter(p=>p.plan==='pro-yearly'&&p.pay_status==='paid').length;
-  const over=_pf.filter(p=>isPro(p.plan)&&p.pay_status==='overdue').length;
-  const down=_pf.filter(p=>isPro(p.plan)&&p.pay_status==='downgraded').length;
+  const over=_py.filter(p=>p.pay_status==='overdue').length;
+  const down=_py.filter(p=>p.pay_status==='downgraded').length;
   document.getElementById('pay-stats').innerHTML=`
     <div class="stat"><div class="stat-l">Monthly Revenue</div><div class="stat-v">LKR ${(proM*990+proY*832).toLocaleString()}</div><div class="stat-s">from active subscriptions</div></div>
     <div class="stat"><div class="stat-l">Pro Monthly</div><div class="stat-v">${proM}</div><div class="stat-s g">active paid</div></div>
@@ -2046,6 +2083,153 @@ function rRevenue(){
   }).join('')||'<div class="empty">No revenue data yet</div>';
 }
 
+
+
+
+// ─── INQUIRIES ANALYTICS ──────────────────────────────────────────────────────
+
+function setInqFilter(f, el) {
+  _inqAdminFilter = f;
+  const pane = document.getElementById('pane-inquiries');
+  if (pane) pane.querySelectorAll('.rev-tf').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  rInquiries();
+}
+
+async function rInquiries() {
+  const now = new Date();
+  let rows;
+  try {
+    const res = await fetch(SB + '/rest/v1/project_inquiries?order=created_at.desc&select=id,editor_id,client_name,project_title,status,created_at', {
+      headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+    });
+    rows = await res.json();
+    if (!Array.isArray(rows)) rows = [];
+  } catch(e) { rows = []; }
+
+  function inWindow(r) {
+    const d = new Date(r.created_at);
+    if (_inqAdminFilter === '24h') { const c=new Date(now);c.setHours(c.getHours()-24);return d>=c; }
+    if (_inqAdminFilter === '30d') { const c=new Date(now);c.setDate(c.getDate()-30);return d>=c; }
+    if (_inqAdminFilter === '90d') { const c=new Date(now);c.setDate(c.getDate()-90);return d>=c; }
+    if (_inqAdminFilter === 'year') return r.created_at.slice(0,4)===String(now.getFullYear());
+    return true;
+  }
+  const filtered = rows.filter(inWindow);
+
+  function prevWindow(r) {
+    const d = new Date(r.created_at);
+    if (_inqAdminFilter === '24h') { const s=new Date(now);s.setHours(s.getHours()-48);const e=new Date(now);e.setHours(e.getHours()-24);return d>=s&&d<e; }
+    if (_inqAdminFilter === '30d') { const s=new Date(now);s.setDate(s.getDate()-60);const e=new Date(now);e.setDate(e.getDate()-30);return d>=s&&d<e; }
+    if (_inqAdminFilter === '90d') { const s=new Date(now);s.setDate(s.getDate()-180);const e=new Date(now);e.setDate(e.getDate()-90);return d>=s&&d<e; }
+    if (_inqAdminFilter === 'year') return r.created_at.slice(0,4)===String(now.getFullYear()-1);
+    return false;
+  }
+  const prevCount = rows.filter(prevWindow).length;
+  const change = prevCount > 0 ? Math.round(((filtered.length - prevCount) / prevCount) * 100) : null;
+  const changeHtml = change !== null
+    ? `<span style="color:${change>=0?'var(--grn)':'var(--red)'};font-size:.72rem;font-weight:600">${change>=0?'↑':'↓'} ${Math.abs(change)}% vs prev period</span>`
+    : '<span style="font-size:.72rem;color:var(--t3)">No prev period data</span>';
+
+  const newCount       = filtered.filter(r => r.status === 'new').length;
+  const contactedCount = filtered.filter(r => r.status === 'contacted').length;
+  const dismissedCount = filtered.filter(r => r.status === 'dismissed').length;
+  const convRate       = filtered.length > 0 ? Math.round((contactedCount / filtered.length) * 100) : 0;
+
+  const labels = {'24h':'Last 24 hours','30d':'Last 30 days','90d':'Last 90 days','year':'This year','all':'All time'};
+  document.getElementById('inq-period-label').textContent = labels[_inqAdminFilter] || 'All time';
+
+  document.getElementById('inq-stats').innerHTML = `
+    <div class="stat">
+      <div class="stat-l">${_inqAdminFilter==='all'?'All-Time Inquiries':labels[_inqAdminFilter]}</div>
+      <div class="stat-v" style="color:var(--ac)">${filtered.length}</div>
+      <div class="stat-s" style="margin-top:.35rem">${changeHtml}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-l">Contact Rate</div>
+      <div class="stat-v">${convRate}%</div>
+      <div class="stat-s">${contactedCount} contacted · ${dismissedCount} dismissed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-l">Pending (New)</div>
+      <div class="stat-v">${newCount}</div>
+      <div class="stat-s">unresponded in period</div>
+    </div>`;
+
+  let lbs, iD;
+  if (_inqAdminFilter === '24h') {
+    lbs=[]; iD=[];
+    for (let i=23;i>=0;i--) {
+      const hS=new Date(now);hS.setMinutes(0,0,0);hS.setHours(hS.getHours()-i);
+      const hE=new Date(hS);hE.setHours(hE.getHours()+1);
+      lbs.push(hS.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
+      iD.push(rows.filter(r=>{const t=new Date(r.created_at).getTime();return t>=hS.getTime()&&t<hE.getTime();}).length);
+    }
+  } else if (_inqAdminFilter==='30d'||_inqAdminFilter==='90d') {
+    const days=_inqAdminFilter==='30d'?30:90; lbs=[]; iD=[];
+    for (let i=days-1;i>=0;i--) {
+      const d=new Date(now);d.setDate(d.getDate()-i);d.setHours(0,0,0,0);
+      const nx=new Date(d);nx.setDate(nx.getDate()+1);
+      lbs.push(d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}));
+      iD.push(rows.filter(r=>{const t=new Date(r.created_at).getTime();return t>=d.getTime()&&t<nx.getTime();}).length);
+    }
+  } else {
+    const mMap={};
+    rows.forEach(r=>{
+      const mo=r.created_at.slice(0,7);
+      if(_inqAdminFilter==='year'&&!mo.startsWith(String(now.getFullYear())))return;
+      mMap[mo]=(mMap[mo]||0)+1;
+    });
+    const sM=Object.keys(mMap).sort();
+    lbs=sM.map(m=>new Date(m+'-01').toLocaleDateString('en-GB',{month:'short',year:'2-digit'}));
+    iD=sM.map(m=>mMap[m]);
+  }
+
+  document.getElementById('inq-chart-title').textContent =
+    _inqAdminFilter==='all'?'Monthly inquiries — all time':
+    _inqAdminFilter==='year'?'Monthly inquiries — '+now.getFullYear():
+    _inqAdminFilter==='24h'?'Hourly inquiries — last 24 hours':
+    _inqAdminFilter==='30d'?'Daily inquiries — last 30 days':'Daily inquiries — last 90 days';
+  document.getElementById('inq-chart-sub').textContent =
+    `${iD.reduce((a,b)=>a+b,0)} total across ${lbs.length} ${_inqAdminFilter==='24h'?'hours':((_inqAdminFilter==='30d'||_inqAdminFilter==='90d')?'days':'months')}`;
+
+  if (_ic){_ic.destroy();_ic=null;}
+  _ic = new Chart(document.getElementById('chart-inq'), {
+    type:'bar',
+    data:{labels:lbs,datasets:[{data:iD,backgroundColor:'rgba(254,115,10,.75)',borderRadius:5,borderSkipped:false}]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(15,15,15,.92)',titleColor:'#fff',bodyColor:'rgba(255,255,255,.7)',cornerRadius:10,padding:12,
+        callbacks:{label:ctx=>ctx.parsed.y+' inquir'+(ctx.parsed.y===1?'y':'ies')}}},
+      scales:{
+        x:{grid:{display:false},ticks:{color:'rgba(0,0,0,.38)',font:{size:11,family:'Poppins'}}},
+        y:{min:0,grid:{color:'rgba(0,0,0,.04)'},border:{dash:[4,4]},ticks:{color:'rgba(0,0,0,.38)',font:{size:11,family:'Poppins'},stepSize:1}}
+      }
+    }
+  });
+
+  const editorMap={};
+  filtered.forEach(r=>{
+    if(!editorMap[r.editor_id])editorMap[r.editor_id]={total:0,new:0,contacted:0,dismissed:0};
+    editorMap[r.editor_id].total++;
+    editorMap[r.editor_id][r.status]=(editorMap[r.editor_id][r.status]||0)+1;
+  });
+  const sorted=Object.entries(editorMap).sort((a,b)=>b[1].total-a[1].total);
+  document.getElementById('inq-table-sub').textContent=`${sorted.length} editor${sorted.length!==1?'s':''} received inquiries in period`;
+  document.getElementById('inq-rows').innerHTML=sorted.length?sorted.map(([eid,s],idx)=>{
+    const pf=_pf.find(p=>p.id===eid)||{};
+    const name=pf.name||pf.username||eid.slice(0,8)+'…';
+    const tl=pf.member_no?`<span style="font-family:var(--mono);font-size:.68rem;color:var(--t3);margin-left:.4rem">${pf.member_no}</span>`:'';
+    const rank=idx===0?'🥇':idx===1?'🥈':idx===2?'🥉':`<span style="font-size:.72rem;color:var(--t3)">#${idx+1}</span>`;
+    return `<div class="rrow" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background=''">
+      <div style="display:flex;align-items:center;gap:.5rem;font-size:.83rem;font-weight:500;color:var(--t1)">${rank} ${name}${tl}</div>
+      <div style="font-family:var(--mono);font-weight:700;color:var(--ac);font-size:.88rem">${s.total}</div>
+      <div style="font-size:.78rem;color:var(--t2)">${s.new||'—'}</div>
+      <div style="font-size:.78rem;color:var(--grn)">${s.contacted||'—'}</div>
+      <div style="font-size:.78rem;color:var(--t3)">${s.dismissed||'—'}</div>
+    </div>`;
+  }).join(''): '<div class="empty">No inquiries in this period</div>';
+}
 
 // ─── BACKFILL PAYMENT HISTORY ─────────────────────────────────────────────────
 let _bfRows=[];
