@@ -1,4 +1,6 @@
 /project_inquiries 410
 /project_inquiries/* 410
 /projects?user_id=eq 410
+/terms.html   /terms    301
+/refund.html  /refund   301
 /* /index.html 200
