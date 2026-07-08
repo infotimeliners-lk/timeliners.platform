@@ -150,7 +150,7 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 #prof-load-overlay.plo-hide{opacity:0;visibility:hidden;pointer-events:none}
 .plo-wordmark{font-family:var(--fm);font-size:1.3rem;font-weight:700;color:#FE730A;letter-spacing:-.01em}
 .plo-track{width:110px;height:2px;border-radius:2px;background:var(--bg3);overflow:hidden}
-.plo-fill{height:100%;width:0%;background:linear-gradient(90deg,#FE730A,#ff9a3c);border-radius:2px}
+.plo-fill{height:100%;width:0%;background:var(--ac);border-radius:2px}
 /* Locked tab state */
 .ptab-btn-locked{opacity:1;cursor:pointer;position:relative}
 .ptab-btn-locked::after{content:'PRO';font-size:.42rem;font-weight:700;letter-spacing:.4px;background:var(--ac);color:#fff;padding:.06rem .28rem;border-radius:50px;position:absolute;top:-4px;right:-6px;line-height:1.5}
@@ -179,8 +179,8 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 .spl-btns{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:4rem}
 .spl-btn-browse{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 1.6rem;border-radius:50px;border:1.5px solid var(--brd2);background:var(--bg3);transition:all .2s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-md);cursor:pointer;text-decoration:none;color:var(--t1);font-family:var(--fm);font-size:.88rem;font-weight:600}
 .spl-btn-browse:hover{border-color:var(--brd3);transform:translateY(-2px);box-shadow:var(--shadow-lg);color:var(--t1)}
-.spl-btn-build{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 1.6rem;border-radius:50px;border:none;background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 100%);transition:all .2s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 20px rgba(254,115,10,.35);cursor:pointer;text-decoration:none;color:#fff;font-family:var(--fm);font-size:.88rem;font-weight:600}
-.spl-btn-build:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(254,115,10,.5);color:#fff}
+.spl-btn-build{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 1.6rem;border-radius:50px;border:none;background:var(--ac);transition:all .2s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm);cursor:pointer;text-decoration:none;color:#fff;font-family:var(--fm);font-size:.88rem;font-weight:600}
+.spl-btn-build:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);color:#fff}
 .spl-ico{width:28px;height:28px;border-radius:50%;background:var(--bg4);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .spl-ico-w{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
@@ -364,7 +364,7 @@ html.light .fsrch input{color:var(--t1)}
 /* HERO SECTION */
 /* av wrap */
 .prof-av-wrap{position:relative;display:inline-block;margin-bottom:1.2rem}
-.prof-av-float{width:88px;height:88px;border-radius:50%;border:3px solid rgba(254,115,10,.4);box-shadow:0 0 0 6px rgba(254,115,10,.08),0 4px 24px rgba(0,0,0,.4);overflow:hidden;display:block}
+.prof-av-float{width:88px;height:88px;border-radius:50%;border:3px solid var(--ac);box-shadow:var(--shadow-md);overflow:hidden;display:block}
 .prof-av-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:white}
 
 .prof-name{font-size:1.85rem;font-weight:800;color:var(--t1);letter-spacing:-.03em;margin-bottom:.3rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;line-height:1.1}
@@ -483,7 +483,7 @@ html.light .fsrch input{color:var(--t1)}
 .pv-stat-n{font-size:.88rem;font-weight:700;color:var(--t1);display:block}
 .pv-stat-l{font-size:.54rem;color:var(--t3);display:block}
 .pv-like{width:100%;padding:.65rem;border-radius:50px;border:1.5px solid var(--brd2);background:var(--bg3);color:var(--t2);font-size:.82rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.4rem;margin-bottom:.5rem;transition:.2s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.pv-like:hover{border-color:var(--ac);color:var(--ac);background:rgba(254,115,10,.06);box-shadow:0 2px 16px rgba(254,115,10,.15)}.pv-like.liked{background:rgba(254,115,10,.08);border-color:var(--ac);color:var(--ac);box-shadow:0 1px 4px rgba(0,0,0,.3)}
-.pv-hire{width:100%;padding:.65rem;border-radius:50px;border:none;background:linear-gradient(135deg,#FE730A,#ff9a3c);color:white;font-size:.83rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:.38rem;transition:all .2s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 16px rgba(254,115,10,.35)}.pv-hire:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(254,115,10,.5)}
+.pv-hire{width:100%;padding:.65rem;border-radius:50px;border:none;background:var(--ac);color:white;font-size:.83rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:.38rem;transition:all .2s cubic-bezier(.4,0,.2,1);box-shadow:var(--shadow-sm)}.pv-hire:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .pv-author-mini{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:.65rem;border-top:1px solid var(--brd);margin-top:.75rem}
 .pv-author-av{width:46px;height:46px;border-radius:50%;overflow:hidden;margin-bottom:.5rem}
 /* DASHBOARD */
@@ -528,7 +528,7 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.72rem;margin-bottom:.85rem;align-items:start}
 .plan-c{border-radius:var(--rlg);padding:1.25rem;border:1px solid var(--brd);background:var(--bg3);position:relative;transition:var(--tr)}
 .plan-c.current{border-color:rgba(254,115,10,.25);background:rgba(254,115,10,.03)}
-.plan-c.featured{border:none;background:#FE730A;box-shadow:0 12px 40px rgba(254,115,10,.3);overflow:visible;margin-top:20px;position:relative}
+.plan-c.featured{border:none;background:#FE730A;box-shadow:var(--shadow-lg);overflow:visible;margin-top:20px;position:relative}
 .plan-pop{position:absolute;top:-20px;left:18px;background:var(--ac);color:#fff;font-size:.56rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:.28rem .85rem;border-radius:7px 7px 0 0;white-space:nowrap}
 .plan-name{font-size:.55rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:.6rem}.plan-c.featured .plan-name{color:rgba(255,255,255,.7)}
 .plan-price{font-size:1.65rem;font-weight:700;color:var(--t1);line-height:1;margin-bottom:.16rem}.plan-c.featured .plan-price{color:white}
@@ -604,7 +604,7 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .pcard.card-visible{opacity:1;transform:translateY(0)}
 @keyframes cardFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .cta-strip{padding:.8rem 0 3rem}
-.cta-inner{background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 55%,#ffb347 100%);border-radius:var(--rxl);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.3rem;max-width:1180px;margin:0 auto;position:relative;overflow:hidden}
+.cta-inner{background:var(--ac);border-radius:var(--rxl);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.3rem;max-width:1180px;margin:0 auto;position:relative;overflow:hidden}
 .cta-inner::before{content:'';position:absolute;top:-40%;right:-5%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.13) 0%,transparent 65%)}
 .cta-inner h3{font-size:clamp(1.1rem,2.4vw,1.6rem);font-weight:700;color:white;margin-bottom:.28rem;position:relative;z-index:1}
 .cta-inner p{font-size:.82rem;color:rgba(255,255,255,.78);position:relative;z-index:1}
@@ -722,13 +722,13 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .ph-text strong{font-size:.82rem;font-weight:600;color:#fff;display:block;margin-bottom:.08rem;}
 .ph-text span{font-size:.72rem;color:rgba(255,255,255,.45);}
 .ph-btn{
-  background:linear-gradient(135deg,#FE730A,#ff9a3c);
+  background:var(--ac);
   color:#fff;border:none;border-radius:50px;
   padding:.5rem 1.1rem;font-size:.82rem;font-weight:600;
   cursor:pointer;transition:all .18s;font-family:var(--fm);
-  box-shadow:0 4px 14px rgba(254,115,10,.4);
+  box-shadow:var(--shadow-sm);
 }
-.ph-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(254,115,10,.55);}
+.ph-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
 .ph-close{
   width:26px;height:26px;border-radius:50%;
   background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
@@ -825,7 +825,7 @@ html.light .jf-sel{color:var(--t1)}
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;text-align:left;align-items:stretch}.pricing-grid .pc{height:100%;box-sizing:border-box}
 .pc{border-radius:22px;padding:2.2rem 1.8rem;border:1px solid var(--brd);background:var(--bg2);position:relative;transition:var(--tr);box-shadow:var(--shadow-sm);display:flex;flex-direction:column}
 .pc:hover{border-color:var(--brd2);transform:translateY(-4px)}
-.pc.pc-feat{border:none;box-shadow:0 20px 60px rgba(254,115,10,.35)}.pc.pc-feat .pc-feats li{color:rgba(255,255,255,.9)}.pc.pc-feat .pc-feats li.no{color:rgba(255,255,255,.45)}.pc.pc-feat .pc-chk{color:white}.pc.pc-feat .pc-feats li.no .pc-chk{color:rgba(255,255,255,.4)}.pc.pc-feat .pc-name{color:rgba(255,255,255,.7)}.pc.pc-feat .pc-period{color:rgba(255,255,255,.65)}.pc.pc-feat .pc-sub{color:rgba(255,255,255,.75)}.pc.pc-feat .pc-div{border-color:rgba(255,255,255,.2)}
+.pc.pc-feat{border:none;box-shadow:var(--shadow-lg)}.pc.pc-feat .pc-feats li{color:rgba(255,255,255,.9)}.pc.pc-feat .pc-feats li.no{color:rgba(255,255,255,.45)}.pc.pc-feat .pc-chk{color:white}.pc.pc-feat .pc-feats li.no .pc-chk{color:rgba(255,255,255,.4)}.pc.pc-feat .pc-name{color:rgba(255,255,255,.7)}.pc.pc-feat .pc-period{color:rgba(255,255,255,.65)}.pc.pc-feat .pc-sub{color:rgba(255,255,255,.75)}.pc.pc-feat .pc-div{border-color:rgba(255,255,255,.2)}
 .pc-pop{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--ac);color:white;font-size:.52rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;padding:.2rem .75rem;border-radius:50px;white-space:nowrap}
 .pc-name{font-size:.58rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:.85rem}
 .pc-price{font-size:2.4rem;font-weight:700;color:var(--t1);line-height:1;margin-bottom:.2rem}
@@ -1493,8 +1493,8 @@ img, video, iframe, canvas { max-width: 100%; }
 .hire-editor-av{width:24px;height:24px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0}
 .hire-editor-name{font-size:.78rem;font-weight:600;color:var(--t1)}
 .hire-contact-btn{width:100%;padding:.82rem 1rem;border-radius:var(--r);border:none;font-family:var(--fm);font-size:.9rem;font-weight:600;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:.6rem;margin-bottom:.65rem}
-.hire-wa-btn{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 4px 16px rgba(34,197,94,.3)}
-.hire-wa-btn:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(34,197,94,.45)}
+.hire-wa-btn{background:#16a34a;color:#fff;box-shadow:var(--shadow-sm)}
+.hire-wa-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .hire-em-btn{background:var(--bg3);color:var(--t1);border:1.5px solid var(--brd2)}
 .hire-em-btn:hover{border-color:var(--brd3);transform:translateY(-1px)}
 
@@ -1508,7 +1508,7 @@ img, video, iframe, canvas { max-width: 100%; }
 .prof-cat-folder:hover .prof-cat-folder-box{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.13)}
 .prof-cat-folder-box{width:100%;aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:var(--bg3);border:1px solid rgba(0,0,0,.07);box-shadow:0 2px 8px rgba(0,0,0,.07);transition:all .2s cubic-bezier(.4,0,.2,1);position:relative}
 .prof-cat-folder-box img,.prof-cat-folder-box video{width:100%;height:100%;object-fit:cover;display:block}
-.prof-cat-folder-box-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bg4),var(--bg3))}
+.prof-cat-folder-box-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg4)}
 .prof-cat-folder-box-ph svg{opacity:.18}
 .prof-cat-folder-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 55%);pointer-events:none}
 .prof-cat-folder-info{padding:.55rem .1rem .1rem;width:100%}
@@ -1964,14 +1964,11 @@ img, video, iframe, canvas { max-width: 100%; }
 <!-- ══ CONTACT MODAL ══ -->
 <div id="contact-overlay" onclick="if(event.target===this)closeContactModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem">
   <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:18px;max-width:400px;width:100%;padding:0;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.5)">
-    <!-- Gradient header banner -->
-    <div style="background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 50%,#e55d00 100%);padding:1.8rem 1.6rem 1.4rem;position:relative">
-      <button onclick="closeContactModal()" style="position:absolute;top:.9rem;right:.9rem;background:rgba(0,0,0,.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
-      <div style="width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:.75rem">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="white"/></svg>
-      </div>
-      <div style="font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:.2rem">Get in Touch</div>
-      <div style="font-size:.78rem;color:rgba(255,255,255,.85);line-height:1.5">We reply fast — usually within a few hours.</div>
+    <!-- Header -->
+    <div style="padding:1.6rem 1.6rem 1rem;position:relative;border-bottom:1px solid var(--brd)">
+      <button onclick="closeContactModal()" style="position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--t2);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='transparent'">×</button>
+      <div style="font-size:1.1rem;font-weight:700;color:var(--t1);margin-bottom:.25rem">Get in touch</div>
+      <div style="font-size:.78rem;color:var(--t3);line-height:1.5">We reply fast — usually within a few hours.</div>
     </div>
     <!-- Body -->
     <div style="padding:1.4rem 1.6rem 1.6rem">
@@ -1995,13 +1992,11 @@ img, video, iframe, canvas { max-width: 100%; }
 <!-- ══ ABOUT MODAL ══ -->
 <div id="about-overlay" onclick="if(event.target===this)closeAboutModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem">
   <div style="background:var(--bg2);border:1px solid var(--brd);border-radius:18px;max-width:480px;width:100%;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.5)">
-    <!-- Gradient header -->
-    <div style="background:linear-gradient(135deg,#FE730A 0%,#ff9a3c 45%,#c94d00 100%);padding:2rem 1.8rem 1.6rem;position:relative">
-      <button onclick="closeAboutModal()" style="position:absolute;top:.9rem;right:.9rem;background:rgba(0,0,0,.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
-      <!-- TL logo mark -->
-      <div style="width:48px;height:48px;background:rgba(255,255,255,.15);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;font-size:1.1rem;font-weight:800;color:#fff;font-family:'Poppins',sans-serif;letter-spacing:-1px">TL</div>
-      <div style="font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:.3rem">About TimeLiners</div>
-      <div style="font-size:.8rem;color:rgba(255,255,255,.8);line-height:1.5">Sri Lanka's home for video editors &amp; motion designers.</div>
+    <!-- Header -->
+    <div style="padding:1.8rem 1.8rem 1.2rem;position:relative;border-bottom:1px solid var(--brd)">
+      <button onclick="closeAboutModal()" style="position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--t2);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='transparent'">×</button>
+      <div style="font-size:1.2rem;font-weight:700;color:var(--t1);margin-bottom:.3rem">About TimeLiners</div>
+      <div style="font-size:.8rem;color:var(--t3);line-height:1.5">Sri Lanka's home for video editors &amp; motion designers.</div>
     </div>
     <!-- Body -->
     <div style="padding:1.6rem 1.8rem">
@@ -2014,7 +2009,7 @@ img, video, iframe, canvas { max-width: 100%; }
       <!-- Founder card -->
       <div style="font-size:.62rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Built by</div>
       <div style="display:flex;align-items:center;gap:.9rem">
-        <img src="https://videos.timeliners.lk/avatars/ae37c1b8-ede4-4c9b-8044-00be0c7314fc/avatar.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:none" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div style="display:none;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FE730A,#ff9a3c);align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.8rem;flex-shrink:0;letter-spacing:-.5px">KB</div>
+        <img src="https://videos.timeliners.lk/avatars/ae37c1b8-ede4-4c9b-8044-00be0c7314fc/avatar.png" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:none" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div style="display:none;width:44px;height:44px;border-radius:50%;background:var(--ac);align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.8rem;flex-shrink:0;letter-spacing:-.5px">KB</div>
         <div>
           <div style="font-size:.92rem;font-weight:700;color:var(--t1)">Kaveesha Bandara</div>
           <div style="font-size:.75rem;color:var(--t3);margin-top:.1rem">Founder &amp; Developer · Video Editor</div>
@@ -2025,7 +2020,7 @@ img, video, iframe, canvas { max-width: 100%; }
         <div style="font-size:.78rem;color:var(--t2);line-height:1.6;font-style:italic">"The goal is simple, give every Sri Lankan editor a professional home for their work, and help clients find the right talent easily."</div>
       </div>
       <!-- CTA -->
-      <a href="#/feed" onclick="event.preventDefault();closeAboutModal();showPage('feed')" style="display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:1.2rem;background:linear-gradient(135deg,#FE730A,#e55d00);color:#fff;font-weight:700;font-size:.85rem;padding:.8rem 1rem;border-radius:12px;text-decoration:none;font-family:var(--fm);transition:.18s" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
+      <a href="#/feed" onclick="event.preventDefault();closeAboutModal();showPage('feed')" style="display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:1.2rem;background:var(--ac);color:#fff;font-weight:700;font-size:.85rem;padding:.8rem 1rem;border-radius:12px;text-decoration:none;font-family:var(--fm);transition:.18s" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">
         Explore Portfolios
       </a>
     </div>
@@ -2048,61 +2043,6 @@ img, video, iframe, canvas { max-width: 100%; }
       <!-- Line 1 · sits BEHIND some cards (z-index 1) -->
       <div class="spl-h-line1">Show Your Work.</div>
 
-      <!-- Cards that sit BETWEEN line 1 and line 2 -->
-      <div class="spl-float-mid">
-
-        <!-- Profile 1 · left -->
-        <div class="spl-float-card" style="left:0%;top:108px;--fc-base:rotate(-3deg);animation-duration:5.5s;animation-delay:0s">
-          <div class="spl-fav" style="background:linear-gradient(135deg,#FE730A,#ff9a3c)">AK</div>
-          <div>
-            <div class="spl-fname">Ashen Kavinda</div>
-            <div class="spl-frole">Motion Designer · Colombo</div>
-            <div class="spl-fbadge"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>Pro</div>
-          </div>
-        </div>
-
-        <!-- Job post 1 · left-center -->
-        <div class="spl-float-card spl-float-job" style="left:20%;top:128px;--fc-base:rotate(2deg);animation-duration:6s;animation-delay:0.6s">
-          <div class="spl-fjob-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="4" width="12" height="9" rx="2" stroke="var(--ac)" stroke-width="1.2" fill="none"/><path d="M4 4V3a3 3 0 016 0v1" stroke="var(--ac)" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></div>
-          <div>
-            <div class="spl-fjob-tag">Hiring Now</div>
-            <div class="spl-fname">Video Editor Needed</div>
-            <div class="spl-frole">Full-time · Colombo · LKR 80k</div>
-          </div>
-        </div>
-
-        <!-- Profile 2 · center -->
-        <div class="spl-float-card" style="left:50%;top:95px;--fc-base:translateX(-50%) rotate(1deg);animation-duration:5s;animation-delay:0.2s">
-          <div class="spl-fav" style="background:linear-gradient(135deg,#7C3AED,#a855f7)">NR</div>
-          <div>
-            <div class="spl-fname">Nirosha Rathnayake</div>
-            <div class="spl-frole">Video Editor · Kandy</div>
-            <div class="spl-fviews">1.2k views this month</div>
-          </div>
-        </div>
-
-        <!-- Job post 2 · right-center -->
-        <div class="spl-float-card spl-float-job" style="right:19%;top:122px;--fc-base:rotate(-2deg);animation-duration:6.5s;animation-delay:1s">
-          <div class="spl-fjob-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="4" width="12" height="9" rx="2" stroke="var(--ac)" stroke-width="1.2" fill="none"/><path d="M4 4V3a3 3 0 016 0v1" stroke="var(--ac)" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></div>
-          <div>
-            <div class="spl-fjob-tag">Hiring Now</div>
-            <div class="spl-fname">Motion Graphics Artist</div>
-            <div class="spl-frole">Freelance · Remote · LKR 60k</div>
-          </div>
-        </div>
-
-        <!-- Profile 3 · right -->
-        <div class="spl-float-card" style="right:0%;top:105px;--fc-base:rotate(3deg);animation-duration:5.2s;animation-delay:0.4s">
-          <div class="spl-fav" style="background:linear-gradient(135deg,#0EA5E9,#38bdf8)">DW</div>
-          <div>
-            <div class="spl-fname">Dineth Wickrama</div>
-            <div class="spl-frole">Reels Creator · Galle</div>
-            <div class="spl-fbadge"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.4" stroke-linecap="round"/></svg>Pro</div>
-          </div>
-        </div>
-
-      </div>
-
       <!-- Line 2 · sits IN FRONT of all cards (z-index 10) -->
       <div class="spl-h-line2">Get the Call.</div>
 
@@ -2111,11 +2051,9 @@ img, video, iframe, canvas { max-width: 100%; }
     <p class="spl-sub">Timeliners is a place where video editors and motion designers can showcase their work, build a stunning portfolio, and get hired.</p>
     <div class="spl-btns">
       <a class="spl-btn-browse" href="#/feed" onclick="event.preventDefault();enterPage('feed')" style="text-decoration:none">
-        <div class="spl-ico"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.5" stroke="#111" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" fill="#FE730A"/><path d="M10 1.5V4M10 16v2.5M1.5 10H4M16 10h2.5" stroke="#111" stroke-width="1.5" stroke-linecap="round"/></svg></div>
         Browse Portfolios
       </a>
       <a class="spl-btn-build" href="#" onclick="event.preventDefault();openAuth('up')">
-        <div class="spl-ico-w"><svg width="15" height="15" viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="5.5" r="3" stroke="#fff" stroke-width="1.4" fill="none"/><path d="M2 15c0-3.2 2.9-5.5 6.5-5.5s6.5 2.3 6.5 5.5" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none"/></svg></div>
         Build Your Portfolio
       </a>
     </div>
@@ -2255,7 +2193,7 @@ img, video, iframe, canvas { max-width: 100%; }
         <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
         <div style="display:flex;gap:.5rem">
           <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
-          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.instagram.com/timeliners.lk/" target="_blank" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43-.26.66-.6 1.22-1.15 1.77-.55.55-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.93 4.93 0 01-1.77-1.15 4.93 4.93 0 01-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.55-.55 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.04-.87-.18-1.34-.3-1.65a2.76 2.76 0 00-.66-1.02 2.76 2.76 0 00-1.02-.66c-.31-.12-.78-.26-1.65-.3-1.05-.05-1.37-.06-4.04-.06zm0 3.24a4.96 4.96 0 110 9.92 4.96 4.96 0 010-9.92zm0 1.8a3.16 3.16 0 100 6.32 3.16 3.16 0 000-6.32zm5.16-1.98a1.16 1.16 0 11-2.32 0 1.16 1.16 0 012.32 0z" fill="currentColor"/></svg></a>
         </div>
       </div>
       <!-- Right: link columns -->
@@ -2569,7 +2507,7 @@ img, video, iframe, canvas { max-width: 100%; }
           <span id="ep-video-pct" style="font-size:.65rem;color:var(--ac);font-weight:600">0%</span>
         </div>
         <div style="background:var(--bg4);border-radius:50px;height:5px;overflow:hidden">
-          <div id="ep-video-bar" style="height:100%;background:linear-gradient(90deg,var(--ac),#ff9a3c);width:0%;transition:width .15s;border-radius:50px"></div>
+          <div id="ep-video-bar" style="height:100%;background:var(--ac);width:0%;transition:width .15s;border-radius:50px"></div>
         </div>
       </div>
     </div>
@@ -2708,7 +2646,7 @@ img, video, iframe, canvas { max-width: 100%; }
             <div style="font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#FE730A;margin-bottom:.4rem">You're missing out!!</div>
             <div style="font-size:.82rem;color:var(--t1);font-weight:600;margin-bottom:.25rem" id="ov-pro-tip-title">Loading...</div>
             <div style="font-size:.75rem;color:var(--t2);line-height:1.55;margin-bottom:.8rem" id="ov-pro-tip-body"></div>
-            <button onclick="showPage('pricing')" style="display:inline-flex;align-items:center;gap:.4rem;background:linear-gradient(135deg,#FE730A,#e55d00);color:#fff;border:none;border-radius:8px;padding:.45rem .95rem;font-size:.75rem;font-weight:700;font-family:var(--fm);cursor:pointer;transition:.18s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Go Pro · LKR 990/mo</button>
+            <button onclick="showPage('pricing')" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--ac);color:#fff;border:none;border-radius:8px;padding:.45rem .95rem;font-size:.75rem;font-weight:700;font-family:var(--fm);cursor:pointer;transition:.18s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Go Pro · LKR 990/mo</button>
           </div>
 
           <div class="gate-banner" id="gate-banner" style="display:none">
@@ -2787,7 +2725,7 @@ img, video, iframe, canvas { max-width: 100%; }
                 <button class="plan-btn plan-btn-cur" id="pb-free" style="margin-top:auto">Current Plan</button>
               </div>
               <!-- Pro -->
-              <div class="plan-c featured" id="pc-pro" style="border:none;background:#FE730A;box-shadow:0 12px 40px rgba(254,115,10,.3);margin-top:-8px;display:flex;flex-direction:column">
+              <div class="plan-c featured" id="pc-pro" style="border:none;background:#FE730A;box-shadow:var(--shadow-lg);margin-top:-8px;display:flex;flex-direction:column">
                 <div class="plan-pop">Most Popular</div>
                 <div class="plan-name" style="color:rgba(255,255,255,.7)">Pro</div>
                 <div class="plan-price" id="dash-pro-price" style="color:white">990<span style="color:rgba(255,255,255,.7)"> LKR/mo</span></div>
@@ -3108,7 +3046,7 @@ img, video, iframe, canvas { max-width: 100%; }
             <span id="upm-video-pct" style="font-size:.65rem;color:var(--ac);font-weight:600">0%</span>
           </div>
           <div style="background:var(--bg4);border-radius:50px;height:5px;overflow:hidden">
-            <div id="upm-video-progress-bar" style="height:100%;background:linear-gradient(90deg,var(--ac),#ff9a3c);width:0%;transition:width .15s;border-radius:50px"></div>
+            <div id="upm-video-progress-bar" style="height:100%;background:var(--ac);width:0%;transition:width .15s;border-radius:50px"></div>
           </div>
         </div>
         <input type="hidden" id="upm-yt" value="">
@@ -3285,18 +3223,8 @@ window.S = S; // expose state to inline onclick handlers
 
 // ── CONSTANTS ────────────────────────────────────────
 const GRADS = [
-  'linear-gradient(135deg,#FE730A,#ff9a3c)',
-  'linear-gradient(135deg,#7C3AED,#a855f7)',
-  'linear-gradient(135deg,#0EA5E9,#38bdf8)',
-  'linear-gradient(135deg,#16A34A,#4ade80)',
-  'linear-gradient(135deg,#DC2626,#f87171)',
-  'linear-gradient(135deg,#D97706,#fbbf24)',
-  'linear-gradient(135deg,#DB2777,#f472b6)',
-  'linear-gradient(135deg,#0F766E,#2dd4bf)',
-  'linear-gradient(135deg,#1D4ED8,#60a5fa)',
-  'linear-gradient(135deg,#1a1a1a,#333)',
-  'linear-gradient(135deg,#312E81,#6366F1)',
-  'linear-gradient(135deg,#065F46,#10B981)',
+  '#FE730A','#7C3AED','#0EA5E9','#16A34A','#DC2626','#D97706',
+  '#DB2777','#0F766E','#1D4ED8','#2b2b2b','#312E81','#065F46',
 ];
 const GCOLS = ['#FE730A','#7C3AED','#0EA5E9','#16A34A','#DC2626','#D97706','#DB2777','#0F766E','#1D4ED8','#555','#312E81','#065F46'];
 
@@ -5818,7 +5746,7 @@ function refreshProfile(profileData) {
   } else {
     avWrap.innerHTML = '<div class="prof-av-ph" id="pav-ph" style="background:' + GCOLS[p.grad_idx || 0] + '">' + (p.initials || '?') + '</div>';
   }
-  const meshGrad = GRADS[p.cover_idx || 0] || 'linear-gradient(135deg,#FE730A,#c0390a)';
+  const meshGrad = GRADS[p.cover_idx || 0] || '#FE730A';
   const covEl = document.getElementById('pcov-el');
   if (covEl) covEl.style.background = meshGrad;
   const nameEl = el('pname-el');
@@ -10378,7 +10306,7 @@ boot();
         <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
         <div style="display:flex;gap:.5rem">
           <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
-          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.instagram.com/timeliners.lk/" target="_blank" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43-.26.66-.6 1.22-1.15 1.77-.55.55-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.93 4.93 0 01-1.77-1.15 4.93 4.93 0 01-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.55-.55 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.04-.87-.18-1.34-.3-1.65a2.76 2.76 0 00-.66-1.02 2.76 2.76 0 00-1.02-.66c-.31-.12-.78-.26-1.65-.3-1.05-.05-1.37-.06-4.04-.06zm0 3.24a4.96 4.96 0 110 9.92 4.96 4.96 0 010-9.92zm0 1.8a3.16 3.16 0 100 6.32 3.16 3.16 0 000-6.32zm5.16-1.98a1.16 1.16 0 11-2.32 0 1.16 1.16 0 012.32 0z" fill="currentColor"/></svg></a>
         </div>
       </div>
       <!-- Right: link columns -->
@@ -10491,7 +10419,7 @@ boot();
         <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
         <div style="display:flex;gap:.5rem">
           <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
-          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.79 1.53V6.77a4.85 4.85 0 01-1.02-.08z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.instagram.com/timeliners.lk/" target="_blank" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43-.26.66-.6 1.22-1.15 1.77-.55.55-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.93 4.93 0 01-1.77-1.15 4.93 4.93 0 01-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.55-.55 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.04-.87-.18-1.34-.3-1.65a2.76 2.76 0 00-.66-1.02 2.76 2.76 0 00-1.02-.66c-.31-.12-.78-.26-1.65-.3-1.05-.05-1.37-.06-4.04-.06zm0 3.24a4.96 4.96 0 110 9.92 4.96 4.96 0 010-9.92zm0 1.8a3.16 3.16 0 100 6.32 3.16 3.16 0 000-6.32zm5.16-1.98a1.16 1.16 0 11-2.32 0 1.16 1.16 0 012.32 0z" fill="currentColor"/></svg></a>
         </div>
       </div>
       <!-- Right: link columns -->
