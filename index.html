@@ -6088,14 +6088,14 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
   // Hide tabs if only 1 or 0 categories
   const uniqueCats = [...new Set(allProjs.map(p => p.cat || 'other'))];
   const tabBtns = document.getElementById('prof-tab-btns');
+  const viewedProf = S.viewingProfile || S.profile;
+  const viewedIsPro = viewedProf && (viewedProf.plan === 'pro' || viewedProf.plan === 'pro-yearly' || viewedProf.plan === 'pro_yearly' || viewedProf.plan === 'standard' || viewedProf.plan === 'vip');
   const _hasSkillsData = (() => { try { const a = JSON.parse(viewedProf && viewedProf.skills_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
   const _hasServicesData = (() => { try { const a = JSON.parse(viewedProf && viewedProf.services_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
   const _showTabBar = allProjs.length > 0 || isOwn || (viewedIsPro && (_hasSkillsData || _hasServicesData));
   if (tabBtns) tabBtns.style.display = _showTabBar ? 'flex' : 'none';
   // Skills tab: always show for owner; show for visitors only if has skills
   const skillsTabBtn = document.getElementById('ptab-skills');
-  const viewedProf = S.viewingProfile || S.profile;
-  const viewedIsPro = viewedProf && (viewedProf.plan === 'pro' || viewedProf.plan === 'pro-yearly' || viewedProf.plan === 'pro_yearly' || viewedProf.plan === 'standard' || viewedProf.plan === 'vip');
   if (skillsTabBtn) {
     const hasSkills = (() => { try { const a = JSON.parse(viewedProf && viewedProf.skills_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
     if (isOwn) {
