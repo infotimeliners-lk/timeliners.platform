@@ -185,7 +185,7 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 .spl-ico-w{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
 /* Floating profile cards */
-.spl-hero{position:relative;width:100%;max-width:960px;margin:0 auto;padding:1rem 0 1rem}
+.spl-hero{position:relative;width:100%;max-width:1320px;margin:0 auto;padding:1rem 0 1rem}
 .spl-h-line1{font-size:clamp(2.8rem,7vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-2px;color:var(--t1);position:relative;z-index:1;opacity:.92;margin-bottom:110px}
 .spl-h-line2{font-size:clamp(2.8rem,7vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-2px;color:var(--ac);position:relative;z-index:10;margin-top:-50px}
 .spl-float-mid{position:absolute;inset:0;pointer-events:none;z-index:5}
@@ -233,13 +233,13 @@ select:focus{outline:2px solid var(--ac);outline-offset:0;border-color:var(--ac)
 /* NAV */
 #main-nav{display:none;position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(14,14,15,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);height:58px;align-items:center;box-shadow:0 1px 8px rgba(0,0,0,.35)}
 
-.nav-c{width:100%;max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:100%;position:relative}
+.nav-c{width:100%;max-width:1600px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:100%;position:relative}
 .nav-brand{font-weight:700;font-size:1.1rem;color:#FE730A;cursor:pointer;letter-spacing:-.02em}
 .nav-mid{display:flex;gap:0;position:absolute;left:50%;transform:translateX(-50%)}
-.nl{display:flex;flex-direction:column;align-items:center;gap:0;padding:.3rem .9rem .32rem;border-radius:0;transition:var(--tr);border:none;background:none;text-decoration:none;cursor:pointer;position:relative;color:var(--t3);font-size:.82rem;font-weight:500;letter-spacing:-.01em}
-.nl-lbl{font-size:.82rem;font-weight:500;letter-spacing:-.01em;line-height:1;transition:color .15s;white-space:nowrap}
+.nl{display:flex;flex-direction:column;align-items:center;gap:0;padding:.3rem .9rem .32rem;border-radius:0;transition:var(--tr);border:none;background:none;text-decoration:none;cursor:pointer;position:relative;color:var(--t3);font-size:.82rem;font-weight:400;letter-spacing:-.01em}
+.nl-lbl{font-size:.82rem;font-weight:400;letter-spacing:-.01em;line-height:1;transition:color .15s;white-space:nowrap}
 .nl:hover .nl-lbl{color:var(--t1)}
-.nl.active .nl-lbl{font-weight:700;color:var(--ac)}
+.nl.active .nl-lbl{font-weight:600;color:var(--ac)}
 /* orange underline removed — active state is orange text only */
 .nav-right{display:flex;align-items:center;gap:.5rem}
 .nav-left-mob{display:flex;align-items:center;gap:.45rem}
@@ -280,7 +280,7 @@ html.light .ai{color:var(--t1)}
 /* FEED */
 #page-feed{padding-top:58px;min-height:100vh;background:var(--bg)}
 .feed-bar{background:var(--bg);position:sticky;top:58px;z-index:99;padding-bottom:0}
-.feed-bar-in{max-width:1180px;margin:0 auto;padding:.55rem 24px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem}
+.feed-bar-in{max-width:1600px;margin:0 auto;padding:.55rem 24px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem}
 .feed-lbl{font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
 .feed-right{display:flex;align-items:center;gap:.6rem;justify-content:flex-end}
 .ftabs{display:flex;gap:.2rem;overflow-x:auto;flex-wrap:nowrap;justify-content:flex-start;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px;touch-action:pan-x}.ftabs::-webkit-scrollbar{display:none}
@@ -289,7 +289,7 @@ html.light .ai{color:var(--t1)}
 .fsrch{display:flex;align-items:center;gap:.5rem;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.28rem .85rem;transition:var(--tr)}.fsrch:focus-within{border-color:var(--brd2)}
 .fsrch input{border:none;outline:none;font-size:.84rem;color:var(--t1);background:transparent;width:100%}.fsrch input::placeholder{color:var(--t3)}
 html.light .fsrch input{color:var(--t1)}
-.feed-wrap{max-width:1180px;margin:0 auto;padding:1.4rem 24px 1.5rem;position:relative;z-index:1}
+.feed-wrap{max-width:1600px;margin:0 auto;padding:1.4rem 24px 1.5rem;position:relative;z-index:1}
 .feed-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
 .feed-count{font-size:.72rem;font-weight:500;color:var(--t2)}
 /* ── FEED PAGINATION ── */
@@ -318,7 +318,7 @@ html.light .fsrch input{color:var(--t1)}
 .sort-cdd-opt.active{color:var(--ac);font-weight:600;background:rgba(254,115,10,.06)}
 
 /* Project cards - cinematic video style */
-.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem 1rem}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem 1rem}
 .pcard{background:transparent;border:none;border-radius:0;overflow:visible;transition:transform .22s cubic-bezier(.4,0,.2,1);position:relative;cursor:pointer;text-decoration:none;display:block;color:inherit;box-shadow:none;contain:layout style}
 .pcard:hover{transform:translateY(-2px)}
 /* Cinematic 16:9 thumbnail */
@@ -354,7 +354,7 @@ html.light .fsrch input{color:var(--t1)}
 /* ── CONCEPT 4: Hero Intro + Horizontal Project Strip ── */
 /* ── PROFILE PAGE · full vertical layout ── */
 /* ── Profile outer wrapper ── */
-.prof-outer{max-width:1100px;margin:0 auto;padding:0 0 5rem}
+.prof-outer{max-width:1500px;margin:0 auto;padding:0 0 5rem}
 
 /* ── Hero section ── */
 .prof-hero{position:relative;text-align:center;padding:1.5rem 2rem 2.5rem;overflow:hidden}
@@ -364,7 +364,7 @@ html.light .fsrch input{color:var(--t1)}
 /* HERO SECTION */
 /* av wrap */
 .prof-av-wrap{position:relative;display:inline-block;margin-bottom:1.2rem}
-.prof-av-float{width:88px;height:88px;border-radius:50%;border:3px solid var(--ac);box-shadow:var(--shadow-md);overflow:hidden;display:block}
+.prof-av-float{width:88px;height:88px;border-radius:50%;border:none;box-shadow:var(--shadow-md);overflow:hidden;display:block}
 .prof-av-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:white}
 
 .prof-name{font-size:1.85rem;font-weight:800;color:var(--t1);letter-spacing:-.03em;margin-bottom:.3rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;line-height:1.1}
@@ -412,7 +412,7 @@ html.light .fsrch input{color:var(--t1)}
 .prof-stat-l{font-size:.55rem;color:var(--t3);text-transform:uppercase;letter-spacing:.9px;display:block;margin-top:.08rem}
 /* Details card */
 /* details card — orange strip at bottom */
-.prof-details-card{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);box-shadow:none;margin-top:0;overflow:hidden}
+.prof-details-card{background:transparent;border:none;border-radius:0;box-shadow:none;margin-top:0;overflow:visible}
 .prof-details-row{display:grid;grid-template-columns:1fr 1px 1fr}
 .prof-details-card .prof-section-lbl{color:var(--t3);justify-content:center}
 .prof-details-card .prof-section-lbl::after{display:none}
@@ -437,7 +437,7 @@ html.light .fsrch input{color:var(--t1)}
 .prof-right-sec{background:transparent;border:none;border-radius:0;padding:1.5rem 1.5rem 1.5rem;margin-bottom:0}
 .prof-right-sec-h{font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}.prof-right-sec-h::after{content:'';flex:1;height:1px;background:var(--brd)}
 /* Project cards — no outer box, thumbnail is the card */
-.prof-proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem 1rem}
+.prof-proj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem 1rem}
 /* Project card — no border box, no outline. Thumbnail first, info below */
 .prof-pcard{background:transparent;border:none;border-radius:0;overflow:visible;cursor:pointer;transition:.22s cubic-bezier(.4,0,.2,1);text-decoration:none;display:block;color:inherit;box-shadow:none}.prof-pcard:hover{transform:translateY(-3px)}.prof-pcard *{pointer-events:auto}.prof-pcard-menu-btn{pointer-events:auto!important;position:relative!important}
 .prof-pcard-skel{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;overflow:hidden;pointer-events:none}
@@ -464,7 +464,7 @@ html.light .fsrch input{color:var(--t1)}
 /* PROJECT VIEW */
 #page-project{padding-top:58px;min-height:100vh;background:var(--bg);position:relative}
 #page-project::before{display:none}
-.pv-top{max-width:960px;margin:0 auto;padding:2.2rem 24px 0;position:relative;z-index:1}
+.pv-top{max-width:1320px;margin:0 auto;padding:2.2rem 24px 0;position:relative;z-index:1}
 .pv-eyebrow{font-size:.6rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--ac);margin-bottom:.7rem}
 .pv-h{font-size:clamp(1.5rem,4vw,2.6rem);font-weight:700;color:var(--t1);line-height:1.15;margin-bottom:.9rem;letter-spacing:-.25px}
 .pv-meta{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;margin-bottom:1.2rem}
@@ -473,9 +473,9 @@ html.light .fsrch input{color:var(--t1)}
 .pv-av-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:white}
 .pv-htags{display:flex;gap:.3rem;flex-wrap:wrap}
 .pv-htag{font-size:.62rem;padding:.2rem .62rem;border-radius:50px;background:var(--bg3);border:1px solid var(--brd);color:var(--t2)}
-.pv-cover{max-width:960px;margin:1.3rem auto;padding:0 24px}
+.pv-cover{max-width:1320px;margin:1.3rem auto;padding:0 24px}
 .pv-cover-box{width:100%;border-radius:var(--rxl);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:700;min-height:120px}
-.pv-body{max-width:960px;margin:0 auto;padding:1.3rem 24px 4rem;display:grid;grid-template-columns:1fr 240px;gap:2.2rem;align-items:start}
+.pv-body{max-width:1320px;margin:0 auto;padding:1.3rem 24px 4rem;display:grid;grid-template-columns:1fr 240px;gap:2.2rem;align-items:start}
 .pv-desc{font-size:.9rem;color:var(--t2);line-height:2;margin-bottom:1.2rem}
 .pv-side{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:1.1rem;position:sticky;top:74px;box-shadow:var(--shadow-md)}
 .pv-stats{display:flex;gap:.55rem;margin-bottom:.85rem}
@@ -488,11 +488,11 @@ html.light .fsrch input{color:var(--t1)}
 .pv-author-av{width:46px;height:46px;border-radius:50%;overflow:hidden;margin-bottom:.5rem}
 /* DASHBOARD */
 #page-dashboard{padding-top:58px;min-height:100vh;background:var(--bg)}
-.dash-wrap{max-width:1060px;margin:0 auto;padding:2rem 24px 4rem}
+.dash-wrap{max-width:1100px;margin:0 auto;padding:2rem 24px 4rem}
 .dash-h{font-size:1.28rem;font-weight:700;color:var(--t1);margin-bottom:.2rem}
 .dash-sub{font-size:.82rem;color:var(--t2);margin-bottom:1.7rem}
 .dash-grid{display:grid;grid-template-columns:215px 1fr;gap:1.5rem;align-items:start}
-.dash-nav{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rlg);padding:.5rem;position:sticky;top:68px}
+.dash-nav{background:transparent;border:none;border-right:1px solid var(--brd);border-radius:0;padding:0 1rem .5rem 0;position:sticky;top:68px}
 .dni{display:flex;align-items:center;gap:.55rem;padding:.56rem .7rem;border-radius:var(--r);font-size:.83rem;color:var(--t2);transition:var(--tr);border:none;background:transparent;width:100%;text-align:left;text-decoration:none;cursor:pointer}.dni:hover{background:var(--bg3);color:var(--t1)}.dni.active{background:var(--acl);color:var(--ac);font-weight:500}
 .dni-ico{width:19px;height:19px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .dndiv{border:none;border-top:1px solid var(--brd);margin:.45rem .7rem}
@@ -590,7 +590,7 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .btn-p{background:var(--ac);color:white;box-shadow:0 4px 14px rgba(254,115,10,.3)}.btn-p:hover{background:#e55e00;transform:translateY(-1px);box-shadow:0 6px 20px rgba(254,115,10,.38)}
 .btn-o{background:transparent;color:var(--t1);border:1px solid var(--brd2)}.btn-o:hover{border-color:var(--brd3)}
 .btn-sm{font-size:.72rem;padding:.36rem .82rem}
-.c{width:100%;max-width:1180px;margin:0 auto;padding:0 24px}
+.c{width:100%;max-width:1600px;margin:0 auto;padding:0 24px}
 .divider{border:none;border-top:1px solid var(--brd);margin:.95rem 0}
 .nores{text-align:center;padding:3.5rem;color:var(--t3);font-size:.8rem;display:none;grid-column:1/-1}.nores.show{display:block}
 .loading-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3.5rem;gap:.65rem;grid-column:1/-1}
@@ -604,7 +604,7 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .pcard.card-visible{opacity:1;transform:translateY(0)}
 @keyframes cardFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .cta-strip{padding:.8rem 0 3rem}
-.cta-inner{background:var(--ac);border-radius:var(--rxl);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.3rem;max-width:1180px;margin:0 auto;position:relative;overflow:hidden}
+.cta-inner{background:var(--ac);border-radius:var(--rxl);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.3rem;max-width:1600px;margin:0 auto;position:relative;overflow:hidden}
 .cta-inner::before{content:'';position:absolute;top:-40%;right:-5%;width:300px;height:300px;background:radial-gradient(circle,rgba(255,255,255,.13) 0%,transparent 65%)}
 .cta-inner h3{font-size:clamp(1.1rem,2.4vw,1.6rem);font-weight:700;color:white;margin-bottom:.28rem;position:relative;z-index:1}
 .cta-inner p{font-size:.82rem;color:rgba(255,255,255,.78);position:relative;z-index:1}
@@ -612,7 +612,7 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 footer{background:var(--bg2);border-top:1px solid var(--brd)}
 /* ── FOOTER ── */
 .site-footer{border-top:1px solid var(--brd);background:var(--bg2);padding:2.8rem 24px 1.8rem}
-.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start}
+.footer-inner{max-width:1500px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start}
 .footer-brand-col{flex-shrink:0;max-width:440px}
 .footer-links-grid{display:flex;gap:4rem}
 .footer-col{display:flex;flex-direction:column;gap:.55rem}
@@ -620,7 +620,7 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .footer-col-head{font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.3rem}
 .footer-icons{display:flex;gap:.5rem;margin-top:.5rem}
 .footer-icon-btn{width:24px;height:24px;color:var(--t3);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:.18s;flex-shrink:0}.footer-icon-btn:hover{color:var(--ac);transform:translateY(-1px)}
-.footer-bottom{padding:.5rem 0;max-width:1100px;margin:0 auto;min-height:1px;border:none}
+.footer-bottom{padding:.5rem 0;max-width:1500px;margin:0 auto;min-height:1px;border:none}
 @media(max-width:700px){.footer-inner{grid-template-columns:1fr}.footer-links-grid{gap:2rem;flex-wrap:wrap}}
 .flink{display:block;font-size:.85rem;color:var(--t2);margin-bottom:.36rem;transition:var(--tr);text-decoration:none}.flink:hover{color:var(--ac)}
 .fbot{border-top:1px solid var(--brd);padding-top:.88rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.85rem}
@@ -628,6 +628,8 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .tag-chip{display:inline-flex;align-items:center;gap:.25rem;background:rgba(254,115,10,.1);border:1px solid rgba(254,115,10,.25);color:var(--ac);font-size:.72rem;font-weight:500;padding:.14rem .5rem;border-radius:50px;white-space:nowrap;margin:.08rem}.tag-chip-x{cursor:pointer;font-size:.85rem;line-height:1;opacity:.7;margin-left:.1rem}.tag-chip-x:hover{opacity:1}
 .toast{position:fixed;bottom:18px;right:18px;z-index:2147483647;background:var(--bg2);border:1px solid var(--brd2);color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:280px;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;isolation:isolate}.toast.show{transform:translateY(0);opacity:1}.toast-ico{color:var(--ac)}
 /* Responsive */
+@media(max-width:1500px){.pgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1400px){.prof-proj-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1100px){.pgrid{grid-template-columns:repeat(2,1fr)}.ppgrid{grid-template-columns:repeat(2,1fr)}.stats-row{grid-template-columns:repeat(2,1fr)}}
 /* ── CINEMATIC PROJECT MODAL ── */
 #proj-modal-overlay{
@@ -797,7 +799,7 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 
 .jf-sel-legacy{border:1.5px solid var(--brd2);border-radius:50px;background:var(--bg3);color:var(--t1);font-family:var(--fm);font-size:.82rem;padding:.38rem 2rem .38rem .95rem;outline:none;cursor:pointer;transition:var(--tr);appearance:none;-webkit-appearance:none;text-align:center;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath d='M2 3.5l3 3 3-3' stroke='%23888' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7rem center;box-shadow:var(--shadow-sm)}.jf-sel:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(254,115,10,.12)}.jf-sel:hover{border-color:var(--brd3)}
 html.light .jf-sel{color:var(--t1)}
-.jobs-wrap{max-width:1180px;margin:0 auto;padding:1.5rem 24px 4rem}
+.jobs-wrap{max-width:1600px;margin:0 auto;padding:1.5rem 24px 4rem}
 .jobs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
 .jcard{background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:1.4rem;transition:all .22s cubic-bezier(.4,0,.2,1);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .jcard:hover{border-color:var(--brd2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.4)}
@@ -816,7 +818,7 @@ html.light .jf-sel{color:var(--t1)}
 .jcard-posted{font-size:.66rem;color:var(--t3);display:flex;align-items:center;gap:.3rem}
 .japply{background:var(--ac);color:white;border:none;border-radius:50px;padding:.42rem 1rem;font-family:var(--fm);font-size:.78rem;font-weight:500;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:.35rem}.japply:hover{background:#e55e00}
 /* ── PRICING ── */
-#page-pricing{padding-top:58px;min-height:100vh;background:var(--bg)}
+#page-advertise{padding-top:58px;min-height:100vh;background:var(--bg)}
 .pricing-wrap{max-width:1000px;margin:0 auto;padding:3.5rem 24px 5rem;text-align:center}
 .pricing-eyebrow{font-size:.58rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--ac);margin-bottom:.7rem}
 .pricing-h{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--t1);margin-bottom:.7rem;letter-spacing:-.4px}
@@ -1295,35 +1297,14 @@ img, video, iframe, canvas { max-width: 100%; }
     font-size: .72rem !important;
     padding: .5rem .5rem !important;
   }
-  /* Brand color pickers: full width */
-  #ep-brand-colors-fields > div { max-width: 100% !important; }
-  #ep-bc-preview { margin-top: .75rem; }
   /* d2col already goes 1fr but enforce inside edit profile */
   #dash-panel-editprofile .d2col { grid-template-columns: 1fr !important; }
 
-  /* ── DASHBOARD: account/pro pane ── */
-  /* Plan grid: stack on phone */
-  .plan-grid { grid-template-columns: 1fr !important; max-width: 100% !important; }
-  #pc-pro { margin-top: 0 !important; }
-  /* Billing toggle: center + full row */
-  #dash-panel-account [style*="display:flex;align-items:center;gap:.65rem"] {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
   /* Account detail rows — stack label above input */
   .df { flex-direction: column; gap: .3rem; }
   .dl { font-size: .7rem; }
   .di { font-size: .88rem; }
-  /* Plan row with inline button — stack */
-  #dash-panel-account .df > div[style*="display:flex;align-items:center;gap:.58rem"] {
-    flex-direction: column !important;
-    gap: .4rem !important;
-    width: 100%;
-  }
-  #dash-panel-account .df > div[style*="display:flex;align-items:center;gap:.58rem"] .di {
-    max-width: 100% !important;
-  }
-  #acc-upgrade-btn, #dash-panel-account .dsave { width: 100%; justify-content: center; }
+  #dash-panel-account .dsave { width: 100%; justify-content: center; }
 
   /* ── DASHBOARD: overview ── */
   #ov-grid { display: flex !important; flex-direction: column !important; }
@@ -1340,24 +1321,11 @@ img, video, iframe, canvas { max-width: 100%; }
     gap: .5rem !important;
   }
 
-  /* ── ANALYTICS ── */
-  .an-stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .an-charts-row, .an-charts-3col { grid-template-columns: 1fr !important; }
-  .an-bottom-row { flex-direction: column !important; }
-  .an-range-tabs { flex-wrap: wrap !important; }
-  .an-range-tab { font-size: .65rem !important; padding: .22rem .55rem !important; }
-  /* Analytics top row: stack */
-  #dash-panel-analytics [style*="display:flex;align-items:center;justify-content:space-between"] {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: .5rem !important;
-  }
-
   /* ── PRICING page ── */
-  #page-pricing .pricing-wrap { padding: .9rem 14px 3rem !important; }
-  #page-pricing .pricing-grid { grid-template-columns: 1fr !important; max-width: 100% !important; }
+  #page-advertise .pricing-wrap { padding: .9rem 14px 3rem !important; }
+  #page-advertise .pricing-grid { grid-template-columns: 1fr !important; max-width: 100% !important; }
   /* Comparison table horizontal scroll */
-  #page-pricing .comp-wrap, #page-pricing table { overflow-x: auto; -webkit-overflow-scrolling: touch; display: block; width: 100%; }
+  #page-advertise .comp-wrap, #page-advertise table { overflow-x: auto; -webkit-overflow-scrolling: touch; display: block; width: 100%; }
 
   /* ── FAQ page ── */
   #page-faq { padding-top: 58px; }
@@ -1717,11 +1685,11 @@ img, video, iframe, canvas { max-width: 100%; }
 (function(){
   var uRedir='';
   try{uRedir=sessionStorage.getItem('tl_redirect')||'';sessionStorage.removeItem('tl_redirect');}catch(e){}
-  var _knownPages=['feed','pricing','faq','profile','dashboard','project'];
+  var _knownPages=['feed','advertise','faq','profile','dashboard','project'];
   // Only promote to username_redirect if the value is not a known page name
   if(uRedir&&_knownPages.indexOf(uRedir.toLowerCase())===-1){try{sessionStorage.setItem('tl_username_redirect',uRedir);}catch(e){}}
   else if(uRedir){uRedir='';}
-  var known=['feed','pricing','faq','profile','dashboard','project'];
+  var known=['feed','advertise','faq','profile','dashboard','project'];
   var h=location.hash.replace('#/','');
   var seg=(h.split('/')[0]||'').toLowerCase();
   var hasHash=known.indexOf(seg)!==-1;
@@ -2070,13 +2038,13 @@ img, video, iframe, canvas { max-width: 100%; }
     <div class="nav-mid">
       <a class="nl" id="nav-feed" href="#/feed" onclick="event.preventDefault();showPage('feed')"><span class="nl-lbl">Discover</span></a>
       
-      <a class="nl" id="nav-pricing" href="#/pricing" onclick="event.preventDefault();showPage('pricing')"><span class="nl-lbl">Pricing</span></a>
+      <a class="nl" id="nav-advertise" href="#/advertise" onclick="event.preventDefault();showPage('advertise')"><span class="nl-lbl">Advertise</span></a>
       <a class="nl" id="nav-faq" href="#/faq" onclick="event.preventDefault();showPage('faq')"><span class="nl-lbl">FAQ</span></a>
       <a class="nl nav-li" id="nav-profile" href="#/profile" onclick="event.preventDefault();showPage('profile')" style="display:none"><span class="nl-lbl">My Portfolio</span></a>
       <a class="nl nav-li" id="nav-dashboard" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard')" style="display:none"><span class="nl-lbl">Dashboard</span></a>
     </div>
     <div class="nav-right">
-      <button class="nav-pro" id="nav-pro-btn" onclick="showPage('pricing')" style="display:none">Join Pro</button>
+      
       <button class="nav-cta" id="nav-create-btn" onclick="openAuth('up')" style="background:var(--ac);color:white;border:none">Create Account</button>
       <a class="nav-user nav-li" id="nav-user-btn" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard')" style="display:none;text-decoration:none">
         <div class="nav-av" id="nav-av-el"><span id="nav-initials">?</span></div>
@@ -2104,7 +2072,7 @@ img, video, iframe, canvas { max-width: 100%; }
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin-right:.75rem;flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" stroke-linecap="round"/></svg>Discover
   </a>
   
-  <a href="#/pricing" onclick="event.preventDefault();showPage('pricing');closeMob()">
+  <a href="#/advertise" onclick="event.preventDefault();showPage('advertise');closeMob()">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="margin-right:.75rem;flex-shrink:0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke-linejoin="round"/></svg>Pricing
   </a>
   <a href="#/faq" onclick="event.preventDefault();showPage('faq');closeMob()">
@@ -2185,7 +2153,7 @@ img, video, iframe, canvas { max-width: 100%; }
     <button class="btn btn-white" onclick="openAuth('up')">Start Free <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div></div></div>
   <footer class="site-footer">
-  <div style="max-width:1100px;margin:0 auto;padding:3rem 24px 0">
+  <div style="max-width:1500px;margin:0 auto;padding:3rem 24px 0">
     <div style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;padding-bottom:2.5rem;border-bottom:1px solid var(--brd)">
       <!-- Left: brand + description + socials -->
       <div style="max-width:340px">
@@ -2193,7 +2161,7 @@ img, video, iframe, canvas { max-width: 100%; }
         <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
         <div style="display:flex;gap:.5rem">
           <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
-          <a class="footer-icon-btn" href="https://www.instagram.com/timeliners.lk/" target="_blank" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43-.26.66-.6 1.22-1.15 1.77-.55.55-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.93 4.93 0 01-1.77-1.15 4.93 4.93 0 01-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.55-.55 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.04-.87-.18-1.34-.3-1.65a2.76 2.76 0 00-.66-1.02 2.76 2.76 0 00-1.02-.66c-.31-.12-.78-.26-1.65-.3-1.05-.05-1.37-.06-4.04-.06zm0 3.24a4.96 4.96 0 110 9.92 4.96 4.96 0 010-9.92zm0 1.8a3.16 3.16 0 100 6.32 3.16 3.16 0 000-6.32zm5.16-1.98a1.16 1.16 0 11-2.32 0 1.16 1.16 0 012.32 0z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16.6 5.82c-.9-.98-1.39-2.26-1.39-3.62h-3.15v13.44c0 1.6-1.3 2.9-2.9 2.9a2.9 2.9 0 01-2.9-2.9 2.9 2.9 0 012.9-2.9c.28 0 .56.04.82.12V9.66a6.1 6.1 0 00-.82-.06 6.06 6.06 0 00-6.06 6.06A6.06 6.06 0 009.16 21.72a6.06 6.06 0 006.06-6.06V8.86c1.29.92 2.86 1.46 4.56 1.46V7.17c-1.05 0-2.02-.33-2.82-.9-.15-.1-.29-.22-.36-.45z" fill="currentColor"/></svg></a>
         </div>
       </div>
       <!-- Right: link columns -->
@@ -2202,7 +2170,7 @@ img, video, iframe, canvas { max-width: 100%; }
           <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
           <div style="display:flex;flex-direction:column;gap:.5rem">
             <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
-            <a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a>
+            <a class="flink" href="#/advertise" onclick="event.preventDefault();showPage('advertise')">Advertise</a>
             <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
           </div>
         </div>
@@ -2284,10 +2252,10 @@ img, video, iframe, canvas { max-width: 100%; }
           <div class="prof-right-sec-h" id="prof-section-label" style="margin-bottom:0">Projects</div>
           <button id="prof-section-add-btn" style="display:none;align-items:center;gap:.35rem;padding:.28rem .7rem .28rem .45rem;border-radius:50px;border:1.5px solid var(--brd2);background:transparent;color:var(--t2);font-size:.72rem;font-weight:600;cursor:pointer;transition:all .18s;font-family:var(--fm)" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Add</button>
         </div>
-        <div id="prof-tab-btns" style="display:flex;gap:.15rem;align-items:center">
+        <div id="prof-tab-btns" style="display:none;gap:.15rem;align-items:center">
           <button id="ptab-all" class="ptab-btn ptab-active" onclick="switchProfileTab('all')">Projects</button>
-          <button id="ptab-skills" class="ptab-btn ptab-off" onclick="switchProfileTab('skills')" style="display:none">Skills</button>
-          <button id="ptab-services" class="ptab-btn ptab-off" onclick="switchProfileTab('services')" style="display:none">Services</button>
+          <button id="ptab-skills" class="ptab-btn ptab-off" onclick="switchProfileTab('skills')" style="display:none !important"></button>
+          <button id="ptab-services" class="ptab-btn ptab-off" onclick="switchProfileTab('services')" style="display:none !important"></button>
         </div>
       </div>
       <div id="profile-proj-grid-wrap">
@@ -2351,6 +2319,8 @@ img, video, iframe, canvas { max-width: 100%; }
     </div>
 
   </div>
+  <!-- Divider strip to separate Contact & Socials from the footer credit -->
+  <div style="max-width:420px;margin:0 auto;height:1px;background:var(--brd);opacity:.5"></div>
   <!-- Profile footer: "Powered by TimeLiners" for free users only — the ONLY branding on portfolio -->
   <div id="prof-powered-badge" style="text-align:center;padding:.6rem 1rem 1.2rem;display:none">
     <span style="display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;color:rgba(255,255,255,.22);font-weight:500;letter-spacing:.3px">
@@ -2540,18 +2510,6 @@ img, video, iframe, canvas { max-width: 100%; }
 <div class="page" id="page-dashboard">
   <div class="dash-wrap">
 
-    <!-- Pro Expired Banner -->
-    <div id="pro-expired-banner" style="display:none;background:rgba(113,12,4,.4);border:1px solid rgba(113,12,4,.65);border-radius:12px;padding:.85rem 1.1rem;margin-bottom:1rem;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
-      <div style="display:flex;align-items:center;gap:.65rem">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0"><circle cx="8" cy="8" r="7" stroke="#ffffff" stroke-width="1.4"/><path d="M8 4.5v4M8 10.5v1" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <div>
-          <span style="font-size:.8rem;font-weight:700;color:#ffffff">Your Pro plan has expired</span>
-          <span id="pro-expired-days" style="font-size:.78rem;color:var(--t2);margin-left:.5rem"></span>
-        </div>
-      </div>
-      <button onclick="renewPro()" style="font-size:.75rem;font-weight:700;color:#fff;background:#710C04;border-radius:50px;padding:.35rem .9rem;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:var(--fm)">Renew Now</button>
-    </div>
-
     <div class="dash-h" id="dash-h">My Dashboard</div>
     <div class="dash-sub" id="dash-sub">Manage your portfolio and account.</div>
     <div class="dash-grid">
@@ -2566,8 +2524,6 @@ img, video, iframe, canvas { max-width: 100%; }
         <a style="display:none" id="dnav-skills" href="#/dashboard" onclick="event.preventDefault();switchDash('skills',this)"></a>
         <a style="display:none" id="dnav-services" href="#/dashboard" onclick="event.preventDefault();switchDash('services',this)"></a>
         <a class="dni" id="dnav-editprofile" href="#/dashboard" onclick="event.preventDefault();switchDash('editprofile',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg></div>Edit Profile</a>
-        <a class="dni" id="dnav-analytics" href="#/dashboard" onclick="event.preventDefault();switchDash('analytics',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11l3-4 2.5 2 3-5 2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Analytics<span style="font-size:.48rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--ac);color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">Pro</span></a>
-
         <hr class="dndiv">
         <a class="dni" href="#/profile" onclick="event.preventDefault();showPage('profile')" style="color:var(--ac);font-weight:600"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="var(--ac)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>My Portfolio</a>
         <a class="dni" href="#" onclick="event.preventDefault();handleSignOut()" style="color:rgba(239,68,68,.6)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M9.5 4.5L13 7l-3.5 2.5M13 7H5" stroke="rgba(239,68,68,.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Sign Out</a>
@@ -2593,24 +2549,12 @@ img, video, iframe, canvas { max-width: 100%; }
               <div style="font-size:.65rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.5rem">Storage</div>
               <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.35rem">
                 <span style="font-size:1.1rem;font-weight:700;color:var(--t1)" id="ov-storage-used">0 MB</span>
-                <span style="font-size:.7rem;color:var(--t3)" id="ov-storage-limit">of 250 MB</span>
+                <span style="font-size:.7rem;color:var(--t3)" id="ov-storage-limit">of 1 GB</span>
               </div>
               <div style="background:var(--bg4);border-radius:50px;height:5px;overflow:hidden;margin-bottom:.3rem">
                 <div id="ov-storage-bar" style="height:100%;border-radius:50px;background:var(--ac);width:0%;transition:width .5s"></div>
               </div>
-              <div style="font-size:.68rem;color:var(--t3)" id="ov-storage-hint">Free plan · 250 MB total</div>
-            </div>
-          </div>
-
-                    <!-- Pro subscription status card -->
-          <div class="dcard" id="ov-sub-card" style="display:none;margin-bottom:1rem">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">
-              <div>
-                <div style="font-size:.65rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ac);margin-bottom:.28rem">Pro Subscription</div>
-                <div style="font-size:.83rem;color:var(--t1);font-weight:500" id="ov-sub-label">Renews on —</div>
-                <div style="font-size:.72rem;margin-top:.15rem" id="ov-sub-days"></div>
-              </div>
-              <button class="dsave" style="font-size:.75rem;padding:.42rem .95rem;flex-shrink:0" onclick="renewPro()">Renew Pro</button>
+              <div style="font-size:.68rem;color:var(--t3)" id="ov-storage-hint">1 GB total</div>
             </div>
           </div>
 
@@ -2641,26 +2585,13 @@ img, video, iframe, canvas { max-width: 100%; }
             <div style="font-size:.75rem;color:var(--t2);line-height:1.55" id="ov-tip-body"></div>
           </div>
 
-          <!-- Pro upgrade tip card (Free users) -->
-          <div class="dcard" id="ov-pro-tip-card" style="margin-bottom:1rem;display:none;border-left:3px solid #FE730A">
-            <div style="font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#FE730A;margin-bottom:.4rem">You're missing out!!</div>
-            <div style="font-size:.82rem;color:var(--t1);font-weight:600;margin-bottom:.25rem" id="ov-pro-tip-title">Loading...</div>
-            <div style="font-size:.75rem;color:var(--t2);line-height:1.55;margin-bottom:.8rem" id="ov-pro-tip-body"></div>
-            <button onclick="showPage('pricing')" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--ac);color:#fff;border:none;border-radius:8px;padding:.45rem .95rem;font-size:.75rem;font-weight:700;font-family:var(--fm);cursor:pointer;transition:.18s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Go Pro · LKR 990/mo</button>
-          </div>
-
-          <div class="gate-banner" id="gate-banner" style="display:none">
-            <h3 style="margin:0 0 .4rem;font-size:.9rem">Unlock Pro features</h3>
-            <p style="font-size:.78rem;margin:0 0 .75rem">Get unlimited projects, 5 GB storage, verified badge, analytics and social links.</p>
-            <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">See Plans <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          </div>
+          <div class="gate-banner" id="gate-banner" style="display:none"></div>
         </div>
 
-        <!-- ACCOUNT · has Account Details + Join Pro sub-tabs -->
+        <!-- ACCOUNT -->
         <div class="dash-panel" id="dash-panel-account">
           <div class="acc-tabs">
             <button class="acc-tab active" id="atab-details" onclick="switchAccTab('details')">Account Details</button>
-            <button class="acc-tab" id="atab-pro" onclick="switchAccTab('pro')">Join Pro</button>
           </div>
 
           <!-- Account Details pane -->
@@ -2669,18 +2600,6 @@ img, video, iframe, canvas { max-width: 100%; }
               <div class="dcard-h">Account Details</div><div class="dcard-sub">Your login and personal information.</div>
               <div class="df"><label class="dl">Display Name</label><input class="di" id="acc-name" type="text"></div>
               <div class="df"><label class="dl">Email</label><input class="di" id="acc-email" type="email" disabled style="opacity:.5;cursor:not-allowed" title="Email cannot be changed"></div>
-              <div class="df"><label class="dl">Current Plan</label>
-                <div style="display:flex;align-items:center;gap:.58rem">
-                  <input class="di" id="acc-plan-disp" type="text" disabled style="opacity:.5;cursor:not-allowed;max-width:175px">
-                  <button class="dsave" style="font-size:.77rem;padding:.48rem .9rem" id="acc-upgrade-btn" onclick="switchAccTab('pro')">Upgrade</button>
-                </div>
-              </div>
-              <div class="df" id="acc-due-row" style="display:none"><label class="dl">Next Payment</label>
-                <div style="display:flex;align-items:center;gap:.58rem">
-                  <input class="di" id="acc-due-disp" type="text" disabled style="opacity:.5;cursor:not-allowed;max-width:175px">
-                  <button class="dsave" style="font-size:.77rem;padding:.48rem .9rem" onclick="renewPro()">Renew</button>
-                </div>
-              </div>
               <button class="dsave" onclick="saveAccountDetails()">Save Changes</button>
             </div>
             <div class="dcard">
@@ -2699,54 +2618,6 @@ img, video, iframe, canvas { max-width: 100%; }
             </div>
           </div>
 
-          <!-- Join Pro pane -->
-          <div class="acc-pane" id="acc-pane-pro">
-            <div class="dcard" style="margin-bottom:1.05rem"><div class="dcard-h">Choose Your Plan</div><div class="dcard-sub">Upgrade to Pro for unlimited projects, verified badge, analytics and social links.</div></div>
-            <!-- Billing toggle -->
-            <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:1.1rem">
-              <div style="display:flex;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.18rem;gap:.12rem">
-                <button id="dtog-monthly" onclick="setDashBilling('monthly')" style="padding:.35rem .9rem;border-radius:50px;border:1px solid var(--brd);font-family:var(--fm);font-size:.76rem;font-weight:500;cursor:pointer;background:var(--bg2);color:var(--t1);transition:all .15s">Monthly</button>
-                <button id="dtog-yearly" onclick="setDashBilling('yearly')" style="padding:.35rem .9rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.76rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .15s">Yearly</button>
-              </div>
-              <span id="dtog-save" style="display:none;font-size:.68rem;font-weight:600;background:rgba(22,163,74,.12);color:#16a34a;padding:.18rem .6rem;border-radius:50px">2 months free</span>
-            </div>
-            <div class="plan-grid" style="grid-template-columns:1fr 1fr;align-items:stretch">
-              <!-- Free -->
-              <div class="plan-c" id="pc-free" style="display:flex;flex-direction:column">
-                <div class="plan-name">Free</div>
-                <div class="plan-price">Free</div><div class="plan-period">Forever</div>
-                <ul class="plan-feats">
-                  <li><span class="pchk">✓</span>Public profile page</li>
-                  <li><span class="pchk">✓</span>Up to 3 projects</li>
-                  <li><span class="pchk">✓</span>250 MB storage</li>
-                  <li><span class="pchk">✓</span>Social links</li>
-                  <li><span class="pchk">✓</span>Hire Me button</li>
-                </ul>
-                <button class="plan-btn plan-btn-cur" id="pb-free" style="margin-top:auto">Current Plan</button>
-              </div>
-              <!-- Pro -->
-              <div class="plan-c featured" id="pc-pro" style="border:none;background:#FE730A;box-shadow:var(--shadow-lg);margin-top:-8px;display:flex;flex-direction:column">
-                <div class="plan-pop">Most Popular</div>
-                <div class="plan-name" style="color:rgba(255,255,255,.7)">Pro</div>
-                <div class="plan-price" id="dash-pro-price" style="color:white">990<span style="color:rgba(255,255,255,.7)"> LKR/mo</span></div>
-                <div class="plan-period" id="dash-pro-period" style="color:rgba(255,255,255,.65)">Per month</div>
-                <ul class="plan-feats">
-                  <li style="color:rgba(255,255,255,.9);font-weight:600"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Everything in Free</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited projects</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>5 GB storage</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Skills tab</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Services tab (rate card)</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Brand color (your own colors)</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Remove TimeLiners branding</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Advanced analytics</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Priority in feed</li>
-                  <li style="color:rgba(255,255,255,.9)"><span class="pchk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(255,255,255,.25)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Verified badge</li>
-                </ul>
-                <button class="plan-btn" id="pb-pro" onclick="requestUpgrade('pro')" style="background:var(--bg3);color:#d95e00;font-weight:600;border:none;margin-top:auto">Upgrade · 990 LKR/mo</button>
-              </div>
-            </div>
-            <div style="text-align:center;font-size:.67rem;color:var(--t3);margin-top:.5rem">Activated manually after WhatsApp confirmation · Bank transfer only</div>
-          </div>
         </div>
 
 
@@ -2816,118 +2687,7 @@ img, video, iframe, canvas { max-width: 100%; }
               <div class="df"><label class="dl">Website</label><input class="di" id="ep-web" type="text" placeholder="https://yoursite.com"></div>
             </div>
 
-            <hr class="divider">
-            <!-- Brand Colors (Pro only) -->
-            <div id="ep-brand-colors-gate" style="background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r);padding:.75rem 1rem;margin-bottom:.5rem">
-              <div style="font-size:.78rem;font-weight:600;color:var(--t2);margin-bottom:.2rem">Brand Color <span style="font-size:.48rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--ac);color:#fff;padding:.08rem .35rem;border-radius:50px;margin-left:.3rem;vertical-align:middle">Pro</span></div>
-              <div style="font-size:.72rem;color:var(--t3)">Upgrade to Pro to set your own brand color.</div>
-            </div>
-            <div id="ep-brand-colors-fields" style="display:none">
-              <div class="dcard-h" style="font-size:.78rem;margin-bottom:.5rem">Brand Color</div>
-              <div style="display:flex;align-items:center;gap:.65rem;flex-wrap:wrap">
-                <input type="color" id="ep-bc-primary" value="#FE730A" style="width:36px;height:36px;border-radius:8px;border:1.5px solid var(--brd2);background:transparent;cursor:pointer;padding:2px" oninput="updateBrandColorPreview&&updateBrandColorPreview()">
-                <input class="di" id="ep-bc-primary-hex" type="text" placeholder="#FE730A" maxlength="7" style="width:100px;font-size:.82rem;text-transform:uppercase" oninput="syncBrandColorPicker&&syncBrandColorPicker()">
-                <div id="ep-bc-preview" style="display:flex;align-items:center;gap:.5rem;flex:1">
-                  <div id="ep-bc-preview-bar" style="height:6px;border-radius:3px;width:60px;background:#FE730A;transition:.2s"></div>
-                  <div id="ep-bc-preview-dot" style="width:10px;height:10px;border-radius:50%;background:#FE730A;transition:.2s"></div>
-                  <div id="ep-bc-preview-btn" style="font-size:.7rem;font-weight:600;color:#FE730A;border:1px solid rgba(254,115,10,.3);border-radius:50px;padding:.15rem .6rem;transition:.2s">Hire Me</div>
-                </div>
-              </div>
-            </div>
-
             <button class="dsave" style="margin-top:1.2rem" onclick="saveProfile()">Save Profile</button>
-          </div>
-        </div>
-
-        <!-- ══ ANALYTICS PANEL ══ -->
-        <div class="dash-panel" id="dash-panel-analytics">
-          <!-- Free gate -->
-          <div id="analytics-free-gate" style="display:none">
-            <div class="dcard" style="text-align:center;padding:2.5rem 1.5rem">
-              <div style="width:52px;height:52px;border-radius:50%;background:rgba(254,115,10,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-6 4 4 5-8 4 4" stroke="#FE730A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div style="font-size:.95rem;font-weight:700;color:var(--t1);margin-bottom:.4rem">Analytics is a Pro feature</div>
-              <div style="font-size:.82rem;color:var(--t3);margin-bottom:1.2rem;max-width:340px;margin-left:auto;margin-right:auto">See exactly how many people view your portfolio, click Hire Me, and which projects perform best.</div>
-              <button class="btn btn-p btn-sm" onclick="switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">Upgrade to Pro</button>
-            </div>
-          </div>
-
-          <!-- Pro analytics content -->
-          <div id="analytics-pro-content" style="display:none">
-            <!-- Header row -->
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;flex-wrap:wrap;gap:.6rem">
-              <div style="font-size:.95rem;font-weight:700;color:var(--t1)">Analytics</div>
-              <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
-                <div style="display:flex;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.16rem;gap:.1rem">
-                  <button onclick="setAnalyticsRange(7,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:var(--bg2);color:var(--t1);transition:all .14s" class="an-range-btn active-range">7d</button>
-                  <button onclick="setAnalyticsRange(30,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .14s" class="an-range-btn">30d</button>
-                  <button onclick="setAnalyticsRange(90,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .14s" class="an-range-btn">90d</button>
-                  <button onclick="setAnalyticsRange(365,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .14s" class="an-range-btn">1y</button>
-                  <button onclick="setAnalyticsRange(0,this)" style="padding:.28rem .72rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.7rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .14s" class="an-range-btn">All</button>
-                </div>
-                <button class="an-refresh-btn" onclick="loadAnalytics()" title="Refresh" style="width:30px;height:30px;border-radius:50%;border:1px solid var(--brd2);background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:.15s;flex-shrink:0">
-                  <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M12 7A5 5 0 112 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M12 4v3h-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Stat cards -->
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:1.2rem">
-              <div class="dcard" style="padding:.9rem 1rem;margin:0">
-                <div style="font-size:.65rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Profile Views</div>
-                <div id="an-views" style="font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1">0</div>
-                <div class="an-stat-period" style="font-size:.65rem;color:var(--t3);margin-top:.2rem">Last 7 days</div>
-                <div style="margin-top:.55rem;background:var(--bg4);border-radius:99px;height:4px;overflow:hidden"><div id="an-views-bar" style="height:4px;border-radius:99px;background:var(--ac);width:0%;transition:width .6s .1s"></div></div>
-              </div>
-              <div class="dcard" style="padding:.9rem 1rem;margin:0">
-                <div style="font-size:.65rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Total Likes</div>
-                <div id="an-likes" style="font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1">0</div>
-                <div style="font-size:.65rem;color:var(--t3);margin-top:.2rem">All time</div>
-                <div style="margin-top:.55rem;background:var(--bg4);border-radius:99px;height:4px;overflow:hidden"><div id="an-likes-bar" style="height:4px;border-radius:99px;background:var(--ac);width:0%;transition:width .6s .15s"></div></div>
-              </div>
-              <div class="dcard" style="padding:.9rem 1rem;margin:0">
-                <div style="font-size:.65rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Hire Me Clicks</div>
-                <div id="an-hire" style="font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1">0</div>
-                <div class="an-stat-period" style="font-size:.65rem;color:var(--t3);margin-top:.2rem">Last 7 days</div>
-                <div style="margin-top:.55rem;background:var(--bg4);border-radius:99px;height:4px;overflow:hidden"><div id="an-hire-bar" style="height:4px;border-radius:99px;background:var(--ac);width:0%;transition:width .6s .2s"></div></div>
-              </div>
-              <div class="dcard" style="padding:.9rem 1rem;margin:0">
-                <div style="font-size:.65rem;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:.3rem">Projects</div>
-                <div id="an-projs-count" style="font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1">0</div>
-                <div style="font-size:.65rem;color:var(--t3);margin-top:.2rem">Published</div>
-                <div style="margin-top:.55rem;background:var(--bg4);border-radius:99px;height:4px;overflow:hidden"><div id="an-projs-bar" style="height:4px;border-radius:99px;background:var(--ac);width:0%;transition:width .6s .25s"></div></div>
-              </div>
-            </div>
-
-            <!-- Charts row -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.2rem">
-              <div class="dcard" style="margin:0">
-                <div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Views Trend</div>
-                <div style="height:140px;position:relative"><canvas id="an-views-chart"></canvas></div>
-              </div>
-              <div class="dcard" style="margin:0">
-                <div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Hire Me Clicks</div>
-                <div style="height:140px;position:relative"><canvas id="an-hire-chart"></canvas></div>
-              </div>
-            </div>
-
-            <!-- Engagement + Projects table -->
-            <div style="display:grid;grid-template-columns:1fr 2fr;gap:.8rem">
-              <div class="dcard" style="margin:0">
-                <div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Engagement</div>
-                <div id="an-engagement"></div>
-              </div>
-              <div class="dcard" style="margin:0;overflow:auto">
-                <div style="font-size:.78rem;font-weight:600;color:var(--t1);margin-bottom:.9rem">Projects Performance</div>
-                <table class="proj-tbl" style="min-width:360px">
-                  <thead><tr>
-                    <th>Project</th><th>Views</th><th>Likes</th><th>Category</th><th>Status</th>
-                  </tr></thead>
-                  <tbody id="an-proj-tbody"><tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--t3);font-size:.78rem">Loading…</td></tr></tbody>
-                </table>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -2993,11 +2753,7 @@ img, video, iframe, canvas { max-width: 100%; }
       <button onclick="closeUploadModal()" style="background:var(--bg4);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:1rem;transition:.15s">×</button>
     </div>
     <div style="padding:1.2rem 1.5rem 1.5rem;display:flex;flex-direction:column;gap:.85rem">
-      <div id="upm-gate" style="display:none;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:1rem;text-align:center">
-        <div style="font-size:.88rem;font-weight:600;color:var(--t1);margin-bottom:.4rem">Upgrade to publish projects</div>
-        <div style="font-size:.78rem;color:var(--t3);margin-bottom:.7rem">Upgrade to Pro for unlimited projects.</div>
-        <button class="btn btn-p btn-sm" onclick="closeUploadModal();switchDash('account',document.getElementById('dnav-account'));setTimeout(()=>switchAccTab('pro'),80)">See Plans</button>
-      </div>
+      <div id="upm-gate" style="display:none"></div>
       <div>
         <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Project Title</label>
         <input id="upm-title" type="text" placeholder="e.g. Brand Identity · Ceylon Tea Co." maxlength="120" style="width:100%;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);padding:.6rem .85rem;font-size:.88rem;color:var(--t1);outline:none;transition:.15s;box-sizing:border-box">
@@ -3252,10 +3008,10 @@ function boot() {
     }
   });
 
-  // Defer until the whole document has been parsed — #page-pricing and #page-faq
+  // Defer until the whole document has been parsed — #page-advertise and #page-faq
   // are defined after this <script> block, so calling restoreSession() too early
   // (e.g. logged-out users with no network delay before showPage()) means
-  // el('page-pricing')/el('page-faq') don't exist yet, causing showPage() to
+  // el('page-advertise')/el('page-faq') don't exist yet, causing showPage() to
   // crash on pg.addEventListener and fall back to the feed page.
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', restoreSession);
@@ -3328,7 +3084,7 @@ async function restoreSession() {
     // Username path / redirect takes highest priority — also check sessionStorage in case
     // the path was already rewritten to / by 404.html before we got here
     // BUT: if the URL has a known hash page (#/pricing, #/faq, #/dashboard etc.) that takes priority over any stored username redirect
-    const _KNOWN_HASH = ['feed','pricing','faq','profile','dashboard','project'];
+    const _KNOWN_HASH = ['feed','advertise','faq','profile','dashboard','project'];
     const _curHashSeg = (location.hash.replace('#/','').split('/')[0] || '').toLowerCase();
     const _hashIsKnownPage = _KNOWN_HASH.includes(_curHashSeg) && _curHashSeg !== '';
     if (!pendingUsername && !_hashIsKnownPage) {
@@ -3353,7 +3109,7 @@ async function restoreSession() {
     const parts = raw.split('/');
     const hashSeg = parts[0].toLowerCase();
     const hashSub = parts[1] || '';
-    const KNOWN = ['feed','pricing','faq','profile','dashboard','project'];
+    const KNOWN = ['feed','advertise','faq','profile','dashboard','project'];
 
     // Check for password reset flow or errors
     if (location.hash.includes('error=access_denied') || location.hash.includes('error_code=otp_expired')) {
@@ -3471,13 +3227,6 @@ async function handleSignIn() {
     await loadProfile();
     applyLoggedIn();
     closeAuth();
-
-    // If they had a pending upgrade intent, open WhatsApp now
-    const upgradeIntent = sessionStorage.getItem('tl_upgrade_intent');
-    if (upgradeIntent) {
-      sessionStorage.removeItem('tl_upgrade_intent');
-      requestUpgrade(upgradeIntent === 'yearly' ? 'pro_yearly' : 'pro');
-    }
 
     showPage('dashboard');
     const firstName = (S.profile?.name || '').split(' ')[0] || S.user.email.split('@')[0];
@@ -3770,13 +3519,6 @@ async function verifyOtp() {
     el('otp-overlay').style.display = 'none';
     applyLoggedIn();
 
-    // If they had a pending upgrade intent, open WhatsApp now
-    const upgradeIntent = sessionStorage.getItem('tl_upgrade_intent');
-    if (upgradeIntent) {
-      sessionStorage.removeItem('tl_upgrade_intent');
-      requestUpgrade(upgradeIntent === 'yearly' ? 'pro_yearly' : 'pro');
-    }
-
     showPage('dashboard');
     showToast('Welcome to Timeliners, ' + fn + '!');
 
@@ -3955,7 +3697,9 @@ function applyLoggedIn() {
   const navAv = el('nav-av-el');
   if (p?.avatar_url) {
     navAv.innerHTML = '<img src="' + p.avatar_url + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    navAv.style.background = 'transparent';
   } else {
+    navAv.style.background = 'var(--ac)';
     navAv.innerHTML = '<span id="nav-initials">' + (p?.initials || (S.user?.email?.[0] || '?').toUpperCase()) + '</span>';
   }
   el('nav-uname-el').textContent = p?.username ? '@' + p.username : (p?.name?.split(' ')[0] || 'Account');
@@ -3981,22 +3725,14 @@ function applyLoggedIn() {
   const createBtnEl = document.getElementById('nav-create-btn');
   if (createBtnEl) createBtnEl.style.display = 'none';
   if (proBtnEl) {
-    const isPaid = p?.plan === 'pro' || p?.plan === 'pro-yearly' || p?.plan === 'pro_yearly' || p?.plan === 'standard' || p?.plan === 'vip';
-    proBtnEl.style.display = isPaid ? 'none' : '';
+    proBtnEl.style.display = 'none'; // Pro plan removed
   }
-  // Swap feed CTA to Pro upgrade message for signed-in free users
+  // Feed CTA — Pro plan removed, always show the upload message
   const ctaInner = document.getElementById('feed-cta-inner');
-  const isPaid = p?.plan === 'pro' || p?.plan === 'pro-yearly' || p?.plan === 'pro_yearly' || p?.plan === 'standard' || p?.plan === 'vip';
   if (ctaInner) {
-    if (!isPaid) {
-      ctaInner.innerHTML =
-        '<div style="position:relative;z-index:1"><h3>Try the Pro experience.</h3><p>Unlimited projects, verified badge, analytics and social links.</p></div>' +
-        '<button class="btn btn-white" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));switchAccTab(\'pro\');},80)">See Plans <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
-    } else {
-      ctaInner.innerHTML =
-        '<div style="position:relative;z-index:1"><h3>Share your latest work.</h3><p>Upload a new project and let clients discover your talent.</p></div>' +
-        '<button class="btn btn-white" onclick="openUploadModal()">Upload Project <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
-    }
+    ctaInner.innerHTML =
+      '<div style="position:relative;z-index:1"><h3>Share your latest work.</h3><p>Upload a new project and let clients discover your talent.</p></div>' +
+      '<button class="btn btn-white" onclick="openUploadModal()">Upload Project <svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="flex-shrink:0"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
   }
 }
 function applyLoggedOut() {
@@ -4141,15 +3877,10 @@ function renderFeed() {
   if (!grid) return;
 
   // ── Filter: skip blank & unpublished ─────────────────
-  const userProjCount = {};
   let list = S.projects.filter(p => {
     if (p.status !== 'published') return false;
-    if (!p.cover_url && !p.video_url && !p.yt_link) return false; // no blank cards
-    const plan = p._authorPlan || 'free';
-    const isPaid = plan === 'pro' || plan === 'pro-yearly' || plan === 'pro_yearly' || plan === 'standard' || plan === 'vip';
-    if (isPaid) return true;
-    userProjCount[p.user_id] = (userProjCount[p.user_id] || 0) + 1;
-    return userProjCount[p.user_id] <= 3;
+    if (!p.video_url && !p.yt_link) return false; // feed requires an actual video — cover-only projects stay on the profile page
+    return true; // unlimited projects for everyone — no per-user feed cap
   });
   if (S.filter !== 'all') list = list.filter(p => p.cat === S.filter);
   if (S.search) list = list.filter(p => (p.title + ' ' + (p.author_name || '') + ' ' + (p.description || '') + ' ' + (p.tags || []).join(' ')).toLowerCase().includes(S.search));
@@ -4186,10 +3917,9 @@ function renderFeed() {
       const likes = p.likes || 0;
       const views = p.views || 0;
       const engagement = likes * 4 + views * 0.6;
-      const hoursOld = Math.max(12, (now - new Date(p.created_at || now)) / 3600000);
-      const recency = 1 / Math.pow(hoursOld, 0.55);
-      const isPro = p._authorPlan === 'pro' || p._authorPlan === 'pro-yearly' || p._authorPlan === 'pro_yearly' || p._authorPlan === 'standard' || p._authorPlan === 'vip';
-      return (engagement + 6) * recency * (isPro ? 1.9 : 1) * (p._authorVerified ? 1.25 : 1);
+      const hoursOld = Math.max(2, (now - new Date(p.created_at || now)) / 3600000);
+      const recency = 1 / Math.pow(hoursOld, 0.7); // steeper decay so new projects aren't permanently outweighed by old accumulated engagement
+      return (engagement + 6) * recency; // Pro/verified boosts removed — everyone ranked equally
     };
 
     // Score all
@@ -4214,10 +3944,25 @@ function renderFeed() {
     };
     shuffle(topPool); shuffle(midPool); shuffle(tailPool);
 
+    // Actually interleave the pools (2 top : 2 mid : 1 tail) instead of stacking
+    // them top→mid→tail — stacking meant anything in the tail pool (where most
+    // brand-new, zero-engagement projects land) only appeared after scrolling
+    // through the entire top 20% and mid 50% first.
+    const pattern = ['top', 'top', 'mid', 'mid', 'tail'];
+    let ti = 0, mi = 0, tli = 0, pi = 0;
+    const interleaved = [];
+    while (ti < topPool.length || mi < midPool.length || tli < tailPool.length) {
+      const which = pattern[pi % pattern.length]; pi++;
+      if (which === 'top' && ti < topPool.length) interleaved.push(topPool[ti++]);
+      else if (which === 'mid' && mi < midPool.length) interleaved.push(midPool[mi++]);
+      else if (which === 'tail' && tli < tailPool.length) interleaved.push(tailPool[tli++]);
+    }
+
     // Featured always pins first regardless
     const featured = list.filter(p => p.featured);
-    const nonFeatured = [...topPool, ...midPool, ...tailPool].filter(p => !p.featured);
+    const nonFeatured = interleaved.filter(p => !p.featured);
     list = [...featured, ...nonFeatured];
+
   }
 
   S._feedList = list;
@@ -4468,7 +4213,6 @@ function buildCard(p, idx) {
   const delay = Math.min(idx * 30, 250);
   const bg = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
   const tags = (p.tags || []).slice(0, 2).map(t => '<span class="pcard-tag">' + t + '</span>').join('');
-  const isPro = p._authorPlan === 'pro' || p._authorPlan === 'pro-yearly' || p._authorPlan === 'pro_yearly' || p._authorPlan === 'standard' || p._authorPlan === 'vip';
 
   // Thumbnail — only render if there's actual media
   let thumbHtml = '';
@@ -4495,9 +4239,7 @@ function buildCard(p, idx) {
   const featBadge = p.featured ? '<div class="pcard-feat">Featured</div>' : '';
   const playOv = '<div class="pcard-play"><div class="pcard-play-ico"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M3 2l5 3-5 3V2z" fill="#111"/></svg></div></div>';
   const gradOv = '<div class="pcard-ov"></div>';
-  const proBadge = isPro
-    ? '<span title="Pro" style="display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:50%;background:var(--ac);flex-shrink:0"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><polyline points="1.5,4 3,5.5 6.5,2" stroke="white" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
-    : '';
+  const proBadge = ''; // Pro/verified badge removed
 
   return '<a class="pcard" href="#/project/' + p.id + '" style="animation-delay:' + delay + 'ms" onclick="event.preventDefault();showPage(\'project\',\'' + p.id + '\')">' +
     '<div class="pcard-thumb" style="position:relative">' +
@@ -4681,24 +4423,9 @@ function _renderProjectModal(p) {
   const nameEl = document.getElementById('pm-author-name');
   if (nameEl) nameEl.textContent = p.author_name || '—';
 
-  // Author verified badge
-  if (!p._authorPlan && p.user_id) {
-    db('/profiles?id=eq.' + p.user_id + '&select=plan', 'GET', null, SB_KEY).then(rows => {
-      if (rows && rows[0]) {
-        p._authorPlan = rows[0].plan || 'free';
-        const v = document.getElementById('pm-author-verified');
-        if (v) {
-          const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(p._authorPlan);
-          v.style.display = isPro ? 'inline-flex' : 'none';
-        }
-      }
-    }).catch(() => {});
-  }
+  // Author verified badge — feature removed
   const verEl = document.getElementById('pm-author-verified');
-  if (verEl) {
-    const cachedIsPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(p._authorPlan);
-    verEl.style.display = cachedIsPro ? 'inline-flex' : 'none';
-  }
+  if (verEl) verEl.style.display = 'none';
 
   // Author pill click → profile
   window._pmOpenProfile = () => {
@@ -4842,7 +4569,6 @@ function _showHirePopup(p) {
         if (rows && rows[0]) {
           const newClicks = (rows[0].hire_clicks || 0) + 1;
           db('/profiles?id=eq.' + p.user_id, 'PATCH', { hire_clicks: newClicks }).catch(() => {});
-          try { logAnalyticsEvent(p.user_id, 'hire_click'); } catch(e) {}
         }
       }).catch(() => {});
     } else if (p.author_name) {
@@ -4874,19 +4600,6 @@ function switchDash(id, btn) {
     nextPanel.classList.add('active');
     if (btn) btn.classList.add('active');
     if (id === 'projects') renderMyProjects();
-    if (id === 'analytics') {
-      loadAnalytics();
-      clearInterval(window._analyticsTimer);
-      window._analyticsTimer = setInterval(() => {
-        if (document.getElementById('dash-panel-analytics').classList.contains('active')) {
-          loadAnalytics();
-        } else {
-          clearInterval(window._analyticsTimer);
-        }
-      }, 30000);
-    } else {
-      clearInterval(window._analyticsTimer);
-    }
   }
   if (currentPanel && currentPanel !== nextPanel) {
     currentPanel.style.transition = 'opacity 110ms ease';
@@ -4910,14 +4623,10 @@ function switchAccTab(id) {
 
 function refreshDash() {
   const p = S.profile; if (!p) return;
-  const planLabel = {free:'Free Plan', pro:'Pro Plan', standard:'Standard Plan', vip:'VIP Pro Plan'};
-  const isPro = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
   el('dash-h').textContent   = 'Welcome back, ' + (p.name?.split(' ')[0] || '');
-  el('dash-sub').textContent = (planLabel[p.plan] || 'Free Plan') + ' · Manage your portfolio and account.';
+  el('dash-sub').textContent = 'Manage your portfolio and account.';
   el('acc-name').value       = p.name || '';
   el('acc-email').value      = p.email || '';
-  el('acc-plan-disp').value  = planLabel[p.plan] || 'Free Plan';
-
   // Overview panel · profile card
   const ovAv = document.getElementById('ov-av');
   if (ovAv) {
@@ -4934,74 +4643,7 @@ function refreshDash() {
   const ovRole = document.getElementById('ov-role');
   if (ovRole) ovRole.textContent = (p.role || 'Video Editor') + (p.city ? ' · ' + p.city : '');
   const ovBadge = document.getElementById('ov-plan-badge');
-  if (ovBadge) {
-    ovBadge.textContent = isPro ? 'Pro' : 'Free';
-    ovBadge.style.background = isPro ? 'var(--ac)' : 'var(--bg4)';
-    ovBadge.style.color = isPro ? 'white' : 'var(--t3)';
-    ovBadge.style.border = isPro ? 'none' : '1px solid var(--brd2)';
-  }
-
-  // Pro expired banner (7-day grace window)
-  const expiredBanner = document.getElementById('pro-expired-banner');
-  if (expiredBanner) {
-    if (isPro && p.pay_due) {
-      const expDate = new Date(p.pay_due);
-      const daysLeft = Math.ceil((expDate - new Date()) / 86400000);
-      if (daysLeft <= 0 && daysLeft > -7) {
-        const daysUntilDowngrade = 7 + daysLeft;
-        document.getElementById('pro-expired-days').textContent =
-          '· ' + daysUntilDowngrade + ' day' + (daysUntilDowngrade === 1 ? '' : 's') + ' until downgrade';
-        expiredBanner.style.display = 'flex';
-      } else {
-        expiredBanner.style.display = 'none';
-      }
-    } else {
-      expiredBanner.style.display = 'none';
-    }
-  }
-
-  // Pro subscription card (overview)
-  const subCard = document.getElementById('ov-sub-card');
-  const subLabel = document.getElementById('ov-sub-label');
-  const subDays = document.getElementById('ov-sub-days');
-  if (subCard) {
-    if (isPro && p.pay_due) {
-      const due = new Date(p.pay_due);
-      const diffDays = Math.ceil((due - new Date()) / 86400000);
-      const formatted = due.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
-      if (subLabel) subLabel.textContent = 'Renews on ' + formatted;
-      if (subDays) {
-        if (diffDays <= 0) {
-          subDays.textContent = 'Expired · renew to keep Pro access';
-          subDays.style.color = '#ef4444';
-        } else if (diffDays <= 7) {
-          subDays.textContent = diffDays + ' day' + (diffDays === 1 ? '' : 's') + ' remaining · renew soon';
-          subDays.style.color = '#f59e0b';
-        } else {
-          subDays.textContent = diffDays + ' days remaining';
-          subDays.style.color = 'var(--t3)';
-        }
-      }
-      subCard.style.display = 'block';
-    } else {
-      subCard.style.display = 'none';
-    }
-  }
-
-  // Account Details: upgrade btn visibility + Next Payment row
-  const accUpgradeBtn = document.getElementById('acc-upgrade-btn');
-  const accDueRow = document.getElementById('acc-due-row');
-  const accDueDisp = document.getElementById('acc-due-disp');
-  if (accUpgradeBtn) accUpgradeBtn.style.display = isPro ? 'none' : '';
-  if (accDueRow) {
-    if (isPro && p.pay_due) {
-      const due2 = new Date(p.pay_due);
-      if (accDueDisp) accDueDisp.value = due2.toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
-      accDueRow.style.display = '';
-    } else {
-      accDueRow.style.display = 'none';
-    }
-  }
+  if (ovBadge) ovBadge.style.display = 'none';
 
   // Stats — fetch directly from DB so they're always accurate
   const ovProjs = document.getElementById('ov-projs');
@@ -5029,7 +4671,7 @@ function refreshDash() {
 
   // Gate banner
   const gate = document.getElementById('gate-banner');
-  if (gate) gate.style.display = !isPro ? 'block' : 'none';
+  if (gate) gate.style.display = 'none';
   el('ep-name').value   = p.name    || '';
   el('ep-role').value   = p.role    || '';
   el('ep-city').value   = p.city    || '';
@@ -5066,24 +4708,6 @@ function refreshDash() {
     p._tiktok = tk; p._fb = fb;
   })();
   el('ep-username').value = p.username || '';
-  // Brand colours — Pro only
-  (function() {
-    const bcPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(p.plan);
-    const gate   = document.getElementById('ep-brand-colors-gate');
-    const fields = document.getElementById('ep-brand-colors-fields');
-    if (gate)   gate.style.display   = bcPro ? 'none'  : '';
-    if (fields) fields.style.display = bcPro ? 'block' : 'none';
-    if (bcPro) {
-      let bc = {};
-      try { bc = p.brand_colors ? JSON.parse(p.brand_colors) : {}; } catch(e) {}
-      const primaryVal = bc.primary || '#FE730A';
-      const bcPicker = document.getElementById('ep-bc-primary');
-      const bcHexIn  = document.getElementById('ep-bc-primary-hex');
-      if (bcPicker) bcPicker.value = primaryVal;
-      if (bcHexIn)  bcHexIn.value  = primaryVal;
-      updateBrandColorPreview();
-    }
-  })();
 
   // Avatar preview in edit profile
   const avPrev = el('ep-av-preview');
@@ -5094,174 +4718,12 @@ function refreshDash() {
     avPrev.textContent = p.initials || '?';
   }
   document.querySelectorAll('.copt').forEach((el, i) => el.classList.toggle('sel', i === (p.cover_idx || 0)));
-  const isFree = !p.plan || p.plan === 'free';
   el('upload-gate').style.display  = 'none';
   el('pub-btn').disabled           = false;
-  el('upload-sub-txt').textContent = isFree
-    ? 'Free plan · 250 MB storage. Upgrade to Pro for 5 GB and unlimited projects.'
-    : 'Pro plan · 5 GB video storage.';
+  el('upload-sub-txt').textContent = '1 GB video storage · unlimited projects.';
   el('gate-banner').style.display  = 'none';
   el('st-projs-hint').textContent  = '';
   refreshStorageBar();
-}
-
-function updatePlanUI() {
-  const plan = S.profile?.plan || 'free';
-  const isPro = plan === 'pro' || plan === 'pro-yearly' || plan === 'pro_yearly' || plan === 'standard' || plan === 'vip';
-
-  // Reset free button
-  const pbFree = document.getElementById('pb-free');
-  if (pbFree) { pbFree.className = isPro ? 'plan-btn' : 'plan-btn plan-btn-cur'; pbFree.textContent = isPro ? 'Downgrade' : 'Current Plan'; if (isPro) pbFree.onclick = requestDowngrade; else pbFree.onclick = null; if (isPro) pbFree.onclick = requestDowngrade; else pbFree.onclick = null; }
-
-  // Pro button
-  const pbPro = document.getElementById('pb-pro');
-  const pcPro = document.getElementById('pc-pro');
-  if (pbPro) {
-    if (isPro) {
-      pbPro.className = 'plan-btn plan-btn-cur'; pbPro.textContent = 'Current Plan'; pbPro.onclick = null;
-      if (pcPro) pcPro.classList.add('current');
-    } else {
-      pbPro.className = 'plan-btn plan-btn-p'; pbPro.textContent = 'Upgrade · 990 LKR/mo'; pbPro.onclick = () => requestUpgrade('pro');
-      if (pcPro) pcPro.classList.remove('current');
-    }
-  }
-
-  // Legacy std/vip refs (kept for backward compat)
-  ['pb-std','pb-vip'].forEach(id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; });
-  ['pc-std','pc-vip'].forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('current'); });
-  const pcFree = document.getElementById('pc-free');
-  if (pcFree) pcFree.classList.toggle('current', !isPro);
-
-  const mine = S.projects.filter(p => S.profile && p.user_id === S.profile.id);
-  el('st-projs').textContent = mine.length;
-  el('st-projs-hint').textContent = !isPro ? '(free plan)' : '';
-}
-
-function requestUpgrade(plan) {
-  const yearly = plan === 'pro_yearly' || plan === 'pro-yearly';
-  if (!S.user) {
-    sessionStorage.setItem('tl_upgrade_intent', yearly ? 'yearly' : 'monthly');
-    openAuth('up');
-    showToast('Create an account first, then upgrade to Pro');
-    return;
-  }
-  const p = S.profile?.plan;
-  if (p === 'pro' || p === 'pro-yearly' || p === 'standard' || p === 'vip') {
-    showToast('You already have an active Pro plan');
-    return;
-  }
-  const planLabel = yearly ? 'Pro Yearly - LKR 9,990/yr' : 'Pro Monthly - LKR 990/mo';
-  const msg = encodeURIComponent(
-    'Hi, I want to upgrade to TimeLiners ' + planLabel + '.\n' +
-    'Email: ' + (S.user?.email || '')
-  );
-  window.open('https://wa.me/94783408001?text=' + msg, '_blank');
-}
-
-function renewPro() {
-  const p = S.profile?.plan;
-  const planLabel = (p === 'pro-yearly' || p === 'pro_yearly') ? 'Pro Yearly - LKR 9,990/yr' : 'Pro Monthly - LKR 990/mo';
-  const msg = encodeURIComponent(
-    'Hi, I want to renew my TimeLiners Pro plan.\n' +
-    'Plan: ' + planLabel + '\n' +
-    'Username: ' + (S.profile?.username || S.profile?.name || '') + '\n' +
-    'Email: ' + (S.user?.email || '')
-  );
-  var a = document.createElement('a');
-  a.href = 'https://wa.me/94783408001?text=' + msg;
-  a.target = '_blank'; a.rel = 'noopener';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-}
-
-function requestDowngrade() {
-  const msg = encodeURIComponent(
-    'Hi, I want to downgrade my TimeLiners Pro plan to Free.\n' +
-    'Username: ' + (S.profile?.username || S.profile?.name || '') + '\n' +
-    'Email: ' + (S.user?.email || '')
-  );
-  var a = document.createElement('a');
-  a.href = 'https://wa.me/94783408001?text=' + msg;
-  a.target = '_blank'; a.rel = 'noopener';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-}
-
-function renewPro() {
-  const p = S.profile?.plan;
-  const planLabel = (p === 'pro-yearly' || p === 'pro_yearly') ? 'Pro Yearly - LKR 9,990/yr' : 'Pro Monthly - LKR 990/mo';
-  const msg = encodeURIComponent(
-    'Hi, I want to renew my TimeLiners Pro plan.\n' +
-    'Plan: ' + planLabel + '\n' +
-    'Username: ' + (S.profile?.username || S.profile?.name || '') + '\n' +
-    'Email: ' + (S.user?.email || '')
-  );
-  var a = document.createElement('a');
-  a.href = 'https://wa.me/94783408001?text=' + msg;
-  a.target = '_blank'; a.rel = 'noopener';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-}
-
-function requestDowngrade() {
-  const msg = encodeURIComponent(
-    'Hi, I want to downgrade my TimeLiners Pro plan to Free.\n' +
-    'Username: ' + (S.profile?.username || S.profile?.name || '') + '\n' +
-    'Email: ' + (S.user?.email || '')
-  );
-  var a = document.createElement('a');
-  a.href = 'https://wa.me/94783408001?text=' + msg;
-  a.target = '_blank'; a.rel = 'noopener';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-}
-
-// Pricing page billing toggle
-function setPricingBilling(mode) {
-  const btnM = document.getElementById('ptog-monthly');
-  const btnY = document.getElementById('ptog-yearly');
-  const save  = document.getElementById('ptog-save');
-  const price = document.getElementById('pp-price') || document.getElementById('pc-pro-price');
-  const period= document.getElementById('pp-period') || document.getElementById('pc-pro-period');
-  const btn   = document.getElementById('pp-btn') || document.getElementById('pc-pro-btn');
-  if (!btnM) return;
-  if (mode === 'monthly') {
-    btnM.style.background = 'var(--bg2)'; btnM.style.color = 'var(--t1)'; btnM.style.border = '1px solid var(--brd)';
-    btnY.style.background = 'transparent'; btnY.style.color = 'var(--t2)'; btnY.style.border = 'none';
-    save.style.display = 'none';
-    if (price)  { price.innerHTML = '<span style="font-size:.85rem;font-weight:400;color:rgba(255,255,255,.6)">LKR </span>990<span style="font-size:.8rem;font-weight:400;color:rgba(255,255,255,.6)"> / month</span>'; }
-    if (btn)    { btn.textContent = 'Subscribe · 990 LKR/mo'; }
-    if (btn)    btn.onclick = () => requestUpgrade('pro');
-  } else {
-    btnY.style.background = 'var(--bg2)'; btnY.style.color = 'var(--t1)'; btnY.style.border = '1px solid var(--brd)';
-    btnM.style.background = 'transparent'; btnM.style.color = 'var(--t2)'; btnM.style.border = 'none';
-    save.style.display = 'inline';
-    if (price)  { price.innerHTML = '<span style="font-size:.85rem;font-weight:400;color:rgba(255,255,255,.6)">LKR </span>832<span style="font-size:.8rem;font-weight:400;color:rgba(255,255,255,.6)"> / mo &nbsp;<span style="font-size:.7rem;color:rgba(255,255,255,.45)">billed LKR 9,990/yr</span></span>'; }
-    if (btn)    { btn.textContent = 'Subscribe · LKR 9,990/yr'; }
-    if (btn)    btn.onclick = () => requestUpgrade('pro_yearly');
-  }
-}
-
-// Dashboard billing toggle
-function setDashBilling(mode) {
-  const btnM  = document.getElementById('dtog-monthly');
-  const btnY  = document.getElementById('dtog-yearly');
-  const save  = document.getElementById('dtog-save');
-  const price = document.getElementById('dash-pro-price');
-  const period= document.getElementById('dash-pro-period');
-  const btn   = document.getElementById('pb-pro');
-  if (!btnM) return;
-  if (mode === 'monthly') {
-    btnM.style.background = 'var(--bg2)'; btnM.style.color = 'var(--t1)'; btnM.style.border = '1px solid var(--brd)';
-    btnY.style.background = 'transparent'; btnY.style.color = 'var(--t2)'; btnY.style.border = 'none';
-    save.style.display = 'none';
-    if (price)  price.innerHTML  = '990<span> LKR/mo</span>';
-    if (period) period.textContent = 'Per month';
-    if (btn && btn.className.includes('plan-btn-p')) { btn.textContent = 'Upgrade · 990 LKR/mo'; btn.onclick = () => requestUpgrade('pro'); }
-  } else {
-    btnY.style.background = 'var(--bg2)'; btnY.style.color = 'var(--t1)'; btnY.style.border = '1px solid var(--brd)';
-    btnM.style.background = 'transparent'; btnM.style.color = 'var(--t2)'; btnM.style.border = 'none';
-    save.style.display = 'inline';
-    if (price)  price.innerHTML  = '832<span> LKR/mo</span>';
-    if (period) period.innerHTML = 'billed LKR 9,990/yr';
-    if (btn && btn.className.includes('plan-btn-p')) { btn.textContent = 'Upgrade · LKR 9,990/yr'; btn.onclick = () => requestUpgrade('pro_yearly'); }
-  }
 }
 
 // ── AVATAR (PROFILE PICTURE) UPLOAD ─────────────────
@@ -5364,23 +4826,7 @@ async function saveProfile() {
       yt:       dataUpdates.yt || '',
       web:      dataUpdates.web || '',
       initials: dataUpdates.initials || null,
-      avatar_url: dataUpdates.avatar_url || S.profile.avatar_url || null,
-      brand_colors: (function(){
-        const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(S.profile.plan);
-        if (!isPro) return S.profile.brand_colors || null;
-        // Only trust the hex text field — color picker can never be empty so ignore it
-        const hexEl = document.getElementById('ep-bc-primary-hex');
-        const hexVal = (hexEl ? hexEl.value.trim() : '').toUpperCase();
-        const valid = /^#[0-9A-F]{6}$/.test(hexVal);
-        const primary = valid ? hexVal : '#FE730A';
-        // Also reset the picker to match so UI stays in sync
-        const pickerEl = document.getElementById('ep-bc-primary');
-        if (pickerEl) pickerEl.value = primary;
-        if (hexEl) hexEl.value = primary;
-        // If it is the OG default colour, save null — no override needed
-        if (primary === '#FE730A') return null;
-        return JSON.stringify({ primary });
-      })()
+      avatar_url: dataUpdates.avatar_url || S.profile.avatar_url || null
     };
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', dbPatch, token);
     const updates = { ...dataUpdates, username: newUsername };
@@ -5448,12 +4894,10 @@ function handleVideoDrop(e) {
   if (f) processVideoFile(f);
 }
 function processVideoFile(f) {
-  const isPaidUser = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
   if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
   const allowedTypes = ['video/mp4', 'video/webm'];
   if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
-  // Free users: 250MB per file limit. Pro: no per-file limit, only total storage matters.
-  if (!isPaidUser && f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
+  if (f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB.'); return; }
   _pendingVideoFile = f;
   const url = URL.createObjectURL(f);
   const vprev = document.getElementById('video-preview');
@@ -5522,29 +4966,13 @@ async function saveProject(status) {
     showToast('Please upload a video or a thumbnail image before publishing.'); return;
   }
 
-  // Plan check
-  const isPaidUser = S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
-
-  // Free plan: max 3 NEW uploads. Existing projects beyond 3 stay locked, not deleted.
-  if (!isPaidUser && status === 'published') {
-    const token = await getToken();
-    const existing = await db('/projects?user_id=eq.' + S.profile.id + '&status=eq.published&select=id', 'GET', null, token).catch(() => []);
-    const visibleCount = existing ? existing.filter(p => !p.locked).length : 0;
-    if (visibleCount >= 3) {
-      showToast('Free plan limit: 3 projects. Upgrade to Pro for unlimited.');
-      switchDash('account', document.getElementById('dnav-account'));
-      setTimeout(() => switchAccTab('pro'), 80);
-      return;
-    }
-  }
-  // Storage check — free: 250MB total, pro: 5GB total
+  // Storage check — flat 1 GB limit for everyone
   if (_pendingVideos.length) {
-    const storageLimit = isPaidUser ? PRO_STORAGE_LIMIT : FREE_STORAGE_LIMIT;
+    const storageLimit = PRO_STORAGE_LIMIT;
     const used = await getUsedStorage();
     const newSize = _pendingVideos.reduce((s, f) => s + f.size, 0);
     if (used + newSize > storageLimit) {
-      const limitLabel = isPaidUser ? '5 GB' : '250 MB';
-      showToast('Storage full · ' + (isPaidUser ? 'Pro' : 'Free') + ' plan limit is ' + limitLabel + '.' + (!isPaidUser ? ' Upgrade to Pro for 5 GB.' : ''));
+      showToast('Storage full · 1 GB limit reached.');
       return;
     }
   }
@@ -5624,7 +5052,7 @@ async function saveProject(status) {
     clearUpThumb();
     showToast(status === 'draft' ? 'Draft saved!' : 'Project published!');
     switchDash('projects', el('dnav-projects'));
-    updatePlanUI(); refreshStorageBar();
+    refreshStorageBar();
     // Always reload feed so the new project appears immediately
     try { sessionStorage.removeItem('tl_feed_cache'); } catch(e) {}
     await loadFeed(true);
@@ -5648,9 +5076,8 @@ async function renderMyProjects() {
   el('st-projs').textContent = projs.length;
   if (!projs.length) { empty.style.display = 'block'; tbody.innerHTML = ''; return; }
   empty.style.display = 'none';
-  const isPaidUser = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
   tbody.innerHTML = projs.map(function(p, i) {
-    var isLocked = !isPaidUser && i >= 3;
+    var isLocked = false; // unlimited projects for everyone now
     var dot = isLocked ? '#ccc' : 'var(--ac)';
     var rowStyle = isLocked ? 'opacity:.5;cursor:default' : '';
     var lockedBadge = isLocked ? '<span style="font-size:.55rem;background:var(--bg4);border:1px solid var(--brd2);color:var(--t3);padding:.1rem .4rem;border-radius:4px;margin-left:.35rem">Locked</span>' : '';
@@ -5675,7 +5102,7 @@ async function renderMyProjects() {
   const mobList = document.getElementById('my-proj-mob-list');
   if (mobList) {
     mobList.innerHTML = projs.map(function(p, i) {
-      var isLocked = !isPaidUser && i >= 3;
+      var isLocked = false; // unlimited projects for everyone now
       var dot = isLocked ? '#ccc' : 'var(--ac)';
       var cat = (p.cat || '').charAt(0).toUpperCase() + (p.cat || '').slice(1);
       var statusBadge = '<span class="tbadge ' + (isLocked ? 'draft' : (p.status || 'draft')) + '" style="font-size:.5rem">' + (isLocked ? 'locked' : (p.status || 'draft')) + '</span>';
@@ -5712,13 +5139,20 @@ async function deleteProject(id) {
     const proj = S.projects.find(p => p.id === id);
     await db('/projects?id=eq.' + id, 'DELETE', null, token);
     S.projects = S.projects.filter(p => p.id !== id);
-    // Also delete videos from storage
+    // Also delete videos + thumbnail from R2 storage
     if (proj) {
       const urls = parseVideoUrls(proj.video_urls).length ? parseVideoUrls(proj.video_urls) : (proj.video_url ? [proj.video_url] : []);
+      if (proj.cover_url) urls.push(proj.cover_url);
       for (const url of urls) {
         try {
-          const path = url.split('/project-videos/')[1];
-          if (path) await sb.storage.from('project-videos').remove([decodeURIComponent(path)]);
+          const key = url.split('videos.timeliners.lk/')[1];
+          if (key) {
+            await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-delete', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+              body: JSON.stringify({ key: decodeURIComponent(key) })
+            });
+          }
         } catch(e) {}
       }
     }
@@ -5734,9 +5168,6 @@ function refreshProfile(profileData) {
   const p = profileData || S.profile; if (!p) return;
   S.viewingProfile = p;
   // NOTE: page is shown at the END of this function after all DOM is populated
-  // Apply brand colors if this is a Pro user with custom colors
-  const _profIsPro = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
-  applyProfileBrandColors(_profIsPro && p.brand_colors ? p.brand_colors : null);
   const isOwn = S.profile && p.id === S.profile.id;
 
   // Avatar
@@ -5761,8 +5192,7 @@ function refreshProfile(profileData) {
   // Ensure badge is still appended inside nameEl
   const realBadge = document.getElementById('pbadge-el');
   if (realBadge && nameEl && nameEl instanceof Node && !nameEl.contains(realBadge)) nameEl.appendChild(realBadge);
-  const isPaidPlan = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
-  if (realBadge) realBadge.style.display = isPaidPlan ? 'inline-flex' : 'none';
+  if (realBadge) realBadge.style.display = 'none'; // Verified badge feature removed
   // Verified tick next to name (hidden, ring badge handles it now)
   const nameVerified = document.getElementById('pname-verified');
   if (nameVerified) nameVerified.style.display = 'none';
@@ -5905,10 +5335,9 @@ function refreshProfile(profileData) {
   const backBtn = document.getElementById('p-back-btn');
   if (backBtn) backBtn.style.display = isOwn ? 'none' : 'flex';
 
-  // Powered by TimeLiners badge · show for free users, hide for pro
-  const profIsPro = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
+  // Powered by TimeLiners badge · always shown on every portfolio now
   const poweredBadge = document.getElementById('prof-powered-badge');
-  if (poweredBadge) poweredBadge.style.display = profIsPro ? 'none' : 'block';
+  if (poweredBadge) poweredBadge.style.display = 'block';
 
   renderProfileProjects(p);
 }
@@ -5919,12 +5348,9 @@ function renderProfileProjects(prof) {
   const isOwn = S.profile && p.id === S.profile.id;
   // Try to get projects from in-memory list first; if empty or wrong user, fetch from DB
   const isOwnFetch = S.user && p.id === S.user.id;
-  const isPaidProfile = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
-
-  // Helper to filter projects for public view — free users only show first 3
+  // Helper to filter projects for public view — everyone shows all published projects now
   function filterForPublic(rows) {
-    const published = rows.filter(r => r.status === 'published');
-    return isPaidProfile ? published : published.slice(0, 3);
+    return rows.filter(r => r.status === 'published');
   }
 
   // Owner: always fetch fresh profile+projects from DB to avoid stale plan/cache issues
@@ -5971,7 +5397,7 @@ function renderProfileProjects(prof) {
 
 function _renderProfileProjectsUI(p, allProjs, isOwn) {
   const FREE_PROJ_LIMIT = 3;
-  const profileIsPro = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
+  const profileIsPro = true; // Pro plan removed — unlimited projects for everyone
   // Owner always sees ALL their projects (no cap); cap only applies to visitors viewing free profiles
   const visibleProjs = (isOwn || profileIsPro) ? allProjs : allProjs.slice(0, FREE_PROJ_LIMIT);
   const totalProjLikes = visibleProjs.reduce((s, proj) => s + (proj.likes || 0), 0);
@@ -6017,36 +5443,13 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
   const uniqueCats = [...new Set(allProjs.map(p => p.cat || 'other'))];
   const tabBtns = document.getElementById('prof-tab-btns');
   const viewedProf = S.viewingProfile || S.profile;
-  const viewedIsPro = viewedProf && (viewedProf.plan === 'pro' || viewedProf.plan === 'pro-yearly' || viewedProf.plan === 'pro_yearly' || viewedProf.plan === 'standard' || viewedProf.plan === 'vip');
-  const _hasSkillsData = (() => { try { const a = JSON.parse(viewedProf && viewedProf.skills_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
-  const _hasServicesData = (() => { try { const a = JSON.parse(viewedProf && viewedProf.services_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
-  const _showTabBar = allProjs.length > 0 || isOwn || (viewedIsPro && (_hasSkillsData || _hasServicesData));
-  if (tabBtns) tabBtns.style.display = _showTabBar ? 'flex' : 'none';
-  // Skills tab: always show for owner; show for visitors only if has skills
+  const _showTabBar = allProjs.length > 0 || isOwn;
+  if (tabBtns) tabBtns.style.display = 'none';
+  // Skills and Services tabs have been removed as a feature — keep permanently hidden
   const skillsTabBtn = document.getElementById('ptab-skills');
-  if (skillsTabBtn) {
-    const hasSkills = (() => { try { const a = JSON.parse(viewedProf && viewedProf.skills_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
-    if (isOwn) {
-      skillsTabBtn.style.display = 'inline-flex';
-      if (!viewedIsPro) { skillsTabBtn.classList.add('ptab-btn-locked'); skillsTabBtn.title = 'Pro feature'; }
-      else { skillsTabBtn.classList.remove('ptab-btn-locked'); skillsTabBtn.title = ''; }
-    } else {
-      // Visitors: only show skills tab if the profile is Pro AND has skills
-      skillsTabBtn.style.display = (viewedIsPro && hasSkills) ? 'inline-flex' : 'none';
-    }
-  }
+  if (skillsTabBtn) skillsTabBtn.style.display = 'none';
   const servicesTabBtn = document.getElementById('ptab-services');
-  if (servicesTabBtn) {
-    const hasServices = (() => { try { const a = JSON.parse(viewedProf && viewedProf.services_data || '[]'); return a.length > 0; } catch(e) { return false; } })();
-    if (isOwn) {
-      servicesTabBtn.style.display = 'inline-flex';
-      if (!viewedIsPro) { servicesTabBtn.classList.add('ptab-btn-locked'); servicesTabBtn.title = 'Pro feature'; }
-      else { servicesTabBtn.classList.remove('ptab-btn-locked'); servicesTabBtn.title = ''; }
-    } else {
-      // Visitors: only show services tab if profile is Pro AND has services
-      servicesTabBtn.style.display = (viewedIsPro && hasServices) ? 'inline-flex' : 'none';
-    }
-  }
+  if (servicesTabBtn) servicesTabBtn.style.display = 'none';
   if (!allProjs.length) {
     if (grid) grid.innerHTML = '';
     nores.style.display = 'block';
@@ -6058,46 +5461,8 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
         const isHiddenFromPublic = isOwn && !profileIsPro && idx >= FREE_PROJ_LIMIT;
         return buildProfilePCard(p, isOwn, isHiddenFromPublic);
       }).join('');
-      let lockedCards = '';
-      if (!isOwn && !profileIsPro && allProjs.length > FREE_PROJ_LIMIT) {
-        lockedCards = allProjs.slice(FREE_PROJ_LIMIT).map(proj => {
-          const thumbInner = proj.cover_url
-            ? '<img src="' + proj.cover_url + '" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">'
-            : '<div style="position:absolute;inset:0;background:var(--bg4)"></div>';
-          return '<div class="prof-pcard prof-pcard-hidden">' +
-            '<div class="prof-pcard-thumb" style="position:relative">' + thumbInner +
-              '<div class="prof-pcard-hidden-overlay">' +
-                '<div class="prof-pcard-hidden-lock"><svg width="11" height="13" viewBox="0 0 11 13" fill="none"><rect x="1.5" y="5.5" width="8" height="7" rx="1.5" stroke="#FE730A" stroke-width="1.3"/><path d="M3.5 5.5V4a2 2 0 0 1 4 0v1.5" stroke="#FE730A" stroke-width="1.3" stroke-linecap="round"/></svg></div>' +
-                '<div class="prof-pcard-hidden-lbl">Pro Only</div>' +
-              '</div></div>' +
-            '<div class="prof-pcard-info"><div class="prof-pcard-title">' + (proj.title || 'Locked Project') + '</div>' +
-              '<div class="prof-pcard-meta"><span class="prof-pcard-hidden-badge" onclick="showPage(\'pricing\')">' +
-                '<svg width="9" height="10" viewBox="0 0 11 13" fill="none"><rect x="1.5" y="5.5" width="8" height="7" rx="1.5" stroke="#FE730A" stroke-width="1.3"/><path d="M3.5 5.5V4a2 2 0 0 1 4 0v1.5" stroke="#FE730A" stroke-width="1.3" stroke-linecap="round"/></svg>' +
-                'Upgrade to PRO to unlock</span></div></div></div>';
-        }).join('');
-      }
-      let ownerExpiryBanner = '';
-      if (isOwn && profileIsPro && p.pay_due) {
-        const _expDiff = Math.ceil((new Date(p.pay_due) - new Date()) / 86400000);
-        const _expKey = 'tl_expiryBannerDismissed_' + p.pay_due;
-        if (_expDiff > 0 && _expDiff <= 7 && !localStorage.getItem(_expKey)) {
-          ownerExpiryBanner = '<div id="prof-expiry-banner" style="grid-column:1/-1;display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;background:rgba(254,115,10,.10);border:1px solid rgba(254,115,10,.35);border-radius:10px;margin-bottom:.25rem">' +
-            '<span style="font-size:.72rem;color:var(--t2);flex:1">Your Pro plan expires in <strong style="color:#FE730A">' + _expDiff + ' day' + (_expDiff === 1 ? '' : 's') + '</strong>. Renew to keep your Pro features.</span>' +
-            '<span style="font-size:.68rem;font-weight:700;color:#FE730A;cursor:pointer;white-space:nowrap" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)},80)">Renew</span>' +
-            '<span style="margin-left:.35rem;font-size:.75rem;color:var(--t3);cursor:pointer;line-height:1;padding:.1rem .3rem;border-radius:4px;transition:color .15s" title="Dismiss" onmouseover="this.style.color=\'var(--t2)\'" onmouseout="this.style.color=\'var(--t3)\'" onclick="(function(el){localStorage.setItem(\'' + _expKey + '\',\'1\');var b=el.closest(\'#prof-expiry-banner\');if(b){b.style.transition=\'opacity .2s\';b.style.opacity=\'0\';setTimeout(function(){b.remove()},200)}})(this)">✕</span>' +
-          '</div>';
-        }
-      }
-      let ownerHiddenBanner = '';
-      if (isOwn && !profileIsPro && allProjs.length > FREE_PROJ_LIMIT && !localStorage.getItem('tl_hiddenBannerDismissed')) {
-        ownerHiddenBanner = '<div id="prof-hidden-banner" style="grid-column:1/-1;display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;background:rgba(254,115,10,.07);border:1px solid rgba(254,115,10,.18);border-radius:10px;margin-bottom:.25rem">' +
-          '<span style="font-size:.72rem;color:var(--t2);flex:1">Projects beyond the first 3 are <strong style="color:var(--ac)">hidden from visitors</strong> on your free plan.</span>' +
-          '<span style="font-size:.68rem;font-weight:700;color:var(--ac);cursor:pointer;white-space:nowrap" onclick="showPage(\'dashboard\');setTimeout(()=>{switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)},80)">Upgrade</span>' +
-          '<span style="margin-left:.35rem;font-size:.75rem;color:var(--t3);cursor:pointer;line-height:1;padding:.1rem .3rem;border-radius:4px;transition:color .15s" title="Dismiss" onmouseover="this.style.color=\'var(--t2)\'" onmouseout="this.style.color=\'var(--t3)\'" onclick="(function(el){localStorage.setItem(\'tl_hiddenBannerDismissed\',\'1\');var b=el.closest(\'#prof-hidden-banner\');if(b){b.style.transition=\'opacity .2s\';b.style.opacity=\'0\';setTimeout(function(){b.remove()},200)}})(this)">✕</span>' +
-        '</div>';
-      }
       const addCard = isOwn ? '<a class="prof-pcard prof-pcard-add" href="#" onclick="event.preventDefault();openUploadModal()" title="Upload a project"><div class="prof-pcard-add-thumb"><div class="prof-pcard-add-ico"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="var(--ac)" stroke-width="2" stroke-linecap="round"/></svg></div><div class="prof-pcard-add-btn">Upload Project</div></div><div class="prof-pcard-add-info"><div style="font-size:.8rem;font-weight:600;color:var(--t2)">Upload Project</div><div class="prof-pcard-add-lbl">Get views and appreciations from clients.</div></div></a>' : '';
-      grid.innerHTML = ownerExpiryBanner + ownerHiddenBanner + cards + lockedCards + addCard;
+      grid.innerHTML = cards + addCard;
       // Fade the whole grid in as one block after the hero settles
       const _gridWrap = document.getElementById('profile-proj-grid-wrap');
       if (_gridWrap) {
@@ -6463,7 +5828,7 @@ function openWA(msg) {
 el('main-nav').style.display = 'none';
 
 // ── ROUTING ───────────────────────────────────────────
-const HASH_PAGES = ['feed','pricing','faq','profile','dashboard','project','reset-password'];
+const HASH_PAGES = ['feed','advertise','faq','profile','dashboard','project','reset-password'];
 
 let _showPageInProgress = false;
 let _lastPushedHash = '';
@@ -6558,7 +5923,7 @@ function showPage(id, projOrUserId) {
   if (id !== 'splash') pushHash(id, projOrUserId);
   if (id === 'feed')      { const _force = !!S._feedForceRefresh; S._feedForceRefresh = false; loadFeed(_force); }
   
-  if (id === 'dashboard') { refreshDash(); updatePlanUI(); }
+  if (id === 'dashboard') { refreshDash(); }
   if (id === 'profile') {
     // Navigation token: each profile navigation gets a unique seq number.
     // If the user navigates away before the fetch returns, the stale response is discarded.
@@ -6618,7 +5983,6 @@ function showPage(id, projOrUserId) {
                 }).catch(() => {});
               }
             }).catch(() => {});
-            logAnalyticsEvent(prof.id, 'view');
           }
           if (prof.username) {
             try { history.replaceState({ un: prof.username }, '', '/' + prof.username); } catch(e) {}
@@ -6699,7 +6063,6 @@ async function showProfileByUsername(username) {
             }).catch(() => {});
           }
         }).catch(() => {});
-        logAnalyticsEvent(rows[0].id, 'view');
       }
       try { sessionStorage.setItem('tl_last', 'feed'); } catch(e) {} // don't save profile as last page — let back nav handle profile history
     } else {
@@ -6804,7 +6167,7 @@ window.addEventListener('popstate', (e) => {
   const parts = raw.split('/');
   const seg = parts[0].toLowerCase();
   const sub = parts[1] || '';
-  const KNOWN = ['feed','pricing','faq','profile','dashboard','project'];
+  const KNOWN = ['feed','advertise','faq','profile','dashboard','project'];
   if (seg && KNOWN.includes(seg)) {
     showPage(seg, sub || undefined);
   } else if (location.pathname !== '/' && !location.pathname.match(/\.(html|js|css|png|ico|svg)$/)) {
@@ -7037,160 +6400,6 @@ window.switchAccTab  = switchAccTab;
 window.saveProfile   = saveProfile;
 window.saveAccountDetails = saveAccountDetails;
 
-// ── Brand Colour Helpers ────────────────────────────────────────────────────
-
-function syncColorHex(pickerId, hexId) {
-  const picker = document.getElementById(pickerId);
-  const hexIn  = document.getElementById(hexId);
-  if (!picker || !hexIn) return;
-  const v = hexIn.value.trim();
-  if (/^#[0-9a-fA-F]{6}$/.test(v)) { picker.value = v; }
-  updateBrandColorPreview();
-}
-
-function updateBrandColorPreview() {
-  const get = function(id) { const el = document.getElementById(id); return el ? el.value : null; };
-  const primary = get('ep-bc-primary') || '#FE730A';
-  const previewBar = document.getElementById('ep-bc-preview-bar');
-  const previewDot = document.getElementById('ep-bc-preview-dot');
-  const previewBtn = document.getElementById('ep-bc-preview-btn');
-  // Smart text contrast
-  function hexLuma(hex) {
-    const h = hex.replace('#','');
-    const full = h.length === 3 ? h.split('').map(x=>x+x).join('') : h;
-    const r = parseInt(full.slice(0,2),16), g = parseInt(full.slice(2,4),16), b = parseInt(full.slice(4,6),16);
-    const lum = c => { c/=255; return c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4); };
-    return 0.2126*lum(r) + 0.7152*lum(g) + 0.0722*lum(b) > 0.35 ? '#000000' : '#ffffff';
-  }
-  const textOn = hexLuma(primary);
-  if (previewBar) previewBar.style.background = primary;
-  if (previewDot) previewDot.style.background = primary;
-  if (previewBtn) { previewBtn.style.background = primary; previewBtn.style.color = textOn; }
-  const picker = document.getElementById('ep-bc-primary');
-  const hexIn  = document.getElementById('ep-bc-primary-hex');
-  if (picker && hexIn && document.activeElement === picker) hexIn.value = picker.value;
-}
-
-// Wire up primary picker → hex sync
-(function() {
-  setTimeout(function() {
-    const picker = document.getElementById('ep-bc-primary');
-    if (picker) picker.addEventListener('input', function() {
-      const hexIn = document.getElementById('ep-bc-primary-hex');
-      if (hexIn) hexIn.value = picker.value;
-      updateBrandColorPreview();
-    });
-  }, 800);
-})();
-
-function resetBrandColors() {
-  const picker = document.getElementById('ep-bc-primary');
-  const hexIn  = document.getElementById('ep-bc-primary-hex');
-  if (picker) picker.value = '#FE730A';
-  if (hexIn)  hexIn.value  = '#FE730A';
-  updateBrandColorPreview();
-}
-
-window.resetBrandColors = resetBrandColors;
-window.updateBrandColorPreview = updateBrandColorPreview;
-window.syncColorHex = syncColorHex;
-
-// Apply a Pro user's brand colors to the profile page
-function applyProfileBrandColors(brandColorsJson) {
-  // Remove any previous brand color overrides
-  const prev = document.getElementById('tl-brand-color-style');
-  if (prev) prev.remove();
-  if (!brandColorsJson) return;
-  let bc = {};
-  try { bc = JSON.parse(brandColorsJson); } catch(e) { return; }
-  const primary = (bc.primary || '').toUpperCase();
-  // If colour is the OG default, remove overrides and let CSS root vars handle it
-  if (!primary || primary === '#FE730A') return;
-
-  // Luminance-based contrast: returns '#000000' for light colours, '#ffffff' for dark
-  function hexLuma(hex) {
-    const h = hex.replace('#','');
-    const full = h.length === 3 ? h.split('').map(x=>x+x).join('') : h;
-    const r = parseInt(full.slice(0,2),16);
-    const g = parseInt(full.slice(2,4),16);
-    const b = parseInt(full.slice(4,6),16);
-    const lum = (c => { c/=255; return c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4); });
-    return 0.2126*lum(r) + 0.7152*lum(g) + 0.0722*lum(b) > 0.35 ? '#000000' : '#ffffff';
-  }
-  const textOn = hexLuma(primary);
-
-  const style = document.createElement('style');
-  style.id = 'tl-brand-color-style';
-  style.textContent = [
-    // Global accent vars
-    '#page-profile { --ac:' + primary + '; --acl:' + primary + '1f; --acg:' + primary + '0f; }',
-    // Avatar placeholder
-    '#page-profile .prof-av-ph { background:' + primary + ' !important; color:' + textOn + ' !important; }',
-    // Avatar ring
-    '#page-profile .prof-av-float { border-color:' + primary + '66 !important; box-shadow:0 0 0 6px ' + primary + '14,0 4px 24px rgba(0,0,0,.4) !important; }',
-    // Exp / city meta pills — chips have a tinted bg so dark brand colors need white text to stay visible
-    '#page-profile .prof-meta-chip { background:' + primary + '18 !important; border-color:' + primary + '40 !important; color:' + (textOn === '#ffffff' ? 'rgba(255,255,255,0.85)' : primary) + ' !important; }',
-    '#page-profile .prof-meta-chip svg { color:' + (textOn === '#ffffff' ? 'rgba(255,255,255,0.85)' : primary) + ' !important; }',
-    // Role/city subtitle text — keep white when brand color is dark (it sits on dark bg anyway)
-    (textOn === '#ffffff' ? '#page-profile .prof-role-city { color: rgba(255,255,255,0.65) !important; }' : ''),
-    // Social buttons — ALWAYS use brand color (bg3 dark background makes any brand color readable)
-    '#page-profile .prof-soc-btn { border-color:' + primary + '55 !important; color:' + primary + ' !important; }',
-    '#page-profile .prof-soc-btn:hover { background:' + primary + '18 !important; }',
-    '#page-profile .prof-soc-btn svg { color:' + primary + ' !important; }',
-    // Hire Me button (hero)
-    '#page-profile .prof-hire-btn { background:' + primary + ' !important; color:' + textOn + ' !important; box-shadow:0 3px 14px ' + primary + '44 !important; }',
-    '#page-profile .prof-hire-btn svg path { fill:' + textOn + ' !important; }',
-    // Hire This Editor button (sidebar)
-    '#page-profile .pv-hire { background:' + primary + ' !important; color:' + textOn + ' !important; box-shadow:0 4px 16px ' + primary + '66 !important; }',
-    '#page-profile .pv-hire svg path { fill:' + textOn + ' !important; }',
-    // Verified tick circle background + stroke
-    '#page-profile #pname-verified svg circle, #page-profile #pv-author-verified, #page-profile #pm-author-verified, #page-profile #pbadge-el { background:' + primary + ' !important; }',
-    '#page-profile #pname-verified polyline, #page-profile #pv-author-verified polyline, #page-profile #pm-author-verified polyline, #page-profile #pbadge-el polyline { stroke:' + textOn + ' !important; }',
-    // Badge
-    '#page-profile .sw-badge { border-color:' + primary + '44 !important; color:' + primary + ' !important; }',
-    // Cover bar
-    '#page-profile #pcov-el { background:' + primary + ' !important; }',
-    // Owner-only UI buttons must always stay readable — never tinted by brand color
-    '#page-profile #pnores-upload-btn { background:#FE730A !important; color:#fff !important; }',
-    '#page-profile #profile-skills-empty-btn { background:#FE730A !important; color:#fff !important; }',
-    '#page-profile #profile-services-empty-btn { background:#FE730A !important; color:#fff !important; }',
-    '#page-profile .prof-edit-btn { background:transparent !important; color:rgba(255,255,255,.55) !important; border-color:rgba(255,255,255,.12) !important; }',
-    '#page-profile .prof-pcard-add-thumb { border-color:rgba(255,255,255,.12) !important; }',
-    '#page-profile .prof-pcard-add-btn { color:rgba(255,255,255,.35) !important; border-color:rgba(255,255,255,.12) !important; }',
-    // All/Categories tab active text contrast
-    '#page-profile .ptab-btn.ptab-active { color: ' + textOn + ' !important; }',
-    // Sidebar links
-    '#page-profile .pv-side a, #page-profile .pv-side button { --ac:' + primary + '; }',
-    // Project card hover
-    '#page-profile .prof-proj-card:hover { border-color:' + primary + '55 !important; }',
-    // Like button
-    '#page-profile .pv-like:hover, #page-profile .pv-like.liked { color:' + primary + '; border-color:' + primary + '; }',
-    // Skills dark cards — pills use brand color too
-    '#page-profile .psk-card.psk-dark .psk-sw-pill { color:' + primary + ' !important; background:' + primary + '15 !important; border-color:' + primary + '30 !important; }',
-    // Skills orange cards — use brand color with contrast text
-    '#page-profile .psk-card.psk-orange { background:' + primary + ' !important; }',
-    '#page-profile .psk-card.psk-orange .psk-card-name { color:' + textOn + ' !important; }',
-    '#page-profile .psk-card.psk-orange .psk-desc { color:' + textOn + '99 !important; }',
-    '#page-profile .psk-card.psk-orange .psk-section-lbl { color:' + textOn + '80 !important; }',
-    '#page-profile .psk-card.psk-orange .psk-sw-pill { color:' + textOn + ' !important; background:' + textOn + '20 !important; border-color:' + textOn + '30 !important; }',
-    '#page-profile .psk-card.psk-orange .psk-proj-title { color:' + textOn + ' !important; }',
-    '#page-profile .psk-card.psk-orange .psk-proj-cat { color:' + textOn + '80 !important; }',
-    '#page-profile .psk-card.psk-orange .psk-proj-arrow { color:' + textOn + '90 !important; }',
-    '#page-profile .psk-card.psk-orange .psk-proj-card { background:' + textOn + '15 !important; border-color:' + textOn + '20 !important; }',
-    // Services cards — highlighted header + button use brand color with contrast text
-    '#page-profile .psvc-header-highlight { background:' + primary + '20 !important; border-bottom-color:' + primary + '30 !important; }',
-    '#page-profile .psvc-header-highlight .psvc-badge { background:' + primary + '15 !important; color:' + primary + ' !important; border-color:' + primary + '35 !important; }',
-    '#page-profile .psvc-feat-check-hl { background:' + primary + '25 !important; border-color:' + primary + '45 !important; }',
-    '#page-profile .psvc-cta-highlight { background:' + primary + ' !important; color:' + textOn + ' !important; box-shadow:0 4px 16px ' + primary + '44 !important; border-color:transparent !important; }',
-    '#page-profile .psvc-cta-highlight:hover { background:' + primary + 'dd !important; }',
-  ].join('\n');
-  document.head.appendChild(style);
-  // Re-apply tab active state with correct contrast colour
-  if (typeof switchProfileTab === 'function') switchProfileTab(typeof _profTabState !== 'undefined' ? _profTabState : 'all');
-}
-window.applyProfileBrandColors = applyProfileBrandColors;
-
-// ── End Brand Colour Helpers ────────────────────────────────────────────────
 
 // Re-sync profile from Supabase (fixes missing/wrong profile issues)
 async function resyncProfile() {
@@ -7201,491 +6410,16 @@ async function resyncProfile() {
   await loadProfile();
   applyLoggedIn();
   refreshDash();
-  updatePlanUI();
   showToast('✓ Account synced! Name: ' + (S.profile?.name || S.user.email));
 }
 window.resyncProfile = resyncProfile;
 window.changePassword= changePassword;
 window.saveProject   = saveProject;
 window.deleteProject = deleteProject;
-window.requestUpgrade= requestUpgrade;
-window.renewPro      = renewPro;
-window.requestDowngrade = requestDowngrade;
-window.renewPro      = renewPro;
-window.requestDowngrade = requestDowngrade;
-window.setPricingBilling = setPricingBilling;
-window.setDashBilling    = setDashBilling;
 window.selectCover   = selectCover;
 window.handleFileSelect = handleFileSelect;
 window.handleDrop    = handleDrop;
 window.switchPTab    = switchPTab;
-
-// ── ANALYTICS EVENT LOGGER ────────────────────────────
-// Upserts a count row into analytics_events for today.
-// event_type: 'view' or 'hire_click'
-// user_id: the profile owner being viewed/clicked (not the viewer)
-function logAnalyticsEvent(userId, eventType) {
-  if (!userId) return;
-  const today = new Date().toISOString().slice(0, 10);
-  // Use upsert: if a row for (user_id, event_type, event_date) already exists, increment count
-  fetch(SB_URL + '/rest/v1/analytics_events', {
-    method: 'POST',
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'resolution=merge-duplicates,return=minimal'
-    },
-    body: JSON.stringify({
-      user_id: userId,
-      event_type: eventType,
-      event_date: today,
-      count: 1
-    })
-  }).catch(() => {});
-  // NOTE: for merge-duplicates upsert to increment, run this in Supabase SQL:
-  // CREATE OR REPLACE FUNCTION analytics_events_upsert()
-  // RETURNS TRIGGER AS $$
-  // BEGIN
-  //   INSERT INTO analytics_events(user_id,event_type,event_date,count)
-  //   VALUES(NEW.user_id,NEW.event_type,NEW.event_date,1)
-  //   ON CONFLICT(user_id,event_type,event_date)
-  //   DO UPDATE SET count = analytics_events.count + 1;
-  //   RETURN NULL;
-  // END;$$ LANGUAGE plpgsql SECURITY DEFINER;
-}
-window.logAnalyticsEvent = logAnalyticsEvent;
-
-// ── ANALYTICS ─────────────────────────────────────────
-// Current selected range in days (0 = all time)
-window._anRange = 7;
-
-function setAnalyticsRange(days, btn) {
-  window._anRange = days;
-  document.querySelectorAll('.an-range-tab').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  const lbl = days === 0 ? 'All time' : days === 365 ? 'This year' : 'Last ' + days + ' days';
-  const vLbl = document.getElementById('an-views-range-lbl');
-  const hLbl = document.getElementById('an-hire-range-lbl');
-  if (vLbl) vLbl.textContent = lbl;
-  if (hLbl) hLbl.textContent = lbl;
-  // Update the range-sensitive stat card period labels immediately
-  document.querySelectorAll('.an-stat-period').forEach((el, i) => {
-    // Cards 0 (views) and 2 (hire) are range-sensitive; 1 (likes) and 3 (projects) are all-time
-    if (i === 0 || i === 2) el.textContent = lbl;
-  });
-  loadAnalytics();
-}
-window.setAnalyticsRange = setAnalyticsRange;
-
-// Build array of date labels + zero-filled counts for a given range
-function buildDateSeries(events, days) {
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  // Build a map from date-string → count from DB events
-  const map = {};
-  (events || []).forEach(function(e) { map[e.event_date] = (e.total || 0); });
-
-  if (days === 0) {
-    // All time: group by month, last 12 months or all available dates
-    const allDates = Object.keys(map).sort();
-    if (!allDates.length) {
-      // No data — show last 6 months empty
-      const labels = [], data = [];
-      for (let i = 5; i >= 0; i--) {
-        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-        labels.push(d.toLocaleString('default',{month:'short',year:'2-digit'}));
-        data.push(0);
-      }
-      return { labels, data };
-    }
-    // Group by month
-    const monthMap = {};
-    allDates.forEach(function(ds) {
-      const key = ds.slice(0,7); // YYYY-MM
-      monthMap[key] = (monthMap[key] || 0) + (map[ds] || 0);
-    });
-    const monthKeys = Object.keys(monthMap).sort();
-    return {
-      labels: monthKeys.map(function(k) {
-        const [y,m] = k.split('-');
-        return new Date(+y,+m-1,1).toLocaleString('default',{month:'short',year:'2-digit'});
-      }),
-      data: monthKeys.map(function(k) { return monthMap[k]; })
-    };
-  }
-
-  // Fixed-range: one point per day
-  const labels = [], data = [];
-  // For 90+ days, bucket into weeks
-  const bucket = days >= 90 ? 7 : 1;
-  let bucketLabels = [], bucketData = [];
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(today); d.setDate(today.getDate() - i);
-    const ds = d.toISOString().slice(0,10);
-    bucketLabels.push(d.toLocaleDateString('default',{month:'short',day:'numeric'}));
-    bucketData.push(map[ds] || 0);
-  }
-  if (bucket === 1) return { labels: bucketLabels, data: bucketData };
-  // Merge into weekly buckets
-  for (let i = 0; i < bucketLabels.length; i += 7) {
-    labels.push(bucketLabels[i]);
-    data.push(bucketData.slice(i, i+7).reduce((a,b)=>a+b,0));
-  }
-  return { labels, data };
-}
-
-async function loadAnalytics() {
-  if (!S.profile) return;
-  const isPro = S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
-  const proEl  = document.getElementById('analytics-pro-content');
-  const freeEl = document.getElementById('analytics-free-gate');
-  if (!proEl || !freeEl) return;
-
-  // Spin the refresh button while loading
-  const refreshBtn = document.querySelector('.an-refresh-btn');
-  if (refreshBtn) refreshBtn.classList.add('spinning');
-
-  if (!isPro) {
-    proEl.style.display  = 'none';
-    freeEl.style.display = 'block';
-    if (refreshBtn) refreshBtn.classList.remove('spinning');
-    return;
-  }
-  proEl.style.display  = 'block';
-  freeEl.style.display = 'none';
-
-  const rangeDays = window._anRange || 7;
-
-  try {
-    const token = await getToken();
-    // Fetch fresh profile
-    const freshProfile = await db('/profiles?id=eq.' + S.profile.id + '&select=*', 'GET', null, token);
-    if (freshProfile && freshProfile[0]) Object.assign(S.profile, freshProfile[0]);
-
-    const projs = await db('/projects?user_id=eq.' + S.profile.id + '&select=*&order=views.desc', 'GET', null, token) || [];
-    const totalLikes = projs.reduce((s, p) => s + (p.likes || 0), 0);
-    const totalProjectViews = projs.reduce((s, p) => s + (p.views || 0), 0);
-    const publishedCount = projs.filter(p => p.status === 'published').length;
-
-    // ── Fetch analytics_events for this user ──
-    let dateFilter = '';
-    if (rangeDays > 0) {
-      const from = new Date(); from.setDate(from.getDate() - rangeDays);
-      dateFilter = '&event_date=gte.' + from.toISOString().slice(0,10);
-    }
-
-    let viewEvents = [], hireEvents = [];
-    try {
-      // Fetch per-day view events
-      const vRows = await db(
-        '/analytics_events?user_id=eq.' + S.profile.id + '&event_type=eq.view' + dateFilter + '&select=event_date,count&order=event_date.asc',
-        'GET', null, token
-      );
-      if (Array.isArray(vRows)) viewEvents = vRows.map(r => ({ event_date: r.event_date, total: r.count || 0 }));
-    } catch(e) { /* table may not exist yet */ }
-
-    try {
-      const hRows = await db(
-        '/analytics_events?user_id=eq.' + S.profile.id + '&event_type=eq.hire_click' + dateFilter + '&select=event_date,count&order=event_date.asc',
-        'GET', null, token
-      );
-      if (Array.isArray(hRows)) hireEvents = hRows.map(r => ({ event_date: r.event_date, total: r.count || 0 }));
-    } catch(e) { /* table may not exist yet */ }
-
-    // Range-filtered totals for stat cards
-    const rangeViewsTotal = viewEvents.length > 0
-      ? viewEvents.reduce((s, e) => s + (e.total || 0), 0)
-      : (rangeDays === 0 ? totalProjectViews : null); // fall back for no-events case below
-    const rangeHireTotal = hireEvents.length > 0
-      ? hireEvents.reduce((s, e) => s + (e.total || 0), 0)
-      : null;
-
-    // If analytics_events has no data, we distribute the all-time total proportionally
-    // to give a realistic per-range estimate instead of always showing the same number
-    function estimateRangeTotal(allTimeTotal, days) {
-      if (days === 0) return allTimeTotal;
-      // Simple linear scaling — if profile is e.g. 180 days old, 7 days ≈ 7/180 of total
-      const profileCreated = S.profile.created_at ? new Date(S.profile.created_at) : new Date(Date.now() - 180*86400000);
-      const ageMs = Date.now() - profileCreated.getTime();
-      const ageDays = Math.max(ageMs / 86400000, days);
-      const fraction = Math.min(days / ageDays, 1);
-      return Math.round(allTimeTotal * fraction);
-    }
-
-    const displayViews = rangeViewsTotal != null ? rangeViewsTotal : estimateRangeTotal(totalProjectViews, rangeDays);
-    const displayHire  = rangeHireTotal  != null ? rangeHireTotal  : estimateRangeTotal(S.profile.hire_clicks || 0, rangeDays);
-
-    document.getElementById('an-views').textContent = displayViews.toLocaleString();
-    document.getElementById('an-likes').textContent = totalLikes.toLocaleString(); // likes don't have per-day events yet
-    document.getElementById('an-hire').textContent  = displayHire.toLocaleString();
-    const projsCountEl = document.getElementById('an-projs-count');
-    if (projsCountEl) projsCountEl.textContent = publishedCount;
-
-    // Update period label under range-sensitive stat cards
-    const periodLbl = rangeDays === 0 ? 'All time' : rangeDays === 365 ? 'This year' : 'Last ' + rangeDays + ' days';
-    const statPeriods = document.querySelectorAll('.an-stat-period');
-    if (statPeriods[0]) statPeriods[0].textContent = periodLbl;
-    if (statPeriods[2]) statPeriods[2].textContent = periodLbl;
-
-    // Animate stat bars using range-based values
-    setTimeout(() => {
-      const maxV = Math.max(displayViews || 1, 1);
-      const vBar = document.getElementById('an-views-bar');
-      const lBar = document.getElementById('an-likes-bar');
-      const hBar = document.getElementById('an-hire-bar');
-      const pBar = document.getElementById('an-projs-bar');
-      if (vBar) vBar.style.width = '100%';
-      if (lBar) lBar.style.width = Math.min(100, Math.round(totalLikes / maxV * 100)) + '%';
-      if (hBar) hBar.style.width = Math.min(100, Math.round(displayHire / maxV * 300)) + '%';
-      if (pBar) pBar.style.width = Math.min(100, publishedCount * 12) + '%';
-    }, 100);
-
-    // ── Charts ──
-    const tickColor = 'rgba(255,255,255,.3)';
-    const chartDefaults = {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + Math.round(ctx.raw) } } },
-      scales: {
-        x: { grid: { display: false }, border: { display: false }, ticks: { color: tickColor, font: { size: 10 }, maxRotation: 0, maxTicksLimit: 7 } },
-        y: { grid: { color: 'rgba(255,255,255,.04)', drawBorder: false }, border: { display: false }, ticks: { color: tickColor, font: { size: 10 }, precision: 0, maxTicksLimit: 5 }, beginAtZero: true }
-      }
-    };
-
-    // ── Views Trend chart ──
-    const viewsCtx = document.getElementById('an-views-chart');
-    if (viewsCtx) {
-      if (window._anViewsChart) window._anViewsChart.destroy();
-      let series;
-
-      if (viewEvents.length > 0) {
-        // Real per-day data from analytics_events table
-        series = buildDateSeries(viewEvents, rangeDays);
-      } else {
-        // No analytics_events yet — build a realistic approximation from project view counts
-        // For "All time" (rangeDays=0), build a cumulative line from each project's created_at
-        if (rangeDays === 0) {
-          // Find earliest project date and build monthly buckets
-          const allProjs = projs.filter(p => p.status === 'published' && p.views > 0);
-          if (!allProjs.length) {
-            series = { labels: [], data: [] };
-          } else {
-            const earliest = allProjs.reduce((min, p) => {
-              const d = new Date(p.created_at || Date.now()); return d < min ? d : min;
-            }, new Date());
-            earliest.setDate(1); earliest.setHours(0,0,0,0);
-            const todayM = new Date(); todayM.setDate(1); todayM.setHours(0,0,0,0);
-            const monthMap = {};
-            // Generate all month keys from earliest to today
-            let cursor = new Date(earliest);
-            while (cursor <= todayM) {
-              const key = cursor.toISOString().slice(0,7);
-              monthMap[key] = 0;
-              cursor.setMonth(cursor.getMonth() + 1);
-            }
-            allProjs.forEach(p => {
-              const created = new Date(p.created_at || Date.now());
-              const projViews = p.views || 0;
-              const keys = Object.keys(monthMap).filter(k => new Date(k + '-01') >= new Date(created.getFullYear(), created.getMonth(), 1));
-              if (!keys.length) { const fk = Object.keys(monthMap)[0]; if (fk) monthMap[fk] += projViews; return; }
-              const n = keys.length;
-              const weights = keys.map((_, i) => 0.5 + (i / n) * 0.5);
-              const wsum = weights.reduce((a, b) => a + b, 0);
-              keys.forEach((k, i) => { monthMap[k] = (monthMap[k] || 0) + Math.round(projViews * weights[i] / wsum); });
-            });
-            const monthKeys = Object.keys(monthMap).sort();
-            series = {
-              labels: monthKeys.map(k => { const [y,m] = k.split('-'); return new Date(+y,+m-1,1).toLocaleString('default',{month:'short',year:'2-digit'}); }),
-              data: monthKeys.map(k => monthMap[k])
-            };
-          }
-        } else {
-          // Fixed range: distribute views proportionally across the days
-          series = buildDateSeries([], rangeDays);
-          const today2 = new Date(); today2.setHours(0,0,0,0);
-          const rangeStart = new Date(today2); rangeStart.setDate(today2.getDate() - (rangeDays - 1));
-          const dateMap = {};
-          series.labels.forEach((_, i) => {
-            const d = new Date(rangeStart); d.setDate(rangeStart.getDate() + i);
-            dateMap[d.toISOString().slice(0, 10)] = 0;
-          });
-          projs.filter(p => p.status === 'published' && p.views > 0).forEach(p => {
-            const created = new Date(p.created_at || today2); created.setHours(0,0,0,0);
-            const projViews = p.views || 0;
-            const startD = created < rangeStart ? rangeStart : created;
-            const keys = Object.keys(dateMap).filter(k => new Date(k) >= startD);
-            if (!keys.length) { const fk = Object.keys(dateMap)[0]; if (fk) dateMap[fk] = (dateMap[fk]||0) + projViews; return; }
-            const n = keys.length;
-            const weights = keys.map((_, i) => 0.5 + (i / n) * 0.5);
-            const wsum = weights.reduce((a,b) => a+b, 0);
-            keys.forEach((k, i) => { dateMap[k] = (dateMap[k]||0) + Math.round(projViews * weights[i] / wsum); });
-          });
-          series.data = series.labels.map((_, i) => {
-            const d = new Date(rangeStart); d.setDate(rangeStart.getDate() + i);
-            return dateMap[d.toISOString().slice(0,10)] || 0;
-          });
-        }
-      }
-
-      window._anViewsChart = new Chart(viewsCtx, {
-        type: 'line',
-        data: {
-          labels: series.labels,
-          datasets: [{
-            data: series.data,
-            borderColor: '#FE730A',
-            backgroundColor: 'rgba(254,115,10,.07)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.45,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            pointHoverBackgroundColor: '#FE730A',
-            pointHoverBorderColor: '#fff',
-            pointHoverBorderWidth: 2
-          }]
-        },
-        options: { ...chartDefaults }
-      });
-    }
-
-    // ── Hire Me chart ──
-    const hireCtx = document.getElementById('an-hire-chart');
-    if (hireCtx) {
-      if (window._anHireChart) window._anHireChart.destroy();
-      let hireSeries = { labels: [], data: [] }; // safe default
-      if (hireEvents.length > 0) {
-        hireSeries = buildDateSeries(hireEvents, rangeDays);
-      } else {
-        const hTotal = S.profile.hire_clicks || 0;
-        if (rangeDays === 0) {
-          // All time: monthly buckets from profile creation
-          const profileCreated = S.profile.created_at ? new Date(S.profile.created_at) : new Date(Date.now() - 90*86400000);
-          profileCreated.setDate(1); profileCreated.setHours(0,0,0,0);
-          const todayM2 = new Date(); todayM2.setDate(1); todayM2.setHours(0,0,0,0);
-          const mKeys = [];
-          let mc = new Date(profileCreated);
-          while (mc <= todayM2) { mKeys.push(mc.toISOString().slice(0,7)); mc.setMonth(mc.getMonth()+1); }
-          if (mKeys.length) {
-            const perMonth = hTotal > 0 ? Math.round(hTotal / mKeys.length) : 0;
-            hireSeries = {
-              labels: mKeys.map(k => { const [y,m] = k.split('-'); return new Date(+y,+m-1,1).toLocaleString('default',{month:'short',year:'2-digit'}); }),
-              data: mKeys.map(() => perMonth)
-            };
-          }
-        } else {
-          hireSeries = buildDateSeries([], rangeDays);
-          if (hTotal > 0 && hireSeries.data.length > 0) {
-            const profileCreated = S.profile.created_at ? new Date(S.profile.created_at) : new Date(Date.now() - 90*86400000);
-            const ageDays = Math.max((Date.now() - profileCreated.getTime()) / 86400000, rangeDays);
-            const rangeTotal = Math.round(hTotal * (rangeDays / ageDays));
-            const n = hireSeries.data.length;
-            // Use a weighted distribution: ramp up toward recent days
-            const weights = hireSeries.data.map((_, i) => 0.3 + (i / (n - 1 || 1)) * 0.7);
-            const wsum = weights.reduce((a, b) => a + b, 0);
-            hireSeries.data = weights.map(w => parseFloat((rangeTotal * w / wsum).toFixed(1)));
-          }
-        }
-      }
-      window._anHireChart = new Chart(hireCtx, {
-        type: 'line',
-        data: {
-          labels: hireSeries.labels,
-          datasets: [{
-            data: hireSeries.data,
-            borderColor: 'rgba(254,115,10,.8)',
-            backgroundColor: 'rgba(254,115,10,.06)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.45,
-            pointRadius: 0,
-            pointHoverRadius: 4,
-            pointHoverBackgroundColor: '#FE730A',
-            pointHoverBorderColor: '#fff',
-            pointHoverBorderWidth: 2
-          }]
-        },
-        options: {
-          ...chartDefaults,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + Math.round(ctx.raw) + ' clicks' } } },
-          scales: {
-            ...chartDefaults.scales,
-            y: { ...chartDefaults.scales.y, suggestedMax: Math.max(Math.ceil(Math.max(...hireSeries.data, 0) * 1.3), 3), ticks: { ...chartDefaults.scales.y.ticks, precision: 0, maxTicksLimit: 5 } }
-          }
-        }
-      });
-    }
-
-    // ── Project table ──
-    const tbody = document.getElementById('an-proj-tbody');
-    const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',social:'Social',longform:'Long-form',wedding:'Wedding'};
-    const maxViews = Math.max(...projs.map(x => x.views || 0), 1);
-
-    if (!projs.length) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--t3);font-size:.78rem">No projects yet.</td></tr>';
-    } else {
-      tbody.innerHTML = projs.map(function(p, idx) {
-        const bar = Math.round((p.views || 0) / maxViews * 100);
-        const statusCls = p.status === 'published' ? 'published' : 'draft';
-        const isTop = idx === 0;
-        const rowStyle = isTop
-          ? 'cursor:pointer;background:rgba(254,115,10,.06);border-left:3px solid #FE730A;'
-          : 'cursor:pointer;';
-        const accentBar = isTop
-          ? '<div style="width:3px;height:32px;border-radius:2px;background:#FE730A;flex-shrink:0"></div>'
-          : '<div style="width:3px;height:32px;border-radius:2px;background:var(--ac);opacity:' + (0.18 + bar / 200) + ';flex-shrink:0"></div>';
-        const titleStyle = isTop ? 'font-weight:700;color:var(--t1)' : 'font-weight:500;color:var(--t1)';
-        return '<tr style="' + rowStyle + '" onclick="openProject(\'' + p.id + '\')">' +
-          '<td><div style="display:flex;align-items:center;gap:.55rem">' +
-            accentBar +
-            '<div>' +
-              '<span style="' + titleStyle + '">' + (p.title || 'Untitled') + '</span>' +
-              (isTop ? '<div style="font-size:.6rem;color:#FE730A;font-weight:600;letter-spacing:.3px;margin-top:.1rem">TOP PROJECT</div>' : '') +
-            '</div>' +
-          '</div></td>' +
-          '<td style="font-weight:' + (isTop ? '700' : '600') + ';color:var(--t1)">' + (p.views || 0).toLocaleString() + '</td>' +
-          '<td>' + (p.likes || 0) + '</td>' +
-          '<td style="text-transform:capitalize">' + (CAT[p.cat] || p.cat || '—') + '</td>' +
-          '<td><span class="tbadge ' + statusCls + '">' + (p.status || 'draft') + '</span></td>' +
-        '</tr>';
-      }).join('');
-    }
-
-
-    // ── Engagement overview ──
-    const engEl = document.getElementById('an-engagement');
-    const engRows = [
-      ['Project views',    totalProjectViews            ],
-      ['Project likes',    totalLikes                   ],
-      ['Hire Me clicks',   S.profile.hire_clicks   || 0],
-      ['Social link taps', S.profile.social_clicks || 0],
-    ];
-    const maxVal = Math.max.apply(null, engRows.map(function(r){ return r[1]; }).concat([1]));
-    if (engEl) engEl.innerHTML = engRows.map(function(row) {
-      const label = row[0], val = row[1];
-      const pct = Math.round(val / maxVal * 100);
-      const opacity = 0.35 + (pct / 100) * 0.65;
-      return '<div style="margin-bottom:.85rem">' +
-        '<div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.3rem">' +
-          '<span style="color:var(--t2)">' + label + '</span>' +
-          '<span style="font-weight:600;color:var(--t1)">' + val.toLocaleString() + '</span>' +
-        '</div>' +
-        '<div style="background:var(--bg4);border-radius:99px;height:6px;overflow:hidden">' +
-          '<div style="height:6px;border-radius:99px;background:var(--ac);opacity:' + opacity.toFixed(2) + ';width:' + pct + '%;transition:width .5s"></div>' +
-        '</div>' +
-      '</div>';
-    }).join('');
-
-    if (refreshBtn) refreshBtn.classList.remove('spinning');
-
-  } catch(e) {
-    console.error('Analytics error:', e);
-    if (refreshBtn) refreshBtn.classList.remove('spinning');
-    const tbody = document.getElementById('an-proj-tbody');
-    if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--t3);font-size:.78rem">Could not load data. Check console for details.</td></tr>';
-  }
-}
-window.loadAnalytics = loadAnalytics;
 
 window.refreshProfile = refreshProfile;
 window.renderJobs = renderJobs;
@@ -7731,8 +6465,7 @@ window.epPickVideo = function() {
     if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
   const allowedTypes = ['video/mp4', 'video/webm'];
   if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
-    var _epIsPaid = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
-    if (!_epIsPaid && f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
+  if (f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB.'); return; }
     window._epPendingVideos.push(f);
     epRenderVideoList();
   };
@@ -8048,7 +6781,7 @@ function _saveSkillsData(arr) {
 
 // ── Dashboard: check Pro and render panel ──
 function initSkillsPanel() {
-  const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(S.profile && S.profile.plan);
+  const isPro = true; // Pro plan removed — feature is free for everyone
   const gate = document.getElementById('skills-free-gate');
   const pro  = document.getElementById('skills-pro-content');
   if (gate) gate.style.display = isPro ? 'none' : 'block';
@@ -8295,7 +7028,7 @@ function renderPublicSkillsTab(profileData, projects) {
 function _updateSkillsAddBtnVisibility() {
   const isOwn = S.profile && (S.viewingProfile || S.profile) && S.profile.id === (S.viewingProfile || S.profile).id;
   const viewedProf = S.viewingProfile || S.profile;
-  const isPro = viewedProf && ['pro','pro-yearly','pro_yearly','standard','vip'].includes(viewedProf.plan);
+  const isPro = !!viewedProf; // Pro plan removed — feature is free for everyone
   if (!isOwn || !isPro) return;
   const list = document.getElementById('profile-skills-list');
   const emptyDiv = document.getElementById('profile-skills-empty');
@@ -8315,7 +7048,7 @@ function _updateSkillsAddBtnVisibility() {
 function _updateServicesAddBtnVisibility() {
   const isOwn = S.profile && (S.viewingProfile || S.profile) && S.profile.id === (S.viewingProfile || S.profile).id;
   const viewedProf = S.viewingProfile || S.profile;
-  const isPro = viewedProf && ['pro','pro-yearly','pro_yearly','standard','vip'].includes(viewedProf.plan);
+  const isPro = !!viewedProf; // Pro plan removed — feature is free for everyone
   if (!isOwn || !isPro) return;
   const list = document.getElementById('profile-services-list');
   const emptyDiv = document.getElementById('profile-services-empty');
@@ -8343,6 +7076,7 @@ function renderSkillContent() {}
 // ── Hook switchProfileTab to handle 'skills' and 'services' ──
 const _origSwitchProfileTab = window.switchProfileTab;
 window.switchProfileTab = function(tab) {
+  if (tab === 'skills' || tab === 'services') tab = 'all'; // feature removed
   const btnAll    = document.getElementById('ptab-all');
   const btnSk     = document.getElementById('ptab-skills');
   const btnSvc    = document.getElementById('ptab-services');
@@ -8355,42 +7089,6 @@ window.switchProfileTab = function(tab) {
   const viewedIsPro = viewedProf && (viewedProf.plan === 'pro' || viewedProf.plan === 'pro-yearly' || viewedProf.plan === 'pro_yearly' || viewedProf.plan === 'standard' || viewedProf.plan === 'vip');
   const isOwn = S.profile && viewedProf && viewedProf.id === S.profile.id;
 
-  // Intercept locked tab for free-plan owner — show inline upgrade card instead of redirecting
-  if ((tab === 'skills' || tab === 'services') && isOwn && !viewedIsPro) {
-    _resetAllTabBtns();
-    const tabBtn = tab === 'skills' ? btnSk : btnSvc;
-    if (tabBtn) { tabBtn.classList.add('ptab-active'); tabBtn.classList.remove('ptab-off'); }
-    // Hide all content wraps
-    if (document.getElementById('profile-proj-grid-wrap')) document.getElementById('profile-proj-grid-wrap').style.display = 'none';
-    if (document.getElementById('profile-cat-grid-wrap')) document.getElementById('profile-cat-grid-wrap').style.display = 'none';
-    if (document.getElementById('profile-skills-wrap')) document.getElementById('profile-skills-wrap').style.display = 'none';
-    if (document.getElementById('profile-services-wrap')) document.getElementById('profile-services-wrap').style.display = 'none';
-    // Show upgrade card inside a temp container
-    let upgradeWrap = document.getElementById('prof-tab-upgrade-wrap');
-    if (!upgradeWrap) {
-      upgradeWrap = document.createElement('div');
-      upgradeWrap.id = 'prof-tab-upgrade-wrap';
-      const grid = document.getElementById('profile-proj-grid');
-      if (grid && grid.parentNode) grid.parentNode.parentNode.insertBefore(upgradeWrap, grid.parentNode.nextSibling);
-    }
-    upgradeWrap.style.display = 'block';
-    // Hide the "no projects" message so it doesn't overlap
-    const _pnoresEl = document.getElementById('pnores');
-    if (_pnoresEl) _pnoresEl.style.display = 'none';
-    const featureName = tab === 'skills' ? 'Skills' : 'Services';
-    const featureDesc = tab === 'skills'
-      ? 'Showcase your expertise with a dedicated Skills tab visible on your public portfolio.'
-      : 'Add a Services tab with your rate card so clients know exactly what you offer and at what price.';
-    upgradeWrap.innerHTML =
-      '<div style="margin:2rem auto;max-width:420px;background:var(--bg2);border:1.5px solid rgba(254,115,10,.22);border-radius:20px;padding:2rem 1.8rem;text-align:center;">' +
-      '<div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.5rem">' + featureName + ' is a Pro feature</div>' +
-      '<div style="font-size:.82rem;color:var(--t2);line-height:1.7;margin-bottom:1.3rem">' + featureDesc + '</div>' +
-      '<button onclick="showPage(\'pricing\')" style="background:var(--ac);color:#fff;border:none;border-radius:50px;padding:.65rem 1.6rem;font-size:.85rem;font-weight:700;cursor:pointer;transition:opacity .15s" onmouseover="this.style.opacity=&quot;.85&quot;" onmouseout="this.style.opacity=&quot;1&quot;">View Pro Plans</button>' +
-      '</div>';
-    if (sectionLbl) sectionLbl.textContent = featureName;
-    _triggerFade(upgradeWrap);
-    return;
-  }
   // Hide upgrade wrap when switching to another tab
   const _ugWrap = document.getElementById('prof-tab-upgrade-wrap');
   if (_ugWrap) _ugWrap.style.display = 'none';
@@ -8539,8 +7237,7 @@ function openUploadModal() {
   if (videoProgress) videoProgress.style.display = 'none';
   document.getElementById('upm-saving').style.display = 'none';
   // Plan gate
-  const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(S.profile.plan);
-  document.getElementById('upm-gate').style.display = isPro ? 'none' : 'block';
+  document.getElementById('upm-gate').style.display = 'none';
   const overlay = document.getElementById('upload-modal-overlay');
   overlay.style.display = 'flex';
   document.body.style.overflow = 'hidden';
@@ -8614,7 +7311,7 @@ function upmPickVideo() {
 function upmVideoFilePicked(inp) {
   const file = inp.files[0];
   if (!file) return;
-  if (file.size > 250*1024*1024) { showToast('Video must be under 250 MB'); inp.value=''; return; }
+  if (file.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB'); inp.value=''; return; }
   _upmVideoBlobs.push(file);
   inp.value = '';
   upmRenderVideoList();
@@ -8642,29 +7339,14 @@ async function upmSave(status) {
   if (!title) { showToast('Please enter a project title.'); return; }
   if (_upmVideoBlobs.length === 0) { showToast('Please add at least one video before uploading.'); return; }
 
-  const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(S.profile.plan);
-
-  // Plan gate — free users: max 3 published
-  if (!isPro && status === 'published') {
-    const token = await getToken();
-    const existing = await db('/projects?user_id=eq.'+S.profile.id+'&status=eq.published&select=id','GET',null,token).catch(()=>[]);
-    if (existing && existing.filter(p=>!p.locked).length >= 3) {
-      showToast('Free plan limit: 3 projects. Upgrade to Pro for unlimited.');
-      closeUploadModal();
-      switchDash('account',document.getElementById('dnav-account'));
-      setTimeout(()=>switchAccTab('pro'),80);
-      return;
-    }
-  }
-
-  // Storage check
+  // Storage check — flat 1 GB limit for everyone
   const totalVideoSize = _upmVideoBlobs.reduce((s,f)=>s+f.size, 0);
   if (totalVideoSize > 0) {
-    const storageLimit = isPro ? (5*1024*1024*1024) : (250*1024*1024);
+    const storageLimit = 1*1024*1024*1024;
     try {
       const used = (typeof getUsedStorage === 'function') ? await getUsedStorage() : 0;
       if (used + totalVideoSize > storageLimit) {
-        showToast('Storage full · ' + (isPro ? '5 GB' : '250 MB') + ' limit reached.' + (!isPro ? ' Upgrade to Pro for 5 GB.' : ''));
+        showToast('Storage full · 1 GB limit reached.');
         return;
       }
     } catch(e) {}
@@ -8885,7 +7567,7 @@ function _saveServicesData(arr) {
 }
 
 function initServicesPanel() {
-  const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(S.profile && S.profile.plan);
+  const isPro = true; // Pro plan removed — feature is free for everyone
   const gate = document.getElementById('services-free-gate');
   const pro  = document.getElementById('services-pro-content');
   if (gate) gate.style.display = isPro ? 'none' : 'block';
@@ -8948,7 +7630,7 @@ async function saveService() {
     name, category, desc, price: Number(price), turnaround, revisions
   };
   if (editIdx >= 0) { svcs[editIdx] = svc; } else { svcs.push(svc); }
-  if (svcs.length > 8) { showToast('Max 8 services allowed on Pro.'); return; }
+  if (svcs.length > 8) { showToast('Max 8 services allowed.'); return; }
   _saveServicesData(svcs);
   const btn = document.getElementById('svc-save-btn');
   if (btn) { btn.disabled = true; btn.textContent = 'Saving...'; }
@@ -9008,8 +7690,6 @@ function renderPublicServicesTab(profileData, isOwn) {
   // Resolve brand color and contrast text
   let brandColor = '#FE730A';
   try { const bc = JSON.parse(profileData.brand_colors || '{}'); if (bc.primary) brandColor = bc.primary.toUpperCase(); } catch(e) {}
-  const isPro = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(profileData.plan);
-  if (!isPro) brandColor = '#FE730A'; // non-pro always orange
   function hexLuma(hex) {
     const h = hex.replace('#',''), full = h.length===3?h.split('').map(x=>x+x).join(''):h;
     const r=parseInt(full.slice(0,2),16),g=parseInt(full.slice(2,4),16),b=parseInt(full.slice(4,6),16);
@@ -9398,7 +8078,6 @@ function _copyHireEmailFallback(onCopied) {
 function _trackHire(userId) {
   try {
     db('/profiles?id=eq.' + userId, 'PATCH', { hire_clicks: (_hireTargetProfile && _hireTargetProfile.hire_clicks ? _hireTargetProfile.hire_clicks + 1 : 1) }).catch(() => {});
-    logAnalyticsEvent(userId, 'hire_click');
   } catch(e) {}
 }
 
@@ -9659,8 +8338,7 @@ function addVideoSlot() {
     if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
   const allowedTypes = ['video/mp4', 'video/webm'];
   if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
-    var _avIsPaid = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip');
-    if (!_avIsPaid && f.size > 250 * 1024 * 1024) { showToast('Each video must be under 250 MB. Upgrade to Pro for larger files.'); return; }
+    if (f.size > 250 * 1024 * 1024) { showToast('Each video must be under 250 MB.'); return; }
     if (_pendingVideos.length >= 5)  { showToast('Max 5 videos per project.'); return; }
     _pendingVideos.push(f);
     renderVideoList();
@@ -9898,7 +8576,7 @@ async function uploadProjectVideos(token, projId) {
 
 // ── STORAGE HELPERS ──────────────────────────────────
 const FREE_STORAGE_LIMIT = 250 * 1024 * 1024;  // 250 MB
-const PRO_STORAGE_LIMIT  = 5 * 1024 * 1024 * 1024; // 5 GB
+const PRO_STORAGE_LIMIT  = 1 * 1024 * 1024 * 1024; // 1 GB
 function fmtBytes(b) { const abs=Math.abs(b); return abs >= 1048576 ? (b/1048576).toFixed(1)+' MB' : abs >= 1024 ? (b/1024).toFixed(1)+' MB' : b+' B'; }
 async function getUsedStorage() {
   if (!S.profile) return 0;
@@ -9909,9 +8587,8 @@ async function getUsedStorage() {
   } catch(e) { return 0; }
 }
 async function refreshOverviewStorage(p) {
-  const isPro = p.plan === 'pro' || p.plan === 'pro-yearly' || p.plan === 'pro_yearly' || p.plan === 'standard' || p.plan === 'vip';
-  const limit = isPro ? 5 * 1024 * 1024 * 1024 : 250 * 1024 * 1024;
-  const limitLabel = isPro ? '5 GB' : '250 MB';
+  const limit = 1 * 1024 * 1024 * 1024;
+  const limitLabel = '1 GB';
   try {
     const token = await getToken();
     const rows = await db('/projects?user_id=eq.' + p.id + '&select=video_size', 'GET', null, token) || [];
@@ -9925,7 +8602,7 @@ async function refreshOverviewStorage(p) {
     if (usedEl)  usedEl.textContent  = fmtBytes(used);
     if (barEl)   { barEl.style.width = pct.toFixed(1) + '%'; barEl.style.background = col; }
     if (limitEl) limitEl.textContent = 'of ' + limitLabel;
-    if (hintEl)  hintEl.textContent  = (isPro ? 'Pro plan' : 'Free plan') + ' · ' + fmtBytes(limit - used) + ' remaining';
+    if (hintEl)  hintEl.textContent  = fmtBytes(limit - used) + ' remaining';
   } catch(e) {}
 }
 
@@ -9939,48 +8616,27 @@ function loadWeeklyTip() {
     { title: 'Describe what makes your edits unique', body: 'Don\'t just list tools, describe your style. "Fast-cut, colour-graded reels" stands out more than "CapCut editor".' },
     { title: 'Publish consistently', body: 'Editors who upload at least once a month stay ranked higher in the Discover feed.' },
   ];
-  const PRO_TIPS = [
-    { title: 'Verified badge gets you seen first', body: 'Pro members get a verified badge next to their name everywhere on the platform. Clients trust verified profiles more, and they rank higher in the Discover feed.' },
-    { title: 'Your portfolio, zero TimeLiners branding', body: 'Free profiles show "Powered by TimeLiners" at the bottom. Pro removes it completely so your portfolio looks 100% yours when you share the link with clients.' },
-    { title: '5 GB of video storage', body: 'Free plan gives you 250 MB, enough for a few clips. Pro unlocks 5 GB so you can upload your full reel library without worrying about space.' },
-    { title: 'Add a Skills tab to your profile', body: 'Pro profiles show a dedicated Skills tab listing your software, styles and specialties. Clients can see at a glance if you\'re the right fit before they even message you.' },
-    { title: 'Set your own brand color', body: 'Pro lets you pick a custom primary color that applies across your entire portfolio. Your profile, your brand identity.' },
-    { title: 'Show clients your rates upfront', body: 'Pro members can add a Services tab with a full rate card. List what you offer, your starting price in LKR, turnaround time and revisions. No more back-and-forth on basics.' },
-    { title: 'Unlimited projects', body: 'Free plan is capped at 3 projects. Pro removes the limit entirely so you can showcase everything you\'ve built without having to choose.' },
-    { title: 'Priority in the Discover feed', body: 'Pro profiles get a boost in the feed algorithm. More visibility means more profile visits, more Hire Me taps, more work.' },
-  ];
-
-  const isPro = S.profile && (S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly');
-  const regularCard = document.getElementById('ov-tip-card');
-  const proCard     = document.getElementById('ov-pro-tip-card');
-
   // Rotate every 3 or 4 days, randomised per user using their id as a seed
+  const regularCard = document.getElementById('ov-tip-card');
   const userId = (S.profile && S.profile.id) ? S.profile.id : 'anon';
   const seed = userId.split('').reduce(function(a, c){ return a + c.charCodeAt(0); }, 0);
   const intervalDays = (seed % 2 === 0) ? 3 : 4;
   const slot = Math.floor(Date.now() / (intervalDays * 24 * 60 * 60 * 1000));
   function seededIndex(arr) { return (slot + seed) % arr.length; }
 
-  if (isPro) {
-    if (regularCard) regularCard.style.display = 'none';
-    if (proCard)     proCard.style.display = 'none';
-  } else {
-    if (regularCard) regularCard.style.display = 'none';
-    if (proCard)     proCard.style.display = 'block';
-    var tip = PRO_TIPS[seededIndex(PRO_TIPS)];
-    var titleEl = document.getElementById('ov-pro-tip-title');
-    var bodyEl  = document.getElementById('ov-pro-tip-body');
-    if (titleEl) titleEl.textContent = tip.title;
-    if (bodyEl)  bodyEl.textContent  = tip.body;
-  }
+  if (regularCard) regularCard.style.display = 'block';
+  var tip = REGULAR_TIPS[seededIndex(REGULAR_TIPS)];
+  var titleEl = document.getElementById('ov-tip-title');
+  var bodyEl  = document.getElementById('ov-tip-body');
+  if (titleEl) titleEl.textContent = tip.title;
+  if (bodyEl)  bodyEl.textContent  = tip.body;
 }
 
 async function refreshStorageBar() {
   const wrap = document.getElementById('storage-bar-wrap');
   if (!wrap || !S.profile) return;
-  const isPaidUser = S.profile.plan === 'pro' || S.profile.plan === 'pro-yearly' || S.profile.plan === 'pro_yearly' || S.profile.plan === 'standard' || S.profile.plan === 'vip';
-  const storageLimit = isPaidUser ? PRO_STORAGE_LIMIT : FREE_STORAGE_LIMIT;
-  const limitLabel   = isPaidUser ? '5 GB' : '250 MB';
+  const storageLimit = PRO_STORAGE_LIMIT; // flat 1 GB for everyone
+  const limitLabel   = '1 GB';
   const used = await getUsedStorage();
   const pct  = Math.min(100, (used / storageLimit) * 100);
   const left = storageLimit - used;
@@ -9988,13 +8644,13 @@ async function refreshStorageBar() {
   wrap.style.display = 'block';
   wrap.innerHTML =
     '<div style="display:flex;justify-content:space-between;margin-bottom:.3rem">' +
-      '<span style="font-size:.6rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">' + (isPaidUser ? 'Pro' : 'Free') + ' Storage</span>' +
+      '<span style="font-size:.6rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)">Storage</span>' +
       '<span style="font-size:.68rem;font-weight:600;color:' + (pct > 85 ? '#ef4444' : 'var(--t2)') + '">' + fmtBytes(used) + ' / ' + limitLabel + '</span>' +
     '</div>' +
     '<div style="background:var(--bg4);border-radius:4px;height:5px;overflow:hidden">' +
       '<div style="height:100%;background:' + col + ';width:' + pct.toFixed(1) + '%;transition:width .4s;border-radius:4px"></div>' +
     '</div>' +
-    '<div style="font-size:.63rem;color:' + (pct > 85 ? '#f59e0b' : 'var(--t3)') + ';margin-top:.25rem">' + (pct > 85 ? '<svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px"><path d="M5.5 1.5L9.5 9H1.5L5.5 1.5Z" stroke="#f59e0b" stroke-width="1.2" stroke-linejoin="round" fill="none"/><line x1="5.5" y1="5" x2="5.5" y2="7" stroke="#f59e0b" stroke-width="1.2" stroke-linecap="round"/><circle cx="5.5" cy="8.2" r=".4" fill="#f59e0b"/></svg>' : '') + fmtBytes(left) + ' remaining' + (!isPaidUser ? ' \u00b7 <a style=\"color:var(--ac);cursor:pointer\" onclick=\"switchDash(\'account\',document.getElementById(\'dnav-account\'));setTimeout(()=>switchAccTab(\'pro\'),80)\">Upgrade for 5 GB</a>' : '') + '</div>';
+    '<div style="font-size:.63rem;color:' + (pct > 85 ? '#f59e0b' : 'var(--t3)') + ';margin-top:.25rem">' + (pct > 85 ? '<svg width="11" height="11" viewBox="0 0 11 11" fill="none" style="display:inline-block;vertical-align:middle;margin-right:3px"><path d="M5.5 1.5L9.5 9H1.5L5.5 1.5Z" stroke="#f59e0b" stroke-width="1.2" stroke-linejoin="round" fill="none"/><line x1="5.5" y1="5" x2="5.5" y2="7" stroke="#f59e0b" stroke-width="1.2" stroke-linecap="round"/><circle cx="5.5" cy="8.2" r=".4" fill="#f59e0b"/></svg>' : '') + fmtBytes(left) + ' remaining</div>';
 }
 
 // ── EXPOSE EXTRA HELPERS ─────────────────────────────
@@ -10219,86 +8875,18 @@ boot();
     </div>
   </div>
 </div>
-<div class="page" id="page-pricing">
-  <div class="pricing-wrap">
-    <div class="pricing-eyebrow">Pricing</div>
-    <h2 class="pricing-h">Go Pro. <span>Take Control.</span></h2>
-    <p class="pricing-sub">Everything a serious video editor needs, for under 1,000 LKR a month.</p>
-
-
-    <!-- Billing toggle -->
-    <div style="display:flex;align-items:center;justify-content:center;gap:.75rem;margin-bottom:2.5rem">
-      <div style="display:flex;background:var(--bg3);border:1px solid var(--brd);border-radius:50px;padding:.22rem;gap:.15rem">
-        <button id="ptog-monthly" onclick="setPricingBilling('monthly')" style="padding:.42rem 1.1rem;border-radius:50px;border:1px solid var(--brd);font-family:var(--fm);font-size:.8rem;font-weight:500;cursor:pointer;background:var(--bg2);color:var(--t1);transition:all .15s">Monthly</button>
-        <button id="ptog-yearly" onclick="setPricingBilling('yearly')" style="padding:.42rem 1.1rem;border-radius:50px;border:none;font-family:var(--fm);font-size:.8rem;font-weight:500;cursor:pointer;background:transparent;color:var(--t2);transition:all .15s">Yearly</button>
-      </div>
-      <span id="ptog-save" style="display:none;font-size:.72rem;font-weight:600;background:rgba(22,163,74,.12);color:#16a34a;padding:.22rem .7rem;border-radius:50px">2 months free</span>
-    </div>
-
-    <div class="pricing-grid" style="grid-template-columns:repeat(2,1fr);max-width:720px;margin-left:auto;margin-right:auto">
-      <!-- Free -->
-      <div class="pc" style="padding-top:2.8rem">
-        <div class="pc-name">Free</div>
-        <div class="pc-price" style="font-size:2.4rem">0<span> LKR</span></div>
-        <div class="pc-period">/ forever · No credit card needed</div>
-        <div class="pc-divider"></div>
-        <div class="pc-desc">Everything you need to start showing your work.</div>
-        <ul class="pc-feats">
-          <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Public profile page</li>
-          <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Up to 3 projects</li>
-          <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>250 MB video storage</li>
-          <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Social links</li>
-          <li><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="rgba(254,115,10,.12)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="var(--ac)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Hire Me button</li>
-        </ul>
-        <button class="pc-btn pc-btn-free" onclick="openAuth('up')">Get Started Free</button>
-      </div>
-      <!-- Pro -->
-      <div class="pc pc-feat" style="background:#FE730A;border:none;position:relative;overflow:visible;padding-top:2.8rem">
-        <div style="position:absolute;top:0;left:0;right:0;background:#d95e00;color:white;font-size:.62rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:.38rem 1rem;border-radius:var(--rxl) var(--rxl) 0 0;text-align:center">Most Popular</div>
-        <div class="pc-name" style="color:rgba(255,255,255,.7)">Pro</div>
-        <div class="pc-price" id="pp-price" style="font-size:2.4rem;color:white"><span style="font-size:.85rem;font-weight:400;color:rgba(255,255,255,.6)">LKR </span>990<span style="font-size:.8rem;font-weight:400;color:rgba(255,255,255,.6)"> / month</span></div>
-        <div class="pc-divider" style="border-color:rgba(255,255,255,.08)"></div>
-        <div class="pc-desc" style="color:rgba(255,255,255,.55)">Your portfolio, your brand. Full control under 1,000 LKR.</div>
-        <ul class="pc-feats">
-          <li style="color:rgba(255,255,255,.85);font-weight:600"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Everything in Free</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited projects</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>5 GB video storage</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Skills tab</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Services tab (rate card)</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Brand color (your own colors)</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Remove TimeLiners branding</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Analytics tab</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Priority in feed</li>
-          <li style="color:rgba(255,255,255,.85)"><span class="pc-chk"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="6.5" fill="var(--ac)"/><polyline points="3.5,6.5 5.5,8.5 9.5,4" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Verified badge</li>
-        </ul>
-        <button class="pc-btn pc-btn-std" id="pp-btn" onclick="requestUpgrade('pro')" style="width:100%;cursor:pointer;border:none;font-family:var(--fm)">Subscribe · 990 LKR/mo</button>
-      </div>
-    </div>
-    <p class="pricing-note">Activated manually after WhatsApp confirmation · Bank transfer only</p>
-
-    <div class="pricing-compare">
-      <h3>Full Feature Comparison</h3>
-      <table class="compare-table">
-        <thead><tr><th>Feature</th><th>Free</th><th>Pro</th></tr></thead>
-        <tbody>
-          <tr><td>Public profile page</td><td>✓</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Projects</td><td>Up to 3</td><td class="ct-yes">Unlimited</td></tr>
-          <tr><td>Video storage</td><td>250 MB</td><td class="ct-yes">5 GB</td></tr>
-          <tr><td>Social links</td><td>✓</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Hire Me button</td><td>✓</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Analytics tab</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Skills tab</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Services tab (rate card)</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Brand color</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Remove TimeLiners branding</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Priority in feed</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-          <tr><td>Verified badge</td><td class="ct-no">·</td><td class="ct-yes">✓</td></tr>
-        </tbody>
-      </table>
+<div class="page" id="page-advertise">
+  <div class="pricing-wrap" style="min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;padding-top:0;padding-bottom:0">
+    <div style="max-width:640px;margin:0 auto;background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--rxl);padding:2.5rem 2rem;text-align:center;box-shadow:var(--shadow-lg)">
+      <div style="font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#FE730A;background:rgba(254,115,10,.1);display:inline-block;padding:.3rem .8rem;border-radius:50px;margin-bottom:1rem">Coming Soon</div>
+      <h3 style="font-size:1.3rem;font-weight:700;color:var(--t1);margin:0 0 .7rem">Sponsor slots aren't open yet</h3>
+      <p style="font-size:.88rem;color:var(--t2);line-height:1.7;margin:0 0 1.5rem">We're currently building our advertising system so brands, tools, and services can get in front of Sri Lanka's video editors on the Discover feed. We'll release this feature soon, letting you advertise your thing on TimeLiners.</p>
+      <p style="font-size:.82rem;color:var(--t3);line-height:1.6;margin:0 0 1.6rem">Want to be first in line when spots open? Reach out and we'll keep you posted.</p>
+      <button class="btn btn-p" onclick="openContactModal()">Get in touch</button>
     </div>
   </div>
   <footer class="site-footer">
-  <div style="max-width:1100px;margin:0 auto;padding:3rem 24px 0">
+  <div style="max-width:1500px;margin:0 auto;padding:3rem 24px 0">
     <div style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;padding-bottom:2.5rem;border-bottom:1px solid var(--brd)">
       <!-- Left: brand + description + socials -->
       <div style="max-width:340px">
@@ -10306,7 +8894,7 @@ boot();
         <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
         <div style="display:flex;gap:.5rem">
           <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
-          <a class="footer-icon-btn" href="https://www.instagram.com/timeliners.lk/" target="_blank" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43-.26.66-.6 1.22-1.15 1.77-.55.55-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.93 4.93 0 01-1.77-1.15 4.93 4.93 0 01-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.55-.55 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.04-.87-.18-1.34-.3-1.65a2.76 2.76 0 00-.66-1.02 2.76 2.76 0 00-1.02-.66c-.31-.12-.78-.26-1.65-.3-1.05-.05-1.37-.06-4.04-.06zm0 3.24a4.96 4.96 0 110 9.92 4.96 4.96 0 010-9.92zm0 1.8a3.16 3.16 0 100 6.32 3.16 3.16 0 000-6.32zm5.16-1.98a1.16 1.16 0 11-2.32 0 1.16 1.16 0 012.32 0z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16.6 5.82c-.9-.98-1.39-2.26-1.39-3.62h-3.15v13.44c0 1.6-1.3 2.9-2.9 2.9a2.9 2.9 0 01-2.9-2.9 2.9 2.9 0 012.9-2.9c.28 0 .56.04.82.12V9.66a6.1 6.1 0 00-.82-.06 6.06 6.06 0 00-6.06 6.06A6.06 6.06 0 009.16 21.72a6.06 6.06 0 006.06-6.06V8.86c1.29.92 2.86 1.46 4.56 1.46V7.17c-1.05 0-2.02-.33-2.82-.9-.15-.1-.29-.22-.36-.45z" fill="currentColor"/></svg></a>
         </div>
       </div>
       <!-- Right: link columns -->
@@ -10315,7 +8903,7 @@ boot();
           <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
           <div style="display:flex;flex-direction:column;gap:.5rem">
             <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
-            <a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a>
+            <a class="flink" href="#/advertise" onclick="event.preventDefault();showPage('advertise')">Advertise</a>
             <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
           </div>
         </div>
@@ -10342,17 +8930,17 @@ boot();
   <div class="faq-wrap">
     <div class="faq-eyebrow">FAQ</div>
     <h2 class="faq-h">Frequently Asked Questions</h2>
-    <p class="faq-sub">Everything you need to know about Timeliners, plans, and how it all works.</p>
+    <p class="faq-sub">Everything you need to know about TimeLiners and how it all works.</p>
 
     <div class="faq-section-title">Getting Started</div>
 
     <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">What is Timeliners?<div class="faq-ico">+</div></div>
+      <div class="faqq" onclick="toggleFaq(this)">What is TimeLiners?<div class="faq-ico">+</div></div>
       <div class="faqa">TimeLiners is Sri Lanka's portfolio platform built specifically for video editors and motion designers. Build a professional portfolio, upload your projects, and share your profile link anywhere — Instagram bio, WhatsApp, client emails. Your portfolio becomes your professional identity.</div>
     </div>
     <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">Is it free to create an account?<div class="faq-ico">+</div></div>
-      <div class="faqa">Yes · creating an account is completely free. Your free account includes a public portfolio page, up to 3 live projects, 250 MB video storage, social links, and a Hire Me button.</div>
+      <div class="faqq" onclick="toggleFaq(this)">Is TimeLiners free?<div class="faq-ico">+</div></div>
+      <div class="faqa">Yes — TimeLiners is completely free, with no paid plan or upgrade. Every account gets a public portfolio page, unlimited projects, 1 GB of video storage, social links, and a Hire Me button. No credit card, no catch.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How do I create an account?<div class="faq-ico">+</div></div>
@@ -10363,34 +8951,19 @@ boot();
       <div class="faqa">Yes. Your account is securely stored and you can sign out and sign back in from any browser using your email and password. Your profile, projects and settings are all saved and will be there when you return.</div>
     </div>
 
-    <div class="faq-section-title">Plans &amp; Payments</div>
-
-    <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">What's the difference between the plans?<div class="faq-ico">+</div></div>
-      <div class="faqa">Free: public profile, up to 3 projects, 250 MB storage, social links, Hire Me button. Pro (990 LKR/mo or 9,990 LKR/yr): everything in Free plus unlimited projects, 5 GB storage, Skills tab, Services tab (rate card), brand color, remove TimeLiners branding, advanced analytics, priority in feed, and verified badge (awarded manually after review). Pay yearly and get 2 months free.</div>
-    </div>
-    <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">How does payment work?<div class="faq-ico">+</div></div>
-      <div class="faqa">After choosing a plan, message us on WhatsApp. We send you our bank account details. Once you transfer the fee and send us confirmation, we activate your plan within 24 hours. We only accept direct bank transfer.</div>
-    </div>
-    <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">Can I cancel my subscription?<div class="faq-ico">+</div></div>
-      <div class="faqa">Yes. Message us on WhatsApp at least 3 days before your renewal date and we'll cancel it. Your plan stays active until the end of the paid period. There are no refunds for partial months.</div>
-    </div>
-    <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">Can I upgrade or downgrade my plan?<div class="faq-ico">+</div></div>
-      <div class="faqa">Yes. You can upgrade at any time · the new plan activates immediately after payment. To downgrade, message us and we'll adjust at your next renewal date.</div>
-    </div>
-
     <div class="faq-section-title">Portfolio &amp; Projects</div>
 
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How do I upload a project?<div class="faq-ico">+</div></div>
-      <div class="faqa">Sign in, go to your Dashboard and click "Upload Project". Fill in the project title, category, description, and tags — then upload your video files (MP4, MOV, or WEBM, up to 250 MB each) and a cover image. Your project goes live on your portfolio immediately.</div>
+      <div class="faqa">Sign in, go to your Dashboard and click "Upload Project". Fill in the project title, category, description, and tags — then upload your video files (MP4 or WEBM, up to 1 GB total storage) and a cover image. Your project goes live on your portfolio immediately.</div>
     </div>
     <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">What are the Skills and Services tabs?<div class="faq-ico">+</div></div>
-      <div class="faqa">Pro features that let clients immediately understand what you offer. The Skills tab lists your editing specialties — short-form, cinematic, motion graphics, and so on. The Services tab is your rate card: list your packages, turnaround times, and pricing. Both appear on your public portfolio.</div>
+      <div class="faqq" onclick="toggleFaq(this)">How many projects can I upload?<div class="faq-ico">+</div></div>
+      <div class="faqa">As many as you like — there's no project limit. Your only constraint is total video storage, which is 1 GB per account.</div>
+    </div>
+    <div class="faqitem">
+      <div class="faqq" onclick="toggleFaq(this)">Can I customize my portfolio's look?<div class="faq-ico">+</div></div>
+      <div class="faqa">Yes. Your profile has a clean, focused layout designed to put your work front and center, and you're free to organize projects and categories however fits your style.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Can clients contact me directly?<div class="faq-ico">+</div></div>
@@ -10399,6 +8972,13 @@ boot();
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Can I update my portfolio after publishing?<div class="faq-ico">+</div></div>
       <div class="faqa">Yes. You can upload new projects, edit your profile details, change your cover image, and update your social links at any time from the Dashboard · no need to contact us.</div>
+    </div>
+
+    <div class="faq-section-title">Advertising</div>
+
+    <div class="faqitem">
+      <div class="faqq" onclick="toggleFaq(this)">Can I advertise on TimeLiners?<div class="faq-ico">+</div></div>
+      <div class="faqa">Not yet — we're currently building our advertising system so brands, tools, and services can get in front of Sri Lanka's video editors on the Discover feed. Visit the Advertise page to learn more, and we'll release this feature soon.</div>
     </div>
 
     <div class="faq-cta-box">
@@ -10411,7 +8991,7 @@ boot();
     </div>
   </div>
   <footer class="site-footer">
-  <div style="max-width:1100px;margin:0 auto;padding:3rem 24px 0">
+  <div style="max-width:1500px;margin:0 auto;padding:3rem 24px 0">
     <div style="display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;padding-bottom:2.5rem;border-bottom:1px solid var(--brd)">
       <!-- Left: brand + description + socials -->
       <div style="max-width:340px">
@@ -10419,7 +8999,7 @@ boot();
         <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Where video editors and motion designers showcase their work, build a stunning portfolio, and get hired.</div>
         <div style="display:flex;gap:.5rem">
           <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
-          <a class="footer-icon-btn" href="https://www.instagram.com/timeliners.lk/" target="_blank" title="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.55.55.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43-.26.66-.6 1.22-1.15 1.77-.55.55-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.93 4.93 0 01-1.77-1.15 4.93 4.93 0 01-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.55-.55 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 1.8c-2.67 0-2.99.01-4.04.06-.87.04-1.34.18-1.65.3-.42.16-.71.35-1.02.66-.31.31-.5.6-.66 1.02-.12.31-.26.78-.3 1.65-.05 1.05-.06 1.37-.06 4.04s.01 2.99.06 4.04c.04.87.18 1.34.3 1.65.16.42.35.71.66 1.02.31.31.6.5 1.02.66.31.12.78.26 1.65.3 1.05.05 1.37.06 4.04.06s2.99-.01 4.04-.06c.87-.04 1.34-.18 1.65-.3.42-.16.71-.35 1.02-.66.31-.31.5-.6.66-1.02.12-.31.26-.78.3-1.65.05-1.05.06-1.37.06-4.04s-.01-2.99-.06-4.04c-.04-.87-.18-1.34-.3-1.65a2.76 2.76 0 00-.66-1.02 2.76 2.76 0 00-1.02-.66c-.31-.12-.78-.26-1.65-.3-1.05-.05-1.37-.06-4.04-.06zm0 3.24a4.96 4.96 0 110 9.92 4.96 4.96 0 010-9.92zm0 1.8a3.16 3.16 0 100 6.32 3.16 3.16 0 000-6.32zm5.16-1.98a1.16 1.16 0 11-2.32 0 1.16 1.16 0 012.32 0z" fill="currentColor"/></svg></a>
+          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16.6 5.82c-.9-.98-1.39-2.26-1.39-3.62h-3.15v13.44c0 1.6-1.3 2.9-2.9 2.9a2.9 2.9 0 01-2.9-2.9 2.9 2.9 0 012.9-2.9c.28 0 .56.04.82.12V9.66a6.1 6.1 0 00-.82-.06 6.06 6.06 0 00-6.06 6.06A6.06 6.06 0 009.16 21.72a6.06 6.06 0 006.06-6.06V8.86c1.29.92 2.86 1.46 4.56 1.46V7.17c-1.05 0-2.02-.33-2.82-.9-.15-.1-.29-.22-.36-.45z" fill="currentColor"/></svg></a>
         </div>
       </div>
       <!-- Right: link columns -->
@@ -10428,7 +9008,7 @@ boot();
           <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
           <div style="display:flex;flex-direction:column;gap:.5rem">
             <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
-            <a class="flink" href="#/pricing" onclick="event.preventDefault();showPage('pricing')">Pricing</a>
+            <a class="flink" href="#/advertise" onclick="event.preventDefault();showPage('advertise')">Advertise</a>
             <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
           </div>
         </div>
