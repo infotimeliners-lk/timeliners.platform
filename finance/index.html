@@ -366,10 +366,6 @@ button,a{cursor:pointer;font-family:var(--fm)}
       <button class="sb-link active" onclick="nav('payments',this)" id="nav-payments" data-label="Members">
         <span class="sb-link-label">Members</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
       </button>
-      <div class="sb-sec">Finance</div>
-      <button class="sb-link" onclick="nav('revenue',this)" id="nav-revenue" data-label="Revenue">
-        <span class="sb-link-label">Revenue</span>
-      </button>
     </div>
     <div class="sb-bottom">
       <div class="sb-user">
@@ -394,8 +390,7 @@ button,a{cursor:pointer;font-family:var(--fm)}
           <button class="btn btn-g btn-sm" onclick="openNudgeModal()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v1M7 12v1M1 7h1M12 7h1M2.5 2.5l.7.7M10.8 10.8l.7.7M2.5 11.5l.7-.7M10.8 3.2l.7-.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg> Send Nudge</button>
           <button class="btn btn-g btn-sm" onclick="openNewsletterModal()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 5l6 4 6-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg> Newsletter</button>
           <button class="btn btn-g btn-sm" onclick="openTestEmails()"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 3.5h10M2 7h6M2 10.5h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="11" cy="10.5" r="2.2" stroke="currentColor" stroke-width="1.2"/><path d="M11 9.5v1l.7.7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg> Test Emails</button>
-          <button class="btn btn-refresh btn-sm" onclick="refreshAll()">Refresh</button>
-          <button class="btn btn-p btn-sm" onclick="openPayModal()">+ Add Payment</button>
+          <button class="btn btn-p btn-sm" onclick="refreshAll()">Refresh</button>
         </div>
       </div>
       <div class="pw">
@@ -447,51 +442,6 @@ button,a{cursor:pointer;font-family:var(--fm)}
       </div>
     </div>
 
-
-    <!-- REVENUE -->
-
-    <div id="pane-revenue" class="pane">
-      <div class="topbar">
-        <div class="tb-l"><h2>Revenue</h2><p id="rev-period-label">All time · since March 2026</p></div>
-        <div class="tb-r"><button class="btn btn-g btn-sm" onclick="openBackfill()">+ Backfill History</button></div>
-      </div>
-      <div class="pw">
-
-        <!-- Time filter pills -->
-        <div style="display:flex;align-items:center;gap:.35rem;margin-bottom:1.4rem;flex-wrap:wrap">
-          <button class="rev-tf" onclick="setRevFilter('24h',this)">24 hours</button>
-          <button class="rev-tf" onclick="setRevFilter('7d',this)">7 days</button>
-          <button class="rev-tf" onclick="setRevFilter('30d',this)">30 days</button>
-          <button class="rev-tf" onclick="setRevFilter('90d',this)">90 days</button>
-          <button class="rev-tf" onclick="setRevFilter('year',this)">This year</button>
-          <button class="rev-tf active" onclick="setRevFilter('all',this)">All time</button>
-        </div>
-
-        <!-- KPI cards -->
-        <div class="stats stats-3 mb" id="rev-stats"></div>
-
-        <!-- Area chart -->
-        <div class="card mb">
-          <div class="ch">
-            <div><h3 id="rev-chart-title">Monthly revenue</h3><p id="rev-chart-sub" style="color:var(--t3);font-size:.75rem"></p></div>
-          </div>
-          <div class="cb" style="padding:1.4rem 1.2rem 1rem"><canvas id="chart-rev" height="200"></canvas></div>
-        </div>
-
-        <!-- Monthly breakdown table -->
-        <div class="card mb">
-          <div class="ch"><h3>Monthly breakdown</h3><p id="rev-table-sub">Since March 2026</p></div>
-          <div style="padding:.6rem 1.05rem">
-            <div style="display:grid;grid-template-columns:180px 1fr 80px 90px 90px;gap:.7rem;padding:.4rem 0;border-bottom:1px solid var(--brd);font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--t2)">
-              <div>Month</div><div>Revenue</div><div>Payments</div><div>Active Subs</div><div></div>
-            </div>
-            <div id="rev-rows"></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
   </div>
 </div>
 
@@ -516,30 +466,6 @@ button,a{cursor:pointer;font-family:var(--fm)}
   </div>
 </div></div>
 
-<!-- MODAL: ADD/RENEW PAYMENT -->
-<div class="ov" id="ov-pay"><div class="mbox">
-  <button class="mx" onclick="closeM('ov-pay')">×</button>
-  <div class="mt" id="pay-mt">Add Payment</div>
-  <div class="ms" id="pay-ms">Enter TL number — auto-fills member info</div>
-  <input type="hidden" id="pay-uid">
-  <div class="fr2">
-    <div class="fg"><label class="fl">TL Number</label><input class="fi" id="pay-tl" placeholder="TL-001" style="font-family:var(--mono)" oninput="tlLookup()"></div>
-    <div class="fg"><label class="fl">Paid Date</label><input class="fi" id="pay-date" type="date"></div>
-  </div>
-  <div class="fg"><label class="fl">Plan</label>
-    <select class="fi" id="pay-plan">
-      <option value="pro">Pro Monthly — LKR 990 · 30 days</option>
-      <option value="pro-yearly">Pro Yearly — LKR 9,990 · 365 days</option>
-    </select>
-  </div>
-  <div class="fg"><label class="fl">WhatsApp (optional override)</label><input class="fi" id="pay-wa" placeholder="+94 77 xxx xxxx"></div>
-  <div class="fg"><label class="fl">Notes</label><input class="fi" id="pay-notes" placeholder="Cash, bank transfer…"></div>
-  <div id="pay-msg" style="display:none;font-size:.75rem;padding:.45rem .72rem;border-radius:6px;margin-bottom:.7rem"></div>
-  <div style="display:flex;gap:.42rem">
-    <button class="btn btn-p" style="flex:1" id="pay-submit-btn" onclick="submitPayment()">Add Payment</button>
-    <button class="btn btn-g" onclick="closeM('ov-pay')">Cancel</button>
-  </div>
-</div></div>
 
 <!-- MODAL: EXPENSE -->
 <!-- MODAL: BACKFILL PAYMENT HISTORY -->
@@ -1055,7 +981,7 @@ async function refreshAll(){
     toast('Done ✓');
   }catch(e){toast('Error: '+e.message,1);}
 }
-function renderAll(){rPayments();rRevenue();rSidebar();}
+function renderAll(){rPayments();rSidebar();}
 
 function nav(id,el){
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
@@ -1063,7 +989,6 @@ function nav(id,el){
   const pane=document.getElementById('pane-'+id);if(pane)pane.classList.add('active');
   if(el)el.classList.add('active');
   closeSidebar();
-  if(id==='revenue')setTimeout(rRevenue,50);
 }
 
 function rSidebar(){
@@ -1133,28 +1058,8 @@ function rFreeMembers(){
       <td style="font-size:.77rem;color:var(--t3)">${fmt(p.created_at)}</td>
       <td><div style="display:flex;gap:.28rem">
         <button class="btn btn-g btn-xs" onclick="openEditMember('${p.id}')">Edit</button>
-        <button class="btn btn-p btn-xs" onclick="quickMakePro('${p.id}')">Make Pro</button>
       </div></td>
     </tr>`;}).join('');
-}
-
-// Quick shortcut to open payment modal pre-linked to free member
-function quickMakePro(userId){
-  const pf=_pf.find(x=>x.id===userId);if(!pf)return;
-  const mn=mno(pf);
-  document.getElementById('pay-tl').value=mn;
-  document.getElementById('pay-uid').value=userId;
-  document.getElementById('pay-wa').value=pf.wa||'';
-  document.getElementById('pay-notes').value='';
-  document.getElementById('pay-plan').value='pro';
-  document.getElementById('pay-date').value=new Date().toISOString().split('T')[0];
-  document.getElementById('pay-mt').textContent='Make Pro — '+(pf.name||pf.username||mn);
-  document.getElementById('pay-ms').textContent='Set plan and paid date to activate';
-  const m=document.getElementById('pay-msg');
-  m.textContent='Upgrading: '+(pf.name||pf.username||mn);
-  m.style.cssText='display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
-  document.getElementById('pay-submit-btn').textContent='Confirm & Make Pro';
-  openM('ov-pay');
 }
 
 // ─── PRO MEMBERS TABLE ────────────────────────────────────────────────────────
@@ -1240,7 +1145,6 @@ function rProMembers(){
       <td>${pyBdg(p.pay_status)}</td>
       <td>${notifyChip||'<span style="color:var(--t3);font-size:.75rem">—</span>'}</td>
       <td><div style="display:flex;gap:.25rem">
-        <button class="btn btn-grn btn-xs" onclick="openRenewPay('${p.user_id}','${p.plan}')">Renew</button>
         <button class="btn btn-g btn-xs" onclick="openEditPayDate('${p.id}','${p.paid_date}','${p.plan}')">Date</button>
         <button class="btn btn-g btn-xs" onclick="openEditMember('${p.user_id}')">Edit</button>
         <button class="btn btn-r btn-xs" onclick="delPayment('${p.id}')">Del</button>
@@ -1297,7 +1201,6 @@ function rAllMembers(){
       <td>—</td>
       <td><div style="display:flex;gap:.28rem">
         <button class="btn btn-g btn-xs" onclick="openEditMember('${p.id}')">Edit</button>
-        <button class="btn btn-p btn-xs" onclick="quickMakePro('${p.id}')">Make Pro</button>
       </div></td>
     </tr>`});
   });
@@ -1315,7 +1218,6 @@ function rAllMembers(){
       <td style="font-size:.78rem;color:var(--t2)">${fmt(p.paid_date)}</td>
       <td>${pyBdg(pf.pay_status)}</td>
       <td><div style="display:flex;gap:.25rem">
-        <button class="btn btn-grn btn-xs" onclick="openRenewPay('${pf.id}','${pf.plan}')">Renew</button>
         <button class="btn btn-g btn-xs" onclick="openEditMember('${pf.id}')">Edit</button>
         <button class="btn btn-r btn-xs" onclick="delPayment('${p.id}')">Del</button>
       </div></td>
@@ -1362,15 +1264,15 @@ function allPageNav(dir){
 
 function rPayments(){
   const now=Date.now();
-  const proM=_pf.filter(p=>p.plan==='pro'&&p.pay_status==='paid').length;
-  const proY=_pf.filter(p=>p.plan==='pro-yearly'&&p.pay_status==='paid').length;
-  const over=_pf.filter(p=>isPro(p.plan)&&p.pay_status==='overdue').length;
-  const down=_pf.filter(p=>isPro(p.plan)&&p.pay_status==='downgraded').length;
+  const h24=now-864e5, d7=now-7*864e5, d30=now-30*864e5;
+  const newToday=_pf.filter(p=>new Date(p.created_at||0).getTime()>h24).length;
+  const new7=_pf.filter(p=>new Date(p.created_at||0).getTime()>d7).length;
+  const new30=_pf.filter(p=>new Date(p.created_at||0).getTime()>d30).length;
   document.getElementById('pay-stats').innerHTML=`
-    <div class="stat"><div class="stat-l">Monthly Revenue</div><div class="stat-v">LKR ${(proM*990+proY*832).toLocaleString()}</div><div class="stat-s">from active subscriptions</div></div>
-    <div class="stat"><div class="stat-l">Pro Monthly</div><div class="stat-v">${proM}</div><div class="stat-s g">active paid</div></div>
-    <div class="stat"><div class="stat-l">Pro Yearly</div><div class="stat-v">${proY}</div><div class="stat-s g">active paid</div></div>
-    <div class="stat"><div class="stat-l">Overdue / Down</div><div class="stat-v" style="color:${over+down?'var(--red)':'var(--t1)'}">${over+down}</div><div class="stat-s ${over+down?'r':''}">need attention</div></div>`;
+    <div class="stat"><div class="stat-l">Total Members</div><div class="stat-v">${_pf.length}</div><div class="stat-s">all time</div></div>
+    <div class="stat"><div class="stat-l">New Today</div><div class="stat-v">${newToday}</div><div class="stat-s g">last 24 hours</div></div>
+    <div class="stat"><div class="stat-l">New This Week</div><div class="stat-v">${new7}</div><div class="stat-s g">last 7 days</div></div>
+    <div class="stat"><div class="stat-l">New This Month</div><div class="stat-v">${new30}</div><div class="stat-s g">last 30 days</div></div>`;
   rMembers();
 }
 
@@ -1425,112 +1327,6 @@ async function saveMember(){
   }catch(e){toast('Error: '+e.message,1);}
 }
 
-// ─── PAYMENT MODAL ────────────────────────────────────────────────────────────
-function tlLookup(){
-  const tl=document.getElementById('pay-tl').value.trim();
-  if(!tl)return;
-  const pf=findByTL(tl);
-  const m=document.getElementById('pay-msg');
-  if(pf){
-    document.getElementById('pay-uid').value=pf.id;
-    document.getElementById('pay-wa').value=document.getElementById('pay-wa').value||pf.wa||'';
-    m.textContent='Found: '+(pf.name||pf.username||tl);
-    m.style.cssText='display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
-  }else if(tl.length>=4){
-    document.getElementById('pay-uid').value='';
-    m.textContent='Member '+tl+' not found';
-    m.style.cssText='display:block;background:var(--redl);color:var(--red);border:1px solid var(--redb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
-  }
-}
-function openPayModal(){
-  document.getElementById('pay-tl').value='';
-  document.getElementById('pay-uid').value='';
-  document.getElementById('pay-wa').value='';
-  document.getElementById('pay-notes').value='';
-  document.getElementById('pay-plan').value='pro';
-  document.getElementById('pay-date').value=new Date().toISOString().split('T')[0];
-  document.getElementById('pay-mt').textContent='Add Payment';
-  document.getElementById('pay-ms').textContent='Enter TL number — auto-fills member info';
-  document.getElementById('pay-submit-btn').textContent='Add Payment';
-  const m=document.getElementById('pay-msg');m.style.display='none';
-  openM('ov-pay');
-}
-function openRenewPay(userId,currentPlan){
-  const pf=_pf.find(x=>x.id===userId);if(!pf)return;
-  const mn=mno(pf);
-  document.getElementById('pay-tl').value=mn;
-  document.getElementById('pay-uid').value=userId;
-  document.getElementById('pay-wa').value=pf.wa||'';
-  document.getElementById('pay-notes').value='Renewal';
-  document.getElementById('pay-plan').value=currentPlan||'pro';
-  document.getElementById('pay-date').value=new Date().toISOString().split('T')[0];
-  document.getElementById('pay-mt').textContent='Renew — '+(pf.name||pf.username||mn);
-  document.getElementById('pay-ms').textContent='Creates a new payment record and resets expiry';
-  document.getElementById('pay-submit-btn').textContent='Confirm Renewal';
-  const m=document.getElementById('pay-msg');
-  m.textContent='Renewing: '+(pf.name||pf.username||mn);
-  m.style.cssText='display:block;background:var(--grnl);color:var(--grn);border:1px solid var(--grnb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
-  openM('ov-pay');
-}
-async function submitPayment(){
-  const tl=document.getElementById('pay-tl').value.trim();
-  const date=document.getElementById('pay-date').value;
-  const plan=document.getElementById('pay-plan').value;
-  const wa=document.getElementById('pay-wa').value.trim();
-  const notes=document.getElementById('pay-notes').value.trim();
-  const m=document.getElementById('pay-msg');
-  if(!date){toast('Enter a paid date',1);return;}
-  let pf=null;
-  const presetUid=document.getElementById('pay-uid').value;
-  if(presetUid){pf=_pf.find(x=>x.id===presetUid);}
-  if(!pf&&tl){pf=findByTL(tl);}
-  if(!pf){
-    m.textContent='Member not found. Check TL number.';
-    m.style.cssText='display:block;background:var(--redl);color:var(--red);border:1px solid var(--redb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
-    return;
-  }
-  m.textContent='Processing…';
-  m.style.cssText='display:block;background:var(--ambl);color:var(--amb);border:1px solid var(--ambb);font-size:.74rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.7rem';
-  try{
-    const expires=calcExpiry(date,plan);
-    const payBody={user_id:pf.id,plan,amount:PP[plan]||990,paid_date:date,pay_status:'paid',notes:notes||null,wa:wa||pf.wa||null,member_no:mno(pf)};
-    // INSERT new payment row — never delete old ones (they are revenue history)
-    const insResp=await fetch(SB+'/rest/v1/payments',{
-      method:'POST',
-      headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'},
-      body:JSON.stringify(payBody)
-    });
-    if(!insResp.ok){
-      const errText=await insResp.text();
-      throw new Error('Payment insert failed ('+insResp.status+'): '+errText);
-    }
-    const inserted=await insResp.json();
-    const savedRec=(inserted&&inserted[0])||payBody;
-    const profileUpdate={plan,pay_status:'paid',pay_due:expires};
-    if(wa)profileUpdate.wa=wa;
-    await sb('/profiles?id=eq.'+pf.id,'PATCH',profileUpdate);
-    // Detect renewal vs new signup — renewals have notes='Renewal' or existing paid rows
-    const isRenewal=notes==='Renewal'||_py.some(p=>p.user_id===pf.id&&(p.pay_status==='paid'||p.pay_status==='overdue'||p.pay_status==='downgraded'));
-    // Send confirmation email
-    try{
-      await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
-        body:JSON.stringify({
-          type: isRenewal ? 'pro_renewed' : 'pro_confirmed',
-          email:pf.email||'',
-          name:pf.name||pf.username||'',
-          plan:plan==='pro-yearly'?'Pro Yearly':'Pro Monthly',
-          expires:expires
-        })
-      });
-    }catch(emailErr){console.warn('Email send failed (non-critical):',emailErr);}
-    // Reload from Supabase to avoid stale local state (especially after upgrade from downgraded)
-    await loadData();
-    renderAll();closeM('ov-pay');
-    toast((pf.name||tl)+' payment recorded ✓');
-  }catch(e){toast('Error: '+e.message,1);}
-}
 async function delPayment(id){
   if(!confirm('Delete this payment record?'))return;
   try{
