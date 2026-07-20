@@ -1067,9 +1067,12 @@ img, video, svg { max-width: 100%; }
   }
   .dni-ico { display: flex !important; width: 20px; height: 20px; margin: 0; }
   .dndiv { display: none !important; }
-  /* Overview grid: profile card full width, storage BELOW */
-  #ov-grid { display: flex !important; flex-direction: column !important; gap: .75rem; }
-  #ov-storage-card { order: 10; width: 100%; }
+  /* Overview card: keep avatar+name inline, storage wraps to its own full-width row below */
+  #ov-grid { gap: .85rem; }
+  #ov-grid .ov-div { display: none; }
+  #ov-grid > div:nth-child(2) { flex: 1 1 auto !important; }
+  #ov-grid > div:last-child { flex: 1 1 100% !important; min-width: 0 !important; width: 100%; }
+  #ov-grid > div:last-child > div:nth-child(2) { width: 100% !important; }
   /* Center quick actions */
   .quick-act-row { flex-direction: column; gap: .5rem; }
   .quick-act-row .btn { width: 100%; justify-content: center; }
@@ -2525,7 +2528,7 @@ img, video, iframe, canvas { max-width: 100%; }
         <a style="display:none" id="dnav-services" href="#/dashboard" onclick="event.preventDefault();switchDash('services',this)"></a>
         <a class="dni" id="dnav-editprofile" href="#/dashboard" onclick="event.preventDefault();switchDash('editprofile',this)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M8.5 1.5L10.5 3.5L4 10H2V8L8.5 1.5Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none"/></svg></div>Edit Profile</a>
         <hr class="dndiv">
-        <a class="dni" href="#/profile" onclick="event.preventDefault();showPage('profile')" style="color:var(--ac);font-weight:600"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="var(--ac)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>My Portfolio</a>
+        <a class="dni" href="#/profile" onclick="event.preventDefault();showPage('profile')"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>My Portfolio</a>
         <a class="dni" href="#" onclick="event.preventDefault();handleSignOut()" style="color:rgba(239,68,68,.6)"><div class="dni-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M9.5 4.5L13 7l-3.5 2.5M13 7H5" stroke="rgba(239,68,68,.6)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Sign Out</a>
       </div>
 
@@ -2535,30 +2538,29 @@ img, video, iframe, canvas { max-width: 100%; }
         <!-- OVERVIEW -->
         <div class="dash-panel active" id="dash-panel-overview">
 
-          <!-- Profile summary card -->
-          <div id="ov-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-            <div class="dcard" style="margin-bottom:0;display:flex;align-items:center;gap:1rem">
-              <div id="ov-av" style="width:52px;height:52px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:white;flex-shrink:0">?</div>
-              <div style="min-width:0">
+          <!-- Profile + storage summary — one card, real hierarchy instead of two matching boxes -->
+          <div class="dcard" id="ov-grid" style="margin-bottom:1rem;display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap">
+            <div id="ov-av" style="width:52px;height:52px;border-radius:50%;background:var(--ac);display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:white;flex-shrink:0">?</div>
+            <div style="min-width:0;flex:1 1 180px">
+              <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.15rem">
                 <div style="font-size:.95rem;font-weight:700;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="ov-name">—</div>
-                <div style="font-size:.72rem;color:var(--t3);margin-bottom:.3rem" id="ov-role">—</div>
-                <span id="ov-plan-badge" style="font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.18rem .55rem;border-radius:50px;background:var(--ac);color:white">FREE</span>
+                <span id="ov-plan-badge" style="font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.16rem .5rem;border-radius:50px;background:var(--ac);color:white;flex-shrink:0">FREE</span>
               </div>
+              <div style="font-size:.72rem;color:var(--t3)" id="ov-role">—</div>
             </div>
-            <div class="dcard" id="ov-storage-card" style="margin-bottom:0">
-              <div style="font-size:.65rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.5rem">Storage</div>
-              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.35rem">
-                <span style="font-size:1.1rem;font-weight:700;color:var(--t1)" id="ov-storage-used">0 MB</span>
-                <span style="font-size:.7rem;color:var(--t3)" id="ov-storage-limit">of 1 GB</span>
+            <div style="width:1px;align-self:stretch;background:var(--brd2);flex-shrink:0" class="ov-div"></div>
+            <div style="flex:0 0 auto;min-width:150px">
+              <div style="display:flex;align-items:baseline;gap:.35rem;margin-bottom:.3rem">
+                <span style="font-size:.95rem;font-weight:700;color:var(--t1)" id="ov-storage-used">0 MB</span>
+                <span style="font-size:.68rem;color:var(--t3)" id="ov-storage-limit">of 1 GB storage</span>
               </div>
-              <div style="background:var(--bg4);border-radius:50px;height:5px;overflow:hidden;margin-bottom:.3rem">
+              <div style="background:var(--bg4);border-radius:50px;height:4px;overflow:hidden;width:150px">
                 <div id="ov-storage-bar" style="height:100%;border-radius:50px;background:var(--ac);width:0%;transition:width .5s"></div>
               </div>
-              <div style="font-size:.68rem;color:var(--t3)" id="ov-storage-hint">1 GB total</div>
+              <div style="font-size:.65rem;color:var(--t3);margin-top:.25rem" id="ov-storage-hint">1 GB total</div>
             </div>
           </div>
 
-          <!-- Weekly tip -->
           <!-- Portfolio Quick Actions -->
           <div class="dcard" style="margin-bottom:1rem">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem">
@@ -2566,23 +2568,42 @@ img, video, iframe, canvas { max-width: 100%; }
                 <div style="font-size:.65rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin-bottom:.22rem">Your Portfolio</div>
                 <div style="font-size:.88rem;font-weight:600;color:var(--t1)">Manage your content</div>
               </div>
-              <a href="#/profile" onclick="event.preventDefault();showPage('profile')" style="font-size:.74rem;color:var(--ac);font-weight:500;text-decoration:none;display:flex;align-items:center;gap:.3rem">View <svg width="10" height="10" viewBox="0 0 11 11" fill="none"><path d="M2 5.5h7M6 2.5l3 3-3 3" stroke="var(--ac)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+              <a href="#/profile" onclick="event.preventDefault();showPage('profile')" style="font-size:.74rem;color:var(--ac);font-weight:500;text-decoration:none">View</a>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem">
-              <button onclick="window._profTabState='all';showPage('profile')" style="padding:.7rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.73rem;font-weight:600;color:var(--t1)" onmouseover="this.style.borderColor='var(--ac)';this.style.background='var(--acg)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.background='var(--bg3)';this.style.color='var(--t1)'">Upload Project</button>
-              <button onclick="window._profTabState='skills';showPage('profile')" style="padding:.7rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.73rem;font-weight:600;color:var(--t1)" onmouseover="this.style.borderColor='var(--ac)';this.style.background='var(--acg)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.background='var(--bg3)';this.style.color='var(--t1)'">Add Skill</button>
-              <button onclick="window._profTabState='services';showPage('profile')" style="padding:.7rem .75rem;background:var(--bg3);border:1px solid var(--brd2);border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.73rem;font-weight:600;color:var(--t1)" onmouseover="this.style.borderColor='var(--ac)';this.style.background='var(--acg)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.background='var(--bg3)';this.style.color='var(--t1)'">Add Service</button>
+
+            <!-- Quick stats -->
+            <div style="display:flex;border:1px solid var(--brd);border-radius:var(--r);overflow:hidden;margin-bottom:.85rem">
+              <div style="flex:1;padding:.7rem .5rem;text-align:center;border-right:1px solid var(--brd)">
+                <div style="font-size:1.05rem;font-weight:700;color:var(--t1)" id="ov-projs">—</div>
+                <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:.15rem">Projects</div>
+              </div>
+              <div style="flex:1;padding:.7rem .5rem;text-align:center;border-right:1px solid var(--brd)">
+                <div style="font-size:1.05rem;font-weight:700;color:var(--t1)" id="ov-views">—</div>
+                <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:.15rem">Views</div>
+              </div>
+              <div style="flex:1;padding:.7rem .5rem;text-align:center">
+                <div style="font-size:1.05rem;font-weight:700;color:var(--t1)" id="ov-likes">—</div>
+                <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:.15rem">Likes</div>
+              </div>
             </div>
+
+            <!-- Best performing project -->
+            <div id="ov-best-wrap" style="display:none;align-items:center;gap:.65rem;padding:.6rem;margin-bottom:.85rem;border-radius:var(--r);background:var(--bg4);cursor:pointer" onclick="if(window._ovBestId){window._profTabState='all';showPage('profile');}">
+              <div id="ov-best-thumb" style="width:42px;height:42px;border-radius:8px;background:var(--bg3);flex-shrink:0;background-size:cover;background-position:center"></div>
+              <div style="min-width:0;flex:1">
+                <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.1rem">Best Performing</div>
+                <div style="font-size:.78rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="ov-best-title">—</div>
+              </div>
+              <div style="font-size:.72rem;color:var(--t2);flex-shrink:0" id="ov-best-views">—</div>
+            </div>
+
+            <button onclick="window._profTabState='all';showPage('profile')" style="width:100%;padding:.75rem .85rem;background:var(--ac);border:none;border-radius:var(--r);cursor:pointer;transition:var(--tr);text-align:left;font-size:.78rem;font-weight:700;color:#fff" onmouseover="this.style.opacity='.9'" onmouseout="this.style.opacity='1'">Upload Project</button>
           </div>
 
-          <!-- Regular tip card (Pro users) -->
-          <div class="dcard" id="ov-tip-card" style="margin-bottom:1rem;border-left:3px solid var(--ac);display:none">
-            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem">
-              <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="var(--ac)" stroke-width="1.2" fill="none"/><path d="M7 4v3.5l2 1.5" stroke="var(--ac)" stroke-width="1.2" stroke-linecap="round"/></svg>
-              <span style="font-size:.65rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ac)">Tip of the Week</span>
-            </div>
-            <div style="font-size:.82rem;color:var(--t1);font-weight:500;margin-bottom:.25rem" id="ov-tip-title">Loading tip...</div>
-            <div style="font-size:.75rem;color:var(--t2);line-height:1.55" id="ov-tip-body"></div>
+          <!-- Weekly tip — a slim inline strip, not a full card competing with real content -->
+          <div id="ov-tip-card" style="display:none;align-items:flex-start;gap:.55rem;padding:.65rem .8rem;margin-bottom:1rem;border-radius:var(--r);background:var(--acg);border:1px solid var(--acl)">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:.15rem"><circle cx="7" cy="7" r="6" stroke="var(--ac)" stroke-width="1.2" fill="none"/><path d="M7 4v3.5l2 1.5" stroke="var(--ac)" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <div style="font-size:.74rem;color:var(--t2);line-height:1.5"><span style="color:var(--t1);font-weight:600" id="ov-tip-title">Loading tip...</span> <span id="ov-tip-body"></span></div>
           </div>
 
           <div class="gate-banner" id="gate-banner" style="display:none"></div>
@@ -4649,18 +4670,34 @@ function refreshDash() {
   const ovProjs = document.getElementById('ov-projs');
   const ovViews = document.getElementById('ov-views');
   const ovLikes = document.getElementById('ov-likes');
-  db('/projects?user_id=eq.' + p.id + '&select=id,views,likes,status', 'GET', null, SB_KEY).then(projs => {
+  const fmtOvNum = n => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, '') + 'k' : String(n);
+  const paintBest = projs => {
+    const wrap = document.getElementById('ov-best-wrap');
+    if (!wrap) return;
+    const published = projs.filter(proj => proj.status === 'published' && proj.title);
+    if (!published.length) { wrap.style.display = 'none'; return; }
+    const best = published.reduce((a, b) => (b.views || 0) > (a.views || 0) ? b : a);
+    window._ovBestId = best.id;
+    document.getElementById('ov-best-title').textContent = best.title || 'Untitled';
+    document.getElementById('ov-best-views').textContent = fmtOvNum(best.views || 0) + ' views';
+    const thumb = document.getElementById('ov-best-thumb');
+    if (thumb) thumb.style.backgroundImage = best.cover_url ? 'url(' + best.cover_url + ')' : 'none';
+    wrap.style.display = 'flex';
+  };
+  db('/projects?user_id=eq.' + p.id + '&select=id,title,cover_url,views,likes,status', 'GET', null, SB_KEY).then(projs => {
     if (!projs) return;
     const totalViews = projs.reduce((s, proj) => s + (proj.views || 0), 0);
     const totalLikes = projs.reduce((s, proj) => s + (proj.likes || 0), 0);
     if (ovProjs) ovProjs.textContent = projs.length;
-    if (ovViews) ovViews.textContent = totalViews;
-    if (ovLikes) ovLikes.textContent = totalLikes;
+    if (ovViews) ovViews.textContent = fmtOvNum(totalViews);
+    if (ovLikes) ovLikes.textContent = fmtOvNum(totalLikes);
+    paintBest(projs);
   }).catch(() => {
     const myProjs = S.projects.filter(proj => proj.user_id === p.id);
     if (ovProjs) ovProjs.textContent = myProjs.length;
-    if (ovViews) ovViews.textContent = myProjs.reduce((s, proj) => s + (proj.views || 0), 0);
-    if (ovLikes) ovLikes.textContent = myProjs.reduce((s, proj) => s + (proj.likes || 0), 0);
+    if (ovViews) ovViews.textContent = fmtOvNum(myProjs.reduce((s, proj) => s + (proj.views || 0), 0));
+    if (ovLikes) ovLikes.textContent = fmtOvNum(myProjs.reduce((s, proj) => s + (proj.likes || 0), 0));
+    paintBest(myProjs);
   });
 
   // Storage bar
@@ -8624,7 +8661,7 @@ function loadWeeklyTip() {
   const slot = Math.floor(Date.now() / (intervalDays * 24 * 60 * 60 * 1000));
   function seededIndex(arr) { return (slot + seed) % arr.length; }
 
-  if (regularCard) regularCard.style.display = 'block';
+  if (regularCard) regularCard.style.display = 'flex';
   var tip = REGULAR_TIPS[seededIndex(REGULAR_TIPS)];
   var titleEl = document.getElementById('ov-tip-title');
   var bodyEl  = document.getElementById('ov-tip-body');
