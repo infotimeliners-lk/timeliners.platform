@@ -52,7 +52,12 @@
   img.src='tab-logo.png';
 })();
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://xilhrpbqdqocpwxaigvy.supabase.co">
+<link rel="preconnect" href="https://videos.timeliners.lk">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet"></noscript>
 <script>
 (function(){
   var favicon = document.getElementById('favicon');
@@ -1643,7 +1648,6 @@ img, video, iframe, canvas { max-width: 100%; }
 @keyframes overlaySlideIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 #contact-overlay>div,#about-overlay>div{animation:overlaySlideIn .24s cubic-bezier(.22,.68,0,1.2) both}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
 <!-- ══ PAGE REFRESH LOADER — rendered first, hidden instantly if not a refresh ══ -->
@@ -3844,7 +3848,7 @@ async function loadFeed(force) {
   try {
     // Fetch projects and author profiles IN PARALLEL (not sequential)
     const [rows, allProfiles] = await Promise.all([
-      db('/projects?status=eq.published&select=*&order=created_at.desc'),
+      db('/projects?status=eq.published&select=id,title,description,tags,cat,video_url,cover_url,yt_link,grad_idx,author_name,author_avatar,author_init,featured,likes,views,created_at,user_id,status&order=created_at.desc'),
       db('/profiles?select=id,plan,verified,username', 'GET', null, SB_KEY).catch(() => [])
     ]);
 
