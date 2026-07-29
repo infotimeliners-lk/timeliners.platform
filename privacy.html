@@ -100,17 +100,13 @@ a{text-decoration:none;color:inherit}
   <div class="hero-inner">
     <div class="hero-tag">Legal</div>
     <h1>Privacy Policy</h1>
-    <p class="hero-meta">Last updated: June 2026</p>
+    <p class="hero-meta">Last updated: July 2026</p>
   </div>
 </div>
 
 <div class="doc-wrap">
 
-  <div class="policy-nav">
-    <a class="pnav-card" href="/refund">
-      <div class="pnav-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="currentColor"/></svg></div>
-      Refund Policy
-    </a>
+  <div class="policy-nav" style="grid-template-columns:repeat(2,1fr)">
     <a class="pnav-card active" href="/privacy">
       <div class="pnav-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       Privacy Policy
@@ -133,7 +129,6 @@ a{text-decoration:none;color:inherit}
       <li>Name, email, and specialty when you register</li>
       <li>Profile information — city, bio, experience, skills, social links</li>
       <li>Portfolio content — project videos, thumbnails, titles, descriptions, and tags</li>
-      <li>Payment details shared with us over WhatsApp (bank slip). We do not store card numbers — we have no payment gateway.</li>
       <li>Messages you send us via email or WhatsApp</li>
     </ul>
     <h3>Collected automatically</h3>
@@ -149,8 +144,7 @@ a{text-decoration:none;color:inherit}
     <ul>
       <li>To create and manage your account and portfolio</li>
       <li>To display your public portfolio to visitors</li>
-      <li>To manually activate and manage your Pro subscription</li>
-      <li>To send transactional emails — plan confirmations, expiry reminders, renewal notices</li>
+      <li>To send transactional emails — account notifications and product updates</li>
       <li>To show you your own analytics on the dashboard</li>
       <li>To provide support via email or WhatsApp</li>
       <li>To detect abuse and protect the platform</li>
@@ -161,7 +155,8 @@ a{text-decoration:none;color:inherit}
     <div class="sec-label">Who We Share It With</div>
     <p>We do not sell or trade your data. We share it only with the services that run the platform:</p>
     <ul>
-      <li><strong>Supabase</strong> — database, file storage, and authentication. Your data lives here.</li>
+      <li><strong>Supabase</strong> — database, authentication, and account/profile data. Your data lives here.</li>
+      <li><strong>Cloudflare R2</strong> — stores your uploaded portfolio videos, thumbnails, and images.</li>
       <li><strong>Netlify</strong> — hosts the platform.</li>
       <li><strong>Resend</strong> — sends transactional emails on our behalf.</li>
       <li><strong>Legal</strong> — we may disclose data if required by Sri Lankan law or a valid legal process.</li>
@@ -231,7 +226,6 @@ a{text-decoration:none;color:inherit}
       </div>
       <div class="footer-col">
         <div class="footer-col-head">Legal</div>
-        <a class="flink" href="/refund">Refund Policy</a>
         <a class="flink active" href="/privacy">Privacy Policy</a>
         <a class="flink" href="/terms">Terms &amp; Conditions</a>
       </div>
