@@ -3342,7 +3342,7 @@ async function handleSignUp() {
         if (attempt > 1) await new Promise(r => setTimeout(r, attempt * 1000));
         const existing = await db('/profiles?id=eq.' + data.user.id + '&select=id', 'GET', null, SB_KEY).catch(() => null);
         if (existing && existing.length) { insertError = null; break; }
-        await db('/profiles', 'POST', dbRow, SB_KEY);
+        await db('/profiles', 'POST', dbRow, data.session.access_token);
         insertError = null;
         break;
       } catch(dbErr) {
@@ -3505,7 +3505,7 @@ async function verifyOtp() {
         if (attempt > 1) await new Promise(r => setTimeout(r, attempt * 1000));
         const existing = await db('/profiles?id=eq.' + profileId + '&select=id', 'GET', null, SB_KEY).catch(() => null);
         if (existing && existing.length) { insertError = null; break; }
-        await db('/profiles', 'POST', dbRow, SB_KEY);
+        await db('/profiles', 'POST', dbRow, data.session.access_token);
         insertError = null;
         break;
       } catch(dbErr) {
@@ -3701,7 +3701,7 @@ async function loadProfile() {
       grad_idx:  0, cover_idx: 0, views: 0, likes: 0
     };
     try {
-      await db('/profiles', 'POST', dbRow, SB_KEY);
+      await db('/profiles', 'POST', dbRow, token);
       S.profile = { id: S.user.id, username: null, ...profileData };
       console.log('Auto-created missing profile for', email);
     } catch(insertErr) {
