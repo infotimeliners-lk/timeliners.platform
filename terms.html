@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terms &amp; Conditions — TimeLiners</title>
+<title>Terms &amp; Conditions | TimeLiners</title>
 <link rel="canonical" href="https://timeliners.lk/terms" />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ac:#FE730A;--acl:rgba(254,115,10,.12);--acg:rgba(254,115,10,.06);
-  --bg:#0e0e0f;--bg2:#161618;--bg3:#1c1c1f;--bg4:#242428;
+  --bg:#0a0a0a;--bg2:#121212;--bg3:#161616;--bg4:#1c1c1c;--bg5:#222222;
   --t1:rgba(255,255,255,.92);--t2:rgba(255,255,255,.55);--t3:rgba(255,255,255,.32);
-  --brd:rgba(255,255,255,.06);--brd2:rgba(255,255,255,.09);--brd3:rgba(255,255,255,.15);
-  --r:10px;--rlg:14px;
+  --brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.12);--brd3:rgba(255,255,255,.18);
+  --r:6px;--rlg:8px;--rxl:10px;
   --fm:'Poppins',sans-serif;
   --shadow-md:0 4px 16px rgba(0,0,0,.5);
 }
@@ -24,15 +24,15 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:99px}
 
 /* NAV */
-.nav{position:sticky;top:0;z-index:100;background:rgba(14,14,15,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:58px}
+.nav{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:58px}
 .nav-logo{font-size:1.1rem;font-weight:700;color:var(--ac);letter-spacing:-.02em}
-.nav-back{font-size:.8rem;font-weight:500;color:var(--t2);display:flex;align-items:center;gap:6px;transition:color .18s;border:1px solid var(--brd2);padding:.32rem .9rem;border-radius:50px}
+.nav-back{font-size:.8rem;font-weight:500;color:var(--t2);display:flex;align-items:center;gap:6px;transition:color .18s;border:1px solid transparent;padding:.32rem .9rem;border-radius:8px}
 .nav-back:hover{color:var(--t1);border-color:var(--brd3)}
 
 /* HERO */
 .hero{background:var(--bg2);border-bottom:1px solid var(--brd);padding:52px 40px 40px}
 .hero-inner{max-width:780px;margin:0 auto}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--ac);margin-bottom:16px;background:var(--acg);border:1px solid var(--acl);padding:.28rem .85rem;border-radius:50px}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--ac);margin-bottom:16px;background:var(--acg);border:1px solid transparent;padding:.28rem .85rem;border-radius:8px}
 .hero h1{font-size:2.2rem;font-weight:700;letter-spacing:-.5px;color:var(--t1);line-height:1.1;margin-bottom:10px}
 .hero-meta{font-size:.75rem;color:var(--t3)}
 
@@ -41,7 +41,7 @@ a{text-decoration:none;color:inherit}
 
 /* POLICY NAV */
 .policy-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:48px}
-.pnav-card{background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--rlg);padding:16px 18px;display:flex;align-items:center;gap:10px;color:var(--t2);transition:all .18s;font-size:.81rem;font-weight:500}
+.pnav-card{background:var(--bg2);border:1px solid transparent;border-radius:var(--rlg);padding:16px 18px;display:flex;align-items:center;gap:10px;color:var(--t2);transition:all .18s;font-size:.81rem;font-weight:500}
 .pnav-card:hover{border-color:var(--brd3);color:var(--t1)}
 .pnav-card.active{border-color:var(--ac);background:var(--acg);color:var(--t1)}
 .pnav-ico{width:30px;height:30px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--t3)}
@@ -59,12 +59,12 @@ a{text-decoration:none;color:inherit}
 .doc-section ul li strong{color:var(--t1);font-weight:600}
 
 /* HIGHLIGHT */
-.info-box{background:var(--acg);border:1px solid var(--acl);border-radius:var(--rlg);padding:18px 22px;margin:8px 0 14px}
+.info-box{background:var(--acg);border:1px solid transparent;border-radius:var(--rlg);padding:18px 22px;margin:8px 0 14px}
 .info-box p{color:var(--t1);font-size:.83rem;margin:0;line-height:1.75}
 
 /* CONTACT */
-.contact-box{background:var(--bg2);border:1px solid var(--brd2);border-radius:var(--rlg);padding:22px 26px;margin-top:16px;display:flex;align-items:flex-start;gap:18px}
-.contact-ico{width:38px;height:38px;background:var(--acg);border:1px solid var(--acl);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ac)}
+.contact-box{background:var(--bg2);border:1px solid transparent;border-radius:var(--rlg);padding:22px 26px;margin-top:16px;display:flex;align-items:flex-start;gap:18px}
+.contact-ico{width:38px;height:38px;background:var(--acg);border:1px solid transparent;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ac)}
 .contact-box h3{font-size:.75rem;font-weight:700;color:var(--t1);margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px}
 .contact-box p{font-size:.82rem;color:var(--t2);margin:2px 0}
 .contact-box a{color:var(--ac);font-weight:500}
@@ -144,7 +144,7 @@ a{text-decoration:none;color:inherit}
 
   <div class="doc-section">
     <div class="sec-label">Access</div>
-    <p>TimeLiners is free to use. Every account gets unlimited projects, 5GB of storage, a public profile, a brand color picker, and analytics — no subscription or payment is required.</p>
+    <p>TimeLiners is free to use. Every account gets unlimited projects, 1GB of storage, a public profile, a brand color picker, and analytics. No subscription or payment is required.</p>
     <div class="info-box">
       <p>The platform is supported by sponsored placements shown in the project feed, clearly labelled as "Sponsored." These do not affect your account, your storage, or your ability to use any feature.</p>
     </div>
@@ -155,7 +155,7 @@ a{text-decoration:none;color:inherit}
     <ul>
       <li>You own all content you upload. TimeLiners does not claim ownership of your work.</li>
       <li>By uploading, you grant TimeLiners a non-exclusive licence to host and display your content as part of your public portfolio.</li>
-      <li>You confirm you hold the rights to everything you upload — no stolen or client-owned work without permission.</li>
+      <li>You confirm you hold the rights to everything you upload. This means no stolen or client-owned work without permission.</li>
       <li>You may not upload content that is illegal, offensive, or violates anyone else's intellectual property.</li>
       <li>We reserve the right to remove content that violates these terms without notice.</li>
     </ul>
