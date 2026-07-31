@@ -79,7 +79,7 @@ export default async function handler(request, context) {
 
     // Fetch their published projects too (for structured data)
     const projRes = await fetch(
-      `${SB_URL}/rest/v1/projects?user_id=eq.${p.id}&select=id,title,description,category,thumbnail_url&order=created_at.desc&limit=6`,
+      `${SB_URL}/rest/v1/projects?user_id=eq.${p.id}&select=id,title,description,cat,cover_url&order=created_at.desc&limit=6`,
       {
         headers: {
           'apikey': SB_KEY,
@@ -121,10 +121,10 @@ export default async function handler(request, context) {
     const projectsHtml = projects.length > 0
       ? projects.map(proj => `
         <div class="proj-card">
-          ${proj.thumbnail_url ? `<img src="${escapeHtml(proj.thumbnail_url)}" alt="${escapeHtml(proj.title || 'Project')}" loading="lazy" width="320" height="180">` : ''}
+          ${proj.cover_url ? `<img src="${escapeHtml(proj.cover_url)}" alt="${escapeHtml(proj.title || 'Project')}" loading="lazy" width="320" height="180">` : ''}
           <div class="proj-info">
             <strong>${escapeHtml(proj.title || 'Untitled')}</strong>
-            ${proj.category ? `<span class="cat">${escapeHtml(proj.category)}</span>` : ''}
+            ${proj.cat ? `<span class="cat">${escapeHtml(proj.cat)}</span>` : ''}
             ${proj.description ? `<p>${escapeHtml(proj.description.slice(0, 100))}${proj.description.length > 100 ? '…' : ''}</p>` : ''}
           </div>
         </div>`).join('')
