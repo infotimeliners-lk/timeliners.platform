@@ -4,9 +4,9 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 
 const STATIC_PAGES = [
   { url: 'https://timeliners.lk/',        changefreq: 'weekly', priority: '1.0' },
+  { url: 'https://timeliners.lk/faq',     changefreq: 'monthly', priority: '0.6' },
   { url: 'https://timeliners.lk/terms',   changefreq: 'yearly', priority: '0.3' },
   { url: 'https://timeliners.lk/privacy', changefreq: 'yearly', priority: '0.3' },
-  { url: 'https://timeliners.lk/refund',  changefreq: 'yearly', priority: '0.3' },
 ];
 
 export default async function handler(request, context) {
