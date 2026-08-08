@@ -7,7 +7,7 @@ const SB_URL = 'https://xilhrpbqdqocpwxaigvy.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
 
 // Known page slugs that are NOT usernames — skip these
-const KNOWN_PAGES = ['feed', 'pricing', 'faq', 'profile', 'dashboard', 'project', 'index.html'];
+const KNOWN_PAGES = ['feed', 'pricing', 'faq', 'profile', 'dashboard', 'project', 'index.html', 'advertise', 'privacy', 'terms', 'refund'];
 
 // Bots that should receive the pre-rendered SEO page
 const BOT_PATTERNS = [
@@ -104,18 +104,18 @@ export default async function handler(request, context) {
     const bio         = escapeHtml(p.bio || '');
     const exp         = escapeHtml(p.exp || '');
     const username    = escapeHtml(p.username || slug);
-    const avatarUrl   = p.avatar_url || 'https://timeliners.lk/og-default.png';
+    const avatarUrl   = p.avatar_url || 'https://timeliners.lk/og-image.png';
     const profileUrl  = `https://timeliners.lk/${username}`;
     const isPro       = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(p.plan || '');
     const isVerified  = p.verified || isPro;
 
-    // Page title: "Name — Role | TimeLiners"
-    const pageTitle = `${name} — ${role} in ${city} | TimeLiners`;
+    // Page title: "Hire Name — Role in City | TimeLiners"
+    const pageTitle = `Hire ${name} — ${role} in ${city} | TimeLiners`;
 
     // Meta description
     const metaDesc = bio
-      ? `${bio.slice(0, 140)}${bio.length > 140 ? '…' : ''}`
-      : `${name} is a ${role} based in ${city}, Sri Lanka. View their video editing portfolio on TimeLiners.`;
+      ? `Hire ${name}, a ${role} in ${city}, Sri Lanka. ${bio.slice(0, 110)}${bio.length > 110 ? '…' : ''}`
+      : `Hire ${name}, a ${role} based in ${city}, Sri Lanka. View their video editing portfolio and contact them directly on TimeLiners.`;
 
     // Build project cards HTML
     const projectsHtml = projects.length > 0
@@ -141,7 +141,21 @@ export default async function handler(request, context) {
       image: avatarUrl,
       address: { '@type': 'PostalAddress', addressCountry: 'LK', addressLocality: p.city || 'Sri Lanka' },
       knowsAbout: skillsList ? skillsList.split(',').map(s => s.trim()) : ['Video Editing'],
-      sameAs: [`https://timeliners.lk/${username}`]
+      sameAs: [`https://timeliners.lk/${username}`],
+      worksFor: {
+        '@type': 'Organization',
+        name: 'TimeLiners',
+        url: 'https://timeliners.lk'
+      },
+      makesOffer: {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: p.role || 'Video Editing',
+          serviceType: 'Video Editing and Motion Design',
+          areaServed: { '@type': 'Country', name: 'Sri Lanka' }
+        }
+      }
     });
 
     const html = `<!DOCTYPE html>
@@ -206,9 +220,9 @@ export default async function handler(request, context) {
     <div class="profile-header">
       <img class="avatar" src="${escapeHtml(avatarUrl)}" alt="${name}" onerror="this.style.background='#222'">
       <div>
-        <div class="profile-name">
+        <h1 class="profile-name">
           ${name}${isVerified ? '<span class="badge">Verified</span>' : ''}
-        </div>
+        </h1>
         <div class="profile-role">${role}</div>
         <div class="profile-meta">
           📍 ${city}${exp ? ` &nbsp;·&nbsp; ${exp} experience` : ''} &nbsp;·&nbsp; Sri Lanka
@@ -238,7 +252,7 @@ export default async function handler(request, context) {
     </div>
 
     <a class="tl-link" href="https://timeliners.lk">
-      Powered by <span>TimeLiners</span> — Sri Lanka's Portfolio Platform for Video Editors
+      Powered by <span>TimeLiners</span> — Sri Lanka's Platform for Hiring Video Editors
     </a>
   </div>
 
