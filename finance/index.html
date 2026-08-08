@@ -366,6 +366,10 @@ button,a{cursor:pointer;font-family:var(--fm)}
       <button class="sb-link active" onclick="nav('payments',this)" id="nav-payments" data-label="Members">
         <span class="sb-link-label">Members</span> <span class="sb-cnt al" id="sb-pa" style="display:none">0</span>
       </button>
+      <div class="sb-sec">Monetization</div>
+      <button class="sb-link" onclick="nav('ads',this)" id="nav-ads" data-label="Ads">
+        <span class="sb-link-label">Ads</span> <span class="sb-cnt" id="sb-ads" style="display:none">0</span>
+      </button>
     </div>
     <div class="sb-bottom">
       <div class="sb-user">
@@ -442,8 +446,137 @@ button,a{cursor:pointer;font-family:var(--fm)}
       </div>
     </div>
 
+    <!-- ADS -->
+    <div id="pane-ads" class="pane">
+      <div class="topbar">
+        <div class="tb-l"><h2>Ads</h2><p id="ads-sync">Loading…</p></div>
+        <div class="tb-r">
+          <button class="btn btn-g btn-sm" onclick="loadAds()">Refresh</button>
+          <button class="btn btn-p btn-sm" onclick="openAdModal()">+ New Ad</button>
+        </div>
+      </div>
+      <div class="pw">
+        <div class="stats stats-4 mb" id="ads-capacity-stats"></div>
+
+        <div id="ads-capacity-warn" style="display:none;margin-bottom:.85rem;font-size:.78rem;padding:.6rem .9rem;border-radius:var(--r);border:1px solid var(--ambb);background:var(--ambl);color:var(--amb);line-height:1.6"></div>
+
+        <div class="card mb">
+          <div class="ch">
+            <div><h3>Sponsor Ads</h3><p id="ads-sub">—</p></div>
+          </div>
+          <div class="tw">
+            <table class="tbl" id="ads-tbl">
+              <thead><tr><th>Banner</th><th>Company</th><th>Contact</th><th>Appearances</th><th>Impressions</th><th>Clicks</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="ads-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+<!-- MODAL: ADD / EDIT AD -->
+<div class="ov" id="ov-ad"><div class="mbox" style="max-width:520px">
+  <button class="mx" onclick="closeM('ov-ad')">×</button>
+  <div class="mt" id="ad-modal-t">New Sponsor Ad</div>
+  <div class="ms">Banner shows as a feed card tagged "Sponsored". Clicking opens contact details.</div>
+  <input type="hidden" id="ad-id">
+
+  <div class="fg">
+    <label class="fl">Banner Image</label>
+    <input type="file" class="fi" id="ad-banner-file" accept="image/*" onchange="previewAdBanner(this)">
+    <input type="hidden" id="ad-banner-url">
+    <div id="ad-banner-preview" style="margin-top:.5rem;display:none">
+      <img id="ad-banner-img" style="width:100%;max-height:140px;object-fit:cover;border-radius:var(--r);border:1px solid var(--brd)">
+    </div>
+  </div>
+
+  <div class="fg"><label class="fl">Company Name</label><input class="fi" id="ad-company" placeholder="e.g. Acme Editing Gear"></div>
+  <div class="fg"><label class="fl">Description</label><textarea class="fta" id="ad-desc" rows="2" placeholder="Short line shown on the card"></textarea></div>
+
+  <div class="fr2">
+    <div class="fg"><label class="fl">Contact Type</label>
+      <select class="fi" id="ad-contact-type">
+        <option value="whatsapp">WhatsApp</option>
+        <option value="phone">Phone</option>
+        <option value="email">Email</option>
+        <option value="website">Website</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Contact Value</label><input class="fi" id="ad-contact-value" placeholder="+94 77 xxx xxxx"></div>
+  </div>
+
+  <div class="fr2">
+    <div class="fg"><label class="fl">Action Button</label>
+      <select class="fi" id="ad-cta">
+        <option value="Contact">Contact</option>
+        <option value="Learn More">Learn More</option>
+        <option value="Send Message">Send Message</option>
+        <option value="Sign Up">Sign Up</option>
+        <option value="Shop Now">Shop Now</option>
+        <option value="Book Now">Book Now</option>
+        <option value="Get Quote">Get Quote</option>
+        <option value="Download">Download</option>
+        <option value="Visit Website">Visit Website</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Appearances / scroll</label><input class="fi" id="ad-appearances" type="number" min="1" value="1" oninput="checkAdCapacity()"></div>
+  </div>
+
+  <div class="fr2">
+    <div class="fg"><label class="fl">Start Date</label><input class="fi" id="ad-start" type="date"></div>
+    <div class="fg"><label class="fl">End Date</label><input class="fi" id="ad-end" type="date"></div>
+  </div>
+
+  <div class="fg"><label class="fl">Status</label>
+    <select class="fi" id="ad-status">
+      <option value="active">Active</option>
+      <option value="paused">Paused</option>
+      <option value="draft">Draft</option>
+      <option value="completed">Completed</option>
+    </select>
+  </div>
+
+  <div id="ad-modal-capacity-msg" style="display:none;font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.6rem"></div>
+  <div id="ad-msg" style="display:none;font-size:.75rem;padding:.42rem .7rem;border-radius:6px;margin-bottom:.8rem"></div>
+
+  <div style="display:flex;gap:.5rem">
+    <button class="btn btn-p" style="flex:1" id="ad-save-btn" onclick="saveAd()">Save Ad</button>
+    <button class="btn btn-g" onclick="closeM('ov-ad')">Cancel</button>
+  </div>
+</div></div>
+
+<!-- MODAL: AD ANALYTICS -->
+<div class="ov" id="ov-ad-analytics"><div class="mbox" style="max-width:560px">
+  <button class="mx" onclick="closeM('ov-ad-analytics')">×</button>
+
+  <div class="tabs" id="aa-range-pills" style="margin-bottom:1rem">
+    <button class="rev-tf" data-r="7d" onclick="setAdAnalyticsRange('7d')">Last 7 days</button>
+    <button class="rev-tf" data-r="30d" onclick="setAdAnalyticsRange('30d')">Last 30 days</button>
+    <button class="rev-tf active" data-r="all" onclick="setAdAnalyticsRange('all')">All time</button>
+  </div>
+
+  <div id="aa-shareable" style="background:var(--bg2);padding:.2rem">
+    <div style="display:flex;align-items:center;gap:.85rem;margin-bottom:1.2rem">
+      <img id="aa-banner" src="" style="width:64px;height:40px;object-fit:cover;border-radius:8px;border:1px solid var(--brd);flex-shrink:0" onerror="this.style.opacity=.15">
+      <div style="min-width:0;flex:1">
+        <div class="mt" style="margin:0;line-height:1.3" id="aa-company">—</div>
+        <div class="ms" style="margin:.1rem 0 0" id="aa-sub">—</div>
+      </div>
+      <span class="b" id="aa-status-badge" style="flex-shrink:0">—</span>
+    </div>
+
+    <div class="stats stats-4" id="aa-stats"></div>
+    <div style="font-size:.6rem;color:var(--t3);text-align:center;margin-top:.9rem">TimeLiners · timeliners.lk</div>
+  </div>
+
+  <div style="display:flex;gap:.5rem;margin-top:1.2rem">
+    <button class="btn btn-p" style="flex:1" onclick="copyAdSummary()">Copy summary</button>
+    <button class="btn btn-g" style="flex:1" onclick="closeM('ov-ad-analytics')">Close</button>
+  </div>
+</div></div>
 
 <!-- MODAL: EDIT MEMBER (plan/wa/email) -->
 <div class="ov" id="ov-member"><div class="mbox">
@@ -859,14 +992,21 @@ async function confirmReject(){
 }
 
 // ─── SUPABASE ─────────────────────────────────────────────────────────────────
-async function sb(path,method='GET',body=null){
-  const headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json'};
+async function sb(path,method='GET',body=null,_retried=false){
+  const bearer=SESSION?.access_token||KEY;
+  const headers={'apikey':KEY,'Authorization':'Bearer '+bearer,'Content-Type':'application/json'};
   if(method==='POST'){
     headers['Prefer']='return=representation';
   }
   const r=await fetch(SB+'/rest/v1'+path,{method,headers,body:body?JSON.stringify(body):undefined});
   const t=await r.text();
-  if(!r.ok){let msg=t;try{msg=JSON.parse(t).message||t;}catch(e){}throw new Error(msg||String(r.status));}
+  if(!r.ok){
+    // Access token likely expired mid-session — refresh once and retry the write
+    if(r.status===401&&!_retried&&await refreshSession()){
+      return sb(path,method,body,true);
+    }
+    let msg=t;try{msg=JSON.parse(t).message||t;}catch(e){}throw new Error(msg||String(r.status));
+  }
   return t?JSON.parse(t):null;
 }
 
@@ -939,23 +1079,61 @@ async function syncOverdueStatus(){
 }
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
-function getCreds(){try{return JSON.parse(localStorage.getItem(CK)||'null')||DEF;}catch(e){return DEF;}}
-function doLogin(){
+// SESSION holds the real Supabase auth token for the admin account. All writes to
+// profiles/payments/sponsor_ads are gated by RLS policies that require
+// auth.uid() to match the admin user — the static anon KEY alone can never
+// satisfy that, so every mutating request must carry SESSION.access_token.
+let SESSION=null;
+
+async function doLogin(){
   const u=document.getElementById('l-user').value.trim();
   const p=document.getElementById('l-pass').value;
-  const c=getCreds();
-  if(u===c.user&&p===c.pass){
+  const e=document.getElementById('l-err');
+  const btn=document.querySelector('#login .lbtn');
+  e.style.display='none';
+  if(btn){btn.disabled=true;btn.textContent='Signing in…';}
+  try{
+    const r=await fetch(SB+'/auth/v1/token?grant_type=password',{
+      method:'POST',
+      headers:{'apikey':KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({email:u,password:p})
+    });
+    const data=await r.json();
+    if(!r.ok||!data.access_token) throw new Error(data.error_description||data.msg||'Invalid email or password');
+    SESSION={access_token:data.access_token,refresh_token:data.refresh_token,user_id:data.user?.id};
     document.getElementById('login').style.display='none';
     document.getElementById('app').classList.add('on');
+    document.getElementById('l-pass').value='';
     initApp();
-  }else{
-    const e=document.getElementById('l-err');
+  }catch(err){
+    e.textContent=err.message||'Incorrect email or password';
     e.style.display='block';
     document.getElementById('l-pass').value='';
-    setTimeout(()=>e.style.display='none',3000);
+    setTimeout(()=>e.style.display='none',4000);
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='Sign in';}
   }
 }
+
+// Refreshes the Supabase session once if a write comes back unauthorized
+// (expired token after a long-open tab). Returns true if refreshed OK.
+async function refreshSession(){
+  if(!SESSION?.refresh_token)return false;
+  try{
+    const r=await fetch(SB+'/auth/v1/token?grant_type=refresh_token',{
+      method:'POST',
+      headers:{'apikey':KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({refresh_token:SESSION.refresh_token})
+    });
+    const data=await r.json();
+    if(!r.ok||!data.access_token)return false;
+    SESSION={access_token:data.access_token,refresh_token:data.refresh_token,user_id:data.user?.id};
+    return true;
+  }catch(e){return false;}
+}
+
 function logout(){
+  SESSION=null;
   document.getElementById('app').classList.remove('on');
   document.getElementById('login').style.display='flex';
   document.getElementById('l-pass').value='';
@@ -968,6 +1146,8 @@ async function initApp(){
     renderAll();
     const t=new Date().toLocaleTimeString();
     document.getElementById('pay-sync').textContent='Last synced: '+t;
+    _adsLoaded=true;
+    loadAds().catch(()=>{}); // populate sidebar Ads badge without blocking initial render
   }catch(e){
     toast('Supabase error: '+e.message,1);
     document.getElementById('pay-sync').textContent='Connection failed';
@@ -989,6 +1169,7 @@ function nav(id,el){
   const pane=document.getElementById('pane-'+id);if(pane)pane.classList.add('active');
   if(el)el.classList.add('active');
   closeSidebar();
+  if(id==='ads' && !_adsLoaded){_adsLoaded=true;loadAds();}
 }
 
 function rSidebar(){
@@ -1316,7 +1497,7 @@ async function saveMember(){
         await sb('/payments?id=eq.'+payRec.id,'PATCH',{pay_status:'paid',plan:newPlan,paid_date:today});
       }else{
         // Payment row was deleted by downgrade flow — delete any stale rows then recreate
-        await fetch(SB+'/rest/v1/payments?user_id=eq.'+id,{method:'DELETE',headers:{'apikey':KEY,'Authorization':'Bearer '+KEY}});
+        await fetch(SB+'/rest/v1/payments?user_id=eq.'+id,{method:'DELETE',headers:{'apikey':KEY,'Authorization':'Bearer '+(SESSION?.access_token||KEY)}});
         const newRec={user_id:id,plan:newPlan,amount:PP[newPlan]||990,paid_date:today,pay_status:'paid',member_no:mno(p),wa:p.wa||null};
         await sb('/payments','POST',newRec);
       }
@@ -1577,7 +1758,7 @@ async function sendNewsletter() {
         body: JSON.stringify({ email: user.email, name: user.name, username: user.username })
       });
       if (res.ok) {
-        await sb('/profiles?id=eq.' + user.id, 'PATCH', { newsletter_sent_at: new Date().toISOString() });
+        await sb('/rpc/mark_newsletter_sent', 'POST', { p_user_id: user.id });
         sent++;
       } else { failed++; }
     } catch(e) { failed++; }
@@ -1607,7 +1788,7 @@ async function sendNewsletter() {
 async function resetNewsletter() {
   if (!confirm('Reset newsletter for all members? Everyone will receive the next issue. Use this when starting a new topic.')) return;
   try {
-    await sb('/profiles?newsletter_sent_at=not.is.null', 'PATCH', { newsletter_sent_at: null });
+    await sb('/rpc/reset_newsletter_sent', 'POST', {});
     showToast('Newsletter reset — all members will receive the next issue.');
     openNewsletterModal(); // Refresh counts
   } catch(e) {
@@ -1933,7 +2114,7 @@ async function submitBackfill(){
 
     const resp=await fetch(SB+'/rest/v1/payments',{
       method:'POST',
-      headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=representation'},
+      headers:{'apikey':KEY,'Authorization':'Bearer '+(SESSION?.access_token||KEY),'Content-Type':'application/json','Prefer':'return=representation'},
       body:JSON.stringify(inserts)
     });
     if(!resp.ok){const t=await resp.text();throw new Error(t);}
@@ -2170,7 +2351,337 @@ function renderInqPane(){
   renderInqTable();
 }
 
-</script>ST EMAILS MODAL -->
+// ─── SPONSOR ADS ────────────────────────────────────────────────────────────
+let _adsLoaded=false, _adsData=[], _feedProjectCount=0, _pendingAdBannerFile=null;
+const AD_INSERT_RATIO=10; // 1 sponsored card per 10 organic projects, at a randomized spot within that window
+const AD_MAX_CONCURRENT=4; // recommended cap on concurrent active sponsors
+
+async function loadAds(){
+  document.getElementById('ads-sync').textContent='Loading…';
+  try{
+    const[ads,projCount]=await Promise.all([
+      sb('/sponsor_ads?select=*&order=created_at.desc'),
+      sbCount('/projects?status=eq.published&select=id')
+    ]);
+    _adsData=ads||[];
+    _feedProjectCount=projCount||0;
+    document.getElementById('ads-sync').textContent='Updated '+new Date().toLocaleTimeString();
+    renderAdsPane();
+  }catch(e){
+    document.getElementById('ads-sync').textContent='Error: '+e.message;
+    toast('Ads load error: '+e.message,1);
+  }
+}
+
+// Count query using Prefer: count=exact (Supabase REST convention)
+async function sbCount(path){
+  const headers={'apikey':KEY,'Authorization':'Bearer '+(SESSION?.access_token||KEY),'Prefer':'count=exact'};
+  const r=await fetch(SB+'/rest/v1'+path,{method:'GET',headers});
+  const range=r.headers.get('content-range'); // e.g. "0-24/190"
+  if(range && range.includes('/')) return parseInt(range.split('/')[1],10)||0;
+  const rows=await r.json().catch(()=>[]);
+  return Array.isArray(rows)?rows.length:0;
+}
+
+function adCapacity(){
+  const totalSlots=Math.floor(_feedProjectCount/AD_INSERT_RATIO);
+  const activeAds=_adsData.filter(a=>a.status==='active');
+  const used=activeAds.reduce((s,a)=>s+(a.appearances_purchased||0),0);
+  return{totalSlots,used,available:Math.max(0,totalSlots-used),activeCount:activeAds.length};
+}
+
+function renderAdsPane(){
+  const cap=adCapacity();
+  document.getElementById('ads-capacity-stats').innerHTML=`
+    <div class="stat"><div class="stat-l">Feed-Visible Projects</div><div class="stat-v">${_feedProjectCount}</div><div class="stat-s">published projects in feed</div></div>
+    <div class="stat"><div class="stat-l">Total Ad Slots / Scroll</div><div class="stat-v">${cap.totalSlots}</div><div class="stat-s">1 per ${AD_INSERT_RATIO} projects</div></div>
+    <div class="stat"><div class="stat-l">Used</div><div class="stat-v" style="color:${cap.used>=cap.totalSlots?'var(--red)':'var(--t1)'}">${cap.used}</div><div class="stat-s">${cap.activeCount} active sponsor${cap.activeCount===1?'':'s'}</div></div>
+    <div class="stat"><div class="stat-l">Available</div><div class="stat-v" style="color:${cap.available>0?'var(--grn)':'var(--red)'}">${cap.available}</div><div class="stat-s">appearances left to sell</div></div>
+  `;
+
+  const warn=document.getElementById('ads-capacity-warn');
+  if(cap.activeCount>=AD_MAX_CONCURRENT){
+    warn.style.display='block';
+    warn.textContent=`You're at the recommended cap of ${AD_MAX_CONCURRENT} concurrent sponsors — consider waiting for a slot to free up before adding more, to avoid diluting appearances.`;
+  }else if(cap.available<=0 && cap.totalSlots>0){
+    warn.style.display='block';
+    warn.textContent='No ad slots available right now — feed capacity is fully booked. Grow project count or free up an existing ad to sell more.';
+  }else{
+    warn.style.display='none';
+  }
+
+  document.getElementById('ads-sub').textContent=_adsData.length+' total ad'+(_adsData.length===1?'':'s');
+  const sbAds=document.getElementById('sb-ads');
+  if(cap.activeCount>0){sbAds.textContent=cap.activeCount;sbAds.style.display='';}else{sbAds.style.display='none';}
+
+  const tb=document.getElementById('ads-tbody');
+  if(!_adsData.length){tb.innerHTML='<tr><td colspan="8"><div class="empty">No sponsor ads yet — click "+ New Ad" to add one</div></td></tr>';return;}
+  tb.innerHTML=_adsData.map(ad=>{
+    const statusBadge={active:'b-ok',paused:'b-soon',draft:'b-free',completed:'b-free'}[ad.status]||'b-free';
+    return`<tr>
+      <td><img src="${ad.banner_image_url}" style="width:56px;height:34px;object-fit:cover;border-radius:6px;border:1px solid var(--brd)" onerror="this.style.opacity=.2"></td>
+      <td><div style="font-weight:600;color:var(--t1)">${escHtml(ad.company_name)}</div><div style="font-size:.7rem;color:var(--t3);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escHtml(ad.description||'')}</div></td>
+      <td style="font-size:.78rem">${escHtml(ad.contact_type)}: ${escHtml(ad.contact_value)}</td>
+      <td style="font-family:var(--mono)">${ad.appearances_remaining??ad.appearances_purchased}/${ad.appearances_purchased}</td>
+      <td style="font-family:var(--mono)">${ad.impressions||0}</td>
+      <td style="font-family:var(--mono)">${ad.clicks||0}</td>
+      <td><span class="b ${statusBadge}">${ad.status}</span></td>
+      <td>
+        <button class="btn btn-g btn-xs" onclick="openAdAnalytics('${ad.id}')">Analytics</button>
+        <button class="btn btn-g btn-xs" onclick="editAd('${ad.id}')">Edit</button>
+        <button class="btn btn-r btn-xs" onclick="deleteAd('${ad.id}')">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── AD ANALYTICS ─────────────────────────────────────────────────────────────
+let _aaAdId=null, _aaEvents=[], _aaRange='all';
+
+async function openAdAnalytics(id){
+  const ad=_adsData.find(a=>a.id===id);
+  if(!ad)return;
+  _aaAdId=id; _aaRange='all'; _aaEvents=[];
+  document.querySelectorAll('#aa-range-pills .rev-tf').forEach(b=>b.classList.toggle('active',b.dataset.r==='all'));
+  document.getElementById('aa-banner').src=ad.banner_image_url||'';
+  document.getElementById('aa-company').textContent=ad.company_name||'Sponsor';
+  document.getElementById('aa-sub').textContent=(ad.start_date||'—')+' → '+(ad.end_date||'ongoing');
+  const statusBadge={active:'b-ok',paused:'b-soon',draft:'b-free',completed:'b-free'}[ad.status]||'b-free';
+  const badge=document.getElementById('aa-status-badge');
+  badge.className='b '+statusBadge; badge.textContent=ad.status;
+  document.getElementById('aa-stats').innerHTML='<div class="stat"><div class="stat-l">Loading</div><div class="stat-v">…</div></div>';
+  openM('ov-ad-analytics');
+  try{
+    _aaEvents=await sb('/sponsor_ad_events?ad_id=eq.'+id+'&select=event_type,event_date,count');
+  }catch(e){_aaEvents=[];}
+  renderAdAnalyticsStats();
+}
+
+function setAdAnalyticsRange(r){
+  _aaRange=r;
+  document.querySelectorAll('#aa-range-pills .rev-tf').forEach(b=>b.classList.toggle('active',b.dataset.r===r));
+  renderAdAnalyticsStats();
+}
+
+// Sums impressions/clicks for the currently selected range. "All time" trusts
+// the running counters on sponsor_ads itself (always accurate); 7d/30d sum the
+// daily event log against a local-calendar cutoff (browser is Colombo time, and
+// the logging RPC now buckets by Colombo time too, so these line up correctly).
+function _aaComputeStats(ad){
+  if(_aaRange==='all'){
+    return {imp:ad.impressions||0, clk:ad.clicks||0, label:'lifetime'};
+  }
+  const days=_aaRange==='7d'?7:30;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const cutoff=new Date(today); cutoff.setDate(cutoff.getDate()-(days-1));
+  const pad2=n=>String(n).padStart(2,'0');
+  const cutoffKey=cutoff.getFullYear()+'-'+pad2(cutoff.getMonth()+1)+'-'+pad2(cutoff.getDate());
+
+  // If the ad started on/after the cutoff, its entire lifetime sits inside this
+  // window — so the window total IS the lifetime total. Use the always-accurate
+  // running counters rather than the daily log, which can't have entries for any
+  // activity that happened before daily logging existed.
+  if(ad.start_date && ad.start_date>=cutoffKey){
+    return {imp:ad.impressions||0, clk:ad.clicks||0, label:'last '+days+' days'};
+  }
+
+  let imp=0, clk=0;
+  (_aaEvents||[]).forEach(e=>{
+    if(e.event_date>=cutoffKey){
+      if(e.event_type==='impression') imp+=(e.count||0);
+      else if(e.event_type==='click') clk+=(e.count||0);
+    }
+  });
+  return {imp, clk, label:'last '+days+' days'};
+}
+
+function renderAdAnalyticsStats(){
+  const ad=_adsData.find(a=>a.id===_aaAdId);
+  if(!ad)return;
+  const {imp,clk,label}=_aaComputeStats(ad);
+  const ctr=imp>0?(clk/imp*100):0;
+  document.getElementById('aa-stats').innerHTML=`
+    <div class="stat"><div class="stat-l">Impressions</div><div class="stat-v">${imp.toLocaleString()}</div><div class="stat-s">${label}</div></div>
+    <div class="stat"><div class="stat-l">Clicks</div><div class="stat-v">${clk.toLocaleString()}</div><div class="stat-s">${label}</div></div>
+    <div class="stat"><div class="stat-l">CTR</div><div class="stat-v">${ctr.toFixed(2)}%</div><div class="stat-s">clicks ÷ impressions</div></div>
+    <div class="stat"><div class="stat-l">Appearances</div><div class="stat-v">${ad.appearances_purchased||0}</div><div class="stat-s">${ad.appearances_remaining??ad.appearances_purchased} remaining/scroll</div></div>
+  `;
+}
+
+function copyAdSummary(){
+  const ad=_adsData.find(a=>a.id===_aaAdId);
+  if(!ad)return;
+  const {imp,clk,label}=_aaComputeStats(ad);
+  const ctr=imp>0?(clk/imp*100).toFixed(2):'0.00';
+  const text='TimeLiners Sponsor Report — '+ad.company_name+'\n'+
+    'Period: '+(ad.start_date||'—')+' to '+(ad.end_date||'ongoing')+' ('+label+')\n\n'+
+    'Impressions: '+imp.toLocaleString()+'\n'+
+    'Clicks: '+clk.toLocaleString()+'\n'+
+    'CTR: '+ctr+'%\n'+
+    'Appearances/scroll: '+(ad.appearances_purchased||0)+'\n\n'+
+    '— TimeLiners · timeliners.lk';
+  navigator.clipboard.writeText(text).then(()=>toast('Summary copied ✓')).catch(()=>toast('Could not copy',1));
+}
+
+function openAdModal(){
+  document.getElementById('ad-modal-t').textContent='New Sponsor Ad';
+  document.getElementById('ad-id').value='';
+  document.getElementById('ad-banner-url').value='';
+  document.getElementById('ad-banner-file').value='';
+  document.getElementById('ad-banner-preview').style.display='none';
+  document.getElementById('ad-company').value='';
+  document.getElementById('ad-desc').value='';
+  document.getElementById('ad-contact-type').value='whatsapp';
+  document.getElementById('ad-contact-value').value='';
+  document.getElementById('ad-cta').value='Contact';
+  document.getElementById('ad-appearances').value=1;
+  document.getElementById('ad-start').value=new Date().toISOString().slice(0,10);
+  document.getElementById('ad-end').value='';
+  document.getElementById('ad-status').value='draft';
+  document.getElementById('ad-msg').style.display='none';
+  document.getElementById('ad-modal-capacity-msg').style.display='none';
+  _pendingAdBannerFile=null;
+  openM('ov-ad');
+}
+
+function editAd(id){
+  const ad=_adsData.find(a=>a.id===id);
+  if(!ad)return;
+  document.getElementById('ad-modal-t').textContent='Edit Sponsor Ad';
+  document.getElementById('ad-id').value=ad.id;
+  document.getElementById('ad-banner-url').value=ad.banner_image_url||'';
+  document.getElementById('ad-banner-file').value='';
+  if(ad.banner_image_url){
+    document.getElementById('ad-banner-img').src=ad.banner_image_url;
+    document.getElementById('ad-banner-preview').style.display='block';
+  }else{
+    document.getElementById('ad-banner-preview').style.display='none';
+  }
+  document.getElementById('ad-company').value=ad.company_name||'';
+  document.getElementById('ad-desc').value=ad.description||'';
+  document.getElementById('ad-contact-type').value=ad.contact_type||'whatsapp';
+  document.getElementById('ad-contact-value').value=ad.contact_value||'';
+  document.getElementById('ad-cta').value=ad.cta_text||'Contact';
+  document.getElementById('ad-appearances').value=ad.appearances_purchased||1;
+  document.getElementById('ad-start').value=ad.start_date||'';
+  document.getElementById('ad-end').value=ad.end_date||'';
+  document.getElementById('ad-status').value=ad.status||'draft';
+  document.getElementById('ad-msg').style.display='none';
+  _pendingAdBannerFile=null;
+  checkAdCapacity();
+  openM('ov-ad');
+}
+
+function previewAdBanner(input){
+  const file=input.files[0];
+  if(!file)return;
+  _pendingAdBannerFile=file;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    document.getElementById('ad-banner-img').src=e.target.result;
+    document.getElementById('ad-banner-preview').style.display='block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function checkAdCapacity(){
+  const msg=document.getElementById('ad-modal-capacity-msg');
+  const id=document.getElementById('ad-id').value;
+  const requested=parseInt(document.getElementById('ad-appearances').value,10)||0;
+  const cap=adCapacity();
+  // If editing an existing active ad, its own current appearances are already counted in "used" — exclude them
+  const existing=_adsData.find(a=>a.id===id);
+  const alreadyCounted=(existing && existing.status==='active')?(existing.appearances_purchased||0):0;
+  const availableForThis=cap.available+alreadyCounted;
+  if(requested>availableForThis){
+    msg.style.display='block';
+    msg.style.background='var(--redl)';msg.style.color='var(--red)';msg.style.border='1px solid var(--redb)';
+    msg.textContent=`Only ${availableForThis} appearance${availableForThis===1?'':'s'} available right now — this request exceeds feed capacity.`;
+  }else{
+    msg.style.display='none';
+  }
+}
+
+async function uploadAdBanner(){
+  if(!_pendingAdBannerFile)return document.getElementById('ad-banner-url').value||null;
+  const ext=_pendingAdBannerFile.name.split('.').pop()||'jpg';
+  const path='banners/'+Date.now()+'.'+ext;
+  const r=await fetch(SB+'/storage/v1/object/sponsor-banners/'+path,{
+    method:'POST',
+    headers:{'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':_pendingAdBannerFile.type},
+    body:_pendingAdBannerFile
+  });
+  if(!r.ok){const t=await r.text();throw new Error('Banner upload failed: '+t);}
+  return SB+'/storage/v1/object/public/sponsor-banners/'+path;
+}
+
+async function saveAd(){
+  const btn=document.getElementById('ad-save-btn');
+  const msg=document.getElementById('ad-msg');
+  const id=document.getElementById('ad-id').value;
+  const company=document.getElementById('ad-company').value.trim();
+  const contactValue=document.getElementById('ad-contact-value').value.trim();
+  if(!company||!contactValue){
+    msg.style.display='block';msg.style.background='var(--redl)';msg.style.color='var(--red)';msg.style.border='1px solid var(--redb)';
+    msg.textContent='Company name and contact value are required.';
+    return;
+  }
+  btn.disabled=true;btn.textContent='Saving…';
+  try{
+    const bannerUrl=await uploadAdBanner();
+    if(!bannerUrl){
+      msg.style.display='block';msg.style.background='var(--redl)';msg.style.color='var(--red)';msg.style.border='1px solid var(--redb)';
+      msg.textContent='Please upload a banner image.';
+      btn.disabled=false;btn.textContent='Save Ad';
+      return;
+    }
+    const appearances=parseInt(document.getElementById('ad-appearances').value,10)||1;
+    const payload={
+      company_name:company,
+      banner_image_url:bannerUrl,
+      description:document.getElementById('ad-desc').value.trim(),
+      contact_type:document.getElementById('ad-contact-type').value,
+      contact_value:contactValue,
+      cta_text:document.getElementById('ad-cta').value.trim()||'Contact',
+      appearances_purchased:appearances,
+      status:document.getElementById('ad-status').value,
+      start_date:document.getElementById('ad-start').value||null,
+      end_date:document.getElementById('ad-end').value||null
+    };
+    if(id){
+      // Keep appearances_remaining in sync if purchased count changed upward; otherwise leave as-is
+      const existing=_adsData.find(a=>a.id===id);
+      if(existing && appearances!==existing.appearances_purchased){
+        payload.appearances_remaining=appearances;
+      }
+      await sb('/sponsor_ads?id=eq.'+id,'PATCH',payload);
+      toast('Ad updated ✓');
+    }else{
+      payload.appearances_remaining=appearances;
+      await sb('/sponsor_ads','POST',payload);
+      toast('Ad created ✓');
+    }
+    closeM('ov-ad');
+    await loadAds();
+  }catch(e){
+    msg.style.display='block';msg.style.background='var(--redl)';msg.style.color='var(--red)';msg.style.border='1px solid var(--redb)';
+    msg.textContent='Error: '+e.message;
+  }finally{
+    btn.disabled=false;btn.textContent='Save Ad';
+  }
+}
+
+async function deleteAd(id){
+  if(!confirm('Delete this sponsor ad? This cannot be undone.'))return;
+  try{
+    await sb('/sponsor_ads?id=eq.'+id,'DELETE');
+    toast('Ad deleted ✓');
+    await loadAds();
+  }catch(e){toast('Error: '+e.message,1);}
+}
+
+</script>
+<!-- MODAL: TEST EMAILS -->
 <div class="ov" id="ov-test-email"><div class="mbox" style="max-width:420px">
   <button class="mx" onclick="closeM('ov-test-email')">×</button>
   <h3 style="font-size:1rem;font-weight:700;margin-bottom:.25rem">Test Emails</h3>
