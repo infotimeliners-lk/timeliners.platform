@@ -795,6 +795,29 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 }
 .pm-video-wrap video{width:100%;display:block;height:auto;max-height:80vh;object-fit:contain;border-radius:0;}
 .pm-video-wrap iframe{width:100%;aspect-ratio:16/9;display:block;border:none;}
+/* Quality picker */
+.tl-q-btn{
+  position:absolute;top:10px;right:10px;z-index:3;
+  width:32px;height:32px;border-radius:8px;border:none;cursor:pointer;
+  background:rgba(0,0,0,.55);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;transition:background .15s;
+}
+.tl-q-btn:hover{background:rgba(0,0,0,.75);}
+.tl-q-menu{
+  position:absolute;top:48px;right:10px;z-index:4;
+  background:#1a1a1a;border:1px solid rgba(255,255,255,.1);border-radius:10px;
+  padding:.3rem;min-width:110px;display:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);
+}
+.tl-q-menu.open{display:block;}
+.tl-q-opt{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  padding:.4rem .6rem;border-radius:6px;cursor:pointer;
+  font-size:.78rem;color:#ddd;
+}
+.tl-q-opt:hover{background:rgba(255,255,255,.08);}
+.tl-q-opt.active{color:var(--ac);font-weight:600;}
 /* Below-video row */
 .pm-below{display:flex;align-items:flex-start;gap:1.4rem;flex-wrap:wrap;}
 .pm-desc-col{flex:1;min-width:0;}
@@ -1742,6 +1765,85 @@ img, video, iframe, canvas { max-width: 100%; }
 #contact-overlay>div,#about-overlay>div{animation:overlaySlideIn .24s cubic-bezier(.22,.68,0,1.2) both}
 </style>
 </head>
+<script type="module">
+// ── CLIENT-SIDE VIDEO COMPRESSION (free — ffmpeg.wasm, no API/no per-minute cost) ──
+// Produces two web-optimized files from whatever the editor uploads:
+//  - hq: capped at 720p, moderate bitrate — replaces the raw file as the "main" video
+//  - lq: capped at 360p, low bitrate — used as the fast/low-data option in the quality picker
+// Falls back to uploading the original file untouched if compression fails or the
+// browser can't run it (e.g. very old browsers) — never blocks a publish.
+let _ffmpegInstance = null;
+async function _getFfmpeg(onLog) {
+  if (_ffmpegInstance) return _ffmpegInstance;
+  const { FFmpeg } = await import('https://esm.sh/@ffmpeg/ffmpeg@0.12.10');
+  const { toBlobURL } = await import('https://esm.sh/@ffmpeg/util@0.12.1');
+  const ffmpeg = new FFmpeg();
+  if (onLog) ffmpeg.on('log', ({ message }) => onLog(message));
+  const base = 'https://esm.sh/@ffmpeg/core@0.12.6/dist/esm';
+  await ffmpeg.load({
+    coreURL: await toBlobURL(base + '/ffmpeg-core.js', 'text/javascript'),
+    wasmURL: await toBlobURL(base + '/ffmpeg-core.wasm', 'application/wasm'),
+  });
+  _ffmpegInstance = ffmpeg;
+  return ffmpeg;
+}
+
+// height: target max vertical resolution. crf: quality (lower = better/bigger, 23-32 typical web range).
+async function _transcodeOne(ffmpeg, inputName, outputName, height, crf, onProgress) {
+  const prog = (p) => { if (onProgress) onProgress(Math.min(1, Math.max(0, p.progress || 0))); };
+  ffmpeg.on('progress', prog);
+  try {
+    await ffmpeg.exec([
+      '-i', inputName,
+      '-vf', "scale=-2:'min(" + height + ",ih)'",
+      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', String(crf),
+      '-c:a', 'aac', '-b:a', '96k',
+      '-movflags', '+faststart',
+      outputName
+    ]);
+  } finally {
+    ffmpeg.off('progress', prog);
+  }
+  const data = await ffmpeg.readFile(outputName);
+  return new Blob([data.buffer], { type: 'video/mp4' });
+}
+
+// Returns { hq: File, lq: File, skipped: boolean }
+window.compressVideoFile = async function(file, onStatus) {
+  try {
+    if (onStatus) onStatus('loading', 0);
+    const ffmpeg = await _getFfmpeg();
+    const { fetchFile } = await import('https://esm.sh/@ffmpeg/util@0.12.1');
+    const inputName = 'in_' + Date.now().toString(36) + '.mp4';
+    await ffmpeg.writeFile(inputName, await fetchFile(file));
+
+    if (onStatus) onStatus('compressing-hq', 0);
+    const hqBlob = await _transcodeOne(ffmpeg, inputName, 'hq.mp4', 720, 26,
+      p => onStatus && onStatus('compressing-hq', p));
+
+    if (onStatus) onStatus('compressing-lq', 0);
+    const lqBlob = await _transcodeOne(ffmpeg, inputName, 'lq.mp4', 360, 30,
+      p => onStatus && onStatus('compressing-lq', p));
+
+    try { await ffmpeg.deleteFile(inputName); await ffmpeg.deleteFile('hq.mp4'); await ffmpeg.deleteFile('lq.mp4'); } catch(e) {}
+
+    const baseName = file.name.replace(/\.[^.]+$/, '');
+    const hqFile = new File([hqBlob], baseName + '_720.mp4', { type: 'video/mp4' });
+    const lqFile = new File([lqBlob], baseName + '_360.mp4', { type: 'video/mp4' });
+
+    // Safety net: if compression somehow produced a larger file than the
+    // original (can happen on already-optimized short clips), keep the
+    // original instead — never make a file bigger.
+    const finalHq = hqFile.size > 0 && hqFile.size < file.size ? hqFile : file;
+    if (onStatus) onStatus('done', 1);
+    return { hq: finalHq, lq: lqFile.size > 0 ? lqFile : null, skipped: false };
+  } catch (err) {
+    console.error('Video compression failed, uploading original file instead:', err);
+    if (onStatus) onStatus('error', 0);
+    return { hq: file, lq: null, skipped: true };
+  }
+};
+</script>
 <body>
 <!-- ══ PAGE REFRESH LOADER — rendered first, hidden instantly if not a refresh ══ -->
 <div id="tl-page-loader">
@@ -3023,6 +3125,78 @@ function tlVideoError(v) {
       '</div>';
     }
   } catch(e) {}
+}
+
+// ── QUALITY PICKER (Auto / 720p / 360p) ──────────────────────────
+// hqUrl/lqUrl are per-video; if lqUrl is falsy (older videos with no
+// compressed low-quality variant) the picker isn't shown at all — the
+// video just plays at whatever it has, same as before this feature.
+window._tlQState = {}; // videoElId -> { hq, lq, mode: 'auto'|'hq'|'lq' }
+
+function tlPickAutoQuality() {
+  try {
+    const c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (c && c.effectiveType) {
+      return (c.effectiveType === 'slow-2g' || c.effectiveType === '2g' || c.effectiveType === '3g') ? 'lq' : 'hq';
+    }
+    if (c && typeof c.downlink === 'number') return c.downlink < 1.5 ? 'lq' : 'hq';
+  } catch(e) {}
+  return 'hq'; // default assume decent connection when the API isn't available
+}
+
+function tlQualityMarkup(videoElId, hqUrl, lqUrl) {
+  if (!lqUrl) return ''; // nothing to switch to — no picker needed
+  return (
+    '<button class="tl-q-btn" onclick="event.stopPropagation();tlToggleQMenu(\'' + videoElId + '\')" title="Video quality">' +
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>' +
+    '</button>' +
+    '<div class="tl-q-menu" id="tl-q-menu-' + videoElId + '">' +
+      '<div class="tl-q-opt active" data-mode="auto" onclick="event.stopPropagation();tlSetQuality(\'' + videoElId + '\',\'auto\')">Auto</div>' +
+      '<div class="tl-q-opt" data-mode="hq" onclick="event.stopPropagation();tlSetQuality(\'' + videoElId + '\',\'hq\')">720p</div>' +
+      '<div class="tl-q-opt" data-mode="lq" onclick="event.stopPropagation();tlSetQuality(\'' + videoElId + '\',\'lq\')">360p</div>' +
+    '</div>'
+  );
+}
+
+function tlInitQuality(videoElId, hqUrl, lqUrl) {
+  if (!lqUrl) return;
+  const startMode = tlPickAutoQuality();
+  window._tlQState[videoElId] = { hq: hqUrl, lq: lqUrl, mode: 'auto', activeSrc: startMode };
+  const v = document.getElementById(videoElId);
+  if (v) v.src = startMode === 'lq' ? lqUrl : hqUrl;
+}
+
+function tlToggleQMenu(videoElId) {
+  const menu = document.getElementById('tl-q-menu-' + videoElId);
+  if (!menu) return;
+  const wasOpen = menu.classList.contains('open');
+  document.querySelectorAll('.tl-q-menu.open').forEach(m => m.classList.remove('open'));
+  if (!wasOpen) {
+    menu.classList.add('open');
+    const closeOnce = (e) => { if (!menu.contains(e.target)) { menu.classList.remove('open'); document.removeEventListener('click', closeOnce); } };
+    setTimeout(() => document.addEventListener('click', closeOnce), 0);
+  }
+}
+
+function tlSetQuality(videoElId, mode) {
+  const state = window._tlQState[videoElId];
+  const v = document.getElementById(videoElId);
+  if (!state || !v) return;
+  const targetSrc = mode === 'auto' ? (tlPickAutoQuality() === 'lq' ? state.lq : state.hq)
+    : mode === 'lq' ? state.lq : state.hq;
+  if (v.src !== targetSrc) {
+    const wasPlaying = !v.paused;
+    const t = v.currentTime;
+    v.src = targetSrc;
+    v.currentTime = t;
+    if (wasPlaying) v.play().catch(()=>{});
+  }
+  state.mode = mode;
+  const menu = document.getElementById('tl-q-menu-' + videoElId);
+  if (menu) {
+    menu.querySelectorAll('.tl-q-opt').forEach(o => o.classList.toggle('active', o.dataset.mode === mode));
+    menu.classList.remove('open');
+  }
 }
 
 async function db(path, method = 'GET', body = null, token = null) {
@@ -4660,6 +4834,31 @@ function parseVideoUrls(raw) {
   return [];
 }
 
+// Same as parseVideoUrls but keeps null/empty entries in place — needed for
+// video_urls_lq, where a null at index i means "no low-quality variant for
+// videoList[i]" and dropping it would misalign the two arrays.
+function parseVideoUrlsPositional(raw) {
+  if (!raw) return [];
+  if (Array.isArray(raw)) return raw.map(v => v || null);
+  if (typeof raw === 'string') {
+    if (raw.startsWith('{') && raw.endsWith('}')) {
+      const inner = raw.slice(1,-1);
+      const result = [];
+      let cur = '', inQ = false;
+      for (let i = 0; i < inner.length; i++) {
+        const c = inner[i];
+        if (c === '"') { inQ = !inQ; }
+        else if (c === ',' && !inQ) { result.push(cur.trim() === 'NULL' || !cur.trim() ? null : cur.trim()); cur = ''; }
+        else { cur += c; }
+      }
+      result.push(cur.trim() === 'NULL' || !cur.trim() ? null : cur.trim());
+      return result;
+    }
+    try { const p = JSON.parse(raw); if (Array.isArray(p)) return p.map(v => v || null); } catch(e) {}
+  }
+  return [];
+}
+
 function openProject(id) {
   const seq = ++_openProjectSeq;
   _pmHireDismissed = false;
@@ -4791,28 +4990,37 @@ function _renderProjectModal(p) {
   // Cover / video
   const coverArea = document.getElementById('pm-cover-area');
   const videoList = parseVideoUrls(p.video_urls).length ? parseVideoUrls(p.video_urls) : (p.video_url ? [p.video_url] : []);
+  const videoListLQ = parseVideoUrlsPositional(p.video_urls_lq); // index-matched with videoList; null = no LQ variant for that slot
 
   if (videoList.length && coverArea) {
     if (videoList.length === 1) {
+      const lqUrl = videoListLQ[0] || null;
       coverArea.innerHTML =
         '<div class="pm-video-wrap">' +
           '<div id="pm-vid-skel" style="position:absolute;inset:0;background:linear-gradient(90deg,#161616 25%,#1c1c1c 50%,#161616 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;z-index:0;border-radius:8px;height:360px"></div>' +
-          '<video id="pm-main-video" src="' + videoList[0] + '" controls controlsList="nodownload" playsinline preload="metadata"' +
+          '<video id="pm-main-video" src="' + videoList[0] + '" controls controlsList="nodownload" playsinline preload="metadata"' + (p.cover_url ? ' poster="' + p.cover_url + '"' : '') +
           ' style="width:100%;display:block;height:auto;max-height:80vh;position:relative;z-index:1;opacity:0;transition:opacity .35s;border-radius:8px;background:#000"' +
           ' onloadedmetadata="this.style.opacity=1;var sk=document.getElementById(\'pm-vid-skel\');if(sk)sk.remove()" onerror="tlVideoError(this)"></video>' +
+          tlQualityMarkup('pm-main-video', videoList[0], lqUrl) +
         '</div>';
       setTimeout(() => {
         const v = document.getElementById('pm-main-video');
         if (v && v.style.opacity === '0') { v.style.opacity = '1'; const sk = document.getElementById('pm-vid-skel'); if(sk) sk.remove(); }
+        tlInitQuality('pm-main-video', videoList[0], lqUrl);
       }, 3000);
+      tlInitQuality('pm-main-video', videoList[0], lqUrl);
     } else {
       // Multiple videos — stacked, natural aspect ratio each
       coverArea.innerHTML = '<div style="display:flex;flex-direction:column;gap:.8rem">' +
-        videoList.map((u) =>
-          '<div class="pm-video-wrap">' +
-          '<video src="' + u + '" controls controlsList="nodownload" playsinline preload="metadata" style="width:100%;display:block;height:auto;max-height:80vh;border-radius:8px;background:#000" onerror="tlVideoError(this)"></video>' +
-          '</div>'
-        ).join('') + '</div>';
+        videoList.map((u, i) => {
+          const vid = 'pm-vid-' + i;
+          const lqUrl = videoListLQ[i] || null;
+          return '<div class="pm-video-wrap">' +
+          '<video id="' + vid + '" src="' + u + '" controls controlsList="nodownload" playsinline preload="metadata"' + (i === 0 && p.cover_url ? ' poster="' + p.cover_url + '"' : '') + ' style="width:100%;display:block;height:auto;max-height:80vh;border-radius:8px;background:#000" onerror="tlVideoError(this)"></video>' +
+          tlQualityMarkup(vid, u, lqUrl) +
+          '</div>';
+        }).join('') + '</div>';
+      videoList.forEach((u, i) => tlInitQuality('pm-vid-' + i, u, videoListLQ[i] || null));
     }
   } else if (p.yt_link && coverArea) {
     const ytMatch = p.yt_link.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
@@ -5314,9 +5522,10 @@ async function saveProject(status) {
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
 
-  // Must have at least a video or a thumbnail to publish
-  if (status === 'published' && _pendingVideos.length === 0 && !_upThumbBlob) {
-    showToast('Please upload a video or a thumbnail image before publishing.'); return;
+  // Strict policy: at least one video is required to publish — a cover
+  // thumbnail alone is not enough (matches the rule enforced on edits).
+  if (status === 'published' && _pendingVideos.length === 0) {
+    showToast('Please upload at least one video before publishing — or save as a draft instead.'); return;
   }
 
   // Storage check — flat 1 GB limit for everyone
@@ -5339,7 +5548,7 @@ async function saveProject(status) {
     author_init: S.profile.initials || (S.profile.name ? S.profile.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2) : '?'),
     author_avatar: S.profile.avatar_url || null,
     grad_idx: S.profile.grad_idx || 0, likes: 0, views: 0,
-    video_size: _pendingVideos.reduce((s, f) => s + f.size, 0)
+    video_size: _pendingVideos.reduce((s, f) => s + f.size, 0) + _pendingVideosLQ.reduce((s, f) => s + (f ? f.size : 0), 0)
   };
   const pubBtn = el('pub-btn');
   const origTxt = pubBtn.innerHTML;
@@ -5354,10 +5563,11 @@ async function saveProject(status) {
     if (_pendingVideos.length) {
       try {
         el('upload-saving').textContent = 'Uploading video...';
-        const videoUrls = await uploadProjectVideos(token, saved.id);
+        const { urls: videoUrls, urlsLQ: videoUrlsLQ } = await uploadProjectVideos(token, saved.id);
         if (videoUrls.length) {
-          await patchProjectVideo(saved.id, videoUrls, token);
-          Object.assign(saved, { video_url: videoUrls[0], video_urls: videoUrls });        } else {
+          await patchProjectVideo(saved.id, videoUrls, token, videoUrlsLQ);
+          Object.assign(saved, { video_url: videoUrls[0], video_urls: videoUrls, video_urls_lq: videoUrlsLQ });
+        } else {
           showToast('Video upload failed · check your connection and try again.');
         }
       } catch(vErr) {
@@ -8698,11 +8908,12 @@ function copyProfileLink() {
 
 // ── MULTI-VIDEO UPLOAD ───────────────────────────────
 const _pendingVideos = [];
+const _pendingVideosLQ = []; // index-matched with _pendingVideos — the 360p compressed variant, or null
 function addVideoSlot() {
   const inp = document.createElement('input');
   inp.type = 'file'; inp.accept = 'video/mp4,video/webm'; inp.style.display = 'none';
   document.body.appendChild(inp);
-  inp.onchange = () => {
+  inp.onchange = async () => {
     const f = inp.files[0]; document.body.removeChild(inp);
     if (!f) return;
     if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
@@ -8710,28 +8921,49 @@ function addVideoSlot() {
   if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
     if (f.size > 250 * 1024 * 1024) { showToast('Each video must be under 250 MB.'); return; }
     if (_pendingVideos.length >= 5)  { showToast('Max 5 videos per project.'); return; }
-    _pendingVideos.push(f);
+
+    const slotIdx = _pendingVideos.length;
+    _pendingVideos.push(f); // placeholder so the list shows the file immediately
+    _pendingVideosLQ.push(null);
+    renderVideoList(true);
+
+    const result = await window.compressVideoFile(f, (stage, pct) => {
+      const label = stage === 'loading' ? 'Preparing…'
+        : stage === 'compressing-hq' ? 'Compressing (' + Math.round(pct*100) + '%)'
+        : stage === 'compressing-lq' ? 'Making low-data version (' + Math.round(pct*100) + '%)'
+        : stage === 'error' ? 'Compression failed — using original'
+        : '';
+      renderVideoList(true, slotIdx, label);
+    });
+
+    _pendingVideos[slotIdx] = result.hq;
+    _pendingVideosLQ[slotIdx] = result.lq;
+    if (result.skipped) showToast('Could not compress that video — uploading it as-is.');
     renderVideoList();
   };
   inp.click();
 }
 
-function renderVideoList() {
+function renderVideoList(compressing, compressingIdx, compressingLabel) {
   const list = document.getElementById('video-list');
   if (!list) return;
   list.innerHTML = _pendingVideos.map((f, i) => {
     const mb = (f.size / 1024 / 1024).toFixed(1);
+    const isCompressingThis = compressing && i === compressingIdx;
+    const rightSide = isCompressingThis
+      ? '<span style="font-size:.7rem;color:var(--ac);flex-shrink:0">' + (compressingLabel || 'Compressing…') + '</span>'
+      : '<span style="font-size:.7rem;color:var(--t3);flex-shrink:0">' + mb + ' MB</span>' +
+        '<button onclick="removeVideo(' + i + ')" style="background:none;border:none;color:rgba(239,68,68,.7);cursor:pointer;font-size:1rem;padding:0 2px;line-height:1" title="Remove">×</button>';
     return '<div style="display:flex;align-items:center;gap:.55rem;background:var(--bg3);border:1px solid transparent;border-radius:var(--r);padding:.5rem .75rem">' +
       '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="2" stroke="var(--ac)" stroke-width="1.1" fill="none"/><path d="M5.5 5l3 2-3 2V5z" fill="var(--ac)"/></svg>' +
       '<span style="font-size:.8rem;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + f.name + '</span>' +
-      '<span style="font-size:.7rem;color:var(--t3);flex-shrink:0">' + mb + ' MB</span>' +
-      '<button onclick="removeVideo(' + i + ')" style="background:none;border:none;color:rgba(239,68,68,.7);cursor:pointer;font-size:1rem;padding:0 2px;line-height:1" title="Remove">×</button>' +
+      rightSide +
     '</div>';
   }).join('');
 }
 
-function removeVideo(idx) { _pendingVideos.splice(idx, 1); renderVideoList(); }
-function clearAllVideos() { _pendingVideos.length = 0; renderVideoList(); }
+function removeVideo(idx) { _pendingVideos.splice(idx, 1); _pendingVideosLQ.splice(idx, 1); renderVideoList(); }
+function clearAllVideos() { _pendingVideos.length = 0; _pendingVideosLQ.length = 0; renderVideoList(); }
 
 // ── THUMBNAIL / COVER UPLOAD ─────────────────────────
 let _upThumbBlob = null;
@@ -8888,9 +9120,11 @@ function extractFirstFrame(videoUrl) {
   });
 }
 
-async function patchProjectVideo(projId, videoUrls, token) {
+async function patchProjectVideo(projId, videoUrls, token, videoUrlsLQ) {
   try {
-    await db('/projects?id=eq.' + projId, 'PATCH', { video_url: videoUrls[0], video_urls: videoUrls }, token);
+    const payload = { video_url: videoUrls[0], video_urls: videoUrls };
+    if (videoUrlsLQ && videoUrlsLQ.some(u => u)) payload.video_urls_lq = videoUrlsLQ;
+    await db('/projects?id=eq.' + projId, 'PATCH', payload, token);
   } catch(e) {
     console.error('PATCH video failed:', e.message);
     try { await db('/projects?id=eq.' + projId, 'PATCH', { video_url: videoUrls[0] }, token); } catch(e2) { throw e2; }
@@ -8923,11 +9157,32 @@ function uploadFileXHR(url, file, headers, onProgress) {
   });
 }
 
-async function uploadProjectVideos(token, projId) {
-  if (!_pendingVideos.length) return [];
-  const urls = [];
+function _uploadOneVideoFile(f, token, fileName, onProgress) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.upload.onprogress = (e) => { if (e.lengthComputable && onProgress) onProgress(e.loaded / e.total); };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { const data = JSON.parse(xhr.responseText); resolve(data.publicUrl || null); }
+        catch(e) { resolve(null); }
+      } else { reject(new Error('Upload failed: ' + xhr.status)); }
+    };
+    xhr.onerror = () => reject(new Error('Upload network error'));
+    xhr.open('POST', 'https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    xhr.setRequestHeader('x-file-name', fileName);
+    xhr.setRequestHeader('x-content-type', f.type || 'video/mp4');
+    xhr.send(f);
+  });
+}
 
-  // Progress UI elements
+// Returns { urls, urlsLQ } — urlsLQ entries are null where no low-quality
+// variant exists (compression skipped/failed for that file).
+async function uploadProjectVideos(token, projId) {
+  if (!_pendingVideos.length) return { urls: [], urlsLQ: [] };
+  const urls = [];
+  const urlsLQ = [];
+
   const pw  = el('video-upload-progress');
   const pb  = el('video-progress-bar');
   const pt  = el('video-progress-txt');
@@ -8935,10 +9190,12 @@ async function uploadProjectVideos(token, projId) {
 
   for (let i = 0; i < _pendingVideos.length; i++) {
     const f = _pendingVideos[i];
+    const lq = _pendingVideosLQ[i];
     const totalFiles = _pendingVideos.length;
     const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
     const fileName = projId + '_v' + i + '_' + Date.now() + '_' + safeName;
 
+    // HQ + LQ together count as one "file" worth of progress for this slot
     const updateProgress = (filePct) => {
       const overall = ((i + filePct) / totalFiles) * 100;
       if (pb) pb.style.width = overall.toFixed(1) + '%';
@@ -8949,36 +9206,28 @@ async function uploadProjectVideos(token, projId) {
           : 'Uploading · ' + pctLabel + '%';
       }
     };
-
     updateProgress(0);
 
     try {
-      // Upload file directly via edge function (server-side to R2)
-      await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.upload.onprogress = (e) => { if (e.lengthComputable) updateProgress(e.loaded / e.total); };
-        xhr.onload = () => {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            try { const data = JSON.parse(xhr.responseText); if (data.publicUrl) urls.push(data.publicUrl); } catch(e) {}
-            resolve();
-          } else { reject(new Error('Upload failed: ' + xhr.status)); }
-        };
-        xhr.onerror = () => reject(new Error('Upload network error'));
-        xhr.open('POST', 'https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload');
-        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-        xhr.setRequestHeader('x-file-name', fileName);
-        xhr.setRequestHeader('x-content-type', f.type || 'video/mp4');
-        xhr.send(f);
-      });
+      const hqUrl = await _uploadOneVideoFile(f, token, fileName, p => updateProgress(p * (lq ? 0.7 : 1)));
+      urls.push(hqUrl);
+
+      if (lq) {
+        const lqFileName = projId + '_v' + i + '_' + Date.now() + '_lq_' + safeName;
+        const lqUrl = await _uploadOneVideoFile(lq, token, lqFileName, p => updateProgress(0.7 + p * 0.3));
+        urlsLQ.push(lqUrl);
+      } else {
+        urlsLQ.push(null);
+      }
 
       updateProgress(1);
     } catch(err) {
       showToast('Video ' + (i+1) + ' failed · ' + err.message);
       console.error('Video upload error:', err);
+      urlsLQ.push(null);
     }
   }
 
-  // Final state
   if (pb) pb.style.width = '100%';
   if (pt) pt.textContent = urls.length === _pendingVideos.length ? 'Upload complete!' : urls.length + ' of ' + _pendingVideos.length + ' uploaded';
   setTimeout(() => {
@@ -8986,7 +9235,7 @@ async function uploadProjectVideos(token, projId) {
     if (pb) pb.style.width = '0%';
   }, 2000);
 
-  return urls;
+  return { urls, urlsLQ };
 }
 
 // ── STORAGE HELPERS ──────────────────────────────────
