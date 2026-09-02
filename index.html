@@ -762,6 +762,7 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 @media(max-width:640px){.err-toast{right:12px;left:12px;bottom:88px;width:auto;max-width:none}}
 /* Inline "report / contact" links used inside auth & OTP error boxes for
    unexpected technical failures (not plain validation messages). */
+.tech-err-detail{display:block;margin-top:.24rem;font-weight:400;opacity:.8;font-size:.92em}
 .tech-err-links{display:block;margin-top:.32rem;font-weight:600}
 .tech-err-links a{color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .tech-err-links a:hover{color:var(--ac)}
@@ -3749,6 +3750,8 @@ async function handleSignUp() {
     if (m.includes('already') || m.includes('duplicate') || m.includes('registered')) {
       showAuthErr('That email already has an account. Sign in instead.');
       switchAuthTab('in');
+    } else if (m.includes('weak') || m.includes('pwned') || m.includes('easy to guess') || m.includes('known to be')) {
+      showAuthErr('That password has appeared in a data breach and is not safe to use. Please choose a different, stronger password.');
     } else {
       showAuthTechErr('Sign up failed. Please try again.', e);
     }
@@ -6951,35 +6954,44 @@ function contactFromErrorToast() {
   closeErrorToast();
   openContactModal();
 }
-// Shared helper for the inline auth/OTP error boxes: shows a friendly,
-// consistent fallback message (never the raw e.message) plus small
-// "Report bug · Contact us" links, for genuinely unexpected failures —
-// as opposed to plain validation messages like "Please fill in both fields."
+// Shared helper for the inline auth/OTP error boxes: shows a friendly
+// fallback message PLUS the real underlying error text (so the user can
+// actually tell what went wrong, e.g. a rejected password vs a network
+// issue), plus small "Report bug · Contact us" links, for genuinely
+// unexpected failures — as opposed to plain validation messages like
+// "Please fill in both fields."
 function _techErrLinksHtml() {
   return '<span class="tech-err-links"><a href="#" onclick="event.preventDefault();reportErrorBug()">Report bug</a> · <a href="#" onclick="event.preventDefault();openContactModal()">Contact us</a></span>';
+}
+function _realErrDetailHtml(e, fallbackMsg) {
+  const raw = ((e && e.message) || '').toString().trim();
+  // Don't bother repeating the detail if it's empty or identical to the fallback copy.
+  if (!raw || raw.toLowerCase() === (fallbackMsg || '').toLowerCase()) return '';
+  return '<div class="tech-err-detail">' + escHtml(raw.slice(0, 300)) + '</div>';
 }
 function showAuthTechErr(fallbackMsg, e) {
   try { _lastErrDetail = (((e && e.message) || fallbackMsg || '')).toString().slice(0, 400); } catch(err) { _lastErrDetail = fallbackMsg || ''; }
   const box = el('auth-err');
   if (!box) return;
-  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + ' ' + _techErrLinksHtml();
+  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + _realErrDetailHtml(e, fallbackMsg) + ' ' + _techErrLinksHtml();
   box.classList.add('show');
 }
 function showOtpTechErr(fallbackMsg, e) {
   try { _lastErrDetail = (((e && e.message) || fallbackMsg || '')).toString().slice(0, 400); } catch(err) { _lastErrDetail = fallbackMsg || ''; }
   const box = el('otp-err');
   if (!box) return;
-  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + ' ' + _techErrLinksHtml();
+  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + _realErrDetailHtml(e, fallbackMsg) + ' ' + _techErrLinksHtml();
   box.style.display = 'block';
 }
 // Generic version of the above for any other inline error box by id
-// (forgot-password, reset-password, etc). Same idea: friendly fixed copy,
-// never the raw message, plus Report bug / Contact us links.
+// (forgot-password, reset-password, etc). Same idea: friendly fallback
+// copy, now WITH the real error message shown underneath, plus
+// Report bug / Contact us links.
 function showInlineTechErr(boxId, fallbackMsg, e) {
   try { _lastErrDetail = (((e && e.message) || fallbackMsg || '')).toString().slice(0, 400); } catch(err) { _lastErrDetail = fallbackMsg || ''; }
   const box = el(boxId);
   if (!box) return;
-  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + ' ' + _techErrLinksHtml();
+  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + _realErrDetailHtml(e, fallbackMsg) + ' ' + _techErrLinksHtml();
   box.style.display = 'block';
 }
 
