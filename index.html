@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta name="google-site-verification" content="VngO4qcyC8m6W0175TfW3v-oFCO6CHGY0UU2Z8EfOEo" />
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H5CS34QY2Y"></script>
 <script>
@@ -115,7 +116,7 @@
       "name": "Can I filter editors by style or niche?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Use the category filter on Discover to narrow down to Long-form, Shorts and Reels, Motion, Film and more, or search by keyword."
+        "text": "Yes. Use the category filter on Discover to narrow down to Long Form, Shorts and Reels, Motion, Film and more, or search by keyword."
       }
     },
     {
@@ -199,7 +200,7 @@
 :root{accent-color:#FE730A;
   --ac:#FE730A;--acl:rgba(254,115,10,.12);--acg:rgba(254,115,10,.06);
   --ac2:#5B8CFF;--ac2l:rgba(91,140,255,.12);
-  --bg:#0A0A0A;--bg2:#141414;--bg3:#1A1A1A;--bg4:#212121;--bg5:#2A2A2A;
+  --bg:#0A0A0A;--bg2:#141414;--bg3:#1A1A1A;--bg4:#212121;--bg5:#2A2A2A;--skel-a:#303030;--skel-b:#454545;
   --w:#ffffff;--t1:#EDEBE6;--t2:#9C9891;--t3:#615D57;
   --brd:rgba(237,235,230,.07);--brd2:rgba(237,235,230,.12);--brd3:rgba(237,235,230,.2);
   --r:4px;--rlg:8px;--rxl:10px;--rpill:999px;
@@ -455,10 +456,6 @@ html.light .fsrch input{color:var(--t1)}
 .pcard-type.reel{background:rgba(168,85,247,.75);color:white}
 .pcard-duration{position:absolute;bottom:.5rem;right:.5rem;font-size:.55rem;font-weight:500;color:white;background:rgba(0,0,0,.7);padding:.1rem .38rem;border-radius:3px;z-index:2}
 .pcard-feat{position:absolute;top:.5rem;left:.5rem;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);color:white;font-size:.46rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.13rem .45rem;border-radius:8px;z-index:2}
-.pcard-sponsored{position:absolute;top:.5rem;left:.5rem;display:flex;align-items:center;gap:.22rem;background:var(--ac);color:white;font-size:.46rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.16rem .5rem;border-radius:8px;z-index:2;box-shadow:none}
-.pcard-sponsor-wrap{background:var(--bg3);border:1px solid transparent;border-radius:8px;overflow:hidden}
-.pcard-sponsor-wrap .pcard-thumb{border-radius:0}
-.pcard-sponsor-wrap .pcard-body{padding:.7rem .8rem .8rem;border-top:1px solid var(--brd)}
 .pcard-ov{display:none}
 .pcard-ov-like{position:absolute;bottom:9px;right:9px;width:30px;height:30px;border-radius:50%;background:rgba(22,22,24,.9);border:none;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(4px) scale(.92);transition:opacity .2s,transform .2s;z-index:3}.pcard:hover .pcard-ov-like{opacity:1;transform:translateY(0) scale(1)}.pcard-ov-like:hover{background:var(--bg3);transform:scale(1.1)!important}.pcard-ov-like.liked{background:var(--ac)!important;opacity:1!important;transform:translateY(0) scale(1)!important}
 .pcard-body{padding:.6rem .1rem .3rem}
@@ -479,6 +476,15 @@ html.light .fsrch input{color:var(--t1)}
 
 /* ── Hero section ── */
 .prof-hero{position:relative;text-align:center;padding:1.5rem 2rem 2.5rem;overflow:hidden}
+/* Decor hooks — inert, kept for layout stability (no theme system sets these anymore) */
+.prof-decor{position:absolute;inset:0;pointer-events:none;z-index:0}
+.prof-decor-item{position:absolute;background-image:var(--prof-decor-img,none);background-size:contain;background-repeat:no-repeat;opacity:var(--prof-decor-opacity,0)}
+.prof-decor-item.d1{top:8%;left:4%;width:80px;height:50px}
+.prof-decor-item.d2{top:12%;right:6%;width:70px;height:44px}
+.prof-decor-item.d3{top:24%;left:9%;width:48px;height:30px}
+.prof-decor-stars{position:absolute;inset:0;background-image:var(--prof-stars-img,none);background-repeat:repeat;opacity:var(--prof-stars-opacity,0)}
+.prof-hero>*{position:relative;z-index:1}
+.prof-footer-strip{height:var(--prof-footer-h,0);background:var(--prof-footer-bg,transparent);width:100%}
 .prof-hero-glow{display:none}
 .prof-hero>*{position:relative;z-index:1}
 
@@ -488,15 +494,15 @@ html.light .fsrch input{color:var(--t1)}
 .prof-av-float{width:88px;height:88px;border-radius:50%;border:none;box-shadow:var(--shadow-md);overflow:hidden;display:block}
 .prof-av-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:white}
 
-.prof-name{font-size:1.85rem;font-weight:800;color:var(--t1);letter-spacing:-.03em;margin-bottom:.3rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;line-height:1.1}
+.prof-name{font-size:1.85rem;font-weight:800;color:var(--t1);letter-spacing:-.03em;margin-bottom:.3rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;line-height:1.1;font-family:var(--prof-heading-font,inherit)}
 .prof-role-city{font-size:.88rem;color:var(--t3);margin-bottom:.2rem;font-weight:400;letter-spacing:.01em}
 .prof-handle-line{font-size:.73rem;color:var(--t3);margin-bottom:1rem;font-style:italic}
 .prof-badge{background:var(--ac);color:#fff;font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.22rem .65rem;border-radius:8px;border:1px solid transparent}
 
 /* Hero action buttons */
 .prof-hero-actions{display:flex;gap:.65rem;justify-content:center;margin-bottom:1.8rem;flex-wrap:wrap}
-.prof-hire-btn{padding:.7rem 1.6rem;border-radius:50px;border:none;background:var(--ac);color:white;font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:.45rem;transition:.2s cubic-bezier(.4,0,.2,1);box-shadow:none}.prof-hire-btn:hover{background:#e55e00;transform:translateY(-1px);box-shadow:none}
-.prof-edit-btn{padding:.68rem 1.4rem;border-radius:8px;border:1.5px solid transparent;background:transparent;color:var(--t2);font-size:.84rem;font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:.2s cubic-bezier(.4,0,.2,1)}.prof-edit-btn:hover{border-color:var(--brd3);color:var(--t1);background:var(--bg3)}
+.prof-hire-btn{padding:.7rem 1.6rem;border-radius:var(--prof-hire-r,50px);border:var(--prof-hire-brd,none);background:var(--prof-hire-bg,var(--ac));color:white;font-size:var(--prof-btn-fs,.85rem);font-weight:var(--prof-btn-fw,600);letter-spacing:var(--prof-btn-ls,normal);display:inline-flex;align-items:center;gap:.45rem;transition:.2s cubic-bezier(.4,0,.2,1);box-shadow:none}.prof-hire-btn:hover{background:var(--prof-hire-bg,#e55e00);transform:translateY(-1px);box-shadow:none}
+.prof-edit-btn{padding:.68rem 1.4rem;border-radius:var(--prof-box-r,8px);border:var(--prof-box-brd,1.5px solid transparent);background:transparent;color:var(--t2);font-size:var(--prof-btn-fs,.84rem);letter-spacing:var(--prof-btn-ls,normal);font-weight:500;display:inline-flex;align-items:center;gap:.4rem;transition:.2s cubic-bezier(.4,0,.2,1)}.prof-edit-btn:hover{border-color:var(--brd3);color:var(--t1);background:var(--bg3)}
 .prof-share-corner-btn{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:none;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.18s;z-index:2;padding:0;line-height:1}.prof-share-corner-btn:hover{opacity:.85}
 @keyframes shareFadeIn{from{opacity:0}to{opacity:1}}
 @keyframes shareScaleIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
@@ -510,8 +516,8 @@ html.light .fsrch input{color:var(--t1)}
 .prof-hero-bio{padding:.5rem 2rem 0;text-align:center}
 .prof-bio-txt{font-size:.88rem;color:var(--t2);line-height:1.85;max-width:680px;margin:0 auto}
 /* stats bar — pill style, no border-top */
-.prof-stats-row{display:inline-flex;gap:0;justify-content:center;margin-top:1.6rem;background:rgba(255,255,255,.04);border:1px solid transparent;border-radius:8px;overflow:hidden}
-.prof-stat-box{padding:.55rem 1.4rem;border-right:1px solid var(--brd);cursor:default}
+.prof-stats-row{display:inline-flex;gap:0;justify-content:center;margin-top:1.6rem;background:rgba(255,255,255,.04);border:var(--prof-box-brd,1px solid transparent);border-radius:var(--prof-box-r,8px);overflow:hidden}
+.prof-stat-box{padding:.55rem 1.4rem;border-right:var(--prof-stat-divider,1px solid var(--brd));cursor:default}
 .prof-stat-box:last-child{border-right:none}
 .prof-stat-n{font-size:1.1rem;font-weight:700;color:var(--t1);display:block;letter-spacing:-.02em}
 .prof-stat-l{font-size:.55rem;color:var(--t3);text-transform:uppercase;letter-spacing:.9px;display:block;margin-top:.08rem}
@@ -535,20 +541,20 @@ html.light .fsrch input{color:var(--t1)}
 
 /* Socials */
 .prof-social-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.2rem;justify-content:center}
-.prof-soc-btn{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:600;padding:.5rem 1.1rem;border-radius:8px;border:1.5px solid transparent;background:var(--bg3);color:var(--ac);transition:.18s;text-decoration:none;box-shadow:var(--shadow-sm)}.prof-soc-btn:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.prof-soc-btn{display:inline-flex;align-items:center;gap:.4rem;font-size:.76rem;font-weight:600;padding:.5rem 1.1rem;border-radius:var(--prof-box-r,8px);border:var(--prof-box-brd,1.5px solid transparent);background:var(--bg3);color:var(--ac);transition:.18s;text-decoration:none;box-shadow:var(--shadow-sm)}.prof-soc-btn:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
 
 /* PROJECTS — 2 col, bigger */
 /* ── Projects section (no card box) ── */
 .prof-right-sec{background:transparent;border:none;border-radius:0;padding:1.5rem 1.5rem 1.5rem;margin-bottom:0}
-.prof-right-sec-h{font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}.prof-right-sec-h::after{content:'';flex:1;height:1px;background:var(--brd)}
+.prof-right-sec-h{font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem;font-family:var(--prof-heading-font,inherit)}.prof-right-sec-h::after{content:'';flex:1;height:1px;background:var(--brd)}
 /* Project cards — no outer box, thumbnail is the card */
 .prof-proj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem 1rem}
 /* Project card — no border box, no outline. Thumbnail first, info below */
 .prof-pcard{background:transparent;border:none;border-radius:0;overflow:visible;cursor:pointer;transition:.22s cubic-bezier(.4,0,.2,1);text-decoration:none;display:block;color:inherit;box-shadow:none}.prof-pcard:hover{transform:translateY(-3px)}.prof-pcard *{pointer-events:auto}.prof-pcard-menu-btn{pointer-events:auto!important;position:relative!important}
-.prof-pcard-skel{background:var(--bg3);border:1px solid transparent;border-radius:8px;overflow:hidden;pointer-events:none}
-.prof-pcard-skel-thumb{aspect-ratio:16/9;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg5,#222222) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite}
+.prof-pcard-skel{background:var(--skel-a);border:1px solid transparent;border-radius:8px;overflow:hidden;pointer-events:none}
+.prof-pcard-skel-thumb{aspect-ratio:16/9;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite}
 .prof-pcard-skel-body{padding:.9rem 0}
-.prof-pcard-skel-line{height:.7rem;border-radius:4px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg5,#222222) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:.5rem}
+.prof-pcard-skel-line{height:.7rem;border-radius:4px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:.5rem}
 .prof-pcard-skel-line.short{width:55%}
 /* Thumbnail — rounded, no border */
 .prof-pcard-thumb{aspect-ratio:16/9;position:relative;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
@@ -702,7 +708,7 @@ html.light .di,html.light .dta,html.light .dsel{color:var(--t1)}
 .spinner{width:25px;height:25px;border:2px solid transparent;border-top-color:var(--ac);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes skelShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
-.pcard-skel .pcard-thumb{background:var(--bg5);aspect-ratio:16/9;border-radius:8px}
+.pcard-skel .pcard-thumb{background:var(--skel-a);aspect-ratio:16/9;border-radius:8px}
 .pcard-skel .pcard-body{padding:.6rem .1rem}
 /* Cards start invisible; JS IntersectionObserver adds .card-visible to fade them in */
 .pcard{opacity:0;transform:translateY(14px);transition:opacity .38s cubic-bezier(.4,0,.2,1),transform .38s cubic-bezier(.4,0,.2,1)}
@@ -733,7 +739,32 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 .fbot{border-top:1px solid var(--brd);padding-top:.88rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.85rem}
 .fcopy{font-size:.75rem;color:var(--t2)}
 .tag-chip{display:inline-flex;align-items:center;gap:.25rem;background:var(--ac);border:1px solid transparent;color:#fff;font-size:.72rem;font-weight:500;padding:.14rem .5rem;border-radius:8px;white-space:nowrap;margin:.08rem}.tag-chip-x{cursor:pointer;font-size:.85rem;line-height:1;opacity:.7;margin-left:.1rem}.tag-chip-x:hover{opacity:1}
-.toast{position:fixed;bottom:18px;right:18px;z-index:2147483647;background:var(--bg2);border:1px solid transparent;color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:280px;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;isolation:isolate}.toast.show{transform:translateY(0);opacity:1}.toast-ico{color:var(--ac)}
+.toast{position:fixed;bottom:18px;right:18px;z-index:2147483647;background:var(--bg2);border:1px solid transparent;color:var(--t1);padding:.62rem 1rem;border-radius:var(--rlg);font-size:.75rem;box-shadow:0 8px 28px rgba(0,0,0,.5);display:flex;align-items:center;gap:.42rem;transform:translateY(60px);opacity:0;transition:all .24s cubic-bezier(.4,0,.2,1);max-width:280px;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;isolation:isolate}.toast.show{transform:translateY(0);opacity:1}.toast.has-action{max-width:360px}.toast-ico{color:var(--ac)}
+.toast-action{margin-left:.15rem;padding:.32rem .7rem;background:var(--ac);color:#fff;border:none;border-radius:var(--r);font-size:.68rem;font-weight:700;font-family:var(--fm);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:var(--tr)}
+.toast-action:hover{background:#e55e00}
+/* ── TECHNICAL ERROR TOAST ── shown whenever something fails behind the scenes
+   (saving, uploading, signing in, etc). Always the same clear copy — never raw
+   error text — plus quick ways to report the bug or reach us. */
+.err-toast{position:fixed;bottom:18px;right:18px;z-index:2147483647;background:var(--bg2);border:1px solid var(--brd2);color:var(--t1);padding:.85rem .95rem .8rem;border-radius:var(--rlg);box-shadow:0 12px 34px rgba(0,0,0,.55);width:290px;max-width:calc(100% - 32px);transform:translateY(70px);opacity:0;pointer-events:none;transition:all .26s cubic-bezier(.4,0,.2,1);isolation:isolate}
+.err-toast.show{transform:translateY(0);opacity:1;pointer-events:auto}
+.err-toast-top{display:flex;gap:.55rem;align-items:flex-start;margin-bottom:.75rem}
+.err-toast-ico{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(239,68,68,.13);display:flex;align-items:center;justify-content:center;color:#ef4444;margin-top:.05rem}
+.err-toast-body{min-width:0}
+.err-toast-title{font-weight:700;color:var(--t1);font-size:.8rem;line-height:1.3;margin-bottom:.2rem}
+.err-toast-sub{color:var(--t3);font-size:.7rem;line-height:1.5}
+.err-toast-x{position:absolute;top:.55rem;right:.6rem;background:transparent;border:none;color:var(--t3);cursor:pointer;font-size:.85rem;line-height:1;padding:.2rem;border-radius:50%}
+.err-toast-x:hover{color:var(--t1);background:var(--bg3)}
+.err-toast-actions{display:flex;gap:.5rem}
+.err-toast-btn{flex:1;text-align:center;padding:.42rem .5rem;border-radius:7px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:var(--fm);border:1px solid var(--brd2);background:transparent;color:var(--t2);transition:.15s}
+.err-toast-btn:hover{border-color:var(--ac);color:var(--ac)}
+.err-toast-btn.primary{background:var(--ac);border-color:var(--ac);color:#fff}
+.err-toast-btn.primary:hover{background:#e55e00;border-color:#e55e00}
+@media(max-width:640px){.err-toast{right:12px;left:12px;bottom:88px;width:auto;max-width:none}}
+/* Inline "report / contact" links used inside auth & OTP error boxes for
+   unexpected technical failures (not plain validation messages). */
+.tech-err-links{display:block;margin-top:.32rem;font-weight:600}
+.tech-err-links a{color:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.tech-err-links a:hover{color:var(--ac)}
 /* Responsive */
 @media(max-width:1500px){.pgrid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:1400px){.prof-proj-grid{grid-template-columns:repeat(3,1fr)}}
@@ -775,8 +806,6 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 }
 #proj-modal-overlay.pm-open .pm-close{opacity:1;pointer-events:all}
 .pm-close:hover{background:rgba(255,255,255,.16);color:#fff}
-#ad-modal-overlay.ad-modal-open{opacity:1;visibility:visible;pointer-events:all;background:rgba(0,0,0,.82);backdrop-filter:blur(10px)}
-#ad-modal-overlay.ad-modal-open #ad-modal-box{opacity:1;transform:translateY(0) scale(1)}
 /* Title area */
 .pm-title{
   font-size:clamp(1.15rem,1.9vw,1.55rem);font-weight:700;color:#fff;
@@ -870,7 +899,7 @@ footer{background:var(--bg2);border-top:1px solid var(--brd)}
 /* skeleton inside modal */
 .pm-skel{
   width:100%;height:420px;border-radius:8px;
-  background:linear-gradient(90deg,#161616 25%,#1c1c1c 50%,#161616 75%);
+  background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);
   background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;
   margin-bottom:1.5rem;
 }
@@ -946,7 +975,6 @@ html.light .jf-sel{color:var(--t1)}
 .jcard-posted{font-size:.66rem;color:var(--t3);display:flex;align-items:center;gap:.3rem}
 .japply{background:var(--ac);color:white;border:none;border-radius:8px;padding:.42rem 1rem;font-family:var(--fm);font-size:.78rem;font-weight:500;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:.35rem}.japply:hover{background:#e55e00}
 /* ── PRICING ── */
-#page-advertise{padding-top:58px;min-height:100vh;background:var(--bg)}
 .pricing-wrap{max-width:1000px;margin:0 auto;padding:3.5rem 24px 5rem;text-align:center}
 .pricing-eyebrow{font-size:.58rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--ac);margin-bottom:.7rem}
 .pricing-h{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--t1);margin-bottom:.7rem;letter-spacing:-.4px}
@@ -1446,10 +1474,7 @@ img, video, iframe, canvas { max-width: 100%; }
   }
 
   /* ── PRICING page ── */
-  #page-advertise .pricing-wrap { padding: .9rem 14px 3rem !important; }
-  #page-advertise .pricing-grid { grid-template-columns: 1fr !important; max-width: 100% !important; }
   /* Comparison table horizontal scroll */
-  #page-advertise .comp-wrap, #page-advertise table { overflow-x: auto; -webkit-overflow-scrolling: touch; display: block; width: 100%; }
 
   /* ── FAQ page ── */
   #page-faq { padding-top: 58px; }
@@ -1760,6 +1785,7 @@ img, video, iframe, canvas { max-width: 100%; }
 #btt-btn{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9000;width:40px;height:40px;border-radius:50%;background:var(--bg3);border:1.5px solid transparent;color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.4);opacity:0;transform:translateY(12px);transition:opacity .22s,transform .22s,border-color .18s,color .18s;pointer-events:none}
 #btt-btn.show{opacity:1;transform:translateY(0);pointer-events:auto}
 #btt-btn:hover{border-color:var(--ac);color:var(--ac);box-shadow:none}
+
 @keyframes overlayFadeIn{from{opacity:0}to{opacity:1}}
 @keyframes overlaySlideIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 #contact-overlay>div,#about-overlay>div{animation:overlaySlideIn .24s cubic-bezier(.22,.68,0,1.2) both}
@@ -1887,11 +1913,11 @@ window.compressVideoFile = async function(file, onStatus) {
 (function(){
   var uRedir='';
   try{uRedir=sessionStorage.getItem('tl_redirect')||'';sessionStorage.removeItem('tl_redirect');}catch(e){}
-  var _knownPages=['feed','advertise','faq','profile','dashboard','project'];
+  var _knownPages=['feed','faq','profile','dashboard','project'];
   // Only promote to username_redirect if the value is not a known page name
   if(uRedir&&_knownPages.indexOf(uRedir.toLowerCase())===-1){try{sessionStorage.setItem('tl_username_redirect',uRedir);}catch(e){}}
   else if(uRedir){uRedir='';}
-  var known=['feed','advertise','faq','profile','dashboard','project'];
+  var known=['feed','faq','profile','dashboard','project'];
   var h=location.hash.replace('#/','');
   var seg=(h.split('/')[0]||'').toLowerCase();
   var hasHash=known.indexOf(seg)!==-1;
@@ -1903,7 +1929,7 @@ window.compressVideoFile = async function(file, onStatus) {
   var hasSbSession=false;try{var _k=Object.keys(localStorage);for(var _i=0;_i<_k.length;_i++){if(_k[_i].indexOf('sb-')!==-1||_k[_i].indexOf('supabase.auth')!==-1){hasSbSession=true;break;}}}catch(e){}
   var skip=hasHash||!!uRedir||isUsernamePath||hasLastPage||visited||hasSbSession;
   // Always skip splash — go straight to feed for everyone
-  document.addEventListener('DOMContentLoaded',function(){
+  function _instantRoutingInit(){
     var s=document.getElementById('page-splash');
     if(s){s.classList.remove('active');s.style.display='none';}
     var nav=document.getElementById('main-nav');if(nav)nav.style.display='flex';
@@ -1919,11 +1945,11 @@ window.compressVideoFile = async function(file, onStatus) {
       for(var _s=0;_s<6;_s++){
         skels+='<div class="pcard pcard-skel" style="pointer-events:none">'+
           '<div class="pcard-thumb" style="position:relative;border-radius:8px;overflow:hidden">'+
-            '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>'+
+            '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>'+
           '</div>'+
           '<div class="pcard-body">'+
-            '<div style="height:12px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:80%"></div>'+
-            '<div style="height:10px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:55%"></div>'+
+            '<div style="height:12px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:80%"></div>'+
+            '<div style="height:10px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:55%"></div>'+
           '</div>'+
         '</div>';
       }
@@ -1936,7 +1962,17 @@ window.compressVideoFile = async function(file, onStatus) {
       sessionStorage.removeItem('tl_auth_intent');
       setTimeout(function(){ openAuth(authIntent==='signup'?'up':'in'); },400);
     }
-  });
+  }
+  // Run immediately if the DOM is already parsed (e.g. local/preview viewers that
+  // inject this HTML after DOMContentLoaded already fired — in that case the event
+  // never fires again and the feed skeleton would never get inserted, leaving a
+  // dead-blank grid until the real fetch finishes). Otherwise wait for the event
+  // as normal on a fresh page load.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _instantRoutingInit);
+  } else {
+    _instantRoutingInit();
+  }
 })();
 </script>
 
@@ -1947,7 +1983,7 @@ window.compressVideoFile = async function(file, onStatus) {
     <button class="auth-x" onclick="closeAuth()">×</button>
     <div class="auth-brand">TimeLiners</div>
     <div class="auth-tabs">
-      <button class="auth-tab active" id="atab-in" onclick="switchAuthTab('in')">Sign In</button>
+      <button class="auth-tab active" id="atab-in" onclick="switchAuthTab('in')">Log In</button>
       <button class="auth-tab" id="atab-up" onclick="switchAuthTab('up')">Sign Up</button>
     </div>
     <div id="auth-err" class="auth-err"></div>
@@ -1958,7 +1994,7 @@ window.compressVideoFile = async function(file, onStatus) {
       <div class="af"><label class="al">Email</label><input class="ai" type="email" id="si-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')handleSignIn()"></div>
       <div class="af"><label class="al">Password</label><input class="ai" type="password" id="si-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')handleSignIn()"></div>
       <div style="text-align:right;margin-top:-.3rem;margin-bottom:.5rem"><a onclick="showForgotPassword()" style="font-size:.68rem;color:var(--ac);cursor:pointer">Forgot password?</a></div>
-      <button class="auth-btn" id="si-btn" onclick="handleSignIn()">Sign In</button>
+      <button class="auth-btn" id="si-btn" onclick="handleSignIn()">Log In</button>
     </div>
 
     <!-- SIGN UP -->
@@ -1974,6 +2010,7 @@ window.compressVideoFile = async function(file, onStatus) {
         <input type="checkbox" id="su-terms" style="margin-top:.15rem;flex-shrink:0;accent-color:var(--ac)">
         <span>I agree to the <a href="/terms.html" target="_blank" style="color:var(--ac)" onclick="event.stopPropagation()">Terms</a> and <a href="/privacy.html" target="_blank" style="color:var(--ac)" onclick="event.stopPropagation()">Privacy Policy</a></span>
       </label>
+      <div class="cf-turnstile" id="su-turnstile" data-sitekey="0x4AAAAAAETq5mtz6hNYbPhv" data-theme="dark" style="margin-bottom:.9rem;display:flex;justify-content:center"></div>
       <button class="auth-btn" id="su-btn" onclick="handleSignUp()">Create Free Account</button>
     </div>
 
@@ -2037,8 +2074,8 @@ window.compressVideoFile = async function(file, onStatus) {
     <div style="width:52px;height:52px;border-radius:50%;background:var(--ac);border:1px solid transparent;display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z" stroke="#fff" stroke-width="1.5"/><path d="M2 6l10 7 10-7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
     </div>
-    <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.35rem">Check your email</div>
-    <div style="font-size:.82rem;color:var(--t2);margin-bottom:.2rem">We sent an 8-digit verification code to</div>
+    <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:.35rem" id="otp-title">Check your email</div>
+    <div style="font-size:.82rem;color:var(--t2);margin-bottom:.2rem" id="otp-subtitle">We sent a verification code to</div>
     <div style="font-size:.85rem;font-weight:600;color:var(--ac);margin-bottom:1.5rem" id="otp-email-display">—</div>
 
     <!-- 8 digit boxes -->
@@ -2135,21 +2172,6 @@ window.compressVideoFile = async function(file, onStatus) {
   </div>
 </div>
 
-<!-- ══ SPONSOR AD MODAL ══ -->
-<div id="ad-modal-overlay" onclick="if(event.target===this)closeAdModal()" style="position:fixed;inset:0;background:rgba(0,0,0,0);backdrop-filter:blur(0px);z-index:3500;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .32s cubic-bezier(.4,0,.2,1),background .32s cubic-bezier(.4,0,.2,1),backdrop-filter .32s cubic-bezier(.4,0,.2,1)">
-  <div id="ad-modal-box" style="background:var(--bg2);border:1px solid transparent;border-radius:10px;max-width:400px;width:100%;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.5);opacity:0;transform:translateY(22px) scale(.97);transition:opacity .32s cubic-bezier(.4,0,.2,1),transform .32s cubic-bezier(.4,0,.2,1)">
-    <button onclick="closeAdModal()" style="position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--t2);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;line-height:1;z-index:2" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background='transparent'">×</button>
-    <img id="ad-modal-banner" src="" style="width:100%;height:160px;object-fit:cover;display:block">
-    <div style="padding:1.4rem 1.6rem 1.6rem">
-      <div style="font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:.35rem">Sponsored</div>
-      <div id="ad-modal-company" style="font-size:1.05rem;font-weight:700;color:var(--t1);margin-bottom:.35rem">—</div>
-      <div id="ad-modal-desc" style="font-size:.8rem;color:var(--t2);line-height:1.6;margin-bottom:1.2rem"></div>
-      <a id="ad-modal-cta" href="#" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;box-sizing:border-box;text-decoration:none;background:var(--ac);color:#fff;font-weight:700;font-size:.86rem;padding:.8rem 1rem;border-radius:50px;font-family:var(--fm);transition:.18s" onmouseover="this.style.background='#e55e00'" onmouseout="this.style.background='var(--ac)'">Contact</a>
-      <div style="font-size:.62rem;color:var(--t3);text-align:center;margin-top:.7rem;line-height:1.6">This is a paid placement. TimeLiners is not involved in the conversation.</div>
-    </div>
-  </div>
-</div>
-
 <!-- ══ ABOUT MODAL ══ -->
 <div id="about-overlay" onclick="if(event.target===this)closeAboutModal()" style="position:fixed;inset:0;background:rgba(0,0,0,.82);backdrop-filter:blur(10px);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem">
   <div style="background:var(--bg2);border:1px solid transparent;border-radius:10px;max-width:480px;width:100%;overflow:hidden;position:relative;box-shadow:0 24px 60px rgba(0,0,0,.5)">
@@ -2198,8 +2220,6 @@ window.compressVideoFile = async function(file, onStatus) {
     </div>
     <div class="nav-mid">
       <a class="nl" id="nav-feed" href="#/feed" onclick="event.preventDefault();showPage('feed')"><span class="nl-lbl">Discover</span></a>
-      
-      <a class="nl" id="nav-advertise" href="#/advertise" onclick="event.preventDefault();showPage('advertise')"><span class="nl-lbl">Advertise</span></a>
       <a class="nl" id="nav-faq" href="#/faq" onclick="event.preventDefault();showPage('faq')"><span class="nl-lbl">FAQ</span></a>
       <a class="nl nav-li" id="nav-profile" href="#/profile" onclick="event.preventDefault();showPage('profile')" style="display:none"><span class="nl-lbl">My Portfolio</span></a>
       <a class="nl nav-li" id="nav-dashboard" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard')" style="display:none"><span class="nl-lbl">Dashboard</span></a>
@@ -2211,7 +2231,7 @@ window.compressVideoFile = async function(file, onStatus) {
         <div class="nav-av" id="nav-av-el"><span id="nav-initials">?</span></div>
         <span class="nav-uname" id="nav-uname-el"></span>
       </a>
-      <button class="nav-cta nav-lo" onclick="openAuth('in')">Sign In</button>
+      <button class="nav-cta nav-lo" onclick="openAuth('in')">Log In</button>
     </div>
   </div>
 </nav>
@@ -2227,14 +2247,13 @@ window.compressVideoFile = async function(file, onStatus) {
         <div id="mob-role" style="font-size:.65rem;color:var(--t3)">Explore & Create</div>
       </div>
     </div>
-    <button id="mob-close" onclick="closeMob()">✕</button>
+    <button id="mob-close" onclick="closeMob()">×</button>
   </div>
   <a class="mnl" id="mnav-feed" href="#/feed" onclick="event.preventDefault();showPage('feed');closeMob()"><span class="mnl-ico"><svg width="14" height="14" viewBox="0 0 13 13" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.4"/><path d="M8.5 8.5l3 3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>Discover</a>
-  <a class="mnl" id="mnav-advertise" href="#/advertise" onclick="event.preventDefault();showPage('advertise');closeMob()"><span class="mnl-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 5.5v3a1 1 0 001 1h1l4 3V1.5l-4 3H2a1 1 0 00-1 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" fill="none"/><path d="M9.5 4.5a3 3 0 010 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></span>Advertise</a>
   <a class="mnl" id="mnav-faq" href="#/faq" onclick="event.preventDefault();showPage('faq');closeMob()"><span class="mnl-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M5.3 5.3a1.7 1.7 0 113.1 1c-.3.5-1 .7-1.2 1.2-.1.25-.15.5-.15.75" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" fill="none"/><circle cx="7" cy="10.2" r=".55" fill="currentColor"/></svg></span>FAQ</a>
   <a class="mnl nav-li" id="mnav-profile" href="#/profile" onclick="event.preventDefault();showPage('profile');closeMob()" style="display:none"><span class="mnl-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M6 7h7M10.5 4.5L13 7l-2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>My Portfolio</a>
   <a class="mnl nav-li" id="mnav-dashboard" href="#/dashboard" onclick="event.preventDefault();showPage('dashboard');closeMob()" style="display:none"><span class="mnl-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="1" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="1" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="8" y="8" width="5" height="5" rx="1.2" stroke="currentColor" stroke-width="1.2" fill="none"/></svg></span>Dashboard</a>
-  <a class="mnl nav-lo mnl-sep" onclick="openAuth('in');closeMob()" style="color:var(--ac);font-weight:600"><span class="mnl-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M1.5 11c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></span>Sign In</a>
+  <a class="mnl nav-lo mnl-sep" onclick="openAuth('in');closeMob()" style="color:var(--ac);font-weight:600"><span class="mnl-ico"><svg width="13" height="13" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="5" r="2.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M1.5 11c0-2.2 2-4 4.5-4s4.5 1.8 4.5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg></span>Log In</a>
   <a class="mnl nav-li mnl-sep" onclick="handleSignOut();closeMob()" style="display:none;color:rgba(239,68,68,.7)"><span class="mnl-ico"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M5 2H2v10h3M9.5 4.5L13 7l-3.5 2.5M13 7H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Sign Out</a>
 </div>
 
@@ -2271,7 +2290,7 @@ window.compressVideoFile = async function(file, onStatus) {
         </button>
         <div class="sort-cdd-menu">
           <div class="sort-cdd-opt active" onclick="filterFeedDd('all','All',this)">All</div>
-          <div class="sort-cdd-opt" onclick="filterFeedDd('longform','Long-form',this)">Long-form</div>
+          <div class="sort-cdd-opt" onclick="filterFeedDd('longform','Long Form',this)">Long Form</div>
           <div class="sort-cdd-opt" onclick="filterFeedDd('shorts','Shorts & Reels',this)">Shorts & Reels</div>
           <div class="sort-cdd-opt" onclick="filterFeedDd('motion','Motion',this)">Motion</div>
           <div class="sort-cdd-opt" onclick="filterFeedDd('video','Video',this)">Video</div>
@@ -2325,7 +2344,6 @@ window.compressVideoFile = async function(file, onStatus) {
           <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
           <div style="display:flex;flex-direction:column;gap:.5rem">
             <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
-            <a class="flink" href="#/advertise" onclick="event.preventDefault();showPage('advertise')">Advertise</a>
             <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
           </div>
         </div>
@@ -2352,6 +2370,12 @@ window.compressVideoFile = async function(file, onStatus) {
   <div class="prof-outer">
     <!-- HERO -->
     <div class="prof-hero">
+      <div class="prof-decor" aria-hidden="true">
+        <span class="prof-decor-item d1"></span>
+        <span class="prof-decor-item d2"></span>
+        <span class="prof-decor-item d3"></span>
+        <span class="prof-decor-stars"></span>
+      </div>
 
 
       <div class="prof-av-wrap">
@@ -2397,6 +2421,7 @@ window.compressVideoFile = async function(file, onStatus) {
         </button>
 
       </div>
+
     </div>
 
     <div id="prof-bio-inline" style="display:none"></div>
@@ -2477,6 +2502,8 @@ window.compressVideoFile = async function(file, onStatus) {
   </div>
   <!-- Divider strip to separate Contact & Socials from the footer credit -->
   <div style="max-width:420px;margin:0 auto;height:1px;background:var(--brd);opacity:.5"></div>
+  <!-- Footer strip — inert, kept for layout stability (no theme system sets this anymore) -->
+  <div class="prof-footer-strip"></div>
   <!-- Profile footer: "Powered by TimeLiners" for free users only — the ONLY branding on portfolio -->
   <div id="prof-powered-badge" style="text-align:center;padding:.6rem 1rem 1.2rem;display:none">
     <span style="display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;color:rgba(255,255,255,.22);font-weight:500;letter-spacing:.3px">
@@ -2597,13 +2624,13 @@ window.compressVideoFile = async function(file, onStatus) {
     <div class="cdd-opt" data-val="motion" onclick="setCdd('ep-cat-cdd','motion','Motion Graphics');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='motion'">Motion Graphics</div>
     <div class="cdd-opt" data-val="film" onclick="setCdd('ep-cat-cdd','film','Film / Cinematic');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='film'">Film / Cinematic</div>
     <div class="cdd-opt" data-val="social" onclick="setCdd('ep-cat-cdd','social','Reels / Shorts / TikTok');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='social'">Reels / Shorts / TikTok</div>
-    <div class="cdd-opt" data-val="longform" onclick="setCdd('ep-cat-cdd','longform','Long-form');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='longform'">Long-form</div>
+    <div class="cdd-opt" data-val="longform" onclick="setCdd('ep-cat-cdd','longform','Long Form');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='longform'">Long Form</div>
     <div class="cdd-opt" data-val="3d" onclick="setCdd('ep-cat-cdd','3d','3D &amp; VFX');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='3d'">3D &amp; VFX</div>
     <div class="cdd-opt" data-val="wedding" onclick="setCdd('ep-cat-cdd','wedding','Wedding &amp; Events');document.getElementById('ep-cat-custom-wrap').style.display='none';document.getElementById('ep-proj-cat').value='wedding'">Wedding &amp; Events</div>
     <div class="cdd-opt" data-val="other" onclick="setCdd('ep-cat-cdd','other','Other · Type below');document.getElementById('ep-proj-cat').value='other';document.getElementById('ep-cat-custom-wrap').style.display='block'">Other</div>
   </div>
   <div id="ep-cat-custom-wrap" style="display:none;margin-top:.5rem"><input class="di" id="ep-cat-custom" type="text" placeholder="e.g. Wedding Films, Documentary..." maxlength="40" oninput="document.getElementById('ep-proj-cat').value=this.value.trim()||'other'" style="font-size:.84rem"></div>
-  <select class="cdd-hidden" id="ep-proj-cat"><option value="video">Video Edit</option><option value="motion">Motion Graphics</option><option value="film">Film / Cinematic</option><option value="social">Reels / Shorts / TikTok</option><option value="longform">Long-form</option><option value="3d">3D &amp; VFX</option><option value="wedding">Wedding &amp; Events</option><option value="other">Other</option></select>
+  <select class="cdd-hidden" id="ep-proj-cat"><option value="video">Video Edit</option><option value="motion">Motion Graphics</option><option value="film">Film / Cinematic</option><option value="social">Reels / Shorts / TikTok</option><option value="longform">Long Form</option><option value="3d">3D &amp; VFX</option><option value="wedding">Wedding &amp; Events</option><option value="other">Other</option></select>
 </div></div>
       <div class="df"><label class="dl">Year</label><input class="di" id="ep-proj-year" type="text"></div>
     </div>
@@ -2624,7 +2651,7 @@ window.compressVideoFile = async function(file, onStatus) {
       <div id="ep-video-current" style="margin-bottom:.45rem;display:none;flex-direction:column;gap:.3rem"></div>
       <div id="ep-video-list" style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.4rem"></div>
       <button type="button" onclick="epPickVideo()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.6rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr);text-align:left" id="ep-video-btn" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
-        + Add Video (MP4, WEBM · up to 250 MB each)
+        + Add Video (MP4 only · up to 250 MB each)
       </button>
       <div id="ep-video-progress" style="display:none;margin-top:.45rem;background:var(--bg3);border:1px solid transparent;border-radius:var(--r);padding:.6rem .8rem">
         <div style="display:flex;justify-content:space-between;margin-bottom:.35rem">
@@ -2766,14 +2793,14 @@ window.compressVideoFile = async function(file, onStatus) {
               <button class="dsave" onclick="saveAccountDetails()">Save Changes</button>
             </div>
             <div class="dcard">
-              <div class="dcard-h">Change Password</div><div class="dcard-sub">Update your Timeliners sign-in password.</div>
+              <div class="dcard-h">Change Password</div><div class="dcard-sub">Update your Timeliners sign in password.</div>
               <div class="df"><label class="dl">New Password</label><input class="di" id="acc-pw-new" type="password" placeholder="Min. 8 characters"></div>
               <div class="df"><label class="dl">Confirm Password</label><input class="di" id="acc-pw-cf" type="password" placeholder="Repeat new password"></div>
               <button class="dsave" onclick="changePassword()">Update Password</button>
             </div>
             <div class="dcard">
-              <div class="dcard-h" style="color:var(--ac)">Troubleshoot</div><div class="dcard-sub">If your profile shows wrong data, re-sync it.</div>
-              <button style="background:var(--ac);border:1px solid transparent;color:#fff;border-radius:var(--r);padding:.54rem 1.05rem;font-size:.79rem;transition:var(--tr)" onclick="resyncProfile()">Re-sync My Account</button>
+              <div class="dcard-h" style="color:var(--ac)">Troubleshoot</div><div class="dcard-sub">If your profile shows wrong data, resync it.</div>
+              <button style="background:var(--ac);border:1px solid transparent;color:#fff;border-radius:var(--r);padding:.54rem 1.05rem;font-size:.79rem;transition:var(--tr)" onclick="resyncProfile()">Resync My Account</button>
             </div>
             <div class="dcard">
               <div class="dcard-h" style="color:rgba(239,68,68,.75)">Danger Zone</div><div class="dcard-sub">Permanent and irreversible actions.</div>
@@ -2782,7 +2809,6 @@ window.compressVideoFile = async function(file, onStatus) {
           </div>
 
         </div>
-
 
         <!-- ══ EDIT PROFILE PANEL ══ -->
         <div class="dash-panel" id="dash-panel-editprofile">
@@ -2798,7 +2824,7 @@ window.compressVideoFile = async function(file, onStatus) {
                 <label style="font-size:.78rem;font-weight:500;color:var(--ac);cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--ac);border-radius:6px;padding:.3rem .75rem;transition:.15s" onmouseover="this.style.background='var(--ac)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='var(--ac)'">
                   <svg width="11" height="11" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M4 4l3-3 3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="10" width="12" height="3" rx="1.5" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>
                   Upload photo
-                  <input type="file" accept="image/*" style="display:none" onchange="handleAvatarSelect(this)">
+                  <input type="file" accept="image/jpeg,image/png,image/webp,.heic,.heif" style="display:none" onchange="handleAvatarSelect(this)">
                 </label>
               </div>
             </div>
@@ -2876,7 +2902,7 @@ window.compressVideoFile = async function(file, onStatus) {
 
       <div>
         <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Category <span style="color:var(--t3);font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-        <input id="svc-category" type="text" placeholder="e.g. Post-Production, Motion Graphics" maxlength="40" style="width:100%;background:var(--bg3);border:1px solid transparent;border-radius:var(--r);padding:.6rem .85rem;font-size:.88rem;color:var(--t1);outline:none;transition:.15s">
+        <input id="svc-category" type="text" placeholder="e.g. Post Production, Motion Graphics" maxlength="40" style="width:100%;background:var(--bg3);border:1px solid transparent;border-radius:var(--r);padding:.6rem .85rem;font-size:.88rem;color:var(--t1);outline:none;transition:.15s">
       </div>
 
       <div>
@@ -2929,7 +2955,7 @@ window.compressVideoFile = async function(file, onStatus) {
             <option value="motion">Motion Graphics</option>
             <option value="film">Film / Cinematic</option>
             <option value="social">Reels / Shorts / TikTok</option>
-            <option value="longform">Long-form</option>
+            <option value="longform">Long Form</option>
             <option value="3d">3D &amp; VFX</option>
             <option value="wedding">Wedding &amp; Events</option>
             <option value="other">Other</option>
@@ -2956,9 +2982,9 @@ window.compressVideoFile = async function(file, onStatus) {
         <label style="font-size:.72rem;font-weight:600;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:.4rem">Videos <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--t3);font-size:.68rem">· add one or more</span></label>
         <div id="upm-video-list" style="display:flex;flex-direction:column;gap:.35rem;margin-bottom:.4rem"></div>
         <button type="button" onclick="upmPickVideo()" style="background:var(--bg3);border:1.5px dashed var(--brd2);border-radius:var(--r);padding:.6rem 1rem;font-size:.8rem;color:var(--t2);cursor:pointer;width:100%;transition:var(--tr);text-align:left" id="upm-video-btn" onmouseover="this.style.borderColor='var(--ac)';this.style.color='var(--ac)'" onmouseout="this.style.borderColor='var(--brd2)';this.style.color='var(--t2)'">
-          + Add Video (MP4, WEBM · up to 250 MB each)
+          + Add Video (MP4 only · up to 250 MB each)
         </button>
-        <input type="file" id="upm-video-input" accept="video/mp4,video/webm" style="display:none" onchange="upmVideoFilePicked(this)">
+        <input type="file" id="upm-video-input" accept="video/mp4,.mp4" style="display:none" onchange="upmVideoFilePicked(this)">
         <div id="upm-video-progress" style="display:none;margin-top:.45rem;background:var(--bg3);border:1px solid transparent;border-radius:var(--r);padding:.6rem .8rem">
           <div style="display:flex;justify-content:space-between;margin-bottom:.35rem">
             <span style="font-size:.68rem;font-weight:600;color:var(--t1)" id="upm-video-progress-lbl">Uploading video...</span>
@@ -2977,9 +3003,9 @@ window.compressVideoFile = async function(file, onStatus) {
           <button onclick="upmClearThumb()" style="position:absolute;top:.3rem;right:.3rem;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.65);border:none;color:#fff;font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">×</button>
         </div>
         <label for="upm-thumb-input" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;border:1.5px dashed var(--brd2);border-radius:var(--r);padding:1.2rem;cursor:pointer;transition:.15s;background:var(--bg3);position:relative" id="upm-thumb-label">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <svg id="upm-thumb-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t3)" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           <span id="upm-thumb-lbl" style="font-size:.8rem;font-weight:600;color:var(--t2)">Upload cover image</span>
-          <span style="font-size:.66rem;color:var(--t3)">PNG, JPG, WEBP · max 5 MB</span>
+          <span id="upm-thumb-hint" style="font-size:.66rem;color:var(--t3)">PNG, JPG, WEBP · max 5 MB</span>
           <input type="file" id="upm-thumb-input" accept="image/*" style="display:none" onchange="upmThumbPick(this)">
         </label>
       </div>
@@ -3034,6 +3060,7 @@ window.compressVideoFile = async function(file, onStatus) {
     </div>
   </div>
 </div>
+
 
 <!-- ══════════════════════════════════════════════════
   SQL · run once in Supabase SQL Editor to set up tables
@@ -3121,7 +3148,7 @@ function tlVideoError(v) {
       wrap.innerHTML = '<div style="height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;background:#151517;border-radius:8px;color:var(--t3);text-align:center;padding:1rem">' +
         '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="3" stroke="#ef4444"/></svg>' +
         '<div style="font-size:.85rem;font-weight:600;color:var(--t1)">This video can\'t play in your browser</div>' +
-        '<div style="font-size:.72rem;max-width:280px;line-height:1.4">It may be using an unsupported format (e.g. HEVC). Try re-exporting as MP4 (H.264) and re-uploading.</div>' +
+        '<div style="font-size:.72rem;max-width:280px;line-height:1.4">It may be using an unsupported format (e.g. HEVC). Try reexporting as MP4 (H.264) and reuploading.</div>' +
       '</div>';
     }
   } catch(e) {}
@@ -3202,16 +3229,31 @@ function tlSetQuality(videoElId, mode) {
 async function db(path, method = 'GET', body = null, token = null) {
   // Always return representation so we get the full inserted/updated row back
   const prefer = method === 'DELETE' ? 'return=minimal' : 'return=representation,resolution=merge-duplicates';
-  const r = await fetch(SB_URL + '/rest/v1' + path, {
-    method,
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + (token || SB_KEY),
-      'Content-Type': 'application/json',
-      'Prefer': prefer
-    },
-    body: body ? JSON.stringify(body) : undefined
-  });
+  // Bound every request to 15s — without this, a slow/stalled connection (bad wifi,
+  // Supabase cold start, etc.) leaves fetch() hanging indefinitely with no timeout
+  // of its own, which is what causes the feed to sit blank/stuck forever instead of
+  // falling through to the "could not load" retry state.
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+  let r;
+  try {
+    r = await fetch(SB_URL + '/rest/v1' + path, {
+      method,
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + (token || SB_KEY),
+        'Content-Type': 'application/json',
+        'Prefer': prefer
+      },
+      body: body ? JSON.stringify(body) : undefined,
+      signal: controller.signal
+    });
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('Request timed out — check your connection.');
+    throw e;
+  } finally {
+    clearTimeout(timeoutId);
+  }
   const txt = await r.text();
   if (!r.ok) throw new Error(txt || r.status);
   return txt ? JSON.parse(txt) : null;
@@ -3222,9 +3264,58 @@ const S = {
   user: null, session: null, profile: null, loginTime: null,
   projects: [], filter: 'all', search: '', sort: 'ranked',
   viewingProfile: null,
-  _profileCache: {}  // keyed by user id → {data, ts}
+  _profileCache: {},  // keyed by user id → {data, ts}
 };
 window.S = S; // expose state to inline onclick handlers
+
+// ── PAUSE ALL VIDEO ON NEW-TAB NAVIGATION ─────────────
+// Any time something opens a new tab (Hire Me / WhatsApp links, "view profile"
+// links, footer/social links, window.open calls, etc.) the currently playing
+// video(s) in THIS tab keep playing in the background since the browser never
+// unloads this page. Kill every playing <video> the instant a new-tab action
+// fires so nothing keeps making noise/using bandwidth after the user has left.
+function pauseAllVideos() {
+  try {
+    document.querySelectorAll('video').forEach(function(v) {
+      if (!v.paused) { try { v.pause(); } catch(e) {} }
+    });
+  } catch(e) {}
+  _activeScrollVid = null;
+}
+window.pauseAllVideos = pauseAllVideos;
+
+(function() {
+  // Patch window.open so ANY code path that opens a new tab (window.open('...','_blank'))
+  // pauses video first — covers hire-me links, profile links, WA links, etc.
+  var _origWindowOpen = window.open;
+  window.open = function() {
+    pauseAllVideos();
+    return _origWindowOpen.apply(window, arguments);
+  };
+  // Catch plain <a target="_blank"> clicks too (capture phase, before the
+  // browser navigates) — covers footer/social links, terms/privacy, apply links.
+  document.addEventListener('click', function(e) {
+    const a = e.target.closest && e.target.closest('a[target="_blank"]');
+    if (a) pauseAllVideos();
+  }, true);
+  // Belt-and-suspenders: also pause whenever this tab is hidden/backgrounded
+  // (covers any navigation path we didn't explicitly hook).
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') pauseAllVideos();
+  });
+})();
+
+// ── STRICT MP4-ONLY VIDEO VALIDATION ──────────────────
+// Only .mp4 files are allowed for project video uploads. We check both the
+// extension AND the browser-reported MIME type (when the browser provides
+// one) so a renamed .webm/.mov can't sneak through by extension alone.
+function isValidMp4File(f) {
+  if (!f) return false;
+  const nameOk = /\.mp4$/i.test(f.name || '');
+  const typeOk = !f.type || f.type === 'video/mp4';
+  return nameOk && typeOk;
+}
+window.isValidMp4File = isValidMp4File;
 
 // ── CONSTANTS ────────────────────────────────────────
 const GRADS = [
@@ -3257,10 +3348,10 @@ function boot() {
     }
   });
 
-  // Defer until the whole document has been parsed — #page-advertise and #page-faq
+  // Defer until the whole document has been parsed — #page-faq
   // are defined after this <script> block, so calling restoreSession() too early
   // (e.g. logged-out users with no network delay before showPage()) means
-  // el('page-advertise')/el('page-faq') don't exist yet, causing showPage() to
+  // el('page-faq') doesn't exist yet, causing showPage() to
   // crash on pg.addEventListener and fall back to the feed page.
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', restoreSession);
@@ -3333,7 +3424,7 @@ async function restoreSession() {
     // Username path / redirect takes highest priority — also check sessionStorage in case
     // the path was already rewritten to / by 404.html before we got here
     // BUT: if the URL has a known hash page (#/pricing, #/faq, #/dashboard etc.) that takes priority over any stored username redirect
-    const _KNOWN_HASH = ['feed','advertise','faq','profile','dashboard','project'];
+    const _KNOWN_HASH = ['feed','faq','profile','dashboard','project'];
     const _curHashSeg = (location.hash.replace('#/','').split('/')[0] || '').toLowerCase();
     const _hashIsKnownPage = _KNOWN_HASH.includes(_curHashSeg) && _curHashSeg !== '';
     if (!pendingUsername && !_hashIsKnownPage) {
@@ -3358,7 +3449,7 @@ async function restoreSession() {
     const parts = raw.split('/');
     const hashSeg = parts[0].toLowerCase();
     const hashSub = parts[1] || '';
-    const KNOWN = ['feed','advertise','faq','profile','dashboard','project'];
+    const KNOWN = ['feed','faq','profile','dashboard','project'];
 
     // Check for password reset flow or errors
     if (location.hash.includes('error=access_denied') || location.hash.includes('error_code=otp_expired')) {
@@ -3421,6 +3512,40 @@ async function getToken() {
   return data?.session?.access_token || SB_KEY;
 }
 
+// ── DEVICE TRUST (login OTP) ──────────────────────────
+// A random ID stored per-browser. Once a device completes an OTP
+// challenge it's written to trusted_devices and skips OTP on future
+// logins from that same browser.
+function getOrCreateDeviceId() {
+  try {
+    let id = localStorage.getItem('tl_device_id');
+    if (!id) {
+      id = (crypto.randomUUID ? crypto.randomUUID() : ('dev-' + Date.now() + '-' + Math.random().toString(36).slice(2)));
+      localStorage.setItem('tl_device_id', id);
+    }
+    return id;
+  } catch(e) { return 'dev-fallback-' + Date.now(); }
+}
+
+// Shared "finish logging the user in" step — used by both the direct
+// (trusted device) path and the post-OTP (new device) path.
+async function completeSignIn(session, user) {
+  S.session = session;
+  S.user    = user;
+  S.loginTime = Date.now();
+  S.profile = null;
+  try {
+    Object.keys(localStorage).filter(k => k.startsWith('tl_lp_')).forEach(k => localStorage.removeItem(k));
+  } catch(e) {}
+  await loadProfile();
+  applyLoggedIn();
+  closeAuth();
+  showPage('dashboard');
+  const firstName = (S.profile?.name || '').split(' ')[0] || user.email.split('@')[0];
+  showToast('Welcome back, ' + firstName + '!');
+  setTimeout(() => { if (S.profile) refreshDash(); }, 400);
+}
+
 // ── AUTH MODAL ───────────────────────────────────────
 function openAuth(tab) {
   tab = tab || 'in';
@@ -3454,7 +3579,7 @@ function setAuthBusy(btnId, on) {
   b.disabled = on;
   b.innerHTML = on
     ? '<div class="spinner" style="width:15px;height:15px;border-width:1.5px;margin:0 auto"></div>'
-    : (btnId === 'si-btn' ? 'Sign In' : 'Create Free Account');
+    : (btnId === 'si-btn' ? 'Log In' : 'Create Free Account');
 }
 
 async function handleSignIn() {
@@ -3465,30 +3590,40 @@ async function handleSignIn() {
   try {
     const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
     if (error) throw error;
-    S.session = data.session;
-    S.user    = data.user;
-    S.loginTime = Date.now();
-    // Always wipe any stale profile from a previous session / different account
-    S.profile = null;
-    try {
-      Object.keys(localStorage)
-        .filter(k => k.startsWith('tl_lp_'))
-        .forEach(k => localStorage.removeItem(k));
-    } catch(e) {}
-    await loadProfile();
-    applyLoggedIn();
-    closeAuth();
 
-    showPage('dashboard');
-    const firstName = (S.profile?.name || '').split(' ')[0] || S.user.email.split('@')[0];
-    showToast('Welcome back, ' + firstName + '!');
-    setTimeout(() => { if (S.profile) refreshDash(); }, 400);
+    // Password confirmed — but only fully sign in on a device we've
+    // seen before. Unrecognized devices get an OTP challenge first.
+    const deviceId = getOrCreateDeviceId();
+    let trusted = null;
+    try {
+      trusted = await db(
+        '/trusted_devices?user_id=eq.' + data.user.id + '&device_id=eq.' + encodeURIComponent(deviceId) + '&select=id',
+        'GET', null, data.session.access_token
+      );
+    } catch(chkErr) { trusted = null; }
+
+    if (trusted && trusted.length) {
+      // Known device — go straight in, just bump last_used_at.
+      db('/trusted_devices?id=eq.' + trusted[0].id, 'PATCH', { last_used_at: new Date().toISOString() }, data.session.access_token).catch(() => {});
+      await completeSignIn(data.session, data.user);
+      setAuthBusy('si-btn', false);
+      return;
+    }
+
+    // New/unrecognized device — sign out of the just-created session and
+    // require an emailed code before granting real access.
+    await sb.auth.signOut().catch(() => {});
+    const { error: otpErr } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+    if (otpErr) throw otpErr;
+    setAuthBusy('si-btn', false);
+    openOtpModal(email, 'login');
+    return;
   } catch(e) {
     const m = (e.message || '').toLowerCase();
     if (m.includes('invalid') || m.includes('credentials') || m.includes('wrong') || m.includes('password')) {
       showAuthErr('Incorrect email or password.');
     } else {
-      showAuthErr(e.message || 'Sign in failed. Please try again.');
+      showAuthTechErr('Sign in failed. Please try again.', e);
     }
   } finally { setAuthBusy('si-btn', false); }
 }
@@ -3531,7 +3666,7 @@ async function handleGoogleAuth() {
     if (error) throw error;
     // On success the browser redirects to Google, so nothing else runs here.
   } catch(e) {
-    showAuthErr(e.message || 'Google sign-in failed. Please try again.');
+    showAuthTechErr('Google sign in failed. Please try again.', e);
     if (btn) { btn.disabled = false; btn.style.opacity = ''; }
   }
 }
@@ -3547,7 +3682,32 @@ async function handleSignUp() {
   if (pw.length < 8) { showAuthErr('Password must be at least 8 characters.'); return; }
   const _termsChk = el('su-terms');
   if (_termsChk && !_termsChk.checked) { showAuthErr('Please agree to the Terms and Privacy Policy to continue.'); return; }
+
+  // Bot check — must pass before we ever touch Supabase Auth.
+  const tsToken = (document.querySelector('#su-turnstile [name="cf-turnstile-response"]') || {}).value;
+  if (!tsToken) { showAuthErr('Please complete the verification checkbox.'); return; }
+
   clearAuthErr(); setAuthBusy('su-btn', true);
+
+  try {
+    const tsCheck = await fetch(SB_URL + '/functions/v1/verify-turnstile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY },
+      body: JSON.stringify({ token: tsToken })
+    }).then(r => r.json()).catch(() => ({ success: false }));
+
+    if (!tsCheck.success) {
+      showAuthErr('Verification failed. Please try again.');
+      setAuthBusy('su-btn', false);
+      if (window.turnstile) window.turnstile.reset('#su-turnstile');
+      return;
+    }
+  } catch(tsErr) {
+    showAuthErr('Verification check failed. Please try again.');
+    setAuthBusy('su-btn', false);
+    return;
+  }
+
   try {
     // Check if email already exists in profiles
     const existing = await db('/profiles?email=eq.' + encodeURIComponent(email) + '&select=id', 'GET', null, SB_KEY).catch(() => null);
@@ -3561,12 +3721,10 @@ async function handleSignUp() {
     if (error) throw error;
     if (!data.user) throw new Error('Sign up failed · please try again.');
 
-    // Save profile directly — no OTP step
-    S.session  = data.session;
-    S.user     = data.user;
-    S.loginTime = Date.now();
-
-    const dbRow = {
+    // Don't log the user in yet — stash the profile fields and require
+    // email OTP verification first. Profile row gets created inside
+    // verifyOtp() only after the code checks out.
+    _otpPendingProfile = {
       id:        data.user.id,
       username:  rawUn || null,
       name:      fn + ' ' + ln,
@@ -3574,43 +3732,17 @@ async function handleSignUp() {
       role:      'Video Editor',
       initials:  (fn[0] + ln[0]).toUpperCase(),
       city:      'Colombo',
-      plan:      'free',
-      bio:       '', exp: '', skills: '',
+      bio: '', exp: '', skills: '',
       wa: '', ig: '', yt: '', web: '',
       grad_idx:  Math.floor(Math.random() * GRADS.length),
       cover_idx: 0,
-      views:     0,
-      likes:     0,
-      data:      {}
+      _fn: fn
     };
 
-    // Insert profile (retry up to 3 times)
-    let insertError = null;
-    for (let attempt = 1; attempt <= 3; attempt++) {
-      try {
-        if (attempt > 1) await new Promise(r => setTimeout(r, attempt * 1000));
-        const existing = await db('/profiles?id=eq.' + data.user.id + '&select=id', 'GET', null, SB_KEY).catch(() => null);
-        if (existing && existing.length) { insertError = null; break; }
-        await db('/profiles', 'POST', dbRow, data.session.access_token);
-        insertError = null;
-        break;
-      } catch(dbErr) {
-        insertError = dbErr.message;
-        console.error('profiles insert attempt ' + attempt + ' failed:', dbErr.message);
-      }
-    }
-    if (insertError) { showToast('Profile save failed: ' + insertError); return; }
-
-    // Load saved profile
-    try {
-      const rows = await db('/profiles?id=eq.' + data.user.id + '&select=*', 'GET', null, SB_KEY);
-      if (rows && rows[0]) S.profile = mergeProfileRow(rows[0]);
-    } catch(e2) { S.profile = { ...dbRow }; }
-
+    setAuthBusy('su-btn', false);
     closeAuth();
-    applyLoggedIn();
-    showToast('Welcome to TimeLiners, ' + fn + '! 🎉');
-    showPage('dashboard');
+    openOtpModal(email, 'signup');
+    return;
 
   } catch(e) {
     const m = (e.message || '').toLowerCase();
@@ -3618,13 +3750,27 @@ async function handleSignUp() {
       showAuthErr('That email already has an account. Sign in instead.');
       switchAuthTab('in');
     } else {
-      showAuthErr(e.message || 'Sign up failed. Please try again.');
+      showAuthTechErr('Sign up failed. Please try again.', e);
     }
-  } finally { setAuthBusy('su-btn', false); }
+  } finally {
+    setAuthBusy('su-btn', false);
+    if (window.turnstile) window.turnstile.reset('#su-turnstile');
+  }
 }
 
-function openOtpModal(email) {
+let _otpMode = 'signup'; // 'signup' | 'login'
+let _loginPendingEmail = null;
+
+function openOtpModal(email, mode) {
+  _otpMode = mode || 'signup';
+  _loginPendingEmail = _otpMode === 'login' ? email : null;
   el('otp-email-display').textContent = email;
+  const titleEl = document.getElementById('otp-title');
+  const subEl   = document.getElementById('otp-subtitle');
+  if (titleEl) titleEl.textContent   = _otpMode === 'login' ? "Verify it's you" : 'Check your email';
+  if (subEl)   subEl.textContent     = _otpMode === 'login'
+    ? "New device detected. We sent a verification code to"
+    : 'We sent a verification code to';
   el('otp-err').style.display = 'none';
   // Clear boxes
   document.querySelectorAll('.otp-digit').forEach(i => { i.value = ''; i.classList.remove('filled'); });
@@ -3699,6 +3845,9 @@ async function verifyOtp() {
   const boxes = document.querySelectorAll('.otp-digit');
   const code  = Array.from(boxes).map(b => b.value).join('');
   if (code.length < 8) { showOtpErr('Please enter all 8 digits.'); return; }
+
+  if (_otpMode === 'login') { return verifyLoginOtp(code); }
+
   if (!_otpPendingProfile) { showOtpErr('Session expired. Please sign up again.'); return; }
 
   const btn = el('otp-verify-btn');
@@ -3764,8 +3913,7 @@ async function verifyOtp() {
     }
 
     if (insertError) {
-      // Show the actual error so we know what's wrong
-      showToast('Profile save failed: ' + insertError);
+      showErrorToast(insertError);
       return;
     }
 
@@ -3779,11 +3927,18 @@ async function verifyOtp() {
     _otpPendingProfile = null;
     if (_otpResendTimer) clearInterval(_otpResendTimer);
 
+    // This device just proved it owns the email — trust it so future
+    // logins from the same browser skip the OTP step.
+    try {
+      const deviceId = getOrCreateDeviceId();
+      await db('/trusted_devices', 'POST', { user_id: data.user.id, device_id: deviceId }, data.session.access_token);
+    } catch(devErr) { console.warn('Trusted device save failed:', devErr.message); }
+
     // Send welcome email via Edge Function (fire and forget)
     try {
       fetch(SB_URL + '/functions/v1/send-welcome', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + data.session.access_token },
         body: JSON.stringify({ email: S.user.email, name: fn })
       }).catch(() => {});
     } catch(e) {}
@@ -3801,7 +3956,7 @@ async function verifyOtp() {
     if (m.includes('otp') || m.includes('invalid') || m.includes('expired') || m.includes('token')) {
       showOtpErr('Incorrect or expired code. Try again or resend.');
     } else {
-      showOtpErr(e.message || 'Verification failed. Please try again.');
+      showOtpTechErr('Verification failed. Please try again.', e);
     }
     // Shake boxes
     el('otp-boxes').style.animation = 'none';
@@ -3812,26 +3967,75 @@ async function verifyOtp() {
   }
 }
 
-async function resendOtp() {
-  if (!_otpPendingProfile) return;
+// Login-side counterpart to verifyOtp() — for existing users completing
+// the "new device" challenge instead of first-time email confirmation.
+async function verifyLoginOtp(code) {
+  if (!_loginPendingEmail) { showOtpErr('Session expired. Please sign in again.'); return; }
+
+  const btn = el('otp-verify-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="width:15px;height:15px;border-width:1.5px;margin:0 auto"></div>';
+
   try {
-    const { error } = await sb.auth.resend({ type: 'signup', email: _otpPendingProfile.email });
+    const { data, error } = await sb.auth.verifyOtp({
+      email: _loginPendingEmail,
+      token: code,
+      type: 'email'
+    });
     if (error) throw error;
-    showToast('Code resent to ' + _otpPendingProfile.email);
+    if (!data.session || !data.user) throw new Error('Verification failed. Please try again.');
+
+    // Correct code on a real user — trust this device going forward.
+    const deviceId = getOrCreateDeviceId();
+    try {
+      await db('/trusted_devices', 'POST', { user_id: data.user.id, device_id: deviceId }, data.session.access_token);
+    } catch(devErr) { console.warn('Trusted device save failed:', devErr.message); }
+
+    _loginPendingEmail = null;
+    if (_otpResendTimer) clearInterval(_otpResendTimer);
+    el('otp-overlay').style.display = 'none';
+
+    await completeSignIn(data.session, data.user);
+  } catch(e) {
+    const m = (e.message || '').toLowerCase();
+    if (m.includes('otp') || m.includes('invalid') || m.includes('expired') || m.includes('token')) {
+      showOtpErr('Incorrect or expired code. Try again or resend.');
+    } else {
+      showOtpTechErr('Verification failed. Please try again.', e);
+    }
+    el('otp-boxes').style.animation = 'none';
+    setTimeout(() => { el('otp-boxes').style.animation = 'shake .35s ease'; }, 10);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Verify Email';
+  }
+}
+
+async function resendOtp() {
+  const email = _otpMode === 'login' ? _loginPendingEmail : _otpPendingProfile?.email;
+  if (!email) return;
+  try {
+    const { error } = _otpMode === 'login'
+      ? await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: false } })
+      : await sb.auth.resend({ type: 'signup', email });
+    if (error) throw error;
+    showToast('Code resent to ' + email);
     startOtpTimer();
     // Clear boxes
     document.querySelectorAll('.otp-digit').forEach(i => { i.value = ''; i.classList.remove('filled'); });
     document.querySelectorAll('.otp-digit')[0]?.focus();
   } catch(e) {
-    showOtpErr('Could not resend: ' + e.message);
+    showOtpTechErr('Could not resend the code. Please try again.', e);
   }
 }
 
 function cancelOtp() {
   el('otp-overlay').style.display = 'none';
+  const wasLogin = _otpMode === 'login';
   _otpPendingProfile = null;
+  _loginPendingEmail = null;
   if (_otpResendTimer) clearInterval(_otpResendTimer);
-  openAuth('up');
+  openAuth(wasLogin ? 'in' : 'up');
 }
 
 function showOtpErr(msg) {
@@ -3877,7 +4081,7 @@ async function deleteMyAccount() {
     showPage('feed');
     showToast('Your account has been deleted.');
   } catch(e) {
-    showToast('Error deleting account: ' + e.message);
+    showErrorToast(e.message);
   }
 }
 
@@ -4096,7 +4300,7 @@ async function loadFeed(force) {
           }
           _feedLoaded = true;
           _feedLoading = false;
-          ensureSponsorAds().finally(renderFeed);
+          renderFeed();
           return;
         }
       }
@@ -4110,11 +4314,11 @@ async function loadFeed(force) {
     const skels = Array(6).fill(0).map(() =>
       '<div class="pcard pcard-skel" style="pointer-events:none">' +
         '<div class="pcard-thumb" style="position:relative;border-radius:8px;overflow:hidden">' +
-          '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>' +
+          '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>' +
         '</div>' +
         '<div class="pcard-body">' +
-          '<div style="height:13px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:85%"></div>' +
-          '<div style="height:11px;border-radius:6px;background:linear-gradient(90deg,var(--bg4) 25%,var(--bg3) 50%,var(--bg4) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:60%"></div>' +
+          '<div style="height:13px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:85%"></div>' +
+          '<div style="height:11px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:60%"></div>' +
         '</div>' +
       '</div>'
     ).join('');
@@ -4125,11 +4329,10 @@ async function loadFeed(force) {
   _feedLoading = true;
 
   try {
-    // Fetch projects, author profiles, and active sponsor ads IN PARALLEL
+    // Fetch projects and author profiles IN PARALLEL
     const [rows, allProfiles] = await Promise.all([
       db('/projects?status=eq.published&select=id,title,description,tags,cat,video_url,cover_url,yt_link,grad_idx,author_name,author_avatar,author_init,featured,likes,views,created_at,user_id,status&order=created_at.desc'),
-      db('/profiles?select=id,plan,verified,username', 'GET', null, SB_KEY).catch(() => []),
-      ensureSponsorAds()
+      db('/profiles?select=id,plan,verified,username', 'GET', null, SB_KEY).catch(() => [])
     ]);
 
     if (rows && rows.length) {
@@ -4156,7 +4359,10 @@ async function loadFeed(force) {
       showDbNotice();
     }
     if (grid && !S.projects.length) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--t3);font-size:.8rem">Could not load projects — check your connection.</div>';
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--t3);font-size:.8rem">' +
+        (e.message && e.message.includes('timed out') ? 'Taking too long to load — your connection may be slow.' : 'Could not load projects — check your connection.') +
+        '<br><button onclick="loadFeed(true)" style="margin-top:.8rem;background:var(--ac);color:#fff;border:none;border-radius:8px;padding:.55rem 1.2rem;font-size:.78rem;font-weight:600;cursor:pointer">Retry</button>' +
+        '</div>';
       _feedLoading = false;
       return;
     }
@@ -4271,7 +4477,6 @@ function renderFeed() {
   }
 
   const organicCount = list.length;
-  list = insertSponsorAds(list);
   S._feedList = list;
   S._feedOffset = 0;
 
@@ -4339,7 +4544,7 @@ function _appendFeedBatch() {
   const frag = document.createDocumentFragment();
   batch.forEach((p, i) => {
     const div = document.createElement('div');
-    div.innerHTML = p._sponsor ? buildSponsorCard(p, offset + i) : buildCard(p, offset + i);
+    div.innerHTML = buildCard(p, offset + i);
     frag.appendChild(div.firstChild);
   });
   grid.appendChild(frag);
@@ -4600,10 +4805,10 @@ function buildCard(p, idx) {
       durationBadge +
     '</div>' +
     '<div class="pcard-body">' +
-      '<div class="pcard-title">' + (p.title || 'Untitled') + '</div>' +
+      '<div class="pcard-title">' + escHtml(p.title || 'Untitled') + '</div>' +
       '<div class="pcard-meta">' +
         avHtml +
-        '<span class="pcard-author pcard-author-link" onclick="event.preventDefault();event.stopPropagation();' + (p._authorUsername ? "window.open('https://timeliners.lk/"+p._authorUsername+"','_blank')" : '') + '" style="cursor:pointer">' + (p.author_name || 'Unknown') + '</span>' +
+        '<span class="pcard-author pcard-author-link" onclick="event.preventDefault();event.stopPropagation();' + (p._authorUsername ? "window.open('https://timeliners.lk/"+p._authorUsername+"','_blank')" : '') + '" style="cursor:pointer">' + escHtml(p.author_name || 'Unknown') + '</span>' +
         proBadge +
         (p.cat ? '<span style="opacity:.22">·</span><span style="font-size:.62rem;color:var(--t3);text-transform:capitalize">' + (p.cat || '') + '</span>' : '') +
         '<div class="pcard-likes" style="margin-left:auto"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" style="vertical-align:middle"><path d="M1 8s2.5-5 7-5 7 5 7 5-2.5 5-7 5-7-5-7-5z" stroke="currentColor" stroke-width="1.4" fill="none"/><circle cx="8" cy="8" r="2.2" fill="currentColor"/></svg> ' + (p.views || 0) + '</div>' +
@@ -4613,184 +4818,6 @@ function buildCard(p, idx) {
 }
 
 function filterFeed(cat, btn) { S.filter = cat; document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderFeed(); }
-
-// ── SPONSOR ADS ───────────────────────────────────────
-// Ads render as feed cards tagged "Sponsored" — exactly one ad per window of
-// AD_INSERT_RATIO organic projects, landing at a randomized spot inside that
-// window (not always the same fixed slot). appearances_purchased = how many
-// times a sponsor's card shows up across one full scroll of the feed.
-// Rotation favors ads with fewer impressions so far so exposure stays fair
-// across concurrent sponsors.
-const AD_INSERT_RATIO = 10; // within the 8-12 target range
-let _sponsorAdsCache = null;
-let _sponsorAdsPromise = null;
-let _sponsorImpressionSeed = null; // guards against re-logging impressions on filter/sort changes
-
-function ensureSponsorAds() {
-  if (_sponsorAdsCache) return Promise.resolve(_sponsorAdsCache);
-  if (_sponsorAdsPromise) return _sponsorAdsPromise;
-  _sponsorAdsPromise = db('/sponsor_ads?status=eq.active&select=*', 'GET', null, SB_KEY)
-    .then(rows => { _sponsorAdsCache = rows || []; return _sponsorAdsCache; })
-    .catch(() => { _sponsorAdsCache = []; return _sponsorAdsCache; });
-  return _sponsorAdsPromise;
-}
-
-// Builds the list of ad "tokens" to place into this render — one token per
-// appearance, honoring appearances_purchased per ad, truncated fairly
-// (favoring lower-impression ads) if total demand exceeds available slots.
-function _buildSponsorPlan(totalSlots) {
-  const ads = _sponsorAdsCache || [];
-  if (!ads.length || totalSlots <= 0) return [];
-  let tokens = [];
-  ads.forEach(ad => {
-    const n = Math.max(0, ad.appearances_purchased || 0);
-    for (let i = 0; i < n; i++) tokens.push(ad);
-  });
-  if (tokens.length > totalSlots) {
-    // Overbooked — prioritize ads with fewer impressions so far, capped per-ad at their purchased count
-    const byImpressions = ads.slice().sort((a, b) => (a.impressions || 0) - (b.impressions || 0));
-    tokens = [];
-    let remaining = totalSlots;
-    let round = 0;
-    // Round-robin: give each ad (lowest impressions first) one slot per round until slots run out
-    while (remaining > 0 && byImpressions.some(a => (a.appearances_purchased || 0) > round)) {
-      for (const ad of byImpressions) {
-        if (remaining <= 0) break;
-        if ((ad.appearances_purchased || 0) > round) { tokens.push(ad); remaining--; }
-      }
-      round++;
-    }
-  }
-  // Shuffle so the same ad/order doesn't always land in the same slot, then
-  // spread duplicates apart so the same sponsor doesn't repeat back-to-back
-  const seed = S._feedSeed || Date.now();
-  const rng = (i) => { let h = (seed + i * 2654435761) | 0; h ^= h >>> 15; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; return (h >>> 0) / 0xffffffff; };
-  for (let i = tokens.length - 1; i > 0; i--) {
-    const j = Math.floor(rng(i) * (i + 1));
-    [tokens[i], tokens[j]] = [tokens[j], tokens[i]];
-  }
-  for (let i = 1; i < tokens.length; i++) {
-    if (tokens[i].id === tokens[i - 1].id) {
-      const swapWith = tokens.findIndex((t, idx) => idx > i && t.id !== tokens[i].id);
-      if (swapWith !== -1) [tokens[i], tokens[swapWith]] = [tokens[swapWith], tokens[i]];
-    }
-  }
-  return tokens;
-}
-
-function insertSponsorAds(list) {
-  if (!_sponsorAdsCache || !_sponsorAdsCache.length || list.length < AD_INSERT_RATIO) return list;
-  const totalSlots = Math.floor(list.length / AD_INSERT_RATIO);
-  const tokens = _buildSponsorPlan(totalSlots);
-  if (!tokens.length) return list;
-
-  const seed = S._feedSeed || Date.now();
-  const rng = (i) => { let h = (seed + i * 2654435761) | 0; h ^= h >>> 15; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; return (h >>> 0) / 0xffffffff; };
-
-  // Exactly one ad per window of AD_INSERT_RATIO organic cards, at a
-  // randomized position inside the window (not always the same fixed slot
-  // like every 10th/20th) — but never so close to the previous ad that two
-  // ads end up bunched near a window boundary.
-  const MIN_AD_GAP = Math.max(3, Math.floor(AD_INSERT_RATIO / 2)); // min organic cards between two ads
-  const offsets = [];
-  let prevAdPos = -Infinity;
-  let ws = 0;
-  for (let w = 0; w < totalSlots; w++) {
-    let offset = Math.floor(rng(w) * AD_INSERT_RATIO); // 0..AD_INSERT_RATIO-1
-    let orgPos = ws + offset;
-    const minAllowed = prevAdPos + MIN_AD_GAP;
-    if (orgPos < minAllowed) {
-      offset = Math.min(AD_INSERT_RATIO - 1, Math.max(0, minAllowed - ws));
-      orgPos = ws + offset;
-    }
-    offsets.push(offset);
-    prevAdPos = orgPos;
-    ws += AD_INSERT_RATIO;
-  }
-
-  const out = [];
-  let ti = 0;
-  let windowStart = 0;
-  for (let w = 0; w < totalSlots; w++) {
-    const offset = offsets[w];
-    for (let idx = 0; idx < AD_INSERT_RATIO; idx++) {
-      out.push(list[windowStart + idx]);
-      if (idx === offset && ti < tokens.length) {
-        out.push({ _sponsor: true, ...tokens[ti] });
-        ti++;
-      }
-    }
-    windowStart += AD_INSERT_RATIO;
-  }
-  // Any leftover organic cards that don't fill a full window
-  for (let i = windowStart; i < list.length; i++) out.push(list[i]);
-
-  // Log impressions once per feed session (new seed), not on every filter/sort re-render
-  const seedLog = S._feedSeed || 0;
-  if (_sponsorImpressionSeed !== seedLog) {
-    _sponsorImpressionSeed = seedLog;
-    tokens.forEach(ad => { sb.rpc('increment_ad_impression', { p_ad_id: ad.id }).then(()=>{}).catch(()=>{}); });
-  }
-
-  return out;
-}
-
-function buildSponsorCard(ad, idx) {
-  const delay = Math.min(idx * 30, 250);
-  const headline = ad.description ? escHtml(ad.description.length > 60 ? ad.description.slice(0, 60) + '…' : ad.description) : escHtml(ad.company_name || '');
-  const brand = escHtml(ad.company_name || '');
-  const ctaLabel = escHtml(ad.cta_text || 'Contact');
-  return '<a class="pcard" href="javascript:void(0)" ontouchstart="" style="animation-delay:' + delay + 'ms" onclick="sponsorCtaClick(event,\'' + ad.id + '\')">' +
-    '<div class="pcard-sponsor-wrap">' +
-      '<div class="pcard-thumb" style="position:relative">' +
-        '<img src="' + ad.banner_image_url + '" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">' +
-        '<div class="pcard-ov"></div>' +
-        '<div class="pcard-sponsored"><svg width="8" height="8" viewBox="0 0 24 24" fill="white"><path d="M3 11v2a1 1 0 001 1h1l2 6h2l-1.6-6H10l9 4V6l-9 4H4a1 1 0 00-1 1z"/></svg>Sponsored</div>' +
-      '</div>' +
-      '<div class="pcard-body">' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">' +
-          '<div style="min-width:0;flex:1">' +
-            '<div class="pcard-title" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + headline + '</div>' +
-            '<div class="pcard-meta"><span style="font-size:.68rem;color:var(--t3)">' + brand + '</span></div>' +
-          '</div>' +
-          '<span onclick="sponsorCtaClick(event,\'' + ad.id + '\')" style="flex-shrink:0;pointer-events:auto;cursor:pointer;background:var(--ac);color:#fff;font-weight:700;font-size:.62rem;letter-spacing:.3px;padding:.4rem .7rem;border-radius:8px;white-space:nowrap" onmouseover="this.style.background=\'#e55e00\'" onmouseout="this.style.background=\'var(--ac)\'">' + ctaLabel + '</span>' +
-        '</div>' +
-      '</div>' +
-    '</div>' +
-  '</a>';
-}
-
-function _adContactHref(ad) {
-  const v = ad.contact_value || '';
-  if (ad.contact_type === 'whatsapp') return 'https://wa.me/' + v.replace(/[^0-9]/g, '');
-  if (ad.contact_type === 'phone') return 'tel:' + v;
-  if (ad.contact_type === 'email') return 'mailto:' + v;
-  return v.startsWith('http') ? v : 'https://' + v;
-}
-
-// Clicking the CTA pill directly on the feed card skips the modal and goes
-// straight to the sponsor's contact option.
-function sponsorCtaClick(evt, id) {
-  if (evt) { evt.preventDefault(); evt.stopPropagation(); }
-  const ad = (_sponsorAdsCache || []).find(a => a.id === id);
-  if (!ad) return;
-  sb.rpc('increment_ad_click', { p_ad_id: ad.id }).then(()=>{}).catch(()=>{});
-  window.open(_adContactHref(ad), '_blank');
-}
-
-function openAdModal(id) {
-  const ad = (_sponsorAdsCache || []).find(a => a.id === id);
-  if (!ad) return;
-  el('ad-modal-banner').src = ad.banner_image_url || '';
-  el('ad-modal-company').textContent = ad.company_name || '';
-  el('ad-modal-desc').textContent = ad.description || '';
-  const cta = el('ad-modal-cta');
-  cta.textContent = ad.cta_text || 'Contact';
-  cta.href = _adContactHref(ad);
-  cta.onclick = function() { sb.rpc('increment_ad_click', { p_ad_id: ad.id }).then(()=>{}).catch(()=>{}); };
-  document.getElementById('ad-modal-overlay').classList.add('ad-modal-open');
-}
-function closeAdModal() { document.getElementById('ad-modal-overlay').classList.remove('ad-modal-open'); }
 
 function toggleFilterCdd(){ document.getElementById('filter-cdd').classList.toggle('open'); }
 function filterFeedDd(cat, label, el){
@@ -4951,7 +4978,7 @@ document.addEventListener('keydown', function(e) {
 function _renderProjectModal(p) {
   S._currentProject = p;
   const bg  = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
-  const CAT = {motion:'Motion Graphics',video:'Video Edit',graphic:'Graphic Design',social:'Reels & Shorts',film:'Film / Cinematic','3d':'3D & VFX',longform:'Long-form',wedding:'Wedding & Events'};
+  const CAT = {motion:'Motion Graphics',video:'Video Edit',graphic:'Graphic Design',social:'Reels & Shorts',film:'Film / Cinematic','3d':'3D & VFX',longform:'Long Form',wedding:'Wedding & Events'};
 
   // Category + title + date + tags
   const CATLABEL = CAT[p.cat] || p.cat || '';
@@ -4997,7 +5024,7 @@ function _renderProjectModal(p) {
       const lqUrl = videoListLQ[0] || null;
       coverArea.innerHTML =
         '<div class="pm-video-wrap">' +
-          '<div id="pm-vid-skel" style="position:absolute;inset:0;background:linear-gradient(90deg,#161616 25%,#1c1c1c 50%,#161616 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;z-index:0;border-radius:8px;height:360px"></div>' +
+          '<div id="pm-vid-skel" style="position:absolute;inset:0;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;z-index:0;border-radius:8px;height:360px"></div>' +
           '<video id="pm-main-video" src="' + videoList[0] + '" controls controlsList="nodownload" playsinline preload="metadata"' + (p.cover_url ? ' poster="' + p.cover_url + '"' : '') +
           ' style="width:100%;display:block;height:auto;max-height:80vh;position:relative;z-index:1;opacity:0;transition:opacity .35s;border-radius:8px;background:#000"' +
           ' onloadedmetadata="this.style.opacity=1;var sk=document.getElementById(\'pm-vid-skel\');if(sk)sk.remove()" onerror="tlVideoError(this)"></video>' +
@@ -5296,10 +5323,18 @@ function handleAvatarDrop(e) {
   const f = e.dataTransfer?.files?.[0];
   if (f) processAvatarFile(f);
 }
-function processAvatarFile(f) {
+async function processAvatarFile(f) {
   const MAX = 5 * 1024 * 1024; // 5 MB
-  if (!f.type.startsWith('image/')) { showToast('Please select an image file.'); return; }
+  const isHeic = /image\/hei[cf]/i.test(f.type || '') || /\.hei[cf]$/i.test(f.name || '');
+  // Strict JPG/PNG/WEBP only for profile pictures (HEIC/HEIF from iPhones is
+  // allowed through here only because it gets auto-converted to JPEG below —
+  // it never reaches storage as HEIC).
+  const isAllowedImg = /^image\/(jpeg|png|webp)$/i.test(f.type || '') || /\.(jpe?g|png|webp)$/i.test(f.name || '');
+  if (!isAllowedImg && !isHeic) { showToast('Please select a JPG, PNG or WEBP image.'); return; }
   if (f.size > MAX) { showToast('Image must be under 5 MB.'); return; }
+  if (isHeic) showToast('Converting photo…');
+  f = await convertHeicIfNeeded(f);
+  if (!f) return;
   _pendingAvatarFile = f;
   const reader = new FileReader();
   reader.onload = ev => {
@@ -5371,7 +5406,7 @@ async function saveProfile() {
     const token = await getToken();
     if (_pendingAvatarFile) {
       try { const url = await uploadAvatar(token); if (url) dataUpdates.avatar_url = url; }
-      catch(avErr) { showToast('' + avErr.message); }
+      catch(avErr) { showErrorToast(avErr.message); }
     }
     // Write all flat columns directly
     const dbPatch = {
@@ -5411,7 +5446,7 @@ async function saveProfile() {
     } catch(syncErr) { console.warn('Project author sync:', syncErr.message); }
     applyLoggedIn();
     showToast('Profile saved');
-  } catch(e) { showToast('Error: ' + e.message); }
+  } catch(e) { showErrorToast(e.message); }
   finally { if (btn) { btn.disabled = false; btn.innerHTML = orig; } }
 }
 
@@ -5423,7 +5458,7 @@ async function saveAccountDetails() {
     const token = await getToken();
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', { name }, token);
     S.profile.name = name; applyLoggedIn(); showToast('Account details saved');
-  } catch(e) { showToast('Error: ' + e.message); }
+  } catch(e) { showErrorToast(e.message); }
 }
 
 async function changePassword() {
@@ -5438,7 +5473,7 @@ async function changePassword() {
     el('acc-pw-new').value = '';
     el('acc-pw-cf').value  = '';
     showToast('Password updated');
-  } catch(e) { showToast('Error: ' + e.message); }
+  } catch(e) { showErrorToast(e.message); }
 }
 
 // ── VIDEO UPLOAD ─────────────────────────────────────
@@ -5455,9 +5490,7 @@ function handleVideoDrop(e) {
   if (f) processVideoFile(f);
 }
 function processVideoFile(f) {
-  if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-  const allowedTypes = ['video/mp4', 'video/webm'];
-  if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
+  if (!isValidMp4File(f)) { showToast('Only MP4 files are supported. Please convert your video before uploading.'); return; }
   if (f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB.'); return; }
   _pendingVideoFile = f;
   const url = URL.createObjectURL(f);
@@ -5522,10 +5555,9 @@ async function saveProject(status) {
   const title = el('up-title').value.trim();
   if (!title) { showToast('Please enter a project title.'); return; }
 
-  // Strict policy: at least one video is required to publish — a cover
-  // thumbnail alone is not enough (matches the rule enforced on edits).
-  if (status === 'published' && _pendingVideos.length === 0) {
-    showToast('Please upload at least one video before publishing — or save as a draft instead.'); return;
+  // Must have at least a video or a thumbnail to publish
+  if (status === 'published' && _pendingVideos.length === 0 && !_upThumbBlob) {
+    showToast('Please upload a video or a thumbnail image before publishing.'); return;
   }
 
   // Storage check — flat 1 GB limit for everyone
@@ -5571,7 +5603,7 @@ async function saveProject(status) {
           showToast('Video upload failed · check your connection and try again.');
         }
       } catch(vErr) {
-        showToast('Video upload error: ' + vErr.message);
+        showErrorToast(vErr.message);
         console.error('Video upload error:', vErr);
       }
       el('upload-saving').textContent = 'Saving...';
@@ -5621,7 +5653,7 @@ async function saveProject(status) {
     await loadFeed(true);
     // If profile is open, refresh it too
     if (S.profile) renderProfileProjects(S.profile);
-  } catch(e) { showToast('Error: ' + e.message); }
+  } catch(e) { showErrorToast(e.message); }
   finally { pubBtn.disabled = false; pubBtn.innerHTML = origTxt; el('upload-saving').style.display = 'none'; }
 }
 
@@ -5651,7 +5683,7 @@ async function renderMyProjects() {
     return '<tr onclick="' + onclick + '" style="' + rowStyle + '">' +
       '<td style="display:flex;align-items:center;gap:.55rem;min-width:155px">' +
         '<span style="width:7px;height:7px;border-radius:50%;background:' + dot + ';flex-shrink:0;display:inline-block"></span>' +
-        '<span class="tbl-tit">' + p.title + '</span>' + lockedBadge +
+        '<span class="tbl-tit">' + escHtml(p.title) + '</span>' + lockedBadge +
       '</td>' +
       '<td style="text-transform:capitalize">' + (p.cat || '—') + '</td>' +
       '<td>' + (p.likes || 0) + '</td>' +
@@ -5685,7 +5717,7 @@ async function renderMyProjects() {
       return '<div class="proj-mob-card" ' + cardOnclick + ' style="' + opacity + '">' +
         '<div class="proj-mob-top">' +
           '<span class="proj-mob-dot" style="background:' + dot + '"></span>' +
-          '<span class="proj-mob-title">' + p.title + (isLocked ? ' <span style="font-size:.55rem;background:var(--bg4);border:1px solid transparent;color:var(--t3);padding:.1rem .4rem;border-radius:4px;margin-left:.25rem">Locked</span>' : '') + '</span>' +
+          '<span class="proj-mob-title">' + escHtml(p.title) + (isLocked ? ' <span style="font-size:.55rem;background:var(--bg4);border:1px solid transparent;color:var(--t3);padding:.1rem .4rem;border-radius:4px;margin-left:.25rem">Locked</span>' : '') + '</span>' +
         '</div>' +
         metaRow +
         actionsRow +
@@ -5722,7 +5754,7 @@ async function deleteProject(id) {
     renderMyProjects();
     refreshStorageBar();
     showToast('Project deleted.');
-  } catch(e) { showToast('Error: ' + e.message); }
+  } catch(e) { showErrorToast(e.message); }
 }
 
 // ── PROFILE PAGE ─────────────────────────────────────
@@ -6055,7 +6087,7 @@ function _renderProfileProjectsUI(p, allProjs, isOwn) {
 
 function buildProfilePCard(p, isOwn, isHiddenFromPublic) {
   const bg  = GCOLS[p.grad_idx % GCOLS.length] || '#FE730A';
-  const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',graphic:'Design',social:'Social',longform:'Long-form',wedding:'Wedding',shorts:'Shorts',other:'Other'};
+  const CAT = {motion:'Motion',video:'Video',film:'Film','3d':'3D',graphic:'Design',social:'Social',longform:'Long Form',wedding:'Wedding',shorts:'Shorts',other:'Other'};
   let thumbInner = '';
   if (p.video_url) {
     const onErr = ' onerror="this.style.display=\'none\'"';
@@ -6085,7 +6117,7 @@ function buildProfilePCard(p, isOwn, isHiddenFromPublic) {
     '</div>' +
     '<div class="prof-pcard-info" style="position:relative">' +
       '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.4rem">' +
-        '<div class="prof-pcard-title" style="flex:1;min-width:0;cursor:pointer" onclick="' + navFn + '">' + p.title + '</div>' +
+        '<div class="prof-pcard-title" style="flex:1;min-width:0;cursor:pointer" onclick="' + navFn + '">' + escHtml(p.title) + '</div>' +
         menuBtn +
       '</div>' +
       '<div class="prof-pcard-meta" onclick="' + navFn + '">' +
@@ -6182,7 +6214,7 @@ function pcardDelete(projId) {
     try { sessionStorage.removeItem('tl_feed_cache'); } catch(e) {}
     showToast('Project deleted');
     renderProfileProjects(S.profile);
-  }).catch(() => showToast('Delete failed — try again','error'));
+  }).catch(() => showErrorToast('Delete request failed.'));
 }
 window.pcardDelete = pcardDelete;
 window.togglePcardMenu = togglePcardMenu;
@@ -6241,7 +6273,7 @@ function renderCategoryFolders(projs) {
   if (!projs || !projs.length) { wrap.innerHTML = '<div style="color:var(--t3);font-size:.82rem;padding:.5rem 0">No projects yet.</div>'; return; }
   const groups = {};
   projs.forEach(p => { const cat = p.cat || 'other'; if (!groups[cat]) groups[cat] = []; groups[cat].push(p); });
-  const CATNAMES = {motion:'Motion Graphics',video:'Video Edit',film:'Film / Cinematic','3d':'3D & VFX',social:'Reels & Shorts',longform:'Long-form',wedding:'Wedding & Events',other:'Other'};
+  const CATNAMES = {motion:'Motion Graphics',video:'Video Edit',film:'Film / Cinematic','3d':'3D & VFX',social:'Reels & Shorts',longform:'Long Form',wedding:'Wedding & Events',other:'Other'};
 
   const sections = Object.entries(groups).map(([cat, items]) => {
     const label = CATNAMES[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
@@ -6379,7 +6411,7 @@ function renderJobs() {
 function toggleFaq(el) {
   const item = el.closest('.faqitem');
   const wasOpen = item.classList.contains('open');
-  const scope = item.closest('#page-faq, #page-advertise') || document;
+  const scope = item.closest('#page-faq') || document;
   scope.querySelectorAll('.faqitem').forEach(i => i.classList.remove('open'));
   if (!wasOpen) item.classList.add('open');
 }
@@ -6396,7 +6428,7 @@ function openWA(msg) {
 el('main-nav').style.display = 'none';
 
 // ── ROUTING ───────────────────────────────────────────
-const HASH_PAGES = ['feed','advertise','faq','profile','dashboard','project','reset-password'];
+const HASH_PAGES = ['feed','faq','profile','dashboard','project','reset-password'];
 
 let _showPageInProgress = false;
 let _lastPushedHash = '';
@@ -6504,14 +6536,24 @@ function showPage(id, projOrUserId) {
       { const _ne = el('pname-el'), _be = el('pbadge-el'); let _nt = _ne.firstChild; if (!_nt || _nt.nodeType !== Node.TEXT_NODE) { _nt = document.createTextNode('—'); _ne.insertBefore(_nt, _ne.firstChild); } else { _nt.textContent = '—'; } if (_be && _ne) { try { if (!_ne.contains(_be)) _ne.appendChild(_be); } catch(e) {} _be.style.display = 'none'; } }
       el('prole-el').textContent = '—';
       const bioEl = el('pfullbio-el'); if (bioEl) bioEl.textContent = '';
-      el('pav-wrap').innerHTML = '';
-      el('pstat-proj').textContent = '0';
-      el('pstat-likes').textContent = '0';
-      el('pstat-views').textContent = '0';
+      el('pav-wrap').innerHTML = '<div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>';
+      el('pstat-proj').textContent = '—';
+      el('pstat-likes').textContent = '—';
+      el('pstat-views').textContent = '—';
       // Clear projects grid immediately and show skeleton cards
       const projGrid = document.getElementById('profile-proj-grid');
       if (projGrid) {
-        projGrid.innerHTML = '';
+        projGrid.innerHTML = Array(6).fill(0).map(() =>
+          '<div class="pcard pcard-skel" style="pointer-events:none">' +
+            '<div class="pcard-thumb" style="position:relative;border-radius:8px;overflow:hidden">' +
+              '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>' +
+            '</div>' +
+            '<div class="pcard-body">' +
+              '<div style="height:13px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:85%"></div>' +
+              '<div style="height:11px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:60%"></div>' +
+            '</div>' +
+          '</div>'
+        ).join('');
       }
 
       // Use cache if this is an exact re-visit to the same profile (same seq guard still applies)
@@ -6596,10 +6638,22 @@ async function showProfileByUsername(username) {
       { const _ne = el('pname-el'), _be = el('pbadge-el'); let _nt = _ne.firstChild; if (!_nt || _nt.nodeType !== Node.TEXT_NODE) { _nt = document.createTextNode('—'); _ne.insertBefore(_nt, _ne.firstChild); } else { _nt.textContent = '—'; } if (_be && _ne) { try { if (!_ne.contains(_be)) _ne.appendChild(_be); } catch(e) {} _be.style.display = 'none'; } }
       el('prole-el').textContent = '—';
       el('pfullbio-el').textContent = '';
-      el('pav-wrap').innerHTML = '';
-      el('pstat-proj').textContent = '0';
-      el('pstat-likes').textContent = '0';
-      el('pstat-views').textContent = '0';
+      el('pav-wrap').innerHTML = '<div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>';
+      el('pstat-proj').textContent = '—';
+      el('pstat-likes').textContent = '—';
+      el('pstat-views').textContent = '—';
+      // Show skeleton cards in the projects grid too, same as the main feed
+      { const _pg2 = document.getElementById('profile-proj-grid'); if (_pg2) { _pg2.innerHTML = Array(6).fill(0).map(() =>
+          '<div class="pcard pcard-skel" style="pointer-events:none">' +
+            '<div class="pcard-thumb" style="position:relative;border-radius:8px;overflow:hidden">' +
+              '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>' +
+            '</div>' +
+            '<div class="pcard-body">' +
+              '<div style="height:13px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:85%"></div>' +
+              '<div style="height:11px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:60%"></div>' +
+            '</div>' +
+          '</div>'
+        ).join(''); } }
       document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('prof-ready'); });
       const _pp = el('page-profile'); _pp.classList.remove('active'); _pp.classList.remove('prof-ready');
       el('main-nav').style.display = 'none';
@@ -6757,7 +6811,7 @@ window.addEventListener('popstate', (e) => {
   const parts = raw.split('/');
   const seg = parts[0].toLowerCase();
   const sub = parts[1] || '';
-  const KNOWN = ['feed','advertise','faq','profile','dashboard','project'];
+  const KNOWN = ['feed','faq','profile','dashboard','project'];
   if (seg && KNOWN.includes(seg)) {
     showPage(seg, sub || undefined);
   } else if (location.pathname !== '/' && !location.pathname.match(/\.(html|js|css|png|ico|svg)$/)) {
@@ -6824,7 +6878,8 @@ function initTheme() {
 }
 
 // ── TOAST ────────────────────────────────────────────
-function showToast(msg) {
+function showToast(msg, opts) {
+  opts = opts || {};
   const t = document.getElementById('toast');
   if (!t) return;
   // Always move toast to be the very last child of body so it escapes
@@ -6833,12 +6888,99 @@ function showToast(msg) {
     document.body.appendChild(t);
   }
   document.getElementById('tmsg').textContent = msg;
+
+  // Optional inline action button (e.g. "View Profile" after a theme save) —
+  // rebuilt fresh on every call so stale click handlers never linger.
+  const oldBtn = t.querySelector('.toast-action');
+  if (oldBtn) oldBtn.remove();
+  t.classList.toggle('has-action', !!(opts.actionLabel && opts.onAction));
+  if (opts.actionLabel && opts.onAction) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'toast-action';
+    btn.textContent = opts.actionLabel;
+    btn.onclick = () => {
+      opts.onAction();
+      t.classList.remove('show');
+      clearTimeout(t._toastTimer);
+    };
+    t.appendChild(btn);
+  }
+
   t.classList.remove('show');
   // Force reflow so re-adding 'show' triggers the transition fresh
   void t.offsetWidth;
   t.classList.add('show');
   clearTimeout(t._toastTimer);
-  t._toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+  t._toastTimer = setTimeout(() => t.classList.remove('show'), opts.duration || 3200);
+}
+
+// ── TECHNICAL ERROR TOAST ─────────────────────────────
+// Used anywhere a behind-the-scenes action fails (saving a profile, logging
+// in, uploading a project, etc). Never shows the raw error string to the
+// user — that's stashed for the "Report bug" action instead, which sends it
+// straight to us over WhatsApp along with the page it happened on.
+let _lastErrDetail = '';
+function showErrorToast(detail) {
+  try { _lastErrDetail = (detail == null ? '' : String(detail)).slice(0, 400); } catch(e) { _lastErrDetail = ''; }
+  const t = document.getElementById('err-toast');
+  if (!t) return;
+  if (t.parentNode !== document.body || t !== document.body.lastElementChild) {
+    document.body.appendChild(t);
+  }
+  t.classList.remove('show');
+  void t.offsetWidth;
+  t.classList.add('show');
+  clearTimeout(t._errTimer);
+  t._errTimer = setTimeout(() => t.classList.remove('show'), 9000);
+}
+function closeErrorToast() {
+  const t = document.getElementById('err-toast');
+  if (!t) return;
+  clearTimeout(t._errTimer);
+  t.classList.remove('show');
+}
+function reportErrorBug() {
+  let msg = "Hi TimeLiners, I ran into a technical issue on the site.";
+  if (_lastErrDetail) msg += '\nDetails: ' + _lastErrDetail;
+  try { msg += '\nPage: ' + location.href; } catch(e) {}
+  window.open('https://wa.me/94783408001?text=' + encodeURIComponent(msg), '_blank');
+  closeErrorToast();
+}
+function contactFromErrorToast() {
+  closeErrorToast();
+  openContactModal();
+}
+// Shared helper for the inline auth/OTP error boxes: shows a friendly,
+// consistent fallback message (never the raw e.message) plus small
+// "Report bug · Contact us" links, for genuinely unexpected failures —
+// as opposed to plain validation messages like "Please fill in both fields."
+function _techErrLinksHtml() {
+  return '<span class="tech-err-links"><a href="#" onclick="event.preventDefault();reportErrorBug()">Report bug</a> · <a href="#" onclick="event.preventDefault();openContactModal()">Contact us</a></span>';
+}
+function showAuthTechErr(fallbackMsg, e) {
+  try { _lastErrDetail = (((e && e.message) || fallbackMsg || '')).toString().slice(0, 400); } catch(err) { _lastErrDetail = fallbackMsg || ''; }
+  const box = el('auth-err');
+  if (!box) return;
+  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + ' ' + _techErrLinksHtml();
+  box.classList.add('show');
+}
+function showOtpTechErr(fallbackMsg, e) {
+  try { _lastErrDetail = (((e && e.message) || fallbackMsg || '')).toString().slice(0, 400); } catch(err) { _lastErrDetail = fallbackMsg || ''; }
+  const box = el('otp-err');
+  if (!box) return;
+  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + ' ' + _techErrLinksHtml();
+  box.style.display = 'block';
+}
+// Generic version of the above for any other inline error box by id
+// (forgot-password, reset-password, etc). Same idea: friendly fixed copy,
+// never the raw message, plus Report bug / Contact us links.
+function showInlineTechErr(boxId, fallbackMsg, e) {
+  try { _lastErrDetail = (((e && e.message) || fallbackMsg || '')).toString().slice(0, 400); } catch(err) { _lastErrDetail = fallbackMsg || ''; }
+  const box = el(boxId);
+  if (!box) return;
+  box.innerHTML = (fallbackMsg || 'Something went wrong. Please try again.') + ' ' + _techErrLinksHtml();
+  box.style.display = 'block';
 }
 
 // ── EXPOSE to HTML onclick handlers ──────────────────
@@ -6850,6 +6992,13 @@ window.switchAuthTab = switchAuthTab;
 window.handleSignIn  = handleSignIn;
 window.handleSignUp  = handleSignUp;
 window.handleSignOut   = handleSignOut;
+window.showErrorToast = showErrorToast;
+window.closeErrorToast = closeErrorToast;
+window.reportErrorBug = reportErrorBug;
+window.contactFromErrorToast = contactFromErrorToast;
+window.showAuthTechErr = showAuthTechErr;
+window.showOtpTechErr = showOtpTechErr;
+window.showInlineTechErr = showInlineTechErr;
 window.deleteMyAccount = deleteMyAccount;
 
 function showForgotPassword() {
@@ -6878,8 +7027,7 @@ async function sendPasswordReset() {
     el('forgot-step-1').style.display = 'none';
     el('forgot-step-2').style.display = 'block';
   } catch(e) {
-    el('forgot-err').textContent = e.message || 'Something went wrong. Try again.';
-    el('forgot-err').style.display = 'block';
+    showInlineTechErr('forgot-err', 'Something went wrong. Please try again.', e);
   } finally { setAuthBusy('forgot-btn', false); }
 }
 window.showForgotPassword  = showForgotPassword;
@@ -6938,8 +7086,7 @@ async function confirmPasswordReset() {
       openAuth('in');
     }
   } catch(e) {
-    el('reset-pw-err').textContent = e.message || 'Failed to update password. Try requesting a new reset link.';
-    el('reset-pw-err').style.display = 'block';
+    showInlineTechErr('reset-pw-err', 'Failed to update password. Try requesting a new reset link.', e);
   } finally { setAuthBusy('reset-pw-btn', false); }
 }
 window.showResetPasswordModal = showResetPasswordModal;
@@ -6979,9 +7126,6 @@ document.addEventListener('click', e => {
 });
 
 window.quickLike     = quickLike;
-window.openAdModal   = openAdModal;
-window.closeAdModal  = closeAdModal;
-window.sponsorCtaClick = sponsorCtaClick;
 
 window.toggleProjLike= toggleProjLike;
 window.toggleProjLikeModal = toggleProjLikeModal;
@@ -6994,10 +7138,10 @@ window.saveProfile   = saveProfile;
 window.saveAccountDetails = saveAccountDetails;
 
 
-// Re-sync profile from Supabase (fixes missing/wrong profile issues)
+// Resync profile from Supabase (fixes missing/wrong profile issues)
 async function resyncProfile() {
   if (!S.user) { showToast('Not signed in.'); return; }
-  showToast('Re-syncing your account...');
+  showToast('Resyncing your account...');
   S.profile = null;
   try { localStorage.removeItem('tl_lp_' + S.user.id); } catch(e) {}
   await loadProfile();
@@ -7050,15 +7194,13 @@ window._epPendingVideos = [];
 window.epPickVideo = function() {
   if (window._epPendingVideos.length >= 5) { showToast('Max 5 videos per project.'); return; }
   const inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'video/mp4,video/webm'; inp.style.display = 'none';
+  inp.type = 'file'; inp.accept = 'video/mp4,.mp4'; inp.style.display = 'none';
   document.body.appendChild(inp);
   inp.onchange = () => {
     const f = inp.files[0]; document.body.removeChild(inp);
     if (!f) return;
-    if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-  const allowedTypes = ['video/mp4', 'video/webm'];
-  if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
-  if (f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB.'); return; }
+    if (!isValidMp4File(f)) { showToast('Only MP4 files are supported. Please convert your video before uploading.'); return; }
+    if (f.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB.'); return; }
     window._epPendingVideos.push(f);
     epRenderVideoList();
   };
@@ -7442,6 +7584,7 @@ function closeSkillModal() {
   _smRenderTags();
 }
 
+
 async function saveSkill() {
   const name = (document.getElementById('sm-name').value || '').trim();
   if (!name) { showToast('Please enter a skill name.'); return; }
@@ -7461,7 +7604,7 @@ async function saveSkill() {
     const token = await getToken();
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', { skills_data: JSON.stringify(skills) }, token);
     showToast('✓ Skill saved');
-  } catch(e) { showToast('Saved locally · sync failed: ' + e.message); }
+  } catch(e) { showErrorToast(e.message); }
   finally { if (btn) { btn.disabled = false; btn.textContent = 'Save skill'; } }
   closeSkillModal();
   renderDashSkills();
@@ -7868,15 +8011,25 @@ function upmRenderTags() {
 
 function upmRemoveTag(i) { _upmTags.splice(i,1); upmRenderTags(); }
 
-function upmThumbPick(inp) {
-  const file = inp.files[0];
+async function upmThumbPick(inp) {
+  let file = inp.files[0];
   if (!file) return;
+  const isHeic = /image\/hei[cf]/i.test(file.type || '') || /\.hei[cf]$/i.test(file.name || '');
+  if (!file.type.startsWith('image/') && !isHeic) { showToast('Please select an image file.'); inp.value = ''; return; }
   if (file.size > 5*1024*1024) { showToast('Cover image must be under 5 MB'); inp.value=''; return; }
+  if (isHeic) showToast('Converting photo…');
+  file = await convertHeicIfNeeded(file);
+  if (!file) { inp.value = ''; return; }
   _upmThumbBlob = file;
   document.getElementById('upm-thumb-lbl').textContent = file.name;
   const label = document.getElementById('upm-thumb-label');
   label.style.borderColor = 'var(--ac)';
   label.style.background = 'var(--ac)';
+  document.getElementById('upm-thumb-lbl').style.color = '#fff';
+  const upmHint = document.getElementById('upm-thumb-hint');
+  if (upmHint) upmHint.style.color = 'rgba(255,255,255,.85)';
+  const upmIcon = document.getElementById('upm-thumb-icon');
+  if (upmIcon) upmIcon.style.stroke = '#fff';
   // Show preview
   const reader = new FileReader();
   reader.onload = function(e) {
@@ -7894,6 +8047,11 @@ function upmClearThumb() {
   document.getElementById('upm-thumb-input').value = '';
   document.getElementById('upm-thumb-label').style.borderColor = 'var(--brd2)';
   document.getElementById('upm-thumb-label').style.background = 'var(--bg3)';
+  document.getElementById('upm-thumb-lbl').style.color = 'var(--t2)';
+  const upmHint = document.getElementById('upm-thumb-hint');
+  if (upmHint) upmHint.style.color = 'var(--t3)';
+  const upmIcon = document.getElementById('upm-thumb-icon');
+  if (upmIcon) upmIcon.style.stroke = 'var(--t3)';
   const wrap = document.getElementById('upm-thumb-preview-wrap');
   if (wrap) wrap.style.display = 'none';
 }
@@ -7905,6 +8063,7 @@ function upmPickVideo() {
 function upmVideoFilePicked(inp) {
   const file = inp.files[0];
   if (!file) return;
+  if (!isValidMp4File(file)) { showToast('Only MP4 files are supported. Please convert your video before uploading.'); inp.value = ''; return; }
   if (file.size > 250 * 1024 * 1024) { showToast('Video must be under 250 MB'); inp.value=''; return; }
   _upmVideoBlobs.push(file);
   inp.value = '';
@@ -7959,7 +8118,7 @@ async function upmSave(status) {
 
     // 1. Create the DB record first to get a project ID
     const catEl = document.getElementById('upm-cat');
-    const catLabels = {'video':'Video Edit','motion':'Motion Graphics','film':'Film / Cinematic','social':'Reels / Shorts / TikTok','longform':'Long-form','3d':'3D & VFX','wedding':'Wedding & Events','other':'Other'};
+    const catLabels = {'video':'Video Edit','motion':'Motion Graphics','film':'Film / Cinematic','social':'Reels / Shorts / TikTok','longform':'Long Form','3d':'3D & VFX','wedding':'Wedding & Events','other':'Other'};
     const catVal = catEl.value;
     const payload = {
       user_id: S.profile.id,
@@ -8014,6 +8173,7 @@ async function upmSave(status) {
           xhr.setRequestHeader('Authorization', 'Bearer ' + token);
           xhr.setRequestHeader('x-file-name', fileName);
           xhr.setRequestHeader('x-content-type', videoBlob.type || 'video/mp4');
+          xhr.setRequestHeader('x-project-id', saved.id);
           xhr.send(videoBlob);
         });
         if (videoUrl) uploadedVideoUrls.push(videoUrl);
@@ -8022,7 +8182,7 @@ async function upmSave(status) {
         if (progressPct) progressPct.textContent = '100%';
       } catch(e) {
         if (progressLbl) progressLbl.textContent = 'Video ' + (vi+1) + ' upload failed.';
-        showToast('Video upload failed: ' + e.message);
+        showErrorToast(e.message);
         console.error('Video upload error:', e);
       }
     }
@@ -8068,7 +8228,7 @@ async function upmSave(status) {
     if (typeof refreshStorageBar === 'function') refreshStorageBar();
 
   } catch(err) {
-    showToast('Error saving project. Please try again.');
+    showErrorToast(err.message);
     console.error('upmSave error:', err);
   } finally {
     savingEl.style.display = 'none';
@@ -8232,7 +8392,7 @@ async function saveService() {
     const token = await getToken();
     await db('/profiles?id=eq.' + S.profile.id, 'PATCH', { services_data: JSON.stringify(svcs) }, token);
     showToast('✓ Service saved');
-  } catch(e) { showToast('Saved locally · sync failed: ' + e.message); }
+  } catch(e) { showErrorToast(e.message); }
   finally { if (btn) { btn.disabled = false; btn.textContent = 'Save service'; } }
   closeServiceModal();
   renderDashServices();
@@ -8685,7 +8845,7 @@ function openEditProject() {
   el('ep-proj-id').value     = p.id;
   el('ep-proj-title').value  = p.title || '';
   el('ep-proj-cat').value    = p.cat   || 'video';
-  (function(){var catMap={'video':'Video Edit','motion':'Motion Graphics','film':'Film / Cinematic','social':'Reels / Shorts / TikTok','longform':'Long-form','3d':'3D & VFX','wedding':'Wedding & Events','other':'Other'};var cat=p.cat||'video';var isCustom=!catMap[cat];var lbl=isCustom?('Other · '+cat):catMap[cat]||'Video Edit';if(isCustom){setCdd('ep-cat-cdd','other',lbl);var cw=document.getElementById('ep-cat-custom-wrap');var ci=document.getElementById('ep-cat-custom');if(cw)cw.style.display='block';if(ci){ci.value=cat;document.getElementById('ep-proj-cat').value=cat;}}else{setCdd('ep-cat-cdd',cat,lbl);}})();
+  (function(){var catMap={'video':'Video Edit','motion':'Motion Graphics','film':'Film / Cinematic','social':'Reels / Shorts / TikTok','longform':'Long Form','3d':'3D & VFX','wedding':'Wedding & Events','other':'Other'};var cat=p.cat||'video';var isCustom=!catMap[cat];var lbl=isCustom?('Other · '+cat):catMap[cat]||'Video Edit';if(isCustom){setCdd('ep-cat-cdd','other',lbl);var cw=document.getElementById('ep-cat-custom-wrap');var ci=document.getElementById('ep-cat-custom');if(cw)cw.style.display='block';if(ci){ci.value=cat;document.getElementById('ep-proj-cat').value=cat;}}else{setCdd('ep-cat-cdd',cat,lbl);}})();
   el('ep-proj-year').value   = p.year  || '';
   el('ep-proj-desc').value   = p.description || '';
   // Populate tags as chips
@@ -8816,9 +8976,10 @@ async function saveEditProject() {
             xhr.setRequestHeader('Authorization', 'Bearer ' + token);
             xhr.setRequestHeader('x-file-name', fileName);
             xhr.setRequestHeader('x-content-type', f.type || 'video/mp4');
+            xhr.setRequestHeader('x-project-id', id);
             xhr.send(f);
           });
-        } catch(vErr) { showToast('Video ' + (i+1) + ' failed: ' + vErr.message); }
+        } catch(vErr) { showErrorToast(vErr.message); }
       }
       if (uploadedUrls.length) {
         // APPEND new videos to existing ones (minus removed)
@@ -8889,7 +9050,7 @@ async function saveEditProject() {
     if (S.profile) renderProfileProjects(S.profile);
     // Refresh project view if open
     if (updates.video_url && S._currentProject) openProject(id);
-  } catch(e) { showToast('Error: ' + e.message); }
+  } catch(e) { showErrorToast(e.message); }
   finally { btn.disabled = false; btn.innerHTML = 'Save Changes'; }
 }
 
@@ -8911,19 +9072,17 @@ const _pendingVideos = [];
 const _pendingVideosLQ = []; // index-matched with _pendingVideos — the 360p compressed variant, or null
 function addVideoSlot() {
   const inp = document.createElement('input');
-  inp.type = 'file'; inp.accept = 'video/mp4,video/webm'; inp.style.display = 'none';
+  inp.type = 'file'; inp.accept = 'video/mp4,.mp4'; inp.style.display = 'none';
   document.body.appendChild(inp);
   inp.onchange = async () => {
     const f = inp.files[0]; document.body.removeChild(inp);
     if (!f) return;
-    if (!f.type.startsWith('video/')) { showToast('Please select a video file.'); return; }
-  const allowedTypes = ['video/mp4', 'video/webm'];
-  if (!allowedTypes.includes(f.type)) { showToast('Only MP4 and WebM files are supported. Please convert your video before uploading.'); return; }
+    if (!isValidMp4File(f)) { showToast('Only MP4 files are supported. Please convert your video before uploading.'); return; }
     if (f.size > 250 * 1024 * 1024) { showToast('Each video must be under 250 MB.'); return; }
     if (_pendingVideos.length >= 5)  { showToast('Max 5 videos per project.'); return; }
 
     const slotIdx = _pendingVideos.length;
-    _pendingVideos.push(f); // placeholder so the list shows the file immediately
+    _pendingVideos.push(f);
     _pendingVideosLQ.push(null);
     renderVideoList(true);
 
@@ -8969,6 +9128,26 @@ function clearAllVideos() { _pendingVideos.length = 0; _pendingVideosLQ.length =
 let _upThumbBlob = null;
 let _epThumbBlob = null;
 
+// iPhones default to saving photos as HEIC, which the server-side allowlist
+// rejects (not viewable in most browsers when served back out). Rather than
+// bounce those users with an error, convert HEIC/HEIF to JPEG client-side —
+// same "handle it locally, ship a normal format" pattern as the video compressor.
+async function convertHeicIfNeeded(file) {
+  const isHeic = /image\/hei[cf]/i.test(file.type || '') || /\.hei[cf]$/i.test(file.name || '');
+  if (!isHeic) return file;
+  try {
+    const mod = await import('https://esm.sh/heic2any@0.0.4');
+    const heic2any = mod.default;
+    const out = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.85 });
+    const finalBlob = Array.isArray(out) ? out[0] : out;
+    const newName = (file.name || 'photo').replace(/\.hei[cf]$/i, '') + '.jpg';
+    return new File([finalBlob], newName, { type: 'image/jpeg' });
+  } catch (e) {
+    showToast('Could not convert that photo — please export as JPG/PNG and try again.');
+    return null;
+  }
+}
+
 // Cover photos were being uploaded at full original resolution (sometimes
 // multiple MB) and then squeezed into ~300px feed thumbnails by the browser —
 // that's the #1 cause of slow/laggy cover loading. Every image that becomes
@@ -8998,10 +9177,15 @@ function resizeImageBlob(blob, maxDim, quality) {
   });
 }
 
-function handleUpThumbCustom(input) {
+async function handleUpThumbCustom(input) {
   if (!input || !input.files || !input.files[0]) return;
-  const file = input.files[0];
+  let file = input.files[0];
+  const isHeic = /image\/hei[cf]/i.test(file.type || '') || /\.hei[cf]$/i.test(file.name || '');
+  if (!file.type.startsWith('image/') && !isHeic) { showToast('Please select an image file.'); input.value = ''; return; }
   if (file.size > 5 * 1024 * 1024) { showToast('Image must be under 5 MB.'); return; }
+  if (isHeic) showToast('Converting photo…');
+  file = await convertHeicIfNeeded(file);
+  if (!file) { input.value = ''; return; }
   const reader = new FileReader();
   reader.onload = function(ev) {
     _upThumbBlob = null;
@@ -9032,10 +9216,15 @@ function clearUpThumb() {
   if (lbl)  lbl.textContent = 'Upload cover image';
 }
 
-function handleEpThumbCustom(input) {
+async function handleEpThumbCustom(input) {
   if (!input || !input.files || !input.files[0]) return;
-  const file = input.files[0];
+  let file = input.files[0];
+  const isHeic = /image\/hei[cf]/i.test(file.type || '') || /\.hei[cf]$/i.test(file.name || '');
+  if (!file.type.startsWith('image/') && !isHeic) { showToast('Please select an image file.'); input.value = ''; return; }
   if (file.size > 5 * 1024 * 1024) { showToast('Image must be under 5 MB.'); return; }
+  if (isHeic) showToast('Converting photo…');
+  file = await convertHeicIfNeeded(file);
+  if (!file) { input.value = ''; return; }
   const reader = new FileReader();
   reader.onload = function(ev) {
     _epThumbBlob = null;
@@ -9157,7 +9346,7 @@ function uploadFileXHR(url, file, headers, onProgress) {
   });
 }
 
-function _uploadOneVideoFile(f, token, fileName, onProgress) {
+function _uploadOneVideoFile(f, token, fileName, onProgress, projectId) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.upload.onprogress = (e) => { if (e.lengthComputable && onProgress) onProgress(e.loaded / e.total); };
@@ -9165,13 +9354,18 @@ function _uploadOneVideoFile(f, token, fileName, onProgress) {
       if (xhr.status >= 200 && xhr.status < 300) {
         try { const data = JSON.parse(xhr.responseText); resolve(data.publicUrl || null); }
         catch(e) { resolve(null); }
-      } else { reject(new Error('Upload failed: ' + xhr.status)); }
+      } else {
+        let msg = 'Upload failed: ' + xhr.status;
+        try { const errData = JSON.parse(xhr.responseText); if (errData.error) msg = errData.error; } catch(e) {}
+        reject(new Error(msg));
+      }
     };
     xhr.onerror = () => reject(new Error('Upload network error'));
     xhr.open('POST', 'https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/r2-sign-upload');
     xhr.setRequestHeader('Authorization', 'Bearer ' + token);
     xhr.setRequestHeader('x-file-name', fileName);
     xhr.setRequestHeader('x-content-type', f.type || 'video/mp4');
+    if (projectId) xhr.setRequestHeader('x-project-id', projectId);
     xhr.send(f);
   });
 }
@@ -9195,7 +9389,6 @@ async function uploadProjectVideos(token, projId) {
     const safeName = f.name.replace(/[^a-zA-Z0-9._-]/g, '_');
     const fileName = projId + '_v' + i + '_' + Date.now() + '_' + safeName;
 
-    // HQ + LQ together count as one "file" worth of progress for this slot
     const updateProgress = (filePct) => {
       const overall = ((i + filePct) / totalFiles) * 100;
       if (pb) pb.style.width = overall.toFixed(1) + '%';
@@ -9209,12 +9402,12 @@ async function uploadProjectVideos(token, projId) {
     updateProgress(0);
 
     try {
-      const hqUrl = await _uploadOneVideoFile(f, token, fileName, p => updateProgress(p * (lq ? 0.7 : 1)));
+      const hqUrl = await _uploadOneVideoFile(f, token, fileName, p => updateProgress(p * (lq ? 0.7 : 1)), projId);
       urls.push(hqUrl);
 
       if (lq) {
         const lqFileName = projId + '_v' + i + '_' + Date.now() + '_lq_' + safeName;
-        const lqUrl = await _uploadOneVideoFile(lq, token, lqFileName, p => updateProgress(0.7 + p * 0.3));
+        const lqUrl = await _uploadOneVideoFile(lq, token, lqFileName, p => updateProgress(0.7 + p * 0.3), projId);
         urlsLQ.push(lqUrl);
       } else {
         urlsLQ.push(null);
@@ -9222,7 +9415,7 @@ async function uploadProjectVideos(token, projId) {
 
       updateProgress(1);
     } catch(err) {
-      showToast('Video ' + (i+1) + ' failed · ' + err.message);
+      showErrorToast(err.message);
       console.error('Video upload error:', err);
       urlsLQ.push(null);
     }
@@ -9335,6 +9528,28 @@ window.otpKey     = otpKey;
 async function showProfileByName(name) {
   if (!name) return;
   try {
+    // Clear stale content + show skeleton, same as showProfileByUsername/showPage('profile')
+    { const _ne = el('pname-el'), _be = el('pbadge-el'); let _nt = _ne.firstChild; if (!_nt || _nt.nodeType !== Node.TEXT_NODE) { _nt = document.createTextNode('—'); _ne.insertBefore(_nt, _ne.firstChild); } else { _nt.textContent = '—'; } if (_be && _ne) { try { if (!_ne.contains(_be)) _ne.appendChild(_be); } catch(e) {} _be.style.display = 'none'; } }
+    el('prole-el').textContent = '—';
+    const _bioEl = el('pfullbio-el'); if (_bioEl) _bioEl.textContent = '';
+    el('pav-wrap').innerHTML = '<div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>';
+    el('pstat-proj').textContent = '—';
+    el('pstat-likes').textContent = '—';
+    el('pstat-views').textContent = '—';
+    { const _pg3 = document.getElementById('profile-proj-grid'); if (_pg3) { _pg3.innerHTML = Array(6).fill(0).map(() =>
+        '<div class="pcard pcard-skel" style="pointer-events:none">' +
+          '<div class="pcard-thumb" style="position:relative;border-radius:8px;overflow:hidden">' +
+            '<div style="position:absolute;inset:0;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite"></div>' +
+          '</div>' +
+          '<div class="pcard-body">' +
+            '<div style="height:13px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;margin-bottom:8px;width:85%"></div>' +
+            '<div style="height:11px;border-radius:6px;background:linear-gradient(90deg,var(--skel-a) 25%,var(--skel-b) 50%,var(--skel-a) 75%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite .15s;width:60%"></div>' +
+          '</div>' +
+        '</div>'
+      ).join(''); } }
+    document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('prof-ready'); });
+    el('main-nav').style.display = 'none';
+    window.scrollTo(0, 0);
     const rows = await db('/profiles?name=eq.' + encodeURIComponent(name) + '&select=*', 'GET', null, SB_KEY);
     if (rows && rows.length) {
       document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); p.classList.remove('prof-ready'); });
@@ -9345,7 +9560,7 @@ async function showProfileByName(name) {
     } else {
       showToast('Profile not found.');
     }
-  } catch(e) { showToast('Could not load profile.'); }
+  } catch(e) { showErrorToast('Could not load profile.'); }
 }
 window.showProfileByName = showProfileByName;
 window.copyProfileLink    = copyProfileLink;
@@ -9390,119 +9605,32 @@ boot();
 <div class="page" id="page-notfound">
   <div style="width:100%;min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box">
     <div style="max-width:380px;width:100%;margin:0 auto;text-align:center">
-      <svg width="110" height="85" viewBox="0 0 220 170" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto .5rem;display:block">
-        <circle cx="110" cy="88" r="70" fill="var(--ac)" opacity=".06"/>
-        <circle cx="40" cy="35" r="4" fill="var(--ac)" opacity=".35"/>
-        <circle cx="190" cy="50" r="3" fill="var(--ac)" opacity=".3"/>
-        <circle cx="185" cy="130" r="5" fill="var(--ac)" opacity=".25"/>
-        <rect x="55" y="28" width="110" height="120" rx="14" fill="var(--bg3)" stroke="var(--brd2)" stroke-width="1.5"/>
-        <circle cx="110" cy="70" r="20" fill="var(--ac)"/>
-        <path d="M110 62v10M110 78v.5" stroke="var(--ac)" stroke-width="3" stroke-linecap="round"/>
-        <rect x="80" y="102" width="60" height="7" rx="3.5" fill="var(--brd2)"/>
-        <rect x="88" y="118" width="44" height="7" rx="3.5" fill="var(--brd2)"/>
-        <circle cx="150" cy="108" r="26" fill="none" stroke="var(--ac)" stroke-width="4"/>
-        <line x1="169" y1="127" x2="188" y2="146" stroke="var(--ac)" stroke-width="5" stroke-linecap="round"/>
+      <svg width="76" height="95" viewBox="0 0 580 725" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto .6rem;display:block">
+        <ellipse cx="290" cy="718" rx="150" ry="9" fill="#000" opacity=".13"/>
+        <!-- Timmy, head tilted, one eye squinted — puzzled, not upset -->
+        <g transform="rotate(-10 290 360)">
+          <path d="M453 682 L498 681 L573 603 L572 502 L502 500 L496 547 L454 547 L451 460 Z" fill="#fe730a"/>
+          <path d="M64 6 L6 189 L183 110 Z" fill="#fe730a"/>
+          <path d="M91 78 L87 129 L138 129 Z" fill="#181818"/>
+          <path d="M458 6 L533 187 L357 110 Z" fill="#fe730a"/>
+          <path d="M448 79 L401 129 L452 129 Z" fill="#181818"/>
+          <path d="M6 187 L6 384 L133 388 L86 462 L87 710 L160 710 L165 611 L229 614 L232 712 L308 710 L311 612 L377 614 L380 712 L450 711 L453 682 L451 460 L405 391 L533 385 L533 187 L357 110 L183 110 Z" fill="#fe730a"/>
+          <!-- left eye: squinted, skeptical -->
+          <rect x="128" y="254" width="46" height="15" rx="6" fill="#181818" transform="rotate(-11 151 261)"/>
+          <!-- right eye: wide, surprised -->
+          <rect x="366" y="230" width="44" height="46" rx="3" fill="#181818"/>
+        </g>
+        <!-- floating question mark -->
+        <g>
+          <circle cx="418" cy="66" r="34" fill="#fe730a"/>
+          <text x="418" y="80" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700" fill="#fff" text-anchor="middle">?</text>
+        </g>
       </svg>
       <h1 style="font-size:clamp(1rem,3vw,1.15rem);font-weight:700;color:var(--t1);margin:0 0 .4rem;line-height:1.3">This profile doesn't exist</h1>
       <p style="color:var(--t2);font-size:.82rem;line-height:1.55;margin:0 0 1rem">The editor you're looking for may have changed their username, or their account is no longer active on TimeLiners.</p>
       <a href="#/feed" onclick="event.preventDefault();showPage('feed')" style="display:inline-flex;align-items:center;justify-content:center;gap:.4rem;background:var(--ac);color:#fff;font-weight:600;font-size:.75rem;padding:.5rem .95rem;border-radius:7px;text-decoration:none;font-family:var(--fm)">Browse Portfolios</a>
     </div>
   </div>
-</div>
-
-<div class="page" id="page-advertise">
-  <div class="pricing-wrap" style="padding:24px;min-height:calc(100vh - 58px);display:flex;align-items:center;justify-content:center">
-    <div style="max-width:820px;margin:0 auto;text-align:center;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rxl);padding:2.2rem 2.6rem">
-      <div style="font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;background:var(--ac);display:inline-block;padding:.3rem .8rem;border-radius:8px;margin-bottom:1rem">Coming Soon</div>
-      <h1 style="font-size:clamp(1.3rem,4.2vw,1.6rem);font-weight:700;color:var(--t1);margin:0 0 .7rem;line-height:1.3">Sponsor slots aren't open yet</h1>
-      <p style="font-size:.82rem;color:var(--t2);line-height:1.65;margin:0 auto .7rem;max-width:560px">We're currently building our advertising system so brands, tools, and services can get in front of Sri Lanka's video editors and the clients hiring them on the Discover feed. We'll release this feature soon.</p>
-      <p style="font-size:.78rem;color:var(--t3);line-height:1.6;margin:0 auto 1.2rem;max-width:560px">Want to be first in line when spots open? Reach out and we'll keep you posted.</p>
-      <a href="https://wa.me/94783408001?text=Hi!%20I%20want%20to%20be%20notified%20when%20advertising%20launches%20on%20TimeLiners." target="_blank" class="btn btn-p" style="font-size:.88rem;padding:.7rem 1.9rem;text-decoration:none;display:inline-block">Get in touch</a>
-    </div>
-
-    <!-- Full advertise page (pricing, poster slot, FAQ) kept here for later — stored inert in a script tag so it never renders. To restore: move this markup back out into the page body and remove the surrounding <script> wrapper. -->
-    <script type="text/plain" id="advertise-full-page-backup">
-    <div style="max-width:720px;margin:0 auto;text-align:center">
-      <div style="font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;background:var(--ac);display:inline-block;padding:.3rem .8rem;border-radius:8px;margin-bottom:1.1rem">Sponsor Slots</div>
-      <h1 style="font-size:clamp(1.6rem,6vw,2.1rem);font-weight:700;color:var(--t1);margin:0 0 .8rem;line-height:1.25">Get your brand in front of Sri Lanka's<br>video editors and clients</h1>
-      <p style="font-size:.8rem;color:var(--t2);line-height:1.7;margin:0 auto 1.4rem;max-width:480px">TimeLiners is where most Sri Lankan editors and clients browse. If you're trying to reach those audiences, this is the perfect place for your ad.</p>
-    </div>
-
-    <div style="max-width:720px;margin:0 auto 1.8rem">
-      <div id="advertise-poster-slot" style="width:100%;aspect-ratio:16/9;border:2px dashed var(--brd);border-radius:var(--rxl);display:flex;align-items:center;justify-content:center;background:var(--bg2)">
-        <span style="font-size:.85rem;color:var(--t3)">Poster coming soon</span>
-      </div>
-    </div>
-
-    <div style="max-width:720px;margin:0 auto 2.6rem;text-align:center">
-      <div style="display:inline-flex;align-items:baseline;gap:.4rem;background:var(--bg2);border:1px solid var(--brd);border-radius:var(--rxl);padding:1rem 1.6rem;margin-bottom:1.4rem">
-        <span style="font-size:.8rem;color:var(--t3)">Starting from</span>
-        <span style="font-size:1.5rem;font-weight:700;color:#FE730A">LKR 3,000</span>
-        <span style="font-size:.8rem;color:var(--t3)">/ month</span>
-      </div>
-      <div style="font-size:.78rem;color:var(--t3);margin-bottom:1.8rem">1 spot is the price above. Want more than 1 spot? We can customize that, just click below.</div>
-
-      <a href="https://wa.me/94783408001?text=Hi!%20I%20want%20to%20put%20an%20ad%20on%20TimeLiners." target="_blank" class="btn btn-p" style="font-size:.95rem;padding:.85rem 2.4rem;text-decoration:none;display:inline-block">Contact Us</a>
-    </div>
-
-    <div style="max-width:640px;margin:0 auto 2.5rem">
-      <div class="faqitem">
-        <div class="faqq" onclick="toggleFaq(this)">How does advertising on TimeLiners work?<div class="faq-ico">+</div></div>
-        <div class="faqa">Your ad runs as a native card in the Discover feed, tagged "Sponsored", appearing once per full scroll of the feed. Both editors and the clients browsing to hire them will see it. Tapping it opens a contact card or takes people straight to your WhatsApp, email, phone or website, however you want to be reached. We keep only a handful of sponsor slots live at a time so your brand doesn't get lost in a crowd of ads.</div>
-      </div>
-      <div class="faqitem">
-        <div class="faqq" onclick="toggleFaq(this)">How much does it cost?<div class="faq-ico">+</div></div>
-        <div class="faqa">1 spot is the price above. If you want more than 1 spot, we can customize that together, just click Contact Us.</div>
-      </div>
-      <div class="faqitem">
-        <div class="faqq" onclick="toggleFaq(this)">Why should I advertise on TimeLiners?<div class="faq-ico">+</div></div>
-        <div class="faqa">TimeLiners is where most Sri Lankan editors and clients browse. If you're trying to reach those audiences, this is the perfect place for your ad.</div>
-      </div>
-      <div class="faqitem">
-        <div class="faqq" onclick="toggleFaq(this)">How do I get started?<div class="faq-ico">+</div></div>
-        <div class="faqa">There's no self-serve sign-up, reach out directly on WhatsApp or email and we'll set up your ad together, confirm your slot, and get it live. Tap "Contact Us" above to start the conversation.</div>
-      </div>
-    </div>
-    </script>
-  </div>
-  <footer class="site-footer">
-  <div style="max-width:1500px;margin:0 auto;padding:3rem 24px 0">
-    <div class="footer-inner" style="padding-bottom:2.5rem;border-bottom:1px solid var(--brd)">
-      <!-- Left: brand + description + socials -->
-      <div class="footer-brand-col" style="max-width:340px">
-        <div style="font-family:var(--fm);font-size:1.1rem;font-weight:700;color:#FE730A;letter-spacing:-.2px;margin-bottom:.6rem">TimeLiners</div>
-        <div style="font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem">Sri Lanka's home for hiring video editors and motion designers. Real portfolios, direct contact, no commission.</div>
-        <div class="footer-icons">
-          <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg></a>
-          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16.6 5.82c-.9-.98-1.39-2.26-1.39-3.62h-3.15v13.44c0 1.6-1.3 2.9-2.9 2.9a2.9 2.9 0 01-2.9-2.9 2.9 2.9 0 012.9-2.9c.28 0 .56.04.82.12V9.66a6.1 6.1 0 00-.82-.06 6.06 6.06 0 00-6.06 6.06A6.06 6.06 0 009.16 21.72a6.06 6.06 0 006.06-6.06V8.86c1.29.92 2.86 1.46 4.56 1.46V7.17c-1.05 0-2.02-.33-2.82-.9-.15-.1-.29-.22-.36-.45z" fill="currentColor"/></svg></a>
-        </div>
-      </div>
-      <!-- Right: link columns -->
-      <div class="footer-links-grid">
-        <div class="footer-col">
-          <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
-          <div style="display:flex;flex-direction:column;gap:.5rem">
-            <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
-            <a class="flink" href="#/advertise" onclick="event.preventDefault();showPage('advertise')">Advertise</a>
-            <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
-          </div>
-        </div>
-        <div class="footer-col">
-          <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Support</div>
-          <div style="display:flex;flex-direction:column;gap:.5rem">
-            <a class="flink" href="#" onclick="event.preventDefault();openContactModal()">Contact</a>
-            <a class="flink" href="#" onclick="event.preventDefault();openAboutModal()">About Us</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Bottom bar -->
-    <div class="footer-bottom-bar">
-      <span style="font-size:.75rem;color:var(--t3)">&copy; 2026 TimeLiners. All rights reserved.</span>
-      <div style="display:flex;gap:1.2rem"><a class="flink" style="font-size:.75rem" href="https://timeliners.lk/terms" target="_blank">Terms of Service</a><a class="flink" style="font-size:.75rem" href="https://timeliners.lk/privacy" target="_blank">Privacy Policy</a></div>
-    </div>
-  </div>
-</footer>
 </div>
 
 <!-- ══ FAQ ══ -->
@@ -9524,7 +9652,7 @@ boot();
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Can I filter editors by style or niche?<div class="faq-ico">+</div></div>
-      <div class="faqa">Yes. Use the category filter on Discover to narrow down to Long-form, Shorts &amp; Reels, Motion, Film and more, or search by keyword. Every project is tagged so you can zero in on the exact skill set you need.</div>
+      <div class="faqa">Yes. Use the category filter on Discover to narrow down to Long Form, Shorts &amp; Reels, Motion, Film and more, or search by keyword. Every project is tagged so you can zero in on the exact skill set you need.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Is it free to hire someone?<div class="faq-ico">+</div></div>
@@ -9551,7 +9679,7 @@ boot();
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How do I upload a project?<div class="faq-ico">+</div></div>
-      <div class="faqa">Sign in, go to your Dashboard and click "Upload Project". Fill in the project title, category, description, and tags — then upload your video files (MP4 or WEBM, up to 1 GB total storage) and a cover image. Your project goes live on your portfolio immediately.</div>
+      <div class="faqa">Sign in, go to your Dashboard and click "Upload Project". Fill in the project title, category, description, and tags — then upload your video files (MP4 only, up to 1 GB total storage) and a cover image. Your project goes live on your portfolio immediately.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How many projects can I upload?<div class="faq-ico">+</div></div>
@@ -9559,7 +9687,7 @@ boot();
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">How do I get found by clients?<div class="faq-ico">+</div></div>
-      <div class="faqa">Tag your projects accurately, use a clear cover image, and pick the right category for each upload — clients filter and search by these. A complete profile with your best 4-6 projects converts far better than a large but unsorted one.</div>
+      <div class="faqa">Tag your projects accurately, use a clear cover image, and pick the right category for each upload — clients filter and search by these. A complete profile with your best 4 to 6 projects converts far better than a large but unsorted one.</div>
     </div>
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Can clients contact me directly?<div class="faq-ico">+</div></div>
@@ -9575,13 +9703,6 @@ boot();
     <div class="faqitem">
       <div class="faqq" onclick="toggleFaq(this)">Can I sign back in with my password?<div class="faq-ico">+</div></div>
       <div class="faqa">Yes. Your account is securely stored and you can sign out and sign back in from any browser using your email and password. Your profile, projects and settings are all saved and will be there when you return.</div>
-    </div>
-
-    <div class="faq-section-title">Advertising</div>
-
-    <div class="faqitem">
-      <div class="faqq" onclick="toggleFaq(this)">Can I advertise on TimeLiners?<div class="faq-ico">+</div></div>
-      <div class="faqa">Advertising is coming soon — we're finishing up sponsor slots now. Visit the Advertise page or message us on WhatsApp to be notified when it launches.</div>
     </div>
 
     <div class="faq-cta-box">
@@ -9611,7 +9732,6 @@ boot();
           <div style="font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.75rem">Platform</div>
           <div style="display:flex;flex-direction:column;gap:.5rem">
             <a class="flink" href="#/feed" onclick="event.preventDefault();showPage('feed')">Discover</a>
-            <a class="flink" href="#/advertise" onclick="event.preventDefault();showPage('advertise')">Advertise</a>
             <a class="flink" href="#/faq" onclick="event.preventDefault();showPage('faq')">FAQ</a>
           </div>
         </div>
@@ -9631,6 +9751,7 @@ boot();
     </div>
   </div>
 </footer>
+</div>
 
 
 
@@ -9638,6 +9759,25 @@ boot();
 <script>
 </script>
 <div class="toast" id="toast"><span class="toast-ico"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><circle cx="3.5" cy="3.5" r="3.5" fill="var(--ac)"/></svg></span><span id="tmsg"></span></div>
+
+<!-- ══ TECHNICAL ERROR TOAST ══ generic, friendly copy for any behind-the-scenes
+     failure (never shows raw error text to the user) with quick report/contact actions -->
+<div class="err-toast" id="err-toast" role="alert">
+  <button class="err-toast-x" onclick="closeErrorToast()" aria-label="Dismiss">×</button>
+  <div class="err-toast-top">
+    <span class="err-toast-ico">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L11.2 10H0.8L6 1Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="M6 4.6V6.8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><circle cx="6" cy="8.5" r="0.6" fill="currentColor"/></svg>
+    </span>
+    <div class="err-toast-body">
+      <div class="err-toast-title">Something's not working right</div>
+      <div class="err-toast-sub">We're having a technical issue on our end. Please try again in a bit.</div>
+    </div>
+  </div>
+  <div class="err-toast-actions">
+    <button class="err-toast-btn" onclick="reportErrorBug()">Report bug</button>
+    <button class="err-toast-btn primary" onclick="contactFromErrorToast()">Contact us</button>
+  </div>
+</div>
 
 <div id="prof-load-overlay">
   <div class="plo-wordmark">TimeLiners</div>
