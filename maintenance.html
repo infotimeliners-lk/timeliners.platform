@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Under maintenance · TimeLiners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ac:#FE730A;
+  --bg:#0A0A0A;
+  --t1:#EDEBE6;--t2:#9C9891;--t3:#615D57;
+  --rpill:999px;
+  --fm:'Poppins',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--fm);background:var(--bg);color:var(--t1);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem}
+a{text-decoration:none;cursor:pointer}
+.wrap{max-width:420px;width:100%;text-align:center}
+.mascot-row{display:flex;align-items:flex-end;justify-content:center;gap:.9rem;margin-bottom:1rem}
+h1{font-size:clamp(1.1rem,3.4vw,1.3rem);font-weight:700;color:var(--t1);margin:0 0 .6rem;line-height:1.3}
+p{color:var(--t2);font-size:.85rem;line-height:1.6;margin:0 0 1.5rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:var(--ac);color:#fff;font-weight:600;font-size:.75rem;padding:.6rem 1.1rem;border-radius:var(--rpill);font-family:var(--fm);transition:.18s}
+.btn:hover{background:#e6690a}
+.note{color:var(--t3);font-size:.72rem;margin-top:1.5rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mascot-row">
+    <svg width="72" height="90" viewBox="0 0 580 725" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="290" cy="718" rx="150" ry="9" fill="#000" opacity=".13"/>
+      <!-- Timmy, slight lean, both eyes relaxed/half-closed — focused, hard at work -->
+      <g transform="rotate(-4 290 360)">
+        <path d="M453 682 L498 681 L573 603 L572 502 L502 500 L496 547 L454 547 L451 460 Z" fill="#fe730a"/>
+        <path d="M64 6 L6 189 L183 110 Z" fill="#fe730a"/>
+        <path d="M91 78 L87 129 L138 129 Z" fill="#181818"/>
+        <path d="M458 6 L533 187 L357 110 Z" fill="#fe730a"/>
+        <path d="M448 79 L401 129 L452 129 Z" fill="#181818"/>
+        <path d="M6 187 L6 384 L133 388 L86 462 L87 710 L160 710 L165 611 L229 614 L232 712 L308 710 L311 612 L377 614 L380 712 L450 711 L453 682 L451 460 L405 391 L533 385 L533 187 L357 110 L183 110 Z" fill="#fe730a"/>
+        <!-- left eye: relaxed, half-closed -->
+        <rect x="122" y="250" width="56" height="15" rx="7" fill="#181818"/>
+        <!-- right eye: relaxed, half-closed -->
+        <rect x="360" y="240" width="56" height="15" rx="7" fill="#181818"/>
+      </g>
+    </svg>
+    <svg width="52" height="78" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="291" rx="82" ry="9" fill="#000" opacity=".13"/>
+      <rect x="26" y="248" width="148" height="32" rx="6" fill="#fe730a"/>
+      <polygon points="100,18 58,250 142,250" fill="#fe730a"/>
+      <polygon points="84.3,110 115.7,110 119.1,130 80.9,130" fill="#fff"/>
+      <polygon points="73.9,170 126.1,170 129.6,190 70.4,190" fill="#fff"/>
+    </svg>
+  </div>
+  <h1>Site is Under maintenance</h1>
+  <p>TimeLiners is down for scheduled maintenance right now. We'll be back shortly. Thanks for your patience.</p>
+  <a href="https://wa.me/94783408001" class="btn" target="_blank" rel="noopener">Message us on WhatsApp</a>
+  <div class="note">Made in Sri Lanka · timeliners.lk</div>
+</div>
+</body>
+</html>
