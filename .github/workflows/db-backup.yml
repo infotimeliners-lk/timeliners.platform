@@ -1,0 +1,54 @@
+name: Weekly Database Backup
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'   # every Sunday at 00:00 UTC
+  workflow_dispatch: {}    # adds a manual "Run workflow" button, for testing
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Dump database
+        env:
+          DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          TIMESTAMP=$(date +'%Y-%m-%d')
+          pg_dump "$DATABASE_URL" --no-owner --no-privileges -F p | gzip > "timeliners-backup-$TIMESTAMP.sql.gz"
+          echo "BACKUP_FILE=timeliners-backup-$TIMESTAMP.sql.gz" >> $GITHUB_ENV
+
+      - name: Install rclone
+        run: curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure rclone for Google Drive
+        env:
+          GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
+        run: |
+          mkdir -p ~/.config/rclone
+          echo "$GDRIVE_SA_JSON" > ~/.config/rclone/gdrive-sa.json
+          cat > ~/.config/rclone/rclone.conf << EOF
+          [gdrive]
+          type = drive
+          scope = drive
+          service_account_file = /home/runner/.config/rclone/gdrive-sa.json
+          EOF
+
+      - name: Upload backup to Google Drive
+        env:
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+        run: |
+          rclone copy "$BACKUP_FILE" "gdrive:" --drive-root-folder-id "$GDRIVE_FOLDER_ID"
+
+      - name: Remove backups older than 60 days
+        env:
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+        run: |
+          rclone delete "gdrive:" --drive-root-folder-id "$GDRIVE_FOLDER_ID" --min-age 60d
+
+      - name: Clean up local file
+        run: rm -f "$BACKUP_FILE"
