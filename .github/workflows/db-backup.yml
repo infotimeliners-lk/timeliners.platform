@@ -18,9 +18,17 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: |
+          set -o pipefail
           TIMESTAMP=$(date +'%Y-%m-%d')
-          pg_dump "$DATABASE_URL" --no-owner --no-privileges -F p | gzip > "timeliners-backup-$TIMESTAMP.sql.gz"
-          echo "BACKUP_FILE=timeliners-backup-$TIMESTAMP.sql.gz" >> $GITHUB_ENV
+          FILE="timeliners-backup-$TIMESTAMP.sql.gz"
+          pg_dump "$DATABASE_URL" --no-owner --no-privileges -F p | gzip > "$FILE"
+          SIZE=$(stat -c%s "$FILE")
+          echo "Backup file size: $SIZE bytes"
+          if [ "$SIZE" -lt 10000 ]; then
+            echo "::error::Backup file is suspiciously small ($SIZE bytes) — pg_dump likely failed. Aborting."
+            exit 1
+          fi
+          echo "BACKUP_FILE=$FILE" >> $GITHUB_ENV
 
       - name: Install rclone
         run: curl https://rclone.org/install.sh | sudo bash
