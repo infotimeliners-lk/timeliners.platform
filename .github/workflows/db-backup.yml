@@ -25,30 +25,30 @@ jobs:
       - name: Install rclone
         run: curl https://rclone.org/install.sh | sudo bash
 
-      - name: Configure rclone for Google Drive
+      - name: Configure rclone for Cloudflare R2
         env:
-          GDRIVE_SA_JSON: ${{ secrets.GDRIVE_SA_JSON }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           mkdir -p ~/.config/rclone
-          echo "$GDRIVE_SA_JSON" > ~/.config/rclone/gdrive-sa.json
           cat > ~/.config/rclone/rclone.conf << EOF
-          [gdrive]
-          type = drive
-          scope = drive
-          service_account_file = /home/runner/.config/rclone/gdrive-sa.json
+          [r2]
+          type = s3
+          provider = Cloudflare
+          access_key_id = $R2_ACCESS_KEY_ID
+          secret_access_key = $R2_SECRET_ACCESS_KEY
+          endpoint = https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com
+          acl = private
           EOF
 
-      - name: Upload backup to Google Drive
-        env:
-          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+      - name: Upload backup to R2
         run: |
-          rclone copy "$BACKUP_FILE" "gdrive:" --drive-root-folder-id "$GDRIVE_FOLDER_ID"
+          rclone copy "$BACKUP_FILE" "r2:timeliners-backups/"
 
       - name: Remove backups older than 60 days
-        env:
-          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
         run: |
-          rclone delete "gdrive:" --drive-root-folder-id "$GDRIVE_FOLDER_ID" --min-age 60d
+          rclone delete "r2:timeliners-backups/" --min-age 60d
 
       - name: Clean up local file
         run: rm -f "$BACKUP_FILE"
