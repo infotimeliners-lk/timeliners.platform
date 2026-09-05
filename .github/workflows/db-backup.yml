@@ -23,7 +23,7 @@ jobs:
           set -o pipefail
           TIMESTAMP=$(date +'%Y-%m-%d')
           FILE="timeliners-backup-$TIMESTAMP.sql.gz"
-          pg_dump "$DATABASE_URL" --no-owner --no-privileges -F p | gzip > "$FILE"
+          /usr/lib/postgresql/17/bin/pg_dump "$DATABASE_URL" --no-owner --no-privileges -F p | gzip > "$FILE"
           SIZE=$(stat -c%s "$FILE")
           echo "Backup file size: $SIZE bytes"
           if [ "$SIZE" -lt 10000 ]; then
