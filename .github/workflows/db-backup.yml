@@ -40,6 +40,7 @@ jobs:
           secret_access_key = $R2_SECRET_ACCESS_KEY
           endpoint = https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com
           acl = private
+          no_check_bucket = true
           EOF
 
       - name: Upload backup to R2
