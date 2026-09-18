@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refund Policy | TimeLiners</title>
+<link rel="canonical" href="https://timeliners.lk/refund" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ac:#FE730A;--acl:rgba(254,115,10,.12);--acg:rgba(254,115,10,.06);
+  --bg:#0a0a0a;--bg2:#121212;--bg3:#161616;--bg4:#1c1c1c;--bg5:#222222;
+  --t1:rgba(255,255,255,.92);--t2:rgba(255,255,255,.58);--t3:rgba(255,255,255,.32);
+  --brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.12);--brd3:rgba(255,255,255,.18);
+  --r:6px;--rlg:8px;--rxl:10px;
+  --fm:'Poppins',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fm);background:var(--bg);color:var(--t1);overflow-x:hidden;font-size:15px;line-height:1.8}
+a{text-decoration:none;color:inherit}
+::selection{background:rgba(254,115,10,.35);color:#fff}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:99px}
+
+.nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:58px}
+.nav-logo{font-size:1.1rem;font-weight:700;color:var(--ac);letter-spacing:-.02em}
+.nav-back{font-size:.8rem;font-weight:500;color:var(--t2);display:flex;align-items:center;gap:6px;transition:color .18s;border:1px solid transparent;padding:.32rem .9rem;border-radius:8px}
+.nav-back:hover{color:var(--t1);border-color:var(--brd3)}
+
+.hero{background:var(--bg);padding:56px 40px 28px;text-align:center}
+.hero-inner{max-width:640px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.hero h1{font-size:30px;font-weight:600;letter-spacing:-.3px;color:var(--t1);line-height:1.2;margin-bottom:8px}
+.hero-meta{font-size:13px;color:var(--t3);margin-bottom:24px}
+
+.legal-switch{display:flex;gap:26px;flex-wrap:wrap;justify-content:center}
+.legal-switch a{font-size:13px;font-weight:500;color:var(--t2);padding-bottom:5px;border-bottom:2px solid transparent;transition:all .18s}
+.legal-switch a:hover{color:var(--t1)}
+.legal-switch a.active{color:var(--ac);border-bottom-color:var(--ac);font-weight:600}
+
+.doc-wrap{max-width:680px;margin:0 auto;padding:60px 40px 110px}
+
+.doc-section{margin-bottom:44px}
+.doc-section h2{font-size:22px;font-weight:600;letter-spacing:-.2px;color:var(--t1);line-height:1.3;margin-bottom:12px}
+.doc-section h3{font-size:16px;font-weight:600;color:var(--t1);margin:20px 0 8px}
+.doc-section p{font-size:14px;color:var(--t2);line-height:1.75;margin-bottom:12px}
+.doc-section ul{list-style:none;padding:0;margin:8px 0 12px}
+.doc-section ul li{font-size:14px;color:var(--t2);padding:5px 0 5px 20px;position:relative;line-height:1.75}
+.doc-section ul li::before{content:'';position:absolute;left:2px;top:15px;width:4px;height:4px;background:var(--ac);border-radius:50%}
+.doc-section ul li strong{color:var(--t1);font-weight:600}
+.doc-section a{color:var(--ac);border-bottom:1px solid transparent;transition:border-color .18s}
+.doc-section a:hover{border-color:var(--ac)}
+
+.info-box{border-left:2px solid var(--ac);padding:2px 0 2px 18px;margin:12px 0 16px}
+.info-box p{color:var(--t1);font-size:14px;margin:0;line-height:1.75}
+
+.contact-section{border-top:1px solid var(--brd);padding-top:40px;margin-top:8px}
+.contact-section h2{font-size:22px;font-weight:600;color:var(--t1);line-height:1.3;margin-bottom:10px}
+.contact-section p{font-size:14px;color:var(--t2);margin:4px 0}
+.contact-section a{color:var(--ac);font-weight:500}
+
+.site-footer{border-top:1px solid var(--brd);background:var(--bg2)}
+.footer-wrap{max-width:1500px;margin:0 auto;padding:3rem 40px 0}
+.footer-inner{display:grid;grid-template-columns:1fr auto;gap:4rem;align-items:start;padding-bottom:2.2rem;border-bottom:1px solid var(--brd)}
+.footer-brand-col{max-width:340px}
+.fbrand{color:#FE730A;font-size:1.1rem;font-weight:700;letter-spacing:-.2px;margin-bottom:.6rem}
+.footer-desc{font-size:.82rem;color:var(--t3);line-height:1.7;margin-bottom:1.1rem}
+.footer-icons{display:flex;gap:.5rem}
+.footer-icon-btn{width:24px;height:24px;color:var(--t3);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:.18s;flex-shrink:0}
+.footer-icon-btn:hover{color:var(--ac);transform:translateY(-1px)}
+.footer-links-grid{display:flex;gap:4rem}
+.footer-col{display:flex;flex-direction:column;gap:.5rem}
+.footer-col-head{font-size:.58rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--t3);margin-bottom:.3rem}
+.flink{display:block;font-size:.83rem;color:var(--t2);transition:color .18s}
+.flink:hover{color:var(--ac)}
+.footer-bottom-bar{max-width:1500px;margin:0 auto;padding:1.1rem 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem}
+.footer-copy{font-size:.75rem;color:var(--t3)}
+.footer-legal-links{display:flex;gap:1.2rem}
+.footer-legal-links a{font-size:.75rem}
+
+@media(max-width:700px){
+  .nav{padding:0 20px}
+  .hero{padding:44px 20px 28px}
+  .doc-wrap{padding:40px 20px 80px}
+  .hero h1{font-size:26px}
+  .footer-inner{grid-template-columns:1fr}
+  .footer-links-grid{gap:2rem;flex-wrap:wrap}
+}
+@media(max-width:600px){
+  .footer-bottom-bar{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="/">TimeLiners</a>
+  <a class="nav-back" href="/">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><polyline points="15 18 9 12 15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </a>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Refund Policy</h1>
+    <p class="hero-meta">Last updated: September 2026</p>
+    <div class="legal-switch">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms &amp; Conditions</a>
+      <a class="active" href="/refund">Refund Policy</a>
+    </div>
+  </div>
+</div>
+
+<div class="doc-wrap">
+
+  <div class="doc-section">
+    <h2>Overview</h2>
+    <p>This policy covers <strong>TimeLiners Pro</strong>, the optional one time paid upgrade on <a href="https://timeliners.lk">timeliners.lk</a>. TimeLiners itself remains free to use, with or without Pro. By purchasing Pro, you agree to this Refund Policy alongside our <a href="/terms">Terms &amp; Conditions</a>.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>TimeLiners Pro is a Lifetime Purchase</h2>
+    <p>Pro is a single payment of <strong>LKR 7,990</strong>, made once. There is no subscription, nothing to renew, and no recurring charge of any kind. Once activated, Pro features (custom fonts and accent colour, availability status, hidden "Made with TimeLiners" branding, and the verified badge with improved feed placement) stay on your account for as long as it exists, subject to our <a href="/terms">Terms &amp; Conditions</a>.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>No Refunds Once Activated</h2>
+    <p>Because Pro is a one time payment that unlocks its features immediately, and because those features (like the verified badge and feed boost) create value the moment they're activated, we do not offer refunds once Pro has been activated on your account.</p>
+    <p>If your account is suspended or terminated for breaking our <a href="/terms">Terms &amp; Conditions</a>, Pro ends with the account and no refund is given.</p>
+    <div class="info-box">
+      <p>Please make sure you understand what Pro includes before purchasing. You can review every feature on the <a href="/#/pricing">Pricing page</a> or ask us on WhatsApp beforehand.</p>
+    </div>
+  </div>
+
+  <div class="doc-section">
+    <h2>Exceptions</h2>
+    <p>We will review refund requests, on a case by case basis, for genuine issues such as:</p>
+    <ul>
+      <li>An accidental duplicate payment for the same account</li>
+      <li>A payment error or technical fault on our end</li>
+      <li>Payment was made but Pro was never activated on your account</li>
+    </ul>
+    <p>To be considered, you must contact us within <strong>48 hours</strong> of payment. Requests made after this window, or for reasons unrelated to the above, will not be refunded.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>How to Request a Refund</h2>
+    <p>Email us at <a href="mailto:contact@timeliners.lk">contact@timeliners.lk</a> or message us on <a href="https://wa.me/94783408001">WhatsApp</a> with your account email and payment details. We usually reply within a few hours and aim to respond within two business days at the latest. Valid requests are normally resolved within a few business days.</p>
+  </div>
+
+  <div class="doc-section">
+    <h2>Changes</h2>
+    <p>We may update this policy at any time. Changes are posted here with a revised date. Continued use of TimeLiners Pro after changes means you accept the updated policy.</p>
+  </div>
+
+  <div class="contact-section">
+    <h2>Questions?</h2>
+    <p>Email: <a href="mailto:contact@timeliners.lk">contact@timeliners.lk</a></p>
+    <p>WhatsApp: <a href="https://wa.me/94783408001">+94 78 340 8001</a></p>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="footer-wrap">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="fbrand">TimeLiners</div>
+        <div class="footer-desc">Sri Lanka's home for hiring video editors and motion designers. Real portfolios, direct contact, no commission.</div>
+        <div class="footer-icons">
+          <a class="footer-icon-btn" href="https://wa.me/94783408001" target="_blank" title="WhatsApp">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.52 3.48A11.93 11.93 0 0012 0C5.37 0 0 5.37 0 12c0 2.11.55 4.16 1.59 5.97L0 24l6.22-1.56A11.93 11.93 0 0012 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.21-3.48-8.52zM12 22c-1.85 0-3.66-.5-5.23-1.43l-.37-.22-3.85.97.99-3.74-.24-.38A9.94 9.94 0 012 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10zm5.44-7.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.19-.24-.58-.49-.5-.67-.51H7.5c-.17 0-.45.06-.69.32-.23.25-.9.88-.9 2.14s.92 2.49 1.05 2.66c.13.17 1.82 2.78 4.41 3.9.62.27 1.1.43 1.47.55.62.2 1.18.17 1.63.1.5-.07 1.53-.63 1.75-1.23.22-.6.22-1.12.15-1.23-.07-.1-.25-.17-.55-.3z" fill="currentColor"/></svg>
+          </a>
+          <a class="footer-icon-btn" href="https://www.tiktok.com/@timeliners.lk" target="_blank" title="TikTok">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16.6 5.82c-.9-.98-1.39-2.26-1.39-3.62h-3.15v13.44c0 1.6-1.3 2.9-2.9 2.9a2.9 2.9 0 01-2.9-2.9 2.9 2.9 0 012.9-2.9c.28 0 .56.04.82.12V9.66a6.1 6.1 0 00-.82-.06 6.06 6.06 0 00-6.06 6.06A6.06 6.06 0 009.16 21.72a6.06 6.06 0 006.06-6.06V8.86c1.29.92 2.86 1.46 4.56 1.46V7.17c-1.05 0-2.02-.33-2.82-.9-.15-.1-.29-.22-.36-.45z" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <div class="footer-col-head">Platform</div>
+          <a class="flink" href="https://timeliners.lk/#/feed">Discover</a>
+          <a class="flink" href="https://timeliners.lk/#/pricing">Pricing</a>
+          <a class="flink" href="https://timeliners.lk/#/faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-head">Support</div>
+          <a class="flink" href="mailto:contact@timeliners.lk">Contact</a>
+          <a class="flink" href="https://timeliners.lk">About Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom-bar">
+    <span class="footer-copy">&copy; 2026 TimeLiners. All rights reserved.</span>
+    <div class="footer-legal-links">
+      <a class="flink" href="/terms">Terms of Service</a>
+      <a class="flink" href="/privacy">Privacy Policy</a>
+      <a class="flink" href="/refund">Refund Policy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
