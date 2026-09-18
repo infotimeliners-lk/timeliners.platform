@@ -340,6 +340,10 @@ button,a{cursor:pointer;font-family:var(--fm)}
                 <span class="sb-link-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.6" r="2.4" stroke="currentColor" stroke-width="1.3"/><path d="M1.8 12.2c.6-2.5 2.7-3.8 5.2-3.8s4.6 1.3 5.2 3.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
                 <span class="sb-link-label">Members</span> <span class="sb-cnt al sb-pa" style="display:none">0</span>
               </button>
+              <button class="sb-link" onclick="nav('finance')" data-nav="finance">
+                <span class="sb-link-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="2.5" width="11" height="9" rx="1.3" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 5.5h11" stroke="currentColor" stroke-width="1.2"/><path d="M4 8h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+                <span class="sb-link-label">Finance</span>
+              </button>
               <div class="menu-dd-sep"></div>
               <button class="sb-link" onclick="openSecurityModal()">
                 <span class="sb-link-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L2 3.5v3c0 3.2 2.1 5.6 5 6.5 2.9-.9 5-3.3 5-6.5v-3L7 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
@@ -389,7 +393,7 @@ button,a{cursor:pointer;font-family:var(--fm)}
             </table>
             <!-- Pro table -->
             <table class="tbl" id="mem-tbl-pro" style="display:none">
-              <thead><tr><th>#</th><th>Member</th><th>Plan</th><th>Amount</th><th>Paid</th><th>Expires</th><th>Days Left</th><th>Status</th><th>Notify</th><th>Actions</th></tr></thead>
+              <thead><tr><th>#</th><th>Member</th><th>Plan</th><th>Amount</th><th>Paid</th><th>Expires</th><th>Days Left</th><th>Contact Phone</th><th>Status</th><th>Notify</th><th>Actions</th></tr></thead>
               <tbody id="pro-tbody"></tbody>
             </table>
             <!-- All table -->
@@ -410,8 +414,97 @@ button,a{cursor:pointer;font-family:var(--fm)}
       </div>
     </div>
 
+    <!-- FINANCE TRACKER -->
+    <div id="pane-finance" class="pane">
+      <div class="topbar">
+        <div class="tb-l">
+          <div class="menu-wrap" id="menu-finance">
+            <button class="menu-btn" onclick="toggleMenu('menu-finance')" title="Menu" aria-label="Menu">
+              <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M2 4h10M2 7h10M2 10h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </button>
+            <div class="menu-dd">
+              <div class="menu-dd-user">
+                <div class="sb-av"><img src="tab-logo.png" alt="TL" style="width:100%;height:100%;object-fit:cover;border-radius:8px" onerror="this.style.display='none';this.parentNode.innerHTML='TL'"></div>
+                <div><div style="font-size:.8rem;font-weight:600;color:var(--t1);letter-spacing:-.1px">Admin</div><div style="font-size:.66rem;color:var(--t3)">TimeLiners</div></div>
+              </div>
+              <button class="sb-link" onclick="nav('payments')" data-nav="payments">
+                <span class="sb-link-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.6" r="2.4" stroke="currentColor" stroke-width="1.3"/><path d="M1.8 12.2c.6-2.5 2.7-3.8 5.2-3.8s4.6 1.3 5.2 3.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
+                <span class="sb-link-label">Members</span>
+              </button>
+              <button class="sb-link active" onclick="nav('finance')" data-nav="finance">
+                <span class="sb-link-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="2.5" width="11" height="9" rx="1.3" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 5.5h11" stroke="currentColor" stroke-width="1.2"/><path d="M4 8h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
+                <span class="sb-link-label">Finance</span>
+              </button>
+              <div class="menu-dd-sep"></div>
+              <button class="sb-link" onclick="openSecurityModal()">
+                <span class="sb-link-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L2 3.5v3c0 3.2 2.1 5.6 5 6.5 2.9-.9 5-3.3 5-6.5v-3L7 1.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></span>
+                <span class="sb-link-label">Security</span>
+              </button>
+              <div class="menu-dd-sep"></div>
+              <button class="sb-link menu-logout" onclick="logout()">
+                <span class="sb-link-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2H3a1 1 0 00-1 1v8a1 1 0 001 1h2M9.5 9.5L12 7l-2.5-2.5M12 7H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <span class="sb-link-label">Log out</span>
+              </button>
+            </div>
+          </div>
+          <h2>Finance</h2><span class="status-pill">Manual</span><p id="fin-sync">Loading…</p></div>
+        <div class="tb-r">
+          <button class="btn btn-p btn-sm" onclick="openAddPeriodModal()">+ Add Month</button>
+        </div>
+      </div>
+      <div class="pw">
+        <div class="stats stats-4 mb" id="fin-stats"></div>
+        <div class="card mb">
+          <div class="ch"><div><h3>Months</h3><p id="fin-sub">—</p></div></div>
+          <div id="fin-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.85rem;padding:1.1rem"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+<!-- MODAL: ADD MONTH -->
+<div class="ov" id="ov-add-period"><div class="mbox">
+  <button class="mx" onclick="closeM('ov-add-period')">×</button>
+  <div class="mt">Add Month</div>
+  <div class="ms">Opens a box for that month to log expenses and revenue</div>
+  <div class="fg"><label class="fl">Month</label>
+    <select class="fi" id="ap-month">
+      <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+      <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+      <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+      <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+    </select>
+  </div>
+  <div class="fg"><label class="fl">Year</label><input class="fi" id="ap-year" type="number" min="2020" max="2100" step="1"></div>
+  <button class="btn btn-p" style="width:100%" onclick="addPeriod()">Add Month</button>
+</div></div>
+
+<!-- MODAL: MONTH DETAIL (expenses / revenue / profit) -->
+<div class="ov" id="ov-period"><div class="mbox" style="max-width:520px">
+  <button class="mx" onclick="closeM('ov-period')">×</button>
+  <div class="mt" id="pd-t">Month</div>
+  <div class="ms" id="pd-s">Add expenses and revenue for this month</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:1rem">
+    <div class="stat"><div class="stat-l">Revenue</div><div class="stat-v" id="pd-rev" style="color:var(--grn)">—</div></div>
+    <div class="stat"><div class="stat-l">Expenses</div><div class="stat-v" id="pd-exp" style="color:var(--red)">—</div></div>
+    <div class="stat"><div class="stat-l">Profit</div><div class="stat-v" id="pd-profit">—</div></div>
+  </div>
+
+  <div style="display:flex;gap:.5rem;margin-bottom:.8rem">
+    <select class="fi" id="pe-type" style="flex:0 0 110px">
+      <option value="revenue">Revenue</option>
+      <option value="expense">Expense</option>
+    </select>
+    <input class="fi" id="pe-label" type="text" placeholder="Label (e.g. Hosting, Pro payment)" style="flex:1">
+    <input class="fi" id="pe-amount" type="number" min="0" step="0.01" placeholder="Amount" style="flex:0 0 110px">
+  </div>
+  <button class="btn btn-p" style="width:100%;margin-bottom:1rem" onclick="addEntry()">+ Add Entry</button>
+
+  <div id="pd-entries" style="max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem"></div>
+</div></div>
 
 <!-- MODAL: EDIT MEMBER (plan/wa/email) -->
 <div class="ov" id="ov-member"><div class="mbox">
@@ -422,11 +515,11 @@ button,a{cursor:pointer;font-family:var(--fm)}
   <div class="fg"><label class="fl">Plan</label>
     <select class="fi" id="mm-plan">
       <option value="free">Free</option>
-      <option value="pro">Pro Monthly — LKR 990/mo</option>
-      <option value="pro-yearly">Pro Yearly — LKR 832/mo</option>
+      <option value="pro-lifetime">Pro — LKR 7,990 (one-time)</option>
     </select>
   </div>
-  <div class="fg"><label class="fl">WhatsApp</label><input class="fi" id="mm-wa" placeholder="+94 77 xxx xxxx"></div>
+  <div class="fg"><label class="fl">WhatsApp <span style="color:var(--t3);font-weight:400">(shown on their public portfolio)</span></label><input class="fi" id="mm-wa" placeholder="+94 77 xxx xxxx"></div>
+  <div class="fg"><label class="fl">Contact Phone <span style="color:var(--t3);font-weight:400">(private — for you only, never shown on their profile)</span></label><input class="fi" id="mm-contact-phone" placeholder="+94 77 xxx xxxx"></div>
   <div class="fg"><label class="fl">Email</label><input class="fi" id="mm-email" placeholder="user@email.com" type="email"></div>
   <div style="display:flex;gap:.42rem;margin-top:.4rem">
     <button class="btn btn-p" style="flex:1" onclick="saveMember()">Save Changes</button>
@@ -443,7 +536,7 @@ button,a{cursor:pointer;font-family:var(--fm)}
   <div class="ms">Add missing past payments to fix revenue history. Each row = one month's payment.</div>
 
   <div style="background:rgba(254,115,10,.07);border:1px solid rgba(254,115,10,.2);border-radius:var(--r);padding:.7rem .9rem;margin-bottom:1rem;font-size:.76rem;color:var(--t1);line-height:1.6">
-    Use this for users who renewed before today — those old rows got deleted. Each entry you add = <strong>LKR 990 (or 9,990 yearly)</strong> inserted as a permanent payment record.
+    Use this for historical payments that are missing from the ledger. Each row's amount is set by the plan you pick for it — LKR 7,990 for Pro (one-time), or the legacy monthly/yearly amounts for old subscription-era records.
   </div>
 
   <!-- Member lookup -->
@@ -660,9 +753,10 @@ const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6
 function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 const CK='tl_fin_creds';
 const DEF={user:'info.timeliners@gmail.com',pass:'Almost@17'};
-const PL={free:'Free',pro:'Pro Monthly','pro-yearly':'Pro Yearly',standard:'Pro Monthly',vip:'Pro Monthly'};
-const PP={free:0,pro:990,'pro-yearly':9990,standard:990,vip:990};
-const PLAN_DAYS={pro:30,'pro-yearly':365,standard:30,vip:30};
+// Legacy pro/pro-yearly/standard/vip values kept for old rows only — no new payments use them.
+const PL={free:'Free','pro-lifetime':'Pro',pro:'Pro Monthly','pro-yearly':'Pro Yearly',standard:'Pro Monthly',vip:'Pro Monthly'};
+const PP={free:0,'pro-lifetime':7990,pro:1043,'pro-yearly':10430,standard:1043,vip:1043};
+const PLAN_DAYS={pro:30,'pro-yearly':365,standard:30,vip:30}; // pro-lifetime intentionally absent — never expires
 const AVC=['#FE730A','#c85a08','#e5690b','#9c9891','#615d57','#ff9a3c','#b45309','#78716c'];
 // Revenue starts from March 2026
 const REV_START='2026-03';
@@ -720,7 +814,7 @@ function rSlips(){
     const pf=_pf.find(x=>x.id===s.user_id)||{};
     const name=pf.name||pf.username||s.member_no||'Unknown';
     const email=pf.email||'—';
-    const planLabel={pro:'Pro Monthly','pro-yearly':'Pro Yearly'}[s.plan]||s.plan||'—';
+    const planLabel={'pro-lifetime':'Pro','pro':'Pro Monthly','pro-yearly':'Pro Yearly'}[s.plan]||s.plan||'—';
     const amtLabel=s.amount?'LKR '+Number(s.amount).toLocaleString():'—';
     const subDate=s.submitted_at?new Date(s.submitted_at).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'2-digit',hour:'2-digit',minute:'2-digit'}):'—';
     const isPdf=s.slip_url&&s.slip_url.toLowerCase().includes('.pdf');
@@ -775,10 +869,15 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
   toast('Confirming…');
   try{
     const today=new Date().toISOString().split('T')[0];
-    const PLAN_MAP={'pro':30,'pro-yearly':365};
-    const days=PLAN_MAP[plan]||30;
-    const expDate=new Date();expDate.setDate(expDate.getDate()+days);
-    const expires=expDate.toISOString().split('T')[0];
+    // pro-lifetime never expires — expires stays null (payments.expires_date is a
+    // generated column that already returns null for this plan; pay_due mirrors that on profiles)
+    let expires=null;
+    if(plan!=='pro-lifetime'){
+      const PLAN_MAP={'pro':30,'pro-yearly':365};
+      const days=PLAN_MAP[plan]||30;
+      const expDate=new Date();expDate.setDate(expDate.getDate()+days);
+      expires=expDate.toISOString().split('T')[0];
+    }
 
     // Update the slip record to paid — no DELETE needed, just update same row
     const pf0=_pf.find(x=>x.id===userId);
@@ -792,12 +891,12 @@ async function confirmSlip(slipId,userId,plan,amount,name,email){
     try{
       await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
         method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SESSION?.access_token||KEY)},
         body:JSON.stringify({
           type:'pro_confirmed',
-          email:pf.email||'',
-          name:pf.name||pf.username||'',
-          plan:plan==='pro-yearly'?'Pro Yearly':'Pro Monthly',
+          email:pf0?.email||'',
+          name:pf0?.name||pf0?.username||'',
+          plan:plan==='pro-lifetime'?'Pro':(plan==='pro-yearly'?'Pro Yearly':'Pro Monthly'),
           expires:expires
         })
       });
@@ -843,7 +942,7 @@ async function confirmReject(){
     try{
       await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
         method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SESSION?.access_token||KEY)},
         body:JSON.stringify({type:'payment_rejected',email:email,name:name,reason:reason})
       });
     }catch(emailErr){console.warn('Email failed:',emailErr);}
@@ -1258,6 +1357,7 @@ function logout(){
 async function initApp(){
   try{
     await loadData();
+    await loadFinanceData();
     renderAll();
     const t=new Date().toLocaleTimeString();
     document.getElementById('pay-sync').textContent='Last synced: '+t;
@@ -1269,12 +1369,145 @@ async function initApp(){
 async function refreshAll(){
   toast('Refreshing…');
   try{
-    await loadData();renderAll();
+    await loadData();await loadFinanceData();renderAll();
     document.getElementById('pay-sync').textContent='Last synced: '+new Date().toLocaleTimeString();
     toast('Done ✓');
   }catch(e){toast('Error: '+e.message,1);}
 }
-function renderAll(){rPayments();rSidebar();}
+function renderAll(){rPayments();rSidebar();rFinance();}
+
+// ─── FINANCE TRACKER (manual — no automation, entered by hand) ────────────────
+let _finPeriods=[],_finEntries=[],_finOpenPeriodId=null;
+const MONTH_NAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+async function loadFinanceData(){
+  const[p,e]=await Promise.all([
+    sb('/finance_periods?select=*&order=year.desc,month.desc').catch(()=>[]),
+    sb('/finance_entries?select=*&order=created_at.desc').catch(()=>[]),
+  ]);
+  _finPeriods=p||[];_finEntries=e||[];
+}
+
+function periodTotals(periodId){
+  const rows=_finEntries.filter(e=>e.period_id===periodId);
+  const revenue=rows.filter(e=>e.type==='revenue').reduce((s,e)=>s+Number(e.amount||0),0);
+  const expense=rows.filter(e=>e.type==='expense').reduce((s,e)=>s+Number(e.amount||0),0);
+  return{revenue,expense,profit:revenue-expense,rows};
+}
+
+function rFinance(){
+  const grid=document.getElementById('fin-grid');if(!grid)return;
+  document.getElementById('fin-sub').textContent=_finPeriods.length+' month'+(_finPeriods.length!==1?'s':'')+' logged';
+
+  // Overall stats across all logged months
+  let totalRev=0,totalExp=0;
+  _finPeriods.forEach(p=>{const t=periodTotals(p.id);totalRev+=t.revenue;totalExp+=t.expense;});
+  const fs=document.getElementById('fin-stats');
+  if(fs){
+    fs.innerHTML=`
+      <div class="stat"><div class="stat-l">Months Logged</div><div class="stat-v">${_finPeriods.length}</div><div class="stat-s">all time</div></div>
+      <div class="stat"><div class="stat-l">Total Revenue</div><div class="stat-v" style="color:var(--grn)">LKR ${totalRev.toLocaleString()}</div><div class="stat-s">all logged months</div></div>
+      <div class="stat"><div class="stat-l">Total Expenses</div><div class="stat-v" style="color:var(--red)">LKR ${totalExp.toLocaleString()}</div><div class="stat-s">all logged months</div></div>
+      <div class="stat"><div class="stat-l">Total Profit</div><div class="stat-v" style="color:${totalRev-totalExp>=0?'var(--grn)':'var(--red)'}">LKR ${(totalRev-totalExp).toLocaleString()}</div><div class="stat-s">revenue − expenses</div></div>`;
+  }
+
+  if(!_finPeriods.length){grid.innerHTML='<div class="empty" style="grid-column:1/-1">No months added yet — click "+ Add Month" to start logging</div>';return;}
+
+  grid.innerHTML=_finPeriods.map(p=>{
+    const t=periodTotals(p.id);
+    const profitColor=t.profit>=0?'var(--grn)':'var(--red)';
+    return`<div class="card" style="padding:1rem;cursor:pointer;border-color:transparent" onclick="openPeriodBox('${p.id}')" onmouseover="this.style.borderColor='var(--brd3)'" onmouseout="this.style.borderColor='transparent'">
+      <div style="font-size:.9rem;font-weight:700;color:var(--t1);margin-bottom:.6rem">${MONTH_NAMES[p.month-1]} ${p.year}</div>
+      <div style="font-size:.72rem;color:var(--t3);display:flex;justify-content:space-between;margin-bottom:.2rem"><span>Revenue</span><span style="color:var(--grn);font-weight:600">LKR ${t.revenue.toLocaleString()}</span></div>
+      <div style="font-size:.72rem;color:var(--t3);display:flex;justify-content:space-between;margin-bottom:.5rem"><span>Expenses</span><span style="color:var(--red);font-weight:600">LKR ${t.expense.toLocaleString()}</span></div>
+      <div style="font-size:.82rem;font-weight:700;color:${profitColor};border-top:1px solid var(--brd);padding-top:.5rem;display:flex;justify-content:space-between"><span>Profit</span><span>LKR ${t.profit.toLocaleString()}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function openAddPeriodModal(){
+  const now=new Date();
+  document.getElementById('ap-month').value=now.getMonth()+1;
+  document.getElementById('ap-year').value=now.getFullYear();
+  openM('ov-add-period');
+}
+
+async function addPeriod(){
+  const month=Number(document.getElementById('ap-month').value);
+  const year=Number(document.getElementById('ap-year').value);
+  if(!year){toast('Enter a year',1);return;}
+  if(_finPeriods.some(p=>p.month===month&&p.year===year)){
+    toast(MONTH_NAMES[month-1]+' '+year+' already exists',1);
+    const existing=_finPeriods.find(p=>p.month===month&&p.year===year);
+    closeM('ov-add-period');
+    openPeriodBox(existing.id);
+    return;
+  }
+  try{
+    const rows=await sb('/finance_periods','POST',{month,year});
+    _finPeriods.unshift(rows[0]);
+    _finPeriods.sort((a,b)=>b.year-a.year||b.month-a.month);
+    closeM('ov-add-period');
+    rFinance();
+    toast(MONTH_NAMES[month-1]+' '+year+' added ✓');
+    openPeriodBox(rows[0].id);
+  }catch(e){toast('Error: '+e.message,1);}
+}
+
+function openPeriodBox(periodId){
+  _finOpenPeriodId=periodId;
+  const p=_finPeriods.find(x=>x.id===periodId);if(!p)return;
+  document.getElementById('pd-t').textContent=MONTH_NAMES[p.month-1]+' '+p.year;
+  rPeriodDetail();
+  openM('ov-period');
+}
+
+function rPeriodDetail(){
+  const p=_finPeriods.find(x=>x.id===_finOpenPeriodId);if(!p)return;
+  const t=periodTotals(p.id);
+  document.getElementById('pd-rev').textContent='LKR '+t.revenue.toLocaleString();
+  document.getElementById('pd-exp').textContent='LKR '+t.expense.toLocaleString();
+  const profitEl=document.getElementById('pd-profit');
+  profitEl.textContent='LKR '+t.profit.toLocaleString();
+  profitEl.style.color=t.profit>=0?'var(--grn)':'var(--red)';
+
+  const list=document.getElementById('pd-entries');
+  if(!t.rows.length){list.innerHTML='<div class="empty">No entries yet</div>';return;}
+  list.innerHTML=t.rows.map(e=>`
+    <div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;background:var(--bg3);border:1px solid transparent;border-radius:var(--r)">
+      <span style="width:8px;height:8px;border-radius:50%;background:${e.type==='revenue'?'var(--grn)':'var(--red)'};flex-shrink:0"></span>
+      <span style="flex:1;font-size:.8rem;color:var(--t1)">${escHtml(e.label)}</span>
+      <span style="font-size:.8rem;font-weight:600;color:${e.type==='revenue'?'var(--grn)':'var(--red)'}">${e.type==='revenue'?'+':'−'}LKR ${Number(e.amount).toLocaleString()}</span>
+      <button class="btn btn-g btn-xs" onclick="deleteEntry('${e.id}')" title="Delete">×</button>
+    </div>`).join('');
+}
+
+async function addEntry(){
+  const type=document.getElementById('pe-type').value;
+  const label=document.getElementById('pe-label').value.trim();
+  const amount=Number(document.getElementById('pe-amount').value);
+  if(!label){toast('Enter a label',1);return;}
+  if(!amount||amount<0){toast('Enter a valid amount',1);return;}
+  try{
+    const rows=await sb('/finance_entries','POST',{period_id:_finOpenPeriodId,type,label,amount});
+    _finEntries.unshift(rows[0]);
+    document.getElementById('pe-label').value='';
+    document.getElementById('pe-amount').value='';
+    rPeriodDetail();
+    rFinance();
+    toast('Entry added ✓');
+  }catch(e){toast('Error: '+e.message,1);}
+}
+
+async function deleteEntry(id){
+  if(!confirm('Delete this entry?'))return;
+  try{
+    await sb('/finance_entries?id=eq.'+id,'DELETE');
+    _finEntries=_finEntries.filter(e=>e.id!==id);
+    rPeriodDetail();
+    rFinance();
+  }catch(e){toast('Error: '+e.message,1);}
+}
 
 function nav(id){
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
@@ -1298,7 +1531,7 @@ function avatar(p,sz=26){
   return`<div class="av" style="width:${s};height:${s};border-radius:50%;background:${col};font-size:${fs}">${init.charAt(0).toUpperCase()}</div>`;
 }
 function plBdg(plan){
-  const c=(plan==='pro'||plan==='standard'||plan==='vip'||plan==='pro-yearly')?'pro':'free';
+  const c=(plan==='pro-lifetime'||plan==='pro'||plan==='standard'||plan==='vip'||plan==='pro-yearly')?'pro':'free';
   return`<span class="b b-${c}">${PL[plan||'free']||plan||'Free'}</span>`;
 }
 function pyBdg(s){
@@ -1325,11 +1558,12 @@ function findByTL(tl){
   return _pf.find(p=>mno(p).toUpperCase()===up)||null;
 }
 function calcExpiry(paidDate,plan){
+  if(plan==='pro-lifetime')return null; // never expires
   const d=new Date(paidDate);
   d.setDate(d.getDate()+(PLAN_DAYS[plan]||30));
   return d.toISOString().split('T')[0];
 }
-function isPro(plan){return plan==='pro'||plan==='pro-yearly'||plan==='standard'||plan==='vip';}
+function isPro(plan){return plan==='pro-lifetime'||plan==='pro'||plan==='pro-yearly'||plan==='standard'||plan==='vip';}
 
 // ─── FREE MEMBERS TABLE ───────────────────────────────────────────────────────
 function rFreeMembers(){
@@ -1405,7 +1639,7 @@ function rProMembers(){
   }
 
   const tb=document.getElementById('pro-tbody');
-  if(!proData.length){tb.innerHTML=`<tr><td colspan="11"><div class="empty">${_memSearchQ?'No results for "'+_memSearchQ+'"':'No pro members in this view'}</div></td></tr>`;return;}
+  if(!proData.length){tb.innerHTML=`<tr><td colspan="12"><div class="empty">${_memSearchQ?'No results for "'+_memSearchQ+'"':'No pro members in this view'}</div></td></tr>`;return;}
 
   tb.innerHTML=proData.map(p=>{
     const pf=_pf.find(x=>x.id===p.user_id)||{};
@@ -1434,6 +1668,7 @@ function rProMembers(){
       <td style="font-family:var(--mono);font-size:.78rem;color:var(--t2)">${fmt(p.paid_date)}</td>
       <td style="font-family:var(--mono);font-size:.78rem;color:var(--t2)">${fmt(p.expires_date)}</td>
       <td style="font-family:var(--mono);font-size:.78rem;color:${dColor};font-weight:600">${days!==null?days+'d':'—'}</td>
+      <td style="font-family:var(--mono);font-size:.76rem;color:var(--t2)">${pf.contact_phone||'<span style="color:var(--t3)">—</span>'}</td>
       <td>${pyBdg(p.pay_status)}</td>
       <td>${notifyChip||'<span style="color:var(--t3);font-size:.75rem">—</span>'}</td>
       <td><div style="display:flex;gap:.25rem">
@@ -1572,8 +1807,9 @@ function rPayments(){
 function openEditMember(userId){
   const p=_pf.find(x=>x.id===userId);if(!p)return;
   document.getElementById('mm-id').value=userId;
-  document.getElementById('mm-plan').value=isPro(p.plan)?(p.plan==='pro-yearly'?'pro-yearly':'pro'):'free';
+  document.getElementById('mm-plan').value=isPro(p.plan)?'pro-lifetime':'free';
   document.getElementById('mm-wa').value=p.wa||'';
+  document.getElementById('mm-contact-phone').value=p.contact_phone||'';
   document.getElementById('mm-email').value=p.email||'';
   document.getElementById('mm-t').textContent='Edit — '+(p.name||p.username||mno(p));
   document.getElementById('mm-s').textContent='Update plan, WhatsApp number or email';
@@ -1583,9 +1819,10 @@ async function saveMember(){
   const id=document.getElementById('mm-id').value;if(!id)return;
   const newPlan=document.getElementById('mm-plan').value;
   const wa=document.getElementById('mm-wa').value.trim()||null;
+  const contactPhone=document.getElementById('mm-contact-phone').value.trim()||null;
   const email=document.getElementById('mm-email').value.trim()||null;
   const p=_pf.find(x=>x.id===id);if(!p)return;
-  const body={plan:newPlan};
+  const body={plan:newPlan,contact_phone:contactPhone};
   if(wa!==null)body.wa=wa;
   if(email!==null)body.email=email;
   try{
@@ -1609,10 +1846,23 @@ async function saveMember(){
       }else{
         // Payment row was deleted by downgrade flow — delete any stale rows then recreate
         await fetch(SB+'/rest/v1/payments?user_id=eq.'+id,{method:'DELETE',headers:{'apikey':KEY,'Authorization':'Bearer '+(SESSION?.access_token||KEY)}});
-        const newRec={user_id:id,plan:newPlan,amount:PP[newPlan]||990,paid_date:today,pay_status:'paid',member_no:mno(p),wa:p.wa||null};
+        const newRec={user_id:id,plan:newPlan,amount:PP[newPlan]||7990,paid_date:today,pay_status:'paid',member_no:mno(p),wa:p.wa||null};
         await sb('/payments','POST',newRec);
       }
       await sb('/profiles?id=eq.'+id,'PATCH',{pay_status:'paid',pay_due:expires,plan:newPlan});
+      try{
+        await fetch(SB+'/functions/v1/send-email',{
+          method:'POST',
+          headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SESSION?.access_token||KEY)},
+          body:JSON.stringify({
+            type:'pro_confirmed',
+            email:p.email||'',
+            name:p.name||p.username||'',
+            plan:newPlan==='pro-lifetime'?'Pro':(newPlan==='pro-yearly'?'Pro Yearly':'Pro Monthly'),
+            expires:expires
+          })
+        });
+      }catch(emailErr){console.warn('Pro confirmation email failed:',emailErr);}
     }
     await loadData();
     renderAll();closeM('ov-member');toast('Member updated ✓');
@@ -1992,7 +2242,7 @@ function rRevenue(){
     return true; // all time
   }
   const filtered=ledger.filter(inWindow);
-  const total=filtered.reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0);
+  const total=filtered.reduce((s,p)=>s+(p.amount||PP[p.plan]||7990),0);
 
   // ── Previous period for % change ──
   function prevWindow(p){
@@ -2004,15 +2254,15 @@ function rRevenue(){
     if(_revFilter==='year')return p.paid_date.slice(0,4)===String(now.getFullYear()-1);
     return false;
   }
-  const prevTotal=ledger.filter(prevWindow).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0);
+  const prevTotal=ledger.filter(prevWindow).reduce((s,p)=>s+(p.amount||PP[p.plan]||7990),0);
   const change=prevTotal>0?Math.round(((total-prevTotal)/prevTotal)*100):null;
   const changeHtml=change!==null
     ?`<span style="color:${change>=0?'var(--grn)':'var(--red)'};font-size:.72rem;font-weight:600">${change>=0?'↑':'↓'} ${Math.abs(change)}% vs prev period</span>`
     :'<span style="font-size:.72rem;color:var(--t3)">No prev period data</span>';
 
   // ── Static stats ──
-  const thisMonthRev=ledger.filter(p=>p.paid_date.slice(0,7)===todayStr).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0);
-  const allTimeRev=ledger.reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0);
+  const thisMonthRev=ledger.filter(p=>p.paid_date.slice(0,7)===todayStr).reduce((s,p)=>s+(p.amount||PP[p.plan]||7990),0);
+  const allTimeRev=ledger.reduce((s,p)=>s+(p.amount||PP[p.plan]||7990),0);
 
   // ── Period label ──
   const labels={'24h':'Last 24 hours','7d':'Last 7 days','30d':'Last 30 days','90d':'Last 90 days','year':'This year','all':'All time · since March 2026'};
@@ -2048,7 +2298,7 @@ function rRevenue(){
   // Fill revenue — each payment row = one real payment in that month
   ledger.forEach(p=>{
     const mo=p.paid_date.slice(0,7);
-    if(mm[mo]){mm[mo].r+=(p.amount||PP[p.plan]||990);mm[mo].n++;mm[mo].subs.add(p.user_id);}
+    if(mm[mo]){mm[mo].r+=(p.amount||PP[p.plan]||7990);mm[mo].n++;mm[mo].subs.add(p.user_id);}
   });
   // Count active paid subs per month (users whose latest row was 'paid' as of that month-end)
   // Simpler: count unique users who had a payment row in that month
@@ -2064,7 +2314,7 @@ function rRevenue(){
       const hStart=new Date(now); hStart.setMinutes(0,0,0); hStart.setHours(hStart.getHours()-i);
       const hEnd=new Date(hStart); hEnd.setHours(hEnd.getHours()+1);
       lbs.push(hStart.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}));
-      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=hStart.getTime()&&t<hEnd.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0));
+      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=hStart.getTime()&&t<hEnd.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||7990),0));
     }
   } else if(_revFilter==='7d'){
     // Daily buckets for last 7 days
@@ -2073,7 +2323,7 @@ function rRevenue(){
       const d=new Date(now); d.setDate(d.getDate()-i); d.setHours(0,0,0,0);
       const next=new Date(d); next.setDate(next.getDate()+1);
       lbs.push(d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}));
-      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=d.getTime()&&t<next.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0));
+      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=d.getTime()&&t<next.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||7990),0));
     }
   } else if(_revFilter==='30d'){
     // Daily buckets for last 30 days
@@ -2082,7 +2332,7 @@ function rRevenue(){
       const d=new Date(now); d.setDate(d.getDate()-i); d.setHours(0,0,0,0);
       const next=new Date(d); next.setDate(next.getDate()+1);
       lbs.push(d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}));
-      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=d.getTime()&&t<next.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||990),0));
+      rD.push(ledger.filter(p=>{const t=new Date(p.paid_date).getTime();return t>=d.getTime()&&t<next.getTime();}).reduce((s,p)=>s+(p.amount||PP[p.plan]||7990),0));
     }
   } else {
     // Monthly buckets for 90d / year / all time
@@ -2167,8 +2417,9 @@ function bfAddRow(){
     <div class="fg" style="margin:0"><input class="fi" type="month" placeholder="2026-03" oninput="_bfRows[${idx}].month=this.value" style="font-size:.8rem;padding:.38rem .6rem"></div>
     <div class="fg" style="margin:0">
       <select class="fi" style="font-size:.8rem;padding:.38rem .6rem" onchange="_bfRows[${idx}].plan=this.value">
-        <option value="pro">Pro Monthly — LKR 990</option>
-        <option value="pro-yearly">Pro Yearly — LKR 9,990</option>
+        <option value="pro-lifetime">Pro — LKR 7,990 (one-time)</option>
+        <option value="pro">Pro Monthly — LKR 1,043 (legacy)</option>
+        <option value="pro-yearly">Pro Yearly — LKR 10,430 (legacy)</option>
       </select>
     </div>
     <button onclick="bfRemoveRow(${idx})" style="width:28px;height:28px;border-radius:6px;border:1.5px solid var(--brd2);background:var(--bg2);color:var(--red);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center">×</button>`;
@@ -2214,7 +2465,7 @@ async function submitBackfill(){
       return{
         user_id:userId,
         plan:r.plan,
-        amount:PP[r.plan]||990,
+        amount:PP[r.plan]||7990,
         paid_date:paidDate,
         expires_date:exp,
         pay_status:'downgraded', // historical — subscription already ended
@@ -2282,7 +2533,7 @@ async function sendTestEmail(){
   try{
     const res=await fetch('https://xilhrpbqdqocpwxaigvy.supabase.co/functions/v1/send-email',{
       method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+(SESSION?.access_token||KEY)},
       body:JSON.stringify(payloads[type]||{type,email,name:'Test User'})
     });
     const data=await res.json().catch(()=>({}));
