@@ -7,7 +7,7 @@ const SB_URL = 'https://xilhrpbqdqocpwxaigvy.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhpbGhycGJxZHFvY3B3eGFpZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTE1OTMsImV4cCI6MjA4OTU4NzU5M30.L1w00wbDp9ej3MqHTIOwWnfg2w6vMKAjS4-r51kpkoY';
 
 // Known page slugs that are NOT usernames — skip these
-const KNOWN_PAGES = ['feed', 'pricing', 'faq', 'profile', 'dashboard', 'project', 'index.html', 'advertise', 'privacy', 'terms', 'refund'];
+const KNOWN_PAGES  ['feed', 'pricing', 'faq', 'profile', 'dashboard', 'project', 'index.html', 'advertise', 'privacy', 'terms', 'refund'];
 
 // Bots that should receive the pre-rendered SEO page
 const BOT_PATTERNS = [
