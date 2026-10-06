@@ -22,7 +22,8 @@ const BOT_PATTERNS = [
   'pinterest', 'discordbot', 'redditbot', 'skypeuripreview',
   'vkshare', 'w3c_validator', 'embedly', 'quora link preview',
   'showyoubot', 'outbrain', 'pinterestbot', 'slackbot',
-  'developers.google.com'
+  'developers.google.com',
+  'meta-externalagent', 'instagram'
 ];
 
 function isBot(userAgent) {
@@ -41,12 +42,96 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
+// Link preview page for a shared project: timeliners.lk/project/<id>
+// Bots get the project's cover as the preview image (TimeLiners logo if it has no cover)
+async function handleProject(rawId, context) {
+  try {
+    const id = decodeURIComponent(rawId);
+    // Only plain ids (uuid / slug style) are accepted, anything else falls through to the SPA
+    if (!/^[A-Za-z0-9_-]{1,64}$/.test(id)) return context.next();
+
+    const res = await fetch(
+      `${SB_URL}/rest/v1/projects?id=eq.${encodeURIComponent(id)}&status=eq.published&select=id,title,description,cat,cover_url,author_name&limit=1`,
+      {
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': `Bearer ${SB_KEY}`,
+          'Accept': 'application/json',
+        }
+      }
+    );
+    if (!res.ok) return context.next();
+    const rows = await res.json();
+    if (!rows || rows.length === 0) return context.next();
+    const pr = rows[0];
+
+    const title      = escapeHtml(pr.title || 'Untitled project');
+    const author     = escapeHtml(pr.author_name || 'a TimeLiners editor');
+    const pageTitle  = `${title} by ${author} | TimeLiners`;
+    const cleanDesc  = (pr.description || '').replace(/\s+/g, ' ').trim();
+    const metaDesc   = cleanDesc
+      ? escapeHtml(cleanDesc.slice(0, 150)) + (cleanDesc.length > 150 ? '\u2026' : '')
+      : `${pr.cat ? escapeHtml(pr.cat) + ' project' : 'Project'} by ${author}. Watch it and hire them on TimeLiners.`;
+    const image      = escapeHtml(pr.cover_url || 'https://timeliners.lk/og-image.png');
+    const projectUrl = `https://timeliners.lk/project/${encodeURIComponent(id)}`;
+    const spaUrl     = `https://timeliners.lk/#/project/${encodeURIComponent(id)}`;
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${pageTitle}</title>
+  <meta name="description" content="${metaDesc}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="${projectUrl}">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="TimeLiners">
+  <meta property="og:title" content="${pageTitle}">
+  <meta property="og:description" content="${metaDesc}">
+  <meta property="og:url" content="${projectUrl}">
+  <meta property="og:image" content="${image}">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${pageTitle}">
+  <meta name="twitter:description" content="${metaDesc}">
+  <meta name="twitter:image" content="${image}">
+</head>
+<body>
+  <h1>${title}</h1>
+  <p>By ${author}</p>
+  <p><a href="${spaUrl}">Watch on TimeLiners</a></p>
+  <script>window.location.replace('${spaUrl}');</script>
+</body>
+</html>`;
+
+    return new Response(html, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'public, max-age=600, stale-while-revalidate=3600',
+      }
+    });
+  } catch (err) {
+    console.error('profile-seo project preview error:', err);
+    return context.next();
+  }
+}
+
 export default async function handler(request, context) {
   const url = new URL(request.url);
   const userAgent = request.headers.get('user-agent') || '';
 
   // Extract the slug from the path e.g. /kaveesha → "kaveesha"
   const slug = url.pathname.replace(/^\//, '').split('/')[0].toLowerCase();
+
+  // Shared project links: /project/<id>
+  const pathParts = url.pathname.replace(/^\//, '').split('/');
+  if (pathParts[0].toLowerCase() === 'project' && pathParts[1]) {
+    if (!isBot(userAgent)) return context.next();
+    return handleProject(pathParts[1], context);
+  }
 
   // Skip known pages, empty slugs, and static file extensions
   if (!slug || KNOWN_PAGES.includes(slug) || /\.(html|js|css|png|ico|svg|txt|xml|json)$/.test(slug)) {
@@ -106,11 +191,11 @@ export default async function handler(request, context) {
     const username    = escapeHtml(p.username || slug);
     const avatarUrl   = p.avatar_url || 'https://timeliners.lk/og-image.png';
     const profileUrl  = `https://timeliners.lk/${username}`;
-    const isPro       = ['pro','pro-yearly','pro_yearly','standard','vip'].includes(p.plan || '');
+    const isPro       = ['pro','pro-lifetime','pro-yearly','pro_yearly','standard','vip'].includes(p.plan || '');
     const isVerified  = p.verified || isPro;
 
-    // Page title: "Hire Name — Role in City | TimeLiners"
-    const pageTitle = `Hire ${name} — ${role} in ${city} | TimeLiners`;
+    // Page title: "Hire Name, Role in City | TimeLiners"
+    const pageTitle = `Hire ${name}, ${role} in ${city} | TimeLiners`;
 
     // Meta description
     const metaDesc = bio
@@ -252,7 +337,7 @@ export default async function handler(request, context) {
     </div>
 
     <a class="tl-link" href="https://timeliners.lk">
-      Powered by <span>TimeLiners</span> — Sri Lanka's Platform for Hiring Video Editors
+      Powered by <span>TimeLiners</span>, Sri Lanka's Platform for Hiring Video Editors
     </a>
   </div>
 
